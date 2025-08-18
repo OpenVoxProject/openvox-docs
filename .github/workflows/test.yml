@@ -29,3 +29,5 @@ jobs:
         run: bundle env
       - name: Validate code
         run: bundle exec rake generate
+        env:
+          DEBUG_PUPPET_DOCS_RAKEFILE: 1
