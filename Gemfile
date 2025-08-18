@@ -8,8 +8,9 @@ gem 'git', '~> 4.0'
 gem 'json', '~> 2.5'
 
 group(:build_site) do
-  gem 'jekyll', '~> 4.1'
-  gem 'kramdown', '~> 2.3'
+  # gem 'jekyll', '~> 4.1' # Perforce has their own legacy fork
+  gem 'jekyll', github: 'puppetlabs/jekyll', branch: 'puppetdocs'
+  #gem 'kramdown', '~> 2.3'
   gem 'vlad', '~> 2.7'
   gem 'vlad-git', '~> 2.1'
   gem 'listen', '~> 3.9.0' # Preserve ability to run on Ruby 2.0, since listen 3.1 requires Ruby ~> 2.2.
