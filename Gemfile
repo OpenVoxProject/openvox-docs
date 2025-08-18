@@ -10,6 +10,7 @@ gem 'json', '~> 2.5'
 group(:build_site) do
   # gem 'jekyll', '~> 4.1' # Perforce has their own legacy fork
   gem 'jekyll', github: 'puppetlabs/jekyll', branch: 'puppetdocs'
+  gem 'rexml' # jekyll uses it but doesn't depend on it?
   #gem 'kramdown', '~> 2.3'
   gem 'vlad', '~> 2.7'
   gem 'vlad-git', '~> 2.1'

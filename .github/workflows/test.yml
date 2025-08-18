@@ -25,5 +25,7 @@ jobs:
         with:
           ruby-version: 3.3
           bundler-cache: true
+      - name: Display Ruby environment
+        run: bundle env
       - name: Validate code
         run: bundle exec rake generate
