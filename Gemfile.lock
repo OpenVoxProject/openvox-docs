@@ -6,6 +6,10 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    CFPropertyList (3.0.7)
+      base64
+      nkf
+      rexml
     activemodel (6.1.7.8)
       activesupport (= 6.1.7.8)
     activerecord (6.1.7.8)
@@ -19,6 +23,7 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    base64 (0.3.0)
     bigdecimal (3.1.8)
     blockenspiel (0.5.0)
     colorator (1.1.0)
@@ -33,12 +38,16 @@ GEM
       thor (>= 1.0.1, < 1.3)
     fast_gettext (2.4.0)
       prime
+    ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
     forwardable (1.3.3)
     forwardable-extended (2.6.0)
     git (1.19.1)
       addressable (~> 2.8)
       rchardet (~> 1.8)
+    google-protobuf (4.27.2-arm64-darwin)
+      bigdecimal
+      rake (>= 13)
     google-protobuf (4.27.2-x86_64-linux)
       bigdecimal
       rake (>= 13)
@@ -80,6 +89,9 @@ GEM
     mercenary (0.4.0)
     minitest (5.24.1)
     multi_json (1.15.0)
+    nkf (0.2.0)
+    nokogiri (1.16.6-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.16.6-x86_64-linux)
       racc (~> 1.4)
     open4 (1.3.4)
@@ -97,6 +109,17 @@ GEM
     punkt-segmenter (0.9.1)
       unicode_utils (>= 1.0.0)
     puppet (8.7.0)
+      concurrent-ruby (~> 1.0)
+      deep_merge (~> 1.0)
+      facter (>= 4.3.0, < 5)
+      fast_gettext (>= 2.1, < 3)
+      locale (~> 2.1)
+      multi_json (~> 1.13)
+      puppet-resource_api (~> 1.5)
+      scanf (~> 1.0)
+      semantic_puppet (~> 1.0)
+    puppet (8.7.0-universal-darwin)
+      CFPropertyList (>= 3.0.6, < 4)
       concurrent-ruby (~> 1.0)
       deep_merge (~> 1.0)
       facter (>= 4.3.0, < 5)
@@ -128,9 +151,10 @@ GEM
     rgen (0.9.1)
     rouge (4.3.0)
     safe_yaml (1.0.5)
-    sass-embedded (1.77.8)
+    sass-embedded (1.77.8-arm64-darwin)
       google-protobuf (~> 4.26)
-      rake (>= 13)
+    sass-embedded (1.77.8-x86_64-linux-gnu)
+      google-protobuf (~> 4.26)
     scanf (1.0.0)
     semantic_puppet (1.1.0)
     singleton (0.2.0)
@@ -156,6 +180,7 @@ GEM
     zeitwerk (2.6.16)
 
 PLATFORMS
+  arm64-darwin-24
   x86_64-linux
 
 DEPENDENCIES

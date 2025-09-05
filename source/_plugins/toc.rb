@@ -18,7 +18,7 @@ require 'jekyll'
 module TocFilter
   # input should be the full content of a page.
   # toc_levels should be a list of the header levels to use when building the TOC. Defaults to h2 and h3.
-  def toc(input, toc_levels = '23')
+  def toc(input, toc_levels = '23', *args)
     toc_levels = toc_levels.to_s.gsub(/[^1-6]/, '')
     # Avoid empty char-class error:
     if toc_levels.empty?
