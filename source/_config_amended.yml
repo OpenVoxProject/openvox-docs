@@ -1,0 +1,223 @@
+--- !ruby/hash:PuppetDocs::Config
+highlighter: none
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+url: https://puppet.com/docs
+safe: false
+defaults:
+- scope:
+    path: ''
+  values:
+    layout: default
+    toc_levels: '23'
+    nav: "/_includes/fallback_nav.html"
+- scope:
+    path: background/ssl
+  values:
+    nav: "/_includes/background_ssl.html"
+- scope:
+    path: security
+  values:
+    nav: "/security/_security_toc.html"
+- scope:
+    path: community
+  values:
+    nav: "/_includes/community_nav.html"
+- scope:
+    path: forge
+  values:
+    nav: "/_includes/forge.html"
+- scope:
+    path: de
+  values:
+    nav: "/_includes/de_pe.html"
+- scope:
+    path: es
+  values:
+    nav: "/_includes/es_docs.html"
+- scope:
+    path: es/hiera
+  values:
+    nav: "/_includes/es_hiera1.html"
+- scope:
+    path: es/learning
+  values:
+    nav: "/_includes/es_learning_nav.html"
+- scope:
+    path: es/pe/3.8
+  values:
+    nav: "/_includes/es_pe38.html"
+- scope:
+    path: es/puppet
+  values:
+    nav: "/_includes/_es_fallback_nav.html"
+- scope:
+    path: learning
+  values:
+    nav: "/_includes/learning_nav.html"
+- scope:
+    path: mcollective
+  values:
+    nav: "/_includes/mcollective_menu.html"
+- scope:
+    path: mcollective1.2
+  values:
+    nav: "/_includes/mcollective_1.2.html"
+- scope:
+    path: upgrade
+  values:
+    nav: "/upgrade/_upgrade_toc.html"
+defaultnav:
+  "/background/ssl": "/_includes/background_ssl.html"
+  "/security": "/security/_security_toc.html"
+  "/community": "/_includes/community_nav.html"
+  "/forge": "/_includes/forge.html"
+  "/de": "/_includes/de_pe.html"
+  "/es": "/_includes/es_docs.html"
+  "/es/hiera": "/_includes/es_hiera1.html"
+  "/es/learning": "/_includes/es_learning_nav.html"
+  "/es/pe/3.8": "/_includes/es_pe38.html"
+  "/es/puppet": "/_includes/_es_fallback_nav.html"
+  "/learning": "/_includes/learning_nav.html"
+  "/mcollective": "/_includes/mcollective_menu.html"
+  "/mcollective1.2": "/_includes/mcollective_1.2.html"
+  "/upgrade": "/upgrade/_upgrade_toc.html"
+externalsources:
+  "/mcollective":
+    repo: https://github.com/choria-legacy/marionette-collective.git
+    commit: origin/2.12.x
+    subdirectory: website
+  "/puppetdb/latest": &1
+    repo: https://github.com/OpenVoxProject/openvoxdb
+    commit: doc-latest
+    subdirectory: documentation
+  "/puppetdb/7": &2
+    repo: https://github.com/OpenVoxProject/openvoxdb
+    commit: doc-7.y
+    subdirectory: documentation
+  "/puppetdb/6": &3
+    repo: https://github.com/OpenVoxProject/openvoxdb
+    commit: doc-6.y
+    subdirectory: documentation
+  "/puppetdb/5.2": &4
+    repo: https://github.com/OpenVoxProject/openvoxdb
+    commit: doc-5.2
+    subdirectory: documentation
+document_names:
+  pe: Puppet Enterprise
+  puppet: Puppet
+  puppetserver: Puppet Server
+  puppetdb: PuppetDB
+  facter: Facter
+  pdk: Puppet Development Kit
+documents: &5
+  "/pdk/1.0":
+    doc: pdk
+    version: '1.0'
+    nav: "/pdk/1.0/_pdk_toc.html"
+    hide: true
+    base_url: "/pdk/1.0"
+    my_versions:
+      pdk: '1.0'
+      puppetdb: latest
+      puppet: latest
+  "/puppetdb/latest":
+    doc: puppetdb
+    version: latest
+    nav: "/puppetdb/latest/_puppetdb_nav.html"
+    external_source: *1
+    hide: true
+    base_url: "/puppetdb/latest"
+    my_versions:
+      puppetdb: latest
+      pdk: '1.0'
+      puppet: latest
+  "/puppetdb/7":
+    doc: puppetdb
+    version: '7'
+    nav: "/puppetdb/7/_puppetdb_nav.html"
+    external_source: *2
+    hide: true
+    base_url: "/puppetdb/7"
+    my_versions:
+      puppetdb: '7'
+      pdk: latest
+      puppet: latest
+  "/puppetdb/6":
+    doc: puppetdb
+    version: '6'
+    nav: "/puppetdb/6/_puppetdb_nav.html"
+    external_source: *3
+    hide: true
+    base_url: "/puppetdb/6"
+    my_versions:
+      puppetdb: '6'
+      pdk: latest
+      puppet: latest
+  "/puppetdb/5.2":
+    doc: puppetdb
+    version: '5.2'
+    nav: "/puppetdb/5.2/_puppetdb_nav.html"
+    external_source: *4
+    hide: true
+    base_url: "/puppetdb/5.2"
+    my_versions:
+      puppetdb: '5.2'
+      pdk: latest
+      puppet: latest
+  "/puppet/latest":
+    doc: puppet
+    version: latest
+    nav: "/puppet/latest/_puppet_toc.html"
+    base_url: "/puppet/latest"
+    my_versions:
+      puppet: latest
+      pdk: '1.0'
+      puppetdb: '7'
+  "/puppet/6.y":
+    doc: puppet
+    version: 6.y
+    nav: "/puppet/6.y/_puppet_toc.html"
+    base_url: "/puppet/6.y"
+    my_versions:
+      puppet: 6.y
+      pdk: latest
+      puppetdb: latest
+  "/puppet/6.19":
+    doc: puppet
+    version: '6.19'
+    nav: "/puppet/6.19/_puppet_toc.html"
+    base_url: "/puppet/6.19"
+    my_versions:
+      puppet: '6.19'
+      pdk: latest
+      puppetdb: latest
+lock_latest: {}
+document_version_index:
+  pdk:
+    '1.0': "/pdk/1.0"
+    latest: "/pdk/1.0"
+  puppetdb:
+    latest: "/puppetdb/7"
+    '7': "/puppetdb/7"
+    '6': "/puppetdb/6"
+    '5.2': "/puppetdb/5.2"
+  puppet:
+    latest: "/puppet/6.19"
+    6.y: "/puppet/6.y"
+    '6.19': "/puppet/6.19"
+document_version_order:
+  pdk:
+  - "/pdk/1.0"
+  puppetdb:
+  - "/puppetdb/7"
+  - "/puppetdb/6"
+  - "/puppetdb/5.2"
+  - "/puppetdb/latest"
+  puppet:
+  - "/puppet/6.19"
+  - "/puppet/6.y"
+  - "/puppet/latest"
+document_list: *5

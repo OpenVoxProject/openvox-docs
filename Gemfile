@@ -3,8 +3,8 @@ gemspec :name => 'puppet_docs'
 
 gem 'versionomy', '~> 0.5.0'
 gem 'rake', '~> 13.0', '>= 13.0.1'
-gem 'rack', '>= 2.2.14'
-gem 'git', '~> 4.0'
+gem 'rack', '~> 2.2', '>= 2.2.3'
+gem 'git', '~> 1.8'
 gem 'json', '~> 2.5'
 
 group(:build_site) do
@@ -12,7 +12,7 @@ group(:build_site) do
   gem 'kramdown', '~> 2.3'
   gem 'vlad', '~> 2.7'
   gem 'vlad-git', '~> 2.1'
-  gem 'listen', '~> 3.9.0' # Preserve ability to run on Ruby 2.0, since listen 3.1 requires Ruby ~> 2.2.
+  gem 'listen', '~> 3.5.1' # Preserve ability to run on Ruby 2.0, since listen 3.1 requires Ruby ~> 2.2.
 end
 
 group(:generate_references) do
@@ -20,16 +20,16 @@ group(:generate_references) do
   gem 'rdoc', '~> 6.2'
   gem 'rgen', '~> 0.8'
   gem 'pandoc-ruby'
-  gem 'openvox-strings'
-  gem 'openvox', '~> 8'
-  gem 'nokogiri', '>= 1.18.9'
+  gem 'puppet-strings'
+  gem 'puppet', '>= 7', '< 9'
+  gem 'nokogiri', '>= 1.12.5'
   gem 'pragmatic_segmenter', '~> 0.3'
   gem 'punkt-segmenter', '~> 0.9'
 end
 
 group(:unknown) do
   gem 'maruku', '~> 0.7'
-  gem 'activerecord', '>= 7.1.5.2'
+  gem 'activerecord', '~>6'
 end
 
 # group(:debug) do

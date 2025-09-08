@@ -1,0 +1,33 @@
+---
+name: Build site on PR
+
+on:
+  pull_request: {}
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  rake_checks:
+    name: Rake Checks
+    runs-on: ubuntu-24.04
+    steps:
+      # needs fetch-depth because the packaging dem reads old git tags
+      - name: Checkout current PR
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Ruby version 3.3
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3
+          bundler-cache: true
+      - name: Display Ruby environment
+        run: bundle env
+      - name: Validate code
+        run: bundle exec rake generate
+        env:
+          DEBUG_PUPPET_DOCS_RAKEFILE: 1
