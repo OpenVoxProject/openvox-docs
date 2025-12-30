@@ -30,7 +30,11 @@ module Rack
       return entity_not_found(path_info)
     end
 
-    def list_path
+    def list_path(env = @env, path = @path, path_info = @path_info, script_name = @script_name)
+      @env = env
+      @path = path
+      @path_info = path_info
+      @script_name = script_name
       @stat = ::File.stat(@path)
 
       if @stat.readable?
@@ -41,7 +45,7 @@ module Rack
             @env['PATH_INFO'] = @env['PATH_INFO'].sub(/\/?$/, '/index.html')
             return @app.call(@env)
           else
-            return list_directory
+            return list_directory(@path_info, @path, @script_name)
           end
         end
       else
@@ -49,7 +53,7 @@ module Rack
       end
 
     rescue Errno::ENOENT, Errno::ELOOP
-      return entity_not_found
+      return entity_not_found(@path_info)
     end
 
   end
