@@ -37,7 +37,7 @@ module PuppetReferences
         PuppetReferences::Puppet::Functions
     ]
     config = PuppetReferences::Config.read
-    repo = PuppetReferences::Repo.new('puppet', PUPPET_DIR, nil, config['puppet']['repo'])
+    repo = PuppetReferences::Repo.new('openvox', PUPPET_DIR, nil, config['puppet']['repo'])
     real_commit = repo.checkout(commit)
     repo.update_bundle
     build_from_list_of_classes(references, real_commit)
