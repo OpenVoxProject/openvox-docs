@@ -13,7 +13,7 @@ module PuppetReferences
       if sources
         @sources = [sources].flatten
       else
-        @sources = ["git@github.com:puppetlabs/#{@name}.git"]
+        @sources = ["git@github.com:openvoxproject/#{@name}.git"]
       end
       @main_source = @sources[0]
       unless Dir.exist?(@directory + '.git') || @config['skip_download']

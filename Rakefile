@@ -43,7 +43,7 @@ def jekyll(command = 'build', source = SOURCE_DIR, destination = OUTPUT_DIR, *ar
   puts about_verbose_mode
 
   if ENV['DEBUG_PUPPET_DOCS_RAKEFILE']
-    verbose_mode = '--verbose | tee puppet-docs-build.log'
+    verbose_mode = '--verbose --trace | tee puppet-docs-build.log'
   end
 
   amended_config = "#{SOURCE_DIR}/_config_amended.yml"

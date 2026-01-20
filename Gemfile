@@ -32,6 +32,10 @@ group(:unknown) do
   gem 'activerecord', '>= 7.1.5.2'
 end
 
+group(:development) do
+  gem 'voxpupuli-rubocop', '~> 5.1.0'
+end
+
 # group(:debug) do
 #   gem 'byebug'
 # end

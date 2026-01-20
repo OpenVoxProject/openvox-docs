@@ -27,7 +27,7 @@ module Jekyll
 
       (@url, @old_baseurl, @new_baseurl) = @args.map{|arg|
         if arg =~ @var_regex
-          Liquid::Variable.new(arg).render(context)
+          context[arg]
         else
           arg.sub(/\A['"]/, '').sub(/['"]\Z/, '')
         end
