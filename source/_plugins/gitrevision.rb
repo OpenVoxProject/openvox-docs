@@ -9,15 +9,14 @@ require 'jekyll'
 class Gitrevision < Liquid::Tag
   def initialize(tag_name, treeish, tokens)
     super
-    @treeish = treeish == '' ? 'HEAD' : treeish
+    @treeish = (treeish == '') ? 'HEAD' : treeish
   end
-  
+
   def render(context)
     Dir.chdir(context.registers[:site].source) do
-      %x(git rev-parse #{@treeish}).strip
+      `git rev-parse #{@treeish}`.strip
     end
   end
-  
 end
 
 Liquid::Template.register_tag('gitrevision', Gitrevision)

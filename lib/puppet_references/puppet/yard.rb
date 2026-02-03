@@ -4,9 +4,9 @@ module PuppetReferences
     class Yard < PuppetReferences::Reference
       OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'puppet/yard'
 
-      def initialize(*args)
+      def initialize(*)
         @latest = '/puppet/latest/yard'
-        super(*args)
+        super
       end
 
       def build_all

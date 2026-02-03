@@ -29,12 +29,12 @@ require 'kramdown'
 
 ARGF.set_encoding('utf-8')
 $content = ARGF.read
-if $content =~ /\A---$/
+if /\A---$/.match?($content)
   require 'yaml'
   (_blank, yaml_frontmatter, $content) = $content.split(/^---$/, 3)
   metadata = YAML.load("---\n" + yaml_frontmatter)
-  lil_table = "<table>\n" + metadata.map {|k,v| "<tr> <td>#{k}</td> <td>#{v}</td> </tr>"}.join("\n") + "\n</table>\n"
+  lil_table = "<table>\n" + metadata.map { |k, v| "<tr> <td>#{k}</td> <td>#{v}</td> </tr>" }.join("\n") + "\n</table>\n"
   puts lil_table
 end
 
-puts Kramdown::Document.new($content, {input: "GFM", hard_wrap: false}).to_html
+puts Kramdown::Document.new($content, { input: 'GFM', hard_wrap: false }).to_html

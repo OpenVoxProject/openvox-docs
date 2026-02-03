@@ -1,4 +1,3 @@
-# encoding: UTF-8
 require 'rubygems'
 require 'bundler/setup'
 require 'rake'
@@ -8,24 +7,22 @@ require 'yaml'
 require 'puppet_docs/config'
 require 'rake/clean'
 
-
 CLOBBER.include('output')
 CLOBBER.include('externalsources')
 CLOBBER.include('references_output')
 
 top_dir = Dir.pwd
 
-SOURCE_DIR = "#{top_dir}/source"
-OUTPUT_DIR = "#{top_dir}/output"
-STASH_DIR = "#{top_dir}/_stash"
-PREVIEW_DIR = "#{top_dir}/_preview"
+SOURCE_DIR = "#{top_dir}/source".freeze
+OUTPUT_DIR = "#{top_dir}/output".freeze
+STASH_DIR = "#{top_dir}/_stash".freeze
+PREVIEW_DIR = "#{top_dir}/_preview".freeze
 
-VERSION_FILE = "#{OUTPUT_DIR}/VERSION.txt"
+VERSION_FILE = "#{OUTPUT_DIR}/VERSION.txt".freeze
 
 @config_data = PuppetDocs::Config.new("#{SOURCE_DIR}/_config.yml")
 
 def jekyll(command = 'build', source = SOURCE_DIR, destination = OUTPUT_DIR, *args)
-
   about_verbose_mode = <<-ABOUT_VERBOSE_MODE
 
     -*-*-*-*-*-*-*-*-*-*-*-*-
@@ -42,9 +39,7 @@ def jekyll(command = 'build', source = SOURCE_DIR, destination = OUTPUT_DIR, *ar
 
   puts about_verbose_mode
 
-  if ENV['DEBUG_PUPPET_DOCS_RAKEFILE']
-    verbose_mode = '--verbose --trace | tee puppet-docs-build.log'
-  end
+  verbose_mode = '--verbose --trace | tee puppet-docs-build.log' if ENV['DEBUG_PUPPET_DOCS_RAKEFILE']
 
   amended_config = "#{SOURCE_DIR}/_config_amended.yml"
   File.write(amended_config, YAML.dump(@config_data))
@@ -52,10 +47,9 @@ def jekyll(command = 'build', source = SOURCE_DIR, destination = OUTPUT_DIR, *ar
   FileUtils.rm(amended_config)
 end
 
-desc "Stash all directories but one in a temporary location. Run a preview server on localhost:4000."
-task :preview, :filename do |t, args|
-
-  if ["marionette-collective", "puppetdb_master", "puppetdb_1.1", "puppetdb", "mcollective"].include?(args.filename)
+desc 'Stash all directories but one in a temporary location. Run a preview server on localhost:4000.'
+task :preview, :filename do |_t, args|
+  if ['marionette-collective', 'puppetdb_master', 'puppetdb_1.1', 'puppetdb', 'mcollective'].include?(args.filename)
     abort("\n\n*** External documentation sources aren't supported right now.\n\n")
   end
 
@@ -63,34 +57,37 @@ task :preview, :filename do |t, args|
   FileUtils.mkdir(STASH_DIR) unless File.exist?(STASH_DIR)
 
   # Directories and files we have to have for a good live preview
-  required_dirs = ["_config.yml", "_includes", "_plugins", "files", "favicon.ico", "_layouts","images"]
+  required_dirs = ['_config.yml', '_includes', '_plugins', 'files', 'favicon.ico', '_layouts', 'images']
 
   # Move the things we don't need into the _stash
   Dir.glob("#{SOURCE_DIR}/*") do |directory|
-    FileUtils.mv directory, STASH_DIR unless directory.include?(args.filename) || required_dirs.include?(File.basename(directory))
+    unless directory.include?(args.filename) || required_dirs.include?(File.basename(directory))
+      FileUtils.mv directory,
+                   STASH_DIR
+    end
   end
 
   # Get all the files we'd like to see in a temporary preview index (so we don't have to hunt for files by name)
   Dir.chdir("#{SOURCE_DIR}/#{args.filename}")
-  file_list = Dir.glob("**/*.markdown")
+  file_list = Dir.glob('**/*.markdown')
   preview_index_files = []
   file_list.each do |f|
-    html_name = f.gsub(/\.markdown/,'.html')
+    html_name = f.gsub('.markdown', '.html')
     preview_index_files << "* [#{args.filename}/#{html_name}](#{args.filename}/#{html_name})\n"
   end
 
-preview_index=<<PREVIEW_INDEX
----
-layout: frontpage
-title: Files Available for Live Preview
-canonical: "/"
----
-#{preview_index_files}
-PREVIEW_INDEX
+  preview_index = <<~PREVIEW_INDEX
+    ---
+    layout: frontpage
+    title: Files Available for Live Preview
+    canonical: "/"
+    ---
+    #{preview_index_files}
+  PREVIEW_INDEX
 
   Dir.chdir(SOURCE_DIR)
   # put our file list index in place
-  File.open("index.markdown", 'w') {|f| f.write(preview_index) }
+  File.write('index.markdown', preview_index)
 
   # Run our preview server, watching ... watching ...
   jekyll('serve', SOURCE_DIR, PREVIEW_DIR)
@@ -102,7 +99,7 @@ PREVIEW_INDEX
   Rake::Task['unpreview'].invoke
 end
 
-desc "Move all stashed directories back into the source directory, ready for site generation. "
+desc 'Move all stashed directories back into the source directory, ready for site generation. '
 task :unpreview do
   puts "\n*** Putting back the stashed files, removing the preview directory."
   FileUtils.mv Dir.glob("#{STASH_DIR}/*"), "#{SOURCE_DIR}"
@@ -111,10 +108,7 @@ task :unpreview do
 end
 
 namespace :externalsources do
-
-  unless File.exist?("externalsources") && File.directory?("externalsources")
-    Dir.mkdir("externalsources")
-  end
+  Dir.mkdir('externalsources') unless File.exist?('externalsources') && File.directory?('externalsources')
 
   # Returns the short name of a repo, which would be the directory name if you did a `git clone` without specifying a directory name. This isn't used anymore, but I left it around in case it's useful later.
   def repo_name(repo_url)
@@ -123,7 +117,7 @@ namespace :externalsources do
 
   # Returns something like git_github_com_puppetlabs_marionette-collective_git. We use this as the name of the main repo directory, because we may need to disambiguate between two repos with the same short name but a different user account on github.
   def safe_dirname(name)
-    name.sub(/^[:\/\.]+/, '').gsub(/[:\/\.]+/, '_')
+    name.sub(%r{^[:/.]+}, '').gsub(%r{[:/.]+}, '_')
   end
 
   # "Update all working copies defined in source/_config.yml"
@@ -139,7 +133,7 @@ namespace :externalsources do
         end
         Dir.chdir(workdir) do
           puts "Updating #{url}"
-          system ("git checkout --force #{info['commit']} && git clean --force .")
+          system("git checkout --force #{info['commit']} && git clean --force .")
         end
       end
     end
@@ -147,15 +141,15 @@ namespace :externalsources do
 
   # "Fetch all external doc repos (from externalsources in source/_config.yml), cloning any that don't yet exist"
   task :clone do
-    repos = @config_data['externalsources'].values.map {|info| info['repo']}.uniq
+    repos = @config_data['externalsources'].values.map { |info| info['repo'] }.uniq
 
-    Dir.chdir("externalsources") do
+    Dir.chdir('externalsources') do
       repos.each do |repo|
         puts "Fetching #{repo}"
         repo_dir = safe_dirname(repo)
-        system ("git clone #{repo} #{repo_dir}") unless File.directory?(repo_dir)
+        system("git clone #{repo} #{repo_dir}") unless File.directory?(repo_dir)
         Dir.chdir(repo_dir) do
-          system("git fetch origin")
+          system('git fetch origin')
         end
       end
     end
@@ -180,36 +174,36 @@ namespace :externalsources do
 
   # "Clean up any external source symlinks from the source directory" # In the current implementation, all external sources are symlinks and there are no other symlinks in the source. This means we can naively kill all symlinks in ./source.
   task :clean do
-    allsymlinks = FileList.new("#{SOURCE_DIR}/**/*").select{|f| File.symlink?(f)}
+    allsymlinks = FileList.new("#{SOURCE_DIR}/**/*").select { |f| File.symlink?(f) }
     allsymlinks.each do |f|
       File.delete(f)
     end
   end
 end
 
-desc "Clean up any crap left over from failed docs site builds"
+desc 'Clean up any crap left over from failed docs site builds'
 task :clean do
   # Get rid of external sources symlinks
-  puts "Deleting symlinks to external sources..."
+  puts 'Deleting symlinks to external sources...'
   Rake::Task['externalsources:clean'].invoke
   Rake::Task['externalsources:clean'].reenable
   # Get rid of the amended config file we write for Jekyll
   begin
-    puts "Deleting _config_amended.yml..."
+    puts 'Deleting _config_amended.yml...'
     FileUtils.rm("#{SOURCE_DIR}/_config_amended.yml")
-  rescue
-    puts "There was no _config_amended.yml file to delete."
+  rescue StandardError
+    puts 'There was no _config_amended.yml file to delete.'
   end
 end
 
-desc "Generate the documentation"
+desc 'Generate the documentation'
 task :generate do
   Rake::Task['externalsources:update'].invoke # Create external sources if necessary, and check out the required working directories
   Rake::Task['externalsources:link'].invoke # Link docs folders from external sources into the source at the appropriate places.
 
   system("mkdir -p #{OUTPUT_DIR}")
   system("rm -rf #{OUTPUT_DIR}/*")
-  jekyll()
+  jekyll
 
   # Rake::Task['symlink_latest_versions'].invoke
 
@@ -218,12 +212,12 @@ task :generate do
 
   Rake::Task['generate_redirects'].invoke
 
-  if @config_data['preview'].class == Array && @config_data['preview'].length > 0
+  if @config_data['preview'].instance_of?(Array) && @config_data['preview'].length.positive?
     puts "THIS IS A PREVIEW VERSION, AND IT'S MISSING IMPORTANT STUFF. Do not deploy the site in this state; this is for local viewing only. To build a real version of the site, delete the `preview:` key from _config.yml."
   end
 end
 
-desc "Symlink latest versions of several projects; see symlink_latest and lock_latest lists in _config.yml"
+desc 'Symlink latest versions of several projects; see symlink_latest and lock_latest lists in _config.yml'
 task :symlink_latest_versions do
   require 'puppet_docs/versions'
 
@@ -231,9 +225,9 @@ task :symlink_latest_versions do
   @config_data['symlink_latest'].each do |project|
     project_dir = "#{OUTPUT_DIR}/#{project}"
 
-    versions = Pathname.glob("#{project_dir}/*").select {|f|
+    versions = Pathname.glob("#{project_dir}/*").select do |f|
       f.directory? && !f.symlink?
-    }.map {|d| d.basename.to_s}
+    end.map { |d| d.basename.to_s }
 
     latest = @config_data['lock_latest'][project] || PuppetDocs::Versions.latest(versions)
 
@@ -241,8 +235,8 @@ task :symlink_latest_versions do
       Dir.chdir project_dir do
         FileUtils.ln_sf latest, 'latest'
       end
-    rescue Errno::ENOENT => err
-      if @config_data['preview'].class == Array && @config_data['preview'].length > 0
+    rescue Errno::ENOENT
+      if @config_data['preview'].instance_of?(Array) && @config_data['preview'].length.positive?
         puts "WARNING: Couldn't symlink latest version of #{project}, but you're building a limited preview, so I'll let it slide."
       else
         puts "ERROR: Couldn't symlink latest version of #{project}. Something is probably horribly wrong. I'm bailing out."
@@ -252,24 +246,22 @@ task :symlink_latest_versions do
   end
 end
 
-desc "Generate bidirectional redirects using the source/_redirects.yaml file, and write them to the Nginx config file in the output dir"
+desc 'Generate bidirectional redirects using the source/_redirects.yaml file, and write them to the Nginx config file in the output dir'
 task :generate_redirects do
   require 'puppet_docs/auto_redirects'
   nginx_config = "#{OUTPUT_DIR}/nginx_rewrite.conf"
   redirects_yaml = "#{SOURCE_DIR}/_redirects.yaml"
   generated_lines = PuppetDocs::AutoRedirects.generate(@config_data, redirects_yaml)
-  File.open(nginx_config, 'a') {|f| f.write(generated_lines)}
+  File.open(nginx_config, 'a') { |f| f.write(generated_lines) }
 end
 
-
-desc "Serve generated output on port 9292"
+desc 'Serve generated output on port 9292'
 task :serve do
-  system("rackup")
+  system('rackup')
 end
 
-desc "Generate docs and serve locally"
-task :run => [:generate, :serve]
-
+desc 'Generate docs and serve locally'
+task run: %i[generate serve]
 
 task :write_version do
   if File.directory?('.git')
@@ -286,31 +278,31 @@ task :check_git_dirty_status do
     Rake::Task['externalsources:clean'].reenable
 
     if `git status --porcelain 2> /dev/null | tail -n1` != ''
-      STDOUT.puts "The working directory has uncommitted changes. They're probably either \n  incomplete changes you don't want to release, or important changes you \n  don't want lost; in either case, you might want to deal with them before \n  you build and deploy the site. Continue anyway? (y/n)"
-      abort "Aborting." unless STDIN.gets.strip.downcase =~ /^y/
+      $stdout.puts "The working directory has uncommitted changes. They're probably either \n  incomplete changes you don't want to release, or important changes you \n  don't want lost; in either case, you might want to deal with them before \n  you build and deploy the site. Continue anyway? (y/n)"
+      abort 'Aborting.' unless /^y/.match?($stdin.gets.strip.downcase)
     end
   end
 end
 
 task :check_build_version do
   abort "No site build found! Run 'rake build' before releasing." unless File.directory?(OUTPUT_DIR)
-  abort "Site build is empty! Run 'rake build' before releasing." if (Dir.entries(OUTPUT_DIR) - %w{ . .. }).empty?
+  abort "Site build is empty! Run 'rake build' before releasing." if (Dir.entries(OUTPUT_DIR) - %w[. ..]).empty?
   if File.directory?('.git')
-    if File.exists?(VERSION_FILE)
+    if File.exist?(VERSION_FILE)
       head = `git rev-parse HEAD`.strip
       build_version = File.read(VERSION_FILE)
       if head != build_version
-        STDOUT.puts "This build wasn't built from HEAD and may be outdated. Continue anyway? (y/n)"
-        abort "Aborting." unless STDIN.gets.strip.downcase =~ /^y/
+        $stdout.puts "This build wasn't built from HEAD and may be outdated. Continue anyway? (y/n)"
+        abort 'Aborting.' unless /^y/.match?($stdin.gets.strip.downcase)
       end
     else
-      STDOUT.puts "Can't tell age of site build; it's probably outdated. Continue anyway? (y/n)"
-      abort "Aborting." unless STDIN.gets.strip.downcase =~ /^y/
+      $stdout.puts "Can't tell age of site build; it's probably outdated. Continue anyway? (y/n)"
+      abort 'Aborting.' unless /^y/.match?($stdin.gets.strip.downcase)
     end
   end
 end
 
-desc "Build the documentation site and prepare it for deployment"
+desc 'Build the documentation site and prepare it for deployment'
 task :build do
   Rake::Task['check_git_dirty_status'].invoke
   Rake::Task['generate'].invoke
@@ -323,42 +315,40 @@ task :build_and_check_links do
   Rake::Task['build'].invoke
 end
 
-
-
-desc "Instead of building real pages, build naked HTML fragments (with no nav, etc.)"
+desc 'Instead of building real pages, build naked HTML fragments (with no nav, etc.)'
 task :build_html_fragments do
   Rake::Task['check_git_dirty_status'].invoke
   Dir.chdir("#{SOURCE_DIR}/_layouts") do
-    FileUtils.mv("default.html", "real_default.html")
-    FileUtils.mv("fragment.html", "default.html")
+    FileUtils.mv('default.html', 'real_default.html')
+    FileUtils.mv('fragment.html', 'default.html')
   end
   Rake::Task['generate'].invoke
   # don't write version, so we'll give a noisy error if you try to deploy fragments!
   Dir.chdir("#{SOURCE_DIR}/_layouts") do
-    FileUtils.mv("default.html", "fragment.html")
-    FileUtils.mv("real_default.html", "default.html")
+    FileUtils.mv('default.html', 'fragment.html')
+    FileUtils.mv('real_default.html', 'default.html')
   end
 end
 
-desc "Build HTML fragments, then mangle all of them for Transifex (takes a while)"
+desc 'Build HTML fragments, then mangle all of them for Transifex (takes a while)'
 task :build_and_mangle_html_fragments do
   require 'puppet_docs/sentence_segmenter'
   Rake::Task[:build_html_fragments].invoke
   all_fragments = Dir.glob('output/**/*.html') # This actually sweeps up YARD pages too, but... never mind.
   total_size = all_fragments.length
   all_fragments.each_with_index do |fragment, i|
-    print "(#{i+1}/#{total_size}) "
+    print "(#{i + 1}/#{total_size}) "
     PuppetDocs::SentenceSegmenter.mangle_file(fragment)
   end
 end
 
-desc "Build body-only HTML content (+ sidebar nav)"
+desc 'Build body-only HTML content (+ sidebar nav)'
 task :body_and_nav_html_only do
   # Rake::Task['check_git_dirty_status'].invoke
   # The reason the above line was breaking jjb was because every time the job runs, it starts with a new workspace, unlike our old jobs. If you're running this command locally, you may want to uncomment the above line.
   Dir.chdir("#{SOURCE_DIR}/_layouts") do
-    FileUtils.mv("default.html", "real_default.html")
-    FileUtils.mv("body_only.html", "default.html")
+    FileUtils.mv('default.html', 'real_default.html')
+    FileUtils.mv('body_only.html', 'default.html')
   end
 
   # These steps below are the steps inside of :generate, minus the symlinks, and redirect tasks. Symlinks were doing weird things on Mikey's end, so I removed that task.
@@ -367,23 +357,22 @@ task :body_and_nav_html_only do
 
   system("mkdir -p #{OUTPUT_DIR}")
   system("rm -rf #{OUTPUT_DIR}/*")
-  jekyll()
+  jekyll
 
   Rake::Task['externalsources:clean'].invoke # The opposite of externalsources:link. Delete all symlinks in the source.
   Rake::Task['externalsources:clean'].reenable
 
-
-  if @config_data['preview'].class == Array && @config_data['preview'].length > 0
+  if @config_data['preview'].instance_of?(Array) && @config_data['preview'].length.positive?
     puts "THIS IS A PREVIEW VERSION, AND IT'S MISSING IMPORTANT STUFF. Do not deploy the site in this state; this is for local viewing only. To build a real version of the site, delete the `preview:` key from _config.yml."
   end
 
   Dir.chdir("#{SOURCE_DIR}/_layouts") do
-    FileUtils.mv("default.html", "body_only.html")
-    FileUtils.mv("real_default.html", "default.html")
+    FileUtils.mv('default.html', 'body_only.html')
+    FileUtils.mv('real_default.html', 'default.html')
   end
 end
 
-desc "List the available groups of references. Run `rake references:<GROUP>` to build."
+desc 'List the available groups of references. Run `rake references:<GROUP>` to build.'
 task :references do
   puts 'The following references are available:'
   puts 'bundle exec rake references:puppet VERSION=<GIT TAG OR COMMIT>'
@@ -392,14 +381,14 @@ task :references do
 end
 
 namespace :references do
-  task :puppet => 'references:check_version' do
+  task puppet: 'references:check_version' do
     require 'puppet_references'
-    PuppetReferences.build_puppet_references(ENV['VERSION'])
+    PuppetReferences.build_puppet_references(ENV.fetch('VERSION', nil))
   end
 
-  task :facter => 'references:check_version' do
+  task facter: 'references:check_version' do
     require 'puppet_references'
-    PuppetReferences.build_facter_references(ENV['VERSION'])
+    PuppetReferences.build_facter_references(ENV.fetch('VERSION', nil))
   end
 
   task :version_tables do
@@ -408,9 +397,6 @@ namespace :references do
   end
 
   task :check_version do
-    abort "No VERSION given to build references for" unless ENV['VERSION']
+    abort 'No VERSION given to build references for' unless ENV['VERSION']
   end
 end
-
-
-

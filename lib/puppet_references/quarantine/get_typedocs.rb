@@ -18,39 +18,39 @@ require 'json'
 require 'puppet'
 require 'puppet/util/docs'
 extend Puppet::Util::Docs
+
 # We use scrub().
 
+# The schema of the typedocs object:
 
-  # The schema of the typedocs object:
-
-  # { :name_of_type => {
-  #     :description => 'Markdown fragment: description of type',
-  #     :features    => { :feature_name => 'feature description', ... }
-  #       # If there are no features, the value of :features will be an empty hash.
-  #     :providers   => { # If there are no providers, the value of :providers will be an empty hash.
-  #       :name_of_provider => {
-  #         :description => 'Markdown fragment: docs for this provider',
-  #         :features    => [:feature_name, :other_feature, ...]
-  #           # If provider has no features, the value of :features will be an empty array.
-  #       },
-  #       ...etc...
-  #     }
-  #     :attributes  => { # Puppet dictates that there will ALWAYS be at least one attribute.
-  #       :name_of_attribute => {
-  #         :description => 'Markdown fragment: docs for this attribute',
-  #         :kind        => (:property || :parameter),
-  #         :namevar     => (true || false), # always false if :kind => :property
-  #       },
-  #       ...etc...
-  #     },
-  #   },
-  #   ...etc...
-  # }
+# { :name_of_type => {
+#     :description => 'Markdown fragment: description of type',
+#     :features    => { :feature_name => 'feature description', ... }
+#       # If there are no features, the value of :features will be an empty hash.
+#     :providers   => { # If there are no providers, the value of :providers will be an empty hash.
+#       :name_of_provider => {
+#         :description => 'Markdown fragment: docs for this provider',
+#         :features    => [:feature_name, :other_feature, ...]
+#           # If provider has no features, the value of :features will be an empty array.
+#       },
+#       ...etc...
+#     }
+#     :attributes  => { # Puppet dictates that there will ALWAYS be at least one attribute.
+#       :name_of_attribute => {
+#         :description => 'Markdown fragment: docs for this attribute',
+#         :kind        => (:property || :parameter),
+#         :namevar     => (true || false), # always false if :kind => :property
+#       },
+#       ...etc...
+#     },
+#   },
+#   ...etc...
+# }
 typedocs = {}
 
 Puppet::Type.loadall
 
-Puppet::Type.eachtype { |type|
+Puppet::Type.eachtype do |type|
   # List of types to ignore:
   next if type.name == :puppet
   next if type.name == :component
@@ -58,26 +58,24 @@ Puppet::Type.eachtype { |type|
 
   # Initialize the documentation object for this type
   docobject = {
-    :description => scrub(type.doc),
-    :attributes  => {}
+    description: scrub(type.doc),
+    attributes: {},
   }
 
   # Handle features:
   # inject will return empty hash if type.features is empty.
-  docobject[:features] = type.features.inject( {} ) { |allfeatures, name|
-    allfeatures[name] = scrub( type.provider_feature(name).docs )
-    allfeatures
-  }
+  docobject[:features] = type.features.each_with_object({}) do |name, allfeatures|
+    allfeatures[name] = scrub(type.provider_feature(name).docs)
+  end
 
   # Handle providers:
   # inject will return empty hash if type.providers is empty.
-  docobject[:providers] = type.providers.inject( {} ) { |allproviders, name|
+  docobject[:providers] = type.providers.each_with_object({}) do |name, allproviders|
     allproviders[name] = {
-      :description => scrub( type.provider(name).doc ),
-      :features    => type.provider(name).features
+      description: scrub(type.provider(name).doc),
+      features: type.provider(name).features,
     }
-    allproviders
-  }
+  end
 
   # Override several features missing due to bug #18426:
   if type.name == :user
@@ -86,49 +84,45 @@ Puppet::Type.eachtype { |type|
       docobject[:providers][:openbsd][:features] << :manages_passwords << :manages_loginclass
     end
   end
-  if type.name == :group
-    docobject[:providers][:groupadd][:features] << :libuser
-  end
-
+  docobject[:providers][:groupadd][:features] << :libuser if type.name == :group
 
   # Handle properties:
   docobject[:attributes].merge!(
-    type.validproperties.inject( {} ) { |allproperties, name|
+    type.validproperties.each_with_object({}) do |name, allproperties|
       property = type.propertybyname(name)
       raise "Could not retrieve property #{propertyname} on type #{type.name}" unless property
+
       description = property.doc
-      $stderr.puts "No docs for property #{name} of #{type.name}" unless description and !description.empty?
+      warn "No docs for property #{name} of #{type.name}" unless description && !description.empty?
 
       allproperties[name] = {
-        :description => scrub(description),
-        :kind        => :property,
-        :namevar     => false # Properties can't be namevars.
+        description: scrub(description),
+        kind: :property,
+        namevar: false, # Properties can't be namevars.
       }
-      allproperties
-    }
+    end,
   )
 
   # Handle parameters:
   docobject[:attributes].merge!(
-    type.parameters.inject( {} ) { |allparameters, name|
+    type.parameters.each_with_object({}) do |name, allparameters|
       description = type.paramdoc(name)
-      $stderr.puts "No docs for parameter #{name} of #{type.name}" unless description and !description.empty?
+      warn "No docs for parameter #{name} of #{type.name}" unless description && !description.empty?
 
       # Strip off the too-huge provider list. The question of what to do about
       # providers is a decision for the formatter, not the fragment collector.
       description = description.split('Available providers are')[0] if name == :provider
 
       allparameters[name] = {
-        :description => scrub(description),
-        :kind        => :parameter,
-        :namevar     => type.key_attributes.include?(name) # returns a boolean
+        description: scrub(description),
+        kind: :parameter,
+        namevar: type.key_attributes.include?(name), # returns a boolean
       }
-      allparameters
-    }
+    end,
   )
 
   # Finally:
   typedocs[type.name] = docobject
-}
+end
 
 print JSON.dump(typedocs)

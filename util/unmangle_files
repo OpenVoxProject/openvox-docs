@@ -11,4 +11,3 @@ require 'puppet_docs/sentence_segmenter'
 ARGV.each do |filename|
   PuppetDocs::SentenceSegmenter.unmangle_file(filename)
 end
-

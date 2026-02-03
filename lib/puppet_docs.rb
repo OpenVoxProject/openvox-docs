@@ -7,4 +7,3 @@ module PuppetDocs
   require 'puppet_docs/config'
   require 'puppet_docs/versions'
 end
-

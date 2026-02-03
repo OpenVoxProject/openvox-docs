@@ -12,27 +12,24 @@ module Jekyll
   class ChangeBaseurl < Liquid::Tag
     def initialize(tag_name, args_string, tokens)
       super
-      @arg_regex = /\s*(?:#{Liquid::VariableSignature}+|"[^"]+"|'[^']')\s*/
-      @var_regex = /\A#{Liquid::VariableSignature}+\Z/
-      @args = args_string.scan(@arg_regex).map{|a|a.strip}
-      if @args.length != 3
-        @error = "Tag error: Gave #{args.length} (valid) arguments; change_baseurl tag requires url, old_baseurl, new_baseurl."
-      end
+      @arg_regex = /\s*(?:#{Liquid::VariableSignature}+|"[^"]+"|'[^']')\s*/o
+      @var_regex = /\A#{Liquid::VariableSignature}+\Z/o
+      @args = args_string.scan(@arg_regex).map(&:strip)
+      return unless @args.length != 3
+
+      @error = "Tag error: Gave #{args.length} (valid) arguments; change_baseurl tag requires url, old_baseurl, new_baseurl."
     end
 
     def render(context)
-      if @error
-        return @error
-      end
+      return @error if @error
 
-      (@url, @old_baseurl, @new_baseurl) = @args.map{|arg|
-        if arg =~ @var_regex
+      (@url, @old_baseurl, @new_baseurl) = @args.map do |arg|
+        if arg&.match?(@var_regex)
           context[arg]
         else
           arg.sub(/\A['"]/, '').sub(/['"]\Z/, '')
         end
-      }.map{|path| Pathname.new(path)}
-
+      end.map { |path| Pathname.new(path) }
 
       relative_path = @url.relative_path_from(@old_baseurl)
       new_path = @new_baseurl + relative_path

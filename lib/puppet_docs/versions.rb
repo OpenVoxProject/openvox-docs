@@ -14,14 +14,12 @@ module PuppetDocs
     # Given an array of parseable and unparseable versions, return the same array sorted in
     # newest-first order.
     def self.sort_descending(versions_array)
-      parsed_versions = versions_array.map {|ver|
-        begin
-          Versionomy.parse(ver)
-        rescue
-          nil
-        end
-      }.compact
-      sorted_normal_versions = parsed_versions.sort {|x,y| y <=> x }.map{|ver| ver.to_s}
+      parsed_versions = versions_array.map do |ver|
+        Versionomy.parse(ver)
+      rescue StandardError
+        nil
+      end.compact
+      sorted_normal_versions = parsed_versions.sort.reverse.map(&:to_s)
       special_versions = versions_array - sorted_normal_versions
 
       sorted_normal_versions + special_versions
