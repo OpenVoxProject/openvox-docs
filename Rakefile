@@ -7,6 +7,12 @@ require 'yaml'
 require 'puppet_docs/config'
 require 'rake/clean'
 
+require 'rubocop/rake_task'
+
+RuboCop::RakeTask.new do |task|
+  task.plugins << 'rubocop-rake'
+end
+
 CLOBBER.include('output')
 CLOBBER.include('externalsources')
 CLOBBER.include('references_output')
@@ -129,7 +135,7 @@ namespace :externalsources do
         local_repo = safe_dirname(info['repo'])
         unless File.directory?(workdir)
           puts "Making new working directory for #{url}"
-          system ("\"#{top_dir}/bin/git-new-workdir.sh\" '#{local_repo}' '#{workdir}' '#{info['commit']}'")
+          system("\"#{top_dir}/bin/git-new-workdir.sh\" '#{local_repo}' '#{workdir}' '#{info['commit']}'")
         end
         Dir.chdir(workdir) do
           puts "Updating #{url}"
