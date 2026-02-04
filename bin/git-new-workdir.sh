@@ -1,18 +1,18 @@
 #!/bin/sh
 
 usage () {
-	echo "usage:" $@
-	exit 127
+       echo "usage:" $@
+       exit 127
 }
 
 die () {
-	echo $@
-	exit 128
+       echo $@
+       exit 128
 }
 
 if test $# -lt 2 || test $# -gt 3
 then
-	usage "$0 <repository> <new_workdir> [<branch>]"
+       usage "$0 <repository> <new_workdir> [<branch>]"
 fi
 
 orig_git=$1
@@ -26,32 +26,32 @@ git_dir=$(cd "$orig_git" 2>/dev/null &&
 
 case "$git_dir" in
 .git)
-	git_dir="$orig_git/.git"
-	;;
+       git_dir="$orig_git/.git"
+       ;;
 .)
-	git_dir=$orig_git
-	;;
+       git_dir=$orig_git
+       ;;
 esac
 
 # don't link to a configured bare repository
 isbare=$(git --git-dir="$git_dir" config --bool --get core.bare)
 if test ztrue = z$isbare
 then
-	die "\"$git_dir\" has core.bare set to true," \
-		" remove from \"$git_dir/config\" to use $0"
+       die "\"$git_dir\" has core.bare set to true," \
+               " remove from \"$git_dir/config\" to use $0"
 fi
 
 # don't link to a workdir
 if test -h "$git_dir/config"
 then
-	die "\"$orig_git\" is a working directory only, please specify" \
-		"a complete repository."
+       die "\"$orig_git\" is a working directory only, please specify" \
+               "a complete repository."
 fi
 
 # don't recreate a workdir over an existing repository
 if test -e "$new_workdir"
 then
-	die "destination directory '$new_workdir' already exists."
+       die "destination directory '$new_workdir' already exists."
 fi
 
 # make sure the links use full paths
@@ -65,12 +65,12 @@ mkdir -p "$new_workdir/.git" || die "unable to create \"$new_workdir\"!"
 # directory, and should not be shared.
 for x in config refs logs/refs objects info hooks packed-refs remotes rr-cache svn
 do
-	case $x in
-	*/*)
-		mkdir -p "$(dirname "$new_workdir/.git/$x")"
-		;;
-	esac
-	ln -s "$git_dir/$x" "$new_workdir/.git/$x"
+       case $x in
+       */*)
+               mkdir -p "$(dirname "$new_workdir/.git/$x")"
+               ;;
+       esac
+       ln -s "$git_dir/$x" "$new_workdir/.git/$x"
 done
 
 # now setup the workdir
@@ -80,3 +80,4 @@ cp "$git_dir/HEAD" .git/HEAD
 # checkout the branch (either the same as HEAD from the original repository, or
 # the one that was asked for)
 git checkout -f $branch
+

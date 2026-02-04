@@ -8,7 +8,7 @@ module PuppetReferences
     class Type < PuppetReferences::Reference
       TYPEDOCS_SCRIPT = PuppetReferences::BASE_DIR + 'lib/puppet_references/quarantine/get_typedocs.rb'
       TEMPLATE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'type_template.erb'
-      TEMPLATE = ERB.new(TEMPLATE_FILE.read, nil, '-')
+      TEMPLATE = ERB.new(TEMPLATE_FILE.read, trim_mode: '-')
       PREAMBLE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'type_preamble.md'
       PREAMBLE = PREAMBLE_FILE.read
 

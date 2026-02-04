@@ -44,7 +44,7 @@ module PuppetReferences
         # BTW, I learned this trick from the Facter reference that the agent team made for us back in the day.
         template_binding = OpenStruct.new({ functions: functions }).instance_eval {binding}
 
-        body = ERB.new(File.read(TEMPLATE_FILE), nil, '-').result(template_binding)
+        body = ERB.new(File.read(TEMPLATE_FILE), trim_mode: '-').result(template_binding)
         # This substitution could potentially make things a bit brittle, but it has to be done because the jump
         # From H2s to H4s is causing issues with the DITA-OT, which sees this as a rule violation. If it 
         # Does become an issue, we should return to this and figure out a better way to generate the functions doc.  

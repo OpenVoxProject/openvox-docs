@@ -135,7 +135,7 @@ namespace :externalsources do
         local_repo = safe_dirname(info['repo'])
         unless File.directory?(workdir)
           puts "Making new working directory for #{url}"
-          system ("\"#{top_dir}/vendor/bin/git-new-workdir\" '#{local_repo}' '#{workdir}' '#{info['commit']}'")
+          system ("\"#{top_dir}/bin/git-new-workdir.sh\" '#{local_repo}' '#{workdir}' '#{info['commit']}'")
         end
         Dir.chdir(workdir) do
           puts "Updating #{url}"
