@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+require 'English'
 require 'puppet_references'
 require 'pathname'
 require 'json'
@@ -15,9 +18,9 @@ module PuppetReferences
           @includes = config['pe']['include'] || {}
           @excludes = config['pe']['exclude'] || []
           detected_versions = @repo.tags.map(&:name).select do |name|
-            (name =~ /^\d{4}/ or name =~ /^3\.8/) and name !~ /-/
+            (name =~ /^\d{4}/ or name =~ /^3\.8/) and !name.include?('-')
           end
-          @versions_and_commits = Hash[detected_versions.map { |name| [name, name] }]
+          @versions_and_commits = detected_versions.to_h { |name| [name, name] }
           @excludes.each do |tag|
             @versions_and_commits.delete(tag)
           end
@@ -97,7 +100,7 @@ module PuppetReferences
           lein_tree = ''
           Dir.chdir(@server_repo.directory) do
             lein_tree = `lein deps :tree`
-            unless $?.success?
+            unless $CHILD_STATUS.success?
               puts "
 ERROR: Uh, something weird went wrong. Probably one of these things:
 
@@ -139,9 +142,7 @@ http://leiningen.org/#install are not written with us in mind, so follow these:
 
         def normalize_version_number(number, name = '')
           # First, handle Puppet Server version numbers. This gets hairy.
-          if name == 'Puppet Server' && number >= '2.2.0' # Simple string compare seems to work fine for now; we can use versionomy here later if necessary.
-            number = normalize_puppetserver_version_number(number)
-          end
+          number = normalize_puppetserver_version_number(number) if name == 'Puppet Server' && number >= '2.2.0' # Simple string compare seems to work fine for now; we can use versionomy here later if necessary.
           # There's a special case in here for a slightly mangled Ruby version on Solaris.
           number = number.sub(/^1.9.3-p484/, '1.9.3.484').split(/\.?(-|pe|pup|sles|el)/)[0]
           if name != 'Ruby' && name != 'OpenSSL'
@@ -153,10 +154,11 @@ http://leiningen.org/#install are not written with us in mind, so follow these:
 
         def packages_json_to_versions_sorted_by_platform(packagedata)
           result = {}
+          skip_platforms = ['nxos-1-x86_64', 'cumulus-1.5-powerpc', 'nxos-1-i386']
           packagedata.each do |platform, platform_hash|
             # Skip never-shipped network device OSes.
             # https://tickets.puppetlabs.com/browse/DOC-2645
-            next if ['nxos-1-x86_64', 'cumulus-1.5-powerpc', 'nxos-1-i386'].include?(platform)
+            next if skip_platforms.include?(platform)
 
             platform_hash.each do |package_name, package_data|
               we_care = @package_name_variations.detect { |_k, v| v.include?(package_name) }

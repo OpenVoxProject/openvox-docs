@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pathname'
 require 'puppet_docs/versions'
 require 'puppet_docs/auto_redirects'

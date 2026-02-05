@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 set :application, 'docs.puppet.com'
 set :repository, 'git://github.com/puppetlabs/puppet-docs.git'
 set :user, 'docsdeploy'

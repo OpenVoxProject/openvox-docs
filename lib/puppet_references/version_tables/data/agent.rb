@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 require 'pathname'
 require 'json'
@@ -22,7 +24,7 @@ module PuppetReferences
 
           detected_versions = @repo.tags.map(&:name)
           detected_versions.shift until detected_versions.first == '1.0.0'
-          @versions_and_commits = Hash[detected_versions.map { |name| [name, name] }]
+          @versions_and_commits = detected_versions.to_h { |name| [name, name] }
           @excludes.each do |tag|
             @versions_and_commits.delete(tag)
           end
@@ -50,29 +52,27 @@ module PuppetReferences
         def data
           unless @data
             puts 'Updating historical agent data by reading the puppet-agent repo...'
-            @data = Hash[
-                @versions_and_commits.map do |name, commit|
-                  puts "#{name}..."
-                  if @cache[name]
-                    puts '  (using cached)'
-                    components_hash = @cache[name]
-                  else
-                    @repo.checkout(commit)
-                    components_hash = if Versionomy.parse(name) < Versionomy.parse('1.8.0')
-                                        get_components_hash_pre_vanagon_0_7
-                                      else
-                                        get_components_hash
-                                      end
-                  end
-                  [name, components_hash]
-                end,
-            ]
+            @data = @versions_and_commits.to_h do |name, commit|
+              puts "#{name}..."
+              if @cache[name]
+                puts '  (using cached)'
+                components_hash = @cache[name]
+              else
+                @repo.checkout(commit)
+                components_hash = if Versionomy.parse(name) < Versionomy.parse('1.8.0')
+                                    get_components_hash_pre_vanagon_0_7
+                                  else
+                                    get_components_hash
+                                  end
+              end
+              [name, components_hash]
+            end
           end
           @data
         end
 
         # Before Vanagon 0.7, we have to actually just grep the component files. Boo.
-        def get_components_hash_pre_vanagon_0_7
+        def get_components_hash_pre_vanagon_0_7 # rubocop:disable Naming/VariableNumber
           @component_files.each_with_object({}) do |(component, config), result|
             component_file = PuppetReferences::AGENT_DIR + 'configs/components' + config
             if component_file.extname == '.json'
@@ -92,16 +92,14 @@ module PuppetReferences
           # This might vary per-platform... but for now, we'll just take the most recent 64-bit EL version and hope.
           platform = Dir.glob(PuppetReferences::AGENT_DIR.to_s + '/configs/platforms/*').map do |path|
             File.basename(path, '.rb')
-          end.grep(/^el-\d+-x86_64/).sort.last
+          end.grep(/^el-\d+-x86_64/).max
           puts "Using agent data for #{platform}"
           inspect_command = PuppetReferences::PuppetCommand.new("inspect puppet-agent #{platform}", PuppetReferences::AGENT_DIR)
           inspect_data = JSON.parse(inspect_command.get)
 
           @component_name_patterns.each_with_object({}) do |(component, pattern), result|
             component_data = inspect_data.detect { |comp| comp['name'] =~ pattern }
-            if component_data.nil?
-              raise("Can't find #{component} on #{platform}! Possibly the name pattern (#{pattern}) changed (ugh why). Dumping ALL raw data for this version: \n#{inspect_data}")
-            end
+            raise("Can't find #{component} on #{platform}! Possibly the name pattern (#{pattern}) changed (ugh why). Dumping ALL raw data for this version: \n#{inspect_data}") if component_data.nil?
 
             if component_data['version']
               result[component] = component_data['version']

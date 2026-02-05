@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This is mostly a copy of Jekyll 3's built-in "include" tag, except it can grab
 # files from anywhere; it isn't limited to the _includes dir like "include," or
 # to a subdirectory of the current dir like "include_relative".
@@ -69,8 +71,8 @@ module Jekyll
       params = {}
       markup = @params
 
-      while match = VALID_SYNTAX.match(markup)
-        markup = markup[match.end(0)..-1]
+      while (match = VALID_SYNTAX.match(markup))
+        markup = markup[match.end(0)..]
 
         value = if match[2]
                   match[2].gsub('\"', '"')
@@ -86,10 +88,10 @@ module Jekyll
     end
 
     def validate_params
-      full_valid_syntax = Regexp.compile('\A\s*(?:' + VALID_SYNTAX.to_s + '(?=\s|\z)\s*)*\z')
+      full_valid_syntax = Regexp.compile("\\A\\s*(?:#{VALID_SYNTAX}(?=\\s|\\z)\\s*)*\\z")
       return if @params&.match?(full_valid_syntax)
 
-      raise ArgumentError.new <<~EOS
+      raise ArgumentError, <<~MSG
         Invalid syntax for #{@tag_name} tag:
 
           #{@params}
@@ -98,7 +100,7 @@ module Jekyll
 
           #{syntax_example}
 
-      EOS
+      MSG
     end
 
     # Render the variable if required -- NF: this is used if you store the file name in a variable, I think.
@@ -131,7 +133,7 @@ module Jekyll
       real_file = sourcedir + absolute_url.relative_path_from(root)
 
       # Add partial to dependency tree
-      if context.registers[:page] && context.registers[:page].key?('path')
+      if context.registers[:page]&.key?('path')
         site.regenerator.add_dependency(
           site.in_source_dir(context.registers[:page]['path']),
           real_file.to_s,

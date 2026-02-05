@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This script will print the Puppet type docs to stdout in JSON format.
 
 # There are some subtleties that make this a pain to run. Basically: Even if you
@@ -80,9 +82,7 @@ Puppet::Type.eachtype do |type|
   # Override several features missing due to bug #18426:
   if type.name == :user
     docobject[:providers][:useradd][:features] << :manages_passwords << :manages_password_age << :libuser
-    if docobject[:providers][:openbsd]
-      docobject[:providers][:openbsd][:features] << :manages_passwords << :manages_loginclass
-    end
+    docobject[:providers][:openbsd][:features] << :manages_passwords << :manages_loginclass if docobject[:providers][:openbsd]
   end
   docobject[:providers][:groupadd][:features] << :libuser if type.name == :group
 

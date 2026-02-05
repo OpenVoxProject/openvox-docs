@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Written by Nick Fagerlund.
 # Insert a git revision from the docs repo into a document. Meant for
 # tagging releases so people can tell whether a given issue seen on the

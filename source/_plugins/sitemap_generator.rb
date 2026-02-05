@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ORIGIN: https://github.com/kinnetica/jekyll-plugins/blob/master/sitemap_generator.rb
 
 # Sitemap.xml Generator is a Jekyll plugin that generates a sitemap.xml file by
@@ -17,7 +19,7 @@ require 'rexml/document'
 require 'pathname'
 
 module Jekyll
-  class Jekyll::Document
+  class Document
     attr_accessor :name
 
     def path_to_source
@@ -44,7 +46,7 @@ module Jekyll
 
   # Recover from strange exception when starting server without --auto
   class SitemapFile < StaticFile
-    def write(_dest)
+    def write(_dest) # rubocop:disable Naming/PredicateMethod
       true
     end
   end
@@ -53,11 +55,11 @@ module Jekyll
     priority :lowest
 
     # Config defaults
-    SITEMAP_FILE_NAME = '/sitemap.xml'.freeze
+    SITEMAP_FILE_NAME = '/sitemap.xml'
     EXCLUDE = ['/atom.xml', '/feed.xml', '/feed/index.xml'].freeze
     INCLUDE_POSTS = ['/index.html'].freeze
-    CHANGE_FREQUENCY_NAME = 'change_frequency'.freeze
-    PRIORITY_NAME = 'priority'.freeze
+    CHANGE_FREQUENCY_NAME = 'change_frequency'
+    PRIORITY_NAME = 'priority'
 
     # Valid values allowed by sitemap.xml spec for change frequencies
     VALID_CHANGE_FREQUENCY_VALUES = %w[always hourly daily weekly
@@ -196,16 +198,12 @@ module Jekyll
       date = (@source_dir + page_or_post.path).mtime
       latest_date = find_latest_date(date, site, page_or_post)
 
-      if @last_modified_post_date.nil?
-        # This is a post
-        lastmod.text = latest_date.iso8601
-      elsif posts_included?(site, page_or_post.path_to_source)
-        # This is a page
+      # Take the last post date by default
+      lastmod.text = latest_date.iso8601
+      if !@last_modified_post_date.nil? && posts_included?(site, page_or_post.path_to_source)
+        # This is a page - adjust last post date
         final_date = greater_date(latest_date, @last_modified_post_date)
         lastmod.text = final_date.iso8601
-      # We want to take into account the last post date
-      else
-        lastmod.text = latest_date.iso8601
       end
       lastmod
     end
@@ -232,11 +230,7 @@ module Jekyll
     #
     # Returns latest of two dates
     def greater_date(date1, date2)
-      if date1 >= date2
-        date1
-      else
-        date2
-      end
+      [date1, date2].max
     end
 
     # Is the page or post listed as something we want to exclude?
@@ -261,12 +255,9 @@ module Jekyll
     #
     # Returns boolean
     def valid_priority?(priority)
-      begin
-        priority_val = Float(priority)
-        return true if (priority_val >= 0.0) && (priority_val <= 1.0)
-      rescue ArgumentError
-      end
-
+      priority_val = Float(priority)
+      priority_val.between(0.0, 1.0)
+    rescue StandardError
       false
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 
 module PuppetReferences
@@ -69,11 +71,11 @@ module PuppetReferences
         # leftovers = commands - all_in_categories
         # Clean up any commands that don't exist in this version of Puppet:
         categories.each_value do |list|
-          list.reject! { |sub| !commands.include?(sub) }
+          list.select! { |sub| commands.include?(sub) }
         end
         header_data = { title: 'Puppet Man Pages',
                         canonical: "#{@latest}/overview.html", }
-        index_text = <<~EOT
+        index_text = <<~MSG
           #{make_header(header_data)}
 
           Puppet's command line tools consist of a single `puppet` binary with many subcommands. The following subcommands are available in this version of Puppet:
@@ -83,7 +85,7 @@ module PuppetReferences
 
           These subcommands form the core of Puppet's tool set, and every user should understand what they do.
 
-          #{categories[:core].reduce('') { |memo, item| memo << "- [puppet #{item}](#{item}.md)\n" }}
+          #{categories[:core].reduce(+'') { |memo, item| memo << "- [puppet #{item}](#{item}.md)\n" }}
 
           > Note: The `puppet cert` command is available only in Puppet versions prior to 6.0. For 6.0 and later, use the [`puppetserver cert`command](https://puppet.com/docs/puppet/6/puppet_server_ca_cli.html).
 
@@ -92,16 +94,16 @@ module PuppetReferences
 
           Many or most users need to use these subcommands at some point, but they aren't needed for daily use the way the core tools are.
 
-          #{categories[:occasional].reduce('') { |memo, item| memo << "- [puppet #{item}](#{item}.md)\n" }}
+          #{categories[:occasional].reduce(+'') { |memo, item| memo << "- [puppet #{item}](#{item}.md)\n" }}
 
           Niche subcommands
           -----
 
           Most users can ignore these subcommands. They're only useful for certain niche workflows, and most of them are interfaces to Puppet's internal subsystems.
 
-          #{categories[:weird].reduce('') { |memo, item| memo << "- [puppet #{item}](#{item}.md)\n" }}
+          #{categories[:weird].reduce(+'') { |memo, item| memo << "- [puppet #{item}](#{item}.md)\n" }}
 
-        EOT
+        MSG
         # write index
         filename = OUTPUT_DIR + 'overview.md'
         filename.open('w') { |f| f.write(index_text) }
@@ -121,7 +123,7 @@ module PuppetReferences
         header_data = { title: "Man Page: puppet #{subcommand}",
                         canonical: "#{@latest}/#{subcommand}.html", }
         # raw_text = PuppetReferences::ManCommand.new(subcommand).get
-        man_filepath = "#{PuppetReferences::PUPPET_DIR}" + "/man/man8/puppet-#{subcommand}.8"
+        man_filepath = PuppetReferences::PUPPET_DIR.to_s + "/man/man8/puppet-#{subcommand}.8"
         content = make_header(header_data) + PuppetReferences::Util.convert_man(man_filepath)
         filename = OUTPUT_DIR + "#{subcommand}.md"
         filename.open('w') { |f| f.write(content) }

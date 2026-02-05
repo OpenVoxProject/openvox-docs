@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 # USAGE:
 #  ./linkmunger.rb [-n] <PATH>
 # Takes a path to the folder acting as site root as argument, or else
@@ -21,7 +23,7 @@ def relativepath(path, relative_to)
 
   if "#{path}/" == relative_to
     # from /a/ to /a
-    return '../' + File.basename(path)
+    return "../#{File.basename(path)}"
   end
 
   path = path.chomp('/')
@@ -88,7 +90,7 @@ Dir['**/*.html'].each do |page_path|
   results = File.read(page_path).gsub(regex) do |_match|
     changed += 1
     "#{Regexp.last_match(1)}=#{Regexp.last_match(2)}" + relativepath(Regexp.last_match(3),
-                                                                     '/' + page_path) + Regexp.last_match(2)
+                                                                     "/#{page_path}") + Regexp.last_match(2)
   end
 
   File.write(page_path, results) unless noop

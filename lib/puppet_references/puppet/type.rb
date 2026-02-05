@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 require 'json'
 require 'erb'
@@ -39,8 +41,10 @@ module PuppetReferences
       def build_index(names)
         header_data = { title: 'Resource types overview',
                         canonical: "#{@latest}/types/overview.md", }
+
+        skip_names = %w[component whit]
         links = names.map do |name|
-          "* [#{name}](./#{name}.md)" unless %w[component whit].include?(name)
+          "* [#{name}](./#{name}.md)" unless skip_names.include?(name)
         end
         content = make_header(header_data) + "## List of resource types\n\n" + links.join("\n") + "\n\n" + PREAMBLE
         filename = @output_dir_individual + 'overview.md'
@@ -91,24 +95,22 @@ module PuppetReferences
             -1
           elsif this_type['attributes'][b]['namevar']
             1
-          elsif a == 'ensure'
+          elsif a == 'ensure' # rubocop:disable Lint/DuplicateBranch
             -1
-          elsif b == 'ensure'
+          elsif b == 'ensure' # rubocop:disable Lint/DuplicateBranch
             1
           else
             a <=> b
           end
         end
 
-        # template uses: name, this_type, sorted_attribute_list, sorted_feature_list, longest_attribute_name
-        template_scope = OpenStruct.new({
-                                          name: name,
-                                          this_type: this_type,
-                                          sorted_attribute_list: sorted_attribute_list,
-                                          sorted_feature_list: this_type['features'].keys.sort,
-                                          longest_attribute_name: sorted_attribute_list.collect(&:length).max,
-                                        })
-        TEMPLATE.result(template_scope.instance_eval { binding })
+        TEMPLATE.result_with_hash(
+          name: name,
+          this_type: this_type,
+          sorted_attribute_list: sorted_attribute_list,
+          sorted_feature_list: this_type['features'].keys.sort,
+          longest_attribute_name: sorted_attribute_list.collect(&:length).max,
+        )
       end
     end
   end

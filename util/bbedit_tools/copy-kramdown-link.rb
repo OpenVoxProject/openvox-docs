@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # Put this in BBEdit's scripts folder, at ~/Application Support/BBEdit/Scripts
 # Select the text of a Markdown header in one of our source files, and run the filter. It will leave the selection alone, but will copy a link to the anchor, including the post-conversion (*.html) filename, to the clipboard.

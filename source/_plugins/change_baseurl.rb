@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pathname'
 
 # This tag lets you replace a directory at the start of an absolute path. For example:

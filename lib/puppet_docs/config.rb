@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 require 'pathname'
 require 'puppet_docs/versions'
@@ -25,13 +27,11 @@ module PuppetDocs
       # standalone sources if there's a conflict.
       self['documents'].each do |base_url, data|
         self['externalsources'][base_url] = data['external_source'] if data['external_source']
-      end
 
-      # Expand the document data:
-      # - add a base_url key
-      # - expand the nav path
-      # - sanitize version numbers into strings
-      self['documents'].each do |base_url, data|
+        # Expand the document data:
+        # - add a base_url key
+        # - expand the nav path
+        # - sanitize version numbers into strings
         data['base_url'] = base_url
         data['nav'] = (Pathname.new(base_url) + data['nav']).to_s
         data['version'] = data['version'].to_s
@@ -52,8 +52,8 @@ module PuppetDocs
 
       # Lists of base URLs, in descending version order, like:
       # {'pe' => ['/pe/2015.3', '/pe/2015.2', '/pe/3.8', ...], 'puppet' => [...]}
-      self['document_version_order'] = self['document_version_index'].each_with_object({}) do |(doc, ver_index), memo|
-        memo[doc] = PuppetDocs::Versions.sort_descending(ver_index.keys).map { |ver| ver_index[ver] }
+      self['document_version_order'] = self['document_version_index'].transform_values do |ver_index|
+        PuppetDocs::Versions.sort_descending(ver_index.keys).map { |ver| ver_index[ver] }
       end
 
       # Add the special "latest" version to the index.
@@ -68,8 +68,8 @@ module PuppetDocs
         data['my_versions'] ||= {}
 
         # Reject any non-existent versions (they'll fall back to latest):
-        data['my_versions'].reject! do |group, version|
-          !self['document_version_index'][group].key?(version)
+        data['my_versions'].select! do |group, version|
+          self['document_version_index'][group].key?(version)
         end
 
         # The third rule of Tautology Club: my own version is my version.
@@ -81,12 +81,12 @@ module PuppetDocs
 
         unknown_groups.each do |group|
           # Compile a list of the target group's versions that claim this version:
-          matches = self['documents'].values.map do |candidate_data|
+          matches = self['documents'].values.filter_map do |candidate_data|
             next unless candidate_data['doc'] == group
             next unless candidate_data['my_versions']
 
             candidate_data['version'] if candidate_data['my_versions'][data['doc']] == data['version']
-          end.compact
+          end
           # Pick the latest version that claimed us, or default to latest
           # (the Versions.latest method returns nil for an empty array):
           best = PuppetDocs::Versions.latest(matches) || 'latest'
@@ -106,7 +106,7 @@ module PuppetDocs
       self['defaultnav'].each do |prefix, nav|
         new_default = {
           # Jekyll requires us to strip any trailing or leading slash.
-          'scope' => { 'path' => prefix.sub(%r{\A/}, '').sub(%r{/\Z}, '') },
+          'scope' => { 'path' => prefix.delete_prefix('/').sub(%r{/\Z}, '') },
           'values' => { 'nav' => nav },
         }
         self['defaults'] << new_default

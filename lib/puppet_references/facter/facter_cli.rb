@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 module PuppetReferences
   module Facter
@@ -30,7 +32,7 @@ module PuppetReferences
           return
         end
         content = make_header(header_data) + PREAMBLE +
-                  raw_text.gsub(/SYNOPSIS\n--------\n\s\s(.*?)$/, "SYNOPSIS\n--------\n" + "\s\s\s\s" + '\1')
+                  raw_text.gsub(/SYNOPSIS\n--------\n\s\s(.*?)$/, "SYNOPSIS\n--------\n    \\1")
         filename = OUTPUT_DIR + 'cli.md'
         filename.open('w') { |f| f.write(content) }
         puts 'CLI documentation is done!'

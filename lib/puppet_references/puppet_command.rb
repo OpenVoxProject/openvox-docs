@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 module PuppetReferences
   class PuppetCommand
-    PUPPET_OPTIONS = '--environmentpath /dev/null --vardir /dev/null --modulepath /dev/null --basemodulepath /dev/null'.freeze
+    PUPPET_OPTIONS = '--environmentpath /dev/null --vardir /dev/null --modulepath /dev/null --basemodulepath /dev/null'
     def initialize(command, puppet_dir = PuppetReferences::PUPPET_DIR)
       @command = command
       @puppet_dir = File.expand_path(puppet_dir)

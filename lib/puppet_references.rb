@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pathname'
 
 module PuppetReferences
@@ -42,7 +44,7 @@ module PuppetReferences
     build_from_list_of_classes(references, real_commit)
   end
 
-  def self.is_semantic?(string)
+  def self.semantic?(string)
     Gem::Version.correct?(string)
   end
 
@@ -52,12 +54,12 @@ module PuppetReferences
     ]
     # Adding this workaround so the build doesn't fail for 3.y. Check with Claire to see if
     # we need the CLI docs for 3.y. We can remove this when we stop building 3.y.
-    version_4 = Gem::Version.create('4.0.0')
+    version4 = Gem::Version.create('4.0.0')
     repo = PuppetReferences::Repo.new('facter', FACTER_DIR)
     real_commit = repo.checkout(commit)
-    if !is_semantic?(commit) || (is_semantic?(commit) && Gem::Version.create(commit) >= version_4)
+    if !semantic?(commit) || (semantic?(commit) && Gem::Version.create(commit) >= version4)
       references << PuppetReferences::Facter::FacterCli
-    elsif is_semantic?(commit) && Gem::Version.create(commit) < version_4
+    elsif semantic?(commit) && Gem::Version.create(commit) < version4
       reference = PuppetReferences::Facter::FacterCli.new(real_commit)
       reference.build_v3_cli
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 
 module PuppetDocs
@@ -45,7 +47,7 @@ module PuppetDocs
           at_baseurl = config['document_version_index'][doc][at_version]
           at_index = config['document_version_order'][doc].index(at_baseurl)
           new_versions = [latest] + config['document_version_order'][doc][0..at_index]
-          old_versions = config['document_version_order'][doc][at_index + 1..-1]
+          old_versions = config['document_version_order'][doc][(at_index + 1)..]
 
           generated_rewrites = if forward_only
                                  [

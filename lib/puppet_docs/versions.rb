@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'versionomy'
 
 module PuppetDocs
@@ -14,11 +16,11 @@ module PuppetDocs
     # Given an array of parseable and unparseable versions, return the same array sorted in
     # newest-first order.
     def self.sort_descending(versions_array)
-      parsed_versions = versions_array.map do |ver|
+      parsed_versions = versions_array.filter_map do |ver|
         Versionomy.parse(ver)
       rescue StandardError
         nil
-      end.compact
+      end
       sorted_normal_versions = parsed_versions.sort.reverse.map(&:to_s)
       special_versions = versions_array - sorted_normal_versions
 

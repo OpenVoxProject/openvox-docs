@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with this
 # work for additional information regarding copyright ownership.  The ASF
@@ -82,7 +84,7 @@ module TocFilter
   def print_toc_sublist(ary)
     return '' if ary.nil? # Most common case.
 
-    sublist_string = ''
+    sublist_string = +''
     sublist_string << %(\n<ol class="toc">\n)
     ary.each do |header|
       sublist_string << %(#{' ' * header[:hlevel].to_i}<li class="toc-lv#{header[:hlevel]}"><a href="##{header[:id]}">#{header[:text]}</a>)

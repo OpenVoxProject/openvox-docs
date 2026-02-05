@@ -1,13 +1,17 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 require 'json'
 
+# @@string_data_cached class var usage is intentional here
+# rubocop:disable Style/ClassVars
 module PuppetReferences
   module Puppet
     class Strings < Hash
       STRINGS_JSON_FILE = PuppetReferences::OUTPUT_DIR + 'puppet/strings.json'
       @@strings_data_cached = false
 
-      def initialize(force_cached = false)
+      def initialize(force_cached: false)
         super()
         @@strings_data_cached = true if force_cached
         generate_strings_data unless @@strings_data_cached
@@ -26,3 +30,4 @@ module PuppetReferences
     end
   end
 end
+# rubocop:enable Style/ClassVars

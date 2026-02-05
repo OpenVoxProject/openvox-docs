@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # This file should go in one of the following directories:
 #   * ~/Library/Application Support/BBEdit/Preview Filters
@@ -32,9 +33,9 @@ $content = ARGF.read
 if /\A---$/.match?($content)
   require 'yaml'
   (_blank, yaml_frontmatter, $content) = $content.split(/^---$/, 3)
-  metadata = YAML.load("---\n" + yaml_frontmatter)
-  lil_table = "<table>\n" + metadata.map { |k, v| "<tr> <td>#{k}</td> <td>#{v}</td> </tr>" }.join("\n") + "\n</table>\n"
-  puts lil_table
+  metadata = YAML.load("---\n#{yaml_frontmatter}")
+  lil_table = ['<table>'] + metadata.map { |k, v| "<tr> <td>#{k}</td> <td>#{v}</td> </tr>" } + ['</table>']
+  puts "#{lil_table.join("\n")}\n"
 end
 
 puts Kramdown::Document.new($content, { input: 'GFM', hard_wrap: false }).to_html

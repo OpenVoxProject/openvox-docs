@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jekyll
   module Tags
     class MarkdownBlock < Liquid::Block
@@ -10,7 +12,7 @@ module Jekyll
       end
 
       def render(context)
-        md_converter = context.registers[:site].converters.select { |c| c.matches('.md') }.first
+        md_converter = context.registers[:site].converters.find { |c| c.matches('.md') }
         # Found that bit via Jekyll::Renderer's converters method.
         block_contents = super.to_s
         # IDK why you'd need to_s on a string, but the highlight tag does it, so we will too.

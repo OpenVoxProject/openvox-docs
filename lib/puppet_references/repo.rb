@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 require 'git'
 
@@ -24,7 +26,7 @@ module PuppetReferences
       # fetch the main source
       @repo.fetch unless @config['skip_download']
       # fetch tags from secondary sources
-      @sources[1..-1].each do |source|
+      @sources[1..].each do |source|
         @repo.fetch(source, { tags: true }) unless @config['skip_download']
       end
     end

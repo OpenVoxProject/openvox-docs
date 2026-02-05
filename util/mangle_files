@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # > mangle_files ./file1.html ./file2.html ./file3.html
 

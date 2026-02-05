@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 
 module PuppetReferences
@@ -26,9 +28,7 @@ module PuppetReferences
             end.each_with_object({}) do |provider, memo|
               description = provider['docstring']['text']
               description += "\n" if provider['commands'] || provider['confines'] || provider['defaults']
-              if provider['commands']
-                description += "\n* Required binaries: `#{provider['commands'].values.sort.join('`, `')}`"
-              end
+              description += "\n* Required binaries: `#{provider['commands'].values.sort.join('`, `')}`" if provider['commands']
               if provider['confines']
                 description += "\n* Confined to: `#{provider['confines'].map do |fact, val|
                   "#{fact} == #{val}"
@@ -39,9 +39,7 @@ module PuppetReferences
                   "#{fact} == #{val}"
                 end.join('`, `')}`"
               end
-              if provider['features']
-                description += "\n* Supported features: `#{provider['features'].sort.join('`, `')}`"
-              end
+              description += "\n* Supported features: `#{provider['features'].sort.join('`, `')}`" if provider['features']
               memo[provider['name']] = {
                 'features' => provider['features'] || [],
                 'description' => description,

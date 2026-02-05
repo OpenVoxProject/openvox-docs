@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Jekyll::Hooks.register :pages, :pre_render do |_page, payload|
   # Find out whether this page is part of a large versioned document (as defined by the 'documents' list in
   # the puppet-docs config file)

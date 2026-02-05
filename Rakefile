@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rubygems'
 require 'bundler/setup'
 require 'rake'
@@ -55,12 +57,10 @@ end
 
 desc 'Stash all directories but one in a temporary location. Run a preview server on localhost:4000.'
 task :preview, :filename do |_t, args|
-  if ['marionette-collective', 'puppetdb_master', 'puppetdb_1.1', 'puppetdb', 'mcollective'].include?(args.filename)
-    abort("\n\n*** External documentation sources aren't supported right now.\n\n")
-  end
+  abort("\n\n*** External documentation sources aren't supported right now.\n\n") if ['marionette-collective', 'puppetdb_master', 'puppetdb_1.1', 'puppetdb', 'mcollective'].include?(args.filename)
 
   # Make sure we have a stash_directory
-  FileUtils.mkdir(STASH_DIR) unless File.exist?(STASH_DIR)
+  FileUtils.mkdir_p(STASH_DIR)
 
   # Directories and files we have to have for a good live preview
   required_dirs = ['_config.yml', '_includes', '_plugins', 'files', 'favicon.ico', '_layouts', 'images']
@@ -108,23 +108,21 @@ end
 desc 'Move all stashed directories back into the source directory, ready for site generation. '
 task :unpreview do
   puts "\n*** Putting back the stashed files, removing the preview directory."
-  FileUtils.mv Dir.glob("#{STASH_DIR}/*"), "#{SOURCE_DIR}"
+  FileUtils.mv Dir.glob("#{STASH_DIR}/*"), SOURCE_DIR.to_s
   FileUtils.rm_rf(PREVIEW_DIR)
   puts "\n*** Done.\n\n"
 end
 
+# Returns something like git_github_com_puppetlabs_marionette-collective_git.
+# We use this as the name of the main repo directory, because we may need to
+# disambiguate between two repos with the same short name but a different user
+# account on github.
+def safe_dirname(name)
+  name.sub(%r{^[:/.]+}, '').gsub(%r{[:/.]+}, '_')
+end
+
 namespace :externalsources do
   Dir.mkdir('externalsources') unless File.exist?('externalsources') && File.directory?('externalsources')
-
-  # Returns the short name of a repo, which would be the directory name if you did a `git clone` without specifying a directory name. This isn't used anymore, but I left it around in case it's useful later.
-  def repo_name(repo_url)
-    repo_url.split('/')[-1].sub(/\.git$/, '')
-  end
-
-  # Returns something like git_github_com_puppetlabs_marionette-collective_git. We use this as the name of the main repo directory, because we may need to disambiguate between two repos with the same short name but a different user account on github.
-  def safe_dirname(name)
-    name.sub(%r{^[:/.]+}, '').gsub(%r{[:/.]+}, '_')
-  end
 
   # "Update all working copies defined in source/_config.yml"
   task :update do
@@ -218,9 +216,7 @@ task :generate do
 
   Rake::Task['generate_redirects'].invoke
 
-  if @config_data['preview'].instance_of?(Array) && @config_data['preview'].length.positive?
-    puts "THIS IS A PREVIEW VERSION, AND IT'S MISSING IMPORTANT STUFF. Do not deploy the site in this state; this is for local viewing only. To build a real version of the site, delete the `preview:` key from _config.yml."
-  end
+  puts "THIS IS A PREVIEW VERSION, AND IT'S MISSING IMPORTANT STUFF. Do not deploy the site in this state; this is for local viewing only. To build a real version of the site, delete the `preview:` key from _config.yml." if @config_data['preview'].instance_of?(Array) && @config_data['preview'].length.positive?
 end
 
 desc 'Symlink latest versions of several projects; see symlink_latest and lock_latest lists in _config.yml'
@@ -368,9 +364,7 @@ task :body_and_nav_html_only do
   Rake::Task['externalsources:clean'].invoke # The opposite of externalsources:link. Delete all symlinks in the source.
   Rake::Task['externalsources:clean'].reenable
 
-  if @config_data['preview'].instance_of?(Array) && @config_data['preview'].length.positive?
-    puts "THIS IS A PREVIEW VERSION, AND IT'S MISSING IMPORTANT STUFF. Do not deploy the site in this state; this is for local viewing only. To build a real version of the site, delete the `preview:` key from _config.yml."
-  end
+  puts "THIS IS A PREVIEW VERSION, AND IT'S MISSING IMPORTANT STUFF. Do not deploy the site in this state; this is for local viewing only. To build a real version of the site, delete the `preview:` key from _config.yml." if @config_data['preview'].instance_of?(Array) && @config_data['preview'].length.positive?
 
   Dir.chdir("#{SOURCE_DIR}/_layouts") do
     FileUtils.mv('default.html', 'body_only.html')
