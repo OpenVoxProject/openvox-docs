@@ -51,8 +51,10 @@ def jekyll(command = 'build', source = SOURCE_DIR, destination = OUTPUT_DIR, *ar
 
   amended_config = "#{SOURCE_DIR}/_config_amended.yml"
   File.write(amended_config, YAML.dump(@config_data))
-  system("set -x; bundle exec jekyll #{command} --source #{source} --destination #{destination} #{args.join(' ')} --config #{amended_config} #{verbose_mode}")
+  status = system("set -x; bundle exec jekyll #{command} --source #{source} --destination #{destination} #{args.join(' ')} --config #{amended_config} #{verbose_mode}")
   FileUtils.rm(amended_config)
+
+  status
 end
 
 desc 'Stash all directories but one in a temporary location. Run a preview server on localhost:4000.'
@@ -95,13 +97,14 @@ task :preview, :filename do |_t, args|
   # put our file list index in place
   File.write('index.markdown', preview_index)
 
+  # Trap SIGINT, so user can stop jekyll with Ctrl+C
+  original_handler = trap('INT') { puts "\n(SIGINT received – waiting for Jekyll to shut down...)" }
+
   # Run our preview server, watching ... watching ...
   jekyll('serve', SOURCE_DIR, PREVIEW_DIR)
-
-  # When we kill it with a ctl-c ...
-  puts "\n\n*** Shut down the server."
-
+ensure
   # Clean up after ourselves (in a separate task in case something goes wrong and we need to do it manually)
+  trap('INT', original_handler) if original_handler # Restore original SIGINT handler
   Rake::Task['unpreview'].invoke
 end
 
@@ -207,7 +210,10 @@ task :generate do
 
   system("mkdir -p #{OUTPUT_DIR}")
   system("rm -rf #{OUTPUT_DIR}/*")
-  jekyll
+
+  # Call jekyll and fail if it's failed
+  # Shall we `ensure` the cleanup below or keep it as is for debugging?
+  raise 'Jekyll failed' unless jekyll('build')
 
   # Rake::Task['symlink_latest_versions'].invoke
 
@@ -259,7 +265,7 @@ end
 
 desc 'Serve generated output on port 9292'
 task :serve do
-  system('rackup')
+  raise 'rackup failed' unless system('rackup')
 end
 
 desc 'Generate docs and serve locally'
