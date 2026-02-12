@@ -13,8 +13,6 @@ group(:build_site) do
   gem 'jekyll', '~> 4.1'
   gem 'kramdown', '~> 2.3'
   gem 'listen', '~> 3.10.0' # Preserve ability to run on Ruby 2.0, since listen 3.1 requires Ruby ~> 2.2.
-  gem 'vlad', '~> 2.7'
-  gem 'vlad-git', '~> 2.1'
 end
 
 group(:generate_references) do
