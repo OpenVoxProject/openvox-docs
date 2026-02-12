@@ -1,0 +1,15 @@
+---
+# Managed by modulesync - DO NOT EDIT
+# https://voxpupuli.org/docs/updating-files-managed-with-modulesync/
+
+ignores:
+  - .github/**
+  - .idea/**
+  - .vendor/**
+  - .vscode/**
+  - CHANGELOG.md
+  - test/**
+  - vendor/**
+  - output/**
+  - references_output/**
+  - externalsources/**
