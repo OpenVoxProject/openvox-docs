@@ -10,3 +10,6 @@ ignores:
   - CHANGELOG.md
   - test/**
   - vendor/**
+  - output/**
+  - references_output/**
+  - externalsources/**
