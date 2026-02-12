@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 require 'puppet_docs/versions'
 
@@ -8,7 +10,7 @@ module PuppetReferences
         super
         @file = '_agent1.x.html'
         @versions = PuppetDocs::Versions.sort_descending(
-          @agent_data.keys.select{|v| v =~ /^1\./}
+          @agent_data.keys.grep(/^1\./),
         )
       end
     end

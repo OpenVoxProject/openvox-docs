@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 module PuppetReferences
   module VersionTables
@@ -11,11 +13,8 @@ module PuppetReferences
         @agent_stuff.delete('Puppet Agent')
 
         @file = '_versions_late_3.x.md'
-        @versions = @pe_data.keys.select {|v|
-          v =~ /^3\.[78]/
-        }.sort.reverse
+        @versions = @pe_data.keys.grep(/^3\.[78]/).sort.reverse
       end
     end
   end
 end
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 
 module PuppetReferences
@@ -6,7 +8,7 @@ module PuppetReferences
       def initialize(agent_data)
         super
         @file = '_agent5.x.html'
-        @versions = @agent_data.keys.select{|v| v =~ /^5\./}.sort.reverse
+        @versions = @agent_data.keys.grep(/^5\./).sort.reverse
       end
     end
   end

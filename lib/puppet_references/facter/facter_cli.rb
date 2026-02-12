@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 module PuppetReferences
   module Facter
@@ -6,18 +8,16 @@ module PuppetReferences
       PREAMBLE_FILE = Pathname.new(__FILE__).dirname + 'facter_cli_preamble.md'
       PREAMBLE = PREAMBLE_FILE.read
 
-      def initialize(*args)
+      def initialize(*)
         @latest = '/puppet/latest'
-        super(*args)
+        super
       end
-
 
       def header_data
-        {title: 'Facter: CLI',
-         toc: 'columns',
-         canonical: "#{@latest}/cli.html"}
+        { title: 'Facter: CLI',
+          toc: 'columns',
+          canonical: "#{@latest}/cli.html", }
       end
-
 
       def build_all
         require 'open3'
@@ -31,10 +31,10 @@ module PuppetReferences
           puts "Encountered an error while building the facter cli docs, will abort: #{err}"
           return
         end
-        content = make_header(header_data) + PREAMBLE + 
-          raw_text.gsub(/SYNOPSIS\n--------\n\s\s(.*?)$/, "SYNOPSIS\n--------\n" + "\s\s\s\s" + '\1')
+        content = make_header(header_data) + PREAMBLE +
+                  raw_text.gsub(/SYNOPSIS\n--------\n\s\s(.*?)$/, "SYNOPSIS\n--------\n    \\1")
         filename = OUTPUT_DIR + 'cli.md'
-        filename.open('w') {|f| f.write(content)}
+        filename.open('w') { |f| f.write(content) }
         puts 'CLI documentation is done!'
       end
 
@@ -44,9 +44,8 @@ module PuppetReferences
         man_filepath = PuppetReferences::FACTER_DIR + 'man/man8/facter.8'
         raw_text = PuppetReferences::Util.convert_man(man_filepath)
         content = make_header(header_data) + raw_text
-        filename.open('w') {|f| f.write(content)}
-      end 
-
-    end 
+        filename.open('w') { |f| f.write(content) }
+      end
+    end
   end
 end

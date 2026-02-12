@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This is mostly a copy of Jekyll 3's built-in "include" tag, except it can grab
 # files from anywhere; it isn't limited to the _includes dir like "include," or
 # to a subdirectory of the current dir like "include_relative".
@@ -33,7 +35,6 @@
 # recipe for pain.  -NF
 
 module Jekyll
-
   class PartialTagError < StandardError
     attr_accessor :path
 
@@ -46,9 +47,8 @@ module Jekyll
   class PartialTag < Liquid::Tag
     require 'pathname'
 
-    VALID_SYNTAX = /([\w-]+)\s*=\s*(?:"([^"\\]*(?:\\.[^"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)'|([\w\.-]+))/
-    VARIABLE_SYNTAX = /(?<variable>[^{]*\{\{\s*(?<name>[\w\-\.]+)\s*(\|.*)?\}\}[^\s}]*)(?<params>.*)/
-
+    VALID_SYNTAX = /([\w-]+)\s*=\s*(?:"([^"\\]*(?:\\.[^"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)'|([\w.-]+))/
+    VARIABLE_SYNTAX = /(?<variable>[^{]*\{\{\s*(?<name>[\w\-.]+)\s*(\|.*)?\}\}[^\s}]*)(?<params>.*)/
 
     def initialize(tag_name, markup, tokens)
       super
@@ -57,7 +57,7 @@ module Jekyll
         @file = matched['variable'].strip
         @params = matched['params'].strip
       else
-        @file, @params = markup.strip.split(' ', 2);
+        @file, @params = markup.strip.split(' ', 2)
       end
       validate_params if @params
       @tag_name = tag_name
@@ -71,16 +71,16 @@ module Jekyll
       params = {}
       markup = @params
 
-      while match = VALID_SYNTAX.match(markup) do
-        markup = markup[match.end(0)..-1]
+      while (match = VALID_SYNTAX.match(markup))
+        markup = markup[match.end(0)..]
 
         value = if match[2]
-          match[2].gsub(/\\"/, '"')
-        elsif match[3]
-          match[3].gsub(/\\'/, "'")
-        elsif match[4]
-          context[match[4]]
-        end
+                  match[2].gsub('\"', '"')
+                elsif match[3]
+                  match[3].gsub("\\'", "'")
+                elsif match[4]
+                  context[match[4]]
+                end
 
         params[match[1]] = value
       end
@@ -88,27 +88,27 @@ module Jekyll
     end
 
     def validate_params
-      full_valid_syntax = Regexp.compile('\A\s*(?:' + VALID_SYNTAX.to_s + '(?=\s|\z)\s*)*\z')
-      unless @params =~ full_valid_syntax
-        raise ArgumentError.new <<-eos
-Invalid syntax for #{@tag_name} tag:
+      full_valid_syntax = Regexp.compile("\\A\\s*(?:#{VALID_SYNTAX}(?=\\s|\\z)\\s*)*\\z")
+      return if @params&.match?(full_valid_syntax)
 
-  #{@params}
+      raise ArgumentError, <<~MSG
+        Invalid syntax for #{@tag_name} tag:
 
-Valid syntax:
+          #{@params}
 
-  #{syntax_example}
+        Valid syntax:
 
-eos
-      end
+          #{syntax_example}
+
+      MSG
     end
 
     # Render the variable if required -- NF: this is used if you store the file name in a variable, I think.
     def render_variable(context)
-      if @file.match(VARIABLE_SYNTAX)
-        partial = context.registers[:site].liquid_renderer.file("(variable)").parse(@file)
-        partial.render!(context)
-      end
+      return unless @file.match(VARIABLE_SYNTAX)
+
+      partial = context.registers[:site].liquid_renderer.file('(variable)').parse(@file)
+      partial.render!(context)
     end
 
     def render(context)
@@ -117,15 +117,15 @@ eos
       file = render_variable(context) || @file
 
       requested_path = Pathname.new(file)
-      url            = Pathname.new(context.environments.first["page"]["url"])
+      url            = Pathname.new(context.environments.first['page']['url'])
       # Jekyll changes ".../index.html" URLs to ".../". So if you're referencing
       # a relative path from an index.md file, this ensures we won't jump up a
       # level.
-      if url.to_s =~ %r{/$}
-        cwd = url
-      else
-        cwd = url.parent
-      end
+      cwd = if %r{/$}.match?(url.to_s)
+              url
+            else
+              url.parent
+            end
       sourcedir      = Pathname.new(context.registers[:site].source)
       root           = Pathname.new('/')
 
@@ -133,19 +133,18 @@ eos
       real_file = sourcedir + absolute_url.relative_path_from(root)
 
       # Add partial to dependency tree
-      if context.registers[:page] and context.registers[:page].has_key? "path"
+      if context.registers[:page]&.key?('path')
         site.regenerator.add_dependency(
-          site.in_source_dir(context.registers[:page]["path"]),
-          real_file.to_s
+          site.in_source_dir(context.registers[:page]['path']),
+          real_file.to_s,
         )
       end
 
-
-#       source = real_file.read
-#       partial = Liquid::Template.parse(source)
-#       context.stack do
-#         partial.render(context)
-#       end
+      #       source = real_file.read
+      #       partial = Liquid::Template.parse(source)
+      #       context.stack do
+      #         partial.render(context)
+      #       end
 
       begin
         partial = site.liquid_renderer.file(real_file.to_s).parse(real_file.read)
@@ -154,14 +153,11 @@ eos
           context['include'] = parse_params(context) if @params
           partial.render!(context)
         end
-      rescue => e
+      rescue StandardError => e
         raise PartialTagError.new e.message, real_file.to_s
       end
-
-
     end
   end
-
 end
 
 Liquid::Template.register_tag('partial', Jekyll::PartialTag)

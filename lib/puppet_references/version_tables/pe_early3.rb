@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 module PuppetReferences
   module VersionTables
@@ -14,16 +16,15 @@ module PuppetReferences
 
         @file = '_versions_early_3.x.md'
         @versions = [
-            '3.3.2',
-            '3.3.1',
-            '3.3.0',
-            '3.2.3',
-            '3.2.2',
-            '3.2.1',
-            '3.2.0'
+          '3.3.2',
+          '3.3.1',
+          '3.3.0',
+          '3.2.3',
+          '3.2.2',
+          '3.2.1',
+          '3.2.0',
         ]
       end
     end
   end
 end
-

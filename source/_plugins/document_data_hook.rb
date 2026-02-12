@@ -1,8 +1,10 @@
-Jekyll::Hooks.register :pages, :pre_render do |page, payload|
+# frozen_string_literal: true
+
+Jekyll::Hooks.register :pages, :pre_render do |_page, payload|
   # Find out whether this page is part of a large versioned document (as defined by the 'documents' list in
   # the puppet-docs config file)
   documents = payload['site']['document_list']
-  (base_url, data) = documents.detect {|base_url, data| Regexp.new("^#{base_url}") =~ payload['page']['url'] }
+  (_, data) = documents.detect { |base_url, _data| Regexp.new("^#{base_url}") =~ payload['page']['url'] }
 
   # If so, give it a reference to its document and set its nav snippet.
   # This makes new data available under "page.doc" in both layouts and content.
@@ -22,12 +24,11 @@ Jekyll::Hooks.register :pages, :pre_render do |page, payload|
       payload[doc] = document_version_index[doc][version]
     end
     # Also, set our own shortcut variable to our own version:
-    payload[ data['doc'] ] = data['base_url']
+    payload[data['doc']] = data['base_url']
   else
     # Fall back to latest if this isn't a versioned doc.
     document_version_index.each do |doc, versions|
       payload[doc] = versions['latest']
     end
   end
-
 end

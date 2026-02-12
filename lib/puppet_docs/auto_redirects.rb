@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 
 module PuppetDocs
@@ -26,10 +28,10 @@ module PuppetDocs
     #
     # The "was" and "became" keys can be either strings or arrays.
     def self.generate(config, redirects_yaml)
-      redirects = YAML.load(File.read(redirects_yaml))
+      redirects = YAML.load_file(redirects_yaml)
 
       # Convert array of redirect data hashes into array of redirect lines
-      redirect_lines = redirects.reduce( ["\n\n# Auto-generated rewrites from _redirects.yaml:"] ) {|memo, redirect|
+      redirect_lines = redirects.reduce(["\n\n# Auto-generated rewrites from _redirects.yaml:"]) do |memo, redirect|
         doc         = redirect['in_doc']
         at_version  = redirect['at_version'].to_s
         was         = normalize_paths(redirect['was'])
@@ -38,28 +40,28 @@ module PuppetDocs
         latest = "/#{doc}/latest"
 
         # First, bail out unless the doc exists and this is a valid version.
-        if config['document_version_index'][doc].class != Hash || !( config['document_version_index'][doc].has_key?(at_version) )
-          puts "Skipping bad auto-redirect (make sure the syntax is right and the version exists!): #{redirect.to_s}"
+        if config['document_version_index'][doc].class != Hash || !config['document_version_index'][doc].key?(at_version)
+          puts "Skipping bad auto-redirect (make sure the syntax is right and the version exists!): #{redirect}"
           memo
         else
           at_baseurl = config['document_version_index'][doc][at_version]
           at_index = config['document_version_order'][doc].index(at_baseurl)
           new_versions = [latest] + config['document_version_order'][doc][0..at_index]
-          old_versions = config['document_version_order'][doc][at_index+1..-1]
+          old_versions = config['document_version_order'][doc][(at_index + 1)..]
 
-          if forward_only
-            generated_rewrites = [
-              build_rewrite_for_versions(new_versions, was, became)
-            ]
-          else
-            generated_rewrites = [
-              build_rewrite_for_versions(new_versions, was, became),
-              build_rewrite_for_versions(old_versions, became, was)
-            ]
-          end
+          generated_rewrites = if forward_only
+                                 [
+                                   build_rewrite_for_versions(new_versions, was, became),
+                                 ]
+                               else
+                                 [
+                                   build_rewrite_for_versions(new_versions, was, became),
+                                   build_rewrite_for_versions(old_versions, became, was),
+                                 ]
+                               end
           memo + generated_rewrites
         end
-      }
+      end
 
       # Return a string ready to append to the nginx config file:
       redirect_lines.join("\n") + "\n"
@@ -67,14 +69,13 @@ module PuppetDocs
 
     # Normalize string-or-array into normal array, and strip leading ./ or /
     def self.normalize_paths(path_or_array)
-      [path_or_array].flatten.map {|path| path.sub(/^\.?\/?/, '')}
+      [path_or_array].flatten.map { |path| path.sub(%r{^\.?/?}, '') }
     end
 
     # Takes an array of affected path prefixes, an array of "from" filenames,
     # and an array of "to" filenames.
     def self.build_rewrite_for_versions(versions, from, to)
-      "rewrite ^(#{ versions.join('|') })/(#{ from.join('|') })  $1/#{to.first}  permanent;"
+      "rewrite ^(#{versions.join('|')})/(#{from.join('|')})  $1/#{to.first}  permanent;"
     end
-
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with this
 # work for additional information regarding copyright ownership.  The ASF
@@ -21,9 +23,7 @@ module TocFilter
   def toc(input, toc_levels = '23')
     toc_levels = toc_levels.to_s.gsub(/[^1-6]/, '')
     # Avoid empty char-class error:
-    if toc_levels.empty?
-      toc_levels = '23'
-    end
+    toc_levels = '23' if toc_levels.empty?
     hdepth = [0]
     toc = []
     sublist_stack = []
@@ -36,15 +36,15 @@ module TocFilter
       )
       (.*?) # 3: Header text, potentially including an <em> or <code> element
       </\1\s*> # Closing tag
-    }imx).each { |entry|
+    }imx).each do |entry|
       hlevel = entry[1].to_i
-      if entry[2].class == String
-        id = entry[2][/id\s*=\s*(['"])(.*?)\1/, 2]
-      else # Don't try to call [] on nil.
-        id = ''
-      end
+      id = if entry[2].instance_of?(String)
+             entry[2][/id\s*=\s*(['"])(.*?)\1/, 2]
+           else # Don't try to call [] on nil.
+             ''
+           end
       text = entry[3].gsub(/<[^>]+>/m, '').strip # Get rid of any span-level tags inside the header text, and strip trailing whitespace.
-      if hdepth.last == 0 # Prime the pump. This has to be exclusive of the next elsif.
+      if hdepth.last.zero? # Prime the pump. This has to be exclusive of the next elsif.
         sublist_stack.push(toc)
         hdepth.push(hlevel)
       elsif hdepth.last < hlevel # we just entered a deeper header level.
@@ -56,7 +56,7 @@ module TocFilter
         # or we stay at the same level (because we were at level 2, then used a 4, then a 3). If the former, we'll
         # pop hdepth until we see our OWN header level; if the latter, we'll pop hdepth but will see something
         # smaller than our level and never see our own.
-        if sublist_stack.last.object_id != toc.object_id # First, don't blow up the world if an H3 appeared before the first H2.
+        unless sublist_stack.last.equal?(toc) # First, don't blow up the world if an H3 appeared before the first H2.
           if hdepth.include?(hlevel) # Then we're going up!
             while hdepth.last > hlevel
               hdepth.pop
@@ -64,37 +64,36 @@ module TocFilter
             end
             # And we don't add to hdepth, only subtract.
           else # Then we're staying put, but adjusting the hdepth!
-            while hdepth.last > hlevel
-              hdepth.pop
-            end
+            hdepth.pop while hdepth.last > hlevel
             hdepth.push(hlevel) # and we DO add our current level to hdepth.
           end
         end
-      # else we're at the same level as last time and don't need to change course.
+        # else we're at the same level as last time and don't need to change course.
       end
       sublist_stack.last.push(
         {
-            text: text,
-            id: id,
-            hlevel: hlevel
-        }
+          text: text,
+          id: id,
+          hlevel: hlevel,
+        },
       )
-    }
+    end
     print_toc_sublist(toc)
   end
+
   def print_toc_sublist(ary)
-    return '' if ary == nil # Most common case.
-    sublist_string = ''
-    sublist_string << %{\n<ol class="toc">\n}
-    ary.each {|header|
-      sublist_string << %{#{" " * header[:hlevel].to_i}<li class="toc-lv#{header[:hlevel]}"><a href="##{header[:id]}">#{header[:text]}</a>}
+    return '' if ary.nil? # Most common case.
+
+    sublist_string = +''
+    sublist_string << %(\n<ol class="toc">\n)
+    ary.each do |header|
+      sublist_string << %(#{' ' * header[:hlevel].to_i}<li class="toc-lv#{header[:hlevel]}"><a href="##{header[:id]}">#{header[:text]}</a>)
       sublist_string << print_toc_sublist(header[:sublist])
       sublist_string << "</li>\n"
-    }
+    end
 
-    sublist_string << "</ol>"
+    sublist_string << '</ol>'
     sublist_string
   end
-
 end
 Liquid::Template.register_filter(TocFilter)

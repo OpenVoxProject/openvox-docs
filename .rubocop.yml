@@ -1,0 +1,20 @@
+---
+inherit_from: .rubocop_todo.yml
+inherit_gem:
+  voxpupuli-rubocop: rubocop.yml
+
+# Exclude externalsources also
+AllCops:
+  Exclude:
+    - vendor/**/*
+    - .vendor/**/*
+    - spec/fixtures/**/*
+    - externalsources/**/*
+    - output/**/*
+
+Style/StringConcatenation:
+  Details: See https://github.com/rubocop/rubocop/issues/9144
+  Mode: conservative
+
+Style/MultilineBlockChain:
+  Enabled: false

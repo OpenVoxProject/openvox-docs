@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pathname'
 
 module PuppetDocs
@@ -7,4 +9,3 @@ module PuppetDocs
   require 'puppet_docs/config'
   require 'puppet_docs/versions'
 end
-
