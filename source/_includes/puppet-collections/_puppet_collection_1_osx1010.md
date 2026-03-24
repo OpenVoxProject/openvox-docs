@@ -1,1 +1,0 @@
-* [10.10 Yosemite](https://downloads.puppetlabs.com/mac/10.10/PC1/x86_64/)

@@ -1,1 +1,0 @@
-* [10.9 Mavericks](https://downloads.puppetlabs.com/mac/10.9/PC1/x86_64/)

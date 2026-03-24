@@ -30,4 +30,18 @@ link_report.txt
 .yardoc
 puppet-docs-build.log
 source/.jekyll-cache/
-.ruby-version
+# .ruby-version is intentionally committed
+CLAUDE.md
+# MkDocs
+site/
+.venv/
+# Generated reference docs (produced by rake references:* at publish time)
+docs/puppet/configuration.md
+docs/puppet/function.md
+docs/puppet/type.md
+docs/puppet/type_strings.md
+docs/puppet/man/
+docs/puppet/types/
+docs/puppet/types_strings/
+docs/facter/core_facts.md
+docs/facter/cli.md

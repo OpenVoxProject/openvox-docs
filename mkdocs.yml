@@ -1,0 +1,74 @@
+site_name: OpenVox Documentation
+site_description: Documentation for the OpenVox Puppet distribution
+site_url: https://mikeharp.com/openvox-docs/
+repo_url: https://github.com/OpenVoxProject/openvox-docs
+repo_name: OpenVoxProject/openvox-docs
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+extra:
+  version:
+    provider: mike
+    default: latest
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - tables
+  - fenced_code
+  - attr_list
+  - def_list
+
+nav:
+  - Home: index.md
+  - Puppet:
+    - puppet/index.md
+    - Resource Types: puppet/types/overview.md
+    - Functions: puppet/function.md
+    - Configuration: puppet/configuration.md
+    - Man Pages:
+      - Overview: puppet/man/overview.md
+      - puppet-agent: puppet/man/agent.md
+      - puppet-apply: puppet/man/apply.md
+      - puppet-catalog: puppet/man/catalog.md
+      - puppet-config: puppet/man/config.md
+      - puppet-describe: puppet/man/describe.md
+      - puppet-device: puppet/man/device.md
+      - puppet-doc: puppet/man/doc.md
+      - puppet-epp: puppet/man/epp.md
+      - puppet-facts: puppet/man/facts.md
+      - puppet-filebucket: puppet/man/filebucket.md
+      - puppet-generate: puppet/man/generate.md
+      - puppet-help: puppet/man/help.md
+      - puppet-lookup: puppet/man/lookup.md
+      - puppet-module: puppet/man/module.md
+      - puppet-node: puppet/man/node.md
+      - puppet-parser: puppet/man/parser.md
+      - puppet-plugin: puppet/man/plugin.md
+      - puppet-report: puppet/man/report.md
+      - puppet-resource: puppet/man/resource.md
+      - puppet-script: puppet/man/script.md
+      - puppet-ssl: puppet/man/ssl.md
+  - Facter:
+    - facter/index.md
+    - Core Facts: facter/core_facts.md
+    - CLI: facter/cli.md

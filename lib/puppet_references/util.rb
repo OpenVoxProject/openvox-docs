@@ -7,9 +7,9 @@ module PuppetReferences
   module Util
     # Given a hash of data, return YAML frontmatter suitable for the docs site.
     def self.make_header(data)
-      # clean out any symbols:
-      generated_at = "> **NOTE:** This page was generated from the Puppet source code on #{Time.now}"
-      clean_data = data.transform_keys(&:to_s)
+      generated_at = "> **NOTE:** This page was generated from the OpenVox source code on #{Time.now}"
+      # Strip Jekyll-specific keys not needed by MkDocs
+      clean_data = data.transform_keys(&:to_s).except('layout', 'canonical')
       YAML.dump(clean_data) + "---\n\n" + "# #{clean_data['title']}" + "\n\n" + generated_at + "\n\n"
     end
 
