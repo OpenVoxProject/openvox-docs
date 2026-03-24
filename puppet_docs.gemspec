@@ -8,12 +8,11 @@ Gem::Specification.new do |s|
   s.version = '0.1'
   s.license = 'Apache 2.0'
 
-  s.summary = 'Internal tools used for building the docs.puppetlabs.com website.'
+  s.summary = 'Tools for generating OpenVox reference documentation.'
   s.description = s.summary.dup
 
-  s.authors = ['Nick Fagerlund', 'Mike Hall', 'James Turnbull']
-  s.email = 'docs@puppetlabs.com'
-  s.homepage = 'https://github.com/puppetlabs/puppet-docs'
+  s.authors = ['OpenVox contributors']
+  s.homepage = 'https://github.com/OpenVoxProject/openvox-docs'
 
   s.require_paths = ['lib']
 end

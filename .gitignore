@@ -30,4 +30,7 @@ link_report.txt
 .yardoc
 puppet-docs-build.log
 source/.jekyll-cache/
-.ruby-version
+# .ruby-version is intentionally committed
+# MkDocs
+site/
+.venv/

@@ -1,0 +1,114 @@
+site_name: OpenVox Documentation
+site_description: Documentation for the OpenVox Puppet distribution
+site_url: https://mikeharp.com/openvox-docs/
+repo_url: https://github.com/OpenVoxProject/openvox-docs
+repo_name: OpenVoxProject/openvox-docs
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - tables
+  - fenced_code
+  - attr_list
+  - def_list
+
+nav:
+  - Home: index.md
+  - Puppet:
+    - Overview: puppet/index.md
+    - Configuration: puppet/configuration.md
+    - Resource Types: puppet/type.md
+    - Functions: puppet/function.md
+    - Core Facts: puppet/core_facts.md
+    - Static Catalogs: puppet/static_catalogs.md
+    - CLI Reference: puppet/cli.md
+    - Complete Resource Example: puppet/complete_resource_example.md
+    - Services (Device): puppet/services_device.md
+    - Scheduled Tasks (Windows): puppet/resources_scheduled_task_windows.md
+    - Man Pages:
+      - Overview: puppet/man/index.md
+      - puppet-agent: puppet/man/agent.md
+      - puppet-apply: puppet/man/apply.md
+      - puppet-catalog: puppet/man/catalog.md
+      - puppet-config: puppet/man/config.md
+      - puppet-describe: puppet/man/describe.md
+      - puppet-device: puppet/man/device.md
+      - puppet-doc: puppet/man/doc.md
+      - puppet-epp: puppet/man/epp.md
+      - puppet-facts: puppet/man/facts.md
+      - puppet-filebucket: puppet/man/filebucket.md
+      - puppet-generate: puppet/man/generate.md
+      - puppet-help: puppet/man/help.md
+      - puppet-key: puppet/man/key.md
+      - puppet-lookup: puppet/man/lookup.md
+      - puppet-man: puppet/man/man.md
+      - puppet-module: puppet/man/module.md
+      - puppet-node: puppet/man/node.md
+      - puppet-parser: puppet/man/parser.md
+      - puppet-plugin: puppet/man/plugin.md
+      - puppet-report: puppet/man/report.md
+      - puppet-resource: puppet/man/resource.md
+      - puppet-script: puppet/man/script.md
+      - puppet-ssl: puppet/man/ssl.md
+      - puppet-status: puppet/man/status.md
+    - Resource Types Reference:
+      - Overview: puppet/types/index.md
+      - exec: puppet/types/exec.md
+      - file: puppet/types/file.md
+      - filebucket: puppet/types/filebucket.md
+      - group: puppet/types/group.md
+      - notify: puppet/types/notify.md
+      - package: puppet/types/package.md
+      - resources: puppet/types/resources.md
+      - schedule: puppet/types/schedule.md
+      - service: puppet/types/service.md
+      - stage: puppet/types/stage.md
+      - tidy: puppet/types/tidy.md
+      - user: puppet/types/user.md
+    - HTTP API:
+      - Catalog: puppet/http_api/http_catalog.md
+      - Environment: puppet/http_api/http_environment.md
+      - Environments: puppet/http_api/http_environments.md
+      - Facts: puppet/http_api/http_facts.md
+      - File Bucket: puppet/http_api/http_file_bucket_file.md
+      - File Content: puppet/http_api/http_file_content.md
+      - File Metadata: puppet/http_api/http_file_metadata.md
+      - Node: puppet/http_api/http_node.md
+      - Report: puppet/http_api/http_report.md
+      - PSON: puppet/http_api/pson.md
+    - Ruby API (YARD): puppet/yard/index.md
+    - Reference Fragments:
+      - Environment Conf Settings: puppet/_environment_conf_settings.md
+      - Hiera Context Object: puppet/_hiera_context_object.md
+      - Hiera Options Hash: puppet/_hiera_options_hash.md
+      - Hiera YAML v5: puppet/_hiera.yaml_v5.md
+      - Naming Functions: puppet/_naming_functions.md
+      - Node Name / Certname: puppet/_nodename_certname.md
+      - Registered OIDs: puppet/_registered_oids.md
+  - Facter:
+    - Overview: facter/index.md
+    - Core Facts: facter/core_facts.md
+    - Custom Facts: facter/custom_facts.md
+    - Fact Overview: facter/fact_overview.md
+    - Release Notes: facter/release_notes.md

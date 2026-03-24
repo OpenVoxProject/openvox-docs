@@ -1,1 +1,0 @@
-The key is also [available via HTTP](http://pool.sks-keyservers.net:11371/pks/lookup?op=get&search=0x7F438280EF8D349F).
