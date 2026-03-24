@@ -1,0 +1,94 @@
+---
+name: Publish to GitHub Pages
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'OpenVox version tag (e.g. 8.9.0). Defaults to current release tag.'
+        required: false
+      facter_version:
+        description: 'OpenFact version tag (e.g. 5.5.0). Required for workflow_dispatch.'
+        required: false
+
+permissions:
+  contents: write
+
+# Prevent concurrent deployments
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Generate and deploy docs with mike
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout (full history for mike)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git for mike
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Determine versions
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            FULL="${{ github.event.inputs.version }}"
+          else
+            FULL=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+          fi
+          MAJOR=$(echo "$FULL" | cut -d. -f1)
+          echo "full=${FULL}" >> "$GITHUB_OUTPUT"
+          echo "major=${MAJOR}" >> "$GITHUB_OUTPUT"
+          if [ -n "${{ github.event.inputs.facter_version }}" ]; then
+            FACTER="${{ github.event.inputs.facter_version }}"
+          else
+            FACTER=$(git ls-remote --tags https://github.com/openvoxproject/openfact \
+              | grep -oE '[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
+          fi
+          echo "facter=${FACTER}" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Install pandoc
+        run: sudo apt-get install -y pandoc
+
+      - name: Pre-clone OpenVox repos
+        run: |
+          git clone https://github.com/openvoxproject/openvox vendor/puppet
+          git clone https://github.com/openvoxproject/openfact vendor/facter
+
+      - name: Generate reference docs
+        run: |
+          bundle exec rake references:puppet VERSION=${{ steps.version.outputs.full }}
+          bundle exec rake references:facter VERSION=${{ steps.version.outputs.facter }}
+
+      - name: Copy generated docs into place
+        run: |
+          cp -r references_output/puppet/. docs/puppet/
+          rm -f docs/puppet/*.json
+          cp -r references_output/facter/. docs/facter/
+          rm -f docs/facter/*.json
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          cache: pip
+
+      - name: Install MkDocs dependencies
+        run: pip install -r requirements.txt
+
+      - name: Deploy with mike
+        run: mike deploy --push --update-aliases "${{ steps.version.outputs.major }}" latest

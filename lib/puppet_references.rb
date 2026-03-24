@@ -55,7 +55,7 @@ module PuppetReferences
     # Adding this workaround so the build doesn't fail for 3.y. Check with Claire to see if
     # we need the CLI docs for 3.y. We can remove this when we stop building 3.y.
     version4 = Gem::Version.create('4.0.0')
-    repo = PuppetReferences::Repo.new('facter', FACTER_DIR)
+    repo = PuppetReferences::Repo.new('openfact', FACTER_DIR)
     real_commit = repo.checkout(commit)
     if !semantic?(commit) || (semantic?(commit) && Gem::Version.create(commit) >= version4)
       references << PuppetReferences::Facter::FacterCli

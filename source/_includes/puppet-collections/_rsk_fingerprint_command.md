@@ -1,1 +1,0 @@
-    gpg --list-key --fingerprint 7F438280EF8D349F

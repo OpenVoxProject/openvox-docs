@@ -20,19 +20,11 @@ module PuppetReferences
       end
 
       def build_all
-        require 'open3'
         puts 'Building CLI documentation page for facter.'
         OUTPUT_DIR.mkpath
-        Bundler.with_unbundled_env do
-          Open3.capture3("BUNDLE_GEMFILE=#{PuppetReferences::FACTER_DIR}/Gemfile bundle update")
-        end
-        raw_text, err, exit_code = Open3.capture3("BUNDLE_GEMFILE=#{PuppetReferences::FACTER_DIR}/Gemfile bundle exec facter man")
-        if exit_code != 0
-          puts "Encountered an error while building the facter cli docs, will abort: #{err}"
-          return
-        end
-        content = make_header(header_data) + PREAMBLE +
-                  raw_text.gsub(/SYNOPSIS\n--------\n\s\s(.*?)$/, "SYNOPSIS\n--------\n    \\1")
+        man_filepath = PuppetReferences::FACTER_DIR + 'man/man1/facter.1'
+        raw_text = PuppetReferences::Util.convert_man(man_filepath)
+        content = make_header(header_data) + raw_text
         filename = OUTPUT_DIR + 'cli.md'
         filename.open('w') { |f| f.write(content) }
         puts 'CLI documentation is done!'

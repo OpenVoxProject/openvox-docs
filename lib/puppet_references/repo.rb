@@ -42,13 +42,8 @@ module PuppetReferences
 
     def update_bundle
       Dir.chdir(@directory) do
-        if Dir.exist?(@directory + '.bundle/stuff')
-          puts "In #{@name} dir: Running bundle update."
-          PuppetReferences::Util.run_dirty_command('bundle update')
-        else
-          puts "In #{@name} dir: Running bundle install --path .bundle/stuff"
-          PuppetReferences::Util.run_dirty_command('bundle install --path .bundle/stuff')
-        end
+        puts "In #{@name} dir: Running bundle install"
+        PuppetReferences::Util.run_dirty_command('bundle config set --local path .bundle/stuff && bundle install')
       end
     end
   end

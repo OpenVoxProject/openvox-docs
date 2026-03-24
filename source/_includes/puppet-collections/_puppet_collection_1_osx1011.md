@@ -1,1 +1,0 @@
-* [10.11 El Capitan](https://downloads.puppetlabs.com/mac/10.11/PC1/x86_64/)
