@@ -72,3 +72,66 @@ nav:
     - facter/index.md
     - Core Facts: facter/core_facts.md
     - CLI: facter/cli.md
+  - Bolt:
+    - Overview: bolt/index.md
+    - Getting Started:
+      - Installing Bolt: bolt/bolt_installing.md
+      - Installing modules: bolt/bolt_installing_modules.md
+      - Getting started: bolt/getting_started_with_bolt.md
+      - Upgrading to Bolt 3: bolt/upgrading_to_bolt_3.md
+    - Running Bolt:
+      - Running commands: bolt/running_bolt_commands.md
+      - Running tasks: bolt/bolt_running_tasks.md
+      - Running plans: bolt/bolt_running_plans.md
+      - Running scripts: bolt/bolt_running_scripts.md
+      - Running in Docker: bolt/running_bolt_in_docker.md
+      - Connecting to targets: bolt/running_bolt_network.md
+    - Tasks:
+      - About tasks: bolt/tasks.md
+      - Writing tasks: bolt/writing_tasks.md
+      - Task helpers: bolt/task_helpers.md
+      - Inspecting tasks: bolt/inspecting_tasks.md
+    - Plans:
+      - About plans: bolt/plans.md
+      - Writing plans: bolt/writing_plans.md
+      - Writing YAML plans: bolt/writing_yaml_plans.md
+      - Script plans: bolt/creating_a_script_plan.md
+      - Applying manifests: bolt/applying_manifest_blocks.md
+      - Inspecting plans: bolt/inspecting_plans.md
+      - Debugging plans: bolt/debugging_plans.md
+      - Testing plans: bolt/testing_plans.md
+      - BoltSpec reference: bolt/boltspec_reference.md
+    - Projects & Inventory:
+      - Projects: bolt/projects.md
+      - Inventory files: bolt/inventory_files.md
+      - Inventory reference: bolt/bolt_inventory_reference.md
+    - Modules & Plugins:
+      - Modules: bolt/modules.md
+      - Module structure: bolt/module_structure.md
+      - Using plugins: bolt/using_plugins.md
+      - Supported plugins: bolt/supported_plugins.md
+      - Writing plugins: bolt/writing_plugins.md
+    - Configuration:
+      - Configuring Bolt: bolt/configuring_bolt.md
+      - bolt-defaults.yaml: bolt/bolt_defaults_reference.md
+      - bolt-project.yaml: bolt/bolt_project_reference.md
+      - Transport options: bolt/bolt_transports_reference.md
+      - Hiera: bolt/hiera.md
+    - Reference:
+      - Plan functions: bolt/plan_functions.md
+      - Bolt data types: bolt/bolt_types_reference.md
+      - JSON output: bolt/json_output_reference.md
+      - Analytics: bolt/analytics.md
+      - Logs: bolt/logs.md
+      - PuppetDB: bolt/bolt_connect_puppetdb.md
+    - More:
+      - Examples: bolt/bolt_examples.md
+      - Windows targets: bolt/automating_windows_targets.md
+      - Experimental features: bolt/experimental_features.md
+      - Glossary: bolt/glossary.md
+      - Troubleshooting: bolt/troubleshooting.md
+      - Known issues: bolt/bolt_known_issues.md
+      - Versioning: bolt/bolt_versioning.md
+      - TIG stack: bolt/tig_stack.md
+      - Developer updates: bolt/developer_updates.md
+      - VS Code: bolt/vscode_and_bolt.md

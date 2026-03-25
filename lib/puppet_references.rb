@@ -6,6 +6,7 @@ module PuppetReferences
   BASE_DIR = Pathname.new(File.expand_path(__FILE__)).parent.parent
   PUPPET_DIR = BASE_DIR + 'vendor/puppet'
   FACTER_DIR = BASE_DIR + 'vendor/facter'
+  BOLT_DIR   = BASE_DIR + 'vendor/bolt'
   AGENT_DIR = BASE_DIR + 'vendor/puppet-agent'
   PE_DIR = BASE_DIR + 'vendor/enterprise-dist'
   PE_SERVER_DIR = BASE_DIR + 'vendor/pe-puppetserver'
@@ -64,6 +65,48 @@ module PuppetReferences
       reference.build_v3_cli
     end
     build_from_list_of_classes(references, real_commit)
+  end
+
+  def self.build_bolt_references(commit)
+    require 'fileutils'
+    output_dir = OUTPUT_DIR + 'bolt'
+    output_dir.mkpath
+
+    repo = PuppetReferences::Repo.new('openbolt', BOLT_DIR)
+    real_commit = repo.checkout(commit)
+
+    Dir.chdir(BOLT_DIR) do
+      puts 'Bolt: Running bundle install...'
+      PuppetReferences::Util.run_dirty_command('bundle config set --local path .bundle/stuff && bundle install')
+      puts 'Bolt: Generating reference documentation...'
+      # docs:command_reference and docs:privilege_escalation are excluded because
+      # they depend on Bolt::BoltOptionParser which has a load-order bug in openbolt 5.x.
+      tasks = %w[
+        docs:function_reference
+        docs:type_reference
+        docs:defaults_reference
+        docs:project_reference
+        docs:transports_reference
+      ].join(' ')
+      PuppetReferences::Util.run_dirty_command("bundle exec rake #{tasks}")
+    end
+
+    puts 'Bolt: Copying documentation files...'
+    Pathname.glob(BOLT_DIR + 'documentation' + '*.md').each do |file|
+      next if file.basename.to_s == 'README.md'
+
+      # Rename bolt.md → index.md so the page lives at bolt/ not bolt/bolt/,
+      # keeping relative image paths (e.g. bolt-logo-dark.png) valid.
+      dest = (file.basename.to_s == 'bolt.md') ? output_dir + 'index.md' : output_dir + file.basename
+      FileUtils.cp(file, dest)
+    end
+    Pathname.glob(BOLT_DIR + 'documentation' + '*.png').each do |file|
+      FileUtils.cp(file, output_dir + file.basename)
+    end
+
+    puts 'Bolt: Done!'
+    puts "NOTE: Generated files are in #{output_dir}"
+    puts "NOTE: You'll have to move them to docs/bolt/ yourself. Built from commit: #{real_commit}"
   end
 
   def self.build_from_list_of_classes(reference_classes, real_commit)
