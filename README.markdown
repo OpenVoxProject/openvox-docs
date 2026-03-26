@@ -4,8 +4,8 @@ Documentation and reference generation tooling for the [OpenVox](https://github.
 
 ## What's in this repo
 
-- **Reference documentation** under `docs/`: resource types, functions, man pages, facts, and HTTP API docs for the latest OpenVox release.
-- **Reference generation tooling** (`lib/`, `Rakefile`) to regenerate those docs from a given OpenVox or Facter commit.
+- **Reference documentation** under `docs/`: resource types, functions, man pages, facts, HTTP API docs, and Bolt docs for the latest OpenVox release.
+- **Reference generation tooling** (`lib/`, `Rakefile`) to regenerate those docs from a given OpenVox, Facter, or Bolt commit.
 Most narrative documentation (language reference, installation guides, etc.) was migrated to a CMS in the Puppet 5.5 era and is no longer in this repository.
 
 ## Building the site
@@ -24,9 +24,10 @@ Reference docs are generated automatically by the publish workflow when a releas
 bundle install
 bundle exec rake references:puppet VERSION=<tag-or-commit>
 bundle exec rake references:facter VERSION=<tag-or-commit>
+bundle exec rake references:bolt VERSION=<tag-or-commit>
 ```
 
-Generated files land in `references_output/` — copy them into `docs/puppet/` to preview locally. They are not committed to the repo.
+Generated files land in `references_output/` — copy them into `docs/puppet/`, `docs/facter/`, or `docs/bolt/` to preview locally. They are not committed to the repo.
 
 ## Publishing versioned docs
 
