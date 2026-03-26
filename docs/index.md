@@ -6,3 +6,4 @@ OpenVox is an open-source distribution of Puppet. This site contains reference d
 | --------- | ----------- |
 | [Puppet](puppet/index.md) | Resource types, functions, man pages, HTTP API |
 | [Facter](facter/index.md) | System facts library |
+| [Bolt](bolt/index.md) | Task runner and orchestration tool |
