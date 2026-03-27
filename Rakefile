@@ -18,7 +18,6 @@ task :references do
   puts 'bundle exec rake references:puppet VERSION=<GIT TAG OR COMMIT>'
   puts 'bundle exec rake references:facter VERSION=<GIT TAG OR COMMIT>'
   puts 'bundle exec rake references:bolt VERSION=<GIT TAG OR COMMIT>'
-  puts 'bundle exec rake references:version_tables'
 end
 
 namespace :references do
@@ -35,11 +34,6 @@ namespace :references do
   task bolt: 'references:check_version' do
     require 'puppet_references'
     PuppetReferences.build_bolt_references(ENV.fetch('VERSION', nil))
-  end
-
-  task :version_tables do
-    require 'puppet_references'
-    PuppetReferences.build_version_tables
   end
 
   task :check_version do

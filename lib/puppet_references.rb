@@ -7,9 +7,6 @@ module PuppetReferences
   PUPPET_DIR = BASE_DIR + 'vendor/puppet'
   FACTER_DIR = BASE_DIR + 'vendor/facter'
   BOLT_DIR   = BASE_DIR + 'vendor/bolt'
-  AGENT_DIR = BASE_DIR + 'vendor/puppet-agent'
-  PE_DIR = BASE_DIR + 'vendor/enterprise-dist'
-  PE_SERVER_DIR = BASE_DIR + 'vendor/pe-puppetserver'
   OUTPUT_DIR = BASE_DIR + 'references_output'
 
   require 'puppet_references/config'
@@ -26,9 +23,6 @@ module PuppetReferences
   require 'puppet_references/puppet/functions'
   require 'puppet_references/facter/core_facts'
   require 'puppet_references/facter/facter_cli'
-  require 'puppet_references/version_tables/config'
-  require 'puppet_references/version_tables/data/pe'
-  require 'puppet_references/version_tables/data/agent'
 
   def self.build_puppet_references(commit)
     references = [
