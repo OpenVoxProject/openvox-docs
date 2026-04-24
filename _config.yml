@@ -1,0 +1,130 @@
+---
+title: OpenVox Documentation
+description: Documentation for various OpenVox Projects.
+
+timezone: UTC
+
+theme: jekyll-vitepress-theme
+plugins:
+  - jekyll-vitepress-theme
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+
+jekyll_vitepress:
+  branding:
+    logo:
+      default: 'https://github.com/voxpupuli/logos/blob/master/images/OpenVox/Sticker/HexagonSticker.svg?raw=true'
+      alt: OpenVox Automation Framework
+  # Disabled as it adds extra size to generated HTML pages.
+  copy_page:
+    enabled: false
+  # Disable previous/next links at the bottom of the page as
+  # they don't match the order of the outlines defined in
+  # `_data/nav/*.yaml` and thus cause confusion.
+  doc_footer:
+    enabled: false
+
+
+collections_dir: docs
+collections:
+  openfact_latest:
+    output: true
+    permalink: '/openfact/latest/:path:output_ext'
+  openfact_5x:
+    output: true
+    permalink: '/openfact/5.x/:path:output_ext'
+
+  openvox_latest:
+    output: true
+    permalink: '/openvox/latest/:path:output_ext'
+  openvox_8x:
+    output: true
+    permalink: '/openvox/8.x/:path:output_ext'
+
+  openvox-server_latest:
+    output: true
+    permalink: '/openvox-server/latest/:path:output_ext'
+  openvox-server_8x:
+    output: true
+    permalink: '/openvox-server/8.x/:path:output_ext'
+
+  openvoxdb_latest:
+    output: true
+    permalink: '/openvoxdb/latest/:path:output_ext'
+  openvoxdb_8x:
+    output: true
+    permalink: '/openvoxdb/8.x/:path:output_ext'
+
+defaults:
+  - scope:
+      path: ''
+      type: openfact_latest
+    values:
+      nav: openfact_5x
+  - scope:
+      path: ''
+      type: openfact_5x
+    values:
+      nav: openfact_5x
+
+  - scope:
+      path: ''
+      type: openvox_latest
+    values:
+      nav: openvox_8x
+  - scope:
+      path: ''
+      type: openvox_8x
+    values:
+      nav: openvox_8x
+
+  - scope:
+      path: ''
+      type: openvox-server_latest
+    values:
+      nav: openvox-server_8x
+  - scope:
+      path: ''
+      type: openvox-server_8x
+    values:
+      nav: openvox-server_8x
+
+  - scope:
+      path: ''
+      type: openvoxdb_latest
+    values:
+      nav: openvoxdb_8x
+  - scope:
+      path: ''
+      type: openvoxdb_8x
+    values:
+      nav: openvoxdb_8x
+
+
+# Ignores all legacy files present in the root directory as of
+# commit 09952f27 (with the exception of LICENSE). As older files
+# are cleaned up, this exclusion list should shrink.
+exclude:
+  - bin
+  - CNAME
+  - CODEOWNERS
+  - config.ru
+  - CONTRIBUTING.md
+  - externalsources
+  - Gemfile
+  - Gemfile.lock
+  - lib
+  - puppet_docs.gemspec
+  - Rakefile
+  - README_WRITING.markdown
+  - README.markdown
+  - toolchain_walkthrough.markdown
+  - util
+  - vendor
+  - WORKFLOW.md

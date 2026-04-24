@@ -1,37 +1,73 @@
-# Puppet Docs
+# OpenVox Docs
 
-Curated documentation and issue tracker for Puppet
+Source for the OpenVox documentation site, along with an issue tracker for
+reporting problems with the published docs.
 
-## Where is everything?
+## Getting started
 
-Most of our documentation has been moved out of this repository. This repo contains:
-  * Some of our older, unmaintained documentation, which is deprecated and may be removed from this repo without further notice. For archived docs for unmaintained, unsupported versions of Puppet, see the [Puppet docs archive](https://github.com/puppetlabs/docs-archive).
-  * Reference documentation generated from code. This reference documentation is then rendered into HTML and included in the Puppet docs website.
-  * The issue tracker, which community members can use to suggest improvements to puppet.com/docs.
+To build the documentation in this repository, first install Ruby 3.2 or later.
+Then use Bundler to install the project dependencies:
 
-As of Puppet 5.5, Puppet docs were migrated into the DITA XML format and have been maintained in a CMS. We removed each migrated page from this repository, so that the old content wasn't accidentally published.
+```
+bundle install
+```
 
-As of Facter 3.12, the Facter docs were migrated to DITA and organized as part of the Puppet doc set. Updates to 3.12 (and later) should be made in DITA, not in this repo. The generated `core_facts.md` file is still this repository, but has moved to the `puppet/x.y` folder instead of `facter/x.y`.
+Then build the documentation with:
 
-## Reporting issues
+```
+bundle exec jekyll build
+```
 
-Community members can use this repository to suggest documentation improvements.
-The Technical Publications team regularly monitors and triages issues and requests here.
-Planning and roadmap activity takes place internally, so you might not see much activity until a writer begins actively working on a reported issue.
+Or serve it locally to preview in a browser:
 
-💡 Restriction: There are no SLA agreements for issues filed in this way, and customer reports take priority. If you have a support contract, you should raise issues via [support request](https://support.puppet.com/) to get them resolved expediently.
+```
+bundle exec jekyll serve
+```
 
-💡 Restriction: As this is a public repo, avoid including any confidential or sensitive information in issues filed.
+## Updating documentation
 
-1. To get started, use the [`Issues`](https://github.com/puppetlabs/puppet-enterprise_issues/issues) tab above.
-2. Search the existing queue to see if your concern has already been reported: 
-    * If the concern was reported, you can comment on it with additional information or react with a 👍
-      to add your support. You’ll get any future notifications of activity on that ticket.
-    * If the concern was not reported, you can file your own issue, following the issue template to include as much
-      helpful detail as you can. Include the full URL of the documentation webpage.
+This section describes common workflows for updating the docs.
+If you are considering a change not described here, or need help,
+please chat with us in `#sig-documentation` on the
+[Vox Pupuli Slack][vox-slack] (bridged to `#voxpupuli-sig-documentation`
+on [Libera.Chat][libera-chat] for IRC users).
 
-Thank you so much for helping us improve our products! Email `docs@puppet.com` if you have questions about contributing to the documentation.
+[vox-slack]: https://short.voxpupu.li/puppetcommunity_slack_signup
+[libera-chat]: https://libera.chat/
 
+The source files for docs pages can be found under the `docs/` directory.
+This directory contains versioned subfolders for each project, which
+then contain the Markdown files that make up documentation for that
+project.
+
+Whichever workflow you follow, run `bundle exec jekyll serve` to review
+your changes locally before opening a pull request.
+
+### Adding a new page
+
+Create a new Markdown file under the `docs/` directory, and then edit the
+YAML table of contents under `_data/nav/` to add a link to your new page.
+
+### Adding a new project
+
+Create a new subdirectory under `docs/` along with a new YAML table of contents
+under `_data/nav/`. Then edit `_config.yml` to register the new directory:
+
+- Add an entry to the `collections:` map to enable output.
+- Add an entry to the `defaults:` map to set the table of contents.
+
+Consider updating `index.md` to add an entry pointing to your new content.
+See the [home layout reference][home-layout] for details.
+
+[home-layout]: https://jekyll-vitepress.dev/frontmatter-reference/#home-layout-keys
+
+### Modifying theme settings
+
+This project uses the [Jekyll VitePress theme][jekyll-vitepress], by
+[@crmne](https://github.com/crmne). Many aspects of the theme can be
+customized or overridden, see the theme documentation for details.
+
+[jekyll-vitepress]: https://jekyll-vitepress.dev/
 
 ## Copyright
 

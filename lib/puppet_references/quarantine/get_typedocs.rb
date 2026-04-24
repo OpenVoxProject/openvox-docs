@@ -66,17 +66,17 @@ Puppet::Type.eachtype do |type|
 
   # Handle features:
   # inject will return empty hash if type.features is empty.
-  docobject[:features] = type.features.each_with_object({}) do |name, allfeatures|
-    allfeatures[name] = scrub(type.provider_feature(name).docs)
+  docobject[:features] = type.features.to_h do |name|
+    [name, scrub(type.provider_feature(name).docs)]
   end
 
   # Handle providers:
   # inject will return empty hash if type.providers is empty.
-  docobject[:providers] = type.providers.each_with_object({}) do |name, allproviders|
-    allproviders[name] = {
+  docobject[:providers] = type.providers.to_h do |name|
+    [name, {
       description: scrub(type.provider(name).doc),
       features: type.provider(name).features,
-    }
+    },]
   end
 
   # Override several features missing due to bug #18426:

@@ -1,0 +1,22 @@
+{%- comment -%}
+  This file overlays "sidebar.yaml" inherited from the VitePress theme.
+  Instead of using a single static navbar defined by site.data.sidebar,
+  this allows for per-page or per-collection sidebar content.
+
+  Arbitrary nesting depth is also supported vs. the strict two-level depth
+  implemented by the Theme.
+{%- endcomment -%}
+<aside class="VPSidebar" id="vp-sidebar">
+  <div class="curtain"></div>
+  <nav class="nav" id="VPSidebarNav" aria-labelledby="sidebar-aria-label" tabindex="-1">
+    <span class="visually-hidden" id="sidebar-aria-label">Sidebar Navigation</span>
+
+    {% assign nav_items = site.data.nav[page.nav] %}
+    {% assign nav_collection_dir = page.collection | prepend: '_' | append: '/' %}
+    {% assign nav_page_subpath = page.relative_path | remove_first: nav_collection_dir | replace: '.md', '.html' | replace: '.markdown', '.html' %}
+    {% assign nav_base = page.url | remove: nav_page_subpath %}
+    {% for item in nav_items %}
+      {% include nav-item.html item=item level=0 %}
+    {% endfor %}
+  </nav>
+</aside>

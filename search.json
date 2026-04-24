@@ -1,0 +1,43 @@
+---
+layout: null
+permalink: /search.json
+---
+[
+{% assign first = true %}
+{% assign home_page = site.pages | where: "url", "/" | first %}
+{% if home_page %}
+  {% assign excerpt = home_page.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | strip | truncate: 2400, "" %}
+  {
+    "title": {{ home_page.title | default: site.title | strip_html | strip | jsonify }},
+    "url": {{ home_page.url | relative_url | jsonify }},
+    "content": {{ excerpt | jsonify }}
+  }
+  {% assign first = false %}
+{% endif %}
+{% assign static_pages = site.pages | sort: "url" %}
+{% for page in static_pages %}
+  {% if page.title and page.url and page.url != "/" and page.url != "/search.json" %}
+    {% unless first %},{% endunless %}
+    {% assign excerpt = page.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | strip | truncate: 2400, "" %}
+    {
+      "title": {{ page.title | strip_html | strip | jsonify }},
+      "url": {{ page.url | relative_url | jsonify }},
+      "content": {{ excerpt | jsonify }}
+    }
+    {% assign first = false %}
+  {% endif %}
+{% endfor %}
+{% assign documents = site.documents | sort: "url" %}
+{% for doc in documents %}
+  {% if doc.output and doc.title and doc.url %}
+    {% unless first %},{% endunless %}
+    {% assign excerpt = doc.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | strip | truncate: 2400, "" %}
+    {
+      "title": {{ doc.title | strip_html | strip | jsonify }},
+      "url": {{ doc.url | relative_url | jsonify }},
+      "content": {{ excerpt | jsonify }}
+    }
+    {% assign first = false %}
+  {% endif %}
+{% endfor %}
+]

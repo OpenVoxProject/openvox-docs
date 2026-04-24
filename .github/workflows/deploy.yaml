@@ -1,0 +1,63 @@
+---
+name: Deploy Website
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Docker tag to deploy'
+        type: string
+        required: true
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Docker tag to deploy'
+        type: string
+        required: true
+
+jobs:
+  setup:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    outputs:
+      archive: '${{ steps.set-params.outputs.archive }}'
+      name: '${{ steps.set-params.outputs.name }}'
+      repo: '${{ steps.set-params.outputs.repo }}'
+
+    steps:
+      - name: Set Project Params
+        id: set-params
+        run: |
+          # This variable expansion downcases the "org/repo" github repository
+          # string as Docker registries do not allow uppercase in namespace segments.
+          REPO="${GITHUB_REPOSITORY,,}"
+          NAME="$(basename $REPO)"
+          ARCHIVE="${NAME}_${{ inputs.tag }}.tar.xz"
+
+          printf 'archive=%s\n' "$ARCHIVE" | tee -a $GITHUB_OUTPUT
+          printf 'name=%s\n' "$NAME" | tee -a $GITHUB_OUTPUT
+          printf 'repo=%s\n' "$REPO" | tee -a $GITHUB_OUTPUT
+
+  ship:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    needs:
+      - setup
+    permissions:
+      id-token: write
+      pages: write
+
+    steps:
+      - uses: oras-project/setup-oras@v2
+      - name: Fetch Build
+        run: |
+          oras pull ghcr.io/${{ needs.setup.outputs.repo }}/${{ needs.setup.outputs.name }}:${{ inputs.tag }}
+          tar xf "${{ needs.setup.outputs.archive }}"
+
+      - name: Prepare GH Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ${{ needs.setup.outputs.name }}_${{ inputs.tag }}
+
+      - name: Deploy to GH Pages
+        uses: actions/deploy-pages@v5

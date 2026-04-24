@@ -1,0 +1,577 @@
+---
+- text: OpenVox 8 Platform
+  items:
+  - text: OpenVox release notes
+    link: "release_notes.html"
+  - text: OpenVox known issues
+    link: "known_issues.html"
+  - text: System requirements
+    link: "system_requirements.html"
+  - text: Component versions in `openvox-agent`
+    link: "about_agent.html"
+- text: Quick start guides
+  items:
+  - text: NTP quick start guide
+    link: "quick_start_ntp.html"
+  - text: DNS quick start guide
+    link: "quick_start_dns.html"
+  - text: Sudo quick start guide
+    link: "quick_start_sudo.html"
+  - text: Firewall quick start guide
+    link: "quick_start_firewall.html"
+- text: Deprecated features
+  items:
+  - text: About deprecations in this version
+    link: "deprecated_summary.html"
+  - text: Web servers
+    link: "deprecated_servers.html"
+  - text: Upcoming operating system deprecations
+    link: "deprecated_operating_systems.html"
+  - text: Language features
+    link: "deprecated_language.html"
+  - text: Extension points and APIs
+    link: "deprecated_api.html"
+  - text: Settings
+    link: "deprecated_settings.html"
+- text: Installing and upgrading
+  items:
+  - text: Overview of OpenVox's architecture
+    link: "architecture.html"
+  - text: Pre-install tasks
+    link: "install_pre.html"
+  - text: OpenVox Platform repositories
+    link: "openvox_platform.html"
+  - text: 'Install agent: Linux'
+    link: "install_linux.html"
+  - text: 'Install agent: Windows'
+    link: "install_windows.html"
+  - text: 'Install agent: macOS'
+    link: "install_osx.html"
+  - text: What gets installed and where (agent)
+    link: "install_what_and_where.html"
+  - text: File location changes since OpenVox 3.8.x
+    link: "whered_it_go.html"
+  - text: Pre-upgrade tasks from 3.8
+    link: "upgrade_major_pre.html"
+  - text: Upgrade agents from 3.8.x OpenVox 5.x
+    link: "upgrade_major_agent.html"
+  - text: Upgrade servers
+    link: "upgrade_major_server.html"
+  - text: Post-upgrade cleanup
+    link: "upgrade_major_post.html"
+  - text: 'Minor upgrades: From OpenVox 4 and within OpenVox 5.x'
+    link: "upgrade_minor.html"
+- text: Configuration
+  items:
+  - text: About OpenVox's settings
+    link: "config_about_settings.html"
+  - text: Short list of important settings
+    link: "config_important_settings.html"
+  - text: 'puppet.conf: The main config file'
+    link: "config_file_main.html"
+  - text: 'environment.conf: Per-environment settings'
+    link: "config_file_environment.html"
+  - text: 'auth.conf (LEGACY): HTTPS authorization'
+    link: "config_file_auth.html"
+  - text: 'fileserver.conf: Custom fileserver mount points'
+    link: "config_file_fileserver.html"
+  - text: 'puppetdb.conf: OpenVoxDB server locations'
+    link: "config_file_puppetdb.html"
+  - text: 'hiera.yaml: Data lookup configuration'
+    link: "hiera_config_yaml_5.html"
+  - text: 'autosign.conf: Basic certificate autosigning'
+    link: "config_file_autosign.html"
+  - text: 'csr_attributes.yaml: Certificate extensions'
+    link: "config_file_csr_attributes.html"
+  - text: 'custom_trusted_oid_mapping.yaml: Short names for cert extension OIDs'
+    link: "config_file_oid_map.html"
+  - text: 'device.conf: Network hardware access'
+    link: "config_file_device.html"
+  - text: 'routes.yaml: Advanced plugin routing'
+    link: "config_file_routes.html"
+  - text: Checking values of settings
+    link: "config_print.html"
+  - text: Editing settings on the command line
+    link: "config_set.html"
+  - text: Complete list of settings (configuration reference)
+    link: "configuration.html"
+- text: Important directories and files
+  items:
+  - text: Code and data directory (codedir)
+    link: "dirs_codedir.html"
+  - text: Config directory (confdir)
+    link: "dirs_confdir.html"
+  - text: The main manifest
+    link: "dirs_manifest.html"
+  - text: The modulepath
+    link: "dirs_modulepath.html"
+  - text: The SSLdir
+    link: "dirs_ssldir.html"
+  - text: Cache directory (vardir)
+    link: "dirs_vardir.html"
+- text: Environments
+  items:
+  - text: About environments
+    link: "environments_about.html"
+  - text: Creating environments
+    link: "environments_creating.html"
+  - text: Environment isolation
+    link: "environment_isolation.html"
+- text: Modules
+  items:
+  - text: Fundamentals
+    link: "modules_fundamentals.html"
+  - text: Beginner's guide to writing modules
+    link: "bgtm.html"
+  - text: Plugins in modules
+    link: "plugins_in_modules.html"
+  - text: Installing modules
+    link: "modules_installing.html"
+  - text: Publishing modules on the Puppet Forge
+    link: "modules_publishing.html"
+  - text: Module metadata and metadata.json
+    link: "modules_metadata.html"
+  - text: Documenting modules
+    link: "modules_documentation.html"
+  - text: OpenVox Strings
+    link: "openvox_strings.html"
+  - text: OpenVox Strings style guide
+    link: "openvox_strings_style.html"
+  - text: Module cheat sheet
+    link: "cheatsheet_module.html"
+- text: OpenVox's services and tools
+  items:
+  - text: OpenVox's commands
+    link: "services_commands.html"
+  - text: Running OpenVox commands on Windows
+    link: "services_commands_windows.html"
+  - text: The rack OpenVox master
+    link: "services_master_rack.html"
+  - text: Configuring a Server with Passenger and Apache
+    link: "passenger.html"
+  - text: The WEBrick OpenVox master
+    link: "services_master_webrick.html"
+  - text: OpenVox agent on *nix
+    link: "services_agent_unix.html"
+  - text: OpenVox agent on Windows
+    link: "services_agent_windows.html"
+  - text: Puppet apply
+    link: "services_apply.html"
+- text: The Puppet language
+  items:
+  - text: Visual index
+    link: "lang_visual_index.html"
+  - text: Basics
+    link: "lang_summary.html"
+  - text: Puppet language style guide
+    link: "style_guide.html"
+  - text: Handling file paths on Windows
+    link: "lang_windows_file_paths.html"
+  - text: Variables
+    link: "lang_variables.html"
+  - text: Resources
+    link: "lang_resources.html"
+  - text: Resources (advanced)
+    link: "lang_resources_advanced.html"
+  - text: Relationships and ordering
+    link: "lang_relationships.html"
+  - text: Classes
+    link: "lang_classes.html"
+  - text: Defined resource types
+    link: "lang_defined_types.html"
+  - text: Type aliases
+    link: "lang_type_aliases.html"
+  - text: Expressions and operators
+    link: "lang_expressions.html"
+  - text: Conditional statements and expressions
+    link: "lang_conditional.html"
+  - text: Function calls
+    link: "lang_functions.html"
+  - text: Docs for built-in functions
+    link: "function.html"
+  - text: Node definitions
+    link: "lang_node_definitions.html"
+  - text: Comments
+    link: "lang_comments.html"
+  - text: Facts and built-in variables
+    link: "lang_facts_and_builtin_vars.html"
+  - text: Reserved words and acceptable names
+    link: "lang_reserved.html"
+  - text: Writing functions (Puppet language)
+    link: "lang_write_functions_in_puppet.html"
+  - text: Custom types
+    link: "custom_types.html"
+  - text: Provider development
+    link: "provider_development.html"
+  - text: About values and data types
+    link: "lang_data.html"
+  - text: Strings
+    link: "lang_data_string.html"
+  - text: Numbers
+    link: "lang_data_number.html"
+  - text: Booleans
+    link: "lang_data_boolean.html"
+  - text: Arrays
+    link: "lang_data_array.html"
+  - text: Hashes
+    link: "lang_data_hash.html"
+  - text: Regular expressions
+    link: "lang_data_regexp.html"
+  - text: Sensitive
+    link: "lang_data_sensitive.html"
+  - text: Undef
+    link: "lang_data_undef.html"
+  - text: Resource references
+    link: "lang_data_resource_reference.html"
+  - text: Resource types
+    link: "lang_data_resource_type.html"
+  - text: Default
+    link: "lang_data_default.html"
+  - text: Data type syntax
+    link: "lang_data_type.html"
+  - text: Abstract data types
+    link: "lang_data_abstract.html"
+  - text: Using templates
+    link: "lang_template.html"
+  - text: Embedded Puppet (EPP) template syntax
+    link: "lang_template_epp.html"
+  - text: Embedded Ruby (ERB) template syntax
+    link: "lang_template_erb.html"
+  - text: Iteration and loops
+    link: "lang_iteration.html"
+  - text: Lambdas (code blocks)
+    link: "lang_lambdas.html"
+  - text: Resource defaults
+    link: "lang_defaults.html"
+  - text: Resource collectors
+    link: "lang_collectors.html"
+  - text: Virtual resources
+    link: "lang_virtual.html"
+  - text: Exported resources
+    link: "lang_exported.html"
+  - text: Tags
+    link: "lang_tags.html"
+  - text: Run stages
+    link: "lang_run_stages.html"
+  - text: Containment of resources
+    link: "lang_containment.html"
+  - text: Scope
+    link: "lang_scope.html"
+  - text: Namespaces and autoloading
+    link: "lang_namespaces.html"
+- text: Writing custom functions
+  items:
+  - text: Introduction to writing functions
+    link: "functions_basics.html"
+  - text: Writing functions (Puppet language)
+    link: "lang_write_functions_in_puppet.html"
+  - text: Overview and examples
+    link: "functions_ruby_overview.html"
+  - text: Defining signatures
+    link: "functions_ruby_signatures.html"
+  - text: Special features in implementation methods
+    link: "functions_ruby_implementation.html"
+  - text: Documenting Ruby functions
+    link: "functions_ruby_documenting.html"
+  - text: Writing functions (legacy Ruby API --- avoid)
+    link: "functions_legacy.html"
+- text: Hiera
+  items:
+  - text: Hiera
+    link: "hiera_intro.html"
+  - text: Getting started with Hiera
+    link: "hiera_quick.html"
+  - text: Configuring Hiera
+    link: "hiera_config_yaml_5.html"
+  - text: Creating and editing data
+    link: "hiera_merging.html"
+  - text: Looking up data with Hiera
+    link: "hiera_automatic.html"
+  - text: Writing new data backends
+    link: "hiera_custom_backends.html"
+  - text: Upgrading to Hiera 5
+    link: "hiera_migrate.html"
+- text: Resource types
+  items:
+  - text: All resource types (single-page reference)
+    link: "type.html"
+  - text: Core types cheat sheet
+    link: "cheatsheet_core_types.html"
+  - text: Optional resource types for Windows
+    link: "resources_windows_optional.html"
+  - text: augeas
+    link: "types/augeas.html"
+  - text: Augeas tips and examples
+    link: "resources_augeas.html"
+  - text: computer
+    link: "types/computer.html"
+  - text: cron
+    link: "types/cron.html"
+  - text: exec
+    link: "types/exec.html"
+  - text: Exec tips and examples for Windows
+    link: "resources_exec_windows.html"
+  - text: file
+    link: "types/file.html"
+  - text: File tips and examples for Windows
+    link: "resources_file_windows.html"
+  - text: filebucket
+    link: "types/filebucket.html"
+  - text: group
+    link: "types/group.html"
+  - text: User and group tips and examples for Windows
+    link: "resources_user_group_windows.html"
+  - text: host
+    link: "types/host.html"
+  - text: index
+    link: "types/index.html"
+  - text: interface
+    link: "types/interface.html"
+  - text: k5login
+    link: "types/k5login.html"
+  - text: macauthorization
+    link: "types/macauthorization.html"
+  - text: mailalias
+    link: "types/mailalias.html"
+  - text: maillist
+    link: "types/maillist.html"
+  - text: mcx
+    link: "types/mcx.html"
+  - text: mount
+    link: "types/mount.html"
+  - text: nagios_command
+    link: "types/nagios_command.html"
+  - text: nagios_contact
+    link: "types/nagios_contact.html"
+  - text: nagios_contactgroup
+    link: "types/nagios_contactgroup.html"
+  - text: nagios_host
+    link: "types/nagios_host.html"
+  - text: nagios_hostdependency
+    link: "types/nagios_hostdependency.html"
+  - text: nagios_hostescalation
+    link: "types/nagios_hostescalation.html"
+  - text: nagios_hostextinfo
+    link: "types/nagios_hostextinfo.html"
+  - text: nagios_hostgroup
+    link: "types/nagios_hostgroup.html"
+  - text: nagios_service
+    link: "types/nagios_service.html"
+  - text: nagios_servicedependency
+    link: "types/nagios_servicedependency.html"
+  - text: nagios_serviceescalation
+    link: "types/nagios_serviceescalation.html"
+  - text: nagios_serviceextinfo
+    link: "types/nagios_serviceextinfo.html"
+  - text: nagios_servicegroup
+    link: "types/nagios_servicegroup.html"
+  - text: nagios_timeperiod
+    link: "types/nagios_timeperiod.html"
+  - text: notify
+    link: "types/notify.html"
+  - text: package
+    link: "types/package.html"
+  - text: Package tips and examples for Windows
+    link: "resources_package_windows.html"
+  - text: resources
+    link: "types/resources.html"
+  - text: router
+    link: "types/router.html"
+  - text: schedule
+    link: "types/schedule.html"
+  - text: scheduled_task
+    link: "types/scheduled_task.html"
+  - text: Scheduled task tips and examples
+    link: "resources_scheduled_task_windows.html"
+  - text: selboolean
+    link: "types/selboolean.html"
+  - text: selmodule
+    link: "types/selmodule.html"
+  - text: service
+    link: "types/service.html"
+  - text: Service tips and examples
+    link: "resources_service.html"
+  - text: ssh_authorized_key
+    link: "types/ssh_authorized_key.html"
+  - text: sshkey
+    link: "types/sshkey.html"
+  - text: stage
+    link: "types/stage.html"
+  - text: tidy
+    link: "types/tidy.html"
+  - text: user
+    link: "types/user.html"
+  - text: User and group tips and examples for Windows
+    link: "resources_user_group_windows.html"
+  - text: vlan
+    link: "types/vlan.html"
+  - text: yumrepo
+    link: "types/yumrepo.html"
+  - text: zfs
+    link: "types/zfs.html"
+  - text: zone
+    link: "types/zone.html"
+  - text: zpool
+    link: "types/zpool.html"
+- text: 'Reports: Tracking OpenVox''s activity'
+  items:
+  - text: About reporting
+    link: "reporting_about.html"
+  - text: Built-in report processors
+    link: "report.html"
+  - text: Writing custom report processors
+    link: "reporting_write_processors.html"
+  - text: Puppet::Transaction::Report object format
+    link: "format_report.html"
+- text: Extensions for assigning classes to nodes
+  items:
+  - text: External node classifiers
+    link: "nodes_external.html"
+  - text: The LDAP node classifier
+    link: "nodes_ldap.html"
+- text: Misc. references
+  items:
+  - text: Settings (configuration reference)
+    link: "configuration.html"
+  - text: Functions
+    link: "function.html"
+  - text: Metaparameters
+    link: "metaparameter.html"
+  - text: Built-in report processors
+    link: "report.html"
+  - text: Indirections and termini
+    link: "indirection.html"
+  - text: Ruby API for developing extensions
+    link: "yard/"
+- text: Man pages
+  items:
+  - text: Index
+    link: "man/index.html"
+  - text: puppet agent
+    link: "man/agent.html"
+  - text: puppet apply
+    link: "man/apply.html"
+  - text: puppet cert
+    link: "man/cert.html"
+  - text: puppet master
+    link: "man/master.html"
+  - text: puppet module
+    link: "man/module.html"
+  - text: puppet resource
+    link: "man/resource.html"
+  - text: puppet lookup
+    link: "man/lookup.html"
+  - text: puppet config
+    link: "man/config.html"
+  - text: puppet describe
+    link: "man/describe.html"
+  - text: puppet device
+    link: "man/device.html"
+  - text: puppet doc
+    link: "man/doc.html"
+  - text: puppet help
+    link: "man/help.html"
+  - text: puppet man
+    link: "man/man.html"
+  - text: puppet node
+    link: "man/node.html"
+  - text: puppet parser
+    link: "man/parser.html"
+  - text: puppet plugin
+    link: "man/plugin.html"
+  - text: puppet ca
+    link: "man/ca.html"
+  - text: puppet catalog
+    link: "man/catalog.html"
+  - text: puppet certificate
+    link: "man/certificate.html"
+  - text: puppet certificate_request
+    link: "man/certificate_request.html"
+  - text: puppet certificate_revocation_list
+    link: "man/certificate_revocation_list.html"
+  - text: puppet facts
+    link: "man/facts.html"
+  - text: puppet filebucket
+    link: "man/filebucket.html"
+  - text: puppet key
+    link: "man/key.html"
+  - text: puppet report
+    link: "man/report.html"
+  - text: puppet status
+    link: "man/status.html"
+- text: HTTP API
+  items:
+  - text: Index
+    link: "http_api/http_api_index.html"
+  - text: PSON
+    link: "http_api/pson.html"
+  - text: Catalog
+    link: "http_api/http_catalog.html"
+  - text: Node
+    link: "http_api/http_node.html"
+  - text: File bucket file
+    link: "http_api/http_file_bucket_file.html"
+  - text: File content
+    link: "http_api/http_file_content.html"
+  - text: File metadata
+    link: "http_api/http_file_metadata.html"
+  - text: Report
+    link: "http_api/http_report.html"
+  - text: Environments
+    link: "http_api/http_environments.html"
+  - text: Resource type
+    link: "http_api/http_resource_type.html"
+  - text: Status
+    link: "http_api/http_status.html"
+  - text: Certificate
+    link: "http_api/http_certificate.html"
+  - text: Certificate signing requests
+    link: "http_api/http_certificate_request.html"
+  - text: Certificate status
+    link: "http_api/http_certificate_status.html"
+  - text: Certificate revocation list
+    link: "http_api/http_certificate_revocation_list.html"
+  - text: catalog.json
+    link: "schemas/catalog.json"
+  - text: environments.json
+    link: "schemas/environments.json"
+  - text: error.json
+    link: "schemas/error.json"
+  - text: facts.json
+    link: "schemas/facts.json"
+  - text: file_metadata.json
+    link: "schemas/file_metadata.json"
+  - text: host.json
+    link: "schemas/host.json"
+  - text: json-meta-schema.json
+    link: "schemas/json-meta-schema.json"
+  - text: node.json
+    link: "schemas/node.json"
+  - text: report.json
+    link: "schemas/report.json"
+  - text: resource_type.json
+    link: "schemas/resource_type.json"
+  - text: status.json
+    link: "schemas/status.json"
+- text: SSL and certificates
+  items:
+  - text: Using an external CA
+    link: "config_ssl_external_ca.html"
+  - text: Configuring autosigning
+    link: "ssl_autosign.html"
+  - text: CSR attributes and certificate extensions
+    link: "ssl_attributes_extensions.html"
+  - text: Regenerating all certificates in a deployment
+    link: "ssl_regenerate_certificates.html"
+- text: Details about OpenVox's internals
+  items:
+  - text: Agent/master HTTPS communications
+    link: "subsystem_agent_master_comm.html"
+  - text: Catalog compilation
+    link: "subsystem_catalog_compilation.html"
+- text: Experimental features
+  items:
+  - text: Overview
+    link: "experiments_overview.html"
+  - text: Msgpack support
+    link: "experiments_msgpack.html"

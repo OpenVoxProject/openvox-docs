@@ -10,7 +10,7 @@ AllCops:
     - .vendor/**/*
     - spec/fixtures/**/*
     - externalsources/**/*
-    - output/**/*
+    - _site/**/*
 
 Style/StringConcatenation:
   Details: See https://github.com/rubocop/rubocop/issues/9144

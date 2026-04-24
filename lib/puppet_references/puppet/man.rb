@@ -5,10 +5,10 @@ require 'puppet_references'
 module PuppetReferences
   module Puppet
     class Man < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'puppet/man'
+      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'openvox/man'
 
       def initialize(*)
-        @latest = '/puppet/latest/man'
+        @latest = '/openvox/latest/man'
         super
       end
 

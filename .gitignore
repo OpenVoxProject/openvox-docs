@@ -31,3 +31,5 @@ link_report.txt
 puppet-docs-build.log
 source/.jekyll-cache/
 .ruby-version
+Gemfile.lock
+_site

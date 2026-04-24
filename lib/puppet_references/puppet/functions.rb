@@ -10,12 +10,12 @@ module PuppetReferences
   module Puppet
     class Functions < PuppetReferences::Reference
       TEMPLATE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'functions_template.erb'
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'puppet'
+      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'openvox'
       PREAMBLE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'functions_preamble.md'
       PREAMBLE = PREAMBLE_FILE.read
 
       def initialize(*)
-        @latest = '/puppet/latest'
+        @latest = '/openvox/latest'
         super
       end
 

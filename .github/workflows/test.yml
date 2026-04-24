@@ -1,11 +1,9 @@
 ---
-name: Build site on PR
+name: Pull Request Tests
 
 on:
   pull_request: {}
-  push:
-    branches:
-      - master
+  workflow_call: {}
 
 permissions:
   contents: read
@@ -30,6 +28,4 @@ jobs:
       - name: Run rake rubocop
         run: bundle exec rake rubocop
       - name: Validate code
-        run: bundle exec rake generate
-        env:
-          DEBUG_PUPPET_DOCS_RAKEFILE: 1
+        run: bundle exec jekyll build

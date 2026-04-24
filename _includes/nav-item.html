@@ -1,0 +1,41 @@
+{% if include.item.items %}
+  {% assign nav_next_level = include.level | plus: 1 %}
+
+  {% capture nav_children %}
+    {% for child in include.item.items %}
+      {% include nav-item.html item=child level=nav_next_level %}
+    {% endfor %}
+  {% endcapture %}
+
+  {% assign nav_has_active = false %}
+  {% if nav_children contains 'is-active' %}
+    {% assign nav_has_active = true %}
+  {% endif %}
+
+  <div class="group no-transition">
+    <section class="VPSidebarItem level-{{ include.level }} collapsible{% if nav_has_active %} has-active{% endif %}">
+      <div class="item" role="button" tabindex="0">
+        <div class="indicator"></div>
+        <h2 class="text">{{ include.item.text }}</h2>
+        <div class="caret" role="button" aria-label="toggle section" tabindex="0">
+          <span class="vpi-chevron-right caret-icon"></span>
+        </div>
+      </div>
+
+      <div class="items">
+        {{ nav_children }}
+      </div>
+    </section>
+  </div>
+{% elsif include.item.link %}
+  {% assign nav_item_url = include.item.link | prepend: nav_base %}
+
+  <div class="VPSidebarItem level-{{ include.level }} is-link{% if nav_item_url == page.url %} is-active{% endif %}">
+    <div class="item">
+      <div class="indicator"></div>
+      <a class="VPLink link link" href="{{ nav_item_url }}">
+        <p class="text">{{ include.item.text }}</p>
+      </a>
+    </div>
+  </div>
+{% endif %}

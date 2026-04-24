@@ -1,0 +1,61 @@
+<style>
+    :root {
+        --under-construction-banner-height: 43px;
+        --vp-layout-top-height: var(--under-construction-banner-height);
+    }
+
+    #under-construction-banner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background-color: #fff8c5;
+        border-bottom: 1px solid #e6a817;
+        padding: 10px 20px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #7c5000;
+    }
+
+    html.dark #under-construction-banner {
+        background-color: #3a2d00;
+        border-bottom-color: #8a6b00;
+        color: #f5d87a;
+    }
+
+    /* Remove the old body padding hack */
+    body {
+        padding-top: 0 !important;
+    }
+</style>
+
+<script>
+  (function () {
+    function init() {
+      if (document.getElementById('under-construction-banner')) return;
+
+      var banner = document.createElement('div');
+      banner.id = 'under-construction-banner';
+      banner.innerHTML =
+        '<strong>Under Construction</strong> — The contents of this documentation site are currently being re-built from various upstream sources. Links may be broken and some version information may be out of date. Pardon the mess as we get things cleaned up!';
+
+      document.body.prepend(banner);
+
+      function updateHeight() {
+        var height = banner.offsetHeight + 'px';
+        document.documentElement.style.setProperty('--under-construction-banner-height', height);
+        document.documentElement.style.setProperty('--vp-layout-top-height', height);
+      }
+
+      updateHeight();
+      window.addEventListener('resize', updateHeight);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>

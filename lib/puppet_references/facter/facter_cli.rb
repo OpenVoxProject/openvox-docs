@@ -4,12 +4,12 @@ require 'puppet_references'
 module PuppetReferences
   module Facter
     class FacterCli < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'facter'
+      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'openfact'
       PREAMBLE_FILE = Pathname.new(__FILE__).dirname + 'facter_cli_preamble.md'
       PREAMBLE = PREAMBLE_FILE.read
 
       def initialize(*)
-        @latest = '/puppet/latest'
+        @latest = '/openvox/latest'
         super
       end
 
@@ -31,8 +31,9 @@ module PuppetReferences
           puts "Encountered an error while building the facter cli docs, will abort: #{err}"
           return
         end
-        content = make_header(header_data) + PREAMBLE +
-                  raw_text.gsub(/SYNOPSIS\n--------\n\s\s(.*?)$/, "SYNOPSIS\n--------\n    \\1")
+        require 'pandoc-ruby'
+        markdown_text = PandocRuby.new(raw_text, from: 'man').to_markdown
+        content = make_header(header_data) + PREAMBLE + markdown_text
         filename = OUTPUT_DIR + 'cli.md'
         filename.open('w') { |f| f.write(content) }
         puts 'CLI documentation is done!'

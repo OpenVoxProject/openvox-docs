@@ -5,12 +5,12 @@ require 'fileutils'
 module PuppetReferences
   module Puppet
     class Http < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'puppet'
+      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'openvox'
       DOCS_DIR = OUTPUT_DIR + 'http_api'
       API_SOURCE = PuppetReferences::PUPPET_DIR + 'api'
 
       def initialize(*)
-        @latest = '/puppet/latest/http_api'
+        @latest = '/openvox/latest/http_api'
         super
       end
 

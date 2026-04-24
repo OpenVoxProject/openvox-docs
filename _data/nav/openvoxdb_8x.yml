@@ -1,0 +1,171 @@
+---
+- text: General information
+  items:
+  - text: Overview and requirements
+    link: overview.html
+  - text: Contributing to PuppetDB
+    link: CONTRIBUTING.html
+  - text: Frequently asked questions
+    link: puppetdb-faq.html
+  - text: Release notes
+    link: release_notes.html
+  - text: Versioning policy
+    link: versioning_policy.html
+  - text: Known issues
+    link: known_issues.html
+  - text: Community add-ons
+    link: community_add_ons.html
+- text: Installation
+  items:
+  - text: Installing via Puppet module
+    link: install_via_module.html
+  - text: Installing from packages
+    link: install_from_packages.html
+  - text: Installing from source
+    link: install_from_source.html
+  - text: Upgrading PuppetDB
+    link: upgrade.html
+  - text: Connecting Puppet Servers
+    link: connect_puppet_server.html
+  - text: Connecting standalone Puppet nodes
+    link: connect_puppet_apply.html
+- text: Configuration
+  items:
+  - text: Configuring PuppetDB
+    link: configure.html
+  - text: 'puppetdb.conf: Configuring a Puppet/PuppetDB connection'
+    link: puppetdb_connection.html
+  - text: Configuring Postgres
+    link: configure_postgres.html
+  - text: Setting up SSL for PostgreSQL
+    link: postgres_ssl.html
+- text: Usage/admin
+  items:
+  - text: Using PuppetDB
+    link: using.html
+  - text: Maintaining and tuning
+    link: maintain_and_tune.html
+  - text: PuppetDB CLI
+    link: pdb_client_tools.html
+  - text: Exporting and anonymizing data
+    link: anonymization.html
+  - text: Scaling recommendations
+    link: scaling_recommendations.html
+  - text: Debugging with remote REPL
+    link: repl.html
+  - text: Load testing
+    link: load_testing_tool.html
+- text: Troubleshooting
+  items:
+  - text: General Support Guide
+    link: pdb_support_guide.html
+  - text: Session logging
+    link: trouble_session_logging.html
+- text: PQL - Puppet Query Language
+  items:
+  - text: Tutorial
+    link: api/query/tutorial-pql.html
+  - text: Reference guide
+    link: api/query/v4/pql.html
+  - text: Examples
+    link: api/query/examples-pql.html
+- text: API
+  items:
+  - text: Overview
+    link: api/overview.html
+  - text: Query tutorial
+    link: api/query/tutorial.html
+  - text: Curl tips
+    link: api/query/curl.html
+- text: Query API version 4
+  items:
+  - text: Upgrading from version 3
+    link: api/query/v4/upgrading-from-v3.html
+  - text: Query structure
+    link: api/query/v4/query.html
+  - text: Entities
+    link: api/query/v4/entities.html
+  - text: AST query language
+    link: api/query/v4/ast.html
+  - text: Query paging
+    link: api/query/v4/paging.html
+  - text: Root endpoint
+    link: api/query/v4/overview.html
+  - text: Nodes endpoint
+    link: api/query/v4/nodes.html
+  - text: Environments endpoint
+    link: api/query/v4/environments.html
+  - text: Producers endpoint
+    link: api/query/v4/producers.html
+  - text: Factsets endpoint
+    link: api/query/v4/factsets.html
+  - text: Facts endpoint
+    link: api/query/v4/facts.html
+  - text: Fact-names endpoint
+    link: api/query/v4/fact-names.html
+  - text: Fact-paths endpoint
+    link: api/query/v4/fact-paths.html
+  - text: Fact-contents endpoint
+    link: api/query/v4/fact-contents.html
+  - text: Inventory endpoint
+    link: api/query/v4/inventory.html
+  - text: Catalogs endpoint
+    link: api/query/v4/catalogs.html
+  - text: Resources endpoint
+    link: api/query/v4/resources.html
+  - text: Edges endpoint
+    link: api/query/v4/edges.html
+  - text: Reports endpoint
+    link: api/query/v4/reports.html
+  - text: Events endpoint
+    link: api/query/v4/events.html
+  - text: Event counts endpoint
+    link: api/query/v4/event-counts.html
+  - text: Aggregate event counts endpoint
+    link: api/query/v4/aggregate-event-counts.html
+  - text: Package endpoints
+    link: api/query/v4/packages.html
+- text: Extensions API version 1 (PE-only)
+  items:
+  - text: State overview endpoint
+    link: api/ext/v1/state-overview.html
+- text: Admin API version 1
+  items:
+  - text: Archive endpoint
+    link: api/admin/v1/archive.html
+  - text: Command (cmd) endpoint
+    link: api/admin/v1/cmd.html
+  - text: Summary stats endpoint
+    link: api/admin/v1/summary-stats.html
+- text: Command API version 1
+  items:
+  - text: Commands endpoint
+    link: api/command/v1/commands.html
+- text: Status API version 1
+  items:
+  - text: Status endpoint
+    link: api/status/v1/status.html
+- text: Metadata API version 1
+  items:
+  - text: Version endpoint
+    link: api/meta/v1/version.html
+  - text: Server time endpoint
+    link: api/meta/v1/server-time.html
+- text: Metrics API
+  items:
+  - text: Metrics API v2
+    link: api/metrics/v2/jolokia.html
+- text: Wire formats
+  items:
+  - text: Catalog wire format - v9
+    link: api/wire_format/catalog_format_v9.html
+  - text: Facts wire format - v5
+    link: api/wire_format/facts_format_v5.html
+  - text: Report wire format - v8
+    link: api/wire_format/report_format_v8.html
+  - text: Deactivate node wire format - v3
+    link: api/wire_format/deactivate_node_format_v3.html
+- text: High Availability (HA) (PE-only)
+  items:
+  - text: Overview and Configuration
+    link: ha.html

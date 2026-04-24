@@ -1,0 +1,12 @@
+- title: OpenFact
+  url: /openfact/latest/
+  collections: [openfact_latest, openfact_5x]
+- title: OpenVox
+  url: /openvox/latest/
+  collections: [openvox_latest, openvox_8x]
+- title: OpenVox Server
+  url: /openvox-server/latest/
+  collections: [openvox-server_latest, openvox-server_8x]
+- title: OpenVoxDB
+  url: /openvox-server/latest/
+  collections: [openvoxdb_latest, openvoxdb_8x]

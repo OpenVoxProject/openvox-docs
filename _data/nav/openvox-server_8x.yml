@@ -1,0 +1,112 @@
+---
+- text: Index
+  link: index.html
+- text: About Puppet Server
+  link: services_master_puppetserver.html
+- text: Release notes
+  link: release_notes.html
+- text: Deprecated features
+  link: deprecated_features.html
+- text: Compatibility with Puppet agent
+  link: compatibility_with_puppet_agent.html
+- text: Installing Puppet Server
+  link: install_from_packages.html
+- text: Configuring Puppet Server
+  items:
+  - text: Configuring Puppet Server
+    link: configuration.html
+  - text: 'Main Puppet Server configurations: puppetserver.conf'
+    link: config_file_puppetserver.html
+  - text: 'Global settings: global.conf'
+    link: config_file_global.html
+  - text: 'Webserver service: webserver.conf'
+    link: config_file_webserver.html
+  - text: 'Web application mount points: web-routes.conf'
+    link: config_file_web-routes.html
+  - text: 'Access control: auth.conf'
+    link: config_file_auth.html
+  - text: 'Metrics services: metrics.conf'
+    link: config_file_metrics.html
+  - text: 'Log level and location: logback.xml'
+    link: config_file_logbackxml.html
+  - text: Advanced logging configuration
+    link: config_logging_advanced.html
+  - text: 'CA service: ca.conf'
+    link: config_file_ca.html
+  - text: Puppet Server use of puppet.conf settings
+    link: puppet_conf_setting_diffs.html
+  - text: 'Configuring product-level interactions (optional): product.conf'
+    link: config_file_product.html
+  - text: Bootstrap upgrade notes
+    link: bootstrap_upgrade_notes.html
+- text: Using and extending Puppet Server
+  items:
+  - text: Using Ruby gems
+    link: gems.html
+  - text: Subcommands
+    link: subcommands.html
+  - text: Using an external certificate authority
+    link: external_ca_configuration.html
+  - text: Infrastructure CRL
+    link: infrastructure_crl.html
+  - text: Intermediate CA
+    link: intermediate_ca.html
+  - text: External SSL germination
+    link: external_ssl_termination.html
+  - text: Restarting Puppet server
+    link: restarting.html
+- text: Tuning, troubleshooting, and known issues
+  items:
+  - text: Known issues
+    link: known_issues.html
+  - text: SSL problems with load-balanced PuppetDB servers ("Server Certificate Change"
+      error)
+    link: ssl_server_certificate_change_and_virtual_ips.html
+  - text: Puppet Server tuning guide
+    link: tuning_guide.html
+  - text: Migrating to the HOCON auth.conf format
+    link: config_file_auth_migration.html
+- text: Administrative API endpoints
+  items:
+  - text: Environment cache
+    link: admin-api/v1/environment-cache.html
+  - text: JRuby pool
+    link: admin-api/v1/jruby-pool.html
+- text: CA API endpoints
+  items:
+  - text: Certificate
+    link: http_certificate.html
+  - text: Certificate signing request
+    link: http_certificate_request.html
+  - text: Certificate status
+    link: http_certificate_status.html
+  - text: Certificate revocation list
+    link: http_certificate_revocation_list.html
+- text: Server-specific Puppet API endpoints
+  items:
+  - text: Environment classes
+    link: puppet-api/v3/environment_classes.html
+  - text: Environment modules
+    link: puppet-api/v3/environment_modules.html
+  - text: Static file content
+    link: puppet-api/v3/static_file_content.html
+- text: Status API endpoints
+  items:
+  - text: Services endpoint
+    link: status-api/v1/services.html
+  - text: Simple endpoint
+    link: status-api/v1/simple.html
+- text: Metrics API endpoints
+  items:
+  - text: v1 metrics
+    link: metrics-api/v1/metrics_api.html
+  - text: v2 (Jolokia) metrics
+    link: metrics-api/v2/metrics_api.html
+- text: Developer information
+  items:
+  - text: Developer debugging
+    link: dev_debugging.html
+  - text: Running from source
+    link: dev_running_from_source.html
+  - text: Tracing code events
+    link: dev_trace_func.html

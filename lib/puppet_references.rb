@@ -4,11 +4,9 @@ require 'pathname'
 
 module PuppetReferences
   BASE_DIR = Pathname.new(File.expand_path(__FILE__)).parent.parent
-  PUPPET_DIR = BASE_DIR + 'vendor/puppet'
-  FACTER_DIR = BASE_DIR + 'vendor/facter'
-  AGENT_DIR = BASE_DIR + 'vendor/puppet-agent'
-  PE_DIR = BASE_DIR + 'vendor/enterprise-dist'
-  PE_SERVER_DIR = BASE_DIR + 'vendor/pe-puppetserver'
+  PUPPET_DIR = BASE_DIR + 'vendor/openvox'
+  FACTER_DIR = BASE_DIR + 'vendor/openfact'
+  AGENT_DIR = BASE_DIR + 'vendor/openvox-agent'
   OUTPUT_DIR = BASE_DIR + 'references_output'
 
   require 'puppet_references/config'
@@ -55,8 +53,9 @@ module PuppetReferences
     # Adding this workaround so the build doesn't fail for 3.y. Check with Claire to see if
     # we need the CLI docs for 3.y. We can remove this when we stop building 3.y.
     version4 = Gem::Version.create('4.0.0')
-    repo = PuppetReferences::Repo.new('facter', FACTER_DIR)
+    repo = PuppetReferences::Repo.new('openfact', FACTER_DIR)
     real_commit = repo.checkout(commit)
+    repo.update_bundle
     if !semantic?(commit) || (semantic?(commit) && Gem::Version.create(commit) >= version4)
       references << PuppetReferences::Facter::FacterCli
     elsif semantic?(commit) && Gem::Version.create(commit) < version4
