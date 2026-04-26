@@ -1,60 +1,23 @@
 ---
 layout: default
-built_from_commit: 8c9dd1ff315b738818307cc895942164aba30730
 title: 'Resource Types: Index'
-canonical: "/puppet/latest/types/index.html"
+canonical: "/openvox/latest/types/index.html"
 ---
 
 ## List of Resource Types
 
-* [augeas](./augeas.html)
-* [computer](./computer.html)
-* [cron](./cron.html)
 * [exec](./exec.html)
 * [file](./file.html)
 * [filebucket](./filebucket.html)
 * [group](./group.html)
-* [host](./host.html)
-* [interface](./interface.html)
-* [k5login](./k5login.html)
-* [macauthorization](./macauthorization.html)
-* [mailalias](./mailalias.html)
-* [maillist](./maillist.html)
-* [mcx](./mcx.html)
-* [mount](./mount.html)
-* [nagios_command](./nagios_command.html)
-* [nagios_contact](./nagios_contact.html)
-* [nagios_contactgroup](./nagios_contactgroup.html)
-* [nagios_host](./nagios_host.html)
-* [nagios_hostdependency](./nagios_hostdependency.html)
-* [nagios_hostescalation](./nagios_hostescalation.html)
-* [nagios_hostextinfo](./nagios_hostextinfo.html)
-* [nagios_hostgroup](./nagios_hostgroup.html)
-* [nagios_service](./nagios_service.html)
-* [nagios_servicedependency](./nagios_servicedependency.html)
-* [nagios_serviceescalation](./nagios_serviceescalation.html)
-* [nagios_serviceextinfo](./nagios_serviceextinfo.html)
-* [nagios_servicegroup](./nagios_servicegroup.html)
-* [nagios_timeperiod](./nagios_timeperiod.html)
 * [notify](./notify.html)
 * [package](./package.html)
 * [resources](./resources.html)
-* [router](./router.html)
 * [schedule](./schedule.html)
-* [scheduled_task](./scheduled_task.html)
-* [selboolean](./selboolean.html)
-* [selmodule](./selmodule.html)
 * [service](./service.html)
-* [ssh_authorized_key](./ssh_authorized_key.html)
-* [sshkey](./sshkey.html)
 * [stage](./stage.html)
 * [tidy](./tidy.html)
 * [user](./user.html)
-* [vlan](./vlan.html)
-* [yumrepo](./yumrepo.html)
-* [zfs](./zfs.html)
-* [zone](./zone.html)
-* [zpool](./zpool.html)
 
 ## About Resource Types
 
