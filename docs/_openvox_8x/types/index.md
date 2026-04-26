@@ -40,7 +40,7 @@ You can also browse and manage resources interactively using the
 
 ### Namevars and Titles
 
-All types have a special attribute called the *namevar.* This is the attribute
+All types have a special attribute called the **namevar.** This is the attribute
 used to uniquely identify a resource _on the target system._ If you don't
 specifically assign a value for the namevar, its value will default to the
 _title_ of the resource.
@@ -60,7 +60,7 @@ provide a value for it, the value of `path` will default to `/etc/passwd`.
 
 ### Attributes, Parameters, Properties
 
-The *attributes* (sometimes called *parameters*) of a resource determine its
+The **attributes** (sometimes called **parameters**) of a resource determine its
 desired state.  They either directly modify the system (internally, these are
 called "properties") or they affect how the resource behaves (e.g., adding a
 search path for `exec` resources or controlling directory recursion on `file`
@@ -68,7 +68,7 @@ resources).
 
 ### Providers
 
-*Providers* implement the same resource type on different kinds of systems.
+**Providers** implement the same resource type on different kinds of systems.
 They usually do this by calling out to external commands.
 
 Although Puppet will automatically select an appropriate default provider, you
@@ -83,7 +83,7 @@ shell path.
 
 ### Features
 
-*Features* are abilities that some providers may not support. Generally, a
+**Features** are abilities that some providers may not support. Generally, a
 feature will correspond to some allowed values for a resource attribute; for
 example, if a `package` provider supports the `purgeable` feature, you can
 specify `ensure => purged` to delete config files installed by the package.
@@ -92,4 +92,3 @@ Resource types define the set of features they can use, and providers can
 declare which features they provide.
 
 ----------------
-

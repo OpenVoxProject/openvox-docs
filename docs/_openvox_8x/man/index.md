@@ -4,8 +4,6 @@ title: Puppet Man Pages
 canonical: "/openvox/latest/man/index.html"
 ---
 
-
-
 Puppet's command line tools consist of a single `puppet` binary with many subcommands. The following subcommands are available in this version of Puppet:
 
 Core Tools
@@ -18,7 +16,6 @@ These subcommands form the core of Puppet's tool set, and every user should unde
 - [puppet module](./module.html)
 - [puppet resource](./resource.html)
 - [puppet lookup](./lookup.html)
-
 
 Secondary subcommands
 -----
@@ -34,7 +31,6 @@ Many or most users will need to use these subcommands at some point, but they ar
 - [puppet node](./node.html)
 - [puppet parser](./parser.html)
 - [puppet plugin](./plugin.html)
-
 
 Niche subcommands
 -----
@@ -55,4 +51,3 @@ These subcommands have not yet been added to any of the categories above.
 
 - [puppet script](./script.html)
 - [puppet generate](./generate.html)
-
