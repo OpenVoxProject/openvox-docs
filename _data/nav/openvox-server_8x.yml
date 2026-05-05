@@ -1,6 +1,4 @@
 ---
-- text: Index
-  link: index.html
 - text: About OpenVox Server
   link: services_puppetserver.html
 - text: Release notes
@@ -19,11 +17,11 @@
     link: install_what_and_where.html
   - text: Upgrading OpenVox Server
     link: upgrade_minor.html
-- text: Configuring Puppet Server
+- text: Configuring OpenVox Server
   items:
-  - text: Configuring Puppet Server
+  - text: Configuring OpenVox Server
     link: configuration.html
-  - text: 'Main Puppet Server configurations: puppetserver.conf'
+  - text: 'Main OpenVox Server configurations: puppetserver.conf'
     link: config_file_puppetserver.html
   - text: 'Global settings: global.conf'
     link: config_file_global.html
@@ -41,27 +39,25 @@
     link: config_logging_advanced.html
   - text: 'CA service: ca.conf'
     link: config_file_ca.html
-  - text: Puppet Server use of puppet.conf settings
+  - text: OpenVox Server use of puppet.conf settings
     link: puppet_conf_setting_diffs.html
   - text: 'Configuring product-level interactions (optional): product.conf'
     link: config_file_product.html
   - text: Bootstrap upgrade notes
     link: bootstrap_upgrade_notes.html
-- text: Using and extending Puppet Server
+- text: Using and extending OpenVox Server
   items:
   - text: Using Ruby gems
     link: gems.html
   - text: Subcommands
     link: subcommands.html
-  - text: Using an external certificate authority
-    link: external_ca_configuration.html
   - text: Infrastructure CRL
     link: infrastructure_crl.html
   - text: Intermediate CA
     link: intermediate_ca.html
-  - text: External SSL germination
+  - text: External SSL termination
     link: external_ssl_termination.html
-  - text: Restarting Puppet server
+  - text: Restarting OpenVox Server
     link: restarting.html
 - text: Tuning, troubleshooting, and known issues
   items:
@@ -70,7 +66,7 @@
   - text: SSL problems with load-balanced PuppetDB servers ("Server Certificate Change"
       error)
     link: ssl_server_certificate_change_and_virtual_ips.html
-  - text: Puppet Server tuning guide
+  - text: OpenVox Server tuning guide
     link: tuning_guide.html
   - text: Migrating to the HOCON auth.conf format
     link: config_file_auth_migration.html
