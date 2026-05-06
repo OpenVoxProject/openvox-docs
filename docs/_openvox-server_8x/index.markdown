@@ -18,7 +18,7 @@ It also runs a built-in certificate authority for signing agent certificates.
 For a full description of the service and its internal components, see
 [About OpenVox Server](./services_puppetserver.html).
 
-## Core packages
+## OpenVox Server packages
 
 | Package | Contents |
 | ------- | -------- |
