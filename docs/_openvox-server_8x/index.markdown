@@ -18,6 +18,12 @@ It also runs a built-in certificate authority for signing agent certificates.
 For a full description of the service and its internal components, see
 [About OpenVox Server](./services_puppetserver.html).
 
+## Core packages
+
+| Package | Contents |
+| ------- | -------- |
+| `openvox-server` | JVM-based catalog server; depends on `openvox-agent`. Requires Java 17 or 21 (not bundled). |
+
 ## Getting started
 
 1. Review [pre-install tasks](install_pre.html) — system requirements, DNS, firewall, and time synchronization
