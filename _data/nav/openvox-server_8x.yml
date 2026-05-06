@@ -102,11 +102,17 @@
     link: status-api/v1/services.html
   - text: Simple endpoint
     link: status-api/v1/simple.html
-- text: Metrics API endpoints
+- text: Metrics
   items:
-  - text: v1 metrics
+  - text: Monitoring OpenVox Server metrics
+    link: puppet_server_metrics.html
+  - text: HTTP client metrics
+    link: http_client_metrics.html
+  - text: Applying metrics to improve performance
+    link: puppet_server_metrics_performance.html
+  - text: v1 metrics API
     link: metrics-api/v1/metrics_api.html
-  - text: v2 (Jolokia) metrics
+  - text: v2 (Jolokia) metrics API
     link: metrics-api/v2/metrics_api.html
 - text: Developer information
   items:

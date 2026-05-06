@@ -1,7 +1,6 @@
 ---
 layout: default
-title: "Monitoring Puppet Server metrics"
-canonical: "/puppetserver/latest/puppet_server_metrics.html"
+title: "Monitoring OpenVox Server metrics"
 ---
 
 [metrics API]: ./metrics-api/v1/metrics_api.html
@@ -13,69 +12,67 @@ canonical: "/puppetserver/latest/puppet_server_metrics.html"
 [`grafanadash`]: https://forge.puppet.com/cprice404/grafanadash
 [`metrics.conf`]: ./config_file_metrics.html
 
-Puppet Server tracks several advanced performance and health metrics, all of which take advantage of the [metrics API][]. You can track these metrics using:
+OpenVox Server tracks several advanced performance and health metrics, all of which take advantage of the [metrics API][]. You can track these metrics using:
 
 - Customizable, networked [Graphite and Grafana instances](#getting-started-with-graphite)
 - [HTTP client metrics][]
 - [Metrics API][metrics API] endpoints
 
-To visualize Puppet Server metrics, either:
+To visualize OpenVox Server metrics, either:
 
-- Export them to a Graphite installation. The [grafanadash](https://forge.puppet.com/puppetlabs/grafanadash) module helps you set up a Graphite instance, configure Puppet Server for exporting to it, and
+- Use the [puppet-operational-dashboards](https://forge.puppet.com/puppetlabs/puppet_operational_dashboards) module.
+- Export them to a Graphite installation. The [grafanadash](https://forge.puppet.com/puppetlabs/grafanadash) module helps you set up a Graphite instance, configure OpenVox Server for exporting to it, and
   visualize the output with Grafana. You can later integrate this with your Graphite installation. For more information, see Getting started with Graphite below.
-- Use the [puppet-metrics-dashboard](https://forge.puppet.com/puppetlabs/puppet_metrics_dashboard) — this does not go through the Graphite exporting feature. The puppet-metrics-dashboard queries the metrics
-  HTTP API directly and saves the results to disk. It also includes a Docker image of Graphite and Grafana for easy visualization. For more information, see
-  [Puppet Metrics Collection](https://github.com/puppetlabs/best-practices/blob/master/puppet-enterprise-metrics-collection.md).
 
-The puppet-metrics-dashboard is the recommended option for FOSS users, as it is an easier way to save and visualize Puppet Server metrics. The `grafanadash` is still useful for users exporting to their existing
-Graphite installation.
+The puppet-operational-dashboards module is the recommended option for FOSS users, as it is an easier way to save and visualize OpenVox Server metrics. The `grafanadash` module is still useful for users
+exporting to their existing Graphite installation.
 
-> **Note:** The `grafanadash` and `puppet-graphite` modules referenced in this document are _not_ Puppet-supported modules. They are provided as testing and demonstration purposes _only_.
+> **Note:** The `grafanadash` and `puppet-graphite` modules referenced in this document are community modules, not OpenVox-supported. They are provided for testing and demonstration purposes _only_.
 
 ## Getting started with Graphite
 
-[Graphite][] is a third-party monitoring application that stores real-time metrics and provides customizable ways to view them. Puppet Server can export many metrics to Graphite, and exports a set of metrics by
-default that is designed to be immediately useful to Puppet administrators.
+[Graphite][] is a third-party monitoring application that stores real-time metrics and provides customizable ways to view them. OpenVox Server can export many metrics to Graphite, and exports a set of metrics
+by default that is designed to be immediately useful to administrators.
 
-> **Note:** A Graphite setup is deeply customizable and can report many Puppet Server metrics on demand. However, it requires considerable configuration and additional server resources. To retrieve metrics
+> **Note:** A Graphite setup is deeply customizable and can report many OpenVox Server metrics on demand. However, it requires considerable configuration and additional server resources. To retrieve metrics
 > through HTTP requests, see the metrics API.
 
-To start using Graphite with Puppet Server, you must:
+To start using Graphite with OpenVox Server, you must:
 
 - [Install and configure a Graphite server](https://graphite.readthedocs.io/en/latest/install.html).
-- [Enable Puppet Server's Graphite support](#enabling-puppet-servers-graphite-support).
+- [Enable OpenVox Server's Graphite support](#enabling-openvox-servers-graphite-support).
 
 [Grafana][] provides a web-based customizable dashboard that's compatible with Graphite, and the [`grafanadash`][] module installs and configures it by default.
 
 ### Using the `grafanadash` module to quickly set up a Graphite demo server
 
-The [`grafanadash`][] Puppet module quickly installs and configures a basic test instance of [Graphite][] with the [Grafana][] extension. When installed on a dedicated Puppet agent, this module provides a quick
-demonstration of how Graphite and Grafana can consume and display Puppet Server metrics.
+The [`grafanadash`][] module quickly installs and configures a basic test instance of [Graphite][] with the [Grafana][] extension. When installed on a dedicated agent, this module provides a quick
+demonstration of how Graphite and Grafana can consume and display OpenVox Server metrics.
 
-> **WARNING:** The `grafanadash` module is _not_ a Puppet-supported module. It is designed for testing and demonstration purposes _only_, and tested against CentOS 6 only.
+> **WARNING:** The `grafanadash` module is _not_ an OpenVox-supported module. It is designed for testing and demonstration purposes _only_, and tested against CentOS 6 only.
 >
-> Also, install this module on a dedicated agent _only_. Do **not** install it on the node running Puppet Server, because the module makes security policy changes that are inappropriate for a Puppet master:
+> Also, install this module on a dedicated agent _only_. Do **not** install it on the node running OpenVox Server, because the module makes security policy changes that are inappropriate for a server:
 >
 > - SELinux can cause issues with Graphite and Grafana, so the module temporarily disables SELinux. If you reboot the machine after using the module to install Graphite, you must disable SELinux again and
 >   restart the Apache service to use Graphite and Grafana.
 > - The module disables the `iptables` firewall and enables cross-origin resource sharing on Apache, which are potential security risks.
 
-#### Installing the `grafanadash` Puppet module
+#### Installing the `grafanadash` module
 
-Install the `grafanadash` Puppet module on a \*nix agent. The module's `grafanadash::dev` class installs and configures a Graphite server, the Grafana extension, and a default dashboard.
+Install the `grafanadash` module on a \*nix agent. The module's `grafanadash::dev` class installs and configures a Graphite server, the Grafana extension, and a default dashboard.
 
-1. [Install a \*nix Puppet agent](https://puppet.com/docs/puppet/latest/install_linux.html) to serve as the Graphite server.
+1. Install a \*nix agent to serve as the Graphite server.
 
-2. As root on the Puppet agent node, run `puppet module install puppetlabs-grafanadash`.
+2. As root on the agent node, run `puppet module install puppetlabs-grafanadash`.
 
-3. As root on the Puppet agent node, run `puppet apply -e 'include grafanadash::dev'`.
+3. As root on the agent node, run `puppet apply -e 'include grafanadash::dev'`.
 
 #### Running Grafana
 
-Grafana runs as a web dashboard, and the `grafanadash` module configures it to use port 10000 by default. To view Puppet metrics in Grafana, you must create a metrics dashboard, or edit and import a JSON-based
-dashboard that includes Puppet metrics, such as the [sample Grafana dashboard][] that we provide.
+Grafana runs as a web dashboard, and the `grafanadash` module configures it to use port 10000 by default. To view OpenVox Server metrics in Grafana, you must create a metrics dashboard, or edit and import a
+JSON-based dashboard that includes OpenVox Server metrics, such as the [sample Grafana dashboard][] that we provide.
 
-1. In a web browser on a computer that can reach the Puppet agent node running Grafana, navigate to `http://<AGENT'S HOSTNAME>:10000`.
+1. In a web browser on a computer that can reach the agent node running Grafana, navigate to `http://<AGENT'S HOSTNAME>:10000`.
 
    There, you'll see a test screen that indicates whether Grafana can successfully connect to your Graphite server.
 
@@ -86,7 +83,7 @@ dashboard that includes Puppet metrics, such as the [sample Grafana dashboard][]
 
    a. Open the `sample_metrics_dashboard.json` file in a text editor on the same computer you're using to access Grafana.
 
-   b. Throughout the file, replace our sample hostname of `master.example.com` with your Puppet Server's hostname. (**Note:** This value **must** be used as the `metrics_server_id` setting, as configured
+   b. Throughout the file, replace our sample hostname of `master.example.com` with your OpenVox Server's hostname. (**Note:** This value **must** be used as the `metrics_server_id` setting, as configured
    below.)
 
    c. Save the file.
@@ -95,15 +92,15 @@ dashboard that includes Puppet metrics, such as the [sample Grafana dashboard][]
 
 4. Navigate to and select the edited JSON file.
 
-This loads a dashboard with nine graphs that display various metrics exported from the Puppet Server to the Graphite server. (For details, see
-[Using the Grafana dashboard](#using-the-sample-grafana-dashboard).) However, these graphs will remain empty until you enable Puppet Server's Graphite metrics.
+This loads a dashboard with nine graphs that display various metrics exported from OpenVox Server to the Graphite server. (For details, see
+[Using the Grafana dashboard](#using-the-sample-grafana-dashboard).) However, these graphs will remain empty until you enable OpenVox Server's Graphite metrics.
 
-> Note: If you want to integrate Puppet Server's Grafana exporting with your own infrastructure, use the `grafanadash` module. If you want visualization of metrics, use the `puppetlabs-puppet_metrics_dashboard`
-> module. See [Puppet Metrics Collection](https://github.com/puppetlabs/best-practices/blob/master/puppet-enterprise-metrics-collection.md) for more information.
+> Note: If you want to integrate OpenVox Server's Grafana exporting with your own infrastructure, use the `grafanadash` module. If you want visualization of metrics, use the
+> `puppetlabs-puppet_metrics_dashboard` module.
 
-### Enabling Puppet Server's Graphite support
+### Enabling OpenVox Server's Graphite support
 
-Configure Puppet Server's [`metrics.conf`](./config_file_metrics.html) file to enable and use the Graphite server.
+Configure OpenVox Server's [`metrics.conf`](./config_file_metrics.html) file to enable and use the Graphite server.
 
 1. Set the `enabled` parameter to true in `metrics.registries.puppetserver.reporters.graphite`:
 
@@ -128,7 +125,7 @@ Configure Puppet Server's [`metrics.conf`](./config_file_metrics.html) file to e
 2. Configure the Graphite host settings in `metrics.reporters.graphite`:
    - **host:** The Graphite host's IP address as a string.
    - **port:** The Graphite host's port number.
-   - **update-interval-seconds:** How frequently Puppet Server should send metrics to Graphite.
+   - **update-interval-seconds:** How frequently OpenVox Server should send metrics to Graphite.
 
 3. Verify that `metrics.registries.puppetserver.reporters.jmx.enabled` is not set to false. Its default setting is true.
 
@@ -138,49 +135,49 @@ Configure Puppet Server's [`metrics.conf`](./config_file_metrics.html) file to e
 
 The [sample Grafana dashboard][] provides what we think is an interesting starting point. You can click on the title of any graph, and then click **edit** to tweak the graphs as you see fit.
 
-- **Active requests:** This graph serves as a "health check" for the Puppet Server. It shows a flat line that represents the number of CPUs you have in your system, a metric that indicates the total number of
-  HTTP requests actively being processed by the server at any moment in time, and a rolling average of the number of active requests. If the number of requests being processed exceeds the number of CPUs for any
-  significant length of time, your server might be receiving more requests than it can efficiently process.
+- **Active requests:** This graph serves as a "health check" for OpenVox Server. It shows a flat line that represents the number of CPUs you have in your system, a metric that indicates the total number of
+  HTTP requests actively being processed by the server at any moment in time, and a rolling average of the number of active requests. If the number of requests being processed exceeds the number of CPUs for
+  any significant length of time, your server might be receiving more requests than it can efficiently process.
 
-- **Request durations:** This graph breaks down the average response times for different types of requests made by Puppet agents. This indicates how expensive catalog and report requests are compared to the
-  other types of requests. It also provides a way to see changes in catalog compilation times when you modify your Puppet code. A sharp curve upward for all of the types of requests indicates an overloaded
-  server, and they should trend downward after reducing the load on the server.
+- **Request durations:** This graph breaks down the average response times for different types of requests made by agents. This indicates how expensive catalog and report requests are compared to the other
+  types of requests. It also provides a way to see changes in catalog compilation times when you modify your Puppet code. A sharp curve upward for all of the types of requests indicates an overloaded server,
+  and they should trend downward after reducing the load on the server.
 
-- **Request ratios:** This graph shows how many requests of each type that Puppet Server has handled. Under normal circumstances, you should see about the same number of catalog, node, or report requests,
+- **Request ratios:** This graph shows how many requests of each type that OpenVox Server has handled. Under normal circumstances, you should see about the same number of catalog, node, or report requests,
   because these all happen one time per agent run. The number of file and file metadata requests correlate to how many remote file resources are in the agents' catalogs.
 
-- **Communications with PuppetDB:** This graph tracks the amount of time it takes Puppet Server to send data and requests for common operations to, and receive responses from, PuppetDB.
+- **Communications with OpenVoxDB:** This graph tracks the amount of time it takes OpenVox Server to send data and requests for common operations to, and receive responses from, OpenVoxDB.
 
 - **JRubies**: This graph tracks how many JRubies are in use, how many are free, the mean number of free JRubies, and the mean number of requested JRubies.
 
-  If the number of free JRubies is often less than one, or the mean number of free JRubies is less than one, Puppet Server is requesting and consuming more JRubies than are available. This overload reduces
-  Puppet Server's performance. While this might simply be a symptom of an under-resourced server, it can also be caused by poorly optimized Puppet code or bottlenecks in the server's communications with
-  PuppetDB if it is in use.
+  If the number of free JRubies is often less than one, or the mean number of free JRubies is less than one, OpenVox Server is requesting and consuming more JRubies than are available. This overload reduces
+  OpenVox Server's performance. While this might simply be a symptom of an under-resourced server, it can also be caused by poorly optimized Puppet code or bottlenecks in the server's communications with
+  OpenVoxDB if it is in use.
 
-  If catalog compilation times have increased but PuppetDB performance remains the same, examine your Puppet code for potentially unoptimized code. If PuppetDB communication times have increased, tune PuppetDB
-  for better performance or allocate more resources to it.
+  If catalog compilation times have increased but OpenVoxDB performance remains the same, examine your Puppet code for potentially unoptimized code. If OpenVoxDB communication times have increased, tune
+  OpenVoxDB for better performance or allocate more resources to it.
 
-  If neither catalog compilation nor PuppetDB communication times are degraded, the Puppet Server process might be under-resourced on your server. If you have available CPU time and memory,
-  [increase the number of JRuby instances](./tuning_guide.html) to allow it to allocate more JRubies. Otherwise, consider adding additional compile masters to distribute the catalog compilation load.
+  If neither catalog compilation nor OpenVoxDB communication times are degraded, the OpenVox Server process might be under-resourced on your server. If you have available CPU time and memory,
+  [increase the number of JRuby instances](./tuning_guide.html) to allow it to allocate more JRubies. Otherwise, consider adding additional compilers to distribute the catalog compilation load.
 
 - **JRuby Timers**: This graph tracks several JRuby pool metrics.
-  - The borrow time represents the mean amount of time that Puppet Server uses ("borrows") each JRuby from the pool.
+  - The borrow time represents the mean amount of time that OpenVox Server uses ("borrows") each JRuby from the pool.
 
-  - The wait time represents the total amount of time that Puppet Server waits for a free JRuby instance.
+  - The wait time represents the total amount of time that OpenVox Server waits for a free JRuby instance.
 
-  - The lock held time represents the amount of time that Puppet Server holds a lock on the pool, during which JRubies cannot be borrowed.
+  - The lock held time represents the amount of time that OpenVox Server holds a lock on the pool, during which JRubies cannot be borrowed.
 
-  - The lock wait time represents the amount of time that Puppet Server waits to acquire a lock on the pool.
+  - The lock wait time represents the amount of time that OpenVox Server waits to acquire a lock on the pool.
 
     These metrics help identify sources of potential JRuby allocation bottlenecks.
 
-- **Memory Usage**: This graph tracks how much heap and non-heap memory that Puppet Server uses.
+- **Memory Usage**: This graph tracks how much heap and non-heap memory that OpenVox Server uses.
 
-- **Compilation:** This graph breaks catalog compilation down into various phases to show how expensive each phase is on the master.
+- **Compilation:** This graph breaks catalog compilation down into various phases to show how expensive each phase is on the server.
 
 ### Example Grafana dashboard excerpt
 
-The following example shows only the `targets` parameter of a dashboard to demonstrate the full names of Puppet's exported Graphite metrics (assuming the Puppet Server instance has a domain of
+The following example shows only the `targets` parameter of a dashboard to demonstrate the full names of OpenVox Server's exported Graphite metrics (assuming the OpenVox Server instance has a domain of
 `master.example.com`) and a way to add targets directly to an exported Grafana dashboard's JSON content.
 
 ```json
@@ -214,11 +211,11 @@ See the [sample Grafana dashboard][] for a detailed example of how a Grafana das
 
 ## Available Graphite metrics
 
-The following HTTP and Puppet profiler metrics are available from the Puppet Server and can be added to your metrics reporting. Each metric is prefixed with `puppetlabs.<MASTER-HOSTNAME>`; for instance, the
+The following HTTP and Puppet profiler metrics are available from OpenVox Server and can be added to your metrics reporting. Each metric is prefixed with `puppetlabs.<MASTER-HOSTNAME>`; for instance, the
 Grafana dashboard file refers to the `num-cpus` metric as `puppetlabs.<MASTER-HOSTNAME>.num-cpus`.
 
 Additionally, metrics might be suffixed by fields, such as `count` or `mean`, that return more specific data points. For instance, the `puppetlabs.<MASTER-HOSTNAME>.compiler.mean` metric returns only the mean
-length of time it takes Puppet Server to compile a catalog.
+length of time it takes OpenVox Server to compile a catalog.
 
 To aid with reference, metrics in the list below are segmented into three groups:
 
@@ -243,12 +240,12 @@ To aid with reference, metrics in the list below are segmented into three groups
 
 - **Other:** Metrics that have unique sets of available fields.
 
-> **Note:** Puppet Server can export many, many metrics -- so many that enabling all of them at large installations can overwhelm Grafana servers. To avoid this, Puppet Server exports only a subset of its
+> **Note:** OpenVox Server can export many, many metrics -- so many that enabling all of them at large installations can overwhelm Grafana servers. To avoid this, OpenVox Server exports only a subset of its
 > available metrics by default. This default set is designed to report the most relevant metrics for administrators monitoring performance and stability.
 >
-> To add to the default list of exported metrics, see [Modifying Puppet Server's exported metrics](#modifying-puppet-servers-exported-metrics).
+> To add to the default list of exported metrics, see [Modifying OpenVox Server's exported metrics](#modifying-openvox-servers-exported-metrics).
 
-Puppet Server exports each metric in the lists below by default.
+OpenVox Server exports each metric in the lists below by default.
 
 ### Statistical metrics
 
@@ -257,7 +254,7 @@ Puppet Server exports each metric in the lists below by default.
 - `puppetlabs.<MASTER-HOSTNAME>.compiler`: The time spent compiling catalogs. This metric represents the sum of the `compiler.compile`, `static_compile`, `find_facts`, and `find_node` fields.
   - `puppetlabs.<MASTER-HOSTNAME>.compiler.compile`: The total time spent compiling dynamic (non-static) catalogs.
 
-    To measure specific nodes and environments, see [Modifying Puppet Server's exported metrics](#modifying-puppet-servers-exported-metrics).
+    To measure specific nodes and environments, see [Modifying OpenVox Server's exported metrics](#modifying-openvox-servers-exported-metrics).
 
   - `puppetlabs.<MASTER-HOSTNAME>.compiler.find_facts`: The time spent parsing facts.
 
@@ -280,15 +277,14 @@ Puppet Server exports each metric in the lists below by default.
 
 - `puppetlabs.<MASTER-HOSTNAME>.http.active-histo`: A histogram of active HTTP requests over time.
 
-- `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-catalog-/*/-requests`: The time Puppet Server has spent handling catalog requests, including time spent waiting for an available JRuby instance.
+- `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-catalog-/*/-requests`: The time OpenVox Server has spent handling catalog requests, including time spent waiting for an available JRuby instance.
 
-- `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-environment-/*/-requests`: The time Puppet Server has spent handling environment requests, including time spent waiting for an available JRuby instance.
+- `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-environment-/*/-requests`: The time OpenVox Server has spent handling environment requests, including time spent waiting for an available JRuby instance.
 
-- `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-environment_classes-/*/-requests`: The time spent handling requests to the [`environment_classes` API endpoint](./puppet-api/v3/environment_classes.html), which
-  the Node Classifier uses to refresh classes.
+- `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-environment_classes-/*/-requests`: The time spent handling requests to the
+  [`environment_classes` API endpoint](./puppet-api/v3/environment_classes.html), which the Node Classifier uses to refresh classes.
 
-- `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-environments-requests`: The time spent handling requests to the
-  [`environments` API endpoint](https://puppet.com/docs/puppet/latest/http_api/http_environments.html) requests.
+- `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-environments-requests`: The time spent handling requests to the `environments` API endpoint.
 
 - The following metrics measure the time spent handling file-related API endpoints:
   - `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-file_bucket_file-/*/-requests`
@@ -300,38 +296,38 @@ Puppet Server exports each metric in the lists below by default.
   - `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-file_metadatas-/*/-requests`
 
 - `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-node-/*/-requests`: The time spent handling node requests, which are sent to the Node Classifier. A bottleneck here might indicate an issue with the Node
-  Classifier or PuppetDB.
+  Classifier or OpenVoxDB.
 
-- `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-report-/*/-requests`: The time spent handling report requests. A bottleneck here might indicate an issue with PuppetDB.
+- `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-report-/*/-requests`: The time spent handling report requests. A bottleneck here might indicate an issue with OpenVoxDB.
 
-- `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-static_file_content-/*/-requests`: The time spent handling requests to the [`static_file_content` API endpoint](./puppet-api/v3/static_file_content.html) used by
-  Direct Puppet with file sync.
+- `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-static_file_content-/*/-requests`: The time spent handling requests to the
+  [`static_file_content` API endpoint](./puppet-api/v3/static_file_content.html) used by Direct Puppet with file sync.
 
 #### JRuby metrics
 
-Puppet Server uses an embedded JRuby interpreter to execute Ruby code. By default, JRuby spawns parallel instances known as JRubies to execute Ruby code, which occurs during most Puppet Server activities. When
-`multithreaded` is set to `true`, a single JRuby is used instead to process a limited number of threads in parallel. For each of these metrics, they refer to JRuby instances by default and JRuby threads in
-multithreaded mode.
+OpenVox Server uses an embedded JRuby interpreter to execute Ruby code. By default, JRuby spawns parallel instances known as JRubies to execute Ruby code, which occurs during most OpenVox Server activities.
+When `multithreaded` is set to `true`, a single JRuby is used instead to process a limited number of threads in parallel. For each of these metrics, they refer to JRuby instances by default and JRuby threads
+in multithreaded mode.
 
-See [Tuning JRuby on Puppet Server](./tuning_guide.html) for details on adjusting JRuby settings.
+See [Tuning JRuby on OpenVox Server](./tuning_guide.html) for details on adjusting JRuby settings.
 
 - `puppetlabs.<MASTER-HOSTNAME>.jruby.borrow-timer`: The time spent with a borrowed JRuby.
 
-- `puppetlabs.<MASTER-HOSTNAME>.jruby.free-jrubies-histo`: A histogram of free JRubies over time. This metric's average value should greater than 1; if it isn't, [more JRubies](./tuning_guide.html) or another
-  compile master might be needed to keep up with requests.
+- `puppetlabs.<MASTER-HOSTNAME>.jruby.free-jrubies-histo`: A histogram of free JRubies over time. This metric's average value should greater than 1; if it isn't, [more JRubies](./tuning_guide.html) or
+  another compiler might be needed to keep up with requests.
 
 - `puppetlabs.<MASTER-HOSTNAME>.jruby.lock-held-timer`: The time spent holding the JRuby lock.
 
 - `puppetlabs.<MASTER-HOSTNAME>.jruby.lock-wait-timer`: The time spent waiting to acquire the JRuby lock.
 
-- `puppetlabs.<MASTER-HOSTNAME>.jruby.requested-jrubies-histo`: A histogram of requested JRubies over time. This increases as the number of free JRubies, or the `free-jrubies-histo` metric, decreases, which can
-  suggest that the server's capacity is being depleted.
+- `puppetlabs.<MASTER-HOSTNAME>.jruby.requested-jrubies-histo`: A histogram of requested JRubies over time. This increases as the number of free JRubies, or the `free-jrubies-histo` metric, decreases,
+  which can suggest that the server's capacity is being depleted.
 
 - `puppetlabs.<MASTER-HOSTNAME>.jruby.wait-timer`: The time spent waiting to borrow a JRuby.
 
-#### PuppetDB metrics
+#### OpenVoxDB metrics
 
-The following metrics measure the time that Puppet Server spends sending or receiving data from PuppetDB.
+The following metrics measure the time that OpenVox Server spends sending or receiving data from OpenVoxDB. The metric names use the `puppetdb` identifier for compatibility with existing tooling.
 
 - `puppetlabs.<MASTER-HOSTNAME>.puppetdb.catalog.save`
 
@@ -380,7 +376,7 @@ The following metrics measure the time that Puppet Server spends sending or rece
 
   - `puppetlabs.<MASTER-HOSTNAME>.http.puppet-v3-status-/*/-percentage`
 
-- `puppetlabs.<MASTER-HOSTNAME>.http.total-requests`: The total requests handled by Puppet Server.
+- `puppetlabs.<MASTER-HOSTNAME>.http.total-requests`: The total requests handled by OpenVox Server.
 
 #### JRuby metrics
 
@@ -396,11 +392,11 @@ The following metrics measure the time that Puppet Server spends sending or rece
 
 - `puppetlabs.<MASTER-HOSTNAME>.jruby.return-count`: The number of JRubies successfully returned to the pool.
 
-- `puppetlabs.<MASTER-HOSTNAME>.jruby.num-free-jrubies`: The number of free JRuby instances. If this number is often 0, more requests are coming in than the server has available JRuby instances. To alleviate
-  this, increase the number of JRuby instances on the Server or add additional compile masters.
+- `puppetlabs.<MASTER-HOSTNAME>.jruby.num-free-jrubies`: The number of free JRuby instances. If this number is often 0, more requests are coming in than the server has available JRuby instances. To
+  alleviate this, increase the number of JRuby instances on the server or add additional compilers.
 
-- `puppetlabs.<MASTER-HOSTNAME>.jruby.num-jrubies`: The total number of JRuby instances on the server, governed by the `max-active-instances` setting. See [Tuning JRuby on Puppet Server](./tuning_guide.html)
-  for details.
+- `puppetlabs.<MASTER-HOSTNAME>.jruby.num-jrubies`: The total number of JRuby instances on the server, governed by the `max-active-instances` setting. See
+  [Tuning JRuby on OpenVox Server](./tuning_guide.html) for details.
 
 ### Other metrics
 
@@ -408,7 +404,7 @@ These metrics measure raw resource availability and capacity.
 
 - `puppetlabs.<MASTER-HOSTNAME>.num-cpus`: The number of available CPUs on the server.
 
-- `puppetlabs.<MASTER-HOSTNAME>.uptime`: The Puppet Server process's uptime.
+- `puppetlabs.<MASTER-HOSTNAME>.uptime`: The OpenVox Server process's uptime.
 
 - Total, heap, and non-heap memory that's committed (`committed`), initialized (`init`), and used (`used`), and the maximum amount of memory that can be used (`max`).
   - `puppetlabs.<MASTER-HOSTNAME>.memory.total.committed`
@@ -435,9 +431,9 @@ These metrics measure raw resource availability and capacity.
 
   - `puppetlabs.<MASTER-HOSTNAME>.memory.non-heap.max`
 
-For details about HTTP client metrics, which measure performance of Puppet Server's requests to other services, see [their documentation][HTTP client metrics].
+For details about HTTP client metrics, which measure performance of OpenVox Server's requests to other services, see [their documentation][HTTP client metrics].
 
-### Modifying Puppet Server's exported metrics
+### Modifying OpenVox Server's exported metrics
 
 In addition to the above default metrics, you can also export metrics measuring specific environments and nodes.
 
