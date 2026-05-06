@@ -10,16 +10,6 @@ OpenVox Server honors almost all settings in puppet.conf and should pick them up
 
 OpenVox Server does not use this setting. For more information on the server logging implementation, see the [logging configuration section](./configuration.html#logging).
 
-## `bindaddress`
-
-OpenVox Server does not use this setting. To set the address on which the server listens, use either `host` (unencrypted) or `ssl-host` (SSL encrypted) in the
-[webserver.conf](./configuration.html#webserverconf) file.
-
-## `ca`
-
-OpenVox Server does not use this setting. Instead, OpenVox Server acts as a certificate authority based on the certificate authority service configuration in the `ca.cfg` file. See
-[Service Bootstrapping](./configuration.html#service-bootstrapping) for more details.
-
 ## `ca_ttl`
 
 OpenVox Server enforces a max ttl of 50 standard years (up to 1576800000 seconds).
@@ -39,14 +29,6 @@ OpenVox Server copies the file for the `cacrl` setting, if one exists, over to t
 
 Any CRL file updates from the OpenVox Server certificate authority---such as revocations performed via the `certificate_status` HTTP endpoint---use the `cacrl` setting in puppet.conf to determine the location
 of the CRL. This is true regardless of the `ssl-` settings in webserver.conf.
-
-## `capass`
-
-OpenVox Server does not use this setting. OpenVox Server's certificate authority does not create a `capass` password file when the CA certificate and key are generated.
-
-## `caprivatedir`
-
-OpenVox Server does not use this setting. OpenVox Server's certificate authority does not create this directory.
 
 ## `daemonize`
 
@@ -106,14 +88,6 @@ OpenVox Server uses the CA file defined for the `localcacert` setting in puppet.
 
 OpenVox Server does not use this setting. For more information on the server logging implementation, see the [logging configuration section](./configuration.html#logging).
 
-## `masterhttplog`
-
-OpenVox Server does not use this setting. You can configure a web server access log via the `access-log-config` setting in the [webserver.conf](./configuration.html#webserverconf) file.
-
-## `masterlog`
-
-OpenVox Server does not use this setting. For more information on the server logging implementation, see the [logging configuration section](./configuration.html#logging).
-
 ## `masterport`
 
 OpenVox Server does not use this setting. To set the port on which the server listens, set the `port` (unencrypted) or `ssl-port` (SSL encrypted) setting in the
@@ -122,14 +96,6 @@ OpenVox Server does not use this setting. To set the port on which the server li
 ## `puppetdlog`
 
 OpenVox Server does not use this setting. For more information on the server logging implementation, see the [logging configuration section](./configuration.html#logging).
-
-## `rails_loglevel`
-
-OpenVox Server does not use this setting.
-
-## `railslog`
-
-OpenVox Server does not use this setting.
 
 ## `ssl_client_header`
 
@@ -141,11 +107,6 @@ OpenVox Server honors this setting only if the `allow-header-cert-info` setting 
 OpenVox Server honors this setting only if the `allow-header-cert-info` setting in the `master.conf` file is set to `true`. For more information on this setting, see the documentation on
 [external SSL termination](./external_ssl_termination.html).
 
-## `ssl_server_ca_auth`
-
-OpenVox Server does not use this setting. It only considers the `ssl-ca-cert` setting from the webserver.conf file and the `cacert` setting from the puppet.conf file. See [`cacert`](#cacert) for more
-information.
-
 ## `syslogfacility`
 
 OpenVox Server does not use this setting.
@@ -155,11 +116,6 @@ OpenVox Server does not use this setting.
 OpenVox Server does not use this setting.
 
 ## HttpPool-Related Server Settings
-
-## `configtimeout`
-
-OpenVox Server does not currently consider this setting for any code running on the server and using the `Puppet::Network::HttpPool` module to create an HTTP client connection. This pertains, for example, to
-any requests that the server would make to the `reporturl` for the `http` report processor. Note that Puppet agents do still honor this setting.
 
 ## `http_proxy_host`
 
