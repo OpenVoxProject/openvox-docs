@@ -6,10 +6,6 @@ title: "How OpenVox Server uses the values in puppet.conf"
 OpenVox Server honors almost all settings in puppet.conf and should pick them up automatically. For more complete information on puppet.conf settings, see the
 [Configuration Reference](/openvox/latest/configuration.html) page.
 
-## `autoflush`
-
-OpenVox Server does not use this setting. For more information on the server logging implementation, see the [logging configuration section](./configuration.html#logging).
-
 ## `ca_ttl`
 
 OpenVox Server enforces a max ttl of 50 standard years (up to 1576800000 seconds).
@@ -30,10 +26,6 @@ OpenVox Server copies the file for the `cacrl` setting, if one exists, over to t
 Any CRL file updates from the OpenVox Server certificate authority---such as revocations performed via the `certificate_status` HTTP endpoint---use the `cacrl` setting in puppet.conf to determine the location
 of the CRL. This is true regardless of the `ssl-` settings in webserver.conf.
 
-## `daemonize`
-
-OpenVox Server does not use this setting.
-
 ## `hostcert`
 
 If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, or `ssl-crl-path` in [webserver.conf](./configuration.html#webserverconf), OpenVox Server presents the file at `ssl-cert` to clients as the server
@@ -42,7 +34,7 @@ certificate via SSL.
 If at least one of the `ssl-` settings in webserver.conf is set but `ssl-cert` is not set, OpenVox Server gives an error and shuts down at startup. If none of the `ssl-` settings in webserver.conf are set,
 OpenVox Server uses the file for the `hostcert` setting in puppet.conf as the server certificate during SSL negotiation.
 
-Regardless of the configuration of the `ssl-` "webserver.conf" settings, OpenVox Server's certificate authority service, if enabled, uses the `hostcert` "puppet.conf" setting, and not the `ssl-cert` setting,
+Regardless of the configuration of the `ssl-` `webserver.conf` settings, OpenVox Server's certificate authority service, if enabled, uses the `hostcert` `puppet.conf` setting, and not the `ssl-cert` setting,
 to determine the location of the server host certificate to generate.
 
 ## `hostcrl`
@@ -67,15 +59,6 @@ OpenVox Server uses the file for the `hostprivkey` setting in puppet.conf as the
 If you enable the OpenVox Server certificate authority service, OpenVox Server uses the `hostprivkey` setting in puppet.conf to determine the location of the server host private key to generate. This is true
 regardless of the configuration of the `ssl-` settings in webserver.conf.
 
-## `http_debug`
-
-OpenVox Server does not use this setting. Debugging for HTTP client code in the OpenVox Server is controlled through OpenVox Server's common logging mechanism. For more information on the server logging
-implementation, see the [logging configuration section](./configuration.html#logging).
-
-## `keylength`
-
-OpenVox Server does not currently use this setting. OpenVox Server's certificate authority generates 4096-bit keys in conjunction with any SSL certificates that it generates.
-
 ## `localcacert`
 
 If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, and/or `ssl-crl-path` in [webserver.conf](./configuration.html#webserverconf), OpenVox Server uses the file at `ssl-ca-cert` as the CA cert store for
@@ -84,36 +67,20 @@ authenticating clients via SSL.
 If at least one of the `ssl-` settings in webserver.conf is set but `ssl-ca-cert` is not set, OpenVox Server gives an error and shuts down at startup. If none of the `ssl-` settings in webserver.conf is set,
 OpenVox Server uses the CA file defined for the `localcacert` setting in puppet.conf for SSL authentication.
 
-## `logdir`
-
-OpenVox Server does not use this setting. For more information on the server logging implementation, see the [logging configuration section](./configuration.html#logging).
-
 ## `masterport`
 
 OpenVox Server does not use this setting. To set the port on which the server listens, set the `port` (unencrypted) or `ssl-port` (SSL encrypted) setting in the
 [webserver.conf](./configuration.html#webserverconf) file.
 
-## `puppetdlog`
-
-OpenVox Server does not use this setting. For more information on the server logging implementation, see the [logging configuration section](./configuration.html#logging).
-
 ## `ssl_client_header`
 
-OpenVox Server honors this setting only if the `allow-header-cert-info` setting in the `master.conf` file is set to 'true'. For more information on this setting, see the documentation on
-[external SSL termination](./external_ssl_termination.html).
+OpenVox Server honors this setting only if the `allow-header-cert-info` setting in the [`master.conf`](./config_file_master.html) file (deprecated) is set to `true`. For more information,
+see the documentation on [external SSL termination](./external_ssl_termination.html).
 
 ## `ssl_client_verify_header`
 
-OpenVox Server honors this setting only if the `allow-header-cert-info` setting in the `master.conf` file is set to `true`. For more information on this setting, see the documentation on
-[external SSL termination](./external_ssl_termination.html).
-
-## `syslogfacility`
-
-OpenVox Server does not use this setting.
-
-## `user`
-
-OpenVox Server does not use this setting.
+OpenVox Server honors this setting only if the `allow-header-cert-info` setting in the [`master.conf`](./config_file_master.html) file (deprecated) is set to `true`. For more information,
+see the documentation on [external SSL termination](./external_ssl_termination.html).
 
 ## HttpPool-Related Server Settings
 
