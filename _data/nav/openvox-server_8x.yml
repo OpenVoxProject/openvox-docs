@@ -43,8 +43,6 @@
     link: puppet_conf_setting_diffs.html
   - text: 'Configuring product-level interactions (optional): product.conf'
     link: config_file_product.html
-  - text: Bootstrap upgrade notes
-    link: bootstrap_upgrade_notes.html
 - text: Using and extending OpenVox Server
   items:
   - text: Using Ruby gems
