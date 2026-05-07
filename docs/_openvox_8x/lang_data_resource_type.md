@@ -40,24 +40,24 @@ For example:
 
 ``` puppet
 # A resource declaration using a resource data type:
-File { "/etc/ntp.conf":
-  mode  => "0644",
-  owner => "root",
-  group => "root",
+File { '/etc/ntp.conf':
+  mode  => '0644',
+  owner => 'root',
+  group => 'root',
 }
 
 # Equivalent to the above:
-Resource["file"] { "/etc/ntp.conf":
-  mode  => "0644",
-  owner => "root",
-  group => "root",
+Resource['file'] { '/etc/ntp.conf':
+  mode  => '0644',
+  owner => 'root',
+  group => 'root',
 }
 
 # A resource default:
 File {
-  mode  => "0644",
-  owner => "root",
-  group => "root",
+  mode  => '0644',
+  owner => 'root',
+  group => 'root',
 }
 ```
 
@@ -119,21 +119,21 @@ All of these parameters are optional. They must be listed in order; if you need 
 
 Position | Parameter        | Data Type | Default Value | Description
 ---------| -----------------|-----------|---------------|------------
-1 | Resource type | `String` or `Resource` | nothing | A resource type, either as a string or a `Resource` data type value. If provided, this will turn this data type into a resource-specific data type. `Resource[Mytype]` and `Resource["mytype"]` are both 100% identical to the data type `Mytype`.
-2–∞ | Resource title | `String` | nothing | The title of some specific resource of this type. If provided, this will turn this data type into a usable [resource reference][] or array of resource references. `Resource[Mytype, "mytitle"]` and `Resource["mytype", "mytitle"]` are both 100% identical to the data type `Mytype["mytitle"]`.
+1 | Resource type | `String` or `Resource` | nothing | A resource type, either as a string or a `Resource` data type value. If provided, this will turn this data type into a resource-specific data type. `Resource[Mytype]` and `Resource['mytype']` are both 100% identical to the data type `Mytype`.
+2–∞ | Resource title | `String` | nothing | The title of some specific resource of this type. If provided, this will turn this data type into a usable [resource reference][] or array of resource references. `Resource[Mytype, 'mytitle']` and `Resource['mytype', 'mytitle']` are both 100% identical to the data type `Mytype['mytitle']`.
 
 
 ### Examples
 
 * `Resource[File]` --- the data type corresponding to the `file` resource type.
 * `Resource[File, '/tmp/foo']` --- a resource reference to the `file` resource whose title is `/tmp/foo`.
-* `Resource["file", '/tmp/foo']` --- a resource reference to the `file` resource whose title is `/tmp/foo`.
+* `Resource['file', '/tmp/foo']` --- a resource reference to the `file` resource whose title is `/tmp/foo`.
 * `Resource[File, '/tmp/foo', '/tmp/bar']` --- equivalent to `[ File['/tmp/foo'], File['/tmp/bar'] ]`.
 
 Also:
 
 * `Type[Resource[File]]` --- a synonym for the data type that _matches_ any [resource references][resource reference] to `file` resources. This is useful for, e.g., restricting the values of class or defined type parameters.
-* `Type[Resource["file"]]` --- another synonym for the data type that _matches_ any [resource references][resource reference] to `file` resources. This is useful for, e.g., restricting the values of class or defined type parameters.
+* `Type[Resource['file']]` --- another synonym for the data type that _matches_ any [resource references][resource reference] to `file` resources. This is useful for, e.g., restricting the values of class or defined type parameters.
 
 
 ## The `Class` data type
@@ -159,7 +159,7 @@ Position | Parameter        | Data Type | Default Value | Description
 
 ### Examples
 
-* `Class["apache"]` --- a [class reference][] to class `apache`.
+* `Class['apache']` --- a [class reference][] to class `apache`.
 
 Also:
 

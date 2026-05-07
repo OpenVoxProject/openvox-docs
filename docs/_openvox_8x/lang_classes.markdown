@@ -69,16 +69,16 @@ class base::linux {
 ``` puppet
 # A class with parameters
 class apache (String $version = 'latest') {
-  package {'httpd':
+  package { 'httpd':
     ensure => $version, # Using the class parameter from above
     before => File['/etc/httpd.conf'],
   }
-  file {'/etc/httpd.conf':
+  file { '/etc/httpd.conf':
     ensure  => file,
     owner   => 'httpd',
     content => template('apache/httpd.conf.erb'), # Template from a module
   }
-  service {'httpd':
+  service { 'httpd':
     ensure    => running,
     enable    => true,
     subscribe => File['/etc/httpd.conf'],
@@ -209,7 +209,7 @@ Some resource attributes, such as the [relationship metaparameters][relationship
 
 ``` puppet
 class apache {
-  service {'apache':
+  service { 'apache':
     require => Package['httpd'],
   }
 }
@@ -371,11 +371,11 @@ Resource-like declarations look like [normal resource declarations][resource_dec
 
 ``` puppet
 # Specifying the "version" parameter:
-class {'apache':
+class { 'apache':
   version => '2.2.21',
 }
 # Declaring a class with no parameters:
-class {'base::linux':}
+class { 'base::linux': }
 ```
 
 Resource-like declarations use [resource-like behavior][resource-like]. (Multiple declarations prohibited; parameters can be overridden at compile-time.) You can provide a value for any class parameter by specifying it as resource attribute; any parameters not specified will follow the normal external/default/fail lookup path.
@@ -384,7 +384,7 @@ In addition to class-specific parameters, you can also specify a value for any [
 
 ``` puppet
 # Cause the entire class to be noop:
-class {'apache':
+class { 'apache':
   noop => true,
 }
 ```

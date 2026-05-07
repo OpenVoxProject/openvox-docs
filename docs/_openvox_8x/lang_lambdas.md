@@ -38,9 +38,9 @@ $binaries = ["facter", "hiera", "mco", "puppet", "puppetserver"]
 
 # function call with lambda:
 $binaries.each |String $binary| {
-  file {"/usr/bin/$binary":
+  file { "/usr/bin/${binary}":
     ensure => link,
-    target => "/opt/puppetlabs/bin/$binary",
+    target => "/opt/puppetlabs/bin/${binary}",
   }
 }
 ```
@@ -150,9 +150,9 @@ include a parameter whose value will change with every call. In the example abov
 parameter in the title of the lambda's `file` resource:
 
 ``` puppet
-file {"/usr/bin/$binary":
+file { "/usr/bin/${binary}":
   ensure => link,
-  target => "/opt/puppetlabs/bin/$binary",
+  target => "/opt/puppetlabs/bin/${binary}",
 }
 ```
 

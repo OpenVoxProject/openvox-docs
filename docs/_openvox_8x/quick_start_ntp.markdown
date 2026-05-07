@@ -102,31 +102,46 @@ The other ntp servers ("snuffie," "bigbird," and "hooper") will use our two prim
 
 The `site.pp` looks like this:
 
-		node "kermit.example.com" {
-		  class { "ntp":
-			servers    => [ '0.us.pool.ntp.org iburst','1.us.pool.ntp.org iburst','2.us.pool.ntp.org iburst','3.us.pool.ntp.org iburst'],
-			autoupdate => false,
-			restrict   => [],
-			enable     => true,
-	     }
-	    }
+``` puppet
+node 'kermit.example.com' {
+  class { 'ntp':
+    servers    => [
+      '0.us.pool.ntp.org iburst',
+      '1.us.pool.ntp.org iburst',
+      '2.us.pool.ntp.org iburst',
+      '3.us.pool.ntp.org iburst',
+    ],
+    autoupdate => false,
+    restrict   => [],
+    enable     => true,
+  }
+}
 
-		node "grover.example.com" {
-		  class { "ntp":
-			servers    => [ 'kermit.example.com','0.us.pool.ntp.org iburst','1.us.pool.ntp.org iburst','2.us.pool.ntp.org iburst'],
-			autoupdate => true,
-			restrict   => [],
-			enable     => true,
-	     }
-	    }
+node 'grover.example.com' {
+  class { 'ntp':
+    servers    => [
+      'kermit.example.com',
+      '0.us.pool.ntp.org iburst',
+      '1.us.pool.ntp.org iburst',
+      '2.us.pool.ntp.org iburst',
+    ],
+    autoupdate => true,
+    restrict   => [],
+    enable     => true,
+  }
+}
 
-		node "snuffie.example.com", "bigbird.example.com", "hooper.example.com" {
-		  class { "ntp":
-			servers    => [ 'grover.example.com', 'kermit.example.com'],
-			autoupdate => true,
-			enable     => true,
-	     }
-	    }
+node 'snuffie.example.com', 'bigbird.example.com', 'hooper.example.com' {
+  class { 'ntp':
+    servers    => [
+      'grover.example.com',
+      'kermit.example.com',
+    ],
+    autoupdate => true,
+    enable     => true,
+  }
+}
+```
 
 In this fashion, it is possible to create multiple nodes to suit your needs.
 

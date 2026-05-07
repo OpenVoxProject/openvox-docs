@@ -56,7 +56,7 @@ If you're writing code that might be used with pre-4.0 versions of Puppet, you'l
 To handle this, you can use the `str2bool` function (from [puppetlabs/stdlib](https://forge.puppetlabs.com/puppetlabs/stdlib)) to prevent fake true values:
 
 ``` puppet
-if str2bool("$is_virtual") {
+if str2bool($is_virtual) {
   ...
 }
 ```

@@ -151,7 +151,7 @@ If a service has a bad init script, you can work around it and manage almost any
 Logs an arbitrary message, at the `notice` log level. This appears in the POSIX syslog or Windows Event Log on the Puppet agent node and is also logged in reports.
 
 ``` puppet
-notify { "This message is getting logged on the agent node.": }
+notify { 'This message is getting logged on the agent node.': }
 ```
 
 {:.section}
@@ -194,8 +194,8 @@ Executes an arbitrary command on the agent node. When using execs, you must eith
 Manages cron jobs. Largely self-explanatory. On Windows, you should use [`scheduled_task`](./type.html#scheduledtask) instead.
 
     cron { 'logrotate':
-      command => "/usr/sbin/logrotate",
-      user    => "root",
+      command => '/usr/sbin/logrotate',
+      user    => 'root',
       hour    => 2,
       minute  => 0,
     }
@@ -219,7 +219,7 @@ Manages cron jobs. Largely self-explanatory. On Windows, you should use [`schedu
 
 Manages user accounts; mostly used for system users.
 
-    user { "jane":
+    user { 'jane':
         ensure     => present,
         uid        => '507',
         gid        => 'admin',

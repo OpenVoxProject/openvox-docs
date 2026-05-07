@@ -54,7 +54,7 @@ The PuppetDB terminus includes the `puppetdb_query` function, which can be used 
 
     $debian_nodes_query = '["from", "nodes", ["=", ["fact", "operatingsystem"], "Debian"]]'
     $debian_nodes = puppetdb_query($debian_nodes_query).each |$value| { $value["certname"] }
-    Notify {"Debian nodes":
+    notify { 'Debian nodes':
         message => "Your debian nodes are ${join($debian_nodes, ', ')}",
     }
 

@@ -66,7 +66,7 @@ To declare a virtual resource, prepend `@` (the "at" sign) to the **resource typ
 [resource declaration][resources]:
 
 ``` puppet
-@user {'deploy':
+@user { 'deploy':
   uid     => 2004,
   comment => 'Deployment User',
   group   => 'www-data',

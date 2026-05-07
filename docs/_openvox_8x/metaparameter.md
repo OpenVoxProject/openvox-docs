@@ -231,11 +231,11 @@ for more info.
 
     schedule { 'everyday':
       period => daily,
-      range  => "2-4"
+      range  => '2-4',
     }
 
-    exec { "/usr/bin/apt-get update":
-      schedule => 'everyday'
+    exec { '/usr/bin/apt-get update':
+      schedule => 'everyday',
     }
 
 Note that you can declare the schedule resource anywhere in your
@@ -294,7 +294,7 @@ be useful to add your own tags to a given resource.
 
 Multiple tags can be specified as an array:
 
-    file {'/etc/hosts':
+    file { '/etc/hosts':
       ensure => file,
       source => 'puppet:///modules/site/hosts',
       mode   => '0644',

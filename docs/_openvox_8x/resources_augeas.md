@@ -114,9 +114,9 @@ Now that we've seen some examples in `augtool`, let's make the same changes usin
 Here's the `sshd_config` example:
 
 ``` puppet
-augeas { "sshd_config":
+augeas { 'sshd_config':
   changes => [
-    "set /files/etc/ssh/sshd_config/PermitRootLogin no",
+    'set /files/etc/ssh/sshd_config/PermitRootLogin no',
   ],
 }
 ```
@@ -124,10 +124,10 @@ augeas { "sshd_config":
 The Augeas resource in Puppet has a useful attribute called "context" which allows you to specify a root for all of your changes. This is especially nice when making many changes to the same file. The above could also be written like this:
 
 ``` puppet
-augeas { "sshd_config":
-  context => "/files/etc/ssh/sshd_config",
+augeas { 'sshd_config':
+  context => '/files/etc/ssh/sshd_config',
   changes => [
-    "set PermitRootLogin no",
+    'set PermitRootLogin no',
   ],
 }
 ```
@@ -139,13 +139,13 @@ Note that values containing whitespace need to be quoted. In this example, we us
 Here's the `/etc/exports` example:
 
 ``` puppet
-augeas{ "export foo" :
-  context => "/files/etc/exports",
+augeas{ 'export foo':
+  context => '/files/etc/exports',
   changes => [
-    "set dir[last()+1] /foo",
-    "set dir[last()]/client weeble",
-    "set dir[last()]/client/option[1] ro",
-    "set dir[last()]/client/option[2] all_squash",
+    'set dir[last()+1] /foo',
+    'set dir[last()]/client weeble',
+    'set dir[last()]/client/option[1] ro',
+    'set dir[last()]/client/option[2] all_squash',
   ],
 }
 ```
@@ -155,7 +155,7 @@ This adds the line as described above. In fact, it works too well. **It will add
 In the above example, you could add something like this:
 
 ``` puppet
-onlyif => "match dir[. = '/foo'] size == 0",
+onlyif => 'match dir[. = '/foo'] size == 0',
 ```
 
 Which essentially says "only add it if it's not already there". The problem with this approach is that it only considers one thing (the name of the export in this case). If you were to change something else like "client" later, it would never get applied because an entry named "/foo" is found. You can combine multiple tests into the "onlyif" attribute to look for changes in all the various components, but then you are practically defining the entire resource twice. There's a better way.
@@ -169,13 +169,13 @@ Since the share name is unique in `/etc/exports` you can use that to refer to a 
 Here's an improved version of the example above:
 
 ``` puppet
-augeas { "export foo":
-  context => "/files/etc/exports",
+augeas { 'export foo':
+  context => '/files/etc/exports',
   changes => [
-    "set dir[. = '/foo'] /foo",
-    "set dir[. = '/foo']/client weeble",
-    "set dir[. = '/foo']/client/option[1] ro",
-    "set dir[. = '/foo']/client/option[2] all_squash",
+    'set dir[. = '/foo'] /foo',
+    'set dir[. = '/foo']/client weeble',
+    'set dir[. = '/foo']/client/option[1] ro',
+    'set dir[. = '/foo']/client/option[2] all_squash',
   ],
 }
 ```
@@ -250,12 +250,12 @@ This not only works for listing and printing, but for changing values as well.
 So our Puppet manifest could maintain our desired "localhost" entry without knowing the order of the lines in the file:
 
 ``` puppet
-augeas { "localhost":
-  context => "/files/etc/hosts",
+augeas { 'localhost':
+  context => '/files/etc/hosts',
   changes => [
     "set *[ipaddr = '127.0.0.1']/canonical localhost",
-    "set *[ipaddr = '127.0.0.1']/alias[1] $hostname",
-    "set *[ipaddr = '127.0.0.1']/alias[2] $hostname.domain.com",
+    "set *[ipaddr = '127.0.0.1']/alias[1] ${hostname}",
+    "set *[ipaddr = '127.0.0.1']/alias[2] ${hostname}.domain.com",
   ],
 }
 ```
@@ -265,8 +265,8 @@ Note that the above example assumes a line for "127.0.0.1" is already defined.
 With `sudoers`, you could add a simple entry by matching on the value for "user".
 
 ``` puppet
-augeas { "sudojoe":
-  context => "/files/etc/sudoers",
+augeas { 'sudojoe':
+  context => '/files/etc/sudoers',
   changes => [
     "set spec[user = 'joe']/user joe",
     "set spec[user = 'joe']/host_group/host ALL",
@@ -322,10 +322,10 @@ Augeas lenses have a list of files that are "autoloaded" when Augeas is initiali
 To load a sudoers file stored instead at `/foo/sudoers`, the `incl` parameter is set to the file path and `lens` is set to the name of the lens itself.  This is usually in the form `Sudoers.lns`, where Sudoers is the "module name" (inside sudoers.aug, it says `module Sudoers`) and by convention, `lns` is the lens that parses the entire file (see the `transform` line in sudoers.aug).
 
 ``` puppet
-augeas { "sudoers":
-  lens    => "Sudoers.lns",
-  incl    => "/foo/sudoers",
-  changes => "...",
+augeas { 'sudoers':
+  lens    => 'Sudoers.lns',
+  incl    => '/foo/sudoers',
+  changes => '...',
 }
 ```
 
@@ -365,29 +365,29 @@ define sysctl::conf ( $value ) {
   # guid of this entry
   $key = $title
 
-  $context = "/files/etc/sysctl.conf"
+  $context = '/files/etc/sysctl.conf'
 
-  augeas { "sysctl_conf/$key":
-    context => "$context",
-    onlyif  => "get $key != '$value'",
-    changes => "set $key '$value'",
-    notify  => Exec["sysctl"],
+  augeas { "sysctl_conf/${key}":
+    context => $context,
+    onlyif  => "get ${key} != '${value}'",
+    changes => "set ${key} '${value}'",
+    notify  => Exec['sysctl'],
   }
 
 }
 
 # /etc/puppetlabs/code/environments/production/modules/sysctl/manifests/init.pp
 class sysctl {
-  file { "sysctl_conf":
+  file { 'sysctl_conf':
     name => $operatingsystem ? {
-      default => "/etc/sysctl.conf",
+      default => '/etc/sysctl.conf',
     },
   }
 
-  exec { "sysctl -p":
-    alias       => "sysctl",
+  exec { 'sysctl -p':
+    alias       => 'sysctl',
     refreshonly => true,
-    subscribe   => File["sysctl_conf"],
+    subscribe   => File['sysctl_conf'],
   }
 }
 ```
@@ -398,14 +398,12 @@ use case:
 include sysctl
 
 sysctl::conf {
-
   # prevent java heap swap
-  "vm.swappiness": value =>  0;
+  'vm.swappiness': value =>  0;
 
   # increase max read/write buffer size that can be applied via setsockopt()
-  "net.core.rmem_max": value =>  16777216;
-  "net.core.wmem_max": value =>  16777216;
-
+  'net.core.rmem_max': value =>  16777216;
+  'net.core.wmem_max': value =>  16777216;
 }
 ```
 
@@ -414,36 +412,35 @@ sysctl::conf {
 ``` puppet
 # /etc/puppetlabs/code/environments/production/modules/limits/manifests/conf.pp
 define limits::conf (
-  $domain = "root",
-  $type = "soft",
-  $item = "nofile",
-  $value = "10000",
+  $domain = 'root',
+  $type = 'soft',
+  $item = 'nofile',
+  $value = '10000',
 ) {
-    # guid of this entry
-    $key = "$domain/$type/$item"
+  # guid of this entry
+  $key = "${domain}/${type}/${item}"
 
-    # augtool> match /files/etc/security/limits.conf/domain[.="root"][./type="hard" and ./item="nofile" and ./value="10000"]
+  # augtool> match /files/etc/security/limits.conf/domain[.="root"][./type="hard" and ./item="nofile" and ./value="10000"]
 
-    $context = "/files/etc/security/limits.conf"
+  $context = '/files/etc/security/limits.conf'
 
-    $path_list  = "domain[.=\"$domain\"][./type=\"$type\" and ./item=\"$item\"]"
-    $path_exact = "domain[.=\"$domain\"][./type=\"$type\" and ./item=\"$item\" and ./value=\"$value\"]"
+  $path_list  = "domain[.=\"${domain}\"][./type=\"${type}\" and ./item=\"${item}\"]"
+  $path_exact = "domain[.=\"${domain}\"][./type=\"${type}\" and ./item=\"${item}\" and ./value=\"${value}\"]"
 
-    augeas { "limits_conf/$key":
-      context => "$context",
-      onlyif  => "match $path_exact size != 1",
-      changes => [
-        # remove all matching to the $domain, $type, $item, for any $value
-        "rm $path_list",
-        # insert new node at the end of tree
-        "set domain[last()+1] $domain",
-        # assign values to the new node
-        "set domain[last()]/type $type",
-        "set domain[last()]/item $item",
-        "set domain[last()]/value $value",
-      ],
-    }
-
+  augeas { "limits_conf/${key}":
+    context => $context,
+    onlyif  => "match ${path_exact} size != 1",
+    changes => [
+      # remove all matching to the $domain, $type, $item, for any $value
+      "rm ${path_list}",
+      # insert new node at the end of tree
+      "set domain[last()+1] ${domain}",
+      # assign values to the new node
+      "set domain[last()]/type ${type}",
+      "set domain[last()]/item ${item}",
+      "set domain[last()]/value ${value}",
+    ],
+  }
 }
 ```
 
@@ -452,17 +449,18 @@ use case:
 ``` puppet
 limits::conf {
   # maximum number of open files/sockets for root
-  "root-soft":
+  'root-soft':
     domain => root,
     type   => soft,
     item   => nofile,
-    value  =>  9999;
-  "root-hard":
+    value  =>  9999,
+    ;
+  'root-hard':
     domain => root,
     type   => hard,
     item   => nofile,
-    value  =>  9999;
-
+    value  =>  9999,
+    ;
 }
 ```
 
@@ -471,23 +469,23 @@ limits::conf {
 Configure `sshd`:
 
 ``` puppet
-augeas { "sshd_config":
-  context => "/files/etc/ssh/sshd_config",
+augeas { 'sshd_config':
+  context => '/files/etc/ssh/sshd_config',
   changes => [
     # track which key was used to logged in
-    "set LogLevel VERBOSE",
+    'set LogLevel VERBOSE',
     # permit root logins only using publickey
-    "set PermitRootLogin without-password",
+    'set PermitRootLogin without-password',
   ],
-  notify => Service["sshd"],
+  notify => Service['sshd'],
 }
 
-service { "sshd":
+service { 'sshd':
   name => $operatingsystem ? {
-    Debian  => "ssh",
-    default => "sshd",
+    Debian  => 'ssh',
+    default => 'sshd',
   },
-  require => Augeas["sshd_config"],
+  require => Augeas['sshd_config'],
   enable  => true,
   ensure  => running,
 }
@@ -498,10 +496,10 @@ service { "sshd":
 Set the default runlevel to 3:
 
 ``` puppet
-augeas { "runlevel":
-  context => "/files/etc/inittab",
+augeas { 'runlevel':
+  context => '/files/etc/inittab',
   changes => [
-    "set id/runlevels 3",
+    'set id/runlevels 3',
   ],
 }
 ```
@@ -513,16 +511,16 @@ Suppose a vendor (like VMWare) has some recommended kernel parameters that you w
 ``` puppet
 # improve time keeping for VMs
 case $hardwareisa {
-  "i386": {
+  'i386': {
     # not going to worry about these
   }
   default: {
-    augeas { "vmtime":
-      context => "/files/etc/grub.conf",
+    augeas { 'vmtime':
+      context => '/files/etc/grub.conf',
       changes => [
-        "set title[1]/kernel/divider 10",
+        'set title[1]/kernel/divider 10',
         # clear sets the left hand side but assigns no value
-        "clear title[1]/kernel/notsc",
+        'clear title[1]/kernel/notsc',
       ],
     }
   }
@@ -535,20 +533,20 @@ The following snippet will add a `password --md5 $1$...` entry into menu.lst to 
 
 ``` puppet
 $grub_password = '$1$....'
-augeas { "grub-create-password":
-  context => "/files/boot/grub/menu.lst",
+augeas { 'grub-create-password':
+  context => '/files/boot/grub/menu.lst',
   changes => [
-    "ins password after default",
+    'ins password after default',
     "set password/md5 ''",
-    "set password $grub_password",
+    "set password ${grub_password}",
   ],
-  onlyif => "match password size == 0",
+  onlyif => 'match password size == 0',
 }
 
-augeas { "grub-set-password":
-  context => "/files/boot/grub/menu.lst",
-  changes => "set password $grub_password",
-  require => Augeas["grub-create-password"],
+augeas { 'grub-set-password':
+  context => '/files/boot/grub/menu.lst',
+  changes => "set password ${grub_password}",
+  require => Augeas['grub-create-password"',
 }
 ```
 
@@ -557,15 +555,15 @@ augeas { "grub-set-password":
 Augeas needs a unique identifier when using set. So the trick to adding a service that uses both TCP and UDP is to use child nodes of the service.  For example, to add zabbix-agent you can use this (note the `[2]` for the second zabbix-agent):
 
 ``` puppet
-augeas { "zabbix-agent":
-   context =>  "/files/etc/services",
+augeas { 'zabbix-agent':
+   context =>  '/files/etc/services',
    changes => [
-      "ins service-name after service-name[last()]",
-      "set service-name[last()] zabbix-agent",
+      'ins service-name after service-name[last()]',
+      'set service-name[last()] zabbix-agent',
       "set service-name[. = 'zabbix-agent']/port 10050",
       "set service-name[. = 'zabbix-agent']/protocol tcp",
-      "ins service-name after /files/etc/services/service-name[last()]",
-      "set service-name[last()] zabbix-agent",
+      'ins service-name after /files/etc/services/service-name[last()]',
+      'set service-name[last()] zabbix-agent',
       "set service-name[. = 'zabbix-agent'][2]/port 10050",
       "set service-name[. = 'zabbix-agent'][2]/protocol udp",
    ],
@@ -578,8 +576,8 @@ augeas { "zabbix-agent":
 Setting BONDING_OPTS in an /etc/sysconfig/network-scripts/ifcfg-bond* file requires an extra set of quotes due to the spaces in the values.  Augeas can't automatically add the required quotes in.
 
 ``` puppet
-augeas { "bond0":
-  context => "/files/etc/sysconfig/network-scripts/ifcfg-bond0",
+augeas { 'bond0':
+  context => '/files/etc/sysconfig/network-scripts/ifcfg-bond0',
   changes => "set BONDING_OPTS '\"mode=active-backup miimon=100\"'",
 }
 ```
@@ -594,18 +592,28 @@ Here's an example to set up /etc/resolv.conf with nameservers and domains.  Firs
 
 ``` puppet
 # /etc/puppetlabs/code/environments/production/modules/resolv/manifests/conf.pp
-define resolv::conf($nameserver, $search = [], $domain = "") {
-  augeas { "resolvconf":
-    context => "/files/etc/resolv.conf",
-    changes => template("resolv/resolvconf.erb"),
+define resolv::conf(
+  $nameserver,
+  $search = [],
+  $domain = '',
+) {
+  augeas { 'resolvconf':
+    context => '/files/etc/resolv.conf',
+    changes => template('resolv/resolvconf.erb'),
   }
 }
 
 # Elsewhere...
-resolv::conf { "resolvconf":
-  nameserver => [ "8.8.8.8", "8.8.4.4" ],
-  search     => [ "example.com", "example.net" ],
-  domain     => "example.com",
+resolv::conf { 'resolvconf':
+  nameserver => [
+    '8.8.8.8',
+    '8.8.4.4',
+  ],
+  search     => [
+    'example.com',
+    'example.net',
+  ],
+  domain     => 'example.com',
 }
 ```
 
@@ -691,7 +699,7 @@ rm sasl_allowed_username_list
   <% i = 0 -%>
   <% sasl_allowed_usernames.each do |username| -%>
     <% i += 1 -%>
-    set sasl_allowed_username_list/<%= sprintf("%03d", i) -%> <%= username %>
+    set sasl_allowed_username_list/<%= sprintf('%03d', i) -%> <%= username %>
   <% end -%>
 <% end -%>
 ```

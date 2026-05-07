@@ -119,7 +119,7 @@ One consideration for `exec` when you can't use `$system32` is to use `path =>` 
 
 ``` puppet
 exec { '64_bit_cmd':
-  path    => "c:\\windows\\sysnative;c:\\windows\\system32;$::path",
+  path    => "c:\\windows\\sysnative;c:\\windows\\system32;${path}",
   command => 'cmd.exe /c echo process is %PROCESSOR_ARCHITECTURE%',
 }
 ```
@@ -128,7 +128,7 @@ If you always instead would rather always get a 32-bit process if it is availabl
 
 ``` puppet
 exec { '32_bit_cmd':
-  path    => "c:\\windows\\sysWOW64;c:\\windows\\system32;$::path",
+  path    => "c:\\windows\\sysWOW64;c:\\windows\\system32;${path}",
   command => 'cmd.exe /c echo process is %PROCESSOR_ARCHITECTURE%',
 }
 ```

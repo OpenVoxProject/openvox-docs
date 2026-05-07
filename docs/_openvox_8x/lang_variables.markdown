@@ -77,7 +77,7 @@ There can be extra key/value pairs in the hash, but all variables to the left of
 ### Resolution
 
 ``` puppet
-file {'/tmp/testing':
+file { '/tmp/testing':
   ensure  => file,
   content => $content,
 }
@@ -92,7 +92,7 @@ By default, unassigned variables have a value of [`undef`][undef]; see [Unassign
 ### Interpolation
 
 ``` puppet
-$rule = "Allow * from $ipaddress"
+$rule = "Allow * from ${ipaddress}"
 file { "${homedir}/.vim":
   ensure => directory,
   ...
@@ -140,16 +140,18 @@ Unlike most other languages, Puppet only allows a given variable to be assigned 
 $myvar = "Top scope value"
 node 'www1.example.com' {
   $myvar = "Node scope value"
-  notice( "from www1: $myvar" )
+  notice( "from www1: ${myvar}" )
   include myclass
 }
+
 node 'db1.example.com' {
-  notice( "from db1: $myvar" )
+  notice( "from db1: ${myvar}" )
   include myclass
 }
+
 class myclass {
   $myvar = "Local scope value"
-  notice( "from myclass: $myvar" )
+  notice( "from myclass: ${myvar}" )
 }
 ```
 
