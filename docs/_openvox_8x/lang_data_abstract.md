@@ -282,7 +282,6 @@ It takes no parameters.
 
 The `Any` data type matches _any_ value of _any_ data type.
 
-
 ## Unusual types
 
 These types aren't quite like the others.
@@ -308,3 +307,36 @@ Position | Parameter | Data Type | Default Value | Description
 -2 | Max count | `Integer` | infinity | The maximum number of arguments the lambda accepts. This parameter accepts the special value `default`, which will use its default value.
 -1 | Block type | `Type[Callable]` | none | The `block_type` of the lambda.
 
+### `Init`
+
+The `Init` data type matches values that can be used as the initialization/typecase of another data type given as a parameter. This can be used to test if a value can be converted to the wanted data type.
+
+#### Parameters
+
+The signature for `Init` is:
+
+    Init[ <DATA TYPE> ]
+
+#### Examples
+
+Check if a string value can be converted to a `SemVer`:
+
+``` puppet
+"1.2.3" =~ Init[SemVer]    # result is true
+"latest" =~ Init[SemVer]   # result is false
+```
+
+Check if a value can be converted to an `Integer`:
+
+```
+"10" =~ Init[Integer]    # result is true
+"blue" =~ Init[Integer]  # result is false
+```
+
+Accept a parameter value that is either an `Integer` or a value convertible to one:
+
+``` puppet
+function example(Variant[Integer, Init[Integer]] $x) {
+   $int_value = Integer($x)  # Safe conversion
+}
+```
