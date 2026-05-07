@@ -5,8 +5,6 @@
   link: release_notes.html
 - text: Deprecated features
   link: deprecated_features.html
-- text: Compatibility with Puppet agent
-  link: compatibility_with_puppet_agent.html
 - text: Installing and upgrading
   items:
   - text: Before you begin
