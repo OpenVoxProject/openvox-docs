@@ -128,8 +128,6 @@ Any files with a `.cfg` extension in either of these locations are combined to f
 The CA-related configuration settings are set in `/etc/puppetlabs/puppetserver/services.d/ca.cfg`. If services added in future versions have user-configurable settings, the configuration files will also be in
 this directory. When upgrading Puppet Server 2.5.0 and newer with a package manager, it should not overwrite files already in this directory.
 
-> **Note:** If you're upgrading from Puppet Server 2.4.x or earlier to Server 2.5 or newer, read and act on the [bootstrap upgrade notes](./bootstrap_upgrade_notes.html) **before upgrading**.
-
 In the `ca.cfg` file, find and modify these lines as directed to enable or disable the service:
 
 ```text
