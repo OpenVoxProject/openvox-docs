@@ -38,7 +38,7 @@ Each of these have slightly different behavior around syntax, interpolation feat
 ## Bare words
 
 ``` puppet
-service { "ntp":
+service { 'ntp':
   ensure => running, # bare word string
 }
 ```

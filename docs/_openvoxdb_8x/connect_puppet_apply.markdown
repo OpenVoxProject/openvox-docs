@@ -85,9 +85,9 @@ Currently, Puppet needs extra Ruby plugins in order to use PuppetDB. Unlike cust
 * Next, use Puppet to ensure that the `puppetdb-termini` package is installed:
 
 ~~~ ruby
-    package {'puppetdb-termini':
-      ensure => installed,
-    }
+package { 'puppetdb-termini':
+  ensure => installed,
+}
 ~~~
 
 ### On platforms without packages
@@ -99,19 +99,19 @@ If your Puppet Server isn't running Puppet from a supported package, you will ne
 * Create a [file][] resource in your manifest(s) for each of the plugin files, to move them into place on each node.
 
 ~~~ ruby
-    # <modulepath>/puppetdb/manifests/terminus.pp
-    class puppetdb::terminus {
-      $puppetdir = "$rubysitedir/puppet"
+# <modulepath>/puppetdb/manifests/terminus.pp
+class puppetdb::terminus {
+  $puppetdir = "${rubysitedir}/puppet"
 
-      file { $puppetdir:
-        ensure => directory,
-        recurse => remote, # Copy these files without deleting the existing files
-        source => "puppet:///modules/puppetdb/puppet",
-        owner => root,
-        group => root,
-        mode => 0644,
-      }
-    }
+  file { $puppetdir:
+    ensure => directory,
+    recurse => remote, # Copy these files without deleting the existing files
+    source => "puppet:///modules/puppetdb/puppet",
+    owner => root,
+    group => root,
+    mode => 0644,
+  }
+}
 ~~~
 
 ## Step 3: Manage configuration files on every Puppet node

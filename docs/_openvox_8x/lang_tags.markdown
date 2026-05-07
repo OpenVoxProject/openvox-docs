@@ -59,7 +59,7 @@ defined resources), a resource will receive tags from all of its containers.
 You can use [the `tag` metaparameter][tagmeta] in a resource declaration to add any number of tags:
 
 ``` puppet
-apache::vhost {'docs.example.com':
+apache::vhost { 'docs.example.com':
   port => 80,
   tag  => ['us_mirror1', 'us_mirror2'],
 }
@@ -78,11 +78,11 @@ the surrounding container and all of the resources it contains:
 class role::public_web {
   tag 'us_mirror1', 'us_mirror2'
 
-  apache::vhost {'docs.example.com':
+  apache::vhost { 'docs.example.com':
     port => 80,
   }
-  ssh::allowgroup {'www-data': }
-  @@nagios::website {'docs.example.com': }
+  ssh::allowgroup { 'www-data': }
+  @@nagios::website { 'docs.example.com': }
 }
 ```
 

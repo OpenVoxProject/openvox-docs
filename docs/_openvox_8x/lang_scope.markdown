@@ -52,7 +52,7 @@ Code that is _outside_ any class definition, type definition, or node definition
 $variable = "Hi!"
 
 class example {
-  notify {"Message from elsewhere: $variable":}
+  notify { "Message from elsewhere: ${variable}": }
 }
 
 include example
@@ -76,10 +76,10 @@ Variables and defaults declared at node scope are available **everywhere except 
 $top_variable = "Available!"
 node 'puppet.example.com' {
   $variable = "Hi!"
-  notify {"Message from here: $variable":}
-  notify {"Top scope: $top_variable":}
+  notify { "Message from here: ${variable}": }
+  notify { "Top scope: ${top_variable}": }
 }
-notify {"Message from top scope: $variable":}
+notify { "Message from top scope: ${variable}": }
 ```
 
 ```
@@ -101,8 +101,8 @@ Variables and defaults declared in a local scope are only available in **that sc
 # /etc/puppetlabs/code/modules/scope_example/manifests/init.pp
 class scope_example {
   $variable = "Hi!"
-  notify {"Message from here: $variable":}
-  notify {"Node scope: $node_variable Top scope: $top_variable":}
+  notify { "Message from here: ${variable}": }
+  notify { "Node scope: ${node_variable} Top scope: ${top_variable}": }
 }
 
 # /etc/puppetlabs/code/environments/production/manifests/site.pp
@@ -110,9 +110,9 @@ $top_variable = "Available!"
 node 'puppet.example.com' {
   $node_variable = "Available!"
   include scope_example
-  notify {"Message from node scope: $variable":}
+  notify { "Message from node scope: ${variable}": }
 }
-notify {"Message from top scope: $variable":}
+notify { "Message from top scope: ${variable}": }
 ```
 
 ```
@@ -133,7 +133,7 @@ Variables and defaults declared at node scope can override those received from t
 # /etc/puppetlabs/code/modules/scope_example/manifests/init.pp
 class scope_example {
   $variable = "Hi, I'm local!"
-  notify {"Message from here: $variable":}
+  notify { "Message from here: ${variable}": }
 }
 
 # /etc/puppetlabs/code/environments/production/manifests/site.pp
@@ -157,7 +157,7 @@ Resource defaults are processed **by attribute** rather than as a block. Thus, d
 class scope_example {
   File { ensure => directory, }
 
-  file {'/tmp/example':}
+  file { '/tmp/example': }
 }
 
 # /etc/puppetlabs/code/environments/production/manifests/site.pp

@@ -276,7 +276,7 @@ path  => '/usr/bin',
 cwd => '/tmp',
 }
 
-file { "/path/to/my-filename.txt":
+file { '/path/to/my-filename.txt':
   ensure => file, mode => $mode, owner => $owner, group => $group,
   source => 'puppet:///modules/my-module/productions/my-filename.txt'
 }
@@ -412,7 +412,7 @@ file {
 
 You cannot set any attribute more than once for a given resource; if you try, Puppet raises a compilation error. This means:
 
-* If you use a hash to set attributes for a resource, you cannot set a different, explicit value for any of those attributes. (For example, if mode is present in the hash, you can’t also set mode => "0644" in that resource body.)
+* If you use a hash to set attributes for a resource, you cannot set a different, explicit value for any of those attributes. (For example, if mode is present in the hash, you can’t also set mode => '0644' in that resource body.)
 * You can’t use the `*` attribute multiple times in one resource body, because `*` itself acts like an attribute.
 * To use some attributes from a hash and override others, either use a hash to set per-expression defaults, or use the `+` (merging) operator to combine attributes from two hashes (with the right-hand hash overriding the left-hand one).
 
@@ -473,13 +473,14 @@ Multiple resources declared in a single block should be used only when there is 
 file {
   default:
     ensure => 'file',
-    mode   => '0666',;
-
+    mode   => '0666',
+    ;
   '/foo':
-    user => 'owner',;
-
+    user => 'owner',
+    ;
   '/bar':
-    user => 'staff',;
+    user => 'staff',
+    ;
 }
 
 # Give the defaults a name if used several times
@@ -490,13 +491,14 @@ $our_default_file_attributes = {
 
 file {
   default:
-    * => $our_default_file_attributes,;
-
+    * => $our_default_file_attributes,
+    ;
   '/foo':
-    user => 'owner',;
-
+    user => 'owner',
+    ;
   '/bar':
-    user => 'staff',;
+    user => 'staff',
+    ;
 }
 
 
@@ -522,12 +524,13 @@ file {
   '/foo':
     ensure => 'file',
     user   => owner,
-    mode   => '0666',;
-
+    mode   => '0666',
+    ;
   '/bar':
     ensure => 'file',
     user   => staff,
-    mode   => '0774',;
+    mode   => '0774',
+    ;
 }
 
 file { ['/foo', '/bar']:
@@ -778,7 +781,7 @@ defaults:
 #
 hierarchy:
 - name: 'Per Operating System'
-  path: "os/%{os.name}.yaml"
+  path: 'os/%{os.name}.yaml'
 - name: 'Common'
   path: 'common.yaml'
 ```
@@ -881,7 +884,7 @@ class dhcp (
 
 ```puppet
 class ntp (
-  $options   = "iburst",
+  $options   = 'iburst',
   $servers,
   $multicast = false,
 ) {}

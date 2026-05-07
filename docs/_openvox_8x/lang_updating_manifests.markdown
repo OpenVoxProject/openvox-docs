@@ -19,7 +19,7 @@ The locations of code directories and important config files have changed. Read 
 
 ## Double-check to make sure it's safe before purging `cron` resources
 
-Previously, using [`resources {'cron': purge => true}`](./type.html#resources) to purge `cron` resources would only purge jobs belonging to the current user performing the Puppet run (usually `root`). [In Puppet 4.0](/puppet/4.0/release_notes.html), this action is more aggressive and causes **all** unmanaged cron jobs to be purged.
+Previously, using [`resources { 'cron': purge => true }`](./type.html#resources) to purge `cron` resources would only purge jobs belonging to the current user performing the Puppet run (usually `root`). [In Puppet 4.0](/puppet/4.0/release_notes.html), this action is more aggressive and causes **all** unmanaged cron jobs to be purged.
 
 Make sure this is what you want. You might want to set `noop => true` on the purge resource to keep an eye on it.
 
@@ -34,7 +34,7 @@ In Puppet 3, facts with boolean true/false values (like `$is_virtual`) were conv
 In Puppet 4, boolean facts are never turned into strings, and those `==` comparisons will always evaluate to `false`. This can cause serious problems. Check your manifests for any comparisons that treat boolean facts like strings; if you need a manifest to work with both Puppet 3 and Puppet 4, you can convert a boolean to a string and then pass it to [the stdlib module's `str2bool` function][str2bool]:
 
 ``` puppet
-if str2bool("$is_virtual") { ... }
+if str2bool($is_virtual) { ... }
 ```
 
 ### Numbers and strings are different in the DSL

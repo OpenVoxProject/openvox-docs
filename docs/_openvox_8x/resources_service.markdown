@@ -41,11 +41,11 @@ In some rare cases --- such as virtual services like Red Hat's `network` --- a s
 ### No init script or service config
 
 ``` puppet
-service { "apache2":
+service { 'apache2':
   ensure  => running,
-  start   => "/usr/sbin/apachectl start",
-  stop    => "/usr/sbin/apachectl stop",
-  pattern => "/usr/sbin/httpd",
+  start   => '/usr/sbin/apachectl start',
+  stop    => '/usr/sbin/apachectl stop',
+  pattern => '/usr/sbin/httpd',
 }
 ```
 

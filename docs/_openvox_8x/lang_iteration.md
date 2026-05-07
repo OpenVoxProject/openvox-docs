@@ -97,7 +97,7 @@ $binaries = ['facter', 'hiera', 'mco', 'puppet', 'puppetserver']
 
 # function call with lambda:
 $binaries.each |String $binary| {
-  file {"/usr/bin/${binary}":
+  file { "/usr/bin/${binary}":
     ensure => link,
     target => "/opt/puppetlabs/bin/${binary}",
   }
@@ -117,7 +117,7 @@ could achieve a clunkier form of iteration by writing [defined resource types][d
 # one-off defined resource type, in
 # /etc/puppetlabs/code/environments/production/modules/puppet/manifests/binary/symlink.pp
 define puppet::binary::symlink ($binary = $title) {
-  file {"/usr/bin/${binary}":
+  file { "/usr/bin/${binary}":
     ensure => link,
     target => "/opt/puppetlabs/bin/${binary}",
   }
@@ -156,5 +156,5 @@ $hash_as_array = ['key1', 'first value',
 $real_hash = $hash_as_array.slice(2).reduce( {} ) |Hash $memo, Array $pair| {
   $memo + $pair
 }
-# returns {"key1"=>"first value", "key2"=>"second value", "key3"=>"third value"}
+# returns { "key1"=>"first value", "key2"=>"second value", "key3"=>"third value"}
 ```

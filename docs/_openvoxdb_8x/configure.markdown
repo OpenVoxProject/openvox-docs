@@ -147,29 +147,29 @@ resources as shown below, set the class to refresh the
 `puppetdb::server` class, and assign it to your PuppetDB server.
 
 ~~~ ruby
-    # Site-specific PuppetDB settings. Declare this class on any node that gets the puppetdb::server class.
-    class site::puppetdb::server::extra {
+# Site-specific PuppetDB settings. Declare this class on any node that gets the puppetdb::server class.
+class site::puppetdb::server::extra {
 
-      # Restart the PuppetDB service if settings change
-      Class[site::puppetdb::server::extra] ~> Class[puppetdb::server]
+  # Restart the PuppetDB service if settings change
+  Class[site::puppetdb::server::extra] ~> Class[puppetdb::server]
 
-      # Get PuppetDB confdir
-      include puppetdb::params
-      $confdir = $puppetdb::params::confdir
+  # Get PuppetDB confdir
+  include puppetdb::params
+  $confdir = $puppetdb::params::confdir
 
-      # Set resource defaults
-      Ini_setting {
-        ensure  => present,
-        require => Class['puppetdb::server::validate_db'],
-      }
+  # Set resource defaults
+  Ini_setting {
+    ensure  => present,
+    require => Class['puppetdb::server::validate_db'],
+  }
 
-      ini_setting {'puppetdb-extra-setting':
-        path    => "${confdir}/global.ini",
-        section => 'global',
-        setting => <some-extra-setting>,
-        value   => 'true',
-      }
-    }
+  ini_setting { 'puppetdb-extra-setting':
+    path    => "${confdir}/global.ini",
+    section => 'global',
+    setting => <some-extra-setting>,
+    value   => 'true',
+  }
+}
 ~~~
 
 ## `[global]` settings

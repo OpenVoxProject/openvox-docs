@@ -39,7 +39,7 @@ Function calls can also stand on their own, which will cause their value to be i
 ## Syntax
 
 
-There are two ways to call functions in the Puppet language: classic **prefix calls** like `template("ntp/ntp.conf.erb")`, and **chained calls** like `"ntp/ntp.conf.erb".template`. There's also a modified form of prefix call that can only be used with certain functions.
+There are two ways to call functions in the Puppet language: classic **prefix calls** like `template('ntp/ntp.conf.erb')`, and **chained calls** like `'ntp/ntp.conf.erb'.template`. There's also a modified form of prefix call that can only be used with certain functions.
 
 ### Choosing a call style
 
@@ -63,26 +63,26 @@ Functions must always be called with their full names; you can't shorten a quali
 You can call a function by writing its name and providing a list of arguments in parentheses.
 
 ``` puppet
-file {"/etc/ntp.conf":
+file { '/etc/ntp.conf':
   ensure  => file,
-  content => template("ntp/ntp.conf.erb"), # function call; resolves to a string
+  content => template('ntp/ntp.conf.erb'), # function call; resolves to a string
 }
 
 include apache # function call; modifies catalog
 
 $binaries = [
-  "facter",
-  "hiera",
-  "mco",
-  "puppet",
-  "puppetserver",
+  'facter',
+  'hiera',
+  'mco',
+  'puppet',
+  'puppetserver',
 ]
 
 # function call with lambda; runs block of code several times
 each($binaries) |$binary| {
-  file {"/usr/bin/$binary":
+  file { "/usr/bin/${binary}":
     ensure => link,
-    target => "/opt/puppetlabs/bin/$binary",
+    target => "/opt/puppetlabs/bin/${binary}",
   }
 }
 ```
@@ -112,26 +112,26 @@ The general form of a prefix function call is:
 You can also call a function by writing its first argument, a period, and the name of the function.
 
 ``` puppet
-file {"/etc/ntp.conf":
+file { '/etc/ntp.conf':
   ensure  => file,
-  content => "ntp/ntp.conf.erb".template, # function call; resolves to a string
+  content => 'ntp/ntp.conf.erb'.template, # function call; resolves to a string
 }
 
 apache.include # function call; modifies catalog
 
 $binaries = [
-  "facter",
-  "hiera",
-  "mco",
-  "puppet",
-  "puppetserver",
+  'facter',
+  'hiera',
+  'mco',
+  'puppet',
+  'puppetserver',
 ]
 
 # function call with lambda; runs block of code several times
 $binaries.each |$binary| {
-  file {"/usr/bin/$binary":
+  file { "/usr/bin/${binary}":
     ensure => link,
-    target => "/opt/puppetlabs/bin/$binary",
+    target => "/opt/puppetlabs/bin/${binary}",
   }
 }
 ```

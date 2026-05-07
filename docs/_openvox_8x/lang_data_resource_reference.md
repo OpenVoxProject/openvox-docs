@@ -64,16 +64,16 @@ They can be used wherever an array of references might be used. They can also go
 You can use a resource reference to access the values of a [resource][]'s attributes. To access a value, use square brackets and the name of an attribute (as a [string][]). This works much like [accessing hash values.][hash access]
 
 ``` puppet
-file { "/etc/first.conf":
+file { '/etc/first.conf':
   ensure => file,
-  mode   => "0644",
-  owner  => "root",
+  mode   => '0644',
+  owner  => 'root',
 }
 
-file { "/etc/second.conf":
+file { '/etc/second.conf':
   ensure => file,
-  mode   => File["/etc/first.conf"]["mode"],
-  owner  => File["/etc/first.conf"]["owner"],
+  mode   => File['/etc/first.conf']['mode'],
+  owner  => File['/etc/first.conf']['owner'],
 }
 ```
 
@@ -115,7 +115,7 @@ To allow a resource reference of a _specific_ resource type --- in this example,
 
 ``` puppet
 Type[File]              # Capitalized resource type name
-Type[Resource["file"]]  # `Resource` data type, with type name in parameter as a string
+Type[Resource['file']]  # `Resource` data type, with type name in parameter as a string
 Type[Resource[File]]    # `Resource` data type, with capitalized resource type name
 ```
 

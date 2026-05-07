@@ -32,7 +32,7 @@ class ntp {
 }
 
 include ntp
-exec {'/usr/local/bin/update_custom_timestamps.sh':
+exec { '/usr/local/bin/update_custom_timestamps.sh':
   require => Class['ntp'],
 }
 ```

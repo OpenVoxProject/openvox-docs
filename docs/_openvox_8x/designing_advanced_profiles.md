@@ -585,7 +585,7 @@ class profile::jenkins::master (
   # ...
   if $jenkins_logs_to_syslog {
     jenkins::sysconfig { 'JENKINS_LOG':
-      value => "$jenkins_logs_to_syslog",
+      value => $jenkins_logs_to_syslog,
     }
   }
   # ...
@@ -634,7 +634,7 @@ class profile::jenkins::master (
 +  # separate log file eg. daemon.info
 +  if $jenkins_logs_to_syslog {
 +    jenkins::sysconfig { 'JENKINS_LOG':
-+      value => "$jenkins_logs_to_syslog",
++      value => $jenkins_logs_to_syslog,
 +    }
 +  }
 +
@@ -974,7 +974,7 @@ class profile::jenkins::master (
   # separate log file eg. daemon.info
   if $jenkins_logs_to_syslog {
     jenkins::sysconfig { 'JENKINS_LOG':
-      value => "$jenkins_logs_to_syslog",
+      value => $jenkins_logs_to_syslog,
     }
   }
 

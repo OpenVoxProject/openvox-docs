@@ -34,7 +34,7 @@ function apache::bool2http(Variant[String, Boolean] $arg) >> String {
   case $arg {
     false, undef, /(?i:false)/ : { 'Off' }
     true, /(?i:true)/          : { 'On' }
-    default               : { "$arg" }
+    default                    : { $arg }
   }
 }
 ```
@@ -170,7 +170,7 @@ function postgresql::acls_to_resource_hash(Array $acls, String $id, Integer $off
   $resources = $acls.map |$index, $acl| {
     $parts = $acl.split('\s+')
     unless $parts =~ Array[Data, 4] {
-      fail("${func_name}: acl line $index does not have enough parts")
+      fail("${func_name}: acl line ${index} does not have enough parts")
     }
 
     # build each entry in the final hash
@@ -180,7 +180,7 @@ function postgresql::acls_to_resource_hash(Array $acls, String $id, Integer $off
         'type'     => $parts[0],
         'database' => $parts[1],
         'user'     => $parts[2],
-        'order'    => sprintf("'%03d'", $offset + $index)
+        'order'    => sprintf('%03d', $offset + $index)
       }
       # The rest depends on if first part is 'local',
       # the length of the parts, and the value in $parts[4].

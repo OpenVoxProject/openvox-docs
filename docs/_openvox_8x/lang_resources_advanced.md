@@ -118,16 +118,16 @@ This is useful because it lets you set many attributes at once (like with an arr
 file {
   default:
     ensure => file,
-    owner  => "root",
-    group  => "wheel",
-    mode   => "0600",
+    owner  => 'root',
+    group  => 'wheel',
+    mode   => '0600',
   ;
   ['ssh_host_dsa_key', 'ssh_host_key', 'ssh_host_rsa_key']:
     # use all defaults
   ;
   ['ssh_config', 'ssh_host_dsa_key.pub', 'ssh_host_key.pub', 'ssh_host_rsa_key.pub', 'sshd_config']:
     # override mode
-    mode => "0644",
+    mode => '0644',
   ;
 }
 ```
@@ -153,12 +153,12 @@ This will set values for that resource's attributes, using every attribute and v
 
 ``` puppet
 $file_ownership = {
-  "owner" => "root",
-  "group" => "wheel",
-  "mode"  => "0644",
+  'owner' => 'root',
+  'group' => 'wheel',
+  'mode'  => '0644',
 }
 
-file { "/etc/passwd":
+file { '/etc/passwd':
   ensure => file,
   *      => $file_ownership,
 }
@@ -166,7 +166,7 @@ file { "/etc/passwd":
 
 You cannot set any attribute more than once for a given resource; if you try, Puppet will raise a compilation error. This means:
 
-* If you use a hash to set attributes for a resource, you cannot set a different, explicit value for any of those attributes. (If `mode` is present in the hash, you can't also set `mode => "0644"` in that resource body.)
+* If you use a hash to set attributes for a resource, you cannot set a different, explicit value for any of those attributes. (If `mode` is present in the hash, you can't also set `mode => '0644'` in that resource body.)
 * You can't use the `*` attribute multiple times in one resource body, since `*` itself acts like an attribute.
 
 If you want to use some attributes from a hash and override others, you can either use a hash to set [per-expression defaults][inpage_defaults], or use [the `+` (merging) operator][hash_merge] to combine attributes from two hashes (with the right-hand hash overriding the left-hand one).
@@ -181,15 +181,15 @@ Since a resource expression can accept a [resource type data type][resource_data
 That is, all of the following are equivalent:
 
 ``` puppet
-file { "/tmp/foo": ensure => file, }
-File { "/tmp/foo": ensure => file, }
-Resource[File] { "/tmp/foo": ensure => file, }
+file { '/tmp/foo': ensure => file, }
+File { '/tmp/foo': ensure => file, }
+Resource[File] { '/tmp/foo': ensure => file, }
 
 $mytype = File
-Resource[$mytype] { "/tmp/foo": ensure => file, }
+Resource[$mytype] { '/tmp/foo': ensure => file, }
 
-$mytypename = "file"
-Resource[$mytypename] { "/tmp/foo": ensure => file, }
+$mytypename = 'file'
+Resource[$mytypename] { '/tmp/foo': ensure => file, }
 ```
 
 This lets you declare resources without knowing in advance what type of resources they'll be, which can enable interesting transformations of data into resources. For a demonstration, see the `create_resources` example below.
@@ -224,7 +224,7 @@ Although you cannot declare the same resource twice, you can add attributes to a
 ### Amending attributes with a resource reference
 
 ``` puppet
-file {'/etc/passwd':
+file { '/etc/passwd':
   ensure => file,
 }
 
@@ -250,7 +250,7 @@ You can also use the special `*` attribute to amend attributes from a hash. See 
 
 ``` puppet
 class base::linux {
-  file {'/etc/passwd':
+  file { '/etc/passwd':
     ensure => file,
   }
   ...
@@ -296,16 +296,16 @@ To control those effects, you can define your defaults in a variable and re-use 
 ``` puppet
 class mymodule::params {
   $file_defaults = {
-    mode  => "0644",
-    owner => "root",
-    group => "root",
+    mode  => '0644',
+    owner => 'root',
+    group => 'root',
   }
   # ...
 }
 
 class mymodule inherits mymodule::params {
   file { default: *=> $mymodule::params::file_defaults;
-    "/etc/myconfig":
+    '/etc/myconfig':
       ensure => file,
     ;
   }
@@ -329,7 +329,7 @@ The `create_resources` function expects three arguments:
 If we assume we have those values in variables (`$type`, `$resources`, and `$defaults`):
 
 ``` puppet
-$type = "user"
+$type = 'user'
 $resources = {
   'nick' => { uid    => '1330',
               groups => ['developers', 'operations', 'release'], },

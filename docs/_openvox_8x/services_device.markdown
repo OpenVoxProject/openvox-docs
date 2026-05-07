@@ -79,9 +79,9 @@ A common practice is to classify the proxy Puppet agent for a device with the ba
 
 For example:
 
-~~~
+~~~ puppet
 node 'device-proxy.example.com' {
-	class {'f5': }
+  class { 'f5': }
 }
 ~~~
 
@@ -95,20 +95,20 @@ Define resources on the device.
 
 For example:
 
-~~~
+~~~ puppet
 node 'device.example.com' {
-	f5_virtualserver { '/Common/puppet_vs':
-		ensure                     => 'present',
-		provider                   => 'standard',
-		description                => 'Hello World',
-		destination_address        => '192.168.1.245',
-		destination_mask           => '255.255.255.255',
-		http_profile               => '/Common/http',
-		service_port               => '443',
-		protocol                   => 'tcp',
-		source                     => '0.0.0.0/0',
-		source_address_translation => 'automap',
-	}
+  f5_virtualserver { '/Common/puppet_vs':
+    nsure                     => 'present',
+    rovider                   => 'standard',
+    escription                => 'Hello World',
+    estination_address        => '192.168.1.245',
+    estination_mask           => '255.255.255.255',
+    ttp_profile               => '/Common/http',
+    ervice_port               => '443',
+    rotocol                   => 'tcp',
+    ource                     => '0.0.0.0/0',
+    ource_address_translation => 'automap',
+  }
 }
 ~~~
 

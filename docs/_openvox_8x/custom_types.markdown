@@ -90,19 +90,19 @@ You can and should write a string describing the resource type and assign it to 
 The string should be in [Markdown][] format (avoiding dialect-specific features that aren't universally supported). When the Puppet tools extract the string, they will strip the greatest common amount of leading whitespace from the front of each line, excluding the first line. For example:
 
 ``` ruby
-    Puppet::Type.newtype(:database) do
-      @doc = %q{Creates a new database. Depending
-        on the provider, this might create relational
-        databases or NoSQL document stores.
+Puppet::Type.newtype(:database) do
+  @doc = %q{Creates a new database. Depending
+    on the provider, this might create relational
+    databases or NoSQL document stores.
 
-        Example:
+    Example:
 
-            database {'mydatabase':
-              ensure => present,
-              owner  => root,
-            }
-      }
-    end
+        database { 'mydatabase':
+          ensure => present,
+          owner  => root,
+        }
+  }
+end
 ```
 
 In this example, any whitespace would be trimmed from the first line (in this case, it's zero spaces), then the greatest common amount would be trimmed from remaining lines. Three lines have four leading spaces, two lines have six, and two lines have eight, so four leading spaces would be trimmed from each line. This leaves the example code block indented by four spaces, and thus doesn't break the Markdown formatting.

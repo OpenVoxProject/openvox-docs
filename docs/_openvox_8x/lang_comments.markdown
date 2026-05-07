@@ -12,7 +12,7 @@ Shell-style comments (also known as Ruby-style comments) begin with a hash symbo
 
 ``` puppet
 # This is a comment
-file {'/etc/ntp.conf': # This is another comment
+file { '/etc/ntp.conf': # This is another comment
   ensure => file,
   owner  => root,
 }

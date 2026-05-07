@@ -15,7 +15,7 @@ package { 'mysql':
   install_options => ['INSTALLDIR=C:\mysql-5.5'],
 }
 
-package { "Git version 1.8.4-preview20130916":
+package { 'Git version 1.8.4-preview20130916':
  ensure          => installed,
  source          => 'C:\code\puppetlabs\temp\windowsexample\Git-1.8.4-preview20130916.exe',
  install_options => ['/VERYSILENT']

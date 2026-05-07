@@ -50,7 +50,7 @@ This page can help you find syntax elements when you can't remember their names.
 
 
 ``` puppet
-file {'ntp.conf':
+file { 'ntp.conf':
   path    => '/etc/ntp.conf',
   ensure  => file,
   content => template('ntp/ntp.conf'),
@@ -68,11 +68,11 @@ file {'ntp.conf':
 * `template('ntp/ntp.conf')`: A [function][] call that [returns a value][rvalue]; in this case, the [`template`][template_func] function, with the name of a template in a [module][] as its argument
 
 ``` puppet
-package {'ntp':
+package { 'ntp':
   ensure => installed,
   before => File['ntp.conf'],
 }
-service {'ntpd':
+service { 'ntpd':
   ensure    => running,
   subscribe => File['ntp.conf'],
 }
@@ -108,7 +108,7 @@ content => "Managed by puppet master version ${serverversion}"
 
 ``` puppet
 class ntp {
-  package {'ntp':
+  package { 'ntp':
     ...
   }
   ...
@@ -120,7 +120,7 @@ class ntp {
 ``` puppet
 include ntp
 require ntp
-class {'ntp':}
+class { 'ntp': }
 ```
 
 ↑ [Declaring a class][class_decl] in three different ways: with the `include` function, with the `require` function, and with the resource-like syntax. Declaring a class causes the resources in it to be managed.
@@ -145,7 +145,7 @@ define apache::vhost ($port, $docroot, $servername = $title, $vhost_name = '*') 
 ↑ A [defined type][defined_type], which makes a new resource type available. Note that the name of that resource type has two [namespace segments][namespace].
 
 ``` puppet
-apache::vhost {'homepages':
+apache::vhost { 'homepages':
   port    => 8081,
   docroot => '/var/www-testhost',
 }
@@ -277,7 +277,7 @@ Exec <| title == 'update_migrations' |> {
 
 
 ``` puppet
-@user {'deploy':
+@user { 'deploy':
   uid     => 2004,
   comment => 'Deployment User',
   group   => www-data,
@@ -292,7 +292,7 @@ Exec <| title == 'update_migrations' |> {
 ``` puppet
 @@nagios_service { "check_zfs${hostname}":
   use                 => 'generic-service',
-  host_name           => "$fqdn",
+  host_name           => $fqdn,
   check_command       => 'check_nrpe_1arg!check_zfs',
   service_description => "check_zfs${hostname}",
   target              => '/etc/nagios3/conf.d/nagios_service.cfg',
