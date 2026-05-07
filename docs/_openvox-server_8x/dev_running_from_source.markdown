@@ -1,31 +1,32 @@
 ---
 layout: default
-title: "Puppet Server: Running From Source"
-canonical: "/puppetserver/latest/dev_running_from_source.html"
+title: "Running OpenVox Server from Source"
 ---
 
-## So you'd like to run Puppet Server from source?
+## So you'd like to run OpenVox Server from source?
 
-The following steps will help you get Puppet Server up and running from source.
+The following steps will help you get OpenVox Server up and running from source.
 
 ## Step 0: Quick Start for Developers
 
-    # clone git repository and initialize submodules
-    $ git clone --recursive git://github.com/puppetlabs/puppetserver
-    $ cd puppetserver
+```bash
+# clone git repository and initialize submodules
+$ git clone --recursive https://github.com/OpenVoxProject/openvox-server
+$ cd openvox-server
 
-    # Remove any old config if you want to make sure you're using the latest
-    # defaults
-    $ rm -rf ~/.puppetserver
+# Remove any old config if you want to make sure you're using the latest
+# defaults
+$ rm -rf ~/.puppetserver
 
-    # Run the `dev-setup` script to initialize all required configuration
-    $ ./dev-setup
+# Run the `dev-setup` script to initialize all required configuration
+$ ./dev-setup
 
-    # Launch the clojure REPL
-    $ lein repl
-    # Run Puppet Server
-    dev-tools=> (go)
-    dev-tools=> (help)
+# Launch the clojure REPL
+$ lein repl
+# Run Puppet Server
+dev-tools=> (go)
+dev-tools=> (help)
+```
 
 You should now have a running server. All relevant paths (`$confdir`, `$codedir`, etc.) are configured by default to point to directories underneath `~/.puppetlabs`. These should all align with the default
 values that `puppet` uses (for non-root users).
@@ -34,13 +35,15 @@ You can find the specific paths in the `dev/puppetserver.conf` file.
 
 In another shell, you can run the agent:
 
-    # Go to the directory where you checked out puppetserver
-    $ cd puppetserver
-    # Set ruby and bin paths
-    $ export RUBYLIB=./ruby/puppet/lib:./ruby/facter/lib
-    $ export PATH=./ruby/puppet/bin:./ruby/facter/bin:$PATH
-    # Run the agent
-    $ puppet agent -t
+```bash
+# Go to the directory where you checked out openvox-server
+$ cd openvox-server
+# Set ruby and bin paths
+$ export RUBYLIB=./ruby/puppet/lib:./ruby/facter/lib
+$ export PATH=./ruby/puppet/bin:./ruby/facter/bin:$PATH
+# Run the agent
+$ puppet agent -t
+```
 
 More detailed instructions follow.
 
@@ -48,20 +51,24 @@ More detailed instructions follow.
 
 Use your system's package tools to ensure that the following prerequisites are installed:
 
-- JDK 1.8 or Java 11
+- Java 17 or 21
 - [Leiningen 2.9.1 (latest)](http://leiningen.org/)
 - Git (for checking out the source code)
 
 ## Step 2: Clone Git Repo and Set Up Working Tree
 
-    git clone --recursive git://github.com/puppetlabs/puppetserver
-    cd puppetserver
+```bash
+git clone --recursive https://github.com/OpenVoxProject/openvox-server
+cd openvox-server
+```
 
 ## Step 3: Set up Config Files
 
 The easiest way to do this is to just run:
 
-    ./dev-setup
+```bash
+./dev-setup
+```
 
 This will set up all of the necessary configuration files and directories inside of your `~/.puppetlabs` directory. If you are interested in seeing what all of the default file paths are, you can find them in
 `./dev/puppetserver.conf`.
@@ -75,7 +82,7 @@ If you'd like to customize your environment, here are a few things you can do:
 - Create a file called `dev/user.clj`. This file will be automatically loaded when you run Puppet Server from the REPL. In it, you can define a function called `get-config`, and use it to override the default
   values of various settings from `dev/puppetserver.conf`. For an example of what this file should look like, see `./dev/user.clj.sample`.
 
-You don't need to create a `user.clj` in most cases; the settings that I change the most frequently that would warrant the creation of this file, though, are:
+You don't need to create a `user.clj` in most cases; settings most likely to warrant it are:
 
 - `jruby-puppet.max-active-instances`: the number of JRuby instances to put into the pool. This can usually be set to 1 for dev purposes, unless you're working on something that involves concurrency.
 - `jruby-puppet.splay-instance-flush`: Do not attempt to splay JRuby flushing, set when testing if using multiple JRuby instances and you need to control when they are flushed from the pool
@@ -101,28 +108,36 @@ contains an integrated REPL that can be used in place of the `lein repl` command
 
 To start the server from the REPL, run the following:
 
-    $ lein repl
-    nREPL server started on port 47631 on host 127.0.0.1
-    dev-tools=> (go)
-    dev-tools=> (help)
+```clojure
+$ lein repl
+nREPL server started on port 47631 on host 127.0.0.1
+dev-tools=> (go)
+dev-tools=> (help)
+```
 
 Then, if you make changes to the source code, all you need to do in order to restart the server with the latest changes is:
 
-    dev-tools=> (reset)
+```clojure
+dev-tools=> (reset)
+```
 
 Restarting the server this way should be significantly faster than restarting the entire JVM process.
 
 You can also run the utility functions to inspect the state of the server, e.g.:
 
-    dev-tools=> (print-puppet-environment-states)
+```clojure
+dev-tools=> (print-puppet-environment-states)
+```
 
 Have a look at `dev-tools.clj` if you're interested in seeing what other utility functions are available.
 
 ## Step 4b: Run the server from the command line
 
-If you prefer not to run the server interactively in the REPL, you can launch it as a normal process. To start the Puppet Server when running from source, simply run the following:
+If you prefer not to run the server interactively in the REPL, you can launch it as a normal process. To start the OpenVox Server when running from source, simply run the following:
 
-    lein run -c /path/to/puppetserver.conf
+```bash
+lein run -c /path/to/puppetserver.conf
+```
 
 ## Step 4c: Development environment gotchas
 
@@ -130,9 +145,11 @@ If you prefer not to run the server interactively in the REPL, you can launch it
 
 If you get an error like the following:
 
-    Execution error (LoadError) at org.jruby.RubyKernel/require
-    (org/jruby/RubyKernel.java:970).
-    (LoadError) no such file to load -- puppet
+```text
+Execution error (LoadError) at org.jruby.RubyKernel/require
+(org/jruby/RubyKernel.java:970).
+(LoadError) no such file to load -- puppet
+```
 
 Then you've probably forgotten to fetch the git submodules.
 
@@ -140,52 +157,60 @@ Then you've probably forgotten to fetch the git submodules.
 
 If you change the `:webserver :ssl-port` config option from the default value of `8140`, tests will fail with errors like the following:
 
-    lein test :only puppetlabs.general-puppet.general-puppet-int-test/test-external-command-execution
+```text
+lein test :only puppetlabs.general-puppet.general-puppet-int-test/test-external-command-execution
 
-    ERROR in (test-external-command-execution) (SocketChannelImpl.java:-2)
-    Uncaught exception, not in assertion.
-    expected: nil
-    2019-02-06 14:58:50,541 WARN  [async-dispatch-18] [o.e.j.s.h.ContextHandler] Empty contextPath
-      actual: java.net.ConnectException: Connection refused
-     at sun.nio.ch.SocketChannelImpl.checkConnect (SocketChannelImpl.java:-2)
-        sun.nio.ch.SocketChannelImpl.finishConnect (SocketChannelImpl.java:717)
-        org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent (DefaultConnectingIOReactor.java:171)
-        org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents (DefaultConnectingIOReactor.java:145)
-        org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute (AbstractMultiworkerIOReactor.java:348)
-        org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute (PoolingNHttpClientConnectionManager.java:192)
-        org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run (CloseableHttpAsyncClientBase.java:64)
-        java.lang.Thread.run (Thread.java:844)
+ERROR in (test-external-command-execution) (SocketChannelImpl.java:-2)
+Uncaught exception, not in assertion.
+expected: nil
+2019-02-06 14:58:50,541 WARN  [async-dispatch-18] [o.e.j.s.h.ContextHandler] Empty contextPath
+  actual: java.net.ConnectException: Connection refused
+ at sun.nio.ch.SocketChannelImpl.checkConnect (SocketChannelImpl.java:-2)
+    sun.nio.ch.SocketChannelImpl.finishConnect (SocketChannelImpl.java:717)
+    org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent (DefaultConnectingIOReactor.java:171)
+    org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents (DefaultConnectingIOReactor.java:145)
+    org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute (AbstractMultiworkerIOReactor.java:348)
+    org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute (PoolingNHttpClientConnectionManager.java:192)
+    org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run (CloseableHttpAsyncClientBase.java:64)
+    java.lang.Thread.run (Thread.java:844)
+```
 
 Changing the `ssl-port` variable back to `8140` makes the tests run properly.
 
 ## Running the Agent
 
-Use a command like the one below to run an agent against your running puppetserver:
+Use a command like the one below to run an agent against your running OpenVox Server:
 
-        puppet agent --confdir ~/.puppetlabs/etc/puppet \
-                     --debug -t
+```bash
+puppet agent --confdir ~/.puppetlabs/etc/puppet \
+             --debug -t
+```
 
-Note that a system installed Puppet Agent is ok for use with source-based PuppetDB and Puppet Server. The `--confdir` above specifies the same confdir that Puppet Server is using. Because the Puppet Agent and
-Puppet Server instances are both using the same confdir, they're both using the same certificates as well. This alleviates the need to sign certificates as a separate step.
+Note that a system installed Puppet Agent is ok for use with source-based OpenVoxDB and OpenVox Server. The `--confdir` above specifies the same confdir that OpenVox Server is using. Because the Puppet Agent and
+OpenVox Server instances are both using the same confdir, they're both using the same certificates as well. This alleviates the need to sign certificates as a separate step.
 
 ## Running the Agent inside a Docker container
 
-You can easily run a Puppet Agent inside a Docker container, either by using the `host` network profile or by accessing the Puppetserver service using the Docker host IP:
+You can easily run a Puppet Agent inside a Docker container, either by using the `host` network profile or by accessing the OpenVox Server service using the Docker host IP:
 
-    docker run -ti                    \
-           --name agent1              \
-           puppet/puppet-agent-ubuntu \
-           agent -t --server 172.17.0.1
+```bash
+docker run -ti                                \
+       --name agent1                          \
+       ghcr.io/openvoxproject/openvoxagent:8  \
+       agent -t --server 172.17.0.1
 
-    docker run -ti                     \
-           --name agent2               \
-           --network host              \
-           --add-host puppet:127.0.0.1 \
-           puppet/puppet-agent-ubuntu
+docker run -ti                                \
+       --name agent2                          \
+       --network host                         \
+       --add-host puppet:127.0.0.1            \
+       ghcr.io/openvoxproject/openvoxagent:8
+```
 
 To start another Puppet Agent run in a previous container you can use the `docker start` command:
 
-    docker start -a agent1
+```bash
+docker start -a agent1
+```
 
 ## Running tests
 
@@ -198,73 +223,89 @@ arguments for the `:jvm-opts` `defproject` key within the `project.clj` file, it
 
 1. An environment variable named `PUPPETSERVER_HEAP_SIZE`. For example, to use a heap size of 6 GiB for a `lein test` run, you could run the following:
 
-   $ PUPPETSERVER_HEAP_SIZE=6G lein test
+   ```bash
+   PUPPETSERVER_HEAP_SIZE=6G lein test
+   ```
 
 2. A lein `profiles.clj` setting in the `:user` profile under the `:puppetserver-heap-size` key. For example, to use a heap size of 6 GiB, you could add the following key to your `~/.lein/profiles.clj` file:
 
-    {:user {:puppetserver-heap-size "6G"
-            ...}}
+   ```clojure
+   {:user {:puppetserver-heap-size "6G"
+           ...}}
+   ```
 
 With the `:puppetserver-heap-size` key defined in the `profiles.clj` file, any subsequent `lein test` run would utilize the associated value for the key. If both the environment variable and the `profiles.clj`
 key are defined, the value from the environment variable takes precedence. When either of these settings is defined, the value is used as both the minimum and maximum JVM heap size.
 
-From anecdotal testing from the puppetserver master branch as of 10/26/2016, it appeared that at least a heap size of 5 GB would provide the best performance benefit for full runs of the Clojure unit test
-suite. This value may change over time depending upon how the tests evolve.
+From anecdotal testing, at least a heap size of 5 GB provides the best performance benefit for full runs of the Clojure unit test suite. This value may change over time depending upon how the tests evolve.
 
 ## Installing Ruby Gems for Development
 
-The gems that are vendored with the puppetserver OS packages will be automatically installed into your dev environment by the `./dev-setup` script. If you wish to install additional gems, please see the
+The gems that are vendored with the openvox-server OS packages will be automatically installed into your dev environment by the `./dev-setup` script. If you wish to install additional gems, please see the
 [Gems](./gems.html) document for detailed information.
 
 ## Debugging
 
-For more information about debugging both Clojure and JRuby code, please see [Puppet Server: Debugging](./dev_debugging.html) documentation.
+For more information about debugging both Clojure and JRuby code, please see [OpenVox Server: Debugging](./dev_debugging.html) documentation.
 
-## Running PuppetDB
+## Running OpenVoxDB
 
-To run a source PuppetDB with Puppet Server, Puppet Server needs standard PuppetDB configuration and how to find the PuppetDB terminus. First copy the `dev/puppetserver.conf` file to another directory. In your
-copy of the config, append a new entry to the `ruby-load-path` list: `<PDB source path>/puppet/lib`. This tells PuppetServer to load the PuppetDB terminus from the specified directory.
+To run a source OpenVoxDB with OpenVox Server, OpenVox Server needs standard OpenVoxDB configuration and how to find the OpenVoxDB terminus. First copy the
+`dev/puppetserver.conf` file to another directory. In your copy of the config, append a new entry to the `ruby-load-path` list: `<PDB source path>/puppet/lib`. This tells
+OpenVox Server to load the OpenVoxDB terminus from the specified directory.
 
-From here, the instructions are similar to installing PuppetDB manually via packages. The PuppetServer instance needs configuration for connecting to PuppetDB. Instructions on this configuration are below, but
-the official docs for this can be found [here](https://docs.puppet.com/puppetdb/4.3/connect_puppet_master.html).
+From here, the instructions are similar to installing OpenVoxDB manually via packages. The OpenVox Server instance needs configuration for connecting to OpenVoxDB. See the
+[OpenVoxDB documentation](../../../openvoxdb/latest/connect_puppet_server.html) for details.
 
 Update `~/.puppetlabs/etc/puppet/puppet.conf` to include:
 
-    [master]
-    storeconfigs = true
-    storeconfigs_backend = puppetdb
-    reports = store,puppetdb
+```ini
+[master]
+storeconfigs = true
+storeconfigs_backend = puppetdb
+reports = store,puppetdb
+```
 
 Create a new puppetdb config file `~/.puppetlabs/etc/puppet/puppetdb.conf` that contains
 
-    [main]
-    server_urls = https://<MASTERHOST>:8081
+```ini
+[main]
+server_urls = https://<MASTERHOST>:8081
+```
 
 Then create a new routes file at `~/.puppetlabs/etc/puppet/routes.yaml` that contains
 
-    ---
-    master:
-      facts:
-        terminus: puppetdb
-        cache: yaml
+```yaml
+---
+master:
+  facts:
+    terminus: puppetdb
+    cache: yaml
+```
 
-Assuming you have a PuppetDB instance up and running, start your Puppet Server instance with the new puppetserver.conf file that you changed:
+Assuming you have a OpenVoxDB instance up and running, start your OpenVox Server instance with the new puppetserver.conf file that you changed:
 
-    lein run -c ~/<YOUR CONFIG DIR>/puppetserver.conf
+```bash
+lein run -c ~/<YOUR CONFIG DIR>/puppetserver.conf
+```
 
-Depending on your PuppetDB configuration, you might need to change some SSL config. PuppetDB requires that the same CA that signs it's certificate, also has signed Puppet Server's certificate. The easiest way
-to do this is to point PuppetDB at the same configuration directory that Puppet Server and Puppet Agent are pointing to. Typically this setting is specified in the `jetty.ini` file in the PuppetDB conf.d
+Depending on your OpenVoxDB configuration, you might need to change some SSL config. OpenVoxDB requires that the same CA that signs its certificate also has signed OpenVox Server's certificate. The easiest way
+to do this is to point OpenVoxDB at the same configuration directory that OpenVox Server and Puppet Agent are pointing to. Typically this setting is specified in the `jetty.ini` file in the OpenVoxDB conf.d
 directory. The update would look like:
 
-    [jetty]
+```ini
+[jetty]
 
-    #...
-    ssl-cert = <home dir>/.puppetlabs/etc/puppet/ssl/certs/<MASTERHOST>.pem
-    ssl-key = <home dir>/.puppetlabs/etc/puppet/ssl/private_keys/<MASTERHOST>.pem
-    ssl-ca-cert = <home dir>/.puppetlabs/etc/puppet/ssl/certs/ca.pem
+#...
+ssl-cert = <home dir>/.puppetlabs/etc/puppet/ssl/certs/<MASTERHOST>.pem
+ssl-key = <home dir>/.puppetlabs/etc/puppet/ssl/private_keys/<MASTERHOST>.pem
+ssl-ca-cert = <home dir>/.puppetlabs/etc/puppet/ssl/certs/ca.pem
+```
 
-After the SSL config is in place, start (or restart) PuppetDB:
+After the SSL config is in place, start (or restart) OpenVoxDB:
 
-    lein run services -c <path to PDB config>/conf.d
+```bash
+lein run services -c <path to PDB config>/conf.d
+```
 
-Then run the Puppet Agent and you should see activity in PuppetDB and Puppet Server.
+Then run the Puppet Agent and you should see activity in OpenVoxDB and OpenVox Server.
