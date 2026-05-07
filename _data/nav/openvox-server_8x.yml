@@ -68,8 +68,6 @@
     link: tuning_guide.html
   - text: Scaling OpenVox Server with compilers
     link: scaling_puppet_server.html
-  - text: Migrating to the HOCON auth.conf format
-    link: config_file_auth_migration.html
 - text: Administrative API endpoints
   items:
   - text: Environment cache
