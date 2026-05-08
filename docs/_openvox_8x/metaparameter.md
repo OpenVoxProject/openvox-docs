@@ -179,7 +179,7 @@ subscribing or notified resources, although Puppet will log that a refresh
 event _would_ have been sent.
 
 **Important note:**
-[The `noop` setting](/openvox/latest/configuration.html#noop)
+[The `noop` setting](./configuration.html#noop)
 allows you to globally enable or disable noop mode, but it will _not_ override
 the `noop` metaparameter on individual resources. That is, the value of the
 global `noop` setting will _only_ affect resources that do not have an explicit
@@ -225,7 +225,7 @@ A schedule to govern when Puppet is allowed to manage this resource.
 The value of this metaparameter must be the `name` of a `schedule`
 resource. This means you must declare a schedule resource, then
 refer to it by name; see
-[the docs for the `schedule` type](/openvox/latest/type.html#schedule)
+[the docs for the `schedule` type](./type.html#schedule)
 for more info.
 
     schedule { 'everyday':
@@ -251,7 +251,7 @@ resources or on classes declared with `include`.
 By default, all classes are declared in the `main` stage. To assign a class
 to a different stage, you must:
 
-* Declare the new stage as a [`stage` resource](/openvox/latest/type.html#stage).
+* Declare the new stage as a [`stage` resource](./type.html#stage).
 * Declare an order relationship between the new stage and the `main` stage.
 * Use the resource-like syntax to declare the class, and set the `stage`
   metaparameter to the name of the desired stage.
