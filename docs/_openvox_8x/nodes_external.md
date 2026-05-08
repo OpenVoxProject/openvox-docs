@@ -13,7 +13,7 @@ Depending on the external data sources you use in your infrastructure, building 
 
 ## What is an ENC?
 
-An external node classifier is an executable that Puppet Server or Puppet apply can call; it doesn't have to be written in Ruby. Its only argument is the name of the node to be classified, and it returns a YAML document describing the node.
+An external node classifier is an executable that OpenVox Server or puppet apply can call; it doesn't have to be written in Ruby. Its only argument is the name of the node to be classified, and it returns a YAML document describing the node.
 
 Inside the ENC, you can reference any data source you want, including [PuppetDB](/openvoxdb/latest). But from Puppet's perspective, it just puts in a node name and gets back a hash of information.
 
@@ -21,7 +21,7 @@ ENCs can co-exist with standard node definitions in `site.pp`, and the classes d
 
 ### How merging works
 
-Every node always gets a **node object** (which might be empty or might contain classes, parameters, and an environment) from the configured `node_terminus`. (This setting takes effect where the catalog is compiled; on Puppet Server when using an agent/master arrangement, and on the node itself when using Puppet apply. The default node terminus is `plain`, which returns an empty node object; the `exec` terminus calls an ENC script to determine what should go in the node object.) Every node **might** also get a [node definition][] from the [main manifest][].
+Every node always gets a **node object** (which might be empty or might contain classes, parameters, and an environment) from the configured `node_terminus`. (This setting takes effect where the catalog is compiled; on OpenVox Server when using an agent/server arrangement, and on the node itself when using puppet apply. The default node terminus is `plain`, which returns an empty node object; the `exec` terminus calls an ENC script to determine what should go in the node object.) Every node **might** also get a [node definition][] from the [main manifest][].
 
 When compiling a node's catalog, Puppet includes **all** of the following:
 
@@ -45,7 +45,7 @@ When compiling a node's catalog, Puppet includes **all** of the following:
 
 ## Connecting an ENC
 
-To tell Puppet Server to use an ENC, you need to set two [settings](./config_about_settings.html) in the Puppet master's `puppet.conf` file: `node_terminus` has to be set to "exec", and `external_nodes` must have the path to the executable.
+To tell OpenVox Server to use an ENC, you need to set two [settings](./config_about_settings.html) in the OpenVox server's `puppet.conf` file: `node_terminus` has to be set to "exec", and `external_nodes` must have the path to the executable.
 
     [master]
       node_terminus = exec

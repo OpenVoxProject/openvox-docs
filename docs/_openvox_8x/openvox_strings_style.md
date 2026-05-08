@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Puppet Strings style guide"
+title: "OpenVox Strings style guide"
 ---
 
 

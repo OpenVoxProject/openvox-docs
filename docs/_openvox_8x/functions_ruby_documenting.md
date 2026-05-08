@@ -3,7 +3,7 @@ layout: default
 title: "Writing functions in Ruby: Documenting Ruby functions"
 ---
 
-[puppet strings]: https://github.com/puppetlabs/puppet-strings
+[puppet strings]: https://github.com/voxpupuli/openvox-strings
 [overview]: ./functions_ruby_overview.html
 [signatures]: ./functions_ruby_signatures.html
 

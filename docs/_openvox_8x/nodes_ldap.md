@@ -125,7 +125,7 @@ The `testserver` node's classes would be `baseclass`, `testing`, and `solaris`. 
 
 ## Modifying your LDAP schema
 
-You first have to provide the Puppet schema to your LDAP server. You can find the Puppet schema [in Git](http://github.com/puppetlabs/puppet/blob/master/ext/ldap/puppet.schema). Place this schema into your schema directory, on Debian for example this would be /etc/ldap/schema. I recommend keeping the puppet.schema name.
+You first have to provide the Puppet schema to your LDAP server. You can find the Puppet schema in the OpenVox source repository under `ext/ldap/puppet.schema`. Place this schema into your schema directory, on Debian for example this would be /etc/ldap/schema. I recommend keeping the puppet.schema name.
 
 With the schema file in place, modify your slapd.conf to load this schema by adding it to the list of schema files loaded:
 

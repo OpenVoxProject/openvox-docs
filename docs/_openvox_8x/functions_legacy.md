@@ -101,7 +101,7 @@ host converted to an integer, modulo 60. Neither
 guarantees uniqueness, but you can't really expect that with a range
 of no more than 60 anyway.
 
-But given that functions are run on the puppet master, how do you get at
+But given that functions are run on the OpenVox server, how do you get at
 the hostname or IP address of the agent node?
 The answer is that facts returned by facter can be used in our
 functions.

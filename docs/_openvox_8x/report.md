@@ -3,7 +3,6 @@ layout: default
 built_from_commit: 8c9dd1ff315b738818307cc895942164aba30730
 title: Report Reference
 toc: columns
-canonical: "/puppet/latest/report.html"
 ---
 
 
@@ -15,14 +14,14 @@ canonical: "/puppet/latest/report.html"
 
 Puppet can generate a report after applying a catalog. This report includes
 events, log messages, resource statuses, and metrics and metadata about the run.
-Puppet agent sends its report to a Puppet master server, and Puppet apply
+OpenVox agent sends its report to an OpenVox server, and puppet apply
 processes its own reports.
 
-Puppet master and Puppet apply will handle every report with a set of report
+The OpenVox server and puppet apply will handle every report with a set of report
 processors, configurable with the `reports` setting in puppet.conf. This page
 documents the built-in report processors.
 
-See [About Reporting](https://puppet.com/docs/puppet/latest/reporting_about.html)
+See [About Reporting](./reporting_about.html)
 for more details.
 
 http

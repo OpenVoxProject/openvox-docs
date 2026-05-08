@@ -245,7 +245,7 @@ This means you must `include x` in the main class to ensure the dependency is in
 
 Ensure that the module works in a variety of conditions, and that the options and parameters of your module work together to an appropriate end result.
 
-We recommend several testing frameworks available to help you write unit and acceptance tests. Some of these tools are already included in the [Puppet Development Kit (PDK)](https://www.puppet.com/docs/pdk/latest/pdk.html).
+We recommend several testing frameworks available to help you write unit and acceptance tests. Some of these tools are already included in the Puppet Development Kit (PDK).
 
 > **Note:** The open source version of PDK is no longer supported by Puppet. It may still be functional, but no further updates or bug fixes will be provided.
 
@@ -261,7 +261,7 @@ RSpec lets you provide facts, like `os['family']`, in order to test the module i
 
 A typical use of RSpec is to iterate over a list of operating systems, asserting that the package and service should exist in the catalog for every operating system your module supports.
 
-To learn more, see the [rspec-puppet documentation](https://puppetlabs.github.io/rspec-puppet/).
+To learn more, see the [rspec-puppet documentation](https://rspec-puppet.com/).
 
 ### puppetlabs-spec-helper
 
@@ -277,7 +277,7 @@ require 'puppetlabs_spec_helper/rake_tasks'
 
 ### Beaker-rspec
 
-[Beaker-rspec](https://github.com/puppetlabs/beaker-rspec) is an acceptance/integration testing framework.
+[Beaker-rspec](https://github.com/voxpupuli/beaker-rspec) is an acceptance/integration testing framework.
 
 It provisions one or more virtual machines on various hypervisors (such as [Vagrant](https://www.vagrantup.com/)) and then checks the result of applying your module in a realistic environment.
 
