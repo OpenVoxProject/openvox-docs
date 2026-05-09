@@ -11,6 +11,11 @@ hero:
       alt: OpenVox Automation Framework
 
 features:
+  - icon: 🖼️
+    title: Ecosystem
+    details: Learn what this is all about. Find the Quick Start guide, module development tooling guides, framework concepts and more.
+    link: ecosystem/latest/
+
   - icon: 🔍
     title: OpenFact
     details: Discover system attributes such as hardware details, network settings, OS type and version, and more.

@@ -1,0 +1,24 @@
+---
+- text: OpenVox Ecosystem
+  items:
+  - text: What is OpenVox?
+    link: index.html
+  - text: History
+    link: history.html
+  - text: OpenVox Community
+    link: community.html
+- text: Getting Started
+  items:
+  - text: Whirlwind guide
+    link: "getting_started/index.html"
+  - text: Setting up a Server
+    link: "getting_started/agent-server.html"
+  - text: Architecture and Concepts
+    link: "getting_started/architecture.html"
+  - text: Puppet Language intro
+    link: "getting_started/language.html"
+  - text: Orchestration
+    link: "getting_started/orchestration.html"
+  - text: Quick Reference
+    link: "getting_started/quickref.html"
+
