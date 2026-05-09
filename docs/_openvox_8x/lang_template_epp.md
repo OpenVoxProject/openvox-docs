@@ -6,7 +6,7 @@ title: "Language: Embedded Puppet (EPP) template syntax"
 [erb]: ./lang_template_erb.html
 [epp]: /openvox/latest/function.html#epp
 [inline_epp]: /openvox/latest/function.html#inline_epp
-[ntp]: https://forge.puppetlabs.com/puppetlabs/ntp
+[ntp]: https://forge.puppet.com/puppetlabs/ntp
 [functions]: ./lang_functions.html
 [hash]: ./lang_data_hash.html
 [local scope]: ./lang_scope.html

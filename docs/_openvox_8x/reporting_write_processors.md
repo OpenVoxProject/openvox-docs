@@ -60,9 +60,9 @@ Puppet::Reports.register_report(:myreport) do
 end
 ```
 
-The above report processor could then be included in the comma-separated list of processors in the Puppet master's `reports` setting in `puppet.conf`, such as `reports = store,myreport`.
+The above report processor could then be included in the comma-separated list of processors in the OpenVox server's `reports` setting in `puppet.conf`, such as `reports = store,myreport`.
 
-For more examples using this API, see [the built-in reports' source](https://github.com/puppetlabs/puppet/tree/master/lib/puppet/reports) or one of these simple custom reports created by a member of the Puppet community:
+For more examples using this API, see [the built-in reports' source](https://github.com/OpenVoxProject/openvox/tree/main/lib/puppet/reports) or one of these simple custom reports created by a member of the Puppet community:
 
 * [Report failed runs to Jabber/XMPP](https://github.com/jamtur01/puppet-xmpp)
 * [Send metrics to a Ganglia server via gmetric](https://github.com/jamtur01/puppet-ganglia)

@@ -3,7 +3,6 @@ layout: default
 built_from_commit: 8c9dd1ff315b738818307cc895942164aba30730
 title: Metaparameter Reference
 toc: columns
-canonical: "/puppet/latest/metaparameter.html"
 ---
 
 
@@ -88,7 +87,7 @@ and the second run will log the edit made by Puppet.)
 ### before
 
 One or more resources that depend on this resource, expressed as
-[resource references](https://puppet.com/docs/puppet/latest/lang_data_resource_reference.html).
+[resource references](./lang_data_resource_reference.html).
 Multiple resources can be specified as an array of references. When this
 attribute is present:
 
@@ -97,7 +96,7 @@ attribute is present:
 This is one of the four relationship metaparameters, along with
 `require`, `notify`, and `subscribe`. For more context, including the
 alternate chaining arrow (`->` and `~>`) syntax, see
-[the language page on relationships](https://puppet.com/docs/puppet/latest/lang_relationships.html).
+[the language page on relationships](./lang_relationships.html).
 
 ### consume
 
@@ -173,14 +172,14 @@ When applying a resource in noop mode, Puppet will check whether it is in sync,
 like it does when running normally. However, if a resource attribute is not in
 the desired state (as declared in the catalog), Puppet will take no
 action, and will instead report the changes it _would_ have made. These
-simulated changes will appear in the report sent to the puppet master, or
+simulated changes will appear in the report sent to the OpenVox server, or
 be shown on the console if running puppet agent or puppet apply in the
 foreground. The simulated changes will not send refresh events to any
 subscribing or notified resources, although Puppet will log that a refresh
 event _would_ have been sent.
 
 **Important note:**
-[The `noop` setting](https://puppet.com/docs/puppet/latest/configuration.html#noop)
+[The `noop` setting](./configuration.html#noop)
 allows you to globally enable or disable noop mode, but it will _not_ override
 the `noop` metaparameter on individual resources. That is, the value of the
 global `noop` setting will _only_ affect resources that do not have an explicit
@@ -191,7 +190,7 @@ Valid values are `true`, `false`.
 ### notify
 
 One or more resources that depend on this resource, expressed as
-[resource references](https://puppet.com/docs/puppet/latest/lang_data_resource_reference.html).
+[resource references](./lang_data_resource_reference.html).
 Multiple resources can be specified as an array of references. When this
 attribute is present:
 
@@ -204,12 +203,12 @@ attribute is present:
 This is one of the four relationship metaparameters, along with
 `before`, `require`, and `subscribe`. For more context, including the
 alternate chaining arrow (`->` and `~>`) syntax, see
-[the language page on relationships](https://puppet.com/docs/puppet/latest/lang_relationships.html).
+[the language page on relationships](./lang_relationships.html).
 
 ### require
 
 One or more resources that this resource depends on, expressed as
-[resource references](https://puppet.com/docs/puppet/latest/lang_data_resource_reference.html).
+[resource references](./lang_data_resource_reference.html).
 Multiple resources can be specified as an array of references. When this
 attribute is present:
 
@@ -218,7 +217,7 @@ attribute is present:
 This is one of the four relationship metaparameters, along with
 `before`, `notify`, and `subscribe`. For more context, including the
 alternate chaining arrow (`->` and `~>`) syntax, see
-[the language page on relationships](https://puppet.com/docs/puppet/latest/lang_relationships.html).
+[the language page on relationships](./lang_relationships.html).
 
 ### schedule
 
@@ -226,7 +225,7 @@ A schedule to govern when Puppet is allowed to manage this resource.
 The value of this metaparameter must be the `name` of a `schedule`
 resource. This means you must declare a schedule resource, then
 refer to it by name; see
-[the docs for the `schedule` type](https://puppet.com/docs/puppet/latest/type.html#schedule)
+[the docs for the `schedule` type](./type.html#schedule)
 for more info.
 
     schedule { 'everyday':
@@ -252,7 +251,7 @@ resources or on classes declared with `include`.
 By default, all classes are declared in the `main` stage. To assign a class
 to a different stage, you must:
 
-* Declare the new stage as a [`stage` resource](https://puppet.com/docs/puppet/latest/type.html#stage).
+* Declare the new stage as a [`stage` resource](./type.html#stage).
 * Declare an order relationship between the new stage and the `main` stage.
 * Use the resource-like syntax to declare the class, and set the `stage`
   metaparameter to the name of the desired stage.
@@ -270,7 +269,7 @@ For example:
 ### subscribe
 
 One or more resources that this resource depends on, expressed as
-[resource references](https://puppet.com/docs/puppet/latest/lang_data_resource_reference.html).
+[resource references](./lang_data_resource_reference.html).
 Multiple resources can be specified as an array of references. When this
 attribute is present:
 
@@ -283,7 +282,7 @@ attribute is present:
 This is one of the four relationship metaparameters, along with
 `before`, `require`, and `notify`. For more context, including the
 alternate chaining arrow (`->` and `~>`) syntax, see
-[the language page on relationships](https://puppet.com/docs/puppet/latest/lang_relationships.html).
+[the language page on relationships](./lang_relationships.html).
 
 ### tag
 

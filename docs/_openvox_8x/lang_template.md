@@ -6,8 +6,8 @@ title: "Language: Using templates"
 [interpolate]: ./lang_data_string.html#interpolation
 [heredoc]: ./lang_data_string.html#heredocs
 [augeas]: ./resources_augeas.html
-[concat]: https://forge.puppetlabs.com/puppetlabs/concat
-[file_line]: https://forge.puppetlabs.com/puppetlabs/stdlib
+[concat]: https://forge.puppet.com/puppetlabs/concat
+[file_line]: https://forge.puppet.com/puppetlabs/stdlib
 [functions]: ./lang_functions.html
 [epp]: ./lang_template_epp.html
 [man epp]: ./man/epp.html
@@ -18,7 +18,7 @@ title: "Language: Using templates"
 [valid local variable names]: ./lang_reserved.html#variables
 [heredoc]: ./lang_data_string.html#heredocs
 [iteration functions]: ./lang_iteration.html
-[stdlib]: https://forge.puppetlabs.com/puppetlabs/stdlib
+[stdlib]: https://forge.puppet.com/puppetlabs/stdlib
 
 Templates are documents that combine code, data, and literal text to produce a final rendered output. The goal of a template is to manage a complicated piece of text with simple inputs.
 
@@ -48,7 +48,7 @@ Embedded Ruby (ERB)   | `template` | `inline_template`
 
 You can put template files in the `templates` directory of a [module][]. EPP files should have the `.epp` extension, and ERB files should have the `.erb` extension.
 
-To use a template file, evaluate it with the [`template`](https://docs.puppet.com/puppet/latest/function.html#template) (ERB) or [`epp`](https://docs.puppet.com/puppet/latest/function.html#epp) function:
+To use a template file, evaluate it with the [`template`](./function.html#template) (ERB) or [`epp`](./function.html#epp) function:
 
 ``` puppet
 # epp(<FILE REFERENCE>, [<PARAMETER HASH>])

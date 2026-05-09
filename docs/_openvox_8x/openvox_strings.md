@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Puppet Strings"
+title: "OpenVox Strings"
 ---
 
 Produce complete, user-friendly module documentation by using Puppet Strings. Strings uses special code comments and the source code to generate documentation for a module's classes, defined types, functions, and resource types and providers.
@@ -102,7 +102,7 @@ By default, Strings prints JSON output to `STDOUT`.
    puppet strings generate --format json --out documentation.json
    ```
 
-For details about Strings JSON output, see [Strings JSON schema](https://github.com/puppetlabs/puppet-strings/blob/master/JSON.md).
+For details about Strings JSON output, see [Strings JSON schema](https://github.com/voxpupuli/openvox-strings/blob/main/JSON.md).
 
 
 {:.task}
@@ -154,7 +154,7 @@ Usage: `puppet strings [--generate] [--server]`
 Action   | Description
 ----------------|-------------------------
 `generate` | Generates documentation with any specified parameters, including format and output location.
-`server` | Serves documentation for all modules in the [module path](https://docs.puppet.com/puppet/latest/reference/dirs_modulepath.html) locally at `http://localhost:8808`.
+`server` | Serves documentation for all modules in the [module path](./dirs_modulepath.html) locally at `http://localhost:8808`.
 
 {:.section}
 ### `puppet strings generate` action

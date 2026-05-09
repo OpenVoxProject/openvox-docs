@@ -3,7 +3,6 @@ layout: default
 built_from_commit: 8c9dd1ff315b738818307cc895942164aba30730
 title: Indirection Reference
 toc: columns
-canonical: "/puppet/latest/indirection.html"
 ---
 
 
@@ -18,7 +17,7 @@ canonical: "/puppet/latest/indirection.html"
 Puppet's indirector support pluggable backends (termini) for a variety of key-value stores (indirections).
 Each indirection type corresponds to a particular Ruby class (the "Indirected Class" below) and values are instances of that class.
 Each instance's key is available from its `name` method.
-The termini can be local (e.g., on-disk files) or remote (e.g., using a REST interface to talk to a puppet master).
+The termini can be local (e.g., on-disk files) or remote (e.g., using a REST interface to talk to an OpenVox server).
 
 An indirector has five methods, which are mapped into HTTP verbs for the REST interface:
 
@@ -328,12 +327,12 @@ A node is composed of its name, its facts, and its environment.
 ### `exec` terminus
 
 Call an external program to get node information.  See
-the [External Nodes](https://puppet.com/docs/puppet/latest/lang_write_functions_in_puppet.html) page for more information.
+the [External Nodes](./nodes_external.html) page for more information.
 
 ### `ldap` terminus
 
 Search in LDAP for node configuration information.  See
-the [LDAP Nodes](https://puppet.com/docs/puppet/latest/nodes_ldap.html) page for more information.  This will first
+the [LDAP Nodes](./nodes_ldap.html) page for more information.  This will first
 search for whatever the certificate name is, then (if that name
 contains a `.`) for the short name, then `default`.
 Requires ruby-ldap with MRI ruby or jruby-ldap with puppetserver/jruby
@@ -363,7 +362,7 @@ node instance before it is returned.
 
 ### `rest` terminus
 
-Get a node via REST. Puppet agent uses this to allow the puppet master
+Get a node via REST. OpenVox agent uses this to allow the OpenVox server
 to override its environment.
 
 ### `store_configs` terminus
@@ -423,6 +422,6 @@ Get status locally. Only used internally.
 
 ### `rest` terminus
 
-Get puppet master's status via REST. Useful because it tests the health
+Get OpenVox server's status via REST. Useful because it tests the health
 of both the web server and the indirector.
 
