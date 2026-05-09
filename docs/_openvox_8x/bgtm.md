@@ -261,7 +261,7 @@ RSpec lets you provide facts, like `os['family']`, in order to test the module i
 
 A typical use of RSpec is to iterate over a list of operating systems, asserting that the package and service should exist in the catalog for every operating system your module supports.
 
-To learn more, see the [rspec-puppet documentation](https://rspec-puppet.com/).
+To learn more, see the [rspec-puppet documentation](https://puppetlabs.github.io/rspec-puppet/).
 
 ### puppetlabs-spec-helper
 
