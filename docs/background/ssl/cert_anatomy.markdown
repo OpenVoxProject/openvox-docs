@@ -8,7 +8,7 @@ title: "Background Reference: X.509 Certificate Anatomy"
 [altnames]: /openvox/latest/config_important_settings.html#dns_alt_names
 [extensions]: /openvox/latest/ssl_attributes_extensions.html
 [certs]: ./certificates_pki.html
-[ssldir]: /opeenvox/latest/dirs_ssldir.html
+[ssldir]: /openvox/latest/dirs_ssldir.html
 [certname]: /openvox/latest/configuration.html#certname
 [lang_node]: /openvox/latest/lang_node_definitions.html
 [enc]: /openvox/latest/nodes_external.html
