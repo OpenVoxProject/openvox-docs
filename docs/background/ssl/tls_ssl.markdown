@@ -14,7 +14,7 @@ SSL ("secure socket layer") is an older version of that same protocol, which is 
 
 > ## A Note on Names
 >
-> "TLS" and "SSL" both refer to essentially the same thing. Informally, many people (including us at Puppet Labs) often just say "SSL" to refer to any combination of TLS and SSL, mostly because old habits die hard.
+> "TLS" and "SSL" both refer to essentially the same thing. Informally, many people often just say "SSL" to refer to any combination of TLS and SSL, mostly because old habits die hard.
 >
 > Most tools can use multiple versions of the protocol, and the combination of versions they support will often cross the arbitrary TLS/SSL boundary. (Usually something like SSL 3.0, TLS 1.0, and TLS 1.1.)
 > Since clients and servers can negotiate versions on the fly, the exact protocol you'll be using at any given moment depends on the configuration of every tool that might interact with the system.
@@ -42,7 +42,7 @@ After a client starts the process, an SSL connection involves the following proc
   * The client software validates that certificate, based on its list of trustworthy CAs, the CRLs it has available, and the validity period of the certificate. If it won't validate, the client bails.
 * **Optionally,** the client can present a certificate of its own to the server.
 The client will also sign a piece of server-provided data to prove that it possesses the corresponding private key. The server will validate the client certificate before continuing.
-  * This only happens if the server explicitly requests **client authentication.** Most HTTPS sites on the web don't require client authentication. Puppet, however, does (for some services).
+  * This only happens if the server explicitly requests **client authentication.** Most HTTPS sites on the web don't require client authentication. OpenVox, however, does (for some services).
 * The client sends a temporary "session" key to the server, encrypted so that only the owner of the server certificate can read it.
 * Both client and server use that session key to encrypt all subsequent traffic in the connection, using a symmetric cypher.
 (Using a public key cypher wouldn't be appropriate, since the client doesn't always provide a public key.)

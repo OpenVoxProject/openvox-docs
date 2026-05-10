@@ -72,16 +72,8 @@ When the proxy receives a reply, it will forward it to the client along the orig
 
 If the application needs any SSL or certificate data, the proxy can be configured to publish it by inserting the data into the HTTP headers of the request it sends to the backend application server.
 
-An example of this is a puppet master running with the Nginx + Unicorn stack:
-
-* Nginx terminates SSL, and inserts the SSL client authentication status and client certificate DN into the HTTP headers of a new request. It sends this request to the Unicorn workers.
-* A Unicorn worker receives the unencrypted request, and, according to the common gateway interface (CGI) standard, publishes all HTTP header information as CGI variables,
-including the SSL information inserted by Nginx. It uses the Rack interface to translate the HTTP request into a request to the puppet master application.
-* The puppet master application reads SSL information from pre-arranged environment variables, and uses its auth.conf configuration to decide whether to serve the request.
-If yes, it uses its own application logic to decide what the request should be. Any response passes back through the Unicorn worker and Nginx to make its way to the puppet agent client.
-
 ## End of Series
 
-At this point, you should understand enough about the fundamentals to understand any documentation on this site about managing Puppet's certificates, CA, and HTTPS authorization tools.
+At this point, you should understand enough about the fundamentals to understand any documentation on this site about managing OpenVox's certificates, CA, and HTTPS authorization tools.
 
 For a little more practical depth, you may also want to see the [appendix on certificate anatomy.][certificate_anatomy]

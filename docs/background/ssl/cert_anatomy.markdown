@@ -85,7 +85,7 @@ To inspect a certificate, you must first dump it to a text format.
 
 * On the CA OpenVox server node, this can be done with the `puppetserver ca print --certname <name>` command.
 * The `openssl x509 -text -noout -in <file>` command will also work and is not restricted to the CA puppet master, although it requires a full file path.
-Note that it also will not use friendly names for any Puppet-specific certificate extensions (explained further below).
+Note that it also will not use friendly names for any OpenVox-specific certificate extensions (explained further below).
 
 Here's the certificate from above in human-readable form:
 

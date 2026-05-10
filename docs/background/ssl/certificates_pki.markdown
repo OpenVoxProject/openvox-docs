@@ -94,7 +94,7 @@ The traditional way to manage revocation info is with a **certificate revocation
 
 Participants in the PKI should regularly retrieve a copy of each CA's CRL, and should double-check certificates against it when checking their validity.
 
-This is the method of revocation checking that Puppet uses.
+This is the method of revocation checking that OpenVox uses.
 
 ### Online Certificate Status Protocol (OCSP)
 
@@ -190,7 +190,7 @@ Sometimes this agreement is active; other times, it's tacit, like when you insta
 * Because the CA approves all certificate metadata, participants don't have to keep a list of all the public keys they'll need to know about; instead, they can just trust any valid certificate they are shown.
 * Because certificates include public keys, only their rightful owner can present them as ID. A stolen cert is inert without a stolen private key.
 * The CA can also revoke certificates, but that only works if everybody regularly checks for revoked certificates (via a traditional CRL or more modern means). This is even harder to ensure than it sounds.
-* Puppet has built-in tools to make managing a CA easier. These are covered in other documentation.
+* OpenVox has built-in tools to make managing a CA easier. These are covered in other documentation.
 
 ## Next in This Series
 
