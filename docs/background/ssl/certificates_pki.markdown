@@ -147,7 +147,7 @@ The OpenVox CA consists of the following components:
 
 > ### Sidebar: Attacks on PKI Trust
 >
-> The central idea of a PKI is that you can vet and then trust a small number of entities, and they will subsequently tell you whether to trust any number of other entities. 
+> The central idea of a PKI is that you can vet and then trust a small number of entities, and they will subsequently tell you whether to trust any number of other entities.
 > Small initial decision, large ongoing utility.
 >
 > Due to the shape of this trust arrangement, most attacks on a PKI will tend to fit a certain number of fundamental patterns:

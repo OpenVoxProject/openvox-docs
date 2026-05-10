@@ -27,9 +27,10 @@ This appendix will inspect two certificates and point out notable pieces of meta
 The certificates used by OpenVox server and OpenVox agent nodes are essentially the same.
 The only real difference is that OpenVox server certs sometimes contain alternate DNS names the server is allowed to use.
 
-> Note: Additional background information can be found within the [OpenSSL Certification Path Validation](https://docs.openssl.org/3.1/man1/openssl-verification-options/#certification-path-building) verification options.
+> Note: Additional background information can be found within the [OpenSSL Certification Path Validation Options](https://docs.openssl.org/3.1/man1/openssl-verification-options/#certification-path-building).
 
-In this case, we will be inspecting the certificate of a node named `magpie.example.com`, which is allowed to present itself as an OpenVox server via the hostnames `magpie`, `magpie.example.com`, `puppet`, and `puppet.example.com`.
+In this case, we will be inspecting the certificate of a node named `magpie.example.com`, which is allowed to present itself as an OpenVox server via the hostnames `magpie`, `magpie.example.com`, `puppet`,
+and `puppet.example.com`.
 
 ### PEM File
 
@@ -41,6 +42,7 @@ The name of the "privacy enhanced mail" (PEM) extension is somewhat misleading, 
 
 The .pem file is double-encoded: first in the [distinguished encoding rules (DER) format][der] defined by the X.690 standard, then in Base64. Neither format is meant to be human-readable.
 
+```shell
     $ cat $(puppet config print certdir)/magpie.example.com.pem
     -----BEGIN CERTIFICATE-----
     MIIFpDCCA4ygAwIBAgIBAzANBgkqhkiG9w0BAQsFADArMSkwJwYDVQQDDCBQdXBw
@@ -75,6 +77,7 @@ The .pem file is double-encoded: first in the [distinguished encoding rules (DER
     uvhOrN29lEi5yZiNpm6FdEX94DR7Xwnvuj2ivpzaEl1UBljhFQsNDdF9Ek0qpoDv
     kOSa/MMipuE=
     -----END CERTIFICATE-----
+```
 
 ### Text Output
 
@@ -201,7 +204,9 @@ In the sections below, we will cover some of the notable features of this output
 
 ### The Subject (DN, CN, Certname, etc.)
 
+```text
     Subject: CN=magpie.lan
+```
 
 The **subject** is the owner of the certificate, and the "Subject" field of the certificate contains the subject's **distinguished name (DN).**
 
@@ -222,14 +227,18 @@ In a certificate presented by an OpenVox agent node, the CN will be interpreted 
 
 In a non-OpenVox certificate, other DN components can be seen. Take this example from the [Wikipedia page on X.509 certificates][wiki_x509]:
 
+```text
     Subject: C=US, ST=Maryland, L=Pasadena, O=Brent Baccala,
              OU=FreeSoft, CN=www.freesoft.org/emailAddress=baccala@freesoft.org
+```
 
 This DN includes information about the country (C), state (ST), locality (L), organization (O), and organizational unit (OU). The CN also includes an email address field, which OpenVox doesn't do.
 
 ### Issuer
 
+```text
     Issuer: CN=Puppet CA: magpie.example.com
+```
 
 This is the distinguished name of the certificate authority (CA) that signed the certificate. It is used to decide which CA certificate to use when validating the certificate.
 
@@ -238,9 +247,11 @@ This can be a problem when moving nodes between deployments with distinct CAs, o
 
 ### Validity Period
 
+```text
     Validity
         Not Before: Oct 21 22:17:09 2024 GMT
         Not After : Oct 21 22:17:09 2029 GMT
+```
 
 SSL certificates are only valid within a specific span of time, which is set by the CA when it signs the certificate.
 In OpenVox, the duration is configurable, and the validity period always begins at the time at which the CA signs the certificate.
@@ -252,8 +263,10 @@ For example, if a CA is living in the future when it signs a certificate, any no
 
 This field is listed under the "X509v3 extensions" section of the certificate.
 
+```text
     X509v3 Subject Alternative Name:
         DNS:magpie, DNS:magpie.example.com, DNS:puppet, DNS:puppet.example.com
+```
 
 This optional field contains other names that the certificate's owner is allowed to use.
 
@@ -271,8 +284,10 @@ This helps prevent man-in-the-middle impersonations of the OpenVox server. A cer
 
 This field is listed under the "X509v3 extensions" section of the certificate.
 
+```text
     X509v3 Basic Constraints: critical
         CA:FALSE
+```
 
 This field states whether the certificate can be used to sign new certificates. In OpenVox agent certificates, it should always be false --- this is a CA-only permission.
 
@@ -280,10 +295,12 @@ This field states whether the certificate can be used to sign new certificates. 
 
 These fields are listed under the "X509v3 extensions" section of the certificate.
 
+```text
     X509v3 Key Usage: critical
         Digital Signature, Key Encipherment
     X509v3 Extended Key Usage: critical
         TLS Web Server Authentication, TLS Web Client Authentication
+```
 
 This defines the things the certificate can be used for. If you've read the [series of background articles on SSL][index], there should be no major surprises here.
 However, one note is that both agent and server certificates have both server and client authentication listed. This is because:
@@ -295,12 +312,14 @@ However, one note is that both agent and server certificates have both server an
 
 These fields are listed under the "X509v3 extensions" section of the certificate.
 
+```text
     Puppet Node UUID:
         ED803750-E3C7-44F5-BB08-41A04433FE2E
     Puppet Node Preshared Key:
         kctITjOTrHthecjqnE73729109ehta
     Puppet Node Image Name:
         debian_6_vcenter_template_rev8
+```
 
 These fields are part of the [certificate extensions feature][extensions] added in Puppet 3.4.0. They allow node-specific information to be permanently embedded in a certificate.
 See the documentation of that feature for [more information][extensions].
@@ -418,7 +437,9 @@ As before, the sections below will cover notable features of a CA certificate:
 
 ### The Subject
 
+```test
     Subject: CN=Puppet CA: magpie.example.com
+```
 
 Much like in other certificates, the "Subject" field contains the owner's **distinguished name.** Note that the CA's DN matches the "Issuer" field in the earlier certificate.
 
@@ -429,15 +450,19 @@ In OpenVox, the CA certificate's CN has no particular meaning; it's just a uniqu
 
 ### Issuer
 
+```text
     Issuer: CN=Puppet CA: magpie.example.com
+```
 
 Since this is a [self-signed root CA](./certificates_pki.html#certificate-authorities-cas) certificate, the issuer is the same as the subject.
 
 ### Validity Period
 
+```text
     Validity
         Not Before: Oct 14 23:33:44 2024 GMT
         Not After : Oct 14 23:33:44 2029 GMT
+```
 
 Like any other certificate, CAs can expire.
 
@@ -445,8 +470,10 @@ Like any other certificate, CAs can expire.
 
 This field is listed under the "X509v3 extensions" section of the certificate.
 
+```text
     X509v3 Basic Constraints: critical
         CA:TRUE
+```
 
 This field states whether the certificate can be used to sign new certificates. In a CA certificate, this has to be true.
 
@@ -454,8 +481,10 @@ This field states whether the certificate can be used to sign new certificates. 
 
 This field is listed under the "X509v3 extensions" section of the certificate.
 
+```text
     X509v3 Key Usage: critical
         Certificate Sign, CRL Sign
+```
 
 This is sort of a reiteration of the CA permissions.
 
