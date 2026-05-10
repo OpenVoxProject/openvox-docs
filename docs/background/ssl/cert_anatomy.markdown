@@ -5,41 +5,45 @@ title: "Background Reference: X.509 Certificate Anatomy"
 
 [pem]: http://en.wikipedia.org/wiki/X.509#Certificate_filename_extensions
 [der]: http://en.wikipedia.org/wiki/Distinguished_Encoding_Rules
-[altnames]: /puppet/latest/reference/configuration.html#dnsaltnames
-[extensions]: /puppet/3/reference/ssl_attributes_extensions.html
+[altnames]: /openvox/latest/config_important_settings.html#dns_alt_names
+[extensions]: /openvox/latest/ssl_attributes_extensions.html
 [certs]: ./certificates_pki.html
-[ssldir]: /puppet/latest/reference/dirs_ssldir.html
-[certname]: /puppet/latest/reference/configuration.html#certname
-[lang_node]: /puppet/latest/reference/lang_node_definitions.html
+[ssldir]: /openvox/latest/dirs_ssldir.html
+[certname]: /openvox/latest/configuration.html#certname
+[lang_node]: /openvox/latest/lang_node_definitions.html
 [enc]: /openvox/latest/nodes_external.html
 [index]: ./index.html
-[ca_name]: /puppet/latest/reference/configuration.html#caname
+[ca_name]: /openvox/latest/configuration.html#ca_name
 [wiki_x509]: http://en.wikipedia.org/wiki/X.509
-
-
 
 > This article is [part of a series][index].
 
 As described in the background reference article about [certificates and PKI][certs], certificates are documents containing a public key, metadata, and a signature.
 
-This appendix will inspect two certificates and point out notable pieces of metadata, explaining their significance to Puppet's SSL usage when applicable.
+This appendix will inspect two certificates and point out notable pieces of metadata, explaining their significance to OpenVox's SSL usage when applicable.
 
-A Master or Agent Certificate
------
+## A Server or Agent Certificate
 
-The certificates used by puppet master servers and puppet agent nodes are essentially the same; the only real difference is that puppet master certs sometimes contain alternate DNS names the master is allowed to use.
+The certificates used by OpenVox server and OpenVox agent nodes are essentially the same.
+The only real difference is that OpenVox server certs sometimes contain alternate DNS names the server is allowed to use.
 
-In this case, we will be inspecting the certificate of a node named `magpie.example.com`, which is allowed to present itself as a puppet master via the hostnames `magpie`, `magpie.example.com`, `puppet`, and `puppet.example.com`.
+> Note: Additional background information can be found within the [OpenSSL Certification Path Validation Options](https://docs.openssl.org/3.1/man1/openssl-verification-options/#certification-path-building).
+
+In this case, we will be inspecting the certificate of a node named `magpie.example.com`, which is allowed to present itself as an OpenVox server via the hostnames `magpie`, `magpie.example.com`, `puppet`,
+and `puppet.example.com`.
 
 ### PEM File
 
-A certificate is stored on disk as a [.pem file][pem] in puppet's `certdir`. The `certdir` is part of Puppet's `ssldir` hierarchy, which is documented elsewhere ([Puppet reference manual » important directories and files » ssldir][ssldir]). Another copy of the certificate is stored in the CA's `signed` directory. (The `puppet cert print` command uses this copy, which is why it can only be used on the CA node.)
+A certificate is stored on disk as a [.pem file][pem] in OpenVox's `certdir`.
+The `certdir` is part of OpenVox's `ssldir` hierarchy, which is documented elsewhere ([OpenVox reference manual » important directories and files » ssldir][ssldir]).
+Another copy of the certificate is stored in the CA's `signed` directory. (The `puppetserver ca print` command uses this copy, which is why it can only be used on the CA node.)
 
 The name of the "privacy enhanced mail" (PEM) extension is somewhat misleading, since it has nothing to do with email; it's just a historical quirk of X.509 implementations.
 
 The .pem file is double-encoded: first in the [distinguished encoding rules (DER) format][der] defined by the X.690 standard, then in Base64. Neither format is meant to be human-readable.
 
-    $ cat $(puppet master --configprint certdir)/magpie.example.com.pem
+```shell
+    $ cat $(puppet config print certdir)/magpie.example.com.pem
     -----BEGIN CERTIFICATE-----
     MIIFpDCCA4ygAwIBAgIBAzANBgkqhkiG9w0BAQsFADArMSkwJwYDVQQDDCBQdXBw
     ZXQgQ0E6IG1hZ3BpZS5wdXBwZXRsYWJzLmxhbjAeFw0xMjEwMjEyMjE3MDlaFw0x
@@ -73,17 +77,19 @@ The .pem file is double-encoded: first in the [distinguished encoding rules (DER
     uvhOrN29lEi5yZiNpm6FdEX94DR7Xwnvuj2ivpzaEl1UBljhFQsNDdF9Ek0qpoDv
     kOSa/MMipuE=
     -----END CERTIFICATE-----
+```
 
 ### Text Output
 
 To inspect a certificate, you must first dump it to a text format.
 
-* On the CA puppet master node, this can be done with the `puppet cert print <name>` command.
-* The `openssl x509 -text -noout -in <file>` command will also work and is not restricted to the CA puppet master, although it requires a full file path. Note that it also will not use friendly names for any Puppet-specific certificate extensions (explained further below).
+* On the CA OpenVox server node, this can be done with the `puppetserver ca print --certname <name>` command.
+* The `openssl x509 -text -noout -in <file>` command will also work and is not restricted to the CA puppet master, although it requires a full file path.
+Note that it also will not use friendly names for any OpenVox-specific certificate extensions (explained further below).
 
 Here's the certificate from above in human-readable form:
 
-<pre><code>
+```shell
 $ sudo puppet cert print magpie.example.com
 Certificate:
     Data:
@@ -92,8 +98,8 @@ Certificate:
         Signature Algorithm: sha256WithRSAEncryption
         Issuer: CN=Puppet CA: magpie.example.com
         Validity
-            Not Before: Oct 21 22:17:09 2012 GMT
-            Not After : Oct 21 22:17:09 2017 GMT
+            Not Before: Oct 21 22:17:09 2024 GMT
+            Not After : Oct 21 22:17:09 2029 GMT
         Subject: CN=magpie.lan
         Subject Public Key Info:
             Public Key Algorithm: rsaEncryption
@@ -184,7 +190,7 @@ Certificate:
         a6:6e:85:74:45:fd:e0:34:7b:5f:09:ef:ba:3d:a2:be:9c:da:
         12:5d:54:06:58:e1:15:0b:0d:0d:d1:7d:12:4d:2a:a6:80:ef:
         90:e4:9a:fc:c3:22:a6:e1
-</code></pre> 
+```
 
 In the sections below, we will cover some of the notable features of this output:
 
@@ -194,114 +200,141 @@ In the sections below, we will cover some of the notable features of this output
 * [Alternative DNS Names](#alternative-dns-names)
 * [CA Permissions](#ca-permissions)
 * [Key Usage](#key-usage)
-* [Puppet-Specific Certificate Extensions](#puppet-specific-certificate-extensions)
+* [OpenVox-Specific Certificate Extensions](#openvox-specific-certificate-extensions)
 
 ### The Subject (DN, CN, Certname, etc.)
 
+```text
     Subject: CN=magpie.lan
+```
 
 The **subject** is the owner of the certificate, and the "Subject" field of the certificate contains the subject's **distinguished name (DN).**
 
-The DN is a string that represents the subject's identity. It can consist of several different chunks of information, which are identified by one- or two-letter codes. Any number of these chunks can be appended together (separated by commas) to form a complete DN.
+The DN is a string that represents the subject's identity. It can consist of several different chunks of information, which are identified by one- or two-letter codes.
+Any number of these chunks can be appended together (separated by commas) to form a complete DN.
 
-You won't see multiple certificates with the same DN very frequently, since the DN represents the cert owner's identity. Usually a reused DN means that an entity's certificate has been reissued, due to expiration or revocation.
+You won't see multiple certificates with the same DN very frequently, since the DN represents the cert owner's identity.
+Usually a reused DN means that an entity's certificate has been reissued, due to expiration or revocation.
 
 The **common name (CN)** is the most important piece of info in the DN. In this example, the node's CN is `magpie.example.com`.
 
-The CN is the _only_ part of the DN used by Puppet. Puppet's settings and documentation often refer to the CN as the **certname** --- when a node sends a CSR to the CA, it uses the [`certname` setting][certname] to decide what to request as the CN portion of its DN. (Again, note that Puppet nodes will never request other DN components; Puppet only cares about the CN.)
+The CN is the _only_ part of the DN used by OpenVox. OpenVox's settings and documentation often refer to the CN as the **certname**.
+When a node sends a CSR to the CA, it uses the [`certname` setting][certname] to decide what to request as the CN portion of its DN.
+(Again, note that OpenVox nodes will never request other DN components; OpenVox only cares about the CN.)
 
-In a certificate presented by a puppet master, the CN will be interpreted as one of the legal hostnames at which the puppet master can provide services. In a certificate presented by a puppet agent node, the CN will be interpreted as that node's name, which is used when finding [node definitions][lang_node] and querying an [ENC][].
+In a certificate presented by an OpenVox server, the CN will be interpreted as one of the legal hostnames at which the OpenVox server can provide services.
+In a certificate presented by an OpenVox agent node, the CN will be interpreted as that node's name, which is used when finding [node definitions][lang_node] and querying an [ENC][].
 
-In a non-Puppet certificate, other DN components can be seen. Take this example from the [Wikipedia page on X.509 certificates][wiki_x509]:
+In a non-OpenVox certificate, other DN components can be seen. Take this example from the [Wikipedia page on X.509 certificates][wiki_x509]:
 
+```text
     Subject: C=US, ST=Maryland, L=Pasadena, O=Brent Baccala,
              OU=FreeSoft, CN=www.freesoft.org/emailAddress=baccala@freesoft.org
+```
 
-This DN includes information about the country (C), state (ST), locality (L), organization (O), and organizational unit (OU). The CN also includes an email address field, which Puppet doesn't do.
+This DN includes information about the country (C), state (ST), locality (L), organization (O), and organizational unit (OU). The CN also includes an email address field, which OpenVox doesn't do.
 
 ### Issuer
 
+```text
     Issuer: CN=Puppet CA: magpie.example.com
+```
 
 This is the distinguished name of the certificate authority (CA) that signed the certificate. It is used to decide which CA certificate to use when validating the certificate.
 
-In Puppet, generally only one CA certificate is in use within a given deployment. If a node is presented with a certificate whose issuer doesn't match the CA it knows about, it will reject the connection. This can be a problem when moving nodes between deployments with distinct CAs, or if you attempt to replace the entire PKI of a Puppet deployment but miss a few files.
+In OpenVox, generally only one CA certificate is in use within a given deployment. If a node is presented with a certificate whose issuer doesn't match the CA it knows about, it will reject the connection.
+This can be a problem when moving nodes between deployments with distinct CAs, or if you attempt to replace the entire PKI of an OpenVox deployment but miss a few files.
 
 ### Validity Period
 
+```text
     Validity
-        Not Before: Oct 21 22:17:09 2012 GMT
-        Not After : Oct 21 22:17:09 2017 GMT
+        Not Before: Oct 21 22:17:09 2024 GMT
+        Not After : Oct 21 22:17:09 2029 GMT
+```
 
-SSL certificates are only valid within a specific span of time, which is set by the CA when it signs the certificate. In Puppet, the duration is configurable, and the validity period always begins at the time at which the CA signs the certificate.
+SSL certificates are only valid within a specific span of time, which is set by the CA when it signs the certificate.
+In OpenVox, the duration is configurable, and the validity period always begins at the time at which the CA signs the certificate.
 
-Note that if nodes disagree about what time it is, they may reject otherwise-valid certificates. For example, if a CA is living in the future when it signs a certificate, any nodes living in the present will think that certificate has not become valid yet and will reject it.
+Note that if nodes disagree about what time it is, they may reject otherwise-valid certificates.
+For example, if a CA is living in the future when it signs a certificate, any nodes living in the present will think that certificate has not become valid yet and will reject it.
 
 ### Alternative DNS Names
 
 This field is listed under the "X509v3 extensions" section of the certificate.
 
+```text
     X509v3 Subject Alternative Name:
         DNS:magpie, DNS:magpie.example.com, DNS:puppet, DNS:puppet.example.com
+```
 
 This optional field contains other names that the certificate's owner is allowed to use.
 
-Various types of names exist in the X.509 spec, but in Puppet, only the `DNS:` prefix is used, and each name represents a hostname that the owner is allowed to use when acting as a puppet master server.
+Various types of names exist in the X.509 spec, but in OpenVox, only the `DNS:` prefix is used, and each name represents a hostname that the owner is allowed to use when acting as an OpenVox server.
 
-This section should generally only be present in a puppet master certificate. Its contents can be configured with the [`dns_alt_names` setting][altnames], which can be specified in the config file or on the command line --- when a node compiles its CSR, it will request any alternate names listed in that setting. The CA will see the requested alternate names, and will decide accordingly whether to sign the certificate.
+This section should generally only be present in am OpenVox server certificate.
+Its contents can be configured with the [`dns_alt_names` setting][altnames], which can be specified in the config file or on the command line.
+When a node compiles its CSR, it will request any alternate names listed in that setting. The CA will see the requested alternate names, and will decide accordingly whether to sign the certificate.
 
-(Agent nodes are all configured to reach their puppet master at a specific hostname. When the master presents its certificate, they check to make sure the name they called is included in this section of the certificate. This helps prevent man-in-the-middle impersonations of the puppet master --- a certificate that wasn't issued to the puppet master shouldn't have the puppet master's hostname included here.)
+(Agent nodes are all configured to reach their OpenVox server at a specific hostname.
+When the server presents its certificate, they check to make sure the name they called is included in this section of the certificate.
+This helps prevent man-in-the-middle impersonations of the OpenVox server. A certificate that wasn't issued to the Openox server shouldn't have the OpenVox servers's hostname included here.)
 
 ### CA Permissions
 
 This field is listed under the "X509v3 extensions" section of the certificate.
 
+```text
     X509v3 Basic Constraints: critical
         CA:FALSE
+```
 
-This field states whether the certificate can be used to sign new certificates. In Puppet agent and master certificates, it should always be false --- this is a CA-only permission.
+This field states whether the certificate can be used to sign new certificates. In OpenVox agent certificates, it should always be false --- this is a CA-only permission.
 
 ### Key Usage
 
 These fields are listed under the "X509v3 extensions" section of the certificate.
 
+```text
     X509v3 Key Usage: critical
         Digital Signature, Key Encipherment
     X509v3 Extended Key Usage: critical
         TLS Web Server Authentication, TLS Web Client Authentication
+```
 
-This defines the things the certificate can be used for. If you've read the [series of background articles on SSL][index], there should be no major surprises here. However, one note is that both agent and master certificates have both server and client authentication listed. This is because:
+This defines the things the certificate can be used for. If you've read the [series of background articles on SSL][index], there should be no major surprises here.
+However, one note is that both agent and server certificates have both server and client authentication listed. This is because:
 
-* The puppet master cert is also used by puppet agent running on the puppet master node, in order to request a catalog. (From itself, but rules are rules: it still uses HTTPS to do so.)
-* The puppet master server process can sometimes act as a client, requesting services provided by a PuppetDB server, a different puppet master server, or another HTTPS service.
-* In certain configurations (mostly the deprecated "puppet kick" feature), the puppet agent process can run an HTTPS server that listens for requests on port 8139.
+* The OpenVox server cert is also used by OpenVox agent running on the OpenVox server node, in order to request a catalog. (From itself, but rules are rules: it still uses HTTPS to do so.)
+* The OpenVox server process can sometimes act as a client, requesting services provided by an OpenVoxDB server, a different OpenVox server, or another HTTPS service.
 
-### Puppet-Specific Certificate Extensions
+### OpenVox-Specific Certificate Extensions
 
 These fields are listed under the "X509v3 extensions" section of the certificate.
 
+```text
     Puppet Node UUID:
         ED803750-E3C7-44F5-BB08-41A04433FE2E
     Puppet Node Preshared Key:
         kctITjOTrHthecjqnE73729109ehta
     Puppet Node Image Name:
         debian_6_vcenter_template_rev8
+```
 
-These fields are part of the [certificate extensions feature][extensions] added in Puppet 3.4.0. They allow node-specific information to be permanently embedded in a certificate. See the documentation of that feature for [more information][extensions].
+These fields are part of the [certificate extensions feature][extensions] added in Puppet 3.4.0. They allow node-specific information to be permanently embedded in a certificate.
+See the documentation of that feature for [more information][extensions].
 
-
-
-A CA Certificate
------
+## A CA Certificate
 
 CA certificates are similar to other certificates, with a few critical differences. CA certs include different sets of permissions, and may have a circular "Issuer" reference.
 
 ### PEM File
 
-In Puppet, CA certificate PEM files are stored the same way other certificate PEM files are. The only difference is that the name of the file is `ca.pem`. We'll skip the non-human-readable gibberish this time.
+In OpenVox, CA certificate PEM files are stored the same way other certificate PEM files are. The only difference is that the name of the file is `ca.pem`. We'll skip the non-human-readable gibberish this time.
 
 ### Text Output
 
+```shell
     $ sudo puppet cert print ca
     Certificate:
         Data:
@@ -310,8 +343,8 @@ In Puppet, CA certificate PEM files are stored the same way other certificate PE
             Signature Algorithm: sha256WithRSAEncryption
             Issuer: CN=Puppet CA: magpie.example.com
             Validity
-                Not Before: Oct 14 23:33:44 2012 GMT
-                Not After : Oct 14 23:33:44 2017 GMT
+                Not Before: Oct 14 23:33:44 2024 GMT
+                Not After : Oct 14 23:33:44 2029 GMT
             Subject: CN=Puppet CA: magpie.example.com
             Subject Public Key Info:
                 Public Key Algorithm: rsaEncryption
@@ -392,6 +425,7 @@ In Puppet, CA certificate PEM files are stored the same way other certificate PE
             7c:18:6f:fe:e4:3d:9d:a0:ba:04:8e:54:5f:50:d3:57:82:81:
             5e:fc:ad:87:48:9f:b6:e9:b3:b3:59:81:3f:2b:23:1d:b9:c1:
             de:f4:05:fe:db:b5:a9:b8
+```
 
 As before, the sections below will cover notable features of a CA certificate:
 
@@ -403,25 +437,32 @@ As before, the sections below will cover notable features of a CA certificate:
 
 ### The Subject
 
+```test
     Subject: CN=Puppet CA: magpie.example.com
+```
 
 Much like in other certificates, the "Subject" field contains the owner's **distinguished name.** Note that the CA's DN matches the "Issuer" field in the earlier certificate.
 
-When creating a CA, Puppet will only fill in the common name (CN) portion of the CA's DN --- in this case, the value of the CN is `Puppet CA: magpie.example.com`. This value is taken from the value of the [`ca_name` setting][ca_name] at the time the CA is initialized.
+When creating a CA, OpenVox will only fill in the common name (CN) portion of the CA's DN --- in this case, the value of the CN is `Puppet CA: magpie.example.com`.
+This value is taken from the value of the [`ca_name` setting][ca_name] at the time the CA is initialized.
 
-In Puppet, the CA certificate's CN has no particular meaning; it's just a unique descriptive string. (Unlike agent and master certificates, where the CN is treated as a hostname.)
+In OpenVox, the CA certificate's CN has no particular meaning; it's just a unique descriptive string. (Unlike agent and server certificates, where the CN is treated as a hostname.)
 
 ### Issuer
 
+```text
     Issuer: CN=Puppet CA: magpie.example.com
+```
 
 Since this is a [self-signed root CA](./certificates_pki.html#certificate-authorities-cas) certificate, the issuer is the same as the subject.
 
 ### Validity Period
 
+```text
     Validity
-        Not Before: Oct 14 23:33:44 2012 GMT
-        Not After : Oct 14 23:33:44 2017 GMT
+        Not Before: Oct 14 23:33:44 2024 GMT
+        Not After : Oct 14 23:33:44 2029 GMT
+```
 
 Like any other certificate, CAs can expire.
 
@@ -429,8 +470,10 @@ Like any other certificate, CAs can expire.
 
 This field is listed under the "X509v3 extensions" section of the certificate.
 
+```text
     X509v3 Basic Constraints: critical
         CA:TRUE
+```
 
 This field states whether the certificate can be used to sign new certificates. In a CA certificate, this has to be true.
 
@@ -438,8 +481,10 @@ This field states whether the certificate can be used to sign new certificates. 
 
 This field is listed under the "X509v3 extensions" section of the certificate.
 
+```text
     X509v3 Key Usage: critical
         Certificate Sign, CRL Sign
+```
 
 This is sort of a reiteration of the CA permissions.
 
