@@ -1,0 +1,13 @@
+---
+- text: OpenVox Ecosystem
+  items:
+  - text: Overview
+    link: index.html
+  - text: Projects
+    link: projects.html
+  - text: Learning paths
+    link: learning-path.html
+  - text: Migration orientation
+    link: migration.html
+  - text: Community
+    link: community.html

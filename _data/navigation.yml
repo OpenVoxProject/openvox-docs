@@ -1,3 +1,6 @@
+- title: Ecosystem
+  url: /ecosystem/latest/
+  collections: [ecosystem_latest, ecosystem_8x]
 - title: OpenFact
   url: /openfact/latest/
   collections: [openfact_latest, openfact_5x]

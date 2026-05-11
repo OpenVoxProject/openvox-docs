@@ -1,3 +1,7 @@
+- nav_key: ecosystem_8x
+  collections: ecosystem_latest|ecosystem_8x
+  base: /ecosystem/latest/
+
 - nav_key: openfact_5x
   collections: openfact_latest|openfact_5x
   base: /openfact/latest/
