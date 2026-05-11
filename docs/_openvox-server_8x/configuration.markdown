@@ -92,7 +92,7 @@ By default, the following information is logged for each HTTP request:
 - elapsed time to serve the request, in milliseconds
 
 The Logback configuration file is at `/etc/puppetlabs/puppetserver/request-logging.xml`. You can edit this file to change the logging behavior. Specify a different Logback configuration file in
-[`webserver.conf`](./config_file_webserver.html) with the [`access-log-config`](https://github.com/puppetlabs/trapperkeeper-webserver-jetty9/blob/master/doc/jetty-config.md#access-log-config) setting. For
+[`webserver.conf`](./config_file_webserver.html) with the [`access-log-config`](https://github.com/openvoxproject/trapperkeeper-webserver/blob/main/doc/jetty-config.md#access-log-config) setting. For
 more information on configuring the logged data, see [Logback Access Pattern Layout](http://logback.qos.ch/manual/layouts.html#AccessPatternLayout).
 
 ### Authorization

@@ -209,6 +209,6 @@ $ puppetserver foreground --debug
 2014-10-25 18:04:22,158 DEBUG [main] [p.t.logging] Debug logging enabled
 2014-10-25 18:04:22,160 DEBUG [main] [p.t.bootstrap] Loading bootstrap config from specified path: '/etc/puppetserver/bootstrap.cfg'
 2014-10-25 18:04:26,097 INFO  [main] [p.s.j.jruby-puppet-service] Initializing the JRuby service
-2014-10-25 18:04:26,101 INFO  [main] [p.t.s.w.jetty9-service] Initializing web server(s).
+2014-10-25 18:04:26,101 INFO  [main] [p.t.s.w.jetty-service] Initializing web server(s).
 2014-10-25 18:04:26,149 DEBUG [clojure-agent-send-pool-0] [p.s.j.jruby-puppet-agents] Initializing JRubyPuppet instances with the following settings:
 ```

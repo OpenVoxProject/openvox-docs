@@ -9,7 +9,7 @@ Use the following steps to configure external SSL termination.
 ## Disable HTTPS for Puppet Server
 
 You'll need to turn off SSL and have Puppet Server use the HTTP protocol instead: remove the `ssl-port` and `ssl-host` settings from the `conf.d/webserver.conf` file and replace them with `port` and `host`
-settings. See [Configuring the Webserver Service](https://github.com/puppetlabs/trapperkeeper-webserver-jetty9/blob/master/doc/jetty-config.md) for more information on configuring the web server service.
+settings. See [Configuring the Webserver Service](https://github.com/openvoxproject/trapperkeeper-webserver/blob/main/doc/jetty-config.md) for more information on configuring the web server service.
 
 ## Allow Client Cert Data From HTTP Headers
 

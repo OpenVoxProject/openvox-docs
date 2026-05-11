@@ -66,5 +66,5 @@ authorization processes and configuration settings, see the
 
 One may also restrict access to the status service by changing the
 `client-auth` setting to `required` for the webserver. See
-[Configuring the Webserver Service](https://github.com/puppetlabs/trapperkeeper-webserver-jetty9/blob/master/doc/jetty-config.md#client-auth)
+[Configuring the Webserver Service](https://github.com/openvoxproject/trapperkeeper-webserver/blob/main/doc/jetty-config.md#client-auth)
 for more information on the `client-auth` setting.
