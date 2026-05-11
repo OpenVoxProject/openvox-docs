@@ -1,7 +1,7 @@
 ---
 - text: OpenFact
   items:
-  - text: Documentation index
+  - text: Overview
     link: index.html
   - text: Release notes
     link: release_notes.html
