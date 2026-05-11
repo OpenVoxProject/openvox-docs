@@ -26,7 +26,7 @@ webserver: {
 ```
 
 These are the main values for managing a Puppet Server installation. For further documentation, including a complete list of available settings and values, see
-[Configuring the Webserver Service](https://github.com/puppetlabs/trapperkeeper-webserver-jetty9/blob/master/doc/jetty-config.md).
+[Configuring the Webserver Service](https://github.com/openvoxproject/trapperkeeper-webserver/blob/main/doc/jetty-config.md).
 
 By default, Puppet Server is configured to use the correct Puppet master and certificate authority (CA) certificates. If you're using an external CA and providing your own certificates and keys, make sure the
 SSL-related parameters in `webserver.conf` point to the correct file.

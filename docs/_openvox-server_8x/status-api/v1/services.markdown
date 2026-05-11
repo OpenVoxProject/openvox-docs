@@ -102,4 +102,4 @@ Requests to the `services` endpoint are authorized by the [Trapperkeeper-based a
 processes and configuration settings, see the [`auth.conf` documentation][`auth.conf`].
 
 One may also restrict access to the status service by changing the `client-auth` setting to `required` for the webserver. See
-[Configuring the Webserver Service](https://github.com/puppetlabs/trapperkeeper-webserver-jetty9/blob/master/doc/jetty-config.md#client-auth) for more information on the `client-auth` setting.
+[Configuring the Webserver Service](https://github.com/openvoxproject/trapperkeeper-webserver/blob/main/doc/jetty-config.md#client-auth) for more information on the `client-auth` setting.
