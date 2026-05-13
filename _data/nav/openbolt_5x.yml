@@ -1,0 +1,137 @@
+---
+- text: Welcome to Puppet Bolt®
+  link: bolt.html
+  items:
+  - text: Developer updates
+    link: developer_updates.html
+  - text: Release notes
+    link: release_notes.html
+  - text: Bolt versioning
+    link: bolt_versioning.html
+  - text: Upgrading to Bolt 3.0
+    link: upgrading_to_bolt_3.html
+  - text: Known issues
+    link: bolt_known_issues.html
+- text: Installing Bolt
+  items:
+  - text: Installing Bolt
+    link: bolt_installing.html
+  - text: Run Bolt from a Docker image
+    link: running_bolt_in_docker.html
+  - text: Analytics
+    link: analytics.html
+- text: Getting started with Bolt
+  link: getting_started_with_bolt.html
+- text: Configuring Bolt
+  items:
+  - text: Bolt projects
+    link: projects.html
+  - text: Inventory files
+    link: inventory_files.html
+  - text: Configuring Bolt
+    link: configuring_bolt.html
+  - text: Logs
+    link: logs.html
+  - text: Escalating privilege with Bolt
+    link: privilege_escalation.html
+  - text: Setting up VS Code for Bolt
+    link: vscode_and_bolt.html
+- text: Running Bolt
+  items:
+  - text: Run Bolt
+    link: running_bolt_commands.html
+  - text: Run Bolt on network devices
+    link: running_bolt_network.html
+- text: Scripts
+  items:
+  - text: Running scripts
+    link: bolt_running_scripts.html
+  - text: Wrapping a script in a plan
+    link: creating_a_script_plan.html
+- text: Plans
+  link: plans.html
+  items:
+  - text: Inspecting plans
+    link: inspecting_plans.html
+  - text: Running plans
+    link: bolt_running_plans.html
+  - text: Writing plans in YAML
+    link: writing_yaml_plans.html
+  - text: Writing plans in the Puppet language
+    link: writing_plans.html
+  - text: Debugging plans
+    link: debugging_plans.html
+  - text: Testing plans
+    link: testing_plans.html
+- text: Tasks
+  link: tasks.html
+  items:
+  - text: Inspecting tasks
+    link: inspecting_tasks.html
+  - text: Running tasks
+    link: bolt_running_tasks.html
+  - text: Writing tasks
+    link: writing_tasks.html
+  - text: Task helpers
+    link: task_helpers.html
+- text: Modules
+  items:
+  - text: Modules overview
+    link: modules.html
+  - text: Installing modules
+    link: bolt_installing_modules.html
+  - text: Module structure
+    link: module_structure.html
+  - text: Packaged modules
+    link: packaged_modules.html
+- text: Plugins
+  items:
+  - text: Using plugins
+    link: using_plugins.html
+  - text: Supported plugins
+    link: supported_plugins.html
+  - text: Writing plugins
+    link: writing_plugins.html
+- text: Using Bolt with Puppet
+  items:
+  - text: Applying Puppet code
+    link: applying_manifest_blocks.html
+  - text: Using Bolt with Hiera
+    link: hiera.html
+  - text: Connecting Bolt to PuppetDB
+    link: bolt_connect_puppetdb.html
+- text: Bolt Examples
+  link: bolt_examples.html
+  items:
+  - text: Automating Windows targets
+    link: automating_windows_targets.html
+  - text: Deploy a TIG stack with Bolt
+    link: tig_stack.html
+- text: "\U0001F9EA Experimental features"
+  link: experimental_features.html
+- text: Reference
+  items:
+  - text: "*nix shell commands"
+    link: bolt_command_reference.html
+  - text: PowerShell cmdlets
+    link: bolt_cmdlet_reference.html
+  - text: JSON output
+    link: json_output_reference.html
+  - text: Plan functions
+    link: plan_functions.html
+  - text: Data types
+    link: bolt_types_reference.html
+  - text: Transport configuration options
+    link: bolt_transports_reference.html
+  - text: bolt-defaults.yaml options
+    link: bolt_defaults_reference.html
+  - text: bolt-project.yaml options
+    link: bolt_project_reference.html
+  - text: inventory.yaml fields
+    link: bolt_inventory_reference.html
+  - text: BoltSpec reference
+    link: boltspec_reference.html
+- text: Troubleshooting
+  link: troubleshooting.html
+- text: Glossary
+  link: glossary.html

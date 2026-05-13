@@ -11,6 +11,7 @@ module PuppetReferences
   PUPPET_DIR = BASE_DIR + 'vendor/openvox'
   FACTER_DIR = BASE_DIR + 'vendor/openfact'
   AGENT_DIR = BASE_DIR + 'vendor/openvox-agent'
+  BOLT_DIR = BASE_DIR + 'vendor/openbolt'
   INSTALLPATH = ENV['INSTALLPATH'] ? ENV.fetch('INSTALLPATH') : 'references_output'
   OUTPUT_DIR = BASE_DIR + INSTALLPATH
 
@@ -28,6 +29,7 @@ module PuppetReferences
   require 'puppet_references/puppet/functions'
   require 'puppet_references/facter/core_facts'
   require 'puppet_references/facter/facter_cli'
+  require 'puppet_references/openbolt/docs'
   require 'puppet_references/version_tables/config'
   require 'puppet_references/version_tables/data/pe'
   require 'puppet_references/version_tables/data/agent'
@@ -47,6 +49,16 @@ module PuppetReferences
     real_commit = repo.checkout(@version_commit)
     repo.update_bundle
     build_from_list_of_classes(references, real_commit)
+  end
+
+  def self.build_openbolt_references
+    config = PuppetReferences::Config.read
+    bolt_config = config.fetch('openbolt', {})
+    repo = PuppetReferences::Repo.new('openbolt', BOLT_DIR, nil, bolt_config.fetch('repo', {}))
+    real_commit = repo.checkout(bolt_config.fetch('version', 'main'))
+    repo.update_bundle
+    ref = PuppetReferences::Openbolt::Docs.new(real_commit)
+    ref.build_all
   end
 
   def self.semantic?(string)

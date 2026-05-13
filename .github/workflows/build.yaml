@@ -79,6 +79,7 @@ jobs:
         run: |
           bundle exec rake references:openfact INSTALLPATH=docs
           bundle exec rake references:openvox INSTALLPATH=docs
+          bundle exec rake references:openbolt INSTALLPATH=docs
           bundle exec jekyll build
       - name: Archive website
         run: |

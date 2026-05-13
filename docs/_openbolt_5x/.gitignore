@@ -1,0 +1,14 @@
+# ERB-generated reference pages — copied here by CI (bundle exec rake references:openbolt)
+bolt_cmdlet_reference.md
+bolt_command_reference.md
+bolt_defaults_reference.md
+bolt_project_reference.md
+bolt_transports_reference.md
+bolt_types_reference.md
+packaged_modules.md
+plan_functions.md
+privilege_escalation.md
+*.png
+*.jpg
+*.gif
+*.svg

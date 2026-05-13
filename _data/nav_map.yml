@@ -13,3 +13,7 @@
 - nav_key: openvoxdb_8x
   collections: openvoxdb_latest|openvoxdb_8x
   base: /openvoxdb/latest/
+
+- nav_key: openbolt_5x
+  collections: openbolt_latest|openbolt_5x
+  base: /openbolt/latest/
