@@ -1,10 +1,9 @@
 ---
 layout: default
-title: "Puppet Server Configuration Files: webserver.conf"
-canonical: "/puppetserver/latest/config_file_webserver.html"
+title: "OpenVox Server Configuration Files: webserver.conf"
 ---
 
-The `webserver.conf` file configures the Puppet Server `webserver` service. For an overview, see [Puppet Server Configuration](./configuration.html). To configure the mount points for the Puppet administrative
+The `webserver.conf` file configures the OpenVox Server `webserver` service. For an overview, see [OpenVox Server Configuration](./configuration.html). To configure the mount points for the Puppet administrative
 API web applications, see the [`web-routes.conf` documentation](./config_file_web-routes.html).
 
 ## Examples
@@ -17,7 +16,7 @@ webserver: {
     # Log webserver access to a specific file.
     access-log-config: /etc/puppetlabs/puppetserver/request-logging.xml
     # Require a valid certificate from the client.
-    client-auth: need
+    client-auth: want
     # Listen for HTTPS traffic on all available hostnames.
     ssl-host: 0.0.0.0
     # Listen for HTTPS traffic on port 8140.
@@ -25,21 +24,22 @@ webserver: {
 }
 ```
 
-These are the main values for managing a Puppet Server installation. For further documentation, including a complete list of available settings and values, see
-[Configuring the Webserver Service](https://github.com/openvoxproject/trapperkeeper-webserver/blob/main/doc/jetty-config.md).
+These are the main values for managing an OpenVox Server installation. For further documentation, including a complete list of available settings and values, see
+[Configuring the Webserver Service](https://github.com/OpenVoxProject/trapperkeeper-webserver/blob/main/doc/jetty-config.md).
 
-By default, Puppet Server is configured to use the correct Puppet master and certificate authority (CA) certificates. If you're using an external CA and providing your own certificates and keys, make sure the
+By default, OpenVox Server is configured to use the correct OpenVox Server and certificate authority (CA)
+certificates. If you're using an intermediate CA and providing your own certificates and keys, make sure the
 SSL-related parameters in `webserver.conf` point to the correct file.
 
 ```text
 webserver: {
     ...
-    ssl-cert    : /path/to/master.pem
-    ssl-key     : /path/to/master.key
-    ssl-ca-cert : /path/to/ca_bundle.pem
-    ssl-cert-chain : /path/to/ca_bundle.pem
-    ssl-crl-path : /etc/puppetlabs/puppet/ssl/crl.pem
+    ssl-cert       : /etc/puppetlabs/puppet/ssl/certs/<certname>.pem
+    ssl-key        : /etc/puppetlabs/puppet/ssl/private_keys/<certname>.pem
+    ssl-ca-cert    : /etc/puppetlabs/puppetserver/ca/ca_crt.pem
+    ssl-cert-chain : /etc/puppetlabs/puppetserver/ca/ca_crt.pem
+    ssl-crl-path   : /etc/puppetlabs/puppet/ssl/crl.pem
 }
 ```
 
-Configuring an external CA requires additional steps, which are described in [External CA Configuration](./external_ca_configuration.html).
+Configuring an intermediate CA requires additional steps, which are described in [Intermediate CA](./intermediate_ca.html).
