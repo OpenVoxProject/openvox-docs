@@ -3,27 +3,25 @@ layout: default
 title: "OpenVox Server: Intermediate CA"
 ---
 
-OpenVox Server supports two CA architectures: a simple CA, with a self-signed root cert that is also used as
-the CA signing cert; and an intermediate CA, with a self-signed root that issues an intermediate CA cert used
-for signing incoming certificate requests.
+Before starting OpenVox Server for the first time, you need to initialize the CA. How you do
+that depends on whether you want OpenVox to manage your CA or whether you have an existing
+external CA.
 
-Initialize the CA with one of the following commands before starting your server for the first time:
-
-**Option 1 — Generate a new intermediate CA (recommended):**
-Run `puppetserver ca setup` to generate all necessary certificates and keys.
+**OpenVox manages your CA:**
+Run `puppetserver ca setup` to generate an intermediate CA with all necessary certificates and keys.
 
 The following diagram shows the configuration of OpenVox’s basic certificate infrastructure.
 
 ![A diagram showing OpenVox’s basic certificate infrastructure](ca_basic_foss.png)
 
-**Option 2 — Import an existing intermediate CA:**
-If you have an external certificate authority, you can create a cert chain from it and use
-`puppetserver ca import` to install the chain on your server. OpenVox agents handle an intermediate CA out
-of the box — no need to copy files around by hand or configure CRL checking.
+**You have an external certificate authority:**
+Create a cert chain from it and use `puppetserver ca import` to install the chain on your server.
+OpenVox agents handle an intermediate CA out of the box — no need to copy files around by hand
+or configure CRL checking.
 
-If you prefer to use a non-intermediate CA, skip both commands and start OpenVox Server directly.
-For backward compatibility, the server will generate a non-intermediate CA on startup, but this
-configuration is not recommended.
+If you skip both commands and start OpenVox Server directly, the server will generate a
+non-intermediate CA for backward compatibility. This configuration is not recommended for
+new deployments.
 
 ## Where to set CA configuration
 
@@ -42,9 +40,9 @@ The following diagram shows the configuration of OpenVox’s certificate infrast
 To set up OpenVox as an intermediate CA with an external root:
 
 1. Collect your organization’s chain of trust. This includes:
-   * The root cert
-   * Any intermediate CA certs
-   * The CA cert that you will use to issue a CA signing cert for your OpenVox infrastructure
+   - The root cert
+   - Any intermediate CA certs
+   - The CA cert that you will use to issue a CA signing cert for your OpenVox infrastructure
 1. Collect the corresponding CRLs for each of these certificates. Take note of the expiration dates of each
    CRL. When one expires, you need to refresh it for OpenVox to continue working.
 1. Create a private RSA key (minimum 2048-bit) with no passphrase for the OpenVox CA — you will need to
@@ -54,10 +52,10 @@ To set up OpenVox as an intermediate CA with an external root:
    organization’s trust chain, which you gathered in Step 1. This is the new OpenVox CA cert, which will
    be used to sign all other OpenVox infrastructure certs. The signed cert must have the following
    extensions set:
-   * `basicConstraints: CA:TRUE` (critical)
-   * `keyUsage: keyCertSign, cRLSign` (critical)
-   * `subjectKeyIdentifier: hash`
-   * `authorityKeyIdentifier: keyid:always`
+   - `basicConstraints: CA:TRUE` (critical)
+   - `keyUsage: keyCertSign, cRLSign` (critical)
+   - `subjectKeyIdentifier: hash`
+   - `authorityKeyIdentifier: keyid:always`
 1. Create a CRL for the new OpenVox CA cert.
 1. Concatenate all of the certs into a PEM file, starting with the new OpenVox CA cert and ending with your
    organization’s root cert. The file should contain the PEM-encoded certs, like this:
