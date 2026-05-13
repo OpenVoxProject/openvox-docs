@@ -1,48 +1,70 @@
 ---
 layout: default
-title: "Puppet Server: Intermediate CA"
-canonical: "/puppetserver/latest/intermediate_ca.html"
+title: "OpenVox Server: Intermediate CA"
 ---
 
-Puppet Server supports both a simple CA architecture, with a self-signed root cert that is also used as the CA signing cert; and an intermediate CA architecture, with a self-signed root that issues an intermediate CA cert used for signing incoming certificate requests. The intermediate CA architecture is preferred, because it is more secure and makes regenerating certs easier. To generate a default intermediate CA for Puppet Server, run the `puppetserver ca setup` command before starting your server for the first time.
+Before starting OpenVox Server for the first time, you need to initialize the CA. How you do
+that depends on whether you want OpenVox to manage your CA or whether you have an existing
+external CA.
 
-The following diagram shows the configuration of Puppet's basic certificate infrastructure.
+**OpenVox manages your CA:**
+Run `puppetserver ca setup` to generate an intermediate CA with all necessary certificates and keys.
 
-![A diagram showing Puppet's basic certificate infrastructure](ca_basic_foss.png)
+The following diagram shows the configuration of OpenVox’s basic certificate infrastructure.
 
-If you have an external certificate authority, you can create a cert chain from it, and use the `puppetserver ca import` subcommand to install the chain on your server. Puppet agents starting with Puppet 6 handle an intermediate CA setup out of the box. No need to copy files around by hand or configure CRL checking. Like `setup`, `import` needs to be run before starting your server for the first time.
+![A diagram showing OpenVox’s basic certificate infrastructure](ca_basic_foss.png)
 
-**Note:** The PE installer uses the `puppetserver ca setup` command to create a root cert and an intermediate signing cert for Puppet Server. This means that in PE, the default CA is always an intermediate CA as of PE 2019.0.
+**You have an external certificate authority:**
+An external certificate authority is your organization's own PKI infrastructure, managed
+independently of OpenVox. Create a cert chain from it and use `puppetserver ca import` to
+install the chain on your server.
+OpenVox agents handle an intermediate CA out of the box — no need to copy files around by hand
+or configure CRL checking.
 
-**Note:** If for some reason you cannot use an intermediate CA, in Puppet Server 6 starting the server will generate a non-intermediate CA the same as it always did before the introduction of these commands. However, we don't recommend this, as using an intermediate CA provides more security and easier paths for CA regeneration. It is also the default in PE, and some recommended workflows may rely on it.
+If you skip both commands and start OpenVox Server directly, the server will generate a
+non-intermediate CA for backward compatibility. This configuration is not recommended for
+new deployments.
 
-### Where to set CA configuration
+## Where to set CA configuration
 
-All CA configuration takes place in Puppet’s config file. See the [Puppet Configuration Reference](/puppet/latest/configuration.html) for details.
+All CA configuration takes place in OpenVox’s config file. See the [OpenVox Configuration Reference](/openvox/latest/configuration.html) for details.
 
-## Set up Puppet as an intermediate CA with an external root
+## Set up OpenVox as an intermediate CA with an external root
 
-Puppet Server needs to present the full certificate chain to clients so the client can authenticate the server. You construct the certificate chain by concatenating the CA certificates, starting with the new intermediate CA certificate and descending to the root CA certificate.
+OpenVox Server needs to present the full certificate chain to clients so the client can authenticate the
+server. You construct the certificate chain by concatenating the CA certificates within a PEM file, starting with
+the new intermediate CA certificate and descending to the root CA certificate.
 
-The following diagram shows the configuration of Puppet's certificate infrastructure with an external root.
+The following diagram shows the configuration of OpenVox’s certificate infrastructure with an external root.
 
-![A diagram showing Puppet's certificate infrastructure with an external root](ca_external_root_foss.png)
+![A diagram showing OpenVox’s certificate infrastructure with an external root](ca_external_root_foss.png)
 
-To set up Puppet as an intermediate CA with an external root:
+To set up OpenVox as an intermediate CA with an external root:
 
 1. Collect your organization’s chain of trust. This includes:
-   * The root cert
-   * Any intermediate CA certs
-   * The CA cert that you will use to issue a CA signing cert for your Puppet infrastructure
-1. Collect the corresponding CRLs for each of these certificates. Take note of the expiration dates of each CRL. When one expires, you need to refresh it for Puppet to continue working.
-1. Create a private key for the Puppet CA — take note of this, you will need to import it into your Puppet infrastructure later.
-1. Create a CSR for the Puppet CA and sign it using the appropriate cert from your organization’s trust chain, which you gathered in Step 1. This is the new Puppet CA cert, which will be used to sign all other Puppet infrastructure certs.
-1. Create a CRL for the new Puppet CA cert.
-1. Concatenate all of the certs into a PEM file, starting with the new Puppet CA cert and ending with your organization’s root cert. The file should contain the PEM-encoded certs, like this:
-   
-   ```
+   - The root cert
+   - Any intermediate CA certs
+   - The CA cert that you will use to issue a CA signing cert for your OpenVox infrastructure
+1. Collect the corresponding CRLs for each of these certificates. Take note of the expiration dates of each
+   CRL. When one expires, you need to refresh it for OpenVox to continue working.
+1. Create a private RSA key (minimum 2048-bit) with no passphrase for the OpenVox CA — you will need to
+   import it into your OpenVox infrastructure later. `puppetserver ca import` requires the key to be
+   unencrypted.
+1. Create a CSR for the OpenVox CA and sign it with SHA-256 using the appropriate cert from your
+   organization’s trust chain, which you gathered in Step 1. This is the new OpenVox CA cert, which will
+   be used to sign all other OpenVox infrastructure certs. The signed cert must have the following
+   extensions set:
+   - `basicConstraints: CA:TRUE` (critical)
+   - `keyUsage: keyCertSign, cRLSign` (critical)
+   - `subjectKeyIdentifier: hash`
+   - `authorityKeyIdentifier: keyid:always`
+1. Create a CRL for the new OpenVox CA cert.
+1. Concatenate all of the certs into a PEM file, starting with the new OpenVox CA cert and ending with your
+   organization’s root cert. The file should contain the PEM-encoded certs, like this:
+
+   ```text
    -----BEGIN CERTIFICATE-----
-   <Puppet’s CA cert>
+   <OpenVox’s CA cert>
    -----END CERTIFICATE-----
    -----BEGIN CERTIFICATE-----
    <Org’s intermediate CA signing cert>
@@ -52,11 +74,12 @@ To set up Puppet as an intermediate CA with an external root:
    -----END CERTIFICATE-----
    ```
 
-1. Concatenate all of the CRLs into a PEM file, in the same order as the certificates. The file should contain the PEM-encoded CRLs, like this:
-   
-   ```
+1. Concatenate all of the CRLs into a PEM file, in the same order as the certificates. The file should
+   contain the PEM-encoded CRLs, like this:
+
+   ```text
    -----BEGIN X509 CRL-----
-   <Puppet’s CA CRL>
+   <OpenVox’s CA CRL>
    -----END X509 CRL-----
    -----BEGIN X509 CRL-----
    <Org’s intermediate CA CRL>
@@ -67,9 +90,7 @@ To set up Puppet as an intermediate CA with an external root:
    ```
 
 1. Use the `puppetserver ca import` command to trigger the rest of the CA setup:
-   
-   ```
-   puppetserver ca import --cert-bundle ca-bundle.pem --crl-chain crls.pem --private-key puppet_ca_key.pem
-   ```
 
-**Note:** Puppet 5 agents still do not support intermediate CAs. If you must use a Puppet 5 agent with a new (or regenerated) Puppet 6 CA, follow the [instructions](/puppetserver/5.3/intermediate_ca_configuration.html) for setting up Puppet 5 agents for intermediate CAs.
+   ```bash
+   puppetserver ca import --cert-bundle ca-bundle.pem --crl-chain crls.pem --private-key openvox_ca_key.pem
+   ```
