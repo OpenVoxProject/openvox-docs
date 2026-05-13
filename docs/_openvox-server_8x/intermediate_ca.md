@@ -15,7 +15,9 @@ The following diagram shows the configuration of OpenVox’s basic certificate i
 ![A diagram showing OpenVox’s basic certificate infrastructure](ca_basic_foss.png)
 
 **You have an external certificate authority:**
-Create a cert chain from it and use `puppetserver ca import` to install the chain on your server.
+An external certificate authority is your organization's own PKI infrastructure, managed
+independently of OpenVox. Create a cert chain from it and use `puppetserver ca import` to
+install the chain on your server.
 OpenVox agents handle an intermediate CA out of the box — no need to copy files around by hand
 or configure CRL checking.
 
