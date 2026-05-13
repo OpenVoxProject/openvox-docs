@@ -4,6 +4,9 @@ default: true
 line-length:
   line_length: 210
 
+blank_lines:
+  maximum: 2
+
 no-duplicate-heading:
   siblings_only: true
 
