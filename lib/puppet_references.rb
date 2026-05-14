@@ -51,11 +51,13 @@ module PuppetReferences
     build_from_list_of_classes(references, real_commit)
   end
 
-  def self.build_openbolt_references
+  def self.build_openbolt_references(commit)
     config = PuppetReferences::Config.read
     bolt_config = config.fetch('openbolt', {})
     repo = PuppetReferences::Repo.new('openbolt', BOLT_DIR, nil, bolt_config.fetch('repo', {}))
-    real_commit = repo.checkout(bolt_config.fetch('version', 'main'))
+    @version_commit = commit || repo.describe.split('-')[0]
+    puts "Using tag #{@version_commit}"
+    real_commit = repo.checkout(@version_commit)
     repo.update_bundle
     ref = PuppetReferences::Openbolt::Docs.new(real_commit)
     ref.build_all
