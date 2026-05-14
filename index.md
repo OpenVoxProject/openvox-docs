@@ -31,6 +31,11 @@ features:
     details: OpenVoxDB is the fast, scalable, and reliable data warehouse for OpenVox.
     link: openvoxdb/latest/
 
+  - icon: 🔩
+    title: OpenBolt
+    details: OpenBolt is a community implementation of Puppet Bolt, an open source orchestration tool that automates infrastructure management over SSH and WinRM without requiring agents.
+    link: openbolt/latest/
+
   - icon: 🐳
     title: OpenVox Containers
     details: OpenVox implementation for container based setups

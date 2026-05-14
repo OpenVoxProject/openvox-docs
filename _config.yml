@@ -61,6 +61,13 @@ collections:
     output: true
     permalink: '/openvoxdb/8.x/:path:output_ext'
 
+  openbolt_latest:
+    output: true
+    permalink: '/openbolt/latest/:path:output_ext'
+  openbolt_5x:
+    output: true
+    permalink: '/openbolt/5.x/:path:output_ext'
+
   openvox-containers_latest:
     output: true
     permalink: '/openvox-containers/latest/:path:output_ext'
@@ -109,6 +116,19 @@ defaults:
       type: openvoxdb_8x
     values:
       nav: openvoxdb_8x
+
+  - scope:
+      path: ''
+      type: openbolt_latest
+    values:
+      layout: default
+      nav: openbolt_5x
+  - scope:
+      path: ''
+      type: openbolt_5x
+    values:
+      layout: default
+      nav: openbolt_5x
 
   - scope:
       path: ''

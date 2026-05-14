@@ -30,6 +30,7 @@ task :references do
   puts 'The following references are available:'
   puts 'bundle exec rake references:openvox [VERSION=<GIT TAG OR COMMIT> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
   puts 'bundle exec rake references:openfact [VERSION=<GIT TAG OR COMMIT> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
+  puts 'bundle exec rake references:openbolt [VERSION=<GIT TAG OR COMMIT> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
   puts 'bundle exec rake references:version_tables'
   puts '  VERSION can be omitted, uses latest tag'
   puts '  INSTALLPATH can be omitted, defaults to references_output/'
@@ -44,6 +45,11 @@ namespace :references do
   task openfact: 'references:check' do
     require 'puppet_references'
     PuppetReferences.build_facter_references(ENV.fetch('VERSION', nil))
+  end
+
+  task openbolt: 'references:check' do
+    require 'puppet_references'
+    PuppetReferences.build_openbolt_references(ENV.fetch('VERSION', nil))
   end
 
   task :version_tables do
