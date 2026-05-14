@@ -35,6 +35,11 @@ features:
     title: OpenBolt
     details: OpenBolt is a community implementation of Puppet Bolt, an open source orchestration tool that automates infrastructure management over SSH and WinRM without requiring agents.
     link: openbolt/latest/
+
+  - icon: 🐳
+    title: OpenVox Containers
+    details: OpenVox implementation for container based setups
+    link: openvox-containers/latest/
 ---
 
 {% include alert.html type="warning" title="Under Construction" content="The contents of this documentation site are currently being re-built from various upstream sources. Links may be broken and some version information may be out of date. Pardon the mess as we get things cleaned up!" %}

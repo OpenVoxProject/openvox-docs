@@ -17,3 +17,7 @@
 - nav_key: openbolt_5x
   collections: openbolt_latest|openbolt_5x
   base: /openbolt/latest/
+
+- nav_key: openvox-containers_latest
+  collections: openvox-containers_latest
+  base: /openvox-containers/latest/

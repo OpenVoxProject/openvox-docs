@@ -68,6 +68,10 @@ collections:
     output: true
     permalink: '/openbolt/5.x/:path:output_ext'
 
+  openvox-containers_latest:
+    output: true
+    permalink: '/openvox-containers/latest/:path:output_ext'
+
 defaults:
   - scope:
       path: ''
@@ -125,6 +129,12 @@ defaults:
     values:
       layout: default
       nav: openbolt_5x
+
+  - scope:
+      path: ''
+      type: openvox-containers_latest
+    values:
+      nav: openvox-containers_latest
 
 
 # Ignores all legacy files present in the root directory as of

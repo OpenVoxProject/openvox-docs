@@ -13,3 +13,6 @@
 - title: OpenBolt
   url: /openbolt/latest/
   collections: [openbolt_latest, openbolt_5x]
+- title: OpenVox Containers
+  url: /openvox-containers/latest/
+  collections: [openvox-containers_latest]
