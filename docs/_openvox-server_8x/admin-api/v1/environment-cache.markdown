@@ -1,11 +1,10 @@
 ---
 layout: default
-title: "Puppet Server: Admin API: Environment Cache"
-canonical: "/puppetserver/latest/admin-api/v1/environment-cache.html"
+title: "OpenVox Server: Admin API: Environment Cache"
 ---
 
-When using directory environments, the Puppet master [caches](https://puppet.com/docs/puppet/latest/environments_creating.html) the data it loads from disk for each environment. Puppet Server adds a new
-endpoint to the master's HTTP API:
+When using directory environments, the OpenVox Server [caches](https://docs.openvoxproject.org/openvox/latest/environments_creating.html) the data it loads from disk for each environment.
+OpenVox Server adds a new endpoint to the master's HTTP API:
 
 ## `DELETE /puppet-admin-api/v1/environment-cache`
 
@@ -13,9 +12,7 @@ To trigger a complete invalidation of the data in this cache, make an HTTP reque
 
 ### Query Parameters
 
-(Introduced in Puppet Server 1.1/2.1)
-
-This endpoint accepts an optional query parameter, `environment`, whose value may be set to the name of a specific Puppet environment. If this parameter is provided, only the specified environment will be
+This endpoint accepts an optional query parameter, `environment`, whose value may be set to the name of a specific OpenVox environment. If this parameter is provided, only the specified environment will be
 flushed from the cache, as opposed to all environments.
 
 ### Response
@@ -25,10 +22,10 @@ A successful request to this endpoint will return an `HTTP 204: No Content`. The
 ### Example
 
 ```text
-$ curl -i --cert <PATH TO CERT> --key <PATH TO KEY> --cacert <PATH TO PUPPET CA CERT> -X DELETE https://localhost:8140/puppet-admin-api/v1/environment-cache
+$ curl -i --cert $(puppet config print hostcert) --key $(puppet config print hostprivkey) --cacert $(puppet config print localcacert) -X DELETE https://$(puppet config print certname):8140/puppet-admin-api/v1/environment-cache
 HTTP/1.1 204 No Content
 
-$ curl -i --cert <PATH TO CERT> --key <PATH TO KEY> --cacert <PATH TO PUPPET CA CERT> -X DELETE https://localhost:8140/puppet-admin-api/v1/environment-cache?environment=production
+$ curl -i --cert $(puppet config print hostcert) --key $(puppet config print hostprivkey) --cacert $(puppet config print localcacert) -X DELETE https://localhost:8140/puppet-admin-api/v1/environment-cache?environment=production
 HTTP/1.1 204 No Content
 ```
 
