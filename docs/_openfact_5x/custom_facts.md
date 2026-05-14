@@ -43,13 +43,11 @@ this:
 ```text
     #~/lib/ruby
     └── facter
-        ├── rackspace.rb
         ├── system_load.rb
         └── users.rb
 ```
 
-OpenFact loads `facter/system_load.rb`, `facter/users.rb`, and
-`facter/rackspace.rb`.
+OpenFact loads `facter/system_load.rb` and `facter/users.rb`.
 
 ### Using the `--custom-dir` command line option
 
@@ -138,6 +136,7 @@ To get the output of `uname --hardware-platform` to single out a specific type o
 
 You can write a custom fact that uses other facts by accessing `Facter.value(:somefact)`. When accessing parts of a structured fact, one must append the key name: `Facter.value(:os)['family']`.
 If the fact fails to resolve or is not present, OpenFact returns `nil`.
+Please take care to not build loops!
 
 For example:
 
@@ -194,7 +193,7 @@ Debian - /etc/default/application
 Example with access to another fact:
 
 ```ruby
-Facter.add(:betadots_application_version) do
+Facter.add(:application_version) do
   confine do
     app_cfg_file = case Facter.value('os')['family']
                    when 'RedHat'
@@ -470,7 +469,7 @@ As with Unix facts, each script must return key/value pairs on STDOUT in the for
 
 Using this format, a single script can return multiple facts in one return.
 
-#### Executable eternal fact locations
+#### Executable external fact locations
 
 The best way to distribute external executable facts is with pluginsync, To add external executable facts to your OpenVox modules, just place them in `<MODULEPATH>/<MODULE>/facts.d/`.
 
