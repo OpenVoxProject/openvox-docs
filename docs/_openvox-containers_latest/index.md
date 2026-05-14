@@ -3,12 +3,12 @@ layout: default
 title: "OpenVox Containers"
 ---
 
-The [VoxPupuli](https://github.com/voxpupuli) and [OpenVoxProjekt](https://github.com/openvoxProject/) communities offer several different types of containers.
+The [VoxPupuli](https://github.com/voxpupuli) and [OpenVoxProject](https://github.com/openvoxProject/) communities offer several different types of containers.
 
 ## OpenVox infrastructure
 
-The individual usage is not describe in this documentation.
-The general descriptions mentioned in this documentation are still valid, but differs in implementation due to the nature of container.
+The individual usage is not described in this documentation.
+The general descriptions mentioned in this documentation are still valid, but differ in implementation due to the nature of containers.
 Individual configuration options must be taken from each of the repositories.
 
 The following containers exist:
