@@ -33,6 +33,13 @@ jekyll_vitepress:
 
 collections_dir: docs
 collections:
+  ecosystem_latest:
+    output: true
+    permalink: '/ecosystem/latest/:path:output_ext'
+  ecosystem_8x:
+    output: true
+    permalink: '/ecosystem/8.x/:path:output_ext'
+
   openfact_latest:
     output: true
     permalink: '/openfact/latest/:path:output_ext'
@@ -73,6 +80,17 @@ collections:
     permalink: '/openvox-containers/latest/:path:output_ext'
 
 defaults:
+  - scope:
+      path: ''
+      type: ecosystem_latest
+    values:
+      nav: ecosystem_8x
+  - scope:
+      path: ''
+      type: ecosystem_8x
+    values:
+      nav: ecosystem_8x
+
   - scope:
       path: ''
       type: openfact_latest
