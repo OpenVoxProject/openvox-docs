@@ -10,3 +10,6 @@
 - title: OpenVoxDB
   url: /openvoxdb/latest/
   collections: [openvoxdb_latest, openvoxdb_8x]
+- title: OpenVox Containers
+  url: /openvox-containers/latest/
+  collections: [openvox-containers_latest]
