@@ -18,8 +18,6 @@
     link: bolt_installing.html
   - text: Run Bolt from a Docker image
     link: running_bolt_in_docker.html
-  - text: Analytics
-    link: analytics.html
 - text: Getting started with Bolt
   link: getting_started_with_bolt.html
 - text: Configuring Bolt
