@@ -61,6 +61,10 @@ collections:
     output: true
     permalink: '/openvoxdb/8.x/:path:output_ext'
 
+  openvox-containers_latest:
+    output: true
+    permalink: '/openvox-containers/latest/:path:output_ext'
+
 defaults:
   - scope:
       path: ''
@@ -105,6 +109,12 @@ defaults:
       type: openvoxdb_8x
     values:
       nav: openvoxdb_8x
+
+  - scope:
+      path: ''
+      type: openvox-containers_latest
+    values:
+      nav: openvox-containers_latest
 
 
 # Ignores all legacy files present in the root directory as of

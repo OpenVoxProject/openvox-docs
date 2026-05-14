@@ -316,7 +316,7 @@ end
 
 ### Logging
 
-It's often useful to include logging within custom facts to help with troubleshooting and development. You can log messages using Puppet's built-in logging mechanism:
+It's often useful to include logging within custom facts to help with troubleshooting and development. You can log messages using OpenVox's built-in logging mechanism:
 
 ```ruby
 Facter.add(:application_version) do
@@ -409,7 +409,7 @@ Please consider using [Fiddle] or other Ruby-based libraries for interacting wit
 
 [OpenVox-DB]: /openvoxdb/latest
 
-If your Puppet masters are configured to use [OpenVox-DB][OpenVox-DB], you can view and search all of the facts for any node, including custom facts. See [the OpenVox-DB docs][openvoxdb] for more info.
+If your OpenVox servers are configured to use [OpenVox-DB][OpenVox-DB], you can view and search all of the facts for any node, including custom facts. See [the OpenVox-DB docs][openvoxdb] for more info.
 
 ## External facts
 
