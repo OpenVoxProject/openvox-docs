@@ -8,8 +8,6 @@
     link: release_notes.html
   - text: Bolt versioning
     link: bolt_versioning.html
-  - text: Upgrading to Bolt 3.0
-    link: upgrading_to_bolt_3.html
   - text: Known issues
     link: bolt_known_issues.html
 - text: Installing Bolt
