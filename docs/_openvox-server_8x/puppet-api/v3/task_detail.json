@@ -31,11 +31,11 @@
             "type": "number"
           },
           "uri": {
-            "description": "Information on how to request the file contents from a Puppet master node. This will only provide a relative path, because clients may want to request from a compile master instead of the primary master.",
+            "description": "Information on how to request the file contents from an OpenVox Server node. This will only provide a relative path, because clients may want to request from a compile server instead of the primary server.",
             "type": "object",
             "properties": {
               "path": {
-                "description": "A relative URI for accessing the task contents. A client can form the full URI by requesting 'master:port/path?params'.",
+                "description": "A relative URI for accessing the task contents. A client can form the full URI by requesting 'server:port/path?params'.",
                 "type": "string"
               },
               "params": {

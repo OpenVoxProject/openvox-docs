@@ -1,14 +1,13 @@
 ---
 layout: default
-title: "Puppet Server: Puppet API: Environment Classes"
-canonical: "/puppetserver/latest/puppet-api/v3/environment_classes.html"
+title: "OpenVox Server: Puppet API: Environment Classes"
 ---
 
-[classes]: https://puppet.com/docs/puppet/latest/lang_classes.html
-[node definitions]: https://puppet.com/docs/puppet/latest/lang_node_definitions.html
-[defined types]: https://puppet.com/docs/puppet/latest/lang_defined_types.html
-[`environment_timeout`]: https://puppet.com/docs/puppet/latest/config_file_environment.html#environmenttimeout
-[`manifest` setting]: https://puppet.com/docs/puppet/latest/config_file_environment.html#manifest
+[classes]: https://docs.openvoxproject.org/openvox/latest/lang_classes.html
+[node definitions]: https://docs.openvoxproject.org/openvox/latest/lang_node_definitions.html
+[defined types]: https://docs.openvoxproject.org/openvox/latest/lang_defined_types.html
+[`environment_timeout`]: https://docs.openvoxproject.org/openvox/latest/config_file_environment.html#environmenttimeout
+[`manifest` setting]: https://docs.openvoxproject.org/openvox/latest/config_file_environment.html#manifest
 [`auth.conf`]: ../../config_file_auth.html
 [environment cache API]: ../../admin-api/v1/environment-cache.html
 [Etag]: https://tools.ietf.org/html/rfc7232#section-2.3
@@ -25,10 +24,12 @@ The environment classes API covers only [classes][], whereas the resource type A
 
 ### Changes class information caching behavior
 
-Queries to the resource type API use cached class information per the configuration of the [`environment_timeout`][] setting, as set in the corresponding environment's `environment.conf` file. The environment
-classes API does not use the value of `environment_timeout` with respect to the data that it caches. Instead, only when the `environment-class-cache-enabled` setting in the `jruby-puppet` configuration section
-is set to `true`, the environment classes API uses HTTP [Etags][Etag] to represent specific versions of the class information. And it uses the Puppet Server [environment cache API][] as an explicit mechanism
-for marking an Etag as expired. See the [Headers and caching behavior](#headers-and-caching-behavior) section for more information about caching and invalidation of entries.
+Queries to the resource type API use cached class information per the configuration of the [`environment_timeout`][] setting, as set in the corresponding environment's `environment.conf` file.
+The environment classes API does not use the value of `environment_timeout` with respect to the data that it caches.
+Instead, only when the `environment-class-cache-enabled` setting in the `jruby-puppet` configuration section is set to `true`,
+the environment classes API uses HTTP [Etags][Etag] to represent specific versions of the class information.
+And it uses the OpenVox Server [environment cache API][] as an explicit mechanism for marking an Etag as expired.
+See the [Headers and caching behavior](#headers-and-caching-behavior) section for more information about caching and invalidation of entries.
 
 ### Uses typed values
 
@@ -36,18 +37,19 @@ The environment classes API includes a `type`, if defined for a class parameter.
 
 ### Provides default literal values
 
-For values that can be presented in pure JSON, the environment classes API provides a `default_literal` form of a class parameter's default value. For example, if an `Integer` type class parameter were defined
+For values that can be presented in pure JSON, the environment classes API provides a `default_literal` form of a class parameter's default value.
+For example, if an `Integer` type class parameter were defined
 in the manifest as having a default value of `3`, the `default_literal` element for the parameter will contain a JSON Number type of 3.
 
 ### Lacks filters
 
-The environment classes API does not provide a way to filter the list of classes returned via use of a search string. The environment classes API returns information for all classes found within an
-environment's manifest files.
+The environment classes API does not provide a way to filter the list of classes returned via use of a search string.
+The environment classes API returns information for all classes found within an environment's manifest files.
 
 ### Includes filenames
 
-Unlike the resource type API in Puppet 4, the environment classes API does include the filename in which each class was found. The resource type API in Puppet 3 does include the filename, but the resource type
-API under Puppet 4 does not.
+Unlike the resource type API in Puppet 4, the environment classes API does include the filename in which each class was found.
+The resource type API in Puppet 3 does include the filename, but the resource type API under Puppet 4 does not.
 
 ### Lacks line numbers
 
@@ -55,8 +57,7 @@ The environment classes API does not include the line number at which a class is
 
 ### Lacks documentation strings (vs. Puppet 3)
 
-Unlike the resource type API in Puppet 3, the environment classes API does not include any doc strings for a class entry. Note that doc strings are also not returned for class entries in the Puppet 4 resource
-type API.
+Unlike the resource type API in Puppet 3, the environment classes API does not include any doc strings for a class entry. Note that doc strings are also not returned for class entries in the Puppet 4 resource type API.
 
 ### Returns file entries for manifests with no classes
 
@@ -68,12 +69,12 @@ The Content-Type in the response to an environment classes API query is `applica
 
 ### Includes successfully parsed classes, even if some return errors, and returns error messages
 
-The environment classes API includes information for every class that can successfully be parsed. For any errors which occur when parsing individual manifest files, the response includes an entry for the
-corresponding manifest file, along with an error and detail string about the failure.
+The environment classes API includes information for every class that can successfully be parsed.
+For any errors which occur when parsing individual manifest files, the response includes an entry for the corresponding manifest file, along with an error and detail string about the failure.
 
-In comparison, if an error is encountered when parsing a manifest, the resource type API omits information from the manifest entirely. It includes class information from other manifests that it successfully
-parsed, assuming none of the parsing errors were found in one of the files associated with the environment's [`manifest` setting][]. If one or more classes is returned but errors were encountered parsing other
-manifests, the response from the resource type API call doesn't include any explicit indication that a parsing error was encountered.
+In comparison, if an error is encountered when parsing a manifest, the resource type API omits information from the manifest entirely.
+It includes class information from other manifests that it successfully parsed, assuming none of the parsing errors were found in one of the files associated with the environment's [`manifest` setting][].
+If one or more classes is returned but errors were encountered parsing other manifests, the response from the resource type API call doesn't include any explicit indication that a parsing error was encountered.
 
 ## `GET /puppet/v3/environment_classes?environment=:environment`
 
@@ -145,8 +146,9 @@ Content-Type: application/json
 
 #### GET request with Etag roundtripped from a previous GET request
 
-If you send the [Etag][] value that was returned from the previous request to the server in a follow-up request, and the underlying environment cache has not been invalidated, the server will return an HTTP 304
-(Not Modified) response. See the [Headers and Caching Behavior](#headers-and-caching-behavior) section for more information about caching and invalidation of entries.
+If you send the [Etag][] value that was returned from the previous request to the server in a follow-up request, and the underlying environment cache has not been invalidated,
+the server will return an HTTP 304 (Not Modified) response.
+See the [Headers and Caching Behavior](#headers-and-caching-behavior) section for more information about caching and invalidation of entries.
 
 ```text
 GET /puppet/v3/environment_classes?environment=env
@@ -258,18 +260,19 @@ An environment classes response body conforms to the [environment classes schema
 
 ### Headers and Caching Behavior
 
-If the `environment-class-cache-enabled` setting in the `jruby-puppet` configuration section is set to `true`, the environment classes API caches the response data. This can provide a significant performance
-benefit by reducing the amount of data that needs to be provided in a response when the underlying Puppet code on disk remains unchanged from one request to the next. Use of the cache does, however, require
-that cache entries are invalidated after Puppet code has been updated.
+If the `environment-class-cache-enabled` setting in the `jruby-puppet` configuration section is set to `true`, the environment classes API caches the response data.
+This can provide a significant performance benefit by reducing the amount of data that needs to be provided in a response when the underlying Puppet code on disk remains unchanged from one request to the next.
+Use of the cache does, however, require that cache entries are invalidated after Puppet code has been updated.
 
-To avoid invalidated cache entries, you can omit the `environment-class-cache-enabled` setting from a node's configuration or set it to `false`. In this case, the server discovers and parses manifests for every
-incoming request. This can significantly increase bandwidth overhead for repeated requests, particularly when there are few changes to the underlying Puppet code. However, this approach ensures that the latest
-available data is returned to every request.
+To avoid invalidated cache entries, you can omit the `environment-class-cache-enabled` setting from a node's configuration or set it to `false`.
+In this case, the server discovers and parses manifests for every incoming request.
+This can significantly increase bandwidth overhead for repeated requests, particularly when there are few changes to the underlying Puppet code.
+However, this approach ensures that the latest available data is returned to every request.
 
 #### Behaviors when the environment class cache is enabled
 
-When the `environment-class-cache-enabled` setting is set to `true`, the response to a query to the `environment_classes` endpoint includes an HTTP [Etag][] header. The value for the Etag header is a hash that
-represents the state of the latest class information available for the requested environment. For example:
+When the `environment-class-cache-enabled` setting is set to `true`, the response to a query to the `environment_classes` endpoint includes an HTTP [Etag][] header.
+The value for the Etag header is a hash that represents the state of the latest class information available for the requested environment. For example:
 
 ```text
 ETag: 31d64b8038258202b4f5eb508d7dab79c46327bb
@@ -282,12 +285,12 @@ A client can (but is not required to) provide the Etag value back to the server 
 If-None-Match: 31d64b8038258202b4f5eb508d7dab79c46327bb
 ```
 
-If the latest state of code available on the server matches that of the value in the `If-None-Match` header, the server returns an HTTP 304 (Not Modified) response with no response body. If the server has newer
-code available than what is captured by the `If-None-Match` header value, or if no `If-None-Match` header is provided in the request, the server parses manifests again. Assuming the resulting payload is
-different than a previous request's, the server provides a different Etag value and new class information in the response payload.
+If the latest state of code available on the server matches that of the value in the `If-None-Match` header, the server returns an HTTP 304 (Not Modified) response with no response body.
+If the server has newer code available than what is captured by the `If-None-Match` header value, or if no `If-None-Match` header is provided in the request, the server parses manifests again.
+Assuming the resulting payload is different than a previous request's, the server provides a different Etag value and new class information in the response payload.
 
-If the client sends an `Accept-Encoding: gzip` HTTP header for the request and the server provides a gzip-encoded response body, the server might append the characters `--gzip` to the end of the Etag. For
-example, the HTTP response headers could include:
+If the client sends an `Accept-Encoding: gzip` HTTP header for the request and the server provides a gzip-encoded response body, the server might append the characters `--gzip` to the end of the Etag.
+For example, the HTTP response headers could include:
 
 ```text
 Content-Encoding: gzip
@@ -296,8 +299,9 @@ ETag: e84bbce5482243b3eb3a190e5c90e535cf4f20de--gzip
 
 The server accepts both forms of an Etag (with or without the trailing `--gzip` characters) as the same value when validating it in a request's `If-None-Match` header against its cache.
 
-It is best, however, for clients to use the Etag without parsing its content. A client expecting an HTTP 304 (Not Modified) response if the cache has not been updated since the prior request should provide the
-exact value returned in the `Etag` header from one request, to the server in an `If-None-Match` header in a subsequent request for the environment's class information.
+It is best, however, for clients to use the Etag without parsing its content.
+A client expecting an HTTP 304 (Not Modified) response if the cache has not been updated since the prior request should provide the exact value returned in the `Etag` header from one request,
+to the server in an `If-None-Match` header in a subsequent request for the environment's class information.
 
 #### Clearing class information cache entries
 
