@@ -3,18 +3,16 @@ layout: default
 title: "OpenVox Server: Puppet API: Environment Transports"
 ---
 
-[Resource API Transports]: https://docs.openvoxproject.org/openvox/latest/about_the_resource_api.html#resource-api-transports
+[HTTP API]: ../../http_api_index.html
 [environment cache API]: ../../admin-api/v1/environment-cache.html
 [environment classes API]: ./environment_classes.html
 [transports schema]: ./environment_transports.json
 [`auth.conf` documentation]: ../../config_file_auth.html
 
-The environment transports API returns a JSON object representing the requested environment and schemas for all available [Resource API Transports][].
+The environment transports API returns a JSON object representing the requested environment and schemas for all available [HTTP API][] endpoints.
 The endpoint follows all conventions set by the [environment classes API][] including request format, etag validation with expiration managed by the [environment cache API][], and errors.
 
 ## `GET /puppet/v3/environment_transports?environment=<environment>`
-
-(Introduced in Puppet Server 6.4.0)
 
 ### Query Parameters
 

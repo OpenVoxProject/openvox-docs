@@ -3,12 +3,12 @@ layout: default
 title: "OpenVox Server: Puppet API: Static File Content"
 ---
 
-[`code-content-command`]: https://docs.openvoxproject.org/openvoxserver/latest/config_file_puppetserver.html
-[static catalog]: https://docs.openvoxproject.org/openvox/latest/static_catalogs.html
-[catalog]: https://docs.openvoxproject.org/openvox/latest/subsystem_catalog_compilation.html
-[file resource]: https://docs.openvoxproject.org/openvox/latest/type.html#file
-[environment]: https://docs.openvoxproject.org/openvox/latest/environments_about.html
-[`auth.conf`]: https://docs.openvoxproject.org/openvoxserver/latest/config_file_auth.html
+[`code-content-command`]: ../../config_file_puppetserver.html
+[static catalog]: ../../../../openvox/latest/static_catalogs.html
+[catalog]: ../../../../openvox/latest/subsystem_catalog_compilation.html
+[file resource]: ../../../../openvox/latest/type.html#file
+[environment]: ../../../../openvox/latest/environments_about.html
+[`auth.conf`]: ../../config_file_auth.html
 
 The `static_file_content` endpoint returns the standard output of a
 [`code-content-command`][] script, which should output the contents of a specific version of a [file resource][] that has a `source` attribute with a `puppet:///` URI value.
@@ -17,8 +17,6 @@ That source must be a file from the `files` or `tasks` directory of a module in 
 OpenVox Agent uses this endpoint only when applying a [static catalog][].
 
 ## `GET /puppet/v3/static_file_content/<FILE-PATH>`
-
-(Introduced in Puppet Server 2.3.0)
 
 To retrieve a specific version of a file at a given environment and path, make an HTTP request to this endpoint with the required parameters.
 
@@ -75,7 +73,7 @@ This endpoint returns an error (status 500) if the [`code-content-command`][] se
 
 > **Note:** The `code-content-command` and `code-id-command` scripts are not provided in a
 > default installation or upgrade. For more information about these scripts, see the
-> [static catalog documentation](https://docs.openvoxproject.org/openvox/latest/static_catalogs.html).
+> [static catalog documentation](../../../../openvox/latest/static_catalogs.html).
 
 #### Authorization
 

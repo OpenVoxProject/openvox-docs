@@ -3,7 +3,7 @@ layout: default
 title: "OpenVox Server: Puppet API: Compile"
 ---
 
-[PCore Generic Data]: https://github.com/puppetlabs/puppet-specifications/blob/master/language/data-types/pcore-generic-data.md
+[PCore Generic Data]: https://github.com/OpenVoxProject/puppet-specifications/blob/master/language/data-types/pcore-generic-data.md
 [`auth.conf` documentation]: ../../config_file_auth.html
 [v4 catalog schema]: ../v4/catalog.json
 
@@ -14,8 +14,6 @@ Optionally, the caller may provide `job_id`,
 `transaction_id`, and configure returned logging. The request body must be JSON formatted and the caller must accept a JSON response. The server must not have `rich_data` disabled.
 
 ## `POST /puppet/v3/compile`
-
-(Introduced in Puppet Server 6.4.0)
 
 The request body must look like:
 
@@ -40,7 +38,7 @@ The request body must look like:
 ### `code_ast` (required)
 
 A parsed string of json encoded [PCore Generic Data][]
-objects representing a Puppet Code AST. When `rich_data` is enabled (the default in Puppet 6), the AST represents an intermediate step when compiling Puppet Code to a catalog.
+objects representing a Puppet Code AST. When `rich_data` is enabled, the AST represents an intermediate step when compiling Puppet Code to a catalog.
 The returned catalog is equivalent to a catalog returned with the MIME type `application/vnd.puppet.rich+json` normally.
 
 ### `certname` (required)

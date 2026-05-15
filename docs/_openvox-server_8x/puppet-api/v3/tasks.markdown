@@ -29,8 +29,6 @@ The Content-Type in the response to an task API query is `application/json`.
 
 ## `GET /puppet/v3/tasks?environment=:environment`
 
-(Introduced in Puppet Server 5.1.0.)
-
 Making a request with no query parameters is not supported and returns an HTTP 400 (Bad Request) response.
 
 ### Supported HTTP Methods

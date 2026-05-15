@@ -10,8 +10,6 @@ The Content-Type in the response to an plan API query is
 
 ## `GET /puppet/v3/plans?environment=:environment`
 
-(Introduced in Puppet Server 6.6.0.)
-
 Making a request with no query parameters is not supported and returns an HTTP 400 (Bad Request) response.
 
 ### Supported HTTP Methods

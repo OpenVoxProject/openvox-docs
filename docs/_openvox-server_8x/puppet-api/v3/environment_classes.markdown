@@ -3,16 +3,16 @@ layout: default
 title: "OpenVox Server: Puppet API: Environment Classes"
 ---
 
-[classes]: https://docs.openvoxproject.org/openvox/latest/lang_classes.html
-[node definitions]: https://docs.openvoxproject.org/openvox/latest/lang_node_definitions.html
-[defined types]: https://docs.openvoxproject.org/openvox/latest/lang_defined_types.html
-[`environment_timeout`]: https://docs.openvoxproject.org/openvox/latest/config_file_environment.html#environmenttimeout
-[`manifest` setting]: https://docs.openvoxproject.org/openvox/latest/config_file_environment.html#manifest
+[classes]: ../../../../openvox/latest/lang_classes.html
+[node definitions]: ../../../../openvox/latest/lang_node_definitions.html
+[defined types]: ../../../../openvox/latest/lang_defined_types.html
+[`environment_timeout`]: ../../../../openvox/latest/config_file_environment.html#environmenttimeout
+[`manifest` setting]: ../../../../openvox/latest/config_file_environment.html#manifest
 [`auth.conf`]: ../../config_file_auth.html
 [environment cache API]: ../../admin-api/v1/environment-cache.html
 [Etag]: https://tools.ietf.org/html/rfc7232#section-2.3
 
-The environment classes API serves as a replacement for the Puppet resource type API for [classes][], which was removed in Puppet 5.
+The environment classes API will return information about what classes are installed for the requested environment.
 
 ## Changes in the environment classes API
 
@@ -48,16 +48,15 @@ The environment classes API returns information for all classes found within an 
 
 ### Includes filenames
 
-Unlike the resource type API in Puppet 4, the environment classes API does include the filename in which each class was found.
-The resource type API in Puppet 3 does include the filename, but the resource type API under Puppet 4 does not.
+The resource type API includes the filename in which each class was found.
 
 ### Lacks line numbers
 
 The environment classes API does not include the line number at which a class is found in the file.
 
-### Lacks documentation strings (vs. Puppet 3)
+### Lacks documentation strings
 
-Unlike the resource type API in Puppet 3, the environment classes API does not include any doc strings for a class entry. Note that doc strings are also not returned for class entries in the Puppet 4 resource type API.
+The environment classes API does not include any doc strings for a class entry.
 
 ### Returns file entries for manifests with no classes
 
@@ -77,8 +76,6 @@ It includes class information from other manifests that it successfully parsed, 
 If one or more classes is returned but errors were encountered parsing other manifests, the response from the resource type API call doesn't include any explicit indication that a parsing error was encountered.
 
 ## `GET /puppet/v3/environment_classes?environment=:environment`
-
-(Introduced in Puppet Server 2.3.0.)
 
 Making a request with no query parameters is not supported and returns an HTTP 400 (Bad Request) response.
 
@@ -312,13 +309,13 @@ to the environment classes endpoint. To clear cache entries on the server, do on
 
   For best performance, call this endpoint with a query parameter that specifies the environment whose cache should be flushed.
 
-- Restart Puppet Server.
+- Restart OpenVox Server.
 
-  Each environment's cache is held in memory for the Puppet Server process and is effectively flushed whenever Puppet Server is restarted, whether with a [HUP signal, service reload,](../../restarting.html) or
+  Each environment's cache is held in memory for the OpenVox Server process and is effectively flushed whenever OpenVox Server is restarted, whether with a [HUP signal, service reload,](../../restarting.html) or
   a full JVM restart.
 
 ### Authorization
 
 All requests made to the environment classes API are authorized using the Trapperkeeper-based [`auth.conf`][].
 
-For more information about the Puppet Server authorization process and configuration settings, see the [`auth.conf` documentation][`auth.conf`].
+For more information about the OpenVox Server authorization process and configuration settings, see the [`auth.conf` documentation][`auth.conf`].
