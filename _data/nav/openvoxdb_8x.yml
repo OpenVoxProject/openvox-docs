@@ -125,10 +125,6 @@
     link: api/query/v4/aggregate-event-counts.html
   - text: Package endpoints
     link: api/query/v4/packages.html
-- text: Extensions API version 1 (PE-only)
-  items:
-  - text: State overview endpoint
-    link: api/ext/v1/state-overview.html
 - text: Admin API version 1
   items:
   - text: Archive endpoint
@@ -165,7 +161,3 @@
     link: api/wire_format/report_format_v8.html
   - text: Deactivate node wire format - v3
     link: api/wire_format/deactivate_node_format_v3.html
-- text: High Availability (HA) (PE-only)
-  items:
-  - text: Overview and Configuration
-    link: ha.html

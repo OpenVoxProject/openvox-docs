@@ -207,8 +207,7 @@ Check the postgres logs for:
 Slow queries are the main concern here, because most errors here have already
 been seen in the PDB logs. Slow queries frequently occur on deletes related to
 garbage collection and in queries against event-counts and
-aggregate-event-counts (which will typically present in Puppet Enterprise as
-slow page loads on the event inspector). Garbage collection deletes only run
+aggregate-event-counts. Garbage collection deletes only run
 periodically, so some degree of slowness there is not generally an issue.
 
 For slow queries connected to queries against PDB's REST API, the two most

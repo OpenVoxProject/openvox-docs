@@ -17,8 +17,6 @@ layout: default
 [package_repos]: https://puppet.com/docs/puppet/latest/install_puppet.html#enable_the_puppet_platform_repository
 [known-issues]: ./known_issues.html
 
-> **Note:** If you are running Puppet Enterprise version 3.0 or later, you do not need to install OpenVoxDB, as it is already installed as part of PE.
-
 This page describes how to manually install and configure OpenVoxDB from the official packages. Users are encouraged to install OpenVoxDB via the [OpenVoxDB module][module] instead of installing the packages
 directly. Using the module for setting up OpenVoxDB is much easier and less error prone. See [Installing OpenVoxDB via Puppet module][install_module] for more info.
 
