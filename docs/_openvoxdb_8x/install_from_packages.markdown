@@ -12,7 +12,7 @@ layout: default
 [configure_jetty]: ./configure.html#jetty-http-settings
 [requirements]: ./overview.html#standard-install-rhel-centos-debian-and-ubuntu
 [install_module]: ./install_via_module.html
-[module]: http://forge.puppet.com/modules/puppet/openvoxdb
+[module]: https://forge.puppet.com/modules/puppet/openvoxdb
 [postgres_ssl]: ./postgres_ssl.html
 [package_repos]: https://puppet.com/docs/puppet/latest/install_puppet.html#enable_the_puppet_platform_repository
 [known-issues]: ./known_issues.html
