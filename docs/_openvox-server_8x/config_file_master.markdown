@@ -23,8 +23,8 @@ When using the `allow-header-cert-info` setting in `master.conf`, you can change
 parameter can rename `X-Client-DN`. The `X-Client-Cert` header can't be renamed.
 
 The `allow-header-cert-info` parameter in `master.conf` applies only to HTTP endpoints served by the "master" service. The applicable endpoints include those listed in
-[Puppet V3 HTTP API](https://puppet.com/docs/puppet/latest/http_api/http_api_index.html#puppet-v3-http-api). It does not apply to the endpoints listed in
-[CA V1 HTTP API](https://puppet.com/docs/puppet/latest/http_api/http_api_index.html#ca-v1-http-api) or to any [Puppet Admin API][`puppetserver.conf`] endpoints.
+[Puppet V3 HTTP API](../openvox/latest/http_api/http_api_index.html#puppet-v3-http-api). It does not apply to the endpoints listed in
+[CA V1 HTTP API](../openvox/latest/http_api/http_api_index.html#ca-v1-http-api) or to any [Puppet Admin API][`puppetserver.conf`] endpoints.
 
 ## Supported Authorization Workflow
 
@@ -37,7 +37,7 @@ headers.
 The `allow-header-cert-info` parameter in `auth.conf`, applies to all HTTP endpoints that Puppet Server handles, including those served by the "master" service, the CA API, and the Puppet Admin API.
 
 For additional information on the `allow-header-cert-info` parameter in `auth.conf`, see [Puppet Server Configuration Files: `auth.conf`][new `auth.conf`] and
-[Configuring the Authorization Service in the `trapperkeeper-authorization` documentation](https://github.com/puppetlabs/trapperkeeper-authorization/blob/master/doc/authorization-config.md#allow-header-cert-info).
+[Configuring the Authorization Service in the `trapperkeeper-authorization` documentation](https://github.com/openvoxproject/trapperkeeper-authorization/blob/master/doc/authorization-config.md#allow-header-cert-info).
 
 ### HOCON `auth.conf` Example
 

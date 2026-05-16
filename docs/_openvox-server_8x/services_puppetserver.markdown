@@ -48,7 +48,7 @@ The web server's settings can be modified in [`webserver.conf`](./config_file_we
 
 ### OpenVox API Service
 
-OpenVox Server includes a service that handles agent configuration requests. See [OpenVox HTTP API](/openvox/latest/http_api/http_api_index.html) for documentation on the core APIs.
+OpenVox Server includes a service that handles agent configuration requests. See [OpenVox HTTP API](../openvox/latest/http_api/http_api_index.html) for documentation on the core APIs.
 
 For OpenVox Server-specific APIs hosted by this service, see:
 
@@ -63,7 +63,7 @@ OpenVox Server includes a certificate authority (CA) service that:
 - Serves certificates and a certificate revocation list (CRL) to nodes
 - Optionally accepts commands to sign or revoke certificates (disabled by default)
 
-The relevant endpoints are `certificate`, `certificate_request`, `certificate_revocation_list`, and `certificate_status`. See [CA HTTP API](/openvox/latest/http_api/http_api_index.html) for details.
+The relevant endpoints are `certificate`, `certificate_request`, `certificate_revocation_list`, and `certificate_status`. See [CA HTTP API](../openvox/latest/http_api/http_api_index.html) for details.
 
 Signing and revoking certificates over the network is disallowed by default. You can use [`auth.conf`](./config_file_auth.html) to allow specific certificate owners to issue commands.
 
@@ -82,7 +82,7 @@ For API docs, see:
 - [The `environment-cache` endpoint](./admin-api/v1/environment-cache.html)
 - [The `jruby-pool` endpoint](./admin-api/v1/jruby-pool.html)
 
-For details about environment caching, see [Environments](/openvox/latest/environments_about.html).
+For details about environment caching, see [Environments](../openvox/latest/environments_about.html).
 
 ### JRuby Interpreters
 
@@ -162,5 +162,5 @@ The `conf.d` directory contains:
 
 For full details, see the [Configuration](./configuration.html) page.
 
-OpenVox Server also uses OpenVox's standard config files, including most settings in [`puppet.conf`](/openvox/latest/config_file_main.html).
+OpenVox Server also uses OpenVox's standard config files, including most settings in [`puppet.conf`](../openvox/latest/config_file_main.html).
 However, some `puppet.conf` settings are treated differently by OpenVox Server — see [puppet.conf differences](./puppet_conf_setting_diffs.html) for details.

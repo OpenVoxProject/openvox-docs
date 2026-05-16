@@ -1,12 +1,11 @@
 ---
 layout: default
-title: "Puppet Server: Status API: Services"
-canonical: "/puppetserver/latest/status-api/v1/services.html"
+title: "OpenVox Server: Status API: Services"
 ---
 
 [`auth.conf`]: ../../config_file_auth.html
 
-The `services` endpoint of Puppet Server's Status API provides information about services running on Puppet Server. As of Puppet Server 2.6.0, the endpoint provides information about memory usage similar to the
+The `services` endpoint of OpenVox Server's Status API provides information about services running on OpenVox Server. The endpoint provides information about memory usage similar to the
 data produced by the Java MemoryMXBean, as well as basic data on the `pupppetserver` process's state and uptime. See the
 [Java MemoryMXBean documentation](https://docs.oracle.com/javase/7/docs/api/java/lang/management/MemoryMXBean.html) for help interpreting the memory information.
 
@@ -15,8 +14,6 @@ data produced by the Java MemoryMXBean, as well as basic data on the `pupppetser
 > For information about HTTP client metrics, which are served from the status endpoint, see [their documentation](../../http_client_metrics.html).
 
 ## `GET /status/v1/services`
-
-(Introduced in Puppet Server 2.6.0)
 
 ### Supported HTTP methods
 
@@ -36,7 +33,7 @@ JSON
 
   - `debug`: This level returns status information about a service in enough detail to be suitable for debugging issues with the `puppetserver` process. Depending on the service, this level can be significantly
     more expensive than lower levels, reduce the process's performance, and generate large amounts of data. This level is suitable for producing aggregate metrics about the performance or resource usage of
-    Puppet Server's subsystems.
+    OpenVox Server's subsystems.
 
     The information returned for any service at each increasing level of detail includes the data from lower levels. In other words, the `info` level returns the same data structure as the `critical` level, and
     might provide additional data in the `status` field depending on the service. Likewise, the `debug` level returns the same data structure as `info`, and might also add additional information in the `status`
@@ -98,7 +95,7 @@ Content-Type: application/json
 
 ### Authorization
 
-Requests to the `services` endpoint are authorized by the [Trapperkeeper-based authorization process][`auth.conf`] as of Puppet Server 5.3.0. For more information about the supported Puppet Server authorization
+Requests to the `services` endpoint are authorized by the [Trapperkeeper-based authorization process][`auth.conf`]. For more information about the supported OpenVox Server authorization
 processes and configuration settings, see the [`auth.conf` documentation][`auth.conf`].
 
 One may also restrict access to the status service by changing the `client-auth` setting to `required` for the webserver. See
