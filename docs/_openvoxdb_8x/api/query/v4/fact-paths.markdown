@@ -1,7 +1,7 @@
 ---
 title: "Fact-paths endpoint"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/fact-paths.html"
+canonical: "/openvoxdb/latest/api/query/v4/fact-paths.html"
 ---
 # Fact-paths endpoint
 
@@ -105,6 +105,6 @@ Get all fact paths of integer type:
 
 ## Paging
 
-This query endpoint supports paged results via the common PuppetDB paging URL
+This query endpoint supports paged results via the common OpenVoxDB paging URL
 parameters. For more information, please see the documentation on
 [paging][paging].

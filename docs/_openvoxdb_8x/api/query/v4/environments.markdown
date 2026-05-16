@@ -1,7 +1,7 @@
 ---
 title: "Environments endpoint"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/environments.html"
+canonical: "/openvoxdb/latest/api/query/v4/environments.html"
 ---
 
 # Environments endpoint
@@ -21,12 +21,12 @@ canonical: "/puppetdb/latest/api/query/v4/environments.html"
 
 Environments are semi-isolated groups of nodes managed by Puppet. Nodes are assigned to environments by their own configuration, or by the Puppet Server's external node classifier.
 
-When PuppetDB collects info about a node, it keeps track of the environment the node is assigned to. PuppetDB also keeps a list of environments it has seen. You can query this list by making an HTTP request to
+When OpenVoxDB collects info about a node, it keeps track of the environment the node is assigned to. OpenVoxDB also keeps a list of environments it has seen. You can query this list by making an HTTP request to
 the `/environments` endpoint.
 
 ## `/pdb/query/v4/environments`
 
-This will return all environments known to PuppetDB.
+This will return all environments known to OpenVoxDB.
 
 ### URL parameters
 
@@ -70,7 +70,7 @@ The array is unsorted.
 
 ## `/pdb/query/v4/environments/<ENVIRONMENT>`
 
-This will return the name of the environment if it currently exists in PuppetDB.
+This will return the name of the environment if it currently exists in OpenVoxDB.
 
 ### URL parameters / query operators / query fields
 
@@ -100,4 +100,4 @@ the original routes are supported. The result format is also the same. Additiona
 
 ## Paging
 
-This query endpoint supports paged results via the common PuppetDB paging URL parameters. For more information, please see the documentation on [paging][paging].
+This query endpoint supports paged results via the common OpenVoxDB paging URL parameters. For more information, please see the documentation on [paging][paging].

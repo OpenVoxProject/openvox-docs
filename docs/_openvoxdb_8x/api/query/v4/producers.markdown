@@ -1,7 +1,7 @@
 ---
 title: "Producers endpoint"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/producers.html"
+canonical: "/openvoxdb/latest/api/query/v4/producers.html"
 ---
 
 # Producers endpoint
@@ -14,14 +14,14 @@ canonical: "/puppetdb/latest/api/query/v4/producers.html"
 [reports]: ./reports.html
 [catalogs]: ./catalogs.html
 
-Producers are the Puppet Servers that send reports, catalogs, and factsets to PuppetDB.
+Producers are the Puppet Servers that send reports, catalogs, and factsets to OpenVoxDB.
 
-When PuppetDB stores a report, catalog, or factset, it keeps track of the producer of the report/catalog/factset. PuppetDB also keeps a list of producers it has seen. You can query this list by making an HTTP
+When OpenVoxDB stores a report, catalog, or factset, it keeps track of the producer of the report/catalog/factset. OpenVoxDB also keeps a list of producers it has seen. You can query this list by making an HTTP
 request to the `/producers` endpoint.
 
 ## `/pdb/query/v4/producers`
 
-This will return all producers known to PuppetDB.
+This will return all producers known to OpenVoxDB.
 
 ### URL parameters
 
@@ -60,7 +60,7 @@ The array is unsorted.
 
 ## `/pdb/query/v4/producers/<PRODUCER>`
 
-This will return the name of the producer if it currently exists in PuppetDB.
+This will return the name of the producer if it currently exists in OpenVoxDB.
 
 ### URL parameters / query operators / query fields
 
@@ -90,4 +90,4 @@ original routes are supported. The result format is also the same. Additional qu
 
 ## Paging
 
-This query endpoint supports paged results via the common PuppetDB paging URL parameters. For more information, please see the documentation on [paging][paging].
+This query endpoint supports paged results via the common OpenVoxDB paging URL parameters. For more information, please see the documentation on [paging][paging].

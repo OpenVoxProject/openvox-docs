@@ -13,12 +13,12 @@ layout: default
 [packages]: ./install_from_packages.html
 [running_tests]: ./CONTRIBUTING.md#running-the-tests
 
-> **Note:** If you are running Puppet Enterprise version 3.0 or later, you do not need to install PuppetDB, as it is already installed as part of PE.
+> **Note:** If you are running Puppet Enterprise version 3.0 or later, you do not need to install OpenVoxDB, as it is already installed as part of PE.
 
-This page describes how to install PuppetDB from source code, and how to run PuppetDB directly from source without installing.
+This page describes how to install OpenVoxDB from source code, and how to run OpenVoxDB directly from source without installing.
 
-If possible, we recommend installing PuppetDB [with the puppetlabs-puppetdb module][module] or [from packages][packages]; either approach will be easier than installing from source. However, if you are testing
-a new version, developing PuppetDB, or installing it on a system not supported with official packages, you will need to install PuppetDB from source.
+If possible, we recommend installing OpenVoxDB [with the puppet-openvoxdb module][module] or [from packages][packages]; either approach will be easier than installing from source. However, if you are testing
+a new version, developing OpenVoxDB, or installing it on a system not supported with official packages, you will need to install OpenVoxDB from source.
 
 ## Step 1: Installation prerequisites
 
@@ -46,9 +46,9 @@ Install Leiningen:
 Run the following commands to build a distribution tarball from source:
 
     mkdir -p ~/git && cd ~/git
-    git clone git://github.com/puppetlabs/puppetdb
+    git clone git://github.com/OpenVoxProject/openvoxdb
     git checkout stable    # Or a particular tag you wish to install
-    cd puppetdb
+    cd openvoxdb
     lein install
     lein with-profile ezbake ezbake stage
     cd target/staging
@@ -58,10 +58,10 @@ Run the following commands to build a distribution tarball from source:
 Now unpack the tarball to prepare for installation:
 
     cd pkg
-    tar -xzf puppetdb-*.tar.gz
-    cd puppetdb-*
+    tar -xzf openvoxdb-*.tar.gz
+    cd openvoxdb-*
 
-To perform a full installation of the service and the PuppetDB-termini code (usually the best choice when running PuppetDB on the same host as the Puppet Server):
+To perform a full installation of the service and the OpenVoxDB-termini code (usually the best choice when running OpenVoxDB on the same host as the Puppet Server):
 
     sudo bash install.sh all
 
@@ -80,13 +80,13 @@ While installing from source is useful for simply running a development version 
 Run the following commands:
 
     $ mkdir -p ~/git && cd ~/git
-    $ git clone git://github.com/puppetlabs/puppetdb
-    $ cd puppetdb
+    $ git clone git://github.com/OpenVoxProject/openvoxdb
+    $ cd openvoxdb
 
     # Download the dependencies
     $ lein deps
 
-This will let you develop on PuppetDB and see your changes by simply editing the code and restarting the server. It will not create an init script or default configuration directory. To start the PuppetDB
+This will let you develop on OpenVoxDB and see your changes by simply editing the code and restarting the server. It will not create an init script or default configuration directory. To start the OpenVoxDB
 service when running from source, you will need to run the following:
 
     lein run services -c /path/to/config.ini
@@ -97,32 +97,32 @@ Next, you will need to [setup some test users][running_tests] to run the tests l
 
 ## Step 3: Configure a database
 
-In most cases you should [set up a PostgreSQL server and configure PuppetDB to use it][configure_postgres]. You may also need to [adjust the maximum heap size][configure_heap].
+In most cases you should [set up a PostgreSQL server and configure OpenVoxDB to use it][configure_postgres]. You may also need to [adjust the maximum heap size][configure_heap].
 
-You can change PuppetDB's database at any time while the service is shut down, but note that changing the database does not migrate PuppetDB's data, so the new database will be empty.
+You can change OpenVoxDB's database at any time while the service is shut down, but note that changing the database does not migrate OpenVoxDB's data, so the new database will be empty.
 
-If your PostgreSQL node is on a separate server than PuppetDB, you should [configure an SSL connection][postgres_ssl], otherwise your database communication will happen in plaintext over the network. This can
-be made much simpler by installing using the [PuppetDB module][module].
+If your PostgreSQL node is on a separate server than OpenVoxDB, you should [configure an SSL connection][postgres_ssl], otherwise your database communication will happen in plaintext over the network. This can
+be made much simpler by installing using the [OpenVoxDB module][module].
 
-## Step 4: Start the PuppetDB service
+## Step 4: Start the OpenVoxDB service
 
-If you _installed_ PuppetDB from source, you can start PuppetDB by running the following:
+If you _installed_ OpenVoxDB from source, you can start OpenVoxDB by running the following:
 
     sudo service puppetdb start
 
-And if Puppet is installed, you can permanently enable PuppetDB by running:
+And if Puppet is installed, you can permanently enable OpenVoxDB by running:
 
     sudo puppet resource service puppetdb ensure=running enable=true
 
-If you are running PuppetDB from source, you should start it as follows:
+If you are running OpenVoxDB from source, you should start it as follows:
 
-    # From the directory in which PuppetDB's source is stored:
+    # From the directory in which OpenVoxDB's source is stored:
     $ lein run services -c /path/to/config.ini
 
-> PuppetDB is now fully functional and ready to receive catalogs and facts from any number of Puppet Servers.
+> OpenVoxDB is now fully functional and ready to receive catalogs and facts from any number of Puppet Servers.
 
-## Finish: Connect Puppet to PuppetDB
+## Finish: Connect Puppet to OpenVoxDB
 
-[You should now configure your Puppet Server(s) to connect to PuppetDB](./connect_puppet_server.html).
+[You should now configure your Puppet Server(s) to connect to OpenVoxDB](./connect_puppet_server.html).
 
-If you use a standalone Puppet site, [you should configure every node to connect to PuppetDB](./connect_puppet_apply.html).
+If you use a standalone Puppet site, [you should configure every node to connect to OpenVoxDB](./connect_puppet_apply.html).

@@ -1,7 +1,7 @@
 ---
-title: "PuppetDB: Catalog inputs endpoint"
+title: "OpenVoxDB: Catalog inputs endpoint"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/catalog_inputs.html"
+canonical: "/openvoxdb/latest/api/query/v4/catalog_inputs.html"
 ---
 
 # Catalog inputs endpoint
@@ -44,7 +44,7 @@ See [the AST query language page][ast].
 * `catalog_uuid` (string): the unique ID of the catalog to which the
   input corresponds.
 * `inputs` (array): An array ofinputs for a catalog in the form `[ ["<type>", "<name>"] ... ]`
-  such as `[ ["hiera", "puppetdb::globals::version"] ... ]`.
+  such as `[ ["hiera", "openvoxdb::globals::version"] ... ]`.
 
 ### Subquery Relationships
 
@@ -78,13 +78,13 @@ This query will return the complete list of catalog inputs:
        "certname" : "yo.delivery.puppetlabs.net",
        "producer_timestamp": "2014-10-13T20:46:00.000Z",
        "catalog_uuid" : "53b72442-3b73-11e3-94a8-1b34ef7fdc95",
-       "inputs" : [["hiera", "puppetdb::globals::version"]]
+       "inputs" : [["hiera", "openvoxdb::globals::version"]]
     },
     {
        "certname" : "foo.delivery.puppetlabs.net",
        "catalog_uuid" : "9a3c8da6-f48c-4567-b24e-ddae5f80a6c6",
        "producer_timestamp": "2014-11-20T02:15:20.861Z",
-       "inputs" : [["hiera", "puppetdb::disable_ssl"]]
+       "inputs" : [["hiera", "openvoxdb::disable_ssl"]]
     }]
 
 This query will return all catalogs with producer_timestamp after 2014-11-19:
@@ -96,7 +96,7 @@ This query will return all catalogs with producer_timestamp after 2014-11-19:
        "certname" : "foo.delivery.puppetlabs.net",
        "catalog_uuid" : "9a3c8da6-f48c-4567-b24e-ddae5f80a6c6",
        "producer_timestamp": "2014-11-20T02:15:20.861Z",
-       "inputs" : [["hiera", "puppetdb::disable_ssl"]]
+       "inputs" : [["hiera", "openvoxdb::disable_ssl"]]
     }]
 
 ## Paging

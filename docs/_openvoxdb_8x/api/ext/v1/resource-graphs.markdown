@@ -1,7 +1,7 @@
 ---
 title: "Extensions API (PE only)"
 layout: default
-canonical: "/puppetdb/latest/api/ext/v1/resource-graphs.html"
+canonical: "/openvoxdb/latest/api/ext/v1/resource-graphs.html"
 ---
 
 # Extensions API (PE only)
@@ -50,7 +50,7 @@ See [the AST query language page][ast].
 * `code_id` (string): a string used to tie a catalog to the Puppet code which
   generated the catalog
 * `producer_timestamp` (timestamp): is the time of catalog submission from the
-  Puppet Server to PuppetDB, according to the clock on the Puppet Server. Timestamps are
+  Puppet Server to OpenVoxDB, according to the clock on the Puppet Server. Timestamps are
   always [ISO-8601][8601] compatible date/time strings.
 * `status` (string): the status associated to report's node. Possible values for
   this field come from Puppet's report status, which can be found

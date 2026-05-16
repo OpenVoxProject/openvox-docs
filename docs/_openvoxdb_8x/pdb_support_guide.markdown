@@ -14,7 +14,7 @@ layout: default
 [dbvis]: https://www.dbvis.com/
 [stockpile]: https://github.com/puppetlabs/stockpile
 
-This is a technical guide for troubleshooting PuppetDB (PDB) and understanding
+This is a technical guide for troubleshooting OpenVoxDB (PDB) and understanding
 its internals.
 
 ## PDB Architectural Overview
@@ -239,10 +239,10 @@ for information on these settings.
 
 There are a few things to watch for in the PDB dashboard:
 
-* Low catalog duplication rate: PuppetDB includes some optimizations built on
+* Low catalog duplication rate: OpenVoxDB includes some optimizations built on
   the assumption that the catalog for a given node changes relatively
-  infrequently. Namely, when PuppetDB receives a catalog for a node that hashes
-  to the same value as the node's previous catalog, PuppetDB will
+  infrequently. Namely, when OpenVoxDB receives a catalog for a node that hashes
+  to the same value as the node's previous catalog, OpenVoxDB will
   simply update the timestamp associated with the last catalog, rather than
   insert the data again. This works fine most of the time, but is failure prone
   in cases where aspects of the catalog are guaranteed to change on every run.

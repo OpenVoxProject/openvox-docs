@@ -1,7 +1,7 @@
 ---
 title: "State overview endpoint"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/state-overview.html"
+canonical: "/openvoxdb/latest/api/query/v4/state-overview.html"
 ---
 
 # State overview endpoint
@@ -38,7 +38,7 @@ The result will be a JSON hash of the following form:
 
     {
       "unresponsive": <number of nodes that have not reported since `unresponsive_threshold`>,
-      "unreported": <number of nodes for which PuppetDB has not received a report>,
+      "unreported": <number of nodes for which OpenVoxDB has not received a report>,
       "noop": <number of nodes for which the latest report was a noop>,
       "failed": <number of nodes for which the latest report had failures>,
       "unchanged": <number of nodes for which the latest report made no changes>,
@@ -46,11 +46,11 @@ The result will be a JSON hash of the following form:
     }
 
 The statuses are assessed by evaluating the following precedence rules in order:
-* If PuppetDB does not contain a report for a node, the status will be `unreported`
+* If OpenVoxDB does not contain a report for a node, the status will be `unreported`
 * If a report has not been received within the `unresponsive_threshold`, the
   node will be marked `unresponsive`.
 * Otherwise, the status will be assessed based on the most recent report in
-  PuppetDB.
+  OpenVoxDB.
 
 ### Examples
 

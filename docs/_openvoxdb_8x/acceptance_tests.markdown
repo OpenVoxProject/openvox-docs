@@ -1,6 +1,6 @@
 # Acceptance tests
 
-PuppetDB uses the [Beaker](https://github.com/puppetlabs/beaker) acceptance
+OpenVoxDB uses the [Beaker](https://github.com/puppetlabs/beaker) acceptance
 testing framework. We run acceptance tests on a matrix of machine and database
 configurations before we merge new code into our stable or master branches, but
 it can be useful for a variety of reasons to run them yourself.

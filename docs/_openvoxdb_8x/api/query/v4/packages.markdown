@@ -1,7 +1,7 @@
 ---
 title: "Package endpoints"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/packages.html"
+canonical: "/openvoxdb/latest/api/query/v4/packages.html"
 ---
 # Package endpoints
 
@@ -106,6 +106,6 @@ exactly like a call to `/pdb/query/v4/packages` with a query string of `["=",
 
 ## Paging
 
-These query endpoints support paged results via the common PuppetDB paging
+These query endpoints support paged results via the common OpenVoxDB paging
 URL parameters. For more information, please see the documentation
 on [paging][paging].

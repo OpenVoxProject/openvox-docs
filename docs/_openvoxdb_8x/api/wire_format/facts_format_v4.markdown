@@ -1,7 +1,7 @@
 ---
 title: "Facts wire format, version 4"
 layout: default
-canonical: "/puppetdb/latest/api/wire_format/facts_format_v4.html"
+canonical: "/openvoxdb/latest/api/wire_format/facts_format_v4.html"
 ---
 # Facts wire format - v4
 
@@ -25,7 +25,7 @@ The `"values"` key points to a _JSON Object_ that represents the set
 of facts. Each key is the fact name, and the value is the fact value.
 
 The `"producer_timestamp"` key points to a timestamp reflecting
-the time of fact set submission from the Puppet Server to PuppetDB.
+the time of fact set submission from the Puppet Server to OpenVoxDB.
 
 Fact names and values **must** be strings.
 

@@ -1,7 +1,7 @@
 ---
 title: "Inventory endpoint"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/inventory.html"
+canonical: "/openvoxdb/latest/api/query/v4/inventory.html"
 ---
 # Inventory endpoint
 
@@ -47,7 +47,7 @@ See [the AST query language page][ast] for the full list of available operators.
 
 * `certname` (string): the name of the node associated with the inventory.
 
-* `timestamp` (string): the time at which PuppetDB received the facts in the inventory.
+* `timestamp` (string): the time at which OpenVoxDB received the facts in the inventory.
 
 * `environment` (string): the environment associated with the inventory's
   certname.

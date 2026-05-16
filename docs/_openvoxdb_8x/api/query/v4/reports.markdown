@@ -1,7 +1,7 @@
 ---
 title: "Reports endpoint"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/reports.html"
+canonical: "/openvoxdb/latest/api/query/v4/reports.html"
 ---
 
 # Reports endpoint
@@ -18,13 +18,13 @@ canonical: "/puppetdb/latest/api/query/v4/reports.html"
 [producers]: ./producers.html
 [rich_data]: query.html#rich-data
 
-Puppet agent nodes submit reports after their runs, and the Puppet Server forwards these to PuppetDB. Each report includes:
+Puppet agent nodes submit reports after their runs, and the Puppet Server forwards these to OpenVoxDB. Each report includes:
 
 - Data about the entire run
 - Metadata about the report
 - Many _events,_ describing what happened during the run
 
-After this information is stored in PuppetDB, it can be queried in various ways.
+After this information is stored in OpenVoxDB, it can be queried in various ways.
 
 - You can query **data about the run** and **report metadata** by making an HTTP request to the `/reports` endpoint.
 
@@ -39,7 +39,7 @@ After this information is stored in PuppetDB, it can be queried in various ways.
 - `query`: optional. A JSON array of query predicates, in prefix notation (`["<OPERATOR>", "<FIELD>", "<VALUE>"]`). See the sections below for the supported operators and fields. For general info about queries,
   see [our guide to query structure.][query]
 
-If the `query` parameter is absent, PuppetDB will return all reports.
+If the `query` parameter is absent, OpenVoxDB will return all reports.
 
 ### Query operators
 
@@ -73,12 +73,12 @@ The following fields are allowed as filter criteria and are returned in all resp
 
 - `end_time` (timestamp): the time on the agent at which the Puppet run ended. Timestamps are always [ISO-8601][8601] compatible date/time strings.
 
-- `producer_timestamp` (timestamp): the time of catalog submission from the Puppet Server to PuppetDB, according to the clock on the Puppet Server. Timestamps are always [ISO-8601][8601] compatible date/time
+- `producer_timestamp` (timestamp): the time of catalog submission from the Puppet Server to OpenVoxDB, according to the clock on the Puppet Server. Timestamps are always [ISO-8601][8601] compatible date/time
   strings.
 
-- `receive_time` (timestamp): the time at which PuppetDB received the report. Timestamps are always [ISO-8601][8601] compatible date/time strings.
+- `receive_time` (timestamp): the time at which OpenVoxDB received the report. Timestamps are always [ISO-8601][8601] compatible date/time strings.
 
-- `producer` (string): the certname of the Puppet Server that sent the report to PuppetDB.
+- `producer` (string): the certname of the Puppet Server that sent the report to OpenVoxDB.
 
 - `transaction_uuid` (string): a string used to identify a Puppet run.
 
@@ -101,7 +101,7 @@ The following list contains related entities that can be used to constrain the r
 
 - [`environments`][environments]: environment from where a report was received.
 - [`events`][events]: events received in a report.
-- [`producers`][producers]: the Puppet Server that sent the report to PuppetDB.
+- [`producers`][producers]: the Puppet Server that sent the report to OpenVoxDB.
 
 ### Response format
 
@@ -420,4 +420,4 @@ If you provide a `query` parameter, it will specify additional criteria, which w
 
 ## Paging
 
-This query endpoint supports paged results via the common PuppetDB paging URL parameters. For more information, please see the documentation on [paging][paging].
+This query endpoint supports paged results via the common OpenVoxDB paging URL parameters. For more information, please see the documentation on [paging][paging].

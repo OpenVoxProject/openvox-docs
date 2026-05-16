@@ -1,7 +1,7 @@
 ---
 title: "Managed Packages endpoints"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/managed-packages.html"
+canonical: "/openvoxdb/latest/api/query/v4/managed-packages.html"
 ---
 
 # Managed Packages endpoints
@@ -104,6 +104,6 @@ The array is unsorted by default.
 
 ## Paging
 
-This query endpoint supports paged results via the common PuppetDB paging
+This query endpoint supports paged results via the common OpenVoxDB paging
 URL parameters. For more information, please see the documentation
 on [paging][paging].

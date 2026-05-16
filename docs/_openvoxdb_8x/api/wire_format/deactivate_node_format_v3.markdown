@@ -1,12 +1,12 @@
 ---
 title: "Deactivate node wire format, version 3"
 layout: default
-canonical: "/puppetdb/latest/api/wire_format/deactivate_node_format_v3.html"
+canonical: "/openvoxdb/latest/api/wire_format/deactivate_node_format_v3.html"
 ---
 
 # Deactivate node wire format - v3
 
-PuppetDB receives deactivate node commands from Puppet Servers in the following wire format.
+OpenVoxDB receives deactivate node commands from Puppet Servers in the following wire format.
 
 ## Deactivate node command format
 
@@ -37,7 +37,7 @@ String. The name of the node for which the catalog was compiled.
 
 #### `producer_timestamp`
 
-DateTime. The time of command submission from the Puppet Server to PuppetDB,
+DateTime. The time of command submission from the Puppet Server to OpenVoxDB,
 according to the clock on the Puppet Server.
 
 `producer_timestamp` is optional but *highly* recommended. When provided, it is
@@ -45,7 +45,7 @@ used to determine the precedence between this command and other commands that
 modify the same node. This field is provided by, and should thus reflect the
 clock of, the Puppet Server.
 
-When `producer_timestamp` is not provided, the PuppetDB server's local time is
+When `producer_timestamp` is not provided, the OpenVoxDB server's local time is
 used. If another command is received for a node while a non-timestamped
 "deactivate node" command is pending processing, the results are *undefined*.
 

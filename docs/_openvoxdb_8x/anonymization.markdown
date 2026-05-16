@@ -5,26 +5,26 @@ layout: default
 # Exporting and anonymizing data
 
 This document covers using the export, import and anonymization tools for
-PuppetDB.
+OpenVoxDB.
 
-The export tool will return an archive of all of your PuppetDB data which can be
-uploaded to another PuppetDB via the import tool. The export tool also has the
+The export tool will return an archive of all of your OpenVoxDB data which can be
+uploaded to another OpenVoxDB via the import tool. The export tool also has the
 ability to anonymize the archive before returning it. This is particularly
-useful when sharing PuppetDB data that contains sensitive items.
+useful when sharing OpenVoxDB data that contains sensitive items.
 
 ## Using the `export` command
 
-To create an anonymized PuppetDB archive directly, use the Puppet `db` subcommand
+To create an anonymized OpenVoxDB archive directly, use the Puppet `db` subcommand
 from any node with puppet-client-tools installed:
 
-    $ puppet db export my-puppetdb-export.tar.gz --anonymization moderate
+    $ puppet db export my-openvoxdb-export.tar.gz --anonymization moderate
 
 ## Using the `import` command
 
-To import an anonymized PuppetDB tarball, use the Puppet `db` subcommand from
+To import an anonymized OpenVoxDB tarball, use the Puppet `db` subcommand from
 any node with puppet-client-tools installed:
 
-    $ puppet db import my-puppetdb-export.tar.gz
+    $ puppet db import my-openvoxdb-export.tar.gz
 
 ## How does it work?
 
@@ -48,7 +48,7 @@ number of profiles offering varying levels of anonymization.
 The profile can be specified on the command line when the command is run. For
 example, to choose the `low` profile, enter:
 
-    $ puppet db export ./my-puppetdb-anonymized-export.tar.gz --anonymization low
+    $ puppet db export ./my-openvoxdb-anonymized-export.tar.gz --anonymization low
 
 ### Profile: full
 
@@ -105,8 +105,8 @@ party to ensure that all sensitive data has been scrubbed.
 
 Simply untar the export file and analyze the contents:
 
-    $ tar -xzf my-puppetdb-anonymized-export.tar.gz
-    $ cd puppetdb-bak
+    $ tar -xzf my-openvoxdb-anonymized-export.tar.gz
+    $ cd openvoxdb-bak
 
 Inside this directory there is a directory for each content type (reports,
 catalogs, and facts), and each file inside represents a node (and a report

@@ -1,21 +1,18 @@
 ---
 title: "Status endpoint"
 layout: default
-canonical: "/puppetdb/latest/api/status/v1/status.html"
+canonical: "/openvoxdb/latest/api/status/v1/status.html"
 ---
 
 # Status endpoint
 
 [curl]: ../curl.html#using-curl-from-localhost-non-sslhttp
-[status-api]: https://puppet.com/docs/pe/latest/status_api.html
-
-The `/status` endpoint implements the Puppet Labs Status API for coordinated
-monitoring of Puppet Labs services. See the [central documentation][status-api]
-for detailed information.
+The `/status` endpoint provides status information for coordinated
+monitoring of OpenVoxDB.
 
 ## `/status/v1/services/puppetdb-status`
 
-This query endpoint will return status about the PuppetDB instance on a host.
+This query endpoint will return status about the OpenVoxDB instance on a host.
 
 ### Response format
 
@@ -37,16 +34,16 @@ following:
 
 * `detail_level`: info is currently the only level.
 * `service_status_version`: version of the status API.
-* `service_version`: version of PuppetDB.
-* `state`: short description of PuppetDB's current state:
-    * "starting" if PuppetDB is in maintenance mode.
+* `service_version`: version of OpenVoxDB.
+* `state`: short description of OpenVoxDB's current state:
+    * "starting" if OpenVoxDB is in maintenance mode.
     * "running" if not in maintenance mode and read and write databases are up.
     * "error" if the read or write databases are down.
 * `status`:
-    * `maintenance_mode?`: indicates whether PuppetDB is in maintenance mode.
-    PuppetDB enters maintenance mode at startup and exits it after completing any
+    * `maintenance_mode?`: indicates whether OpenVoxDB is in maintenance mode.
+    OpenVoxDB enters maintenance mode at startup and exits it after completing any
     pending migrations and initial data synchronization (when using HA).
-    While in maintenance mode, PuppetDB will not respond to queries.
+    While in maintenance mode, OpenVoxDB will not respond to queries.
     * `read_db_up?`: indicates whether the read database is responding to queries.
     * `write_db_up?`: boolean indicating whether at least one write
       database is responding to queries.
