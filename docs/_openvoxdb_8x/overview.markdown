@@ -77,7 +77,7 @@ setup of its SSL certificates and init scripts. The packages are
 available for the following operating systems:
 
 * Red Hat Enterprise Linux 7, 8, and 9
-* SuSE Enterprise Linux 12, 15
+* SUSE Enterprise Linux 12, 15
 * Debian 10 (Buster), and 11 (Bullseye)
 * Ubuntu 18.04 (Bionic) LTS, 20.04 (Focal), 22.04 (Jammy) LTS
 

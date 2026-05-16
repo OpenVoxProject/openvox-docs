@@ -11,7 +11,7 @@ and the same ecosystem of thousands of modules on the [Puppet Forge](https://for
 
 OpenVox lets you think about configuration in a cross-platform declarative manner.
 Instead of writing scripts that say *"do this, then do that"*, you describe the desired state of your systems and let OpenVox figure out how to get there.
-Use the same desired state description to manage all your systems, whether they're running Windows, RHEL, SuSE, or whatever.
+Use the same desired state description to manage all your systems, whether they're running Windows, RHEL, SUSE, or whatever.
 
 It's complemented with OpenBolt, which lets you orchestrate complex operations across multiple nodes, perform ad-hoc tasks, and trigger immediate actions.
 Many people use both systems together in their infrastructures.
