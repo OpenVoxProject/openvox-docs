@@ -1,17 +1,17 @@
 ---
 layout: default
-title: "Puppet Server: Puppet API: Task detail"
-canonical: "/puppetserver/latest/puppet-api/v3/task-detail.html"
+title: "OpenVox Server: Puppet API: Task detail"
 ---
 
 [`auth.conf`]: ../../config_file_auth.html
 
-The tasks API provides access to task information stored in modules. Tasks are files stored in `tasks` subdirectory of a module. A task consists of an executable file, with an optional metadata file with the
-same name with an added '.json' extension. For example, the "install" task in a module "apache" could consist of the executable file `install.rb` and the metadata file `install.json`. This task would have the
-display name "apache::install".
+The tasks API provides access to task information stored in modules. Tasks are files stored in `tasks` subdirectory of a module.
+A task consists of an executable file, with an optional metadata file with the same name with an added '.json' extension.
+For example, the "install" task in a module "apache" could consist of the executable file `install.rb` and the metadata file `install.json`.
+This task would have the display name "apache::install".
 
-This endpoint, `/puppet/v3/tasks/:module/:taskname`, allows you to fetch the details about a task: its metadata, if present, and its associated executable files. The file entries have additional data on how to
-fetch their contents so they can be downloaded and run.
+This endpoint, `/puppet/v3/tasks/:module/:taskname`, allows you to fetch the details about a task: its metadata, if present, and its associated executable files.
+The file entries have additional data on how to fetch their contents so they can be downloaded and run.
 
 > Note: Tasks file contents in versioned code can be retrieved using the [`static_file_content`](./static_file_content.html) endpoint.
 
@@ -32,8 +32,6 @@ This endpoint will read in contents of metadata and other task files, so it may 
 The Content-Type in the response to an task API query is `application/json`.
 
 ## `GET /puppet/v3/tasks/:module/:task?environment=:environment`
-
-(Introduced in Puppet Server 5.1.0.)
 
 Making a request with no query parameters is not supported and returns an HTTP 400 (Bad Request) response.
 
@@ -180,4 +178,4 @@ A tasks detail response body conforms to the [task detail schema](./task_detail.
 
 All requests made to the environment classes API are authorized using the Trapperkeeper-based [`auth.conf`][].
 
-For more information about the Puppet Server authorization process and configuration settings, see the [`auth.conf` documentation][`auth.conf`].
+For more information about the OpenVox Server authorization process and configuration settings, see the [`auth.conf` documentation][`auth.conf`].

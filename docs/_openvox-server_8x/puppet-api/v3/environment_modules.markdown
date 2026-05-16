@@ -1,14 +1,11 @@
 ---
 layout: default
-title: "Puppet Server: Puppet API: Environment Modules"
-canonical: "/puppetserver/latest/puppet-api/v3/environment_modules.html"
+title: "OpenVox Server: Puppet API: Environment Modules"
 ---
 
 [`auth.conf`]: ../../config_file_auth.html
-[`puppetserver.conf`]: ../../config_file_puppetserver.html
 
-The environment modules API will return information about what modules are
-installed for the requested environment.
+The environment modules API will return information about what modules are installed for the requested environment.
 
 ## `GET /puppet/v3/environment_modules`
 
@@ -24,7 +21,7 @@ JSON
 
 #### GET request with results
 
-```
+```text
 GET /puppet/v3/environment_modules
 
 HTTP/1.1 200 OK
@@ -33,12 +30,12 @@ Content-Type: application/json
 [{
     "modules": [
         {
-            "name": "puppetlabs/ntp",
-            "version": "6.0.0"
+            "name": "puppet/systemd",
+            "version": "9.4.0"
         },
         {
             "name": "puppetlabs/stdlib",
-            "version": "4.14.0"
+            "version": "9.7.0"
         }
     ],
     "name": "env"
@@ -47,11 +44,11 @@ Content-Type: application/json
     "modules": [
         {
             "name": "puppetlabs/stdlib",
-            "version": "4.14.0"
+            "version": "9.6.0"
         },
         {
-            "name": "puppetlabs/azure",
-            "version": "1.1.0"
+            "name": "puppet/systemd",
+            "version": "9.2.0"
         }
     ],
     "name": "production"
@@ -72,14 +69,13 @@ JSON
 
 Provide one parameter to the GET request:
 
-* `environment`: Request information about modules pertaining to the specified
-environment only.
+* `environment`: Request information about modules pertaining to the specified environment only.
 
 ### Responses
 
 #### GET request with results
 
-```
+```text
 GET /puppet/v3/environment_modules?environment=env
 
 HTTP/1.1 200 OK
@@ -88,12 +84,12 @@ Content-Type: application/json
 {
     "modules": [
         {
-            "name": "puppetlabs/ntp",
-            "version": "6.0.0"
+            "name": "puppet/systemd",
+            "version": "9.4.0"
         },
         {
             "name": "puppetlabs/stdlib",
-            "version": "4.14.0"
+            "version": "9.7.0"
         }
     ],
     "name": "env"
@@ -102,10 +98,9 @@ Content-Type: application/json
 
 #### Environment does not exist
 
-If you send a request with an environment parameter that doesn't correspond to the name of a
-directory environment on the server, the server returns an HTTP 404 (Not Found) error:
+If you send a request with an environment parameter that doesn't correspond to the name of a directory environment on the server, the server returns an HTTP 404 (Not Found) error:
 
-```
+```text
 GET /puppet/v3/environment_modules?environment=doesnotexist
 
 HTTP/1.1 404 Not Found
@@ -115,7 +110,7 @@ Could not find environment 'doesnotexist'
 
 #### No environment given
 
-```
+```text
 GET /puppet/v3/environment_modules
 
 HTTP/1.1 400 Bad Request
@@ -125,7 +120,7 @@ An environment parameter must be specified
 
 #### Environment parameter specified with no value
 
-```
+```text
 GET /puppet/v3/environment_modules?environment=
 
 HTTP/1.1 400 Bad Request
@@ -135,10 +130,9 @@ The environment must be purely alphanumeric, not ''
 
 #### Environment includes non-alphanumeric characters
 
-If the environment parameter in your request includes any characters that are
-not `A-Z`, `a-z`, `0-9`, or `_` (underscore), the server returns an HTTP 400 (Bad Request) error:
+If the environment parameter in your request includes any characters that are not `A-Z`, `a-z`, `0-9`, or `_` (underscore), the server returns an HTTP 400 (Bad Request) error:
 
-```
+```text
 GET /puppet/v3/environment_modules?environment=bog|us
 
 HTTP/1.1 400 Bad Request
@@ -148,10 +142,9 @@ The environment must be purely alphanumeric, not 'bog|us'
 
 ### No metadata.json file
 
-If your modules do not have a [metadata.json](https://puppet.com/docs/puppet/latest/modules_metadata.html)
-file, puppetserver will not be able to determine the version of your module. In
-this case, puppetserver will return a null value for `version` in the response
-body.
+If your modules do not have a [metadata.json](../../../../openvox/latest/modules_metadata.html)
+file, OpenVox Server will not be able to determine the version of your module.
+In this case, OpenVox Server will return a null value for `version` in the response body.
 
 ### Schema
 
@@ -178,32 +171,27 @@ Here is a basic json file called _example.json_:
 {
     "modules": [
         {
-            "name": "puppetlabs/ntp",
-            "version": "6.0.0"
+            "name": "puppet/systemd",
+            "version": "9.4.0"
         },
         {
             "name": "puppetlabs/stdlib",
-            "version": "4.16.0"
+            "version": "9.7.0"
         }
     ],
     "name": "production"
 }
 ```
 
-Run this command from the root dir of the puppetserver project (or update the
-path to the json schema file in the command below):
+Run this command from the root dir of the OpenVox Server project (or update the path to the json schema file in the command below):
 
 ```bash
 ruby -rjson-schema -e "puts JSON::Validator.validate!('./documentation/puppet-api/v3/environment_modules.json','example.json')"
 ```
 
-If the json is a valid schema, the command should output `true`. Otherwise, the
-library will print a schema validation error detailing which key or keys validate
-the schema.
+If the json is a valid schema, the command should output `true`. Otherwise, the library will print a schema validation error detailing which key or keys validate the schema.
 
-If you have a response that is the entire list of environment modules (i.e. the
-environment_modules endpoint), you will need to use this command to validate
-the json schema:
+If you have a response that is the entire list of environment modules (i.e. the environment_modules endpoint), you will need to use this command to validate the json schema:
 
 ```bash
 ruby -rjson-schema -e "puts JSON::Validator.validate!('./documentation/puppet-api/v3/environment_modules.json','all.json', :list=>true)"
@@ -211,8 +199,6 @@ ruby -rjson-schema -e "puts JSON::Validator.validate!('./documentation/puppet-ap
 
 ### Authorization
 
-All requests made to the environment classes API are authorized using the
-Trapperkeeper-based [`auth.conf`][].
+All requests made to the environment classes API are authorized using the Trapperkeeper-based [`auth.conf`][].
 
-For more information about the Puppet Server authorization process and configuration
-settings, see the [`auth.conf` documentation][`auth.conf`].
+For more information about the OpenVox Server authorization process and configuration settings, see the [`auth.conf` documentation][`auth.conf`].
