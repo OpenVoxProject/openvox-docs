@@ -8,7 +8,7 @@ layout: default
 # Installing OpenVoxDB via Puppet module
 
 [module]: https://forge.puppet.com/modules/puppet/openvoxdb
-[config_with_module]: ./configure.html#playing-nice-with-the-puppetdb-module
+[config_with_module]: ./configure.html#playing-nice-with-the-openvoxdb-module
 
 You can install and configure all of OpenVoxDB's components and prerequisites (including OpenVoxDB itself, PostgreSQL, firewall rules on RedHat-like systems, and the OpenVoxDB-termini for your Puppet Server) using
 [the OpenVoxDB module][module] from the Puppet Forge.
