@@ -407,9 +407,9 @@ Please consider using [Fiddle] or other Ruby-based libraries for interacting wit
 
 ## Viewing fact values
 
-[OpenVox-DB]: /openvoxdb/latest
+[OpenVoxDB]: /openvoxdb/latest
 
-If your OpenVox servers are configured to use [OpenVox-DB][OpenVox-DB], you can view and search all of the facts for any node, including custom facts. See [the OpenVox-DB docs][openvoxdb] for more info.
+If your OpenVox servers are configured to use [OpenVoxDB][OpenVoxDB], you can view and search all of the facts for any node, including custom facts. See [the OpenVoxDB docs][openvoxdb] for more info.
 
 ## External facts
 
