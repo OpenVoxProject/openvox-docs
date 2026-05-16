@@ -1,7 +1,7 @@
 ---
 title: "Report wire format, version 8"
 layout: default
-canonical: "/puppetdb/latest/api/wire_format/report_format_v8.html"
+canonical: "/openvoxdb/latest/api/wire_format/report_format_v8.html"
 ---
 # Report wire format - v8
 ## Report interchange format
@@ -71,13 +71,13 @@ more details about the `datetime` format below.
 ### `producer_timestamp`
 
 DateTime. The time of catalog submission from the Puppet Server to
-PuppetDB. This field is currently populated by the Puppet Server. See more details
+OpenVoxDB. This field is currently populated by the Puppet Server. See more details
 about the `datetime` format below.
 
 ### `producer`
 
 String. The certname of the Puppet Server that sent the report to
-PuppetDB. This field may be `null`.
+OpenVoxDB. This field may be `null`.
 
 ### `transaction_uuid`
 

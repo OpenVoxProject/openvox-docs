@@ -1,7 +1,7 @@
 ---
-title: "PuppetDB: Release notes"
+title: "OpenVoxDB: Release notes"
 layout: default
-canonical: "/puppetdb/latest/release_notes.html"
+canonical: "/openvoxdb/latest/release_notes.html"
 ---
 
 [benchmark]: ./load_testing_tool.html
@@ -10,9 +10,9 @@ canonical: "/puppetdb/latest/release_notes.html"
 
 ---
 
-# PuppetDB: Release notes
+# OpenVoxDB: Release notes
 
-## PuppetDB 8.8.1
+## OpenVoxDB 8.8.1
 
 Released October 29 2024
 
@@ -21,13 +21,13 @@ Released October 29 2024
 * Fixed an issue with report garbage collection where a partition would become
   partially detached and block future garbage collection progress. Garbage
   collection will now finalize the partition detach operation and remove the
-  table. ([GitHub #4013](https://github.com/puppetlabs/puppetdb/issues/4013))
+  table. ([GitHub #4013](https://github.com/OpenVoxProject/openvoxdb/issues/4013))
 * Fixed an issue with report garbage collection where a partition would be
   detached, but the table was never deleted. Garbage collection will now
   identify and clean-up these tables.
-  ([GitHub #4013](https://github.com/puppetlabs/puppetdb/issues/4013))
+  ([GitHub #4013](https://github.com/OpenVoxProject/openvoxdb/issues/4013))
 
-## PuppetDB 8.8.0
+## OpenVoxDB 8.8.0
 
 Released October 22 2024
 
@@ -43,7 +43,7 @@ Released October 22 2024
   contains any duplicate catalogs, only the most recent catalog for each
   certname will be kept.
 
-## PuppetDB 8.7.0
+## OpenVoxDB 8.7.0
 
 Released July 23 2024
 
@@ -56,41 +56,41 @@ Released July 23 2024
 
 ### Bug fixes
 
-* Fixed an issue causing PuppetDB to crash if the Postgres database was
-  stopped. ([GitHub #3991](https://github.com/puppetlabs/puppetdb/issues/3991))
+* Fixed an issue causing OpenVoxDB to crash if the Postgres database was
+  stopped. ([GitHub #3991](https://github.com/OpenVoxProject/openvoxdb/issues/3991))
 
 ### Contributors
 
 Austin Blatt and Rob Browning.
 
-## PuppetDB 8.6.0
+## OpenVoxDB 8.6.0
 
 Released June 11 2024
 
 ### New features and improvements
 
 * Improve performance of fact queries by reducing jsonb merges.
-* PuppetDB will no longer log long stack traces for standard ways that a user
+* OpenVoxDB will no longer log long stack traces for standard ways that a user
   query might be invalid.
 
 ### Contributors
 
 Austin Blatt and Rob Browning.
 
-## PuppetDB 8.5.1
+## OpenVoxDB 8.5.1
 
 Released April 24 2024
 
 ### Bug fixes
 
 * Fix an error when querying for `nodes` and `latest_report_status`
-  [GitHub #3966](https://github.com/puppetlabs/puppetdb/issues/3966)
+  [GitHub #3966](https://github.com/OpenVoxProject/openvoxdb/issues/3966)
 
 ### Contributors
 
 Austin Blatt and Rob Browning.
 
-## PuppetDB 8.5.0
+## OpenVoxDB 8.5.0
 
 Released April 11 2024
 
@@ -107,7 +107,7 @@ Released April 11 2024
 
 Austin Blatt, Cas Donoghue, and Rob Browning.
 
-## PuppetDB 8.4.1
+## OpenVoxDB 8.4.1
 
 Released February 27 2024
 
@@ -121,30 +121,30 @@ Released February 27 2024
 
 Austin Blatt, Jonathan Newman, Josh Partlow, and Rob Browning
 
-## PuppetDB 8.3.0
+## OpenVoxDB 8.3.0
 
 Released January 18 2024
 
 ### New features and improvements
 
-* The PuppetDB terminus now supports the
+* The OpenVoxDB terminus now supports the
   [`include_catalog_edges`][terminus-config] configuration option. Setting this
   value to false will omit all resource edges from the catalog submitted to
-  PuppetDB.
-  ([GitHub #3912](https://github.com/puppetlabs/puppetdb/issues/3912))
+  OpenVoxDB.
+  ([GitHub #3912](https://github.com/OpenVoxProject/openvoxdb/issues/3912))
 
 ### Bug fixes
 
-* PuppetDB queries should no longer risk hanging when run just after
+* OpenVoxDB queries should no longer risk hanging when run just after
   non-streaming queries (for example, those with `ast_only` set to
-  true). ([GitHub #3933](https://github.com/puppetlabs/puppetdb/pull/3933))
+  true). ([GitHub #3933](https://github.com/OpenVoxProject/openvoxdb/pull/3933))
 
 ### Contributors
 
 Austin Blatt, Cas Donoghue, Eric Newton, Jonathan Newman, Josh Partlow,
 Rob Browning, and Steve Axthelm
 
-## PuppetDB 8.2.0
+## OpenVoxDB 8.2.0
 
 Released November 7 2023
 
@@ -168,28 +168,28 @@ Released November 7 2023
   This allows you to run two or more Benchmark instances in parallel,
   offsetting the generated cert numbers so that the commands don't
   collide in the database.
-  ([GitHub #3896](https://github.com/puppetlabs/puppetdb/issues/3896))
+  ([GitHub #3896](https://github.com/OpenVoxProject/openvoxdb/issues/3896))
 
 * The [`benchmark` command][benchmark] should be able to reach notably
   higher maximum output rates.  On one 60 core (non-hyperthreaded)
   host where previously it could only simulate about 80k nodes with a
   30 minute runinterval, it can now simulate over 140k nodes, more if
   the randomization percentage is reduced from 100.
-  ([GitHub #3886](https://github.com/puppetlabs/puppetdb/issues/3886))
+  ([GitHub #3886](https://github.com/OpenVoxProject/openvoxdb/issues/3886))
   (PDB-5712)
 
 * The [`benchmark` command][benchmark]'s `-t`/`--threads` argument has
   been deprecated and renamed to `--senders`.
-  ([GitHub #3886](https://github.com/puppetlabs/puppetdb/issues/3886))
+  ([GitHub #3886](https://github.com/OpenVoxProject/openvoxdb/issues/3886))
   (PDB-5712)
 
 * The [`benchmark` command][benchmark]'s default number of `--senders`
   has been changed from four times the host core (hyperthread) count
   to half the count (or 2, whichever's larger) after testing revealed
   that with a 60 core (non-hyperthreaded) host, only 16 senders were
-  needed to hit a maximum rate with the local PuppetDB/PostgreSQL
+  needed to hit a maximum rate with the local OpenVoxDB/PostgreSQL
   hosts.
-  ([GitHub #3886](https://github.com/puppetlabs/puppetdb/issues/3886))
+  ([GitHub #3886](https://github.com/OpenVoxProject/openvoxdb/issues/3886))
   (PDB-5712)
 
 * A `--simulators` option has been added to the
@@ -197,35 +197,35 @@ Released November 7 2023
   threads to use for the generation of new host commands and defaults
   to either 2, or half the core (hyperthread) count.  The previous
   internal value was always 4.
-  ([GitHub #3886](https://github.com/puppetlabs/puppetdb/issues/3886))
+  ([GitHub #3886](https://github.com/OpenVoxProject/openvoxdb/issues/3886))
   (PDB-5712)
 
 * The [`benchmark` command][benchmark] command will now space out the
   factset, catalog, and report for each host more realistically.
-  ([GitHub #3880](https://github.com/puppetlabs/puppetdb/pull/3880))
+  ([GitHub #3880](https://github.com/OpenVoxProject/openvoxdb/pull/3880))
   (PDB-5691)
 
 ### Contributors
 
 Austin Blatt, Nick Burgan-Illig, Joshua Partlow, and Rob Browning
 
-## PuppetDB 8.1.1
+## OpenVoxDB 8.1.1
 
 Released September 14 2023
 
 ### Bug fixes
 
-* PuppetDB should no longer throw a `CancelledKeyException` when a
+* OpenVoxDB should no longer throw a `CancelledKeyException` when a
   network connection is reused for multiple queries (originally
   noticed in the 8.1.0 release).
-  ([GitHub #3866](https://github.com/puppetlabs/puppetdb/issues/3866))
+  ([GitHub #3866](https://github.com/OpenVoxProject/openvoxdb/issues/3866))
 
 ### Contributors
 
 Austin Blatt, Ingrida Cazers, Josh Partlow, Rob Browning, and
 Steve Axthelm
 
-## PuppetDB 8.1.0
+## OpenVoxDB 8.1.0
 
 Released August 22 2023
 
@@ -238,22 +238,22 @@ Released August 22 2023
 * Ubuntu 22.04 has been added as a supported platform.
   ([PDB-5636](https://perforce.atlassian.net/browse/PDB-5636))
 
-* PuppetDB will now abandon queries more promptly when a client
+* OpenVoxDB will now abandon queries more promptly when a client
   disconnects.  Previously an expensive query could continue running
   indefinitely.  The same mechanism should also help ensure query
   timeouts are immediately enforced.
-  ([GitHub #3867](https://github.com/puppetlabs/puppetdb/issues/3867))
+  ([GitHub #3867](https://github.com/OpenVoxProject/openvoxdb/issues/3867))
 
-* When no database migrations are pending, PuppetDB will no longer
+* When no database migrations are pending, OpenVoxDB will no longer
   disconnect clients on restart.
   ([PE-36120](https://perforce.atlassian.net/browse/PE-36120))
 
 ### Bug fixes
 
 * Some PQL queries with numerous `or` clauses should no longer cause
-  PuppetDB to run out of memory.  Previously they could allocate an
+  OpenVoxDB to run out of memory.  Previously they could allocate an
   exorbitant amount of RAM.
-  ([GitHub #3874](https://github.com/puppetlabs/puppetdb/issues/3874))
+  ([GitHub #3874](https://github.com/OpenVoxProject/openvoxdb/issues/3874))
 
 ### Known issues
 
@@ -263,14 +263,14 @@ Released August 22 2023
   be addressed by setting the experimental environment variable
   `PDB_PROMPTLY_END_QUERIES` to `false`.  (This variable may be
   removed in a future release.)
-  ([GitHub #3866](https://github.com/puppetlabs/puppetdb/issues/3866))
+  ([GitHub #3866](https://github.com/OpenVoxProject/openvoxdb/issues/3866))
 
 ### Contributors
 
 Austin Blatt, Nick Burgan-Illig, Jonathan Newman, Eric Newton, Joshua
 Partlow, Steve Axthelm, and Rob Browning
 
-## PuppetDB 8.0.1
+## OpenVoxDB 8.0.1
 
 Released June 14 2023
 
@@ -287,7 +287,7 @@ Released June 14 2023
   consumption by [`benchmark`][benchmark].
   ([PDB-5593](https://tickets.puppetlabs.com/browse/PDB-5593))
 
-* PuppetDB sync (PE only) now uses the query timeouts introduced in
+* OpenVoxDB sync (PE only) now uses the query timeouts introduced in
   [PDB-4937](https://tickets.puppetlabs.com/browse/PDB-4937) to
   further constrain sync operations to run within the
   `entity-time-limit`.
@@ -297,7 +297,7 @@ Released June 14 2023
 
 Austin Blatt, Josh Partlow, and Rob Browning
 
-## PuppetDB 8.0.0
+## OpenVoxDB 8.0.0
 
 Released April 25 2023
 
@@ -306,7 +306,7 @@ Released April 25 2023
 * Drop joins are now applied when evaluating sub-queries which should result in
   performance improvements.
   ([PDB-5557](https://tickets.puppetlabs.com/browse/PDB-5557))
-* PuppetDB now supports query timeouts for queries to the `query/` endpoint via
+* OpenVoxDB now supports query timeouts for queries to the `query/` endpoint via
   an [optional query parameter][query-timeout-parameter]. A
   [default](./configure.html#query-timeout-default) and a
   [maximum](./configure.html#query-timeout-max) can also be specified in
@@ -323,19 +323,19 @@ Released April 25 2023
 
 ### Upgrading
 
-* PuppetDB requires Java 11+ and recommends Java 17. Our packages have
+* OpenVoxDB requires Java 11+ and recommends Java 17. Our packages have
   been updated to require Java 11 or Java 17. **RedHat users** should be aware
   that Java 8 remains the highest priority Java on its distributions even when
-  Java 11 is installed. This will cause PuppetDB to fail to start. Changing the
+  Java 11 is installed. This will cause OpenVoxDB to fail to start. Changing the
   default Java from 8 to 11 by installing Java 11 and selecting it as the
   default via `alternatives --config java` before upgrading will ensure a
   successful upgrade. The alternatives command can be used to rectify a failed
-  PuppetDB 8 upgrade, you will then need to start the service manually.
+  OpenVoxDB 8 upgrade, you will then need to start the service manually.
 
 * PostgreSQL 11, 12, and 13 are no longer supported. PostgreSQL 14+ is
-  required. This is not enforced by PuppetDB, so you _can_ continue to use
+  required. This is not enforced by OpenVoxDB, so you _can_ continue to use
   those unsupported PostgreSQL versions for now, but we reserve the right to
-  change that in any future PuppetDB release. Please use this extra overlap
+  change that in any future OpenVoxDB release. Please use this extra overlap
   time to upgrade your database.
 
 ### Contributors

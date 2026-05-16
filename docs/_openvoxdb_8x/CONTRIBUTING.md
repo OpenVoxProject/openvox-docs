@@ -1,11 +1,11 @@
 ---
-title: "Contributing to PuppetDB"
+title: "Contributing to OpenVoxDB"
 layout: default
 ---
 
 [configure_postgres]: ./configure.html#using-postgresql
 
-# Contributing to PuppetDB
+# Contributing to OpenVoxDB
 
 Third-party patches are essential for keeping puppet great. We simply can't
 access the huge number of platforms and myriad configurations for running
@@ -116,7 +116,7 @@ arrange to inspect the environment after a failure like this:
 
 which will drop you into a shell if anything goes wrong.
 
-To run the local rspec tests (e.g. for the PuppetDB terminus code),
+To run the local rspec tests (e.g. for the OpenVoxDB terminus code),
 you must have configured the `puppet-ref` via `ext/bin/test-config` as
 described above, and then from within the `puppet/` directory you can
 run:
@@ -166,7 +166,7 @@ script:
     $ mv /tmp/pgbox-install/bin/pgbox ~/.local/bin
 
 The `ext/bin/pdbbox-init` script uses `pgbox` under the hood to create a
-PostgreSQL sandbox inside of your PuppetDB sandbox in the directory `pg`. This
+PostgreSQL sandbox inside of your OpenVoxDB sandbox in the directory `pg`. This
 directory contains configuration files, a database cluster, and a symlink to a
 PostgreSQL installation directory (defined with `--pgbin`).
 
@@ -176,9 +176,9 @@ with the path to the internal PostgreSQL sandbox:
     $ PGBOX=~/tmp/pdb-sandbox/pg pgbox pg_ctl start -w
 
 The `ext/bin/pdbbox-env` script is a thin layer on top of `pgbox` that wraps
-the given command in a PuppetDB sandbox as well. This script is required for
-running and testing PuppetDB. It can also be used instead of `pgbox` to
-interact with the PuppetDB test database:
+the given command in a OpenVoxDB sandbox as well. This script is required for
+running and testing OpenVoxDB. It can also be used instead of `pgbox` to
+interact with the OpenVoxDB test database:
 
     $ export PDBBOX=~/tmp/pdb-sandbox
     $ ext/bin/pdbbox-env pg_ctl start -w
@@ -220,7 +220,7 @@ the `:integration` selector:
     $ export PDBBOX=~/tmp/pdb-sandbox
     $ ext/bin/pdbbox-env lein test :integration
 
-You can also run puppetdb itself with the config file included in the
+You can also run openvoxdb itself with the config file included in the
 sandbox:
 
     $ export PDBBOX=~/tmp/pdb-sandbox

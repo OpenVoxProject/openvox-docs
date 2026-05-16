@@ -1,7 +1,7 @@
 ---
 title: "Nodes endpoint"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/nodes.html"
+canonical: "/openvoxdb/latest/api/query/v4/nodes.html"
 ---
 
 # Nodes endpoint
@@ -95,7 +95,7 @@ The below fields are allowed as filter criteria and are returned in all response
 
 > *Note*: configuration of fact expiration is an experimental feature
 > which might be altered or removed in a future release, and for the
-> time being, PuppetDB exports will not include this information.
+> time being, OpenVoxDB exports will not include this information.
 
 * `expires_facts_updated` (timestamp or null): indicates when the
   value of `expires_facts` was last changed.  This will be `null` if
@@ -330,6 +330,6 @@ this route.
 
 ## Paging
 
-This query endpoint supports paged results via the common PuppetDB paging
+This query endpoint supports paged results via the common OpenVoxDB paging
 URL parameters. For more information, please see the documentation
 on [paging][paging].

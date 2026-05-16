@@ -1,7 +1,7 @@
 ---
 title: "Catalogs endpoint"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/catalogs.html"
+canonical: "/openvoxdb/latest/api/query/v4/catalogs.html"
 ---
 # Catalogs endpoint
 
@@ -50,7 +50,7 @@ See [the AST query language page][ast].
   recent catalog.
 * `producer_timestamp` (string): a string representing the time at which the
   `replace_catalog` command for a given catalog was submitted from the Puppet Server.
-* `producer` (string): the certname of the Puppet Server that sent the catalog to PuppetDB.
+* `producer` (string): the certname of the Puppet Server that sent the catalog to OpenVoxDB.
 
 ### Subquery relationships
 
@@ -58,7 +58,7 @@ The following list contains related entities that can be used to constrain the
 result set using implicit subqueries. For more information consult the
 documentation for [subqueries][subqueries].
 
-* [`producers`][producers]: the Puppet Server that sent the catalog to PuppetDB.
+* [`producers`][producers]: the Puppet Server that sent the catalog to OpenVoxDB.
 * [`environments`][environments]: environment for a catalog.
 
 ### Response format

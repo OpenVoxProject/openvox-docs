@@ -1,7 +1,7 @@
 ---
 title: "Report wire format, version 5"
 layout: default
-canonical: "/puppetdb/latest/api/wire_format/report_format_v5.html"
+canonical: "/openvoxdb/latest/api/wire_format/report_format_v5.html"
 ---
 # Report wire format - v5
 
@@ -54,7 +54,7 @@ details about the `datetime` format below.
 more details about the `datetime` format below.
 
 `"producer_timestamp"` is the time of catalog submission from the Puppet Server to
-PuppetDB. This field is currently populated by the Puppet Server. See more details
+OpenVoxDB. This field is currently populated by the Puppet Server. See more details
 about the `datetime` format below.
 
 `"transaction_uuid"` is a string used to identify a Puppet run. It can be used to

@@ -1,7 +1,7 @@
 ---
 title: "Events endpoint"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/events.html"
+canonical: "/openvoxdb/latest/api/query/v4/events.html"
 ---
 
 # Events endpoint
@@ -17,13 +17,13 @@ canonical: "/puppetdb/latest/api/query/v4/events.html"
 [reports]: ./reports.html
 [rich_data]: query.html#rich-data
 
-Puppet agent nodes submit reports after their runs, and the Puppet Server forwards these to PuppetDB. Each report includes:
+Puppet agent nodes submit reports after their runs, and the Puppet Server forwards these to OpenVoxDB. Each report includes:
 
 - Data about the entire run
 - Metadata about the report
 - Many _events,_ describing what happened during the run
 
-After this information is stored in PuppetDB, it can be queried in various ways.
+After this information is stored in OpenVoxDB, it can be queried in various ways.
 
 - You can query **data about the run** and **report metadata** by making an HTTP request to the [`/reports`][report] endpoint.
 - You can query **data about individual events** by making an HTTP request to the `/events` endpoint.
@@ -73,7 +73,7 @@ See [the AST query language page][ast] for the full list of available operators.
 
 - `run_end_time` (timestamp): the timestamp (from the Puppet agent) at which the Puppet run finished. Timestamps are always [ISO-8601][8601] compatible date/time strings.
 
-- `report_receive_time` (timestamp): the timestamp (from the PuppetDB server) at which the Puppet report was received. Timestamps are always [ISO-8601][8601] compatible date/time strings.
+- `report_receive_time` (timestamp): the timestamp (from the OpenVoxDB server) at which the Puppet report was received. Timestamps are always [ISO-8601][8601] compatible date/time strings.
 
 - `resource_type` (string, with first letter always capitalized): the type of resource that the event occurred on, such as `File`, `Package`, etc.
 
@@ -201,4 +201,4 @@ To retrieve event status counts for each node:
 
 ## Paging
 
-This endpoint supports paged results via the common PuppetDB paging URL parameters. For more information, please see the documentation on [paging][paging].
+This endpoint supports paged results via the common OpenVoxDB paging URL parameters. For more information, please see the documentation on [paging][paging].

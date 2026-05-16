@@ -1,7 +1,7 @@
 ---
 title: "Catalog wire format, version 9"
 layout: default
-canonical: "/puppetdb/latest/api/wire_format/catalog_format_v9.html"
+canonical: "/openvoxdb/latest/api/wire_format/catalog_format_v9.html"
 ---
 
 # Catalog wire format - v9
@@ -20,8 +20,8 @@ canonical: "/puppetdb/latest/api/wire_format/catalog_format_v9.html"
 [type]: https://puppet.com/docs/puppet/latest/lang_resources.html#type
 [attributes]: https://puppet.com/docs/puppet/latest/lang_resources.html#attributes
 
-PuppetDB receives catalogs from Puppet Servers in the following wire format. This format is subtly different from the internal format used by Puppet, so catalogs are converted by the
-[PuppetDB catalog terminus](../../connect_puppet_server.html) before they are sent.
+OpenVoxDB receives catalogs from Puppet Servers in the following wire format. This format is subtly different from the internal format used by Puppet, so catalogs are converted by the
+[OpenVoxDB catalog terminus](../../connect_puppet_server.html) before they are sent.
 
 ## Catalog interchange format
 
@@ -96,11 +96,11 @@ String. A string used to match the catalog with a Puppet job, intended for usage
 
 #### `producer_timestamp`
 
-DateTime. The time of catalog submission from the Puppet Server to PuppetDB. This field is currently populated by the Puppet Server.
+DateTime. The time of catalog submission from the Puppet Server to OpenVoxDB. This field is currently populated by the Puppet Server.
 
 #### `producer`
 
-String. The certname of the Puppet Server that sent the catalog to PuppetDB. This field may be `null`.
+String. The certname of the Puppet Server that sent the catalog to OpenVoxDB. This field may be `null`.
 
 ### Data type: `<string>`
 

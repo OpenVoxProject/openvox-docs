@@ -6,30 +6,30 @@ layout: default
 
 [export]: ./anonymization.html
 
-A basic tool for simulating PuppetDB loads is included with the standard
-PuppetDB distribution. **This tool is currently experimental and is likely to
+A basic tool for simulating OpenVoxDB loads is included with the standard
+OpenVoxDB distribution. **This tool is currently experimental and is likely to
 change in future releases**.
 
 The load testing tool can submit catalogs, facts, and/or reports at a defined
 interval, for a specified number of nodes. It is also able to vary the submitted
 catalogs over time to simulate catalog changes (which can cause a higher
-PuppetDB load). The intent of the tool is to get a rough idea about how the
+OpenVoxDB load). The intent of the tool is to get a rough idea about how the
 system (and software) will handle load under realistic conditions. The tool will
 use catalogs/reports/facts specified by the user, including those exported from
 a production/running system, to simulate real-world conditions. While originally
-designed as a PuppetDB developer tool, we expect that many users may find it
+designed as a OpenVoxDB developer tool, we expect that many users may find it
 useful.
 
 ## Getting data for the tool
 
 The load testing tool does not yet have the ability to generate its own data. To
 run simulations, you will need a collection of catalogs, facts and/or reports.
-The easiest source of this information is the export tool included with PuppetDB
+The easiest source of this information is the export tool included with OpenVoxDB
 (more information [here][export]). The export will produce a tar.gz file
 containing facts, catalogs, and reports.
 
 Unzip the exported data. When unzipped/untared, find the
-`puppetdb-bak/catalogs`, `puppetdb-bak/facts` and a `puppetdb-back/reports`
+`openvoxdb-bak/catalogs`, `openvoxdb-bak/facts` and a `puppetdb-back/reports`
 directories. One or all of these directories can be used as input to the load
 testing tool.
 
@@ -37,8 +37,8 @@ testing tool.
 
 Before running the load testing tool, make sure you have the full path to your
 example data. You'll also need a config file (such as `config.ini`) with the
-host and port information for the PuppetDB instance you wish to load test. The
-config file format is the same as the one PuppetDB uses, but you only need two
+host and port information for the OpenVoxDB instance you wish to load test. The
+config file format is the same as the one OpenVoxDB uses, but you only need two
 entries:
 
       [jetty]
@@ -51,7 +51,7 @@ the one below:
     $ java -cp /opt/puppetlabs/server/apps/puppetdb/puppetdb.jar clojure.main \
         -m puppetlabs.puppetdb.cli.benchmark \
         --config myconfig.ini \
-        --catalogs /tmp/puppetdb-bak/catalogs \
+        --catalogs /tmp/openvoxdb-bak/catalogs \
         --runinterval 30 --numhosts 1000 --rand-perc 10
 
 Note that if you run it from the source tree via leiningen, you should
@@ -60,7 +60,7 @@ so that the tool can shut down and clean up normally.
 
 ### Running on an agent other than the primary server
 
-Running the PuppetDB benchmark tool on the primary server can cause resource constraints
+Running the OpenVoxDB benchmark tool on the primary server can cause resource constraints
 which may significantly skew performance on the primary server. If you would like to run
 the benchmark tool on an agent this can be achieved following the instructions
 below.
@@ -101,14 +101,14 @@ tool on the agent using the `java -cp ...` command described above.
 ### Arguments accepted by the benchmark command
 
 - **`--config / -c`**: path to the INI file that has the host/port configuration
-  for the PuppetDB instance to be tested.
+  for the OpenVoxDB instance to be tested.
 - **`--catalogs / -C`**: directory containing catalogs to use for testing
-  (probably from a previous PuppetDB export).
+  (probably from a previous OpenVoxDB export).
 - **`--reports / -R`**: directory containing reports to use for testing
-  (probably from a previous PuppetDB export).
+  (probably from a previous OpenVoxDB export).
 - **`--facts / -F`**: directory containing facts to use for testing (probably
-  from a previous PuppetDB export).
-- **`--archive / -A`**: tarball archive obtained via a PuppetDB export. This
+  from a previous OpenVoxDB export).
+- **`--archive / -A`**: tarball archive obtained via a OpenVoxDB export. This
   option is incompatible with the preceding four.
 - **`--runinterval / -i`**: integer indicating the amount of time in
   minutes between puppet runs for each simulated node. Typical values
@@ -123,10 +123,10 @@ tool on the agent using the `java -cp ...` command described above.
 - **`--rand-perc / -r`**: what percentage of catalogs submissions should be
   changed (this simulates typical catalog changes, such as adding a resource,
   edge, or something similar). More changes to catalogs will cause a higher load
-  on PuppetDB. A typical change percentage is 10.
+  on OpenVoxDB. A typical change percentage is 10.
 - **`--threads`** / **`-t`**: number of threads to use for command
   submission; defaults to four times the number of available processors.
 
 >**Note:** If --facts, --catalogs, --reports, and --archive are unspecified, the
->PuppetDB sample data will be used. This data includes catalogs, facts, and
+>OpenVoxDB sample data will be used. This data includes catalogs, facts, and
 >reports.

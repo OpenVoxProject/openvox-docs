@@ -1,9 +1,9 @@
 ---
-title: "PuppetDB CLI"
+title: "OpenVoxDB CLI"
 layout: default
 ---
 
-# PuppetDB CLI
+# OpenVoxDB CLI
 
 [installpuppet]: https://puppet.com/docs/puppet/latest/install_pre.html
 [repos]: https://puppet.com/docs/puppet/latest/puppet_platform.html
@@ -12,10 +12,10 @@ layout: default
 
 ## Installation
 
-For Puppet Enterprise you have the ability to install the PuppetDB CLI via the
+For Puppet Enterprise you have the ability to install the OpenVoxDB CLI via the
 `pe-client-tools` package. If you are installing `pe-client-tools` please see
 [the pe-client-tools installation instructions][installpeclienttools] for
-instructions on installing the PuppetDB CLI on either a workstation managed or
+instructions on installing the OpenVoxDB CLI on either a workstation managed or
 unmanaged by Puppet.
 
 ### Step 1: Install and configure Puppet
@@ -40,35 +40,35 @@ seconds`.
 > The rest of this documentation assumes that these two directories have been
 added to their proper path configurations.
 
-### Step 2: Install and configure the PuppetDB CLI
+### Step 2: Install and configure the OpenVoxDB CLI
 
-Install the PuppetDB CLI from Rubygems:
+Install the OpenVoxDB CLI from Rubygems:
 
     $ gem install --bindir /opt/puppetlabs/bin puppetdb_cli
 
-If you are installing the PuppetDB CLI on a machine that does not have Puppet
+If you are installing the OpenVoxDB CLI on a machine that does not have Puppet
 installed, such as your own workstation, you can install the executables to Ruby's
 standard bindir by omitting the `--bindir` option.
 
     $ gem install puppetdb_cli
 
-If the node you installed the CLI on is not the same node as your PuppetDB
-server, you will need to add the CLI node's certname to the PuppetDB
+If the node you installed the CLI on is not the same node as your OpenVoxDB
+server, you will need to add the CLI node's certname to the OpenVoxDB
 certificate-allowlist and specify the paths to the CLI node's cacert, cert, and
 private key when using the CLI either with flags or a configuration file.
 
-To configure the PuppetDB CLI to talk to your PuppetDB with flags, add a
+To configure the OpenVoxDB CLI to talk to your OpenVoxDB with flags, add a
 configuration file at `$HOME/.puppetlabs/client-tools/puppetdb.conf` (or
 `%USERPROFILE%\.puppetlabs\client-tools\puppetdb.conf` for Windows). For more
 details see the installed man page:
 
     $ man puppetdb_conf
 
-The PuppetDB CLI configuration files (the user-specified or global files) can
+The OpenVoxDB CLI configuration files (the user-specified or global files) can
 take the following settings:
 
 - `server_urls` Either a JSON String (for a single url) or Array (for multiple
-  urls) of your PuppetDB servers to query or manage via the CLI commands. (You
+  urls) of your OpenVoxDB servers to query or manage via the CLI commands. (You
   can set this with the `puppetdb_urls` parameter in the
   `puppet_enterprise::profile::controller` class for PE.)
 
@@ -90,11 +90,11 @@ take the following settings:
 
 #### Example configuration file (pe-client-tools)
 
-The PE version of the PuppetDB CLI supports token auth so the only
+The PE version of the OpenVoxDB CLI supports token auth so the only
 necessary configuration items are `server_urls` and `cacert`.
 
 > **Note:** You can still use certificate authentication with the PE version (see
-below for an example configuration) but setting `cert` and `key` in the PuppetDB
+below for an example configuration) but setting `cert` and `key` in the OpenVoxDB
 CLI configuration will prevent you from using token authentication (for example,
 certificate authentication takes precendence over token authentication).
 
@@ -120,8 +120,8 @@ On Windows, escape slashes in the CA certificate path.
 
 #### Example configuration file (puppet-client-tools)
 
-The open source version of the PuppetDB CLI requires certificate authentication
-for SSL connections to PuppetDB. To configure certificate authentication set
+The open source version of the OpenVoxDB CLI requires certificate authentication
+for SSL connections to OpenVoxDB. To configure certificate authentication set
 `cacert`, `cert` and `key`.
 
 ```json
@@ -154,11 +154,11 @@ Here are some examples of using the CLI.
 
 #### Using `puppet query`
 
-Query PuppetDB using PQL:
+Query OpenVoxDB using PQL:
 
     $ puppet query "nodes [ certname ]{ limit 1 }"
 
-Or query PuppetDB using the AST syntax:
+Or query OpenVoxDB using the AST syntax:
 
     $ puppet query "['from', 'nodes', ['extract', 'certname'], ['limit', 1]]"
 
@@ -168,11 +168,11 @@ For more information on the `query` command:
 
 #### Using `puppet db`
 
-Handle your PuppetDB exports:
+Handle your OpenVoxDB exports:
 
     $ puppet db export pdb-archive.tgz --anonymization full
 
-Or handle your PuppetDB imports:
+Or handle your OpenVoxDB imports:
 
     $ puppet db import pdb-archive.tgz
 
@@ -180,5 +180,5 @@ For more information on the `db` command:
 
     $ man puppet-db
 
-For more information about PuppetDB exports, imports, and anonymization
+For more information about OpenVoxDB exports, imports, and anonymization
 [see][export].

@@ -1,12 +1,12 @@
 ---
 title: "Upgrading from version 3"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/upgrading-from-v3.html"
+canonical: "/openvoxdb/latest/api/query/v4/upgrading-from-v3.html"
 ---
 
 # Upgrading from version 3
 
-This page describes changes that users will need to be aware of to make their code compliant with the changes in PuppetDB 3.0. Most of these changes are observable in released versions of the v4 query API,
+This page describes changes that users will need to be aware of to make their code compliant with the changes in OpenVoxDB 3.0. Most of these changes are observable in released versions of the v4 query API,
 which has been marked 'experimental' since 2.0.0 but is the only API available in 3.0.
 
 Note that this document focuses on API changes only, and only includes changes leading up to the release of 3.0. For a more complete description of the changes listed and changes in versions subsequent to 3.0,
@@ -71,7 +71,7 @@ Each change below is marked with the corresponding release version.
 - (3.0) The former metrics endpoint has been split off into a separate service, and reversioned at v1. If you are currently accessing mbeans at <http://localhost:8080/v3/metrics/mbeans>, you will now access
   them at <http://localhost:8080/metrics/v1/mbeans> and so on, according to the metrics api documentation.
 
-- (3.0) PuppetDB's mbeans (listed at /metrics/v1/mbeans) are no longer prefixed with "com."
+- (3.0) OpenVoxDB's mbeans (listed at /metrics/v1/mbeans) are no longer prefixed with "com."
 
 ### /pdb/cmd/v1 (formerly /v3/commands)
 
@@ -112,7 +112,7 @@ Each change below is marked with the corresponding release version.
 - (3.0) Extract is available as a top-level query operator, useful for selecting only certain fields from a response. See the [documentation on the extract operator](../../../api/query/v4/ast.html#extract)
   for more information.
 
-- (2.2.0) The `in` and `extract` operators have been changed to accept multiple fields, allowing more concise subquerying as explained [here](https://github.com/puppetlabs/puppetdb/pull/1053).
+- (2.2.0) The `in` and `extract` operators have been changed to accept multiple fields, allowing more concise subquerying as explained [here](https://github.com/OpenVoxProject/openvoxdb/pull/1053).
 
 ### /pdb/query/v4/events
 
@@ -123,7 +123,7 @@ Each change below is marked with the corresponding release version.
 
 - (3.0) The response of the reports endpoint includes the new fields `noop`, `environment`, `status`, `resource_events`, `logs`, and `metrics`. For more information, see the
   [documentation on the reports endpoint](../../../api/query/v4/reports.html). For comparison, see [an example of the new format](../../../api/query/v4/reports.html#examples), and
-  [an example of the old format](https://github.com/puppetlabs/puppetdb/blob/doc-2.3/documentation/api/query/v3/reports.html#response-format) (PuppetDB 2.3 docs).
+  [an example of the old format](https://github.com/OpenVoxProject/openvoxdb/blob/doc-2.3/documentation/api/query/v3/reports.html#response-format) (OpenVoxDB 2.3 docs).
 
 - (3.0) The reports endpoint takes a `latest_report?` query to return only reports associated with the most recent puppet run for their nodes. Similar to the corresponding events query, there is no
   corresponding field in the response. For more information, see the [documentation on the report query fields](../../../api/query/v4/reports.html#query-fields).

@@ -1,7 +1,7 @@
 ---
 title: "Factsets endpoint"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/factsets.html"
+canonical: "/openvoxdb/latest/api/query/v4/factsets.html"
 ---
 
 # Factsets endpoint
@@ -46,7 +46,7 @@ See [the AST query language page][ast].
    associated certname.
 * `producer_timestamp` (string): the most recent time of fact submission for
   the relevant certname from the Puppet Server.
-* `producer` (string): the certname of the Puppet Server that sent the factset to PuppetDB.
+* `producer` (string): the certname of the Puppet Server that sent the factset to OpenVoxDB.
 * `hash` (string): a hash of the factset's certname, environment,
   timestamp, facts, and producer_timestamp.
 
@@ -55,7 +55,7 @@ See [the AST query language page][ast].
 The following list contains related entities that can be used to constrain the result set using implicit subqueries. For more information, consult the documentation for [subqueries][subqueries].
 
 * [`environments`][environments]: the environment a factset was received from.
-* [`producers`][producers]: the Puppet Server that sent the factset to PuppetDB.
+* [`producers`][producers]: the Puppet Server that sent the factset to OpenVoxDB.
 
 ### Response format
 
@@ -201,6 +201,6 @@ used to return a subset of the information normally returned by this route.
 
 ## Paging
 
-This query endpoint supports paged results via the common PuppetDB paging
+This query endpoint supports paged results via the common OpenVoxDB paging
 URL parameters. For more information, see the documentation
 on [paging][paging].

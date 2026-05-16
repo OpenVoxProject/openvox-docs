@@ -1,12 +1,12 @@
 ---
 title: "Testing storage changes"
 layout: default
-canonical: "/puppetdb/latest/testing_storage_changes.html"
+canonical: "/openvoxdb/latest/testing_storage_changes.html"
 ---
 
 # Testing storage changes
 
-In order to keeps PuppetDB's storage code nice and fast, we have developed some tooling to help test its performance.
+In order to keeps OpenVoxDB's storage code nice and fast, we have developed some tooling to help test its performance.
 
 ## The load testing tool
 
@@ -18,8 +18,8 @@ If you're making changes to fact storage specifically, there is a special-purpos
 
 ### Running
 
-Run the tool with `lein run fact-storage-benchmark localhost`. Pass it the hostname of a machine where PuppetDB is running, without ssl, on port 8080. If you're testing a significant amount of load, you should
-run the benchmark on a different machine from puppetdb.
+Run the tool with `lein run fact-storage-benchmark localhost`. Pass it the hostname of a machine where OpenVoxDB is running, without ssl, on port 8080. If you're testing a significant amount of load, you should
+run the benchmark on a different machine from openvoxdb.
 
 This will automatically run test with different fact profiles and report the time it took to store all facts, in milliseconds. For focused testing or optimization purposes, you can select just one to run:
 `lein run fact-storage-benchmark localhost medium`.
@@ -33,7 +33,7 @@ Fact storage benchmark profiles are configured in `test-configs` var in `src/pup
 
 ## Query performance testing with Locust
 
-If PuppetDB is running and listening on port 8080, you can run a simple query performance test using [Locust](https://locust.io/) like this:
+If OpenVoxDB is running and listening on port 8080, you can run a simple query performance test using [Locust](https://locust.io/) like this:
 
 ```text
 locust/run_load_test

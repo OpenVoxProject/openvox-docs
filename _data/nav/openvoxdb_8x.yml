@@ -3,7 +3,7 @@
   items:
   - text: Overview and requirements
     link: overview.html
-  - text: Contributing to PuppetDB
+  - text: Contributing to OpenVoxDB
     link: CONTRIBUTING.html
   - text: Frequently asked questions
     link: puppetdb-faq.html
@@ -23,7 +23,7 @@
     link: install_from_packages.html
   - text: Installing from source
     link: install_from_source.html
-  - text: Upgrading PuppetDB
+  - text: Upgrading OpenVoxDB
     link: upgrade.html
   - text: Connecting Puppet Servers
     link: connect_puppet_server.html
@@ -31,9 +31,9 @@
     link: connect_puppet_apply.html
 - text: Configuration
   items:
-  - text: Configuring PuppetDB
+  - text: Configuring OpenVoxDB
     link: configure.html
-  - text: 'puppetdb.conf: Configuring a Puppet/PuppetDB connection'
+  - text: 'puppetdb.conf: Configuring a Puppet/OpenVoxDB connection'
     link: puppetdb_connection.html
   - text: Configuring Postgres
     link: configure_postgres.html
@@ -41,11 +41,11 @@
     link: postgres_ssl.html
 - text: Usage/admin
   items:
-  - text: Using PuppetDB
+  - text: Using OpenVoxDB
     link: using.html
   - text: Maintaining and tuning
     link: maintain_and_tune.html
-  - text: PuppetDB CLI
+  - text: OpenVoxDB CLI
     link: pdb_client_tools.html
   - text: Exporting and anonymizing data
     link: anonymization.html

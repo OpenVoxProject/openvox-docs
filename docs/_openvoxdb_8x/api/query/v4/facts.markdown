@@ -1,7 +1,7 @@
 ---
 title: "Facts endpoint"
 layout: default
-canonical: "/puppetdb/latest/api/query/v4/facts.html"
+canonical: "/openvoxdb/latest/api/query/v4/facts.html"
 ---
 
 # Facts endpoint
@@ -223,6 +223,6 @@ this route.
 
 ## Paging
 
-The v4 `/facts` endpoint supports all the common PuppetDB paging URL
+The v4 `/facts` endpoint supports all the common OpenVoxDB paging URL
 parameters. For more information, please see the documentation on
 [paging][paging].
