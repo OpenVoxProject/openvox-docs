@@ -3,7 +3,7 @@ layout: default
 title: "OpenVox Server: Puppet API: Environment Transports"
 ---
 
-[HTTP API]: /openvox/latest/http_api_index.html
+/openvox/latest/http_api/http_api_index.html
 [environment cache API]: ../../admin-api/v1/environment-cache.html
 [environment classes API]: ./environment_classes.html
 [transports schema]: ./environment_transports.json
