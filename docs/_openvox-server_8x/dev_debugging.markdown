@@ -1,10 +1,9 @@
 ---
 layout: default
-title: "Puppet Server: Debugging"
-canonical: "/puppetserver/latest/dev_debugging.html"
+title: "OpenVox Server: Debugging"
 ---
 
-Because Puppet Server executes both Clojure and Ruby code, approaches to debugging differ depending on which part of the application you're interested in.
+Because OpenVox Server executes both Clojure and Ruby code, approaches to debugging differ depending on which part of the application you're interested in.
 
 ## Debugging Clojure Code
 
@@ -20,10 +19,10 @@ debugging features that are available in Java; breakpoints, evaluating expressio
 
 ## Debugging Ruby Code
 
-Debugging the Ruby code running in Puppet Server can be a bit trickier, because Java and Clojure debugging tools will only take you into the JRuby interpreter source code, not into the Ruby code that it is
+Debugging the Ruby code running in OpenVox Server can be a bit trickier, because Java and Clojure debugging tools will only take you into the JRuby interpreter source code, not into the Ruby code that it is
 processing. So, if you wish to debug the Ruby code directly, you'll need to install gems and take advantage of their capabilities (not unlike how you would debug Ruby code in the MRI interpreter).
 
-For more info on installing gems for Puppet Server, see [Puppet Server and Gems](./gems.html).
+For more info on installing gems for OpenVox Server, see [OpenVox Server and Gems](./gems.html).
 
 ## Ruby REPL incompatible with Lein REPL
 
@@ -41,7 +40,7 @@ sense.
 ### Installation
 
 There are many gems available that provide various ways of debugging Ruby code depending on what version of Ruby and which Ruby interpreter you're running. One of the most common gems is `ruby-debug`, and there
-is a JRuby-compatible version available. To install it for use in Puppet Server, run:
+is a JRuby-compatible version available. To install it for use in OpenVox Server, run:
 
     sudo puppetserver gem install ruby-debug
 
@@ -51,7 +50,7 @@ Or, if you're running puppetserver from source:
 
 ### Usage
 
-After installing the gem, you can trigger the debugger by adding a line like this to any of the Ruby code that is run in Puppet Server (including the Puppet Ruby code):
+After installing the gem, you can trigger the debugger by adding a line like this to any of the Ruby code that is run in OpenVox Server (including the OpenVox Ruby code):
 
     require 'ruby-debug'; debugger
 
@@ -86,11 +85,11 @@ adding it to this documentation!
 
 ## Limitations
 
-We are aware that some favorite gems/tools/features for ruby debugging don't currently work with JRuby/Puppet Server. (For example, some things like color syntax highlighting in Pry.) It's important to us to
-make sure that the Ruby developer experience is not degraded for developers working via Puppet Server rather than webrick, so, if you run into issues like this, please file an issue on our
-[Bug Tracker](https://tickets.puppet.com/browse/SERVER), and we will see if it's possible to add support for things that we're missing. In many cases it might be a matter of simply submitting a patch to JRuby,
+We are aware that some favorite gems/tools/features for ruby debugging don't currently work with JRuby/OpenVox Server. (For example, some things like color syntax highlighting in Pry.)
+It's important to us to make sure that the Ruby developer experience is not degraded for developers working via OpenVox Server, so, if you run into issues like this, please file an issue on our
+[Bug Tracker](https://github.com/openvoxproject), and we will see if it's possible to add support for things that we're missing. In many cases it might be a matter of simply submitting a patch to JRuby,
 or submitting a JRuby-compatibility patch for an existing gem, and we're interested in trying to help with those sorts of things whenever possible.
 
 # Tracing Code Events
 
-Puppet Server can utilize JRuby's standard facilities for tracing events during code execution. For more information on these techniques, see the [Tracing Code Events](./dev_trace_func.html) page.
+OpenVox Server can utilize JRuby's standard facilities for tracing events during code execution. For more information on these techniques, see the [Tracing Code Events](./dev_trace_func.html) page.
