@@ -88,8 +88,24 @@
     link: puppet-api/v3/environment_classes.html
   - text: Environment modules
     link: puppet-api/v3/environment_modules.html
+  - text: Environment transports
+    link: puppet-api/v3/environment_transports.html
+  - text: Compile endpoint
+    link: puppet-api/v3/compile.html
   - text: Static file content
     link: puppet-api/v3/static_file_content.html
+  - text: File content
+    link: puppet-api/v3/file_content.html
+  - text: Tasks overview
+    link: puppet-api/v3/tasks.html
+  - text: Tasks details
+    link: puppet-api/v3/task_detail.html
+  - text: Plans overview
+    link: puppet-api/v3/plans.html
+  - text: Plans details
+    link: puppet-api/v3/plan_detail.html
+  - text: Catalog endpoint
+    link: puppet-api/v4/catalog.html
 - text: Status API endpoints
   items:
   - text: Services endpoint

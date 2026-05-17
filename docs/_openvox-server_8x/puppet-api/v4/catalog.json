@@ -6,7 +6,7 @@
   "properties": {
     "catalog": {
       "type": "object",
-      "$ref": "https://puppet.com/docs/puppet/6.2/schemas/catalog.json"
+      "$ref": "https://docs.openvoxproject.org/openvox/latest/schemas/catalog.json"
     },
     "logs": {
       "description": "The log messages that occured during the catalog compilation.",
