@@ -149,7 +149,7 @@ JARs placed here will not be modified or removed when upgrading OpenVox Server.
 OpenVox Server usually cannot use SSLv3, because it is disabled by default at the JRE layer. (As of javase 7u75 / 1.7.0_u75. See the
 [7u75 Update Release Notes](http://www.oracle.com/technetwork/java/javase/7u75-relnotes-2389086.html) for more information.)
 
-You should almost always leave SSLv3 disabled, because it is compromized by the [POODLE vulnerability](https://blogs.oracle.com/security/entry/information_about_ssl_poodle_vulnerability) and no longer secure.
+You should almost always leave SSLv3 disabled, because it is compromized by the [POODLE vulnerability](https://en.wikipedia.org/wiki/POODLE) and no longer secure.
 If you have clients that can't use newer protocols, you should try to upgrade them instead of downgrading OpenVox Server.
 
 However, if you absolutely must, you can allow OpenVox Server to negotiate with SSLv3 clients.

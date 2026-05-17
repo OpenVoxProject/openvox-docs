@@ -3,7 +3,7 @@ layout: default
 title: "OpenVox Server Configuration Files: puppetserver.conf"
 ---
 
-[configuration directory]: /oenvox/latest/dirs_confdir.html
+[configuration directory]: /openvox/latest/dirs_confdir.html
 [code directory]: /openvox/latest/dirs_codedir.html
 [cache directory]: /openvox/latest/dirs_vardir.html
 [`auth.conf` documentation]: ./config_file_auth.html
@@ -85,7 +85,7 @@ The `puppetserver.conf` file contains settings for OpenVox Server software. For 
     "just-in-time" compilation of Ruby code. A value of `force` causes JRuby to attempt to pre-compile all Ruby code.
 
   - `profiling-mode`: Optional. Used to enable JRuby's profiler for service startup and set it to one of the supported modes. The default value is `off`, but it can be set to one of `api`, `flat`, `graph`,
-    `html`, `json`, `off`, and `service`. See [ruby-prof](https://github.com/ruby-prof/ruby-prof/blob/master/README.rdoc#reports) for details on what the various modes do.
+    `html`, `json`, `off`, and `service`. See [ruby-prof](https://ruby-prof.github.io/reports/) for details on what the various modes do.
 
   - `profiler-output-file`: Optional. Used to set the output file to direct JRuby profiler output. Should be a fully qualified path writable by the service user. If not set will default to a random name inside
     the service working directory.
