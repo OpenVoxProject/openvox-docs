@@ -7,7 +7,7 @@ The `file_content` endpoint returns contents of the specified file.
 
 ## `GET /puppet/v3/file_content/:mount_point/:module/:file-path?environment=:environment`
 
-When specifying environment see the [OpenVox API docs](../../../../openvox/latest/http_api/http_file_content.html)
+When specifying environment see the [OpenVox API docs](/openvox/latest/http_api/http_file_content.html)
 
 ## `GET /puppet/v3/file_content/:mount_point/:module/:file-path?project=:project-ref
 

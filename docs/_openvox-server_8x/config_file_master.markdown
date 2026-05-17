@@ -23,8 +23,8 @@ When using the `allow-header-cert-info` setting in `master.conf`, you can change
 parameter can rename `X-Client-DN`. The `X-Client-Cert` header can't be renamed.
 
 The `allow-header-cert-info` parameter in `master.conf` applies only to HTTP endpoints served by the "master" service. The applicable endpoints include those listed in
-[Puppet V3 HTTP API](../openvox/latest/http_api/http_api_index.html#puppet-v3-http-api). It does not apply to the endpoints listed in
-[CA V1 HTTP API](../openvox/latest/http_api/http_api_index.html#ca-v1-http-api) or to any [Puppet Admin API][`puppetserver.conf`] endpoints.
+[Puppet V3 HTTP API](/openvox/latest/http_api/http_api_index.html#puppet-v3-http-api). It does not apply to the endpoints listed in
+[CA V1 HTTP API](/openvox/latest/http_api/http_api_index.html#ca-v1-http-api) or to any [Puppet Admin API][`puppetserver.conf`] endpoints.
 
 ## Supported Authorization Workflow
 

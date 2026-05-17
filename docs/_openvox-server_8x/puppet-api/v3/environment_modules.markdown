@@ -142,7 +142,7 @@ The environment must be purely alphanumeric, not 'bog|us'
 
 ### No metadata.json file
 
-If your modules do not have a [metadata.json](../../../../openvox/latest/modules_metadata.html)
+If your modules do not have a [metadata.json](/openvox/latest/modules_metadata.html)
 file, OpenVox Server will not be able to determine the version of your module.
 In this case, OpenVox Server will return a null value for `version` in the response body.
 
