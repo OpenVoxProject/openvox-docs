@@ -272,7 +272,7 @@ To retain the OpenVox 4.x behavior, add the [`puppet.conf`](./configuration.html
 
 ### Context
 
-This cache was used in workflows where external tooling needs a list of nodes. OpenVox-DB is the preferred source of node information.
+This cache was used in workflows where external tooling needs a list of nodes. OpenVoxDB is the preferred source of node information.
 
 ## JRuby's "compat-version" setting
 
