@@ -1,10 +1,9 @@
 ---
 layout: default
-title: "Puppet Server Configuration Files: global.conf"
-canonical: "/puppetserver/latest/config_file_global.html"
+title: "OpenVox Server Configuration Files: global.conf"
 ---
 
-The `global.conf` file contains global configuration settings for Puppet Server. For an overview, see [Puppet Server Configuration](./configuration.html).
+The `global.conf` file contains global configuration settings for OpenVox Server. For an overview, see [OpenVox Server Configuration](./configuration.html).
 
 You shouldn't typically need to make changes to this file. However, you can change the `logging-config` path for the logback logging configuration file if necessary. For more information about the logback file,
 see <http://logback.qos.ch/manual/configuration.html>.

@@ -1,36 +1,33 @@
 ---
 layout: default
-title: "Puppet Server Configuration Files: puppetserver.conf"
-canonical: "/puppetserver/latest/config_file_puppetserver.html"
+title: "OpenVox Server Configuration Files: puppetserver.conf"
 ---
 
-[configuration directory]: https://puppet.com/docs/puppet/latest/dirs_confdir.html
-[code directory]: https://puppet.com/docs/puppet/latest/dirs_codedir.html
-[cache directory]: https://puppet.com/docs/puppet/latest/dirs_vardir.html
+[configuration directory]: /oenvox/latest/dirs_confdir.html
+[code directory]: /openvox/latest/dirs_codedir.html
+[cache directory]: /openvox/latest/dirs_vardir.html
 [`auth.conf` documentation]: ./config_file_auth.html
-[static catalogs]: https://puppet.com/docs/puppet/latest/static_catalogs.html
-[file resource]: https://puppet.com/docs/puppet/latest/type.html#file
+[static catalogs]: /openvox/latest/static_catalogs.html
+[file resource]: /openvox/latest/type.html#file
 [`static_file_content`]: ./puppet-api/v3/static_file_content.html
 
-The `puppetserver.conf` file contains settings for Puppet Server software. For an overview, see [Puppet Server Configuration](./configuration.html).
+The `puppetserver.conf` file contains settings for OpenVox Server software. For an overview, see [OpenVox Server Configuration](./configuration.html).
 
 ## Settings
 
-> **Note:** Under most conditions, you won't change the default settings for `master-conf-dir` or `master-code-dir`. However, if you do, also change the equivalent Puppet settings (`confdir` or `codedir`) to
-> ensure that commands like `puppetserver ca` and `puppet module` use the same directories as Puppet Server. You must also specify the non-default `confdir` when running commands, because that setting must be
-> set before Puppet tries to find its config file.
+> **Note:** Under most conditions, you won't change the default settings for `master-conf-dir` or `master-code-dir`. However, if you do, also change the equivalent OpenVox settings (`confdir` or `codedir`) to
+> ensure that commands like `puppetserver ca` and `puppet module` use the same directories as OpenVox Server. You must also specify the non-default `confdir` when running commands, because that setting must be
+> set before OpenVox tries to find its config file.
 
 - The `jruby-puppet` settings configure the interpreter.
 
-  > **Deprecation Note:** Puppet Server 5.0 removed the `compat-version` setting, which is incompatible with JRuby 1.7.27, and the service won't start if `compat-version` is set. Puppet Server 6.0 uses JRuby
-  > 9.1 which supports Ruby 2.3.
-  - `ruby-load-path`: The location where Puppet Server expects to find Puppet, Facter, and other components.
+  - `ruby-load-path`: The location where OpenVox Server expects to find OpenVox, OpenFact, and other components.
 
-  - `gem-home`: The location where JRuby looks for gems. It is also used by the `puppetserver gem` command line tool. If nothing is specified, JRuby uses the Puppet default
+  - `gem-home`: The location where JRuby looks for gems. It is also used by the `puppetserver gem` command line tool. If nothing is specified, JRuby uses the OpenVox default
     `/opt/puppetlabs/server/data/puppetserver/jruby-gems`.
 
   - `gem-path`: The complete "GEM_PATH" for jruby. If set, it should include the `gem-home` directory, as well as any other directories that gems can be loaded from (including the vendored gems directory for
-    gems that ship with puppetserver). The default value is
+    gems that ship with OpenVox Server). The default value is
     `["/opt/puppetlabs/server/data/puppetserver/jruby-gems", "/opt/puppetlabs/server/data/puppetserver/vendored-jruby-gems", "/opt/puppetlabs/puppet/lib/ruby/vendor_gems"]`.
 
   - `environment-vars:` Optional. A map of environment variables which are made visible to Ruby code running within JRuby, for example, via the Ruby `ENV` class.
@@ -42,11 +39,11 @@ The `puppetserver.conf` file contains settings for Puppet Server software. For a
         Any variable set from the map for the `environment-vars` key overrides these defaults. Avoid overriding `HOME`, `PATH`, or `GEM_HOME` here because these values are already configurable via the shell or
         `jruby-puppet.gem-home`.
 
-  - `master-conf-dir`: Optional. The path to the Puppet [configuration directory][]. The default is `/etc/puppetlabs/puppet`.
+  - `master-conf-dir`: Optional. The path to the OpenVox [configuration directory][]. The default is `/etc/puppetlabs/puppet`.
 
-  - `master-code-dir`: Optional. The path to the Puppet [code directory][]. The default is `/etc/puppetlabs/code`.
+  - `master-code-dir`: Optional. The path to the OpenVox [code directory][]. The default is `/etc/puppetlabs/code`.
 
-  - `master-var-dir`: Optional. The path to the Puppet [cache directory][]. The default is `/opt/puppetlabs/server/data/puppetserver`.
+  - `master-var-dir`: Optional. The path to the OpenVox [cache directory][]. The default is `/opt/puppetlabs/server/data/puppetserver`.
 
   - `master-run-dir`: Optional. The path to the run directory, where the service's PID file is stored. The default is `/var/run/puppetlabs/puppetserver`.
 
@@ -61,7 +58,7 @@ The `puppetserver.conf` file contains settings for Puppet Server software. For a
         JRuby flushing can be useful for working around buggy module code that would otherwise cause memory leaks, but it slightly reduces performance whenever a new JRuby instance reloads all of the Puppet
         Ruby code. If memory leaks from module code are not an issue in your deployment, the default value of 0 performs best.
 
-  - `multithreaded`: Optional, false by default. Configures Puppet Server to use a single JRuby instance to process requests that require a JRuby, processing a number of threads up to `max-active-instances` at
+  - `multithreaded`: Optional, false by default. Configures OpenVox Server to use a single JRuby instance to process requests that require a JRuby, processing a number of threads up to `max-active-instances` at
     a time. Reduces the memory footprint of the server by only requiring a single JRuby.
 
   - `max-queued-requests`: Optional. The maximum number of requests that may be queued waiting to borrow a JRuby from the pool. When this limit is exceeded, a 503 "Service Unavailable" response will be returned
@@ -69,17 +66,17 @@ The `puppetserver.conf` file contains settings for Puppet Server software. For a
     which the client may retry the request. The default is 0, which disables the queue limit.
 
   - `max-retry-delay`: Optional. Sets the upper limit for the random sleep set as a `Retry-After` header on 503 responses returned when `max-queued-requests` is enabled. A value of 0 will cause the
-    `Retry-After` header to be omitted. Default is 1800 seconds which corresponds to the default run interval of the Puppet daemon.
+    `Retry-After` header to be omitted. Default is 1800 seconds which corresponds to the default run interval of the OpenVox agent.
 
   - `borrow-timeout`: Optional. The timeout in milliseconds, when attempting to borrow an instance from the JRuby pool. The default is 1200000.
 
-  - `environment-class-cache-enabled`: Optional. Used to control whether the master service maintains a cache in conjunction with the use of the
+  - `environment-class-cache-enabled`: Optional. Used to control whether the OpenVox Server service maintains a cache in conjunction with the use of the
     [`environment_classes` API](./puppet-api/v3/environment_classes.html).
 
-        If this setting is set to `true`, Puppet Server maintains the cache. It also returns an Etag header for each GET request to the API. For subsequent GET requests that use the prior Etag value in an
-        If-None-Match header, when the class information available for an environment has not changed, Puppet Server returns an HTTP 304 (Not Modified) response with no body.
+        If this setting is set to `true`, OpenVox Server maintains the cache. It also returns an Etag header for each GET request to the API. For subsequent GET requests that use the prior Etag value in an
+        If-None-Match header, when the class information available for an environment has not changed, OpenVox Server returns an HTTP 304 (Not Modified) response with no body.
 
-        If this setting is set to `false` or is not specified, Puppet Server doesn't maintain a cache, an Etag header is not returned for GET requests, and the If-None-Match header for an incoming request is
+        If this setting is set to `false` or is not specified, OpenVox Server doesn't maintain a cache, an Etag header is not returned for GET requests, and the If-None-Match header for an incoming request is
         ignored. It therefore parses the latest available code for an environment from disk on every incoming request.
 
         For more information, see the [`environment_classes` API documentation][].
@@ -94,33 +91,34 @@ The `puppetserver.conf` file contains settings for Puppet Server software. For a
     the service working directory.
 
 - The `profiler` settings configure profiling:
-  - `enabled`: If this is set to `true`, Puppet Server enables profiling for the Puppet Ruby code. The default is `true`.
+  - `enabled`: If this is set to `true`, OpenVox Server enables profiling for the OpenVox Ruby code. The default is `true`.
 
-- The `puppet-admin` section configures Puppet Server's administrative API. (This API is unavailable with Rack or WEBrick Puppet masters.)
+- The `puppet-admin` section configures OpenVox Server's administrative API.
 
-  > **Note:** The `puppet-admin` setting and `client-whitelist` parameter are deprecated in favor of authorization methods introduced in Puppet Server 2.2. For details, see the [`auth.conf` documentation][].
+  > **Note:** The `puppet-admin` setting and `client-whitelist` parameter are deprecated in favor of authorization methods. For details, see the [`auth.conf` documentation][].
+
   - `authorization-required` determines whether a client certificate is required to access the endpoints in this API. If set to `false`, all requests will be permitted to access this API. If set to `true`, only
     the clients whose certnames are included in the `client-whitelist` setting are allowed access to the admin API. If this setting is not specified but the `client-whitelist` setting is specified, the default
     value for this setting is `true`.
 
-  - `client-whitelist` contains an array of client certificate names that are allowed to access the admin API. Puppet Server denies any requests made to this endpoint that do not present a valid client
+  - `client-whitelist` contains an array of client certificate names that are allowed to access the admin API. OpenVox Server denies any requests made to this endpoint that do not present a valid client
     certificate mentioned in this array.
 
-    If neither the `authorization-required` nor the `client-whitelist` settings are specified, Puppet Server uses the new authorization methods and [`auth.conf`][`auth.conf` documentation] formats to access the
+    If neither the `authorization-required` nor the `client-whitelist` settings are specified, OpenVox Server uses the new authorization methods and [`auth.conf`][`auth.conf` documentation] formats to access the
     admin API endpoints.
 
 - The `versioned-code` settings configure commands required to use [static catalogs][]:
-  - `code-id-command`: the path to an executable script that Puppet Server invokes to generate a `code_id`. When compiling a static catalog, Puppet Server uses the output of this script as the catalog's
+  - `code-id-command`: the path to an executable script that OpenVox Server invokes to generate a `code_id`. When compiling a static catalog, OpenVox Server uses the output of this script as the catalog's
     `code_id`. The `code_id` associates the catalog with the compile-time version of any [file resources][file resource] that has a `source` attribute with a `puppet:///` URI value.
 
-  - `code-content-command` contains the path to an executable script that Puppet Server invokes when an agent makes a [`static_file_content`][] API request for the contents of a [file resource][] that has a
+  - `code-content-command` contains the path to an executable script that OpenVox Server invokes when an agent makes a [`static_file_content`][] API request for the contents of a [file resource][] that has a
     `source` attribute with a `puppet:///` URI value.
 
-> **Note:** The Puppet Server process must be able to execute the `code-id-command` and `code-content-command` scripts, and the scripts must return valid content to standard output and an error code of 0. For
+> **Note:** The OpenVox Server process must be able to execute the `code-id-command` and `code-content-command` scripts, and the scripts must return valid content to standard output and an error code of 0. For
 > more information, see the [static catalogs][] and [`static_file_content` API][`static_file_content`] documentation.
 >
-> If you're using static catalogs, you **must** set and use **both** `code-id-command` and `code-content-command`. If only one of those settings are specified, Puppet Server fails to start. If neither setting
-> is specified, Puppet Server defaults to generating catalogs without static features even when an agent requests a static catalog, which the agent will process as a normal catalog.
+> If you're using static catalogs, you **must** set and use **both** `code-id-command` and `code-content-command`. If only one of those settings are specified, OpenVox Server fails to start. If neither setting
+> is specified, OpenVox Server defaults to generating catalogs without static features even when an agent requests a static catalog, which the agent will process as a normal catalog.
 
 ### Examples
 
