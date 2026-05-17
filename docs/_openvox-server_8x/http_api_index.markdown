@@ -6,7 +6,7 @@ title: "OpenVox Server HTTP API: Index"
 OpenVox Server provides several services via HTTP API, and the OpenVox agent application uses those services to resolve a node's credentials, retrieve a configuration catalog, retrieve file data, and submit
 reports.
 
-Many of these endpoints are the same as the [OpenVox HTTP API](https://puppet.com/docs/puppet/latest/http_api/http_api_index.html).
+Many of these endpoints are the same as the [OpenVox HTTP API](/openvox/latest/http_api/http_api_index.html).
 
 ## V1/V2 HTTP APIs (removed)
 
