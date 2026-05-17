@@ -3,7 +3,6 @@ layout: default
 title: "OpenVox Server Configuration Files: auth.conf"
 ---
 
-[Puppet `auth.conf`]: /openvox/latest/config_file_auth.html
 [deprecated]: ./deprecated_features.html
 [short names]: /openvox/latest/ssl_attributes_extensions.html#puppet_registered_ids
 

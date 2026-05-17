@@ -35,7 +35,7 @@ headers.
 
 The `allow-header-cert-info` parameter in `auth.conf`, applies to all HTTP endpoints that OpenVox Server handles, including those served by the "server" service, the CA API, and the OpenVox Admin API.
 
-For additional information on the `allow-header-cert-info` parameter in `auth.conf`, see [Puppet Server Configuration Files: `auth.conf`][new `auth.conf`] and
+For additional information on the `allow-header-cert-info` parameter in `auth.conf`, see [OpenVox Server Configuration Files: `auth.conf`][new `auth.conf`] and
 [Configuring the Authorization Service in the `trapperkeeper-authorization` documentation](https://github.com/openvoxproject/trapperkeeper-authorization/blob/master/doc/authorization-config.md#allow-header-cert-info).
 
 ### HOCON `auth.conf` Example

@@ -11,7 +11,9 @@ The `product.conf` file doesn't exist in a default OpenVox Server installation; 
 (located by default at `/etc/puppetlabs/puppetserver/conf.d`). This file is a [HOCON-formatted](https://github.com/typesafehub/config/blob/master/HOCON.md) configuration file with the following settings:
 
 - Settings in the `product` section configure update checking and analytics data collection:
+
   - `check-for-updates`: If set to `false`, OpenVox Server will not automatically check for updates, and will not send analytics data to Puppet.
+
         If this setting is unspecified (default) or set to `true`, OpenVox Server checks for updates upon start or restart, and every 24 hours thereafter, by sending the following data to Puppet:
         -   Product name
         -   Puppet Server version

@@ -5,7 +5,7 @@ title: "OpenVox Server Configuration"
 
 [deprecated]: ./deprecated_features.html
 
-OpnVox Server automatically loads the settings in the `main`, `master` and `server` sections of the configuration file.
+OpenVox Server automatically loads the settings in the `main`, `master` and `server` sections of the configuration file.
 If there are duplicates, it prefers the values in the `server` section. OpenVox Server honors the
 following `puppet.conf` settings:
 
@@ -40,12 +40,12 @@ following `puppet.conf` settings:
 - trusted_oid_mapping_file
 
 However, for some tasks, such as configuring the web server or an external Certificate Authority (CA), OpenVox Server has separate configuration files and settings. These files and settings are described below.
-For more information about differences between OpeNVox Server and the Ruby OpenVox Server's use of `puppet.conf` settings, see
+For more information about differences between OpenVox Server and the Ruby OpenVox Server's use of `puppet.conf` settings, see
 [OpenVox Server: Differing Behavior in `puppet.conf`](./puppet_conf_setting_diffs.html).
 
 ## Configuration Files
 
-penVox Server's configuration files and settings (with the exception of the [logging config file](#logging)) are in the `conf.d` directory, located by default at `/etc/puppetlabs/puppetserver/conf.d`. These
+OpenVox Server's configuration files and settings (with the exception of the [logging config file](#logging)) are in the `conf.d` directory, located by default at `/etc/puppetlabs/puppetserver/conf.d`. These
 config files are in the HOCON format, which keeps the basic structure of JSON but is more readable. For more information, see the
 [HOCON documentation](https://github.com/typesafehub/config/blob/master/HOCON.md).
 
@@ -126,7 +126,7 @@ The service bootstrap configuration files are in two locations:
 Any files with a `.cfg` extension in either of these locations are combined to form the final set of services OpenVox Server will use.
 
 The CA-related configuration settings are set in `/etc/puppetlabs/puppetserver/services.d/ca.cfg`. If services added in future versions have user-configurable settings, the configuration files will also be in
-this directory. When upgrading penVox Server with a package manager, it should not overwrite files already in this directory.
+this directory. When upgrading OpenVox Server with a package manager, it should not overwrite files already in this directory.
 
 In the `ca.cfg` file, find and modify these lines as directed to enable or disable the service:
 
