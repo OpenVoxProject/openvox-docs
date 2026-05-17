@@ -10,7 +10,7 @@ Many of these endpoints are the same as the [OpenVox HTTP API](https://puppet.co
 
 ## V1/V2 HTTP APIs (removed)
 
-The V1 and V2 APIs were removed in Puppet 4.0.0. The routes that were previously under `/` or `/v2.0` can now be found under the [`/puppet/v3`](#puppet-v3-http-api) API or [`/puppet-ca/v1`](#ca-v1-http-api)
+The V1 and V2 APIs were removed in Puppet 4.0.0. The routes that were previously under `/` or `/v2.0` can now be found under the [`/puppet/v3`](#openvox-v3-http-api) API or [`/puppet-ca/v1`](#ca-v1-http-api)
 API.
 
 ## OpenVox and OpenVox CA APIs
@@ -64,7 +64,7 @@ These services are not directly used by OpenVox agent, but can be used by other 
 
 - [Status](/openvox/latest/http_api/http_status.html)
 
-> **Note:** The [OpenVox Server status API](#puppet-server-specific-endpoints) provides more detail and features.
+> **Note:** The [OpenVox Server status API](#openvox-server-specific-endpoints) provides more detail and features.
 
 ### Environments endpoint
 
