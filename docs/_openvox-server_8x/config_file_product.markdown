@@ -13,14 +13,13 @@ The `product.conf` file doesn't exist in a default OpenVox Server installation; 
 - Settings in the `product` section configure update checking and analytics data collection:
 
   - `check-for-updates`: If set to `false`, OpenVox Server will not automatically check for updates, and will not send analytics data to Puppet.
-
-        If this setting is unspecified (default) or set to `true`, OpenVox Server checks for updates upon start or restart, and every 24 hours thereafter, by sending the following data to Puppet:
-        -   Product name
-        -   Puppet Server version
-        -   IP address
-        -   Data collection timestamp
-        OpenVox requests this data as one of the many ways we learn about and work with our community. The more we know about how you use OpenVox, the better we can address your needs.
-        No personally identifiable information is collected, and the data we collect is never used or shared outside of OpenVox.
+    If this setting is unspecified (default) or set to `true`, OpenVox Server checks for updates upon start or restart, and every 24 hours thereafter, by sending the following data to Puppet:
+    - Product name
+    - OpenVox Server version
+    - IP address
+    - Data collection timestamp
+    OpenVox requests this data as one of the many ways we learn about and work with our community. The more we know about how you use OpenVox, the better we can address your needs.
+    No personally identifiable information is collected, and the data we collect is never used or shared outside of OpenVox.
 
 ### Example
 
