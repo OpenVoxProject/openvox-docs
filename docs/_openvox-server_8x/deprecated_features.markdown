@@ -10,7 +10,7 @@ The following features / configuration settings are deprecated and will be remov
 ### Now
 
 If the `certificate-authority.certificate-status.authorization-required` setting is `false`, all requests that are successfully validated by SSL (if applicable for the port settings on the server) are permitted
-to use the [Certificate Status](https://github.com/openvoxproject/penvox/blob/master/api/docs/http_certificate_status.md) HTTP API endpoints. This includes requests which do not provide an SSL client certificate.
+o use the [Certificate Status](https://github.com/openvoxproject/openvox/blob/master/api/docs/http_certificate_status.md) HTTP API endpoints. This includes requests which do not provide an SSL client certificate.
 
 If the `certificate-authority.certificate-status.authorization-required` setting is `true` or not specified and the `puppet-admin.client-whitelist` setting has one or more entries, only the requests whose
 Common Name in the SSL client certificate subject matches one of the `client-whitelist` entries are permitted to use the certificate status HTTP API endpoints.
