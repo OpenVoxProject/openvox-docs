@@ -1,13 +1,12 @@
 ---
 layout: default
-title: "Puppet Server Configuration Files: web-routes.conf"
-canonical: "/puppetserver/latest/config_file_web-routes.html"
+title: "OpenVox Server Configuration Files: web-routes.conf"
 ---
 
-The `web-routes.conf` file configures the Puppet Server `web-router-service`, which sets mount points for Puppet Server's web applications. You should not modify these mount points, as Puppet 4 agents rely on
-Puppet Server mounting them to specific URLs.
+The `web-routes.conf` file configures the OpenVox Server `web-router-service`, which sets mount points for OpenVox Server's web applications.
+You should not modify these mount points, as OpenVox agents rely on OpenVox Server mounting them to specific URLs.
 
-For an overview, see [Puppet Server Configuration](./configuration.html). To configure the `webserver` service, see the [`webserver.conf` documentation](./config_file_webserver.html).
+For an overview, see [OpenVox Server Configuration](./configuration.html). To configure the `webserver` service, see the [`webserver.conf` documentation](./config_file_webserver.html).
 
 ## Example
 

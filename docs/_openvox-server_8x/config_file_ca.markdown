@@ -1,16 +1,15 @@
 ---
 layout: default
-title: "Puppet Server Configuration Files: ca.conf"
-canonical: "/puppetserver/latest/config_file_ca.html"
+title: "OpenVox Server Configuration Files: ca.conf"
 ---
 
-[`trapperkeeper-authorization`]: https://github.com/puppetlabs/trapperkeeper-authorization
+[`trapperkeeper-authorization`]: https://github.com/openvoxproject/trapperkeeper-authorization
 [new `auth.conf`]: ./config_file_auth.html
 [deprecated]: ./deprecated_features.html
 
-The `ca.conf` file configures settings for the Puppet Server Certificate Authority (CA) service. For an overview, see [Puppet Server Configuration](./configuration.html).
+The `ca.conf` file configures settings for the OpenVox Server Certificate Authority (CA) service. For an overview, see [OpenVox Server Configuration](./configuration.html).
 
-> **Deprecation Note:** The `authorization-required` and `client-whitelist` settings are [deprecated][] as of Puppet Server 2.2 in favor of authorization that is configured in the [new `auth.conf`][] file.
+> **Deprecation Note:** The `authorization-required` and `client-whitelist` settings are [deprecated][] in favor of authorization that is configured in the [new `auth.conf`][] file.
 
 ## Signing settings
 
@@ -22,25 +21,21 @@ you know you need to sign certs this way. `puppet cert sign` used to allow this 
 
 ## Infrastructure CRL settings
 
-Puppet Server is able to create a separate CRL file containing only revocations of Puppet infrastructure nodes. This behavior is turned off by default. To enable it, set `certificate-authority.enable-infra-crl`
+OpenVox Server is able to create a separate CRL file containing only revocations of OpenVox infrastructure nodes. This behavior is turned off by default. To enable it, set `certificate-authority.enable-infra-crl`
 to `true`.
 
 ## Status settings (deprecated)
 
 The `certificate-status` setting in `ca.conf` provides [deprecated][] configuration options for access to the `certificate_status` and `certificate_statuses` HTTP endpoints. These endpoints allow certificates
-to be signed, revoked, and deleted through HTTP requests, which provides full control over Puppet's ability to securely authorize access. Therefore, you should **always** restrict access to `ca.conf`.
-
-> **Puppet Enterprise Note:** Puppet Enterprise uses these endpoints to provide a console interface for certificate signing. For more information, see
-> [Certificate Status](https://puppet.com/docs/puppet/latest/http_api/http_certificate_status.html).
+to be signed, revoked, and deleted through HTTP requests, which provides full control over OpenVox's ability to securely authorize access. Therefore, you should **always** restrict access to `ca.conf`.
 
 The `certificate-status` setting takes two parameters: `authorization-required` and `client-whitelist`. If `authorization-required` is set to `true` or not set, **and** `client-whitelist` is set to an empty
-list or not set, Puppet Server uses the [authorization methods][`trapperkeeper-authorization`] and [new `auth.conf`][] format introduced in Puppet Server 2.2 to control access to the administration API
-endpoints.
+list or not set, OpenVox Server uses the [authorization methods][`trapperkeeper-authorization`] and [new `auth.conf`][] format to control access to the administration API endpoints.
 
 - `authorization-required` determines whether a client certificate is required to access certificate status endpoints. If this parameter is set to `false`, all requests can access this API. If set to `true`,
   only the clients whose certificate names are included in the `client-whitelist` setting can access the admin API. If this parameter is not specified but the `client-whitelist` parameter is, this parameter's
   value defaults to `true`.
-- `client-whitelist` contains a list of client certificate names that are whitelisted for access to the certificate status endpoints. Puppet Server denies access to requests at these endpoints that do not
+- `client-whitelist` contains a list of client certificate names that are whitelisted for access to the certificate status endpoints. OpenVox Server denies access to requests at these endpoints that do not
   present a valid client certificate named in this list.
 
 ## Example (Deprecated)

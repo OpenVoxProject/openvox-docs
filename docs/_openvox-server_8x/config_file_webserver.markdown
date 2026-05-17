@@ -3,8 +3,8 @@ layout: default
 title: "OpenVox Server Configuration Files: webserver.conf"
 ---
 
-The `webserver.conf` file configures the OpenVox Server `webserver` service. For an overview, see [OpenVox Server Configuration](./configuration.html). To configure the mount points for the Puppet administrative
-API web applications, see the [`web-routes.conf` documentation](./config_file_web-routes.html).
+The `webserver.conf` file configures the OpenVox Server `webserver` service. For an overview, see [OpenVox Server Configuration](./configuration.html).
+To configure the mount points for the OpenVox administrative API web applications, see the [`web-routes.conf` documentation](./config_file_web-routes.html).
 
 ## Examples
 
