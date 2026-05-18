@@ -18,6 +18,34 @@ Puppet Open Source is no longer actively developed.
 
 You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade to OpenVox 8, or you can upgrade to Puppet 8 and then migrate to OpenVox 8.
 
+## OpenVox 8.27.0
+
+Released May 18, 2026.
+
+This is a bug-fix and security release of OpenVox.
+
+All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/8.27.0).
+
+### Security Issues Resolved in 8.27.0
+
+|                                Identifier                         | CVSS 3.1 Score |            Resolved By            |
+|-------------------------------------------------------------------| :------------: |-----------------------------------|
+| [CVE-2026-41316](https://nvd.nist.gov/vuln/detail/CVE-2026-41316) |      8.1       | `pkg:gem/erb@4.0.3.1`             |
+| [CVE-2026-42258](https://nvd.nist.gov/vuln/detail/CVE-2026-42258) |      N/A       | `pkg:gem/net-imap@0.4.24`         |
+| [CVE-2026-42246](https://nvd.nist.gov/vuln/detail/CVE-2026-42246) |      N/A       | `pkg:gem/net-imap@0.4.24`         |
+| [CVE-2026-42245](https://nvd.nist.gov/vuln/detail/CVE-2026-42245) |      N/A       | `pkg:gem/net-imap@0.4.24`         |
+| [CVE-2026-42257](https://nvd.nist.gov/vuln/detail/CVE-2026-42257) |      N/A       | `pkg:gem/net-imap@0.4.24`         |
+| [CVE-2026-5773](https://nvd.nist.gov/vuln/detail/CVE-2026-5773)   |      7.5       | `pkg:github/curl/curl@8.20.0`     |
+| [CVE-2026-6276](https://nvd.nist.gov/vuln/detail/CVE-2026-6276)   |      7.5       | `pkg:github/curl/curl@8.20.0`     |
+| [CVE-2026-5545](https://nvd.nist.gov/vuln/detail/CVE-2026-5545)   |      6.5       | `pkg:github/curl/curl@8.20.0`     |
+| [CVE-2026-6253](https://nvd.nist.gov/vuln/detail/CVE-2026-6253)   |      5.9       | `pkg:github/curl/curl@8.20.0`     |
+| [CVE-2026-4873](https://nvd.nist.gov/vuln/detail/CVE-2026-4873)   |      5.9       | `pkg:github/curl/curl@8.20.0`     |
+| [CVE-2026-7168](https://nvd.nist.gov/vuln/detail/CVE-2026-7168)   |      5.3       | `pkg:github/curl/curl@8.20.0`     |
+| [CVE-2026-6429](https://nvd.nist.gov/vuln/detail/CVE-2026-6429)   |      5.3       | `pkg:github/curl/curl@8.20.0`     |
+| [CVE-2026-7009](https://nvd.nist.gov/vuln/detail/CVE-2026-7009)   |      5.3       | `pkg:github/curl/curl@8.20.0`     |
+| [CVE-2026-6732](https://nvd.nist.gov/vuln/detail/CVE-2026-6732)   |      7.5       | `pkg:github/gnome/libxml2@2.15.3` |
+
+
 ## OpenVox 8.26.2
 
 Released April 18, 2026.
