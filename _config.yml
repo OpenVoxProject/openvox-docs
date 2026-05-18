@@ -7,6 +7,7 @@ timezone: UTC
 theme: jekyll-vitepress-theme
 plugins:
   - jekyll-vitepress-theme
+  - jekyll-tabs
 
 markdown: kramdown
 kramdown:
