@@ -58,7 +58,7 @@ This setting allows you specify OpenVoxDB instances to which commands should be 
 
 If a server is listed in `submit_only_server_urls`, it shouldn't be listed in `server_urls`; the two lists should be disjoint.
 
-Successful command submission to the OpenVoxDB instances in this list **do** count towards any submission success thresholds you have configured.
+Successful command submission to the OpenVoxDB instances in this list **do** count towards the `min_successful_submissions` setting, so consider incrementing accordingly if you use this setting.
 
 ### `server_url_timeout`
 
@@ -81,3 +81,33 @@ processing. If you do not want to store information about catalog edges, set
 this value to `false`.
 
 The default value is true.
+
+### `include_unchanged_resources`
+
+This setting tells the OpenVoxDB terminus whether or not it should include
+unchanged resources data in a report when sending it to OpenVoxDB. If you do not
+want to store information about unchanged resources in a report, set this value
+to `false`.
+
+The default value is false.
+
+### `sticky_read_failover`
+
+When using multiple `server_urls`, this flag can be set to `true` to cause queries to be made to the last OpenVoxDB instance that was successfully contacted.
+
+The default value is false.
+
+### `command_broadcast`
+
+When set to `true` in installations using multiple `server_urls`, commands are sent to all configured OpenVoxDB instances.
+
+The default value is false.
+
+### `min_successful_submissions`
+
+When writing data (submitting commands) to OpenVoxDB, this is the minimum number of machines to which the command must be successfully sent to consider the write successful.
+If the configured number of machines cannot be reached, Puppet runs will fail.
+
+The default value is one, which should be appropriate for most single- or dual-OpenVoxDB deployments.
+
+Setting this above the default of one requires `command_broadcast` to be set to `true`.
