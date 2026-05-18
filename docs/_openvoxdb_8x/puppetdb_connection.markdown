@@ -58,7 +58,7 @@ This setting allows you specify OpenVoxDB instances to which commands should be 
 
 If a server is listed in `submit_only_server_urls`, it shouldn't be listed in `server_urls`; the two lists should be disjoint.
 
-Successful command submission to the OpenVoxDB instances in this list **do** count towards the `min_successful_submissions` setting, so consider incrementing accordingly if you use this setting.
+Successful command submission to the OpenVoxDB instances in this list **do** count towards any submission success thresholds you have configured.
 
 ### `server_url_timeout`
 
