@@ -31,10 +31,10 @@ All bug fixes, new features and other changes are provided on the [project's git
 |                                Identifier                         | CVSS 3.1 Score |            Resolved By            |
 |-------------------------------------------------------------------| :------------: |-----------------------------------|
 | [CVE-2026-41316](https://nvd.nist.gov/vuln/detail/CVE-2026-41316) |      8.1       | `pkg:gem/erb@4.0.3.1`             |
-| [CVE-2026-42258](https://nvd.nist.gov/vuln/detail/CVE-2026-42258) |      N/A       | `pkg:gem/net-imap@0.4.24`         |
-| [CVE-2026-42246](https://nvd.nist.gov/vuln/detail/CVE-2026-42246) |      N/A       | `pkg:gem/net-imap@0.4.24`         |
-| [CVE-2026-42245](https://nvd.nist.gov/vuln/detail/CVE-2026-42245) |      N/A       | `pkg:gem/net-imap@0.4.24`         |
-| [CVE-2026-42257](https://nvd.nist.gov/vuln/detail/CVE-2026-42257) |      N/A       | `pkg:gem/net-imap@0.4.24`         |
+| [CVE-2026-42258](https://nvd.nist.gov/vuln/detail/CVE-2026-42258) |      9.8       | `pkg:gem/net-imap@0.4.24`         |
+| [CVE-2026-42257](https://nvd.nist.gov/vuln/detail/CVE-2026-42257) |      9.8       | `pkg:gem/net-imap@0.4.24`         |
+| [CVE-2026-42245](https://nvd.nist.gov/vuln/detail/CVE-2026-42245) |      7.5       | `pkg:gem/net-imap@0.4.24`         |
+| [CVE-2026-42246](https://nvd.nist.gov/vuln/detail/CVE-2026-42246) |      7.4       | `pkg:gem/net-imap@0.4.24`         |
 | [CVE-2026-5773](https://nvd.nist.gov/vuln/detail/CVE-2026-5773)   |      7.5       | `pkg:github/curl/curl@8.20.0`     |
 | [CVE-2026-6276](https://nvd.nist.gov/vuln/detail/CVE-2026-6276)   |      7.5       | `pkg:github/curl/curl@8.20.0`     |
 | [CVE-2026-5545](https://nvd.nist.gov/vuln/detail/CVE-2026-5545)   |      6.5       | `pkg:github/curl/curl@8.20.0`     |
