@@ -5,18 +5,10 @@ layout: default
 
 # OpenVoxDB CLI
 
-[installpuppet]: https://puppet.com/docs/puppet/latest/install_pre.html
-[repos]: https://puppet.com/docs/puppet/latest/puppet_platform.html
+[installpuppet]: /openvox/latest/install_pre.html
 [export]: ./anonymization.html
-[installpeclienttools]: https://puppet.com/docs/pe/latest/installing_pe_client_tools.html
 
 ## Installation
-
-For Puppet Enterprise you have the ability to install the OpenVoxDB CLI via the
-`pe-client-tools` package. If you are installing `pe-client-tools` please see
-[the pe-client-tools installation instructions][installpeclienttools] for
-instructions on installing the OpenVoxDB CLI on either a workstation managed or
-unmanaged by Puppet.
 
 ### Step 1: Install and configure Puppet
 
@@ -68,9 +60,7 @@ The OpenVoxDB CLI configuration files (the user-specified or global files) can
 take the following settings:
 
 - `server_urls` Either a JSON String (for a single url) or Array (for multiple
-  urls) of your OpenVoxDB servers to query or manage via the CLI commands. (You
-  can set this with the `puppetdb_urls` parameter in the
-  `puppet_enterprise::profile::controller` class for PE.)
+  urls) of your OpenVoxDB servers to query or manage via the CLI commands.
 
   Default value: https://127.0.0.1:8080
 
@@ -80,49 +70,15 @@ take the following settings:
 
   Windows - C:\ProgramData\PuppetLabs\puppet\etc\ssl\certs\ca.pem
 
-- `cert` An SSL certificate signed by your site's Puppet CA. Note that the PE
- version of the CLI supports token auth via `puppet-access` and this option
- should not be necessary.
+- `cert` An SSL certificate signed by your site's Puppet CA.
 
-- `key` The private key for that certificate. Note that the PE version of the
- CLI supports token auth via `puppet-access` and this option should not be
- necessary.
+- `key` The private key for that certificate.
 
-#### Example configuration file (pe-client-tools)
+#### Example configuration file
 
-The PE version of the OpenVoxDB CLI supports token auth so the only
-necessary configuration items are `server_urls` and `cacert`.
-
-> **Note:** You can still use certificate authentication with the PE version (see
-below for an example configuration) but setting `cert` and `key` in the OpenVoxDB
-CLI configuration will prevent you from using token authentication (for example,
-certificate authentication takes precendence over token authentication).
-
-```json
-{
-  "puppetdb": {
-    "server_urls": "https://<PUPPETDB_HOST>:8081",
-    "cacert": "/etc/puppetlabs/puppet/ssl/certs/ca.pem"
-  }
-}
-```
-
-On Windows, escape slashes in the CA certificate path.
-
-```json
-{
-  "puppetdb": {
-    "server_urls": "https://<PUPPETDB_HOST>:8081",
-    "cacert": "C:\\ProgramData\\PuppetLabs\\puppet\\etc\\ssl\\certs\\ca.pem"
-  }
-}
-```
-
-#### Example configuration file (puppet-client-tools)
-
-The open source version of the OpenVoxDB CLI requires certificate authentication
-for SSL connections to OpenVoxDB. To configure certificate authentication set
-`cacert`, `cert` and `key`.
+The OpenVoxDB CLI requires certificate authentication for SSL connections to
+OpenVoxDB. To configure certificate authentication set `cacert`, `cert` and
+`key`.
 
 ```json
 {

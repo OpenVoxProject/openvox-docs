@@ -21,9 +21,6 @@ canonical: "/openvoxdb/latest/api/query/v4/packages.html"
 [resources]: ./resources.html
 [inventory]: inventory.html
 
-> **PE feature**: Package metadata collection, storage, and querying is
-> a Puppet Enterprise-only feature.
-
 ## `/pdb/query/v4/packages`
 
 Returns all installed packages, across all nodes. One record is returned for

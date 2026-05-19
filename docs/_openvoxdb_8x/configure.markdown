@@ -10,15 +10,12 @@ canonical: "/openvoxdb/latest/configure.html"
 [java-patterns]: https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
 [logback]: http://logback.qos.ch/manual/configuration.html
 [dashboard]: ./maintain_and_tune.html#monitor-the-performance-dashboard
-[pe-dashboard]: https://support.puppet.com/hc/en-us/articles/208484488-Enable-and-view-the-OpenVoxDB-performance-dashboard-for-Puppet-Enterprise-3-3-2-to-2019-1
 [repl]: ./repl.html
 [pg_trgm]: http://www.postgresql.org/docs/current/static/pgtrgm.html
 [postgres_ssl]: ./postgres_ssl.html
 [migration-coordination]: ./migration_coordination.html
 [module]: ./install_via_module.html
 [puppetdb.conf]: ./connect_puppet_server.html#edit-puppetdbconf
-[ha]: ./ha.html
-[node-ttl]: #node-ttl
 [admin-cmd]: ./api/admin/v1/cmd.html
 [query-timeout-parameter]: ./api/query/v4/overview.html#url-parameters
 
@@ -37,10 +34,8 @@ platform and by package:
 
 OS and Package               | File
 -----------------------------|----------------------------
-Red Hat-like (open source)   | `/etc/sysconfig/puppetdb`
-Red Hat-like (PE)            | `/etc/sysconfig/pe-puppetdb`
-Debian/Ubuntu (open source)  | `/etc/default/puppetdb`
-Debian/Ubuntu (PE)           | `/etc/default/pe-puppetdb`
+Red Hat-like                 | `/etc/sysconfig/puppetdb`
+Debian/Ubuntu                | `/etc/default/puppetdb`
 
  In this file, you can change the following settings:
 
@@ -245,9 +240,6 @@ the `query-timeout-default` description for additional information.
 At the moment, this limit only applies to the `/pdb//query/..`
 endpoints.
 
-Note that this maximum does not apply to OpenVoxDB sync (PE Only)
-queries (with `origin=puppet:puppetdb-sync-*`).  They specify their
-own timeouts related to the sync `entity-time-limit`.
 
 ### `certificate-allowlist`
 
@@ -670,10 +662,6 @@ logging for the `puppetlabs.puppetdb.middleware` appender in the
 
 The `[jetty]` section configures HTTP for OpenVoxDB.
 
-> **Note:** If you are using Puppet Enterprise and want to enable the
-    OpenVoxDB dashboard from the PE console, refer to [Enable and view OpenVoxDB performance dashboard in PE][pe-dashboard]
-    for more information. PE users should not edit `jetty.ini`.
-
 
 ### `host`
 
@@ -894,73 +882,6 @@ incurs a penalty in data transfer speed and size. Users may override this
 setting on a per-query basis by supplying a `?pretty=` parameter in the URL,
 valued `true` or `false`.
 
-## `[sync]` settings (Puppet Enterprise only)
-
-The `[sync]` section of the OpenVoxDB configuration file is used to configure
-synchronization for a high-availability system. See
-the [HA configuration guide][ha] for complete system configuration instructions.
-
-### `remotes`
-
-The `remotes` configuration key indicates that OpenVoxDB should poll a remote
-OpenVoxDB server for changes. When it finds changed or updated records on that
-server, it will download the records and submit them to the local command queue.
-
-In the configuration file, you specify a `remote` for each server you want to
-pull data from. It is perfectly reasonable, and expected, for two servers to
-pull data from each other. For each remote, you must provide:
-
- - The remote server url. This is a root url which should include the protocol
-   and port to use (eg. "https://openvoxdb.myco.net:8081"). The protocol is
-   mandatory and must be either "http" or "https". If the port is not provided,
-   it will default to `8080` for http and `8081` for https.
-
- - The interval at which to poll the remote server for new data. This is
-   formatted as a timespan with units (e.g. '2m'). See the
-   [node-ttl documentation][node-ttl] for further reference.
-
-You should not configure OpenVoxDB to sync with itself.
-
-### `entity-time-limit`
-
-Set the maximum time that an entity can sync for (default: `"30m"`). OpenVoxDB
-syncs one entity (`catalogs`, `factsets`, `reports`, and `nodes`) at a time.
-While the sync is running it keeps a query open on the PostgreSQL database that
-will prevent the removal of old rows. If that connection is open long enough,
-it can degrade database performance. You shouldn't need to modify this setting
-unless you are experiencing an issue.
-
-### `initial-report-threshold`
-
-OpenVoxDB's initial sync, which occurs during startup, will only sync reports
-newer than `initial-report-threshold` (default: `"0s"`). While starting up,
-OpenVoxDB will not respond to queries or accept command submissions, so this can
-be used to get OpenVoxDB online faster, at the expense that it could return query
-responses that are not up to date. Subsequent periodic syncs will transfer the
-remaining data.
-
-#### HOCON
-
-If you are using HOCON to configure OpenVoxDB, use the following structure in
-your .conf file:
-
-    sync: {
-      remotes: [{server_url: "https://remote-openvoxdb.myco.net:8081",
-                 interval: 2m}]
-    }
-
-#### ini
-
-If you are using a .ini file to configure OpenVoxDB, use the following structure:
-
-    [sync]
-    server_urls = https://remote-openvoxdb.myco.net:8081
-    intervals = 2m
-
-Multiple values may be provided by comma-separating them, with no whitespace.
-You must have exactly the same number of entries in the `server_urls` and
-`intervals` values.
-
 ## Experimental environment variables
 
 > *Note*: these settings are experimental and are likely to be altered
@@ -988,13 +909,6 @@ Controls how many milliseconds OpenVoxDB's fact path garbage collection
 process will wait for the lock it needs.  When set to `0` it will wait
 forever (the default), and when set to `system`, it won't specify
 any timeout, deferring to PostgreSQL's configuration.
-
-### `PDB_EXT_INTERRUPT_LINGERING_SYNC_PULL` (Puppet Enterprise only)
-
-Can be set to `true` (the default) or `false`.  When true, will
-attempt to interrupt the thread performing sync when the
-[`entity-time-limit`](#entity-time-limit) is exceeded during a sync
-attempt, in addition to the normal periodic checks for for a timeout.
 
 ### `PDB_GC_QUERY_BULLDOZER_TIMEOUT_MS`
 

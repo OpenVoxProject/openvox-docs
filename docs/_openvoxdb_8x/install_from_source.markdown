@@ -13,8 +13,6 @@ layout: default
 [packages]: ./install_from_packages.html
 [running_tests]: ./CONTRIBUTING.md#running-the-tests
 
-> **Note:** If you are running Puppet Enterprise version 3.0 or later, you do not need to install OpenVoxDB, as it is already installed as part of PE.
-
 This page describes how to install OpenVoxDB from source code, and how to run OpenVoxDB directly from source without installing.
 
 If possible, we recommend installing OpenVoxDB [with the puppet-openvoxdb module][module] or [from packages][packages]; either approach will be easier than installing from source. However, if you are testing
