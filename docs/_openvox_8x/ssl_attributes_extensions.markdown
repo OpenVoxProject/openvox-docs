@@ -111,7 +111,7 @@ Visibility of extensions is somewhat limited:
 * The `puppetserver ca list` command _does not_ display custom attributes for any pending CSRs, and
   [basic autosigning (autosign.conf)][autosign_basic] doesn't check them before signing. Either use
   [policy-based autosigning][autosign_policy] or inspect CSRs manually with the `openssl` command (see below).
-* The `puppetserver ca print` command _does_ display any extensions in a signed certificate, under the "X509v3 extensions" section.
+* The `puppet ssl show` command displays any extensions in the local node's signed certificate, under the "X509v3 extensions" section.
 
 Puppet's authorization system (`auth.conf`) does not use certificate extensions, but [Puppet Server's authorization system](/puppetserver/latest/config_file_auth.html), which is based on `trapperkeeper-authorization`, can use extensions in the ppAuthCertExt OID range, and requires them for requests to write access rules.
 
@@ -143,9 +143,9 @@ Note that every extension is preceded by any combination of two characters (`.$`
 
 Any Puppet-specific OIDs (see below) appear as numeric strings when using OpenSSL.
 
-You can check for extensions in a signed certificate by running `puppetserver ca print --certname <name>`.
-In the output, look for the "X509v3 extensions" section. Any of the Puppet-specific registered OIDs
-(see below) appear as their descriptive names:
+You can check for extensions in a signed certificate by running `puppet ssl show` on the agent node
+that holds the certificate. In the output, look for the "X509v3 extensions" section. Any of the
+Puppet-specific registered OIDs (see below) appear as their descriptive names:
 
 ```
 X509v3 extensions:

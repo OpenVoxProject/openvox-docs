@@ -22,8 +22,8 @@ Find
     GET /puppet-ca/v1/certificate_status/:certname?environment=:environment
     Accept: application/json, text/pson
 
-Retrieve information about the specified certificate. Similar to `puppet
-cert --list :certname`.
+Retrieve information about the specified certificate. Similar to `puppetserver
+ca list --certname :certname`.
 
 Search
 -----
@@ -31,8 +31,8 @@ Search
     GET /puppet-ca/v1/certificate_statuses/:any_key?environment=:environment
     Accept: application/json, text/pson
 
-Retrieve information about all known certificates. Similar to `puppet
-cert --list --all`. A key is required but is ignored.
+Retrieve information about all known certificates. Similar to `puppetserver
+ca list --all`. A key is required but is ignored.
 
 Save
 ----
@@ -43,9 +43,9 @@ Save
 Change the status of the specified certificate. The desired state
 is sent in the body of the PUT request as a one-item PSON hash; the two
 allowed complete hashes are `{"desired_state":"signed"}` (for signing a
-certificate signing request; similar to `puppet cert --sign`) and
+certificate signing request; similar to `puppetserver ca sign`) and
 `{"desired_state":"revoked"}` (for revoking a certificate; similar to
-`puppet cert --revoke`).
+`puppetserver ca revoke`).
 
 Note that revoking a certificate will not clean up other info about the
 host - see the DELETE request for more information.
@@ -59,7 +59,7 @@ Delete
 Cause the certificate authority to discard all SSL information regarding
 a host (including any certificates, certificate requests, and keys).
 This does not revoke the certificate if one is present; if you wish to
-emulate the behavior of `puppet cert --clean`, you must PUT a
+emulate the behavior of `puppetserver ca clean`, you must PUT a
 `desired_state` of `revoked` before deleting the host’s SSL information.
 
 If the deletion was successful, it returns a string listing the deleted
