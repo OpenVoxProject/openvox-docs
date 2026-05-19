@@ -10,7 +10,7 @@ title: "SSL configuration: autosigning certificate requests"
 
 Before Puppet agent nodes can retrieve their configuration catalogs, they need a signed certificate from the local Puppet certificate authority (CA). When using Puppet's built-in CA (that is, not [using an external CA][external_ca]), agents will submit a certificate signing request (CSR) to the CA Puppet master and will retrieve a signed certificate once one is available.
 
-By default, these CSRs must be manually signed by an admin user, using either the `puppet cert` command or the "node requests" page of the Puppet Enterprise console.
+By default, these CSRs must be manually signed by an admin user using the `puppetserver ca sign` command.
 
 Alternately, you can configure the CA Puppet master to automatically sign certain CSRs to speed up the process of bringing new agent nodes into the deployment.
 

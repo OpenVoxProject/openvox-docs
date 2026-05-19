@@ -55,7 +55,7 @@ See the respective sections below for information about how each hash is used an
 
 ### Default behavior
 
-The `puppet cert list` command doesn't display custom attributes for pending CSRs, and [basic autosigning (autosign.conf)][autosign_basic] doesn't check them before signing.
+The `puppetserver ca list` command doesn't display custom attributes for pending CSRs, and [basic autosigning (autosign.conf)][autosign_basic] doesn't check them before signing.
 
 ### Configurable behavior
 
@@ -65,7 +65,7 @@ The simplest use is to embed a pre-shared key of some kind in the custom attribu
 
 A more complex use might be to embed an instance-specific ID and write a policy executable that can check it against a list of your recently requested instances on a public cloud, like EC2 or GCE.
 
-If you use Puppet Server 2.5.0 or newer, you can also sign requests using authorization extensions and the `--allow-authorization-extensions` flag for `puppet cert sign`.
+You can also sign requests using authorization extensions and the `--allow-authorization-extensions` flag for `puppetserver ca sign`.
 
 ### Manually checking for custom attributes in CSRs
 
@@ -108,8 +108,10 @@ See [the page on facts and special variables][trusted_hash] for more information
 
 Visibility of extensions is somewhat limited:
 
-* The `puppet cert list` command _does not_ display custom attributes for any pending CSRs, and [basic autosigning (autosign.conf)][autosign_basic] doesn't check them before signing. Either use [policy-based autosigning][autosign_policy] or inspect CSRs manually with the `openssl` command (see below).
-* The `puppet cert print` command _does_ display any extensions in a signed certificate, under the "X509v3 extensions" section.
+* The `puppetserver ca list` command _does not_ display custom attributes for any pending CSRs, and
+  [basic autosigning (autosign.conf)][autosign_basic] doesn't check them before signing. Either use
+  [policy-based autosigning][autosign_policy] or inspect CSRs manually with the `openssl` command (see below).
+* The `puppet ssl show` command displays any extensions in the local node's signed certificate, under the "X509v3 extensions" section.
 
 Puppet's authorization system (`auth.conf`) does not use certificate extensions, but [Puppet Server's authorization system](/puppetserver/latest/config_file_auth.html), which is based on `trapperkeeper-authorization`, can use extensions in the ppAuthCertExt OID range, and requires them for requests to write access rules.
 
@@ -141,7 +143,9 @@ Note that every extension is preceded by any combination of two characters (`.$`
 
 Any Puppet-specific OIDs (see below) appear as numeric strings when using OpenSSL.
 
-You can check for extensions in a signed certificate by running `puppet cert print <name>`. In the output, look for the "X509v3 extensions" section. Any of the Puppet-specific registered OIDs (see below) appear as their descriptive names:
+You can check for extensions in a signed certificate by running `puppet ssl show` on the agent node
+that holds the certificate. In the output, look for the "X509v3 extensions" section. Any of the
+Puppet-specific registered OIDs (see below) appear as their descriptive names:
 
 ```
 X509v3 extensions:
@@ -221,7 +225,8 @@ To start over, do the following:
 
 **On the CA Puppet master:**
 
-* Check whether a signed certificate exists; use `puppet cert list --all` to see the complete list. If it exists, revoke and delete it with `puppet cert clean <name>`.
+* Check whether a signed certificate exists; use `puppetserver ca list --all` to see the complete list.
+  If it exists, revoke and delete it with `puppetserver ca clean --certname <name>`.
 * Check whether a CSR for the node exists; it will be in `$ssldir/ca/requests/<name>.pem`. If it exists, delete it.
 
 After you've done that, you can start over.

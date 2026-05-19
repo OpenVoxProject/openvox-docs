@@ -5,7 +5,6 @@ title: "Config files: custom_trusted_oid_mapping.yaml"
 
 [extensions]: ./ssl_attributes_extensions.html
 [mapping_setting]: ./configuration.html#trustedoidmappingfile
-[pup-4617]: https://tickets.puppetlabs.com/browse/PUP-4617
 [csr_attributes]: ./config_file_csr_attributes.html
 [trusted]: ./lang_facts_and_builtin_vars.html#trusted-facts
 [registered]: ./ssl_attributes_extensions.html#puppet-specific-registered-ids
@@ -33,7 +32,6 @@ For more info, see:
 Mapping OIDs in this file _only_ affects the keys in the `$trusted[extensions]` hash. It does not affect:
 
 * What an agent can request in its `csr_attributes.yaml` file --- anything but Puppet-specific registered extensions must still be numerical OIDs.
-* What you see when you run `puppet cert print` --- mapped extensions will still be displayed as numerical OIDs. (Improving cert display is planned as [PUP-4617][].)
 
 ## Location
 

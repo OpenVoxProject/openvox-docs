@@ -40,7 +40,7 @@ via the command line:
 
 Any node managed by Puppet agent will already have all of these, and you can
 reuse them for contacting OpenVoxDB. You can also generate a new cert on the CA
-Puppet Server with the `puppet cert generate` command.
+Puppet Server with the `puppetserver ca generate` command.
 
 > **Note:** If you have turned on [certificate allowlisting][allowlist], you must
 make sure to authorize the certificate you are using:
