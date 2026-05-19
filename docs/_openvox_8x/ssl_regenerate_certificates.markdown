@@ -31,6 +31,7 @@ Regenerating all certs involves the following steps:
 1. Back up the [SSL directory][ssldir] (`/etc/puppetlabs/puppet/ssl/`) and the Puppet Server CA
    directory (`/etc/puppetlabs/puppetserver/ca/`). If something goes wrong, you may need to restore
    these directories to keep your deployment functional.
+
 2. Stop the Puppet agent service:
 
        sudo puppet resource service puppet ensure=stopped
@@ -39,16 +40,20 @@ Regenerating all certs involves the following steps:
 
        sudo puppet resource service puppetserver ensure=stopped
 
-4. Delete the SSL and CA directories:
+4. Clear the Puppet Server's SSL state:
 
-       sudo rm -rf /etc/puppetlabs/puppet/ssl
+       sudo puppet ssl clean --localca
        sudo rm -rf /etc/puppetlabs/puppetserver/ca
+
+   `puppet ssl clean --localca` removes the server's certificate, private key, and its local copy
+   of the CA certificate. The Puppet Server CA directory must be removed with `rm` as there is no
+   dedicated Puppet command to do so.
 
 5. Regenerate the CA and Puppet Server certificate:
 
        sudo puppetserver ca setup
 
-   You should see output confirming the CA and server certificates were created.
+   You should see: `Generation succeeded. Find your files in /etc/puppetlabs/puppetserver/ca`
 
 6. Start the Puppet Server service:
 
@@ -67,18 +72,22 @@ Regenerating all certs involves the following steps:
 > * If you are using any extensions that rely on Puppet certificates, like OpenVoxDB, the Puppet
 >   Server won't be able to communicate with them until their certificates are also replaced.
 
-## Step 2: Clear and regenerate certs for any extensions
+## Step 2: Clear and regenerate certs for OpenVoxDB
 
-If you are running extensions that use Puppet CA certificates to communicate with Puppet Server
-(such as OpenVoxDB), you'll need to regenerate their certificates as well.
+[OpenVoxDB][] maintains its own SSL directory at `/etc/puppetlabs/puppetdb/ssl/`, separate from
+Puppet's. This directory holds its own copies of the CA certificate and the server's key pair.
+After CA regeneration, refresh it using the `puppetdb ssl-setup` tool:
 
-* [OpenVoxDB][] users should follow [the agent certificate instructions below][agent_certs], since
-  OpenVoxDB uses Puppet agent certificates. After replacing the certificate, restart the OpenVoxDB
-  service.
+    sudo puppetdb ssl-setup -f
+
+> **Note:** Running `puppetdb ssl-setup` without `-f` detects the cert mismatch but will not
+> overwrite the files. The `-f` flag is required to update them.
+
+Then restart OpenVoxDB:
+
+    sudo puppet resource service puppetdb ensure=running
 
 ## Step 3: Clear and regenerate certs for Puppet agents
-
-[agent_certs]: #step-3-clear-and-regenerate-certs-for-puppet-agents
 
 To replace certificates on agent nodes, log into each agent and do the following:
 
@@ -90,13 +99,17 @@ To replace certificates on agent nodes, log into each agent and do the following
 
    On Windows nodes, run the same command without `sudo` with Administrator privileges.
 
-2. Clean the agent's SSL state:
+2. Clean the agent's SSL state, including the locally cached CA certificate:
 
    On \*nix nodes:
 
-       sudo puppet ssl clean
+       sudo puppet ssl clean --localca
 
    On Windows nodes, run the same command without `sudo` with Administrator privileges.
+
+   > **Note:** The `--localca` flag is required. Without it, only the agent's own certificate and
+   > key are removed. The agent retains the old CA certificate and fails to connect to the Puppet
+   > Server, which now presents a certificate signed by the new CA.
 
 3. Start the Puppet agent service.
 
@@ -106,15 +119,15 @@ To replace certificates on agent nodes, log into each agent and do the following
 
    On Windows nodes, run the same command without `sudo` with Administrator privileges.
 
-   Once the agent starts, it will generate a new key pair and submit a certificate signing request
-   to the CA Puppet Server.
+   Once the agent starts, it fetches the new CA certificate, generates a new key pair, and submits
+   a certificate signing request to the Puppet Server.
 
 4. If you are not using autosigning, sign each agent's certificate request from the Puppet Server:
 
        sudo puppetserver ca list
        sudo puppetserver ca sign --certname <NAME>
 
-Once an agent's new certificate is signed, it will fetch it automatically and begin a Puppet run.
+Once an agent's new certificate is signed, it fetches it automatically and begins a Puppet run.
 
 > Once you have regenerated all agents' certificates, **everything should now be back to normal
 > and fully functional under the new CA**.
