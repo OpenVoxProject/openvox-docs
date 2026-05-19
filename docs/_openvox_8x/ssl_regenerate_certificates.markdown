@@ -20,7 +20,7 @@ on your Puppet Server and then follow step 3 for any agents that need to be repl
 Regenerating all certs involves the following steps:
 
 1. On your Puppet Server (CA host), clear and regenerate the CA and server certificate.
-2. Clear and regenerate certificates for any extensions (e.g. OpenVoxDB).
+2. Clear and regenerate certificates for extensions (e.g. OpenVoxDB).
 3. Clear and regenerate certificates for all agent nodes.
 
 
@@ -28,9 +28,12 @@ Regenerating all certs involves the following steps:
 
 **On the Puppet Server hosting the CA:**
 
-1. Back up the [SSL directory][ssldir] (`/etc/puppetlabs/puppet/ssl/`) and the Puppet Server CA
-   directory (`/etc/puppetlabs/puppetserver/ca/`). If something goes wrong, you may need to restore
-   these directories to keep your deployment functional.
+1. Back up the following directories. If something goes wrong, you may need to restore them to keep
+   your deployment functional.
+
+   * [SSL directory][ssldir]: `/etc/puppetlabs/puppet/ssl/`
+   * Puppet Server CA directory: `/etc/puppetlabs/puppetserver/ca/`
+   * OpenVoxDB SSL directory (if applicable): `/etc/puppetlabs/puppetdb/ssl/`
 
 2. Stop the Puppet agent service:
 
@@ -59,6 +62,11 @@ Regenerating all certs involves the following steps:
 
        sudo puppet resource service puppetserver ensure=running
 
+   Wait for Puppet Server to finish initializing before proceeding. You can poll the status
+   endpoint:
+
+       until curl -sk https://puppet:8140/status/v1/simple > /dev/null 2>&1; do sleep 5; done
+
 7. Start the Puppet agent service:
 
        sudo puppet resource service puppet ensure=running
@@ -72,20 +80,26 @@ Regenerating all certs involves the following steps:
 > * If you are using any extensions that rely on Puppet certificates, like OpenVoxDB, the Puppet
 >   Server won't be able to communicate with them until their certificates are also replaced.
 
-## Step 2: Clear and regenerate certs for OpenVoxDB
+## Step 2: Clear and regenerate certs for extensions
+
+If you are running extensions that use Puppet CA certificates to communicate with Puppet Server,
+you need to refresh their certificates as well. Many tools have their own setup scripts or
+documentation for this.
+
+### OpenVoxDB
 
 [OpenVoxDB][] maintains its own SSL directory at `/etc/puppetlabs/puppetdb/ssl/`, separate from
-Puppet's. This directory holds its own copies of the CA certificate and the server's key pair.
-After CA regeneration, refresh it using the `puppetdb ssl-setup` tool:
+Puppet's. This directory holds its own copies of the CA certificate and the Puppet agent
+certificate and key that OpenVoxDB uses to authenticate with Puppet Server. After CA regeneration,
+refresh it using the `puppetdb ssl-setup` tool, then restart the service:
 
     sudo puppetdb ssl-setup -f
+    sudo puppet resource service puppetdb ensure=stopped
+    sudo puppet resource service puppetdb ensure=running
 
 > **Note:** Running `puppetdb ssl-setup` without `-f` detects the cert mismatch but will not
-> overwrite the files. The `-f` flag is required to update them.
-
-Then restart OpenVoxDB:
-
-    sudo puppet resource service puppetdb ensure=running
+> overwrite the files. The `-f` flag is required to update them. The service must be restarted
+> (not just ensured running) to load the new certificates.
 
 ## Step 3: Clear and regenerate certs for Puppet agents
 
