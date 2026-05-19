@@ -5,7 +5,7 @@ layout: default
 
 # OpenVoxDB CLI
 
-[installpuppet]: https://puppet.com/docs/puppet/latest/install_pre.html
+[installpuppet]: /openvox/latest/install_pre.html
 [export]: ./anonymization.html
 
 ## Installation
