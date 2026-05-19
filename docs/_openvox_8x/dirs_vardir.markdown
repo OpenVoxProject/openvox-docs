@@ -22,7 +22,9 @@ The cache directory for Puppet agent and Puppet apply can be found at one of the
 
 When Puppet is running as either root, a Windows user with administrator privileges, or the `puppet` user, it will use a system-wide cache directory. When running as a non-root user, it will use a cache directory in that user's home directory.
 
-The system cache directory is what you usually want to use, since you will usually run Puppet's commands and services as root or `puppet`. (Note that admin commands like `puppet cert` must be run with `sudo` to use the same directories as Puppet agent or Puppet master.)
+The system cache directory is what you usually want to use, since you will usually run Puppet's commands
+and services as root or `puppet`. (Note that admin commands like `puppetserver ca` must be run with
+`sudo` to use the same directories as Puppet agent or Puppet master.)
 
 > **Note:** When Puppet master is running as a Rack application, the `config.ru` file must explicitly set `--vardir` to the system cache directory. The example `config.ru` file provided with the Puppet source does this.
 

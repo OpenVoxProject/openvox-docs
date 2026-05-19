@@ -52,7 +52,10 @@ This flow diagram illustrates the pattern of agent-side checks and HTTPS request
 
 ## Obtain a certificate (if necessary)
 
-Note that if the agent has submitted a certificate signing request, an admin user will need to run `puppet cert sign <NAME>` on the CA Puppet master before the agent can fetch a signed certificate. (Unless autosign is enabled.) Since incoming CSRs are unverified, you can use fingerprints to prove them, by comparing `puppet agent --fingerprint` on the agent to `puppet cert list` on the CA master.
+Note that if the agent has submitted a certificate signing request, an admin user will need to run
+`puppetserver ca sign --certname <NAME>` on the Puppet Server before the agent can fetch a signed
+certificate. (Unless autosign is enabled.) Since incoming CSRs are unverified, you can use fingerprints
+to prove them, by comparing `puppet agent --fingerprint` on the agent to `puppetserver ca list` on the Puppet Server.
 
 1. Try to fetch an already-signed certificate from the master. (Unverified GET request to `/puppet-ca/v1/certificate/<NAME>`.)
     * If it gets one, skip the rest of this section and continue to "request node object."

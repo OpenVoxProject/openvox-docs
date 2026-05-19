@@ -39,7 +39,7 @@ From the command line on your Puppet master, run:
 
 From the command line on each Puppet agent, run `puppet agent -t`.
 
-From your Puppet master, run `puppet cert list` and then `puppet cert sign <AGENT NAME>` to sign the certificates of your Puppet agents.
+From your Puppet Server, run `puppetserver ca list` and then `puppetserver ca sign --certname <AGENT NAME>` to sign the certificates of your Puppet agents.
 
 > That’s it! Your Puppet configuration is ready to go.
 

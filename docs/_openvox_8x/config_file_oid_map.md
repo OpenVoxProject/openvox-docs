@@ -33,7 +33,7 @@ For more info, see:
 Mapping OIDs in this file _only_ affects the keys in the `$trusted[extensions]` hash. It does not affect:
 
 * What an agent can request in its `csr_attributes.yaml` file --- anything but Puppet-specific registered extensions must still be numerical OIDs.
-* What you see when you run `puppet cert print` --- mapped extensions will still be displayed as numerical OIDs. (Improving cert display is planned as [PUP-4617][].)
+* What you see when you run `puppetserver ca print` --- mapped extensions will still be displayed as numerical OIDs. (Improving cert display is planned as [PUP-4617][].)
 
 ## Location
 

@@ -18,16 +18,23 @@ Puppet's confdir can be found at one of the following locations:
 
 When Puppet is running as either root, a Windows user with administrator privileges, or the `puppet` user, it will use a system-wide confdir. When running as a non-root user, it will use a confdir in that user's home directory.
 
-The system confdir is what you usually want to use, since you will usually run Puppet's commands and services as root or `puppet`. (Note that admin commands like `puppet cert` must be run with `sudo` to use the same confdir as Puppet agent or Puppet master.)
+The system confdir is what you usually want to use, since you will usually run Puppet's commands and
+services as root or `puppet`. (Note that admin commands like `puppetserver ca` must be run with `sudo`
+to use the same confdir as Puppet agent or Puppet master.)
 
 > **Note:** When Puppet master is running as a Rack application, the `config.ru` file must explicitly set `--confdir` to the system confdir. The example `config.ru` file provided with the Puppet source does this.
 
 {:.section}
 ### Configuration
 
-Puppet's confdir can be specified on the command line with the `--confdir` option, but it can't be set via puppet.conf. (This is because it needs the `confdir` to even find the config file.) If `--confdir` isn't specified when a Puppet application is started, it will always use the default confdir location.
+Puppet's confdir can be specified on the command line with the `--confdir` option, but it can't be set
+via puppet.conf. (This is because it needs the `confdir` to even find the config file.) If `--confdir`
+isn't specified when a Puppet application is started, it will always use the default confdir location.
 
-Puppet Server uses the `jruby-puppet.master-conf-dir` setting [in puppetserver.conf][puppetserver_conf] to configure its confdir. Note that if you're using a non-default confdir, you must also specify `--confdir` whenever you run commands like `puppet module` or `puppet cert` to ensure they use the same directories as Puppet Server.
+Puppet Server uses the `jruby-puppet.master-conf-dir` setting [in puppetserver.conf][puppetserver_conf]
+to configure its confdir. Note that if you're using a non-default confdir, you must also specify
+`--confdir` whenever you run commands like `puppet module` to ensure they use the same directories as
+Puppet Server.
 
 {:.concept}
 ## Interpolation of `$confdir`
