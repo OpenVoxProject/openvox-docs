@@ -20,5 +20,5 @@ no-inline-html:
 descriptive-link-text: false
 
 table:
-  style: 'compact'
+  style: 'consistent'
   aligned_delimiter: true
