@@ -8,7 +8,7 @@ canonical: "/openvoxdb/latest/api/query/v4/nodes.html"
 
 [resource]: ./resources.html
 [curl]: ../curl.html#using-curl-from-localhost-non-sslhttp
-[statuses]: https://puppet.com/docs/puppet/latest/format_report.html#puppettransactionreport
+[statuses]: /openvox/latest/format_report.html
 [paging]: ./paging.html
 [query]: query.html
 [8601]: http://en.wikipedia.org/wiki/ISO_8601

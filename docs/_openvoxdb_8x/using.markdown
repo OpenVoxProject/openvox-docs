@@ -6,7 +6,7 @@ canonical: "/openvoxdb/latest/using.html"
 
 # Using OpenVoxDB
 
-[exported]: https://puppet.com/docs/puppet/latest/lang_exported.html
+[exported]: /openvox/latest/lang_exported.html
 
 Currently, OpenVoxDB's primary use is enabling advanced Puppet features. As use becomes more widespread, we expect additional applications to be built on OpenVoxDB.
 

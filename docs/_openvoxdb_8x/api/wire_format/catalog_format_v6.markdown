@@ -6,19 +6,19 @@ canonical: "/openvoxdb/latest/api/wire_format/catalog_format_v6.html"
 
 # Catalog wire format - v6
 
-[containment]: https://puppet.com/docs/puppet/latest/lang_containment.html
-[relationship]: https://puppet.com/docs/puppet/latest/lang_relationships.html
-[chain]: https://puppet.com/docs/puppet/latest/lang_relationships.html#syntax-chaining-arrows
-[metaparameters]: https://puppet.com/docs/puppet/latest/lang_relationships.html#syntax-relationship-metaparameters
-[require]: https://puppet.com/docs/puppet/latest/lang_relationships.html#syntax-the-require-function
-[resource_ref]: https://puppet.com/docs/puppet/latest/lang_data_resource_reference.html
-[numbers]: https://puppet.com/docs/puppet/latest/lang_data_number.html
-[undef]: https://puppet.com/docs/puppet/latest/lang_data_undef.html
-[namevar]: https://puppet.com/docs/puppet/latest/lang_resources.html#namenamevar
-[resource]: https://puppet.com/docs/puppet/latest/lang_resources.html
-[title]: https://puppet.com/docs/puppet/latest/lang_resources.html#title
-[type]: https://puppet.com/docs/puppet/latest/lang_resources.html#type
-[attributes]: https://puppet.com/docs/puppet/latest/lang_resources.html#attributes
+[containment]: /openvox/latest/lang_containment.html
+[relationship]: /openvox/latest/lang_relationships.html
+[chain]: /openvox/latest/lang_relationships.html#syntax-chaining-arrows
+[metaparameters]: /openvox/latest/lang_relationships.html#syntax-relationship-metaparameters
+[require]: /openvox/latest/lang_relationships.html#syntax-the-require-function
+[resource_ref]: /openvox/latest/lang_data_resource_reference.html
+[numbers]: /openvox/latest/lang_data_number.html
+[undef]: /openvox/latest/lang_data_undef.html
+[namevar]: /openvox/latest/lang_resources.html#namenamevar
+[resource]: /openvox/latest/lang_resources.html
+[title]: /openvox/latest/lang_resources.html#title
+[type]: /openvox/latest/lang_resources.html#resource-types
+[attributes]: /openvox/latest/lang_resources.html#attributes
 
 OpenVoxDB receives catalogs from Puppet Servers in the following wire format. This format is subtly different from the internal format used by Puppet, so catalogs are converted by the
 [OpenVoxDB catalog terminus](../../connect_puppet_server.html) before they are sent.
@@ -54,7 +54,7 @@ String. The name of the node for which the catalog was compiled.
 #### `version`
 
 String. An arbitrary string that uniquely identifies this specific catalog across time for a single node. This is controlled by Puppet's
-[`config_version` setting](https://puppet.com/docs/puppet/latest/configuration.html#configversion) and is usually the seconds elapsed since the epoch.
+[`config_version` setting](/openvox/latest/configuration.html#config_version) and is usually the seconds elapsed since the epoch.
 
 #### `environment`
 

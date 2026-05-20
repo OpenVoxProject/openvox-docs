@@ -11,7 +11,7 @@ canonical: "/openvoxdb/latest/community_add_ons.html"
 [dashboard]: ./maintain_and_tune.html#monitor-the-performance-dashboard
 [query]: https://github.com/dalen/puppet-puppetdbquery
 [exports]: http://forge.puppetlabs.com/zack/exports
-[exported]: https://puppet.com/docs/puppet/latest/lang_exported.html
+[exported]: /openvox/latest/lang_exported.html
 [cms-puppetdb-tools]: https://github.com/tskirvin/cms-puppetdb-tools
 [prometheus-exporter]: https://github.com/camptocamp/prometheus-puppetdb-exporter
 [vox-pupuli-prometheus]: https://github.com/voxpupuli/puppet-prometheus/blob/master/manifests/puppetdb_exporter.pp
