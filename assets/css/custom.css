@@ -7,3 +7,15 @@ table.resolution > tbody > tr:last-child {
 table.resolution > tbody > tr:last-child > td:first-child {
   text-align: right;
 }
+
+/* Highlight the active page more visibly */
+.VPSidebarItem.level-0.is-active > .item .link > .text,
+.VPSidebarItem.level-1.is-active > .item .link > .text,
+.VPSidebarItem.level-2.is-active > .item .link > .text,
+.VPSidebarItem.level-3.is-active > .item .link > .text,
+.VPSidebarItem.level-4.is-active > .item .link > .text,
+.VPSidebarItem.level-5.is-active > .item .link > .text {
+  background-color: var(--vp-c-brand-soft);
+  border-radius: 0.25em;
+  padding-left: 1em;
+}
