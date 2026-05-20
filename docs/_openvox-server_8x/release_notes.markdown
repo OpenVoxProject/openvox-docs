@@ -12,6 +12,23 @@ This is an enhancement and bug-fix release of OpenVox Server.
 
 All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvox-server/releases/tag/8.13.0).
 
+### Known Issues
+
+#### `jruby-openssl` 0.15.4 Fails to Parse EC Keys
+
+The `openssl` JRuby library included in this release may fail to parse some PEM
+files that previous versions were able to parse, resulting in errors such as:
+
+```console
+java.lang.NoSuchMethodError: 'org.bouncycastle.asn1.ASN1Primitive org.bouncycastle.asn1.sec.ECPrivateKey.getParameters()'
+```
+Not all files are affected, the error seems to be triggered by specific patterns in
+ASN.1 content. See [OpenVoxProject/openvox-server#322][openvox-server-322]
+for more details and subscribe for updates on a fix. Recommended workaround is
+to downgrade the `openvox-server` package to version 8.12.1.
+
+[openvox-server-322]: https://github.com/OpenVoxProject/openvox-server/issues/322
+
 ## OpenVox Server 8.12.1
 
 Released January 21, 2025.
