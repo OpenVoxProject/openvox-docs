@@ -5,15 +5,15 @@ layout: default
 
 # Overview and requirements
 
-[exported]: https://puppet.com/docs/puppet/latest/lang_exported.html
+[exported]: /openvox/latest/lang_exported.html
 [connect]: ./connect_puppet_server.html
 [apply]: ./connect_puppet_apply.html
 [install_via_module]: ./install_via_module.html
 [install_from_packages]: ./install_from_packages.html
 [install_advanced]: ./install_from_source.html
 [scaling]: ./scaling_recommendations.html
-[facts]: https://puppet.com/docs/puppet/latest/lang_facts_and_builtin_vars.html
-[catalog]: https://puppet.com/docs/puppet/latest/lang_summary.html#compilation-and-catalogs
+[facts]: /openvox/latest/lang_facts_and_builtin_vars.html
+[catalog]: /openvox/latest/lang_summary.html#compilation-and-catalogs
 [releasenotes]: ./release_notes.html
 [github]: https://github.com/OpenVoxProject/openvoxdb
 [tracker]: https://github.com/OpenVoxProject/openvoxdb/issues

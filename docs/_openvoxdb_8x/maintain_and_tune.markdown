@@ -12,7 +12,7 @@ canonical: "/openvoxdb/latest/maintain_and_tune.markdown"
 [puppetdb_report_processor]: ./connect_puppet_server.html#enabling-report-storage
 [node_ttl]: ./configure.html#node-ttl
 [report_ttl]: ./configure.html#report-ttl
-[resources_type]: https://puppet.com/docs/puppet/latest/type.html#resources
+[resources_type]: /openvox/latest/type.html#resources
 [logback]: ./configure.html#the-logback-logging-config-file
 [dashboard]: #monitor-the-performance-dashboard
 
@@ -71,7 +71,7 @@ accordingly.
 
 OpenVoxDB will react to certain types of processing failures by storing a complete copy of the offending input, along with retry timestamps and error traces, in the "dead letter office" (DLO). Over time, the DLO
 can grow quite large. If you're not actively troubleshooting an issue, you might be able to recover a significant amount of space by deleting the contents of the DLO. It can be found at under
-[OpenVoxDB's data directory](https://puppet.com/docs/puppetdb/latest/configure.html#vardir) at `stockpile/discard`, which by default is `/opt/puppetlabs/server/data/puppetdb/stockpile/discard`.
+[OpenVoxDB's data directory](./configure.html#vardir) at `stockpile/discard`, which by default is `/opt/puppetlabs/server/data/puppetdb/stockpile/discard`.
 
 ## View the log
 

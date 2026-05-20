@@ -8,8 +8,7 @@ canonical: "/openvoxdb/latest/puppetdb_connection.html"
 
 [puppetdb_root]: ./overview.html
 [connect_to_puppetdb]: ./connect_puppet_server.html
-[confdir]: https://puppet.com/docs/puppet/latest/dirs_confdir.html
-[puppetdb_conf]: ./connect_puppet_server.html#edit-puppetdb\.conf
+[confdir]: /openvox/latest/dirs_confdir.html
 
 The `puppetdb.conf` file contains the hostname and port of the [OpenVoxDB][puppetdb_root] server. It is only used if you are using OpenVoxDB and have [connected your Puppet Server to it][connect_to_puppetdb].
 

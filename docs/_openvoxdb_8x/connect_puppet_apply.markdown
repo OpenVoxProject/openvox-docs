@@ -6,19 +6,19 @@ canonical: "/openvoxdb/latest/connect_puppet_apply.markdown"
 
 # Connecting standalone Puppet nodes to OpenVoxDB
 
-[exported]: https://puppet.com/docs/puppet/latest/lang_exported.html
-[package]: https://puppet.com/docs/puppet/latest/type.html#package
-[file]: https://puppet.com/docs/puppet/latest/type.html#file
-[yumrepo]: https://puppet.com/docs/puppet/latest/type.html#yumrepo
+[exported]: /openvox/latest/lang_exported.html
+[package]: /openvox/latest/type.html#package
+[file]: /openvox/latest/type.html#file
+[yumrepo]: https://forge.puppet.com/modules/puppetlabs/yumrepo_core
 [apt]: http://forge.puppetlabs.com/puppetlabs/apt
 [puppetdb_download]: https://github.com/OpenVoxProject/openvoxdb/releases
-[puppetdb_conf]: https://puppet.com/docs/puppet/latest/config_file_puppetdb.html
-[routes_yaml]: https://puppet.com/docs/puppet/latest/config_file_routes.html
-[exported]: https://puppet.com/docs/puppet/latest/lang_exported.html
+[puppetdb_conf]: /openvox/latest/config_file_puppetdb.html
+[routes_yaml]: /openvox/latest/config_file_routes.html
 [jetty]: ./configure.html#jetty-http-settings
 [ssl_script]: ./maintain_and_tune.html#redo-ssl-setup-after-changing-certificates
-[settings_namespace]: https://puppet.com/docs/puppet/latest/lang_facts_and_builtin_vars.html#puppet-master-variables
-[package_repos]: https://puppet.com/docs/puppet/latest/install_puppet.html#enable_the_puppet_platform_repository
+[settings_namespace]: /openvox/latest/lang_facts_and_builtin_vars.html#puppet-master-variables
+[package_repos]: /openvox/latest/openvox_platform.html
+[intermediate_ca]: /openvox-server/latest/intermediate_ca.html#set-up-openvox-as-an-intermediate-ca-with-an-external-root
 
 > **Note:** To use OpenVoxDB, the nodes at your site must be running Puppet version 3.8.1 or later.
 
@@ -50,7 +50,7 @@ You will have to sign a certificate for every new node you add to your site.
 Before you head down this path, please consider if signing certificates with Puppet Server will work for you.
 This option requires more work on your part to set up, and does not allow you to provide
 SSL to OpenVoxDB without a signed certificate, but it will allow you to provide SSL connections to OpenVoxDB using an existing CA.
-If you have an existing CA you would like to use, you can [set up Puppet Server as an intermediate CA](https://puppet.com/docs/puppetserver/latest/intermediate_ca.html#set-up-puppet-as-an-intermediate-ca-with-an-external-root) and then follow the instructions in Option A.
+If you have an existing CA you would like to use, you can [set up OpenVox Server as an intermediate CA][intermediate_ca] and then follow the instructions in Option A.
 
 1. Edit [the `[jetty]` section of the OpenVoxDB config files][jetty] to remove all SSL-related settings.
 2. Install a general-purpose web server (like Apache or NGINX) on the OpenVoxDB server.

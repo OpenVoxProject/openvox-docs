@@ -10,7 +10,7 @@ layout: default
 [pgstattuple]: http://www.postgresql.org/docs/9.6/static/pgstattuple.html
 [pgtune]: https://github.com/gregs1104/pgtune
 [postgres-config]: http://www.postgresql.org/docs/current/static/runtime-config-resource.html
-[fact-precedence]: https://puppet.com/docs/puppet/latest/custom_facts.html#fact-precedence
+[fact-precedence]: /openfact/latest/custom_facts.html#custom-facts-precedence
 [dbvis]: https://www.dbvis.com/
 [stockpile]: https://github.com/puppetlabs/stockpile
 

@@ -3,7 +3,7 @@ title: "Installing OpenVoxDB via Puppet module"
 layout: default
 ---
 
-[package_repos]: https://puppet.com/docs/puppet/latest/install_puppet.html#enable_the_puppet_platform_repository
+[package_repos]: /openvox/latest/openvox_platform.html
 
 # Installing OpenVoxDB via Puppet module
 

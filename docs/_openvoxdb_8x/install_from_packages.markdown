@@ -14,7 +14,7 @@ layout: default
 [install_module]: ./install_via_module.html
 [module]: https://forge.puppet.com/modules/puppet/openvoxdb
 [postgres_ssl]: ./postgres_ssl.html
-[package_repos]: https://puppet.com/docs/puppet/latest/install_puppet.html#enable_the_puppet_platform_repository
+[package_repos]: /openvox/latest/openvox_platform.html
 [known-issues]: ./known_issues.html
 
 This page describes how to manually install and configure OpenVoxDB from the official packages. Users are encouraged to install OpenVoxDB via the [OpenVoxDB module][module] instead of installing the packages
@@ -45,7 +45,7 @@ Additionally, these instructions may be useful for understanding OpenVoxDB's var
 
 If Puppet isn't fully installed and configured on your OpenVoxDB server, [install it][installpuppet] and request/sign/retrieve a certificate for the node.
 
-[installpuppet]: https://puppet.com/docs/puppet/latest/install_pre.html
+[installpuppet]: /openvox/latest/install_pre.html
 
 Your OpenVoxDB server should be running Puppet agent and have a signed certificate from your Puppet Server. If you run `puppet agent --test`, it should successfully complete a run, ending with
 `Notice: Applied catalog in X.XX seconds`.
