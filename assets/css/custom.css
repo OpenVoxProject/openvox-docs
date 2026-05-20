@@ -1,0 +1,9 @@
+table.resolution > tbody > tr:last-child {
+  border-top: 2px solid black;
+  font-weight: bold;
+  background-color: var(--vp-custom-block-tip-bg);
+}
+
+table.resolution > tbody > tr:last-child > td:first-child {
+  text-align: right;
+}

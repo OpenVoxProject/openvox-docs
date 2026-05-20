@@ -259,6 +259,8 @@
   items:
   - text: Hiera
     link: "hiera_intro.html"
+  - text: Interactive Hiera Demo
+    link: "hiera_demo.html"
   - text: Getting started with Hiera
     link: "hiera_quick.html"
   - text: Configuring Hiera
