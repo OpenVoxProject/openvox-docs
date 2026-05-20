@@ -10,6 +10,7 @@ layout: default
 [pgstattuple]: http://www.postgresql.org/docs/9.6/static/pgstattuple.html
 [pgtune]: https://github.com/gregs1104/pgtune
 [postgres-config]: http://www.postgresql.org/docs/current/static/runtime-config-resource.html
+[fact-precedence]: /openfact/latest/custom_facts.html#custom-facts-precedence
 [dbvis]: https://www.dbvis.com/
 [stockpile]: https://github.com/puppetlabs/stockpile
 
@@ -297,8 +298,8 @@ There are a few things to watch for in the PDB dashboard:
   an array to a hash, which may narrow the scope of the tree to which the
   recomputed paths are contained.  If this is infeasible, or if the fact in
   question is irrelevant to your needs, the fact may be overridden by creating
-  a custom fact with the same name and weight 100. Refer to the custom facts
-  documentation for examples on fact precedence.
+  a custom fact with the same name and weight 100. Refer to [fact
+  precedence][fact-precedence] for examples.
 
 ### atop output
 
