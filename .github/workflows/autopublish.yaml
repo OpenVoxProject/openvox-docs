@@ -12,6 +12,7 @@ on:
       - '_includes/**/*'
       - '_layouts/**/*'
       - 'docs/**/*'
+      - 'assets/**/*'
 
 jobs:
   test:
