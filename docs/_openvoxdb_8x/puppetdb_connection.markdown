@@ -6,13 +6,16 @@ canonical: "/openvoxdb/latest/puppetdb_connection.html"
 
 # Configuring a Puppet/OpenVoxDB connection
 
-[puppetdb_root]: ./overview.html
+[puppetdb_root]: ./index.html
 [connect_to_puppetdb]: ./connect_puppet_server.html
 [confdir]: /openvox/latest/dirs_confdir.html
 
 The `puppetdb.conf` file contains the hostname and port of the [OpenVoxDB][puppetdb_root] server. It is only used if you are using OpenVoxDB and have [connected your Puppet Server to it][connect_to_puppetdb].
 
-The Puppet Server makes HTTPS connections to OpenVoxDB to store catalogs, facts, and new reports. It also uses OpenVoxDB to answer queries, such as those necessary to support exported resources. If the OpenVoxDB instance is down, depending on the configuration of the Puppet Server, it could cause the Puppet run to fail. This document discusses configuration options for the `puppetdb.conf` file, including settings to make the OpenVoxDB terminus more tolerant of failures.
+The Puppet Server makes HTTPS connections to OpenVoxDB to store catalogs, facts, and new reports.
+It also uses OpenVoxDB to answer queries, such as those necessary to support exported resources.
+If the OpenVoxDB instance is down, depending on the configuration of the Puppet Server, it could cause the Puppet run to fail.
+This document discusses configuration options for the `puppetdb.conf` file, including settings to make the OpenVoxDB terminus more tolerant of failures.
 
 ## Location
 
@@ -47,7 +50,9 @@ You can use a comma-separated list of URLs if there are multiple OpenVoxDB insta
 
 The default value is `https://puppetdb:8081`.
 
-The OpenVoxDB terminus will always attempt to connect to the first OpenVoxDB instance specified (listed above as `puppetdb1`). If a server-side exception occurs, or the request takes too long (see [`server_url_timeout`](#serverurltimeout)), the OpenVoxDB terminus will attempt the same operation on the next instance in the list.
+The OpenVoxDB terminus will always attempt to connect to the first OpenVoxDB instance specified (listed above as `puppetdb1`).
+If a server-side exception occurs, or the request takes too long (see [`server_url_timeout`](#server_url_timeout)),
+the OpenVoxDB terminus will attempt the same operation on the next instance in the list.
 
 ### `submit_only_server_urls`
 
@@ -61,13 +66,16 @@ Successful command submission to the OpenVoxDB instances in this list **do** cou
 
 ### `server_url_timeout`
 
-The `server_url_timeout` setting sets the maximum amount of time (in seconds) the OpenVoxDB-termini will wait for OpenVoxDB to respond to HTTP requests. If the user has specified multiple OpenVoxDB URLs and a timeout has occurred, it will attempt the same request on the next server in the list.
+The `server_url_timeout` setting sets the maximum amount of time (in seconds) the OpenVoxDB-termini will wait for OpenVoxDB to respond to HTTP requests.
+If the user has specified multiple OpenVoxDB URLs and a timeout has occurred, it will attempt the same request on the next server in the list.
 
 The default value is 30 seconds.
 
 ### `soft_write_failure`
 
-This setting can let the Puppet Server stay partially available during a OpenVoxDB outage. If set to `true`, Puppet will keep compiling and serving catalogs even if OpenVoxDB isn't accessible for command submission. (However, any catalogs that need to **query** exported resources from OpenVoxDB will still fail.)
+This setting can let the Puppet Server stay partially available during a OpenVoxDB outage.
+If set to `true`, Puppet will keep compiling and serving catalogs even if OpenVoxDB isn't accessible for command submission.
+(However, any catalogs that need to **query** exported resources from OpenVoxDB will still fail.)
 
 The default value is false.
 

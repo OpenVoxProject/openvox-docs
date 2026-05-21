@@ -3,15 +3,14 @@ title: "Coordinating database migrations"
 layout: default
 canonical: "/openvoxdb/latest/migration_coordination.html"
 ---
-# Coordinating database migrations
 
-[config]: ./configure.html
+# Coordinating database migrations
 
 By default at startup OpenVoxDB will attempt to perform any database
 updates that might be needed.  If there is a possibiity that multiple
 OpenVoxDB instances could run at the same time, it's important to
 coordinate the update process so that only one server attempts to perform
-updates.  The [configuration documentation][config#coordinating-database-migrations]
+updates.  The [configuration documentation](./configure_postgres.html#coordinating-database-migrations)
 explains how to arrange that, and the broader context, but not the
 detailed process, which is described here.
 
@@ -34,11 +33,10 @@ while older OpenVoxDB instances are still running.
 In an attempt to guard against all of these possibilities, OpenVoxDB
 does the following:
 
-When acting as a migrator (`migrate = true`)
--------------------------------------------------
+## When acting as a migrator (`migrate = true`)
 
 * Connects to the database as the
-  [migrator-username][config#migrator-username] using a completely
+  [migrator-username](./configure.html#migrator-username) using a completely
   independent connection pool.
 
 * Begins a transaction.
@@ -52,20 +50,20 @@ When acting as a migrator (`migrate = true`)
 * If migrations *are* required, proceeds as follows.
 
 * Revokes connection privileges from the normal
-  [`database` username][config#database], and if it's different, the
-  [`read-database` username][config#read-database].  This prevents any
+  [`database` username](./configure.html#database-settings), and if it's different, the
+  [`read-database` username](./configure.html#read-database-settings).  This prevents any
   new connections from being established.
 
 * Terminates any existing database connections from the normal
-  [`database` username][config#database], and if it's different, the
-  [`read-database` username][config#read-database].  The revocation
+  [`database` username](./configure.html#database-settings), and if it's different, the
+  [`read-database` username](./configure.html#read-database-settings).  The revocation
   above may not affect them.
 
-* [Changes its role](https://www.postgresql.org/docs/11/sql-set-role.html)
-   to the normal [username][config#username] so that all new database objects
-   will be owned by the normal user.  If nothing else, this ensures
-   the normal user will be able to drop those partitions during
-   routine garbage collection (e.g. for reports).
+* [Changes its role](https://www.postgresql.org/docs/current/sql-set-role.html)
+  to the normal [username](./configure.html#username) so that all new database objects
+  will be owned by the normal user.  If nothing else, this ensures
+  the normal user will be able to drop those partitions during
+  routine garbage collection (e.g. for reports).
 
 * Performs all the required migrations.
 
@@ -75,12 +73,11 @@ When acting as a migrator (`migrate = true`)
 
 * Resumes normal operations.
 
-All OpenVoxDB instances, including a migrator after migration
-------------------------------------------------------------
+## All OpenVoxDB instances, including a migrator after migration
 
 * Always connects to the database as the normal
-  [`database` username][config#database], and if it's different, the
-  [`read-database` username][config#read-database] using the routine
+  [`database` username](./configure.html#database-settings), and if it's different, the
+  [`read-database` username](./configure.html#read-database-settings) using the routine
   read and write pools.
 
 * Sets a [HikariCP connectionInitSql](https://github.com/brettwooldridge/HikariCP#infrequently-used)
@@ -88,7 +85,7 @@ All OpenVoxDB instances, including a migrator after migration
   the correct migration level by examining the levels in the
   schema_migrations table.
 
-* Establishes a [periodic check][config#schema-check-interval] that
+* Establishes a [periodic check](./configure.html#schema-check-interval) that
   will shut OpenVoxDB down if it detects a database that's either newer
   or older than it's prepared to handle.  This also makes sure that
   OpenVoxDB won't continue using any existing (pool) connections to the

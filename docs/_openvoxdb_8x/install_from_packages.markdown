@@ -8,9 +8,9 @@ layout: default
 [connect_server]: ./connect_puppet_server.html
 [connect_apply]: ./connect_puppet_apply.html
 [ssl_script]: ./maintain_and_tune.html#redo-ssl-setup-after-changing-certificates
-[configure_postgres]: ./configure.html#using-postgresql
+[configure_postgres]: ./configure_postgres.html
 [configure_jetty]: ./configure.html#jetty-http-settings
-[requirements]: ./overview.html#standard-install-rhel-centos-debian-and-ubuntu
+[requirements]: ./index.html#standard-install-rhel-centos-debian-and-ubuntu
 [install_module]: ./install_via_module.html
 [module]: https://forge.puppet.com/modules/puppet/openvoxdb
 [postgres_ssl]: ./postgres_ssl.html
