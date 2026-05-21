@@ -9,6 +9,13 @@ hero:
     logo:
       default: 'https://github.com/voxpupuli/logos/blob/master/images/OpenVox/Sticker/HexagonSticker.svg?raw=true'
       alt: OpenVox Automation Framework
+  actions:
+  - theme: brand
+    text: Get Started
+    link: /ecosystem/latest/getting_started/
+  - theme: alt
+    text: Release Notes
+    link: /openvox/latest/release_notes.html
 
 features:
   - icon: 🖼️
