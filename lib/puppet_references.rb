@@ -44,7 +44,7 @@ module PuppetReferences
     ]
     config = PuppetReferences::Config.read
     repo = PuppetReferences::Repo.new('openvox', PUPPET_DIR, nil, config['puppet']['repo'])
-    @version_commit = commit || repo.describe.split('-')[0]
+    @version_commit = commit || repo.newest_release
     puts "Using tag #{@version_commit}"
     real_commit = repo.checkout(@version_commit)
     repo.update_bundle
@@ -55,7 +55,7 @@ module PuppetReferences
     config = PuppetReferences::Config.read
     bolt_config = config.fetch('openbolt', {})
     repo = PuppetReferences::Repo.new('openbolt', BOLT_DIR, nil, bolt_config.fetch('repo', {}))
-    @version_commit = commit || repo.describe.split('-')[0]
+    @version_commit = commit || repo.newest_release
     puts "Using tag #{@version_commit}"
     real_commit = repo.checkout(@version_commit)
     repo.update_bundle
@@ -75,7 +75,7 @@ module PuppetReferences
     # we need the CLI docs for 3.y. We can remove this when we stop building 3.y.
     version4 = Gem::Version.create('4.0.0')
     repo = PuppetReferences::Repo.new('openfact', FACTER_DIR)
-    @version_commit = commit || repo.describe.split('-')[0]
+    @version_commit = commit || repo.newest_release
     puts "Using tag #{@version_commit}"
     real_commit = repo.checkout(@version_commit)
     repo.update_bundle

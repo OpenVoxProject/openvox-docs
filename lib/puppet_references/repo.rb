@@ -45,6 +45,12 @@ module PuppetReferences
       @repo.tags
     end
 
+    def newest_release
+      @repo.tags.map { |t| Gem::Version.new(t.name) rescue Gem::Version.new(0) } # rubocop:disable Style/RescueModifier
+                .reject(&:prerelease?)
+                .max.version                                                     # rubocop:disable Layout/MultilineMethodCallIndentation
+    end
+
     def update_bundle
       Dir.chdir(@directory) do
         if Dir.exist?(@directory + '.bundle/stuff')
