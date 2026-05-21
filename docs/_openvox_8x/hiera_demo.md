@@ -144,7 +144,7 @@ This means that multiple layers are being resolved to a different path as you sw
 |-------------------------------------|---------------|-----------|------------|---------------|
 | `data/nodes/node2.example.com.yaml` | >>`nginx`<<   | >>8<<     |            |               |
 | `data/os/debian.yaml`               | `apache2`     |           |            |               |
-| `common.yaml`                       | `apache`      |           | >>`true`<< | >>`laramie`<< |
+| `common.yaml`                       | `apache`      | 4         | >>`true`<< | >>`laramie`<< |
 | Resolved Values:                    | `nginx`       | 8         | `true`     | `laramie`     |
 {:class="resolution"}
 
