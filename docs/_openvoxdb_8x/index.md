@@ -31,11 +31,11 @@ To start using OpenVoxDB today:
 * Review [the system requirements below](#system-requirements) (and optionally,
   [our scaling recommendations][scaling]).
 * Choose your installation method:
-    * [Easy install][install_via_module] using the OpenVoxDB puppet module on our
-      recommended platforms
-    * [Install from packages][install_from_packages] on our recommended
-      platforms
-    * [Advanced install][install_advanced] on any other \*nix
+  * [Easy install][install_via_module] using the OpenVoxDB puppet module on our
+    recommended platforms
+  * [Install from packages][install_from_packages] on our recommended
+    platforms
+  * [Advanced install][install_advanced] on any other \*nix
 
 ## Version note
 
@@ -77,7 +77,7 @@ setup of its SSL certificates and init scripts. The packages are
 available for the following operating systems:
 
 * Red Hat Enterprise Linux 7, 8, and 9
-* SuSE Enterprise Linux 12, 15
+* SUSE Enterprise Linux 12, 15
 * Debian 10 (Buster), and 11 (Bullseye)
 * Ubuntu 18.04 (Bionic) LTS, 20.04 (Focal), 22.04 (Jammy) LTS
 

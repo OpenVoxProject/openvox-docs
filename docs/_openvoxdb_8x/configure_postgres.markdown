@@ -1,4 +1,9 @@
-[config]: ./configure.html
+---
+title: "Using PostgreSQL"
+layout: default
+canonical: "/openvoxdb/latest/configure_postgres.html"
+---
+
 [pg_trgm]: http://www.postgresql.org/docs/current/static/pgtrgm.html
 [postgres_ssl]: ./postgres_ssl.html
 [migration_coordination]: ./migration_coordination.html
@@ -36,7 +41,7 @@ should be granted the read user's "role" so that it will be able to
 properly coordinate partition clean up (it needs to be able to
 terminate read user queries that might be blocking the attempt).
 
-```
+```shell
 sudo -u postgres sh
 createuser -DRSP puppetdb
 createuser -DRSP puppetdb_read
@@ -54,7 +59,7 @@ psql puppetdb -c 'alter default privileges for user puppetdb in schema public gr
 If you already have OpenVoxDB installed and running and are adding a read-only
 user, you will need to grant the same privileges as above to existing objects.
 
-```
+```shell
 psql puppetdb -c 'grant select on all tables in schema public to puppetdb_read'
 psql puppetdb -c 'grant usage on all sequences in schema public to puppetdb_read'
 psql puppetdb -c 'grant execute on all functions in schema public to puppetdb_read'
@@ -71,9 +76,11 @@ filters (e.g. `certname ~ "abc\d+.example.com"`). This may require installing
 the `postgresql-contrib` (or equivalent) package, depending on your
 distribution:
 
-    $ sudo -u postgres sh
-    $ psql puppetdb -c 'create extension pg_trgm'
-    $ exit
+```shell
+sudo -u postgres sh
+psql puppetdb -c 'create extension pg_trgm'
+exit
+```
 
 Next, you will most likely need to modify the `pg_hba.conf` file to
 allow for MD5 authentication from at least localhost. To locate the
@@ -84,22 +91,28 @@ for the PostgreSQL `confdir`.
 The following example `pg_hba.conf` file allows MD5 authentication
 from localhost for both IPv4 and IPv6 connections:
 
-    # TYPE  DATABASE   USER   CIDR-ADDRESS  METHOD
-    local   all        all                  md5
-    host    all        all    127.0.0.1/32  md5
-    host    all        all    ::1/128       md5
+```text
+# TYPE  DATABASE   USER   CIDR-ADDRESS  METHOD
+local   all        all                  md5
+host    all        all    127.0.0.1/32  md5
+host    all        all    ::1/128       md5
+```
 
 Restart PostgreSQL and ensure you can log in by running:
 
-    $ sudo service postgresql restart
-    $ psql -h localhost puppetdb puppetdb
+```shell
+sudo service postgresql restart
+psql -h localhost puppetdb puppetdb
+```
 
 To configure OpenVoxDB to use this database, put the following in the
 `[database]` section:
 
-    subname = //<HOST>:<PORT>/<DATABASE>
-    username = <USERNAME>
-    password = <PASSWORD>
+```ini
+subname = //<HOST>:<PORT>/<DATABASE>
+username = <USERNAME>
+password = <PASSWORD>
+```
 
 Replace `<HOST>` with the DB server's hostname. Replace `<PORT>` with
 the port on which PostgreSQL is listening. Replace `<DATABASE>` with
@@ -136,14 +149,16 @@ One direct solution, using upgrades as an example, is to just make
 sure to stop all of your OpenVoxDB instances, then run one instance of
 the newer version to perform any necessary upgrade via
 
-    puppetdb upgrade -c .../normal-config.ini
+```shell
+puppetdb upgrade -c .../normal-config.ini
+```
 
 Once that's finished, relaunch all of your instances using the
 newer version of OpenVoxDB.
 
 OpenVoxDB can also be configured to attempt to automatically guard you
 against these risks.  To do so, first make sure all but one of your OpenVoxDB
-instances are configured with `[database]` [migrate option](#migrate)
+instances are configured with `[database]` [migrate option](./configure.html#migrate)
 set to `false` in the config file.
 
 This will prevent OpenVoxDB from attempting to upgrade the database at
@@ -170,7 +185,7 @@ existing connections.  One way to arrange that is to do sometthing
 like this after creating the `puppetdb` and `puppetdb_read` users as
 described above:
 
-```
+```shell
 sudo -u postgres sh
 createuser -DRSP puppetdb_migrator
 psql puppetdb -c 'revoke connect on database puppetdb from public'
@@ -188,8 +203,8 @@ exit
 ```
 
 Then specify `puppetdb_migrator` as the
-[migrator-username](#migrator-username) and set the
-[migrator-password](#migrator-password) as described below.
+[migrator-username](./configure.html#migrator-username) and set the
+[migrator-password](./configure.html#migrator-password) as described below.
 
 See the [migration coordination documentation][migration_coordination]
 for a more detailed explanation of the process.

@@ -2,7 +2,7 @@
 - text: General information
   items:
   - text: Overview and requirements
-    link: overview.html
+    link: index.html
   - text: Contributing to OpenVoxDB
     link: CONTRIBUTING.html
   - text: Frequently asked questions
@@ -39,6 +39,8 @@
     link: configure_postgres.html
   - text: Setting up SSL for PostgreSQL
     link: postgres_ssl.html
+  - text: Coordinating database migrations
+    link: migration_coordination.html
 - text: Usage/admin
   items:
   - text: Using OpenVoxDB
@@ -51,6 +53,8 @@
     link: anonymization.html
   - text: Scaling recommendations
     link: scaling_recommendations.html
+  - text: Logging configuration
+    link: logging.html
   - text: Debugging with remote REPL
     link: repl.html
   - text: Load testing
@@ -111,6 +115,10 @@
     link: api/query/v4/inventory.html
   - text: Catalogs endpoint
     link: api/query/v4/catalogs.html
+  - text: Catalog inputs endpoint
+    link: api/query/v4/catalog_inputs.html
+  - text: Catalog input contents endpoint
+    link: api/query/v4/catalog_input_contents.html
   - text: Resources endpoint
     link: api/query/v4/resources.html
   - text: Edges endpoint
@@ -161,3 +169,7 @@
     link: api/wire_format/report_format_v8.html
   - text: Deactivate node wire format - v3
     link: api/wire_format/deactivate_node_format_v3.html
+  - text: Replace catalog inputs wire format - v1 (experimental)
+    link: api/wire_format/catalog_inputs_format_v1.html
+  - text: Configure expiration wire format - v1 (experimental)
+    link: api/wire_format/configure_expiration_format_v1.html

@@ -6,7 +6,7 @@ canonical: "/openvoxdb/latest/puppetdb_connection.html"
 
 # Configuring a Puppet/OpenVoxDB connection
 
-[puppetdb_root]: ./overview.html
+[puppetdb_root]: ./index.html
 [connect_to_puppetdb]: ./connect_puppet_server.html
 [confdir]: /openvox/latest/dirs_confdir.html
 
@@ -47,7 +47,7 @@ You can use a comma-separated list of URLs if there are multiple OpenVoxDB insta
 
 The default value is `https://puppetdb:8081`.
 
-The OpenVoxDB terminus will always attempt to connect to the first OpenVoxDB instance specified (listed above as `puppetdb1`). If a server-side exception occurs, or the request takes too long (see [`server_url_timeout`](#serverurltimeout)), the OpenVoxDB terminus will attempt the same operation on the next instance in the list.
+The OpenVoxDB terminus will always attempt to connect to the first OpenVoxDB instance specified (listed above as `puppetdb1`). If a server-side exception occurs, or the request takes too long (see [`server_url_timeout`](#server_url_timeout)), the OpenVoxDB terminus will attempt the same operation on the next instance in the list.
 
 ### `submit_only_server_urls`
 
