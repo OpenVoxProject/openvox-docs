@@ -118,6 +118,23 @@ profile::proxy_ca_cert: |
   -----END CERTIFICATE-----
 ```
 
+If the certificate is already deployed on the node at a known path (for example, by the
+[puppet/trusted_ca](https://forge.puppet.com/modules/puppet/trusted_ca) module into the OS
+trust store), use a symlink instead to avoid keeping a second copy:
+
+```puppet
+file { '/opt/puppetlabs/puppet/ssl/certs/proxy-ca.pem':
+  ensure => link,
+  target => '/etc/pki/ca-trust/source/anchors/proxy-ca.pem',
+  notify => Exec['rehash-puppet-ssl-certs'],
+}
+
+exec { 'rehash-puppet-ssl-certs':
+  command     => '/opt/puppetlabs/puppet/bin/openssl rehash /opt/puppetlabs/puppet/ssl/certs/',
+  refreshonly => true,
+}
+```
+
 
 ## Verifying the configuration
 
