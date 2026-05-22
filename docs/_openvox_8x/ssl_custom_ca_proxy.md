@@ -19,17 +19,29 @@ OpenVox ships its own Ruby runtime with a vendored CA bundle compiled in at
 and is what Ruby uses — not the OS trust store — when validating TLS certificates for
 outbound connections such as gem downloads and `puppet module install`.
 
-## Quick fix: append the CA to the bundle
+## Quick fix: add the CA to the `certs/` directory
 
-Appending your proxy CA to `cert.pem` works immediately and requires no additional
-configuration:
+Copy your proxy CA into OpenVox's `certs/` directory and run `openssl rehash` to generate
+the fingerprint symlinks that OpenSSL uses to look up certificates:
+
+```console
+cp /path/to/proxy-ca.pem /opt/puppetlabs/puppet/ssl/certs/proxy-ca.pem
+/opt/puppetlabs/puppet/bin/openssl rehash /opt/puppetlabs/puppet/ssl/certs/
+```
+
+This directory is OpenVox Ruby's `DEFAULT_CERT_DIR` and is included by `set_default_paths`
+on every connection. The directory is empty by default — the `openvox-agent` package does
+not place any files there — so user-added files survive package upgrades.
+
+> **Note:** `openssl rehash` is not supported on Windows as of OpenVox 8. Use the
+> `SSL_CERT_FILE` approach below on Windows nodes.
+
+If you prefer a one-liner that skips rehash, appending directly to `cert.pem` also works,
+but that file is replaced on upgrade:
 
 ```console
 cat /path/to/proxy-ca.pem >> /opt/puppetlabs/puppet/ssl/cert.pem
 ```
-
-The downside is that `cert.pem` is owned by the `openvox-agent` package and may be
-overwritten during upgrades, removing your CA and breaking the proxy again.
 
 ## Persistent fix: `ssl_trust_store` (module downloads only)
 
@@ -79,10 +91,41 @@ SSL_CERT_FILE=/etc/ssl/certs/puppet-custom-bundle.pem puppet agent -t
 
 ## Managing with Puppet
 
+### `certs/` + rehash (simplest)
+
+Deploy the CA with a `file` resource and trigger `openssl rehash` on change:
+
+```puppet
+file { '/opt/puppetlabs/puppet/ssl/certs/proxy-ca.pem':
+  ensure  => file,
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0644',
+  content => lookup('profile::proxy_ca_cert'),
+  notify  => Exec['rehash-puppet-ssl-certs'],
+}
+
+exec { 'rehash-puppet-ssl-certs':
+  command     => '/opt/puppetlabs/puppet/bin/openssl rehash /opt/puppetlabs/puppet/ssl/certs/',
+  refreshonly => true,
+}
+```
+
+Store the proxy CA certificate as a multiline string in Hiera:
+
+```yaml
+profile::proxy_ca_cert: |
+  -----BEGIN CERTIFICATE-----
+  ...
+  -----END CERTIFICATE-----
+```
+
+### `SSL_CERT_FILE` merged bundle (covers gem installs on Windows or when rehash is unavailable)
+
 Use [puppetlabs/concat](https://forge.puppet.com/modules/puppetlabs/concat) to assemble
-and maintain the merged bundle. The `file:///` source scheme reads `cert.pem` directly from
-the local filesystem at catalog apply time, so the bundle automatically picks up the fresh
-Mozilla certs after an `openvox-agent` upgrade:
+the merged bundle. The `file:///` source scheme reads `cert.pem` from the local filesystem
+at catalog apply time, so the bundle automatically picks up fresh Mozilla certs after an
+`openvox-agent` upgrade:
 
 ```puppet
 concat { '/etc/ssl/certs/puppet-custom-bundle.pem':
@@ -118,18 +161,6 @@ exec { 'systemd-daemon-reload':
   refreshonly => true,
 }
 ```
-
-Store the proxy CA certificate as a multiline string in Hiera:
-
-```yaml
-profile::proxy_ca_cert: |
-  -----BEGIN CERTIFICATE-----
-  ...
-  -----END CERTIFICATE-----
-```
-
-Because `concat::fragment` reads `cert.pem` on every Puppet run, the merged bundle stays
-current after upgrades with no additional steps.
 
 ## Verifying the configuration
 
