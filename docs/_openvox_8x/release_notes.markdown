@@ -74,7 +74,7 @@ All bug fixes, new features and other changes are provided on the [project's git
 
 |                            Identifier                             | CVSS 3.1 Score |             Resolved By             |
 | ----------------------------------------------------------------- | :------------: | ----------------------------------- |
-| [CVE-2026-27820](https://nvd.nist.gov/vuln/detail/CVE-2026-27820) |      N/A       | `pkg:gem/zlib@3.0.1`                |
+| [CVE-2026-27820](https://nvd.nist.gov/vuln/detail/CVE-2026-27820) |      9.8       | `pkg:gem/zlib@3.0.1`                |
 | [CVE-2026-3805](https://nvd.nist.gov/vuln/detail/CVE-2026-3805)   |      7.5       | `pkg:github/curl/curl@8.19.0`       |
 | [CVE-2026-1965](https://nvd.nist.gov/vuln/detail/CVE-2026-1965)   |      6.5       | `pkg:github/curl/curl@8.19.0`       |
 | [CVE-2026-3784](https://nvd.nist.gov/vuln/detail/CVE-2026-3784)   |      6.5       | `pkg:github/curl/curl@8.19.0`       |
