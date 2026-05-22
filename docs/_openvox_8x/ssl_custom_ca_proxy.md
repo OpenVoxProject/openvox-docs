@@ -91,8 +91,6 @@ SSL_CERT_FILE=/etc/ssl/certs/puppet-custom-bundle.pem puppet agent -t
 
 ## Managing with Puppet
 
-### `certs/` + rehash (simplest)
-
 Deploy the CA with a `file` resource and trigger `openssl rehash` on change:
 
 ```puppet
@@ -120,47 +118,6 @@ profile::proxy_ca_cert: |
   -----END CERTIFICATE-----
 ```
 
-### `SSL_CERT_FILE` merged bundle (covers gem installs on Windows or when rehash is unavailable)
-
-Use [puppetlabs/concat](https://forge.puppet.com/modules/puppetlabs/concat) to assemble
-the merged bundle. The `file:///` source scheme reads `cert.pem` from the local filesystem
-at catalog apply time, so the bundle automatically picks up fresh Mozilla certs after an
-`openvox-agent` upgrade:
-
-```puppet
-concat { '/etc/ssl/certs/puppet-custom-bundle.pem':
-  ensure => present,
-  owner  => 'root',
-  group  => 'root',
-  mode   => '0644',
-}
-
-concat::fragment { 'openvox-mozilla-bundle':
-  target => '/etc/ssl/certs/puppet-custom-bundle.pem',
-  source => 'file:///opt/puppetlabs/puppet/ssl/cert.pem',
-  order  => '01',
-}
-
-concat::fragment { 'proxy-ca':
-  target  => '/etc/ssl/certs/puppet-custom-bundle.pem',
-  content => lookup('profile::proxy_ca_cert'),
-  order   => '02',
-}
-
-file { '/etc/systemd/system/puppet.service.d/ssl_cert_file.conf':
-  ensure  => file,
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0644',
-  content => "[Service]\nEnvironment=SSL_CERT_FILE=/etc/ssl/certs/puppet-custom-bundle.pem\n",
-  notify  => Exec['systemd-daemon-reload'],
-}
-
-exec { 'systemd-daemon-reload':
-  command     => '/bin/systemctl daemon-reload',
-  refreshonly => true,
-}
-```
 
 ## Verifying the configuration
 
