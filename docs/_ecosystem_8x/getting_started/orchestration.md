@@ -23,6 +23,7 @@ Think of it as the "do it now" complement to Puppet's "keep it this way forever"
 
 The OpenVox project ships Bolt as `openbolt` from the Vox Pupuli repos.
 You can install `openbolt` on a machine with or without the agent or server or any other packages installed.
+Typically you'd install it onto your workstation rather than onto a server.
 The official [Installing OpenVox](https://voxpupuli.org/openvox/install/) guide has step-by-step instructions for enabling the repo for each supported platform.
 
 ### Project Setup
@@ -38,11 +39,11 @@ This creates:
 
 ```text
 myproject/
-├── bolt-project.yaml     ← Project configuration
-├── inventory.yaml         ← Target definitions
-├── Puppetfile             ← Module dependencies
-├── plans/                 ← Bolt plans
-└── tasks/                 ← Bolt tasks (RESERVED: currently not used)
+├── bolt-project.yaml      # Project configuration
+├── inventory.yaml         # Target definitions
+├── Puppetfile             # Module dependencies (managed by OpenBolt, don't edit yourself)
+├── plans/                 # Bolt plans
+└── tasks/                 # Bolt tasks
 ```
 
 ### Inventory
