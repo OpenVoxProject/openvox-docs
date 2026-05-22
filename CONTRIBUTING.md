@@ -44,6 +44,18 @@ The site is available at `http://localhost:4000`. Navigation changes require upd
 
 ## Writing guidelines
 
+### Naming of OpenVox and Puppet
+
+- `OpenVox` is used when referring to the community implementation of `Puppet` DSL
+- `Puppet` is used when describing the underlying DSL or the ecosystem as a whole
+
+Use the following terms for the individual components:
+
+- OpenVox Server
+- OpenVoxDB
+- OpenFact
+- OpenBolt
+
 ### Writing and editing pages
 
 - Prefer editing existing pages over creating new ones
@@ -73,3 +85,11 @@ The site is available at `http://localhost:4000`. Navigation changes require upd
 
 - File names and paths: `monospace`
 - Commands and code: `monospace`; short commands inline, longer blocks in fenced code blocks with a language identifier (`bash`, `yaml`, `text`, etc.)
+- Use `command` language identifier in favor of `shell`
+
+### Linking
+
+- Don't use URI for links pointing to files form this documentation
+- Use URI when referring to remote locations
+- Use absolute paths when pointing to files from other sections
+- Use filename only without path when referring to a file in the same directory
