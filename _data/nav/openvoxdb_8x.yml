@@ -1,14 +1,14 @@
 ---
 - text: General information
   items:
+  - text: Release notes
+    link: release_notes.html
   - text: Overview and requirements
     link: index.html
   - text: Contributing to OpenVoxDB
     link: CONTRIBUTING.html
   - text: Frequently asked questions
     link: puppetdb-faq.html
-  - text: Release notes
-    link: release_notes.html
   - text: Versioning policy
     link: versioning_policy.html
   - text: Known issues
