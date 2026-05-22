@@ -47,7 +47,7 @@ The site is available at `http://localhost:4000`. Navigation changes require upd
 ### Naming of OpenVox and Puppet
 
 - `OpenVox` is used when referring to the community implementation of `Puppet` DSL
-- `Puppet` is used when describing the underlying DSL
+- `Puppet` is used when describing the underlying DSL or the ecosystem as a whole
 
 Use the following terms for the individual components:
 
