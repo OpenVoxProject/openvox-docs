@@ -457,6 +457,8 @@
     link: "ssl_attributes_extensions.html"
   - text: Regenerating all certificates in a deployment
     link: "ssl_regenerate_certificates.html"
+  - text: Adding a custom CA for HTTPS-inspecting proxies
+    link: "ssl_custom_ca_proxy.html"
 - text: Details about OpenVox's internals
   items:
   - text: Agent/server HTTPS communications
