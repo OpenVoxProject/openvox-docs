@@ -84,8 +84,8 @@ Use the following terms for the individual components:
 ### Formatting
 
 - File names and paths: `monospace`
-- Commands and code: `monospace`; short commands inline, longer blocks in fenced code blocks with a language identifier (`bash`, `yaml`, `text`, etc.)
-- Use `command` language identifier in favor of `shell`
+- Commands and code: `monospace`; short commands inline, longer blocks in fenced code blocks with a language identifier (`console`, `yaml`, `text`, etc.)
+- Use `console` for commands to run in a terminal; use `bash` or `puppet` for scripts and manifests
 
 ### Linking
 
