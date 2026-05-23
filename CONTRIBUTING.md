@@ -84,12 +84,14 @@ Use the following terms for the individual components:
 ### Formatting
 
 - File names and paths: `monospace`
-- Commands and code: `monospace`; short commands inline, longer blocks in fenced code blocks with a language identifier (`bash`, `yaml`, `text`, etc.)
-- Use `command` language identifier in favor of `shell`
+- Commands and code: `monospace`; short commands inline, longer blocks in fenced code blocks with a language identifier (`console`, `yaml`, `text`, etc.)
+- Use `console` for commands to run in a terminal; use `bash` or `puppet` for scripts and manifests
 
 ### Linking
 
-- Don't use URI for links pointing to files form this documentation
-- Use URI when referring to remote locations
-- Use absolute paths when pointing to files from other sections
-- Use filename only without path when referring to a file in the same directory
+- Within a versioned collection (e.g. `docs/_openvox_8x/`), use relative links (`page.html`)
+  rather than absolute `/openvox/latest/page.html` links. Absolute `/latest/` links silently
+  cross version boundaries when a new major version is added.
+- Prefer `page.html` over `./page.html` — the leading `./` is unnecessary.
+- When linking across collections (e.g. from `_openvox_8x/` to `_openvoxdb_8x/`), use absolute paths (`/openvoxdb/latest/page.html`).
+- Use full URIs for external links only.

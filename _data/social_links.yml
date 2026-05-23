@@ -1,3 +1,18 @@
 - icon: github
   url: 'https://github.com/OpenVoxProject/openvox-docs'
   label: GitHub
+- icon: mastodon
+  url: 'https://fosstodon.org/@voxpupuli'
+  label: Fosstodon
+- icon: linkedin
+  url: 'https://linkedin.com/company/voxpupuli/'
+  label: LinkedIn
+- icon: bluesky
+  url: 'https://bsky.app/profile/voxpupuli.org'
+  label: BlueSky
+- icon: slack
+  url: 'https://short.voxpupu.li/puppetcommunity_slack_signup'
+  label: Join our Slack
+- icon: blog
+  url: 'https://voxpupuli.org/blog'
+  label: The Vox Blog

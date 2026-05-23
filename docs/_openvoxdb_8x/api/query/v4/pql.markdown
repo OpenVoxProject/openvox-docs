@@ -6,14 +6,11 @@ layout: default
 # Reference guide
 
 [entities]: ./entities.html
-[subquery]: #subqueries
 [ast]: ./ast.html
 [client-tools]: ../../../pdb_client_tools.html
 [config_jetty]: ../../../configure.html#jetty-http-settings
 [examples]: ../examples-pql.html
 [tutorial]: ../tutorial-pql.html
-
-> **Experimental Feature**: This featureset is experimental and is subject to rapid development and change.
 
 Puppet Query Language (PQL) is a query language designed with OpenVoxDB and
 Puppet data in mind. It provides a string-based query language as an alternative
@@ -82,11 +79,10 @@ In PQL, whitespace is optional, except around word operators like `and` and `or`
 Use whitespace to make your queries more human readable. For example the following
 two queries are identical and will give you the same results, but the one with spaces
 is a much more readable way to write PQL.
-```
-nodes[certname,latest_report_status]{report_timestamp<="2016-08-03 00:00:00"}
 
-nodes[certname, latest_report_status]{ report_timestamp <= "2016-08-03 00:00:00" }
-```
+    nodes[certname,latest_report_status]{report_timestamp<="2016-08-03 00:00:00"}
+
+    nodes[certname, latest_report_status]{ report_timestamp <= "2016-08-03 00:00:00" }
 
 ## Entities
 
@@ -246,11 +242,13 @@ operator and a valid regular expression:
 
 * The regexp **must not** be surrounded by the slash characters (`/rexegp/`)
   that delimit regexps in many languages.
-* Every backslash character **must** be escaped with an additional backslash. Thus, a sequence like `\d` would be represented as `\\d`, and a literal backslash (represented in a regexp as a double-backslash `\\`) would be represented as a quadruple-backslash (`\\\\`).
+* Every backslash character **must** be escaped with an additional backslash. Thus, a sequence like `\d`
+  would be represented as `\\d`, and a literal backslash (represented in a regexp as `\\`) would be
+  represented as a quadruple-backslash (`\\\\`).
 
 > **Note:** Regular expression matching is performed by the database backend, so
 > the available
-> [regexp features](http://www.postgresql.org/docs/11/static/functions-matching.html#POSIX-SYNTAX-DETAILS)
+> [regexp features](https://www.postgresql.org/docs/current/functions-matching.html#POSIX-SYNTAX-DETAILS)
 > are determined by PostgreSQL. For best results, use the simplest and most
 > common features that can accomplish your task.
 

@@ -6,7 +6,8 @@ canonical: "/openvoxdb/latest/api/metrics/v2/jolokia.html"
 
 # Metrics API v2
 
-The Jolokia API is enabled by default. You must use `https://` to access `metrics/v2` for any service, and you must present authorization in the form of a Puppet certificate.
+The Jolokia API is enabled by default. You must use `https://` to access `metrics/v2` for any
+service, and you must present authorization in the form of a Puppet certificate.
 
 ## Jolokia endpoints
 
@@ -20,16 +21,18 @@ for more information.
 
 For security reasons, we enable only the read-access Jolokia interface by default:
 
--   `read`
--   `list`
--   `version`
--   `search`
+- `read`
+- `list`
+- `version`
+- `search`
 
 ### Creating a metrics.conf file
+
 To configure Jolokia metrics, create the `/etc/puppetlabs/puppetdb/conf.d/metrics.conf`
 file if one doesn't exist. This file should contain a section like the example shown
 below.
-```
+
+```text
 metrics {
     metrics-webservice: {
         jolokia: {
@@ -51,8 +54,10 @@ file with contents that follow the [Jolokia access policy](https://jolokia.org/r
 and uncomment the `metrics.metrics-webservice.jolokia.servlet-init-params.policyLocation`
 parameter before restarting puppetdb.
 
-The `metrics.metrics-webservice.jolokia.servlet-init-params` table
-within the `/etc/puppetlabs/puppetdb/conf.d/metrics.conf` file provides more configuration options. See Jolokia's [agent initialization documentation](https://jolokia.org/reference/html/agents.html#agent-war-init-params) for all of the available options.
+The `metrics.metrics-webservice.jolokia.servlet-init-params` table within the
+`/etc/puppetlabs/puppetdb/conf.d/metrics.conf` file provides more configuration options.
+See Jolokia's [agent initialization documentation](https://jolokia.org/reference/html/agents.html#agent-war-init-params)
+for all of the available options.
 
 ### Disabling the endpoints
 
@@ -66,7 +71,7 @@ You can query the metrics v2 API using `GET` or `POST` requests.
 
 This endpoint requires an operation, and depending on the operation can accept or might require an additional query:
 
-```
+```text
 GET /metrics/v2/<OPERATION>/<QUERY>
 ```
 
@@ -78,11 +83,13 @@ A successful request returns a JSON document.
 
 To list all valid mbeans querying the metrics endpoint
 
-    GET /metrics/v2/list
+```text
+GET /metrics/v2/list
+```
 
 Which should return a response similar to
 
-``` json
+```json
 {
   "request": {
     "type": "list"
@@ -119,11 +126,13 @@ Which should return a response similar to
 So, from the example above we could query for the registered logger names with
 this HTTP call:
 
-    GET /metrics/v2/read/java.util.logging:type=Logging/LoggerNames
+```text
+GET /metrics/v2/read/java.util.logging:type=Logging/LoggerNames
+```
 
 Which would return the JSON document
 
-``` json
+```json
 {
   "request": {
     "mbean": "java.util.logging:type=Logging",
@@ -155,7 +164,9 @@ value table with a colon (the `domain` and `prop list` in Jolokia parlance).
 Querying the MBeans is achieved via the `read` operation. The `read` operation
 has as its GET signature:
 
-    GET /metrics/v2/read/<MBEAN NAMES>/<ATTRIBUTES>/<OPTIONAL INNER PATH FILTER>
+```text
+GET /metrics/v2/read/<MBEAN NAMES>/<ATTRIBUTES>/<OPTIONAL INNER PATH FILTER>
+```
 
 ### `POST /metrics/v2/<OPERATION>`
 
@@ -169,13 +180,13 @@ The new Jolokia-based metrics API also provides globbing (wildcard selection) an
 
 You can combine both of these features to query garbage collection data, but return only the collection counts and times.
 
-```
+```text
 GET metrics/v2/read/java.lang:name=*,type=GarbageCollector/CollectionCount,CollectionTime
 ```
 
 This returns a JSON response:
 
-``` json
+```json
 {
   "request": {
     "mbean": "java.lang:name=*,type=GarbageCollector",
@@ -208,7 +219,8 @@ for more advanced usage.
 
 The jolokia endpoint requires cert-based authentication, which can be done in
 curl with the following command.
-```
+
+```console
 curl https://localhost:8081/metrics/v2/list \
   --cert path/to/localhost.pem \
   --key path/to/localhost.key \
@@ -221,7 +233,7 @@ command should populate the necessary information. For repeated querying, you
 should save the output of each command because printing the necessary configs
 is _much_ slower than a simple curl command.
 
-```sh
+```console
 curl "https://$(puppet config print server):8081/metrics/v2/list" \
   --cert "$(puppet config print hostcert)" \
   --key "$(puppet config print hostprivkey)" \
@@ -232,13 +244,13 @@ curl "https://$(puppet config print server):8081/metrics/v2/list" \
 
 ### Population metrics
 
-* `puppetlabs.puppetdb.population:name=num-nodes`:
+- `puppetlabs.puppetdb.population:name=num-nodes`:
   the number of nodes in your population.
-* `puppetlabs.puppetdb.population:name=num-resources`:
+- `puppetlabs.puppetdb.population:name=num-resources`:
   the number of resources in your population.
-* `puppetlabs.puppetdb.population:name=avg-resources-per-node`:
+- `puppetlabs.puppetdb.population:name=avg-resources-per-node`:
   the average number of resources per node in your population.
-* `puppetlabs.puppetdb.population:name=pct-resource-dupes`:
+- `puppetlabs.puppetdb.population:name=pct-resource-dupes`:
   the percentage of resources that exist on more than one node.
 
 ### Database Metrics
@@ -248,7 +260,7 @@ HikariCP metrics and their names can be found in
 [their documentation](https://github.com/brettwooldridge/HikariCP/wiki/Dropwizard-Metrics).
 All the database metrics have the following naming convention:
 
-```
+```text
 puppetlabs.puppetdb.database:PDBWritePool.<HikariCP metric>
 puppetlabs.puppetdb.database:PDBReadPool.<HikariCP metric>
 ```
@@ -266,19 +278,19 @@ Each of these metrics can be accessed as
 `puppetlabs.puppetdb.mq:name=global.<item>`, using any of the
 following `<item>`s:
 
-* `seen`: meter measuring commands received (valid or invalid)
-* `processed`: meter measuring commands successfully processed
-* `fatal`: meter measuring fatal processing errors
-* `retried`: meter measuring commands scheduled for retrial
-* `awaiting-retry`: number of commands waiting to be retried
-* `retry-counts`: histogram of retry counts (until success or discard)
-* `discarded`: meter measuring commands discarded as invalid
-* `processing-time`: timing statistics for the processing of
+- `seen`: meter measuring commands received (valid or invalid)
+- `processed`: meter measuring commands successfully processed
+- `fatal`: meter measuring fatal processing errors
+- `retried`: meter measuring commands scheduled for retrial
+- `awaiting-retry`: number of commands waiting to be retried
+- `retry-counts`: histogram of retry counts (until success or discard)
+- `discarded`: meter measuring commands discarded as invalid
+- `processing-time`: timing statistics for the processing of
   previously enqueued commands
-* `queue-time`: histogram of the time commands have spent waiting in the queue
-* `depth`: number of currently enqueued commands
-* `ignored`: number of obsolete commands that have been ignored
-* `size`: histogram of submitted command sizes (i.e. HTTP Content-Lengths)
+- `queue-time`: histogram of the time commands have spent waiting in the queue
+- `depth`: number of currently enqueued commands
+- `ignored`: number of obsolete commands that have been ignored
+- `size`: histogram of submitted command sizes (i.e. HTTP Content-Lengths)
 
 For example: `puppetlabs.puppetdb.mq:name=global.seen`.
 
@@ -289,14 +301,14 @@ Each of the command-specific metrics can be accessed as
 `<command>` must be a valid command name, `<version>` must be the
 integer command version, and `<item>` must be one of the following:
 
-* `seen`: meter measuring commands received (valid or invalid)
-* `processed`: meter measuring commands successfully processed
-* `fatal`: meter measuring fatal processing errors
-* `retried`: meter measuring commands scheduled for retrial
-* `retry-counts`: histogram of retry counts (until success or discard)
-* `discarded`: meter measuring commands discarded as invalid
-* `ignored`: number of obsolete commands that have been ignored
-* `processing-time`: timing statistics for the processing of
+- `seen`: meter measuring commands received (valid or invalid)
+- `processed`: meter measuring commands successfully processed
+- `fatal`: meter measuring fatal processing errors
+- `retried`: meter measuring commands scheduled for retrial
+- `retry-counts`: histogram of retry counts (until success or discard)
+- `discarded`: meter measuring commands discarded as invalid
+- `ignored`: number of obsolete commands that have been ignored
+- `processing-time`: timing statistics for the processing of
   previously enqueued commands
 
 For example: `puppetlabs.puppetdb.mq:name=replace catalog.9.processed`.
@@ -314,13 +326,13 @@ Additionally, we also support the following explicit names:
 
 >**Note:** The use of these explicit names is deprecated; please use, for example, `/pdb/cmd/v1` instead.
 
-* `commands`: stats relating to the command processing REST
+- `commands`: stats relating to the command processing REST
   endpoint. The OpenVoxDB-termini in Puppet talk to this endpoint to
   submit new catalogs, facts, etc.
-* `metrics`: stats relating to the metrics REST endpoint. This is the
+- `metrics`: stats relating to the metrics REST endpoint. This is the
   endpoint you're reading about right now!
-* `facts`: stats relating to fact querying.
-* `resources`: stats relating to resource querying. This is the
+- `facts`: stats relating to fact querying.
+- `resources`: stats relating to resource querying. This is the
   endpoint used when collecting exported resources.
 
 In addition to customizing `<name>`, the following metrics are
@@ -329,9 +341,9 @@ see the stats for all `200` responses for the `resources`
 endpoint. This allows you to see, per endpoint and per response,
 independent counters and statistics.
 
-* `puppetlabs.puppetdb.http:name=<name>.service-time`:
+- `puppetlabs.puppetdb.http:name=<name>.service-time`:
   stats about how long it takes to service all HTTP requests to this endpoint
-* `puppetlabs.puppetdb.http:name=<name>.<status code>`:
+- `puppetlabs.puppetdb.http:name=<name>.<status code>`:
   stats about how often we're returning this response code
 
 ### Storage metrics
@@ -341,13 +353,13 @@ Metrics involving the OpenVoxDB storage subsystem all begin with the
 a number of metrics concerned with individual storage operations (storing
 resources, storing edges, etc.). Metrics of particular note include:
 
-* `puppetlabs.puppetdb.storage:name=duplicate-pct`:
+- `puppetlabs.puppetdb.storage:name=duplicate-pct`:
   the percentage of catalogs that OpenVoxDB determines to be
   duplicates of existing catalogs.
-* `puppetlabs.puppetdb.storage:name=gc-time`: states
+- `puppetlabs.puppetdb.storage:name=gc-time`: states
   about how long it takes to do storage compaction.
 
 ### JVM metrics
 
-* `java.lang:type=Memory`: memory usage statistics.
-* `java.lang:type=Threading`: stats about JVM threads.
+- `java.lang:type=Memory`: memory usage statistics.
+- `java.lang:type=Threading`: stats about JVM threads.
