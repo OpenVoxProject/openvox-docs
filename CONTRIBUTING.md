@@ -44,6 +44,18 @@ The site is available at `http://localhost:4000`. Navigation changes require upd
 
 ## Writing guidelines
 
+### Naming of OpenVox and Puppet
+
+- `OpenVox` is used when referring to the community implementation of `Puppet` DSL
+- `Puppet` is used when describing the underlying DSL or the ecosystem as a whole
+
+Use the following terms for the individual components:
+
+- OpenVox Server
+- OpenVoxDB
+- OpenFact
+- OpenBolt
+
 ### Writing and editing pages
 
 - Prefer editing existing pages over creating new ones
@@ -72,4 +84,14 @@ The site is available at `http://localhost:4000`. Navigation changes require upd
 ### Formatting
 
 - File names and paths: `monospace`
-- Commands and code: `monospace`; short commands inline, longer blocks in fenced code blocks with a language identifier (`bash`, `yaml`, `text`, etc.)
+- Commands and code: `monospace`; short commands inline, longer blocks in fenced code blocks with a language identifier (`console`, `yaml`, `text`, etc.)
+- Use `console` for commands to run in a terminal; use `bash` or `puppet` for scripts and manifests
+
+### Linking
+
+- Within a versioned collection (e.g. `docs/_openvox_8x/`), use relative links (`page.html`)
+  rather than absolute `/openvox/latest/page.html` links. Absolute `/latest/` links silently
+  cross version boundaries when a new major version is added.
+- Prefer `page.html` over `./page.html` — the leading `./` is unnecessary.
+- When linking across collections (e.g. from `_openvox_8x/` to `_openvoxdb_8x/`), use absolute paths (`/openvoxdb/latest/page.html`).
+- Use full URIs for external links only.

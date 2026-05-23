@@ -7,9 +7,9 @@ layout: default
 
 [commands]: ./api/command/v1/commands.html#list-of-commands
 [threads]: ./configure.html#threads
-[pgstattuple]: http://www.postgresql.org/docs/9.6/static/pgstattuple.html
+[pgstattuple]: https://www.postgresql.org/docs/current/pgstattuple.html
 [pgtune]: https://github.com/gregs1104/pgtune
-[postgres-config]: http://www.postgresql.org/docs/current/static/runtime-config-resource.html
+[postgres-config]: https://www.postgresql.org/docs/current/runtime-config-resource.html
 [fact-precedence]: /openfact/latest/custom_facts.html#custom-facts-precedence
 [dbvis]: https://www.dbvis.com/
 [stockpile]: https://github.com/puppetlabs/stockpile
@@ -149,8 +149,7 @@ type:
 PDB uses PostgreSQL. The best way to get familiar with the schema is
 to generate an ERD diagram from your database and investigate for yourself on a running
 instance via the psql interactive console. [DB Visualizer][dbvis] is an excellent tool for this.
-In addition, the PDB team is available for questions on the mailing list and in #puppet and
-#puppet-dev on freenode to answer any questions.
+For community help, see the [Vox Pupuli community page](https://voxpupuli.org/connect).
 
 ## PDB Diagnostics
 
@@ -260,9 +259,9 @@ There are a few things to watch for in the PDB dashboard:
   period of time, your commands are being processed too slowly. Causes of slow
   command processing include:
 
-  - large, particularly array-valued, structured facts
-  - large commands in general
-  - insufficient hardware
+  * large, particularly array-valued, structured facts
+  * large commands in general
+  * insufficient hardware
 
   Per the command-processing section above, array-valued structured facts are
   stored with the index of each element embedded in the fact path. Imagining an
@@ -312,7 +311,7 @@ information by typing `d`, `s`, and `m` within atop.
 ## Contact Us
 
 If none of the above lead to a solution, there is a good chance that others are
-encountering your issue. Please contact us via the puppet-users mailing list or
-on freenode in #puppet or #puppet-dev so we can update this document. If you
-have general advice that this document does not include, feel free to submit a
-pull request.
+encountering your issue. See the [Vox Pupuli community page](https://voxpupuli.org/connect)
+for community channels. If you have general advice that this document does not
+include, please [open an issue](https://github.com/OpenVoxProject/openvox-docs/issues)
+and submit a pull request.

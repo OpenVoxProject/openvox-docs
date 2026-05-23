@@ -17,15 +17,14 @@ canonical: "/openvoxdb/latest/api/query/v4/ast.html"
 [fact-paths]: ./fact-paths.html
 [inventory]: ./inventory.html
 [nodes]: ./nodes.html
-[pg-regex]: https://www.postgresql.org/docs/11/functions-matching.html#FUNCTIONS-POSIX-REGEXP
+[pg-regex]: https://www.postgresql.org/docs/current/functions-matching.html#FUNCTIONS-POSIX-REGEXP
 [producers]: ./producers.html
-[query]: query.html
 [reports]: ./reports.html
 [resources]: ./resources.html
 [entities]: ./entities.html
 [pql]: ./pql.html
-[urlencode]: http://en.wikipedia.org/wiki/Percent-encoding
-[to-char]: http://www.postgresql.org/docs/11/static/functions-formatting.html
+[urlencode]: https://en.wikipedia.org/wiki/Percent-encoding
+[to-char]: https://www.postgresql.org/docs/current/functions-formatting.html
 
 ## Summary
 
@@ -46,7 +45,9 @@ complex _comparison operation_ in _prefix notation_ with an **operator** first a
 
 That is, before being URL-encoded, all AST query strings follow this form:
 
-    [ "<OPERATOR>", "<ARGUMENT>", (..."<ARGUMENT>"...) ]
+```text
+[ "<OPERATOR>", "<ARGUMENT>", (..."<ARGUMENT>"...) ]
+```
 
 Different operators may take different numbers (and types) of arguments.
 
@@ -55,7 +56,9 @@ Different operators may take different numbers (and types) of arguments.
 Each of these operators accepts two arguments: a **field** and a
 **value.** These operators are **non-transitive,** which means that their syntax must always be:
 
-    ["<OPERATOR>", "<FIELD>", "<VALUE>"]
+```text
+["<OPERATOR>", "<FIELD>", "<VALUE>"]
+```
 
 The available fields for each endpoint are listed in that endpoint's documentation.
 
@@ -101,14 +104,18 @@ The available fields for each endpoint are listed in that endpoint's documentati
 **Matches if:** the field's actual value matches the provided regular expression. The provided value must be a regular expression represented as a JSON string:
 
 * The regexp **must not** be surrounded by the slash characters (`/rexegp/`) that delimit regexps in many languages.
-* Every backslash character **must** be escaped with an additional backslash. Thus, a sequence like `\d` would be represented as `\\d`, and a literal backslash (represented in a regexp as a double-backslash `\\`) would be represented as a quadruple-backslash (`\\\\`).
+* Every backslash character **must** be escaped with an additional backslash. Thus, a sequence like `\d`
+  would be represented as `\\d`, and a literal backslash (represented in a regexp as `\\`) would be
+  represented as a quadruple-backslash (`\\\\`).
 
 The following example would match if the `certname` field's actual value resembled something like `www03.example.com`:
 
-    ["~", "certname", "www\\d+\\.example\\.com"]
+```text
+["~", "certname", "www\\d+\\.example\\.com"]
+```
 
 > **Note:** Regular expression matching is performed by the database
-> backend, so the available [regexp features](#pg-regex) are
+> backend, so the available [regexp features][pg-regex] are
 > determined by PostgreSQL. For best results, use the simplest and
 > most common features that can accomplish your task.
 
@@ -125,11 +132,15 @@ array indexes and map keys.
 
 The following example would match any network interface names starting with "eth":
 
-    ["~>", "path", ["networking", "eth.*", "macaddress"]]
+```text
+["~>", "path", ["networking", "eth.*", "macaddress"]]
+```
 
 If you want to match any index for an array path element, you can use regular expressions, as the element acts like a string:
 
-    ["~>", "path", [<array_fact>, ".*"]]
+```text
+["~>", "path", [<array_fact>, ".*"]]
+```
 
 > Limitations: with the current implementation an anchored expression
 > like `"^sda.*"` may never match an array element.  Currently
@@ -145,11 +156,15 @@ If you want to match any index for an array path element, you can use regular ex
 
 The following example would return events that do not have an associated line number:
 
-    ["null?", "line", true]
+```text
+["null?", "line", true]
+```
 
 Similarly, the below query would return events that do have a specified line number:
 
-    ["null?", "line", false]
+```text
+["null?", "line", false]
+```
 
 ## Boolean operators
 
@@ -173,28 +188,38 @@ Every argument of these operators should be a **complete query string** in its o
 
 To reduce the keypairs returned for each result in the response, you can use **extract**:
 
-    ["extract", ["hash", "certname", "transaction_uuid"],
-      ["=", "certname", "foo.com"]]
+```text
+["extract", ["hash", "certname", "transaction_uuid"],
+  ["=", "certname", "foo.com"]]
+```
 
 When only extracting a single column, the `[]` are optional:
 
-    ["extract", "transaction_uuid",
-      ["=", "certname", "foo.com"]]
+```text
+["extract", "transaction_uuid",
+  ["=", "certname", "foo.com"]]
+```
 
 When applying an aggregate function over a `group_by` clause, an extract
 statement takes the form:
 
-    ["extract", [["function", "count"], "status"],
-      ["=", "certname", "foo.com"],
-      ["group_by", "status"]]
+```text
+["extract", [["function", "count"], "status"],
+  ["=", "certname", "foo.com"],
+  ["group_by", "status"]]
+```
 
 Extract can also be used with a standalone function application:
 
-    ["extract", [["function", "count"]], ["~", "certname", ".\*.com"]]
+```text
+["extract", [["function", "count"]], ["~", "certname", ".\*.com"]]
+```
 
 or
 
-    ["extract", [["function", "count"]]]
+```text
+["extract", [["function", "count"]]]
+```
 
 #### Extracting a subtree
 
@@ -202,7 +227,9 @@ The JSON fields that support dot notation for hash descendance also support
 dot notation for extracting a subtree. See the Dot notation section below
 for more information.
 
-    ["extract", ["facts.os.family"]]
+```text
+["extract", ["facts.os.family"]]
+```
 
 ### `function`
 
@@ -210,36 +237,39 @@ The **function** operator is used to call a function on the result of a
 subquery. Supported functions are described below.
 
 #### `avg`, `sum`, `min`, `max`
+
 These functions operate on any numeric column and they take the column
 name as an argument, as in the examples above.
 
 #### `count`
+
 The `count` function can be used with or without a column. When no column is
 supplied, it will return the number of results in the associated subquery.
 Using the function with a column will return the number of results where the
 specified column is not null.
 
 #### `to_string`
+
 The `to_string` function operates on timestamps and integers, allowing them to
 be formatted in a user-defined manner before being returned from puppetdb.
-Available  formats are the same as those documented for [PostgreSQL's `to_char`
+Available formats are the same as those documented for [PostgreSQL's `to_char`
 function][to-char]. For instance, to get the full lower case month name of the
-`producer_timestamp`,  you can query the reports endpoint with:
+`producer_timestamp`, you can query the reports endpoint with:
 
-```
+```text
 ["extract", [["function", "to_string", "producer_timestamp", "month"]]]
 ```
 
-To get the last 2 digits of the year a report was submitted  from the Puppet Server:
+To get the last 2 digits of the year a report was submitted from the Puppet Server:
 
-```
+```text
 ["extract", [["function", "to_string", "producer_timestamp", "YY"]]]]
 ```
 
 To get the uptime_seconds fact's value as a string, the following query can be used on
 facts or fact-contents endpoint:
 
-```
+```text
 ["extract", [["function", "to_string", "value", "999999999"]], ["=","name", "uptime_seconds"]]
 ```
 
@@ -254,26 +284,31 @@ and takes one or more column names as arguments. For instance, to get event
 status counts for active certname by status, you can query the events endpoint
 with:
 
-    ["extract", [["function", "count"], "status", "certname"],
-      ["group_by", "status", "certname"]]
+```text
+["extract", [["function", "count"], "status", "certname"],
+  ["group_by", "status", "certname"]]
+```
 
 To get the average uptime for your nodes:
 
-    ["extract", [["function", "avg", "value"]], ["=", "name", "uptime_seconds"]]
+```text
+["extract", [["function", "avg", "value"]], ["=", "name", "uptime_seconds"]]
+```
 
 ## Dot notation
 
-*Note*: Dot notation for hash descendence is under development. Currently it has
+_Note_: Dot notation for hash descendence is under development. Currently it has
 full support on the `facts` and `trusted` response keys of the `inventory`
 endpoint, and partial support on the `parameters` column of the resources
 endpoint. It may be expanded to other endpoints in the future based on demand.
 
 Certain types of JSON data returned by OpenVoxDB can be queried in a structured
 way using `dot notation`. The rules for dot notation are:
+
 * Hash descendence is represented by a period-separated sequence of key names
 * Array indexing (`inventory` only) is represented with brackets (`[]`) on the
-end of a key.
-* Regular expression matching ([`inventory`](#inventory) only) is
+  end of a key.
+* Regular expression matching ([inventory](./inventory.html) only) is
   represented with the `match` operator, but note that [`match` in its
   current form has been deprecated](#dotted-field-syntax), and is
   likely to be removed or altered in a backward-incompatible way in a
@@ -281,41 +316,42 @@ end of a key.
 
 For example, given the inventory response
 
-
-    {
-        "certname" : "mbp.local",
-        "timestamp" : "2016-07-11T20:02:33.190Z",
-        "environment" : "production",
-        "facts" : {
-            "kernel" : "Darwin",
-            "operatingsystem" : "Darwin",
-            "macaddress_p2p0" : "0e:15:c2:d6:f8:4e",
-            "system_uptime" : {
-                "days" : 0,
-                "hours" : 1,
-                "uptime" : "1:52 hours",
-                "seconds" : 6733
-            },
-            "macaddress_awdl0" : "6e:31:ef:e6:36:54",
-            "processors": {
-                "models": [
-                    "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
-                    "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
-                    "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
-                    "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz"],
-                "count": 4,
-                "physicalcount": 1
-            },
-            ...
+```json
+{
+    "certname" : "mbp.local",
+    "timestamp" : "2016-07-11T20:02:33.190Z",
+    "environment" : "production",
+    "facts" : {
+        "kernel" : "Darwin",
+        "operatingsystem" : "Darwin",
+        "macaddress_p2p0" : "0e:15:c2:d6:f8:4e",
+        "system_uptime" : {
+            "days" : 0,
+            "hours" : 1,
+            "uptime" : "1:52 hours",
+            "seconds" : 6733
         },
-        "trusted" : {
-            "domain" : "local",
-            "certname" : "mbp.local",
-            "hostname" : "mbp",
-            "extensions" : { },
-            "authenticated" : "remote"
-        }
+        "macaddress_awdl0" : "6e:31:ef:e6:36:54",
+        "processors": {
+            "models": [
+                "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
+                "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
+                "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
+                "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz"],
+            "count": 4,
+            "physicalcount": 1
+        },
+        ...
+    },
+    "trusted" : {
+        "domain" : "local",
+        "certname" : "mbp.local",
+        "hostname" : "mbp",
+        "extensions" : { },
+        "authenticated" : "remote"
     }
+}
+```
 
 valid queries would include
 
@@ -332,19 +368,23 @@ valid queries would include
 Dot notation is also supported for extracting a subtree of JSON fields.
 For example you can query the inventory endpoint with
 
-    ["extract", ["trusted.certname", "facts.system_uptime"]]
+```text
+["extract", ["trusted.certname", "facts.system_uptime"]]
+```
 
 To get a response with only the elements you've asked for
 
-    {
-        "trusted.certname": "mbp.local",
-        "facts.system_uptime.uptime": {
-            "days" : 0,
-            "hours" : 1,
-            "uptime" : "1:52 hours",
-            "seconds" : 6733
-        }
+```json
+{
+    "trusted.certname": "mbp.local",
+    "facts.system_uptime.uptime": {
+        "days" : 0,
+        "hours" : 1,
+        "uptime" : "1:52 hours",
+        "seconds" : 6733
     }
+}
+```
 
 ### Dotted field syntax
 
@@ -368,10 +408,10 @@ in a backslash.
 > likely to be retired or altered in a backward-incompatible way in a
 > future release.
 
-In some cases (e.g. [inventory endpoint](#inventory)) dotted fields
+In some cases (e.g. [inventory endpoint][inventory]) dotted fields
 can also contain a `match()` component, for example
 `facts.partitions.match("sd.*")` The match pattern must be a
-[PostgreSQL regular expression](#pg-regex), and must begin with
+[PostgreSQL regular expression][pg-regex], and must begin with
 `match`, open paren, double quote, and it will end at the next double
 quote, close paren that is not preceded by a backslash and is followed
 by either a dot, or the end of the field.  The regex then, has
@@ -382,7 +422,7 @@ ends in a backslash.
 With the current implementation, the `match()` component's behavior is
 not well defined, likley to be surprising, and likely to change in the
 future, so we recommend avoiding it for now, but please do
-[contact us](#contact-us) if you are currently using it, or would like
+[contact us][contact] if you are currently using it, or would like
 to use an operator with better semantics, so we can incorporate that
 information into future plans.
 
@@ -393,7 +433,7 @@ expression in an awkward manner.
 
 ## Context operators
 
-*Note:* Setting the context at the top of the query is only supported on the
+_Note:_ Setting the context at the top of the query is only supported on the
 [root][root] endpoint.
 
 Setting context in a query allows you to choose the entity you are querying
@@ -407,7 +447,9 @@ The `from` operator allows you to choose the [entity][entities] that you want to
 provide optional query and paging clauses to filter those results. This operator can
 be used at the top-level context of a query:
 
-    ["from", "nodes", ["=", "certname", "myserver"]]
+```text
+["from", "nodes", ["=", "certname", "myserver"]]
+```
 
 The `from` operator can also be used in a subquery for setting the context when
 using the [`in` operator](#subquery-operators).
@@ -424,13 +466,15 @@ integer-valued argument, and `order_by` accepts a vector of either column names
 or vector pairs containing a column name and an ordering of "asc" or "desc".
 For example,
 
-    ["limit", 1]
+```text
+["limit", 1]
 
-    ["offset", 1]
+["offset", 1]
 
-    ["order_by", ["certname"]]
+["order_by", ["certname"]]
 
-    ["order_by", ["certname", ["producer_timestamp", "desc"]]]
+["order_by", ["certname", ["producer_timestamp", "desc"]]]
+```
 
 When no ordering is explicitly specified, as in the case of "certname" in the
 example above, ascending order is assumed. Here are a few examples of queries
@@ -438,33 +482,41 @@ using paging operators:
 
 Return the most recent ten reports for a certname:
 
-    ["from", "reports",
-      ["=", "certname", "myserver"],
-      ["order_by", [["producer_timestamp", "desc"]]],
-      ["limit", 10]]
+```text
+["from", "reports",
+  ["=", "certname", "myserver"],
+  ["order_by", [["producer_timestamp", "desc"]]],
+  ["limit", 10]]
+```
 
 Return the next page of ten reports:
 
-    ["from", "reports",
-      ["=", "certname", "myserver"],
-      ["order_by", [["receive_time", "desc"]]],
-      ["limit", 10],
-      ["offset", 10]]
+```text
+["from", "reports",
+  ["=", "certname", "myserver"],
+  ["order_by", [["receive_time", "desc"]]],
+  ["limit", 10],
+  ["offset", 10]]
+```
 
 Return the most recent ten reports for any certname:
 
-    ["from", "reports",
-      ["order_by", [["producer_timestamp", "desc"]]],
-      ["limit", 10]]
+```text
+["from", "reports",
+  ["order_by", [["producer_timestamp", "desc"]]],
+  ["limit", 10]]
+```
 
 Return the nodes represented in the ten most recent reports:
 
-    ["from", "nodes",
-      ["in", "certname",
-        ["from", "reports",
-          ["extract", "certname"],
-          ["limit", 10],
-          ["order_by", [["certname", "desc"]]]]]]
+```text
+["from", "nodes",
+  ["in", "certname",
+    ["from", "reports",
+      ["extract", "certname"],
+      ["limit", 10],
+      ["order_by", [["certname", "desc"]]]]]]
+```
 
 The order in which paging operators are supplied does not matter.
 
@@ -483,7 +535,9 @@ data should be joined during the subquery.
 Implicit queries work like most operators, and simply require you to specify the
 related entity and the query to use:
 
-    ["subquery", "<ENTITY>", <SUBQUERY STATEMENT>]
+```text
+["subquery", "<ENTITY>", <SUBQUERY STATEMENT>]
+```
 
 The [`<ENTITY>`][entities] is the particular entity you are subquerying on, however not
 all entities are implicitly relatable to all other entities, as not every relationship makes sense.
@@ -503,22 +557,26 @@ A query string like the following on the [`nodes`][nodes] endpoint will return t
 of all nodes with the `Package[Tomcat]` resource in their catalog, and a certname starting
 with `web1`:
 
+```text
+["and",
+  ["~", "certname", "^web1"],
+  ["subquery", "resources",
     ["and",
-      ["~", "certname", "^web1"],
-      ["subquery", "resources",
-        ["and",
-          ["=", "type", "Package"],
-          ["=", "title", "Tomcat"]]]]
+      ["=", "type", "Package"],
+      ["=", "title", "Tomcat"]]]]
+```
 
 If you want to display the entire `networking` fact, and the host's interface uses a certain mac address,
 you can do the following on the [`facts`][facts] endpoint:
 
+```text
+["and",
+  ["=", "name", "networking"],
+  ["subquery", "fact_contents",
     ["and",
-      ["=", "name", "networking"],
-      ["subquery", "fact_contents",
-        ["and",
-          ["~>", "path", ["networking", ".*", "macaddress", ".*"]],
-          ["=", "value", "aa:bb:cc:dd:ee:00"]]]]
+      ["~>", "path", ["networking", ".*", "macaddress", ".*"]],
+      ["=", "value", "aa:bb:cc:dd:ee:00"]]]]
+```
 
 ### Explicit subqueries
 
@@ -529,11 +587,15 @@ a subquery should join on. This is where an explicit subquery can be useful.
 Explicit subqueries are unlike the other operators listed above. They always appear
 together in one of the following forms:
 
-    ["in", ["<FIELDS>"], ["extract", ["<FIELDS>"], <SUBQUERY STATEMENT>] ]
+```text
+["in", ["<FIELDS>"], ["extract", ["<FIELDS>"], <SUBQUERY STATEMENT>] ]
+```
 
 The second new methodology uses `from` to set the context, and now looks like this:
 
-    ["in", ["<FIELDS>"], ["from", <ENTITY>, ["extract", ["<FIELDS>"], <SUBQUERY>] ] ]
+```text
+["in", ["<FIELDS>"], ["from", <ENTITY>, ["extract", ["<FIELDS>"], <SUBQUERY>] ] ]
+```
 
 That is:
 
@@ -547,11 +609,14 @@ These statements work together as follows (working "outward" and starting with t
 * The `extract` statement collects the value of one or more **fields** across every object returned by the subquery.
 * The `in` statement **matches** if its field values are present in the list returned by the `extract` statement.
 
-Subquery | Extract | In
----------|---------|---
-Every resource whose type is "Class" and title is "Apache." (Note that all resource objects have a `certname` field, among other fields.) | Every `certname` field from the results of the subquery. | Match if the `certname` field is present in the list from the `extract` statement.
+* **Subquery:** Every resource whose type is "Class" and title is "Apache." (Note that all resource
+  objects have a `certname` field, among other fields.)
+* **Extract:** Every `certname` field from the results of the subquery.
+* **In:** Matches if the `certname` field is present in the list from the `extract` statement.
 
-The complete `in` statement described in the table above would match any object that shares a `certname` with a node that has `Class[Apache]`. This could be combined with a Boolean operator to get a specific fact from every node that matches the `in` statement.
+The complete `in` statement described above would match any object that shares a `certname` with a
+node that has `Class[Apache]`. This could be combined with a Boolean operator to get a specific fact
+from every node that matches the `in` statement.
 
 #### `in`
 
@@ -581,27 +646,33 @@ argument of `in` against.
 The following query filters for the nodes, `foo.local`, `bar.local`, and
 `baz.local`:
 
-    ["in", "certname",
-     ["array",
-      ["foo.local",
-       "bar.local",
-       "baz.local"]]]
+```text
+["in", "certname",
+ ["array",
+  ["foo.local",
+   "bar.local",
+   "baz.local"]]]
+```
 
 which is equivalent to the following query:
 
-    ["or",
-     ["=","certname","foo.local"],
-     ["=","certname","bar.local"],
-     ["=","certname","baz.local"]]
+```text
+["or",
+ ["=","certname","foo.local"],
+ ["=","certname","bar.local"],
+ ["=","certname","baz.local"]]
+```
 
 The `in`-`array` operators support much of the same syntax as the `=` operator.
 For example, the following query on the `/nodes` endpoint is valid:
 
-    ["in", ["fact", "uptime_seconds"],
-     ["array",
-      [20000.0,
-       150.0,
-       30000.0]]]
+```text
+["in", ["fact", "uptime_seconds"],
+ ["array",
+  [20000.0,
+   150.0,
+   30000.0]]]
+```
 
 #### `from`
 
@@ -610,10 +681,12 @@ and expects an [entity][entities] as the first argument and an optional query in
 the second argument. However, when used within an `in` clause, an `extract`
 statement is expected to choose the fields:
 
-    ["in", "certname",
-     ["from", "facts",
-      ["extract", "certname",
-       [<QUERY>]]]]
+```text
+["in", "certname",
+ ["from", "facts",
+  ["extract", "certname",
+   [<QUERY>]]]]
+```
 
 #### `extract`
 
@@ -623,8 +696,8 @@ statement is expected to choose the fields:
   **being subqueried** (see second argument). This is a string or vector of
   strings.
 * The second argument:
-** **must** contain a **subquery statement**
-** or when used with the new `from` operator, **may** contain an optional query.
+  * **must** contain a **subquery statement**
+  * or when used with the new `from` operator, **may** contain an optional query.
 
 As the second argument of an `in` statement, an `extract` statement acts as a
 list of possible values. This list is compiled by extracting the value of the
@@ -639,7 +712,10 @@ Subquery statements are **non-transitive** and take two arguments:
 * The first argument **must** be the **name** of one of the available subqueries (listed below).
 * The second argument **must** be a **full query string** that makes sense for the endpoint being subqueried.
 
-As the second argument of an `extract` statement, a subquery statement acts as a collection of OpenVoxDB objects. Each of the objects returned by the subquery has many fields; the `extract` statement takes the value of one field from each of those objects, and passes that list of values to the `in` statement that contains it.
+As the second argument of an `extract` statement, a subquery statement acts as a collection of
+OpenVoxDB objects. Each of the objects returned by the subquery has many fields; the `extract`
+statement takes the value of one field from each of those objects, and passes that list of values to
+the `in` statement that contains it.
 
 Each subquery acts as a normal query to one of the OpenVoxDB endpoints. For info on constructing useful queries, see the docs page for the endpoint matching the subquery:
 
@@ -660,73 +736,87 @@ Each subquery acts as a normal query to one of the OpenVoxDB endpoints. For info
 This query string queries the `/facts` endpoint for the IP address of
 all nodes with `Class[Apache]`:
 
-    ["and",
-      ["=", "name", "ipaddress"],
-      ["in", "certname",
-        ["extract", "certname",
-          ["select_resources",
-            ["and",
-              ["=", "type", "Class"],
-              ["=", "title", "Apache"]]]]]]
+```text
+["and",
+  ["=", "name", "ipaddress"],
+  ["in", "certname",
+    ["extract", "certname",
+      ["select_resources",
+        ["and",
+          ["=", "type", "Class"],
+          ["=", "title", "Apache"]]]]]]
+```
 
 This query string queries the `/nodes` endpoint for all nodes with `Class[Apache]`:
 
-    ["in", "certname",
-      ["extract", "certname",
-        ["select_resources",
-          ["and",
-            ["=", "type", "Class"],
-            ["=", "title", "Apache"]]]]]
+```text
+["in", "certname",
+  ["extract", "certname",
+    ["select_resources",
+      ["and",
+        ["=", "type", "Class"],
+        ["=", "title", "Apache"]]]]]
+```
 
 This query string queries the `/facts` endpoint for the IP address of
 all Debian nodes.
 
-    ["and",
-      ["=", "name", "ipaddress"],
-      ["in", "certname",
-        ["extract", "certname",
-          ["select_facts",
-            ["and",
-              ["=", "name", "operatingsystem"],
-              ["=", "value", "Debian"]]]]]]
+```text
+["and",
+  ["=", "name", "ipaddress"],
+  ["in", "certname",
+    ["extract", "certname",
+      ["select_facts",
+        ["and",
+          ["=", "name", "operatingsystem"],
+          ["=", "value", "Debian"]]]]]]
+```
 
 This query string queries the `/facts` endpoint for uptime_hours of all nodes with
 facts_environment `production`:
 
-    ["and",
-      ["=", "name", "uptime_hours"],
-      ["in", "certname",
-        ["extract", "certname",
-          ["select_nodes",
-            ["=", "facts_environment", "production"]]]]]
+```text
+["and",
+  ["=", "name", "uptime_hours"],
+  ["in", "certname",
+    ["extract", "certname",
+      ["select_nodes",
+        ["=", "facts_environment", "production"]]]]]
+```
 
 To find node information for a host that has a macaddress of `aa:bb:cc:dd:ee:00` as
 its first macaddress on the interface `eth0`, you could use this query on '/nodes':
 
-    ["in", "certname",
-      ["extract", "certname",
-        ["select_fact_contents",
-          ["and",
-            ["=", "path", ["networking", "eth0", "macaddress", 0]],
-            ["=", "value", "aa:bb:cc:dd:ee:00"]]]]]
+```text
+["in", "certname",
+  ["extract", "certname",
+    ["select_fact_contents",
+      ["and",
+        ["=", "path", ["networking", "eth0", "macaddress", 0]],
+        ["=", "value", "aa:bb:cc:dd:ee:00"]]]]]
+```
 
 To exhibit a subquery using multiple fields, you could use the following
 on '/facts' to list all top-level facts containing fact contents with paths
 starting with "up" and value less than 100:
 
-    ["in", ["certname", "name"],
-      ["extract", ["certname", "name"],
-        ["select_fact_contents",
-          ["and",
-            ["~>", "path", ["up.*"]],
-            ["<", "value", 100]]]]]
+```text
+["in", ["certname", "name"],
+  ["extract", ["certname", "name"],
+    ["select_fact_contents",
+      ["and",
+        ["~>", "path", ["up.*"]],
+        ["<", "value", 100]]]]]
+```
 
 Queries are restricted to active nodes by default; to make this explicit, the
 special "node_state" field may be queried using the values "active", "inactive",
 or "any". For example, to list all catalogs from inactive nodes, use this on the
 /catalogs endpoint:
 
-    ["=", "node_state", "inactive"] 
+```text
+["=", "node_state", "inactive"] 
+```
 
 This expands internally into comparisons against each node's deactivation and
 expiration time; a node is consider inactive if either field is set.
@@ -736,42 +826,50 @@ expiration time; a node is consider inactive if either field is set.
 Additions to the query language in support of PQL introduced new ways to
 express subqueries using the `from` operator. For example, a query such as this:
 
-    ["and",
-      ["=", "name", "ipaddress"],
-      ["in", "certname",
-        ["extract", "certname",
-          ["select_resources",
-            ["and",
-              ["=", "type", "Class"],
-              ["=", "title", "Apache"]]]]]]
+```text
+["and",
+  ["=", "name", "ipaddress"],
+  ["in", "certname",
+    ["extract", "certname",
+      ["select_resources",
+        ["and",
+          ["=", "type", "Class"],
+          ["=", "title", "Apache"]]]]]]
+```
 
 will now look like this:
 
-    ["and",
-      ["=", "name", "ipaddress"],
-      ["in", "certname",
-        ["from", "resources",
-          ["extract", "certname",
-            ["and",
-              ["=", "type", "Class"],
-              ["=", "title", "Apache"]]]]]]
+```text
+["and",
+  ["=", "name", "ipaddress"],
+  ["in", "certname",
+    ["from", "resources",
+      ["extract", "certname",
+        ["and",
+          ["=", "type", "Class"],
+          ["=", "title", "Apache"]]]]]]
+```
 
 Executing this query on the `/facts` endpoint would filter for `uptime_hours` for all nodes with
 `facts_environment` set to `production`:
 
-    ["and",
-      ["=", "name", "uptime_hours"],
-      ["in", "certname",
-        ["from", "nodes",
-          ["extract", "certname",
-            ["=", "facts_environment", "production"]]]]]
+```text
+["and",
+  ["=", "name", "uptime_hours"],
+  ["in", "certname",
+    ["from", "nodes",
+      ["extract", "certname",
+        ["=", "facts_environment", "production"]]]]]
+```
 
 To find node information for a host that has a macaddress of `aa:bb:cc:dd:ee:00` as
 its first macaddress on the interface `eth0`, you could use this query on `/nodes`:
 
-    ["in", "certname",
-      ["from", "fact_contents",
-        ["extract", "certname",
-          ["and",
-            ["=", "path", ["networking", "eth0", "macaddress", 0]],
-            ["=", "value", "aa:bb:cc:dd:ee:00"]]]]]
+```text
+["in", "certname",
+  ["from", "fact_contents",
+    ["extract", "certname",
+      ["and",
+        ["=", "path", ["networking", "eth0", "macaddress", 0]],
+        ["=", "value", "aa:bb:cc:dd:ee:00"]]]]]
+```
