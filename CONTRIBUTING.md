@@ -89,7 +89,9 @@ Use the following terms for the individual components:
 
 ### Linking
 
-- Don't use URI for links pointing to files form this documentation
-- Use URI when referring to remote locations
-- Use absolute paths when pointing to files from other sections
-- Use filename only without path when referring to a file in the same directory
+- Within a versioned collection (e.g. `docs/_openvox_8x/`), use relative links (`page.html`)
+  rather than absolute `/openvox/latest/page.html` links. Absolute `/latest/` links silently
+  cross version boundaries when a new major version is added.
+- Prefer `page.html` over `./page.html` — the leading `./` is unnecessary.
+- When linking across collections (e.g. from `_openvox_8x/` to `_openvoxdb_8x/`), use absolute paths (`/openvoxdb/latest/page.html`).
+- Use full URIs for external links only.
