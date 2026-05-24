@@ -7,19 +7,7 @@ canonical: "/openvoxdb/latest/api/query/v4/packages.html"
 
 [curl]: ../curl.html#using-curl-from-localhost-non-sslhttp
 [paging]: ./paging.html
-[query]: query.html
-[subqueries]: ./ast.html#subquery-operators
-[facts-format]: ../../wire_format/facts_format_v5.html
-[factsets]: ./factsets.html
-[reports]: ./reports.html
-[catalogs]: ./catalogs.html
-[nodes]: ./nodes.html
-[facts]: ./facts.html
-[fact_contents]: ./fact_contents.html
-[events]: ./events.html
-[edges]: ./edges.html
-[resources]: ./resources.html
-[inventory]: inventory.html
+[pdb_client_tools]: ../../../pdb_client_tools.html
 
 ## `/pdb/query/v4/packages`
 
@@ -49,7 +37,7 @@ The array is unsorted by default.
 
 ### Example
 
-[You can use `curl`][curl] or `puppet query` to query information about packages:
+[You can use `curl`][curl] or [`puppet query`][pdb_client_tools] to query information about packages:
 
     puppet query "packages { package_name ~ 'ssl'}"
 
@@ -87,7 +75,7 @@ The array is unsorted by default.
 
 ### Example
 
-[You can use `curl`][curl] or `puppet query` to query information about nodes:
+[You can use `curl`][curl] or [`puppet query`][pdb_client_tools] to query information about nodes:
 
     puppet query "package_inventory{ certname = 'agent1' }"
 

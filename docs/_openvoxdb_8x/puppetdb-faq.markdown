@@ -5,7 +5,6 @@ subtitle: "Frequently asked questions"
 ---
 # Frequently asked questions
 
-[maintaining_tuning]: ./maintain_and_tune.html
 [connect_puppet_apply]: ./connect_puppet_apply.html
 [support_guide]: ./pdb_support_guide.html
 [puppetdb3]: /puppetdb/3.2/migrate.html
@@ -101,10 +100,8 @@ Depending on your operating system, you may be able to install this extension by
 
 ## The OpenVoxDB daemon shuts down with a "Cannot assign requested address" error. What does this mean, and how do I fix it?
 
-~~~
-FAILED org.eclipse.jetty.server.Server@6b2c636d: java.net.BindException: Cannot assign requested address
-java.net.BindException: Cannot assign requested address
-~~~
+    FAILED org.eclipse.jetty.server.Server@6b2c636d: java.net.BindException: Cannot assign requested address
+    java.net.BindException: Cannot assign requested address
 
 OpenVoxDB will error with this message if the IP address associated with the
 ssl-host parameter in the jetty.ini isn't linked to a known interface or
@@ -133,7 +130,7 @@ problems in a limited capacity environment. Enabling profiling in production
 environments should only be done with care and for a very short period of time.
 
 To enable easy searching, all OpenVoxDB profiling events are prefixed with
-`OpenVoxDB:`. This information is also helpful to our developers, so feel free to
+`PuppetDB:`. This information is also helpful to our developers, so feel free to
 include these details when reporting issues with OpenVoxDB.
 
 ## How can I improve command processing performance?

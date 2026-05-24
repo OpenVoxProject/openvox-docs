@@ -86,7 +86,7 @@ If you use a standalone Puppet site, [you should configure every node to connect
 
 ## Troubleshooting installation problems
 
-- Check the log file (`/var/log/puppetlabs.puppetdb/puppetdb.log`), and see whether OpenVoxDB knows what the problem is.
+- Check the log file (`/var/log/puppetlabs/puppetdb/puppetdb.log`), and see whether OpenVoxDB knows what the problem is.
 - If OpenVoxDB is running but the Puppet Server can't reach it, check [OpenVoxDB's `[jetty]` configuration][configure_jetty] to see which port(s) it is listening on, then attempt to reach it by Telnet
   (`telnet <HOST> <PORT>`) from the Puppet Server. If you can't connect, the firewall may be blocking connections. If you can, Puppet may be attempting to use the wrong port, or OpenVoxDB's keystore may be
   misconfigured (see below).

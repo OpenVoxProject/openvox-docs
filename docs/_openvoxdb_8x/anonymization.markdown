@@ -2,6 +2,8 @@
 title: "Export, import and anonymization"
 layout: default
 ---
+[pdb_client_tools]: ./pdb_client_tools.html
+
 # Exporting and anonymizing data
 
 This document covers using the export, import and anonymization tools for
@@ -14,17 +16,21 @@ useful when sharing OpenVoxDB data that contains sensitive items.
 
 ## Using the `export` command
 
-To create an anonymized OpenVoxDB archive directly, use the Puppet `db` subcommand
-from any node with puppet-client-tools installed:
+To create an anonymized OpenVoxDB archive directly, use the `puppet db` command
+from any node with the [OpenVoxDB CLI][pdb_client_tools] installed:
 
-    $ puppet db export my-openvoxdb-export.tar.gz --anonymization moderate
+```console
+puppet db export my-openvoxdb-export.tar.gz --anonymization moderate
+```
 
 ## Using the `import` command
 
-To import an anonymized OpenVoxDB tarball, use the Puppet `db` subcommand from
-any node with puppet-client-tools installed:
+To import an anonymized OpenVoxDB tarball, use the `puppet db` command from
+any node with the [OpenVoxDB CLI][pdb_client_tools] installed:
 
-    $ puppet db import my-openvoxdb-export.tar.gz
+```console
+puppet db import my-openvoxdb-export.tar.gz
+```
 
 ## How does it work?
 
@@ -48,7 +54,9 @@ number of profiles offering varying levels of anonymization.
 The profile can be specified on the command line when the command is run. For
 example, to choose the `low` profile, enter:
 
-    $ puppet db export ./my-openvoxdb-anonymized-export.tar.gz --anonymization low
+```console
+puppet db export ./my-openvoxdb-anonymized-export.tar.gz --anonymization low
+```
 
 ### Profile: full
 
@@ -99,14 +107,16 @@ most of the data in its original state. The following categories are anonymized:
 
 ## Verifying your anonymized data
 
-After anonymizing data with the `puppetdb export` tool, we **strongly
+After anonymizing data with the `puppet db export` tool, we **strongly
 recommend** that you analyze the anonymized data before sharing it with another
 party to ensure that all sensitive data has been scrubbed.
 
 Simply untar the export file and analyze the contents:
 
-    $ tar -xzf my-openvoxdb-anonymized-export.tar.gz
-    $ cd openvoxdb-bak
+```console
+tar -xzf my-openvoxdb-anonymized-export.tar.gz
+cd puppetdb-bak
+```
 
 Inside this directory there is a directory for each content type (reports,
 catalogs, and facts), and each file inside represents a node (and a report

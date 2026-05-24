@@ -22,7 +22,7 @@ to secure your database connections. Otherwise your OpenVoxDB communication with
 Postgres will be going over a network in plaintext.
 
 If you are not using the module, you will need to configure a PostgreSQL
-server, version 14 or newer, to include a user and an empty database for
+server (version 14 or newer recommended; 11 is the minimum) to include a user and an empty database for
 OpenVoxDB, and the server must accept incoming connections to that database as
 that user.  PostgreSQL connections and authentication are discussed
 [here](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html), and

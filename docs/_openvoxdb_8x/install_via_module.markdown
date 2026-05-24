@@ -29,8 +29,8 @@ If you haven't done so already, you will need to do **one** of the following:
 
 Using the normal methods for your site, assign the OpenVoxDB module's classes to your servers. You have three main options for deploying OpenVoxDB:
 
-- If you are installing OpenVoxDB on the same server as your Puppet Server, assign the `puppetdb` and `openvoxdb::master::config` classes to it.
-- If you want to run OpenVoxDB on its own server with a local PostgreSQL instance, assign the `puppetdb` class to it, and assign the `openvoxdb::master::config` class to your Puppet Server. Make sure to set the
+- If you are installing OpenVoxDB on the same server as your Puppet Server, assign the `openvoxdb` and `openvoxdb::master::config` classes to it.
+- If you want to run OpenVoxDB on its own server with a local PostgreSQL instance, assign the `openvoxdb` class to it, and assign the `openvoxdb::master::config` class to your Puppet Server. Make sure to set the
   class parameters as necessary.
 - If you want OpenVoxDB and PostgreSQL to each run on their own servers, assign the `openvoxdb::server` class and the `openvoxdb::database::postgresql` classes to different servers, and the
   `openvoxdb::master::config` class to your Puppet Server. Make sure to set the class parameters as necessary. You should also then enable an SSL connection between your PostgreSQL and OpenVoxDB's servers, see
@@ -38,7 +38,7 @@ Using the normal methods for your site, assign the OpenVoxDB module's classes to
   authenticate and encrypt the database communication.
 
 Note: By default, the module sets up the OpenVoxDB dashboard to be accessible only via `localhost`. If you'd like to allow access to the OpenVoxDB dashboard via an external network interface, set the
-`listen_address` parameter on either of the `puppetdb` or `openvoxdb::server` classes as follows:
+`listen_address` parameter on either of the `openvoxdb` or `openvoxdb::server` classes as follows:
 
     class { 'openvoxdb':
         listen_address => 'example.foo.com'
