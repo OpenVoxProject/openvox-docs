@@ -37,7 +37,7 @@ The array is unsorted by default.
 
 ### Example
 
-[You can use `curl`][curl] or [`puppet query`][pdb_client_tools] to query information about packages:
+[You can use `curl`][curl] or [puppet query][pdb_client_tools] to query information about packages:
 
     puppet query "packages { package_name ~ 'ssl'}"
 
@@ -75,7 +75,7 @@ The array is unsorted by default.
 
 ### Example
 
-[You can use `curl`][curl] or [`puppet query`][pdb_client_tools] to query information about nodes:
+[You can use `curl`][curl] or [puppet query][pdb_client_tools] to query information about nodes:
 
     puppet query "package_inventory{ certname = 'agent1' }"
 
