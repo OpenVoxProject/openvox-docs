@@ -179,7 +179,7 @@ are:
 * Out of memory errors: PDB can crash if it receives a command too large
   for its heap. This can be trivially fixed by raising the Xmx setting in the
   JAVA_ARGS entry in /etc/sysconfig/puppetdb on redhat or
-  /etc/defaults/puppetdb on Debian derivatives. Usually though, crashes due to
+  /etc/default/puppetdb on Debian derivatives. Usually though, crashes due to
   OOMs indicate that PDB is getting used in ways that it should not be, and
   it's important to identify and inspect the commands that cause the crash to
   figure out whether there is some misuse of Puppet that can be corrected.

@@ -29,7 +29,7 @@ The easiest source of this information is the export tool included with OpenVoxD
 containing facts, catalogs, and reports.
 
 Unzip the exported data. When unzipped/untared, find the
-`openvoxdb-bak/catalogs`, `openvoxdb-bak/facts` and a `puppetdb-back/reports`
+`puppetdb-bak/catalogs`, `puppetdb-bak/facts` and a `puppetdb-bak/reports`
 directories. One or all of these directories can be used as input to the load
 testing tool.
 
@@ -51,7 +51,7 @@ the one below:
     $ java -cp /opt/puppetlabs/server/apps/puppetdb/puppetdb.jar clojure.main \
         -m puppetlabs.puppetdb.cli.benchmark \
         --config myconfig.ini \
-        --catalogs /tmp/openvoxdb-bak/catalogs \
+        --catalogs /tmp/puppetdb-bak/catalogs \
         --runinterval 30 --numhosts 1000 --rand-perc 10
 
 Note that if you run it from the source tree via leiningen, you should
@@ -90,8 +90,8 @@ This is not recommended, as the configuration change will allow http
 connections from *any* source.
 
 * On the primary server, modify `/etc/puppetlabs/puppetdb/conf.d/jetty.ini`.
-In the `[jetty]` section set:
-    * `host=0.0.0.0 # open http access`
+  In the `[jetty]` section set:
+  * `host=0.0.0.0 # open http access`
 
 * Install java on the agent
 
@@ -100,31 +100,31 @@ tool on the agent using the `java -cp ...` command described above.
 
 ### Arguments accepted by the benchmark command
 
-- **`--config / -c`**: path to the INI file that has the host/port configuration
+* **`--config / -c`**: path to the INI file that has the host/port configuration
   for the OpenVoxDB instance to be tested.
-- **`--catalogs / -C`**: directory containing catalogs to use for testing
+* **`--catalogs / -C`**: directory containing catalogs to use for testing
   (probably from a previous OpenVoxDB export).
-- **`--reports / -R`**: directory containing reports to use for testing
+* **`--reports / -R`**: directory containing reports to use for testing
   (probably from a previous OpenVoxDB export).
-- **`--facts / -F`**: directory containing facts to use for testing (probably
+* **`--facts / -F`**: directory containing facts to use for testing (probably
   from a previous OpenVoxDB export).
-- **`--archive / -A`**: tarball archive obtained via a OpenVoxDB export. This
+* **`--archive / -A`**: tarball archive obtained via a OpenVoxDB export. This
   option is incompatible with the preceding four.
-- **`--runinterval / -i`**: integer indicating the amount of time in
+* **`--runinterval / -i`**: integer indicating the amount of time in
   minutes between puppet runs for each simulated node. Typical values
   are 30 or 60.  Mutually exclusive with **`--nummsgs`**.  This option
   requires some temporary filesystem space, which will be allocated in
   TMPDIR (if set in the environment), java.io.tmpdir (if that JVM
   property is set), or the default JVM location.
-- **`--nummsgs`** / **`-N`**: integer indicating the number of
+* **`--nummsgs`** / **`-N`**: integer indicating the number of
   commands and/or reports to send for each host, after which benchmark
   will exit.  Mutually exclusive with **`--runinterval`**.
-- **`--numhosts / -n`**: number of separate hosts that the tool should simulate.
-- **`--rand-perc / -r`**: what percentage of catalogs submissions should be
+* **`--numhosts / -n`**: number of separate hosts that the tool should simulate.
+* **`--rand-perc / -r`**: what percentage of catalogs submissions should be
   changed (this simulates typical catalog changes, such as adding a resource,
   edge, or something similar). More changes to catalogs will cause a higher load
   on OpenVoxDB. A typical change percentage is 10.
-- **`--threads`** / **`-t`**: number of threads to use for command
+* **`--threads`** / **`-t`**: number of threads to use for command
   submission; defaults to four times the number of available processors.
 
 >**Note:** If --facts, --catalogs, --reports, and --archive are unspecified, the
