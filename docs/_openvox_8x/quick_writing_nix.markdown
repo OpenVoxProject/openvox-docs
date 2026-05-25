@@ -10,7 +10,7 @@ Welcome to the Module Writing section of the Quick Start Guide series. This walk
 * [Write your own Puppet module](#writing-a-puppet-module)
 * [Create a site module that composes other modules into machine roles](#using-a-site-module)
 
-> Before starting this walk-through, complete the previous exercises in the [introductory quick start guide](./quick_start.html). These steps assume that you have installed Puppet and Puppet agents, and have [installed the latest version of the puppetlabs-apache module](./quick_start_module_install_nix.html).
+> Before starting this walk-through, complete the previous exercises in the [introductory quick start guide](./quick_start.html). These steps assume that you have installed Puppet and OpenVox agents, and have [installed the latest version of the puppetlabs-apache module](./quick_start_module_install_nix.html).
 You should still be logged in as root or administrator on your nodes.
 
 ## Editing a Forge module
@@ -47,7 +47,7 @@ Many modules, including Apache, contain directories other than `manifests` and `
 
  In this simplified exercise, you'll modify a template from the Puppet Apache module, specifically `vhost.conf.erb`, to include some simple variables that will be populated by facts (using Puppet's implementation of Facter) about your node.
 
-1. **On the Puppet master,** navigate to the modules directory by running `cd /etc/puppetlabs/code/environments/production/modules`.
+1. **On the OpenVox Server,** navigate to the modules directory by running `cd /etc/puppetlabs/code/environments/production/modules`.
 2. Run `ls` to view the currently installed modules, and note that `apache` is present.
 3. Open `apache/templates/vhost/_file_header.erb` in a text editor. Avoid using Notepad because it can introduce errors.
       `_file_header.erb` contains the following header:
@@ -58,8 +58,8 @@ Many modules, including Apache, contain directories other than `manifests` and `
         # ************************************
 
 4. Collect the following facts about your agent:
-   - on your Puppet agent, run `facter osfamily`. This returns your agent's OS.
-   - on your Puppet agent, run `facter id`. This returns the id of the currently logged in user.
+   - on your OpenVox agent, run `facter osfamily`. This returns your agent's OS.
+   - on your OpenVox agent, run `facter id`. This returns the id of the currently logged in user.
 5. Edit the header of `_file_header.erb` so that it contains the following variables for Facter lookups:
 
         # ************************************
@@ -73,7 +73,7 @@ Many modules, including Apache, contain directories other than `manifests` and `
         # Deployment by any other user or on any other system is strictly prohibited.
         # ************************************
 
-6. From the command line of your Puppet agent, run `puppet agent -t` to trigger a Puppet run.
+6. From the command line of your OpenVox agent, run `puppet agent -t` to trigger a Puppet run.
 
 At this point, Puppet configures Apache and starts the httpd service. When this happens, a default Apache virtual host is created based on the contents of `_file_header.erb`.
 
@@ -106,7 +106,7 @@ Puppet modules save time, but at some point you may need to write your own modul
 
  In this exercise, you will create a class called `puppet_quickstart_app` that will manage a PHP-based web app running on an Apache virtual host.
 
-1. **On the Puppet master**, make sure you're still in the modules directory (`cd /etc/puppetlabs/code/environments/production/modules`) and then run `mkdir -p puppet_quickstart_app/manifests` to create the new module directory and its manifests directory.
+1. **On the OpenVox Server**, make sure you're still in the modules directory (`cd /etc/puppetlabs/code/environments/production/modules`) and then run `mkdir -p puppet_quickstart_app/manifests` to create the new module directory and its manifests directory.
 2. Use your text editor to create and open the `puppet_quickstart_app/manifests/init.pp` file.
 3. Edit the `init.pp` file so it contains the following Puppet code, and then save it and exit the editor:
 
@@ -143,7 +143,7 @@ Puppet modules save time, but at some point you may need to write your own modul
 
 ### Using your custom module in the main manifest
 
-1. From the command line on the Puppet master, navigate to the main manifest (`cd /etc/puppetlabs/code/environments/production/manifests`).
+1. From the command line on the OpenVox Server, navigate to the main manifest (`cd /etc/puppetlabs/code/environments/production/manifests`).
 2. With your text editor, open `site.pp` and add the following Puppet code to your default node. **Remove the apache class you added previously.** Your site.pp file should look like this after you make your changes (although you may have portions from earlier in the Quick Start Guide):
 
 		 node default {
@@ -164,9 +164,9 @@ Puppet modules save time, but at some point you may need to write your own modul
 
 ### Using Puppet to manage your app
 
-1. **On the Puppet agent**, open `/var/www/puppet_quickstart_app/index.php`, and change the content to something like, "THIS APP IS MANAGED BY PUPPET!"
+1. **On the OpenVox agent**, open `/var/www/puppet_quickstart_app/index.php`, and change the content to something like, "THIS APP IS MANAGED BY PUPPET!"
 2. Refresh your browser, and notice that the PHP info page has been replaced with your new message.
-3. Run `puppet agent -t --onetime` on your Puppet agent.
+3. Run `puppet agent -t --onetime` on your OpenVox agent.
 4. Refresh your browser, and notice that Puppet has reset your web app to display the PHP info page. (You can also see that the contents of `/var/www/puppet_quickstart_app/index.php` has been reset to what was specified in your manifest.)
 
 ## Using a site module
@@ -179,7 +179,7 @@ Many users create a "site" module. Instead of describing smaller units of a conf
 
 Site modules hide complexity so you can more easily divide labor at your site. System architects can create the site classes, and junior admins can create new machines.
 
-* **On the Puppet master**, create `/etc/puppetlabs/code/environments/production/modules/site/manifests/basic.pp`, and edit the file to contain the following:
+* **On the OpenVox Server**, create `/etc/puppetlabs/code/environments/production/modules/site/manifests/basic.pp`, and edit the file to contain the following:
 
 
         class site::basic {
@@ -194,12 +194,12 @@ Site modules hide complexity so you can more easily divide labor at your site. S
 
 This class declares other classes with the `include` function. Note the "if" conditional that sets different classes for different kernels using the `$kernel` fact. In this example, if an agent is a Linux machine, Puppet will apply your `puppet_quickstart_app` class. If it is a Windows machine, Puppet will apply the `registry::compliance_example` class.
 
-1. From the command line on the Puppet master, navigate to the main manifest: `cd /etc/puppetlabs/code/environments/production/manifests`.
+1. From the command line on the OpenVox Server, navigate to the main manifest: `cd /etc/puppetlabs/code/environments/production/manifests`.
 2. Add the following Puppet code to the default node in `site.pp`, retaining the classes you have already added:
 
         class { ‘site::basic’: }
 
-3. Save and exit, then run `puppet agent -t` from the command line of your Puppet agent.
+3. Save and exit, then run `puppet agent -t` from the command line of your OpenVox agent.
 
 ## Summary
 

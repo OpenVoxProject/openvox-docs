@@ -29,7 +29,7 @@ The `saz-sudo` module, available on the Puppet Forge, is one of many modules wri
 
 **To install the `saz-sudo` module**:
 
-As the root user on the Puppet master, run `puppet module install saz-sudo`.
+As the root user on the OpenVox Server, run `puppet module install saz-sudo`.
 
 You should see output similar to the following:
 
@@ -62,7 +62,7 @@ Modules are directory trees. For this task, you'll create the following files:
 
 **To write the `privileges` class**:
 
-1. From the command line on the Puppet master, navigate to the modules directory: `cd /etc/puppetlabs/code/environments/production/modules`.
+1. From the command line on the OpenVox Server, navigate to the modules directory: `cd /etc/puppetlabs/code/environments/production/modules`.
 2. Run `mkdir -p privileges/manifests` to create the new module directory and its manifests directory.
 3. From the `manifests` directory, use your text editor to create the `init.pp` file, and edit it so it contains the following Puppet code:
 
@@ -87,7 +87,7 @@ Modules are directory trees. For this task, you'll create the following files:
 
 [inpage_add]: #add-the-privileges-and-sudo-classes
 
-1. From the command line on the Puppet master, navigate to the main manifest: `cd /etc/puppetlabs/code/environments/production/manifests`.
+1. From the command line on the OpenVox Server, navigate to the main manifest: `cd /etc/puppetlabs/code/environments/production/manifests`.
 2. Open `site.pp` with your text editor and add the following Puppet code to the `default` node:
 
 ```puppet
@@ -104,9 +104,9 @@ sudo::conf { 'jargyle':
 
 3. Save and exit the file.
 
-4. From the command line on your Puppet master, run `puppet parser validate site.pp` to ensure that there are no errors. The parser will return nothing if there are no errors.
+4. From the command line on your OpenVox Server, run `puppet parser validate site.pp` to ensure that there are no errors. The parser will return nothing if there are no errors.
 
-5. From the command line on your Puppet agent, run `puppet agent -t` to trigger a Puppet run.
+5. From the command line on your OpenVox agent, run `puppet agent -t` to trigger a Puppet run.
 
 > That's it! You have successfully installed the Sudo module and applied privileges and classes to it.
 >
@@ -118,7 +118,7 @@ sudo::conf { 'jargyle':
 >
 > * `sudo::conf ‘jargyle’`: Creates a sudoers rule to ensure that the user `jargyle` has the ability to run any command using sudo. This resource creates a configuration fragment to define this rule in `/etc/sudoers.d/`. It will be called something like `60_jargyle`.
 
-From the command line on the Puppet agent, run `sudo -l -U jargyle` to confirm it worked. The results should resemble the following:
+From the command line on the OpenVox agent, run `sudo -l -U jargyle` to confirm it worked. The results should resemble the following:
 
 	 Matching Defaults entries for jargyle on this host:
     !visiblepw, always_set_home, env_reset, env_keep="COLORS DISPLAY HOSTNAME HISTSIZE

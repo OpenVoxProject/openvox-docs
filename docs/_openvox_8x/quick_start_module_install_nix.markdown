@@ -18,7 +18,7 @@ The process for installing a module is the same on both Windows and *nix operati
 
 ## Installing a Forge module
 
-1. **On the Puppet master**, run `puppet module search apache`. This command searches for modules from the Puppet Forge with `apache` in their names or descriptions.
+1. **On the OpenVox Server**, run `puppet module search apache`. This command searches for modules from the Puppet Forge with `apache` in their names or descriptions.
 
     The search results will display:
 
@@ -49,7 +49,7 @@ The process for installing a module is the same on both Windows and *nix operati
 
 --------
 
-Next: [Adding classes to Puppet agents (*nix)](./quick_start_adding_classes_nix.html)
+Next: [Adding classes to OpenVox agents (*nix)](./quick_start_adding_classes_nix.html)
 
 
 

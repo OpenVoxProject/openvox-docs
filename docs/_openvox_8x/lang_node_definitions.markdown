@@ -137,7 +137,7 @@ Thus, for the node `www01.example.com`, Puppet would try the following, in order
 * A regex that matches `www01`
 * `default`
 
-You can turn off this fuzzy name matching by changing the Puppet master's [`strict_hostname_checking`][strict] setting to `true`. This will cause Puppet to skip step 3 and only use the node's full name before resorting to `default`.
+You can turn off this fuzzy name matching by changing the OpenVox Server's [`strict_hostname_checking`][strict] setting to `true`. This will cause Puppet to skip step 3 and only use the node's full name before resorting to `default`.
 
 ### Regex capture variables
 

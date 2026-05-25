@@ -11,15 +11,15 @@ The following guides present tasks in the order that you would most likely perfo
 Follow [these instructions](./install_pre.html) to ensure you meet the system requirements for Puppet, to designate servers, to decide on a deployment type, and more.
 
 ### 2. Install Puppet
-Next, you'll install and configure your Puppet master and agents.
+Next, you'll install and configure your OpenVox Server and agents.
 
  A computer that runs the Puppet Server is called the "master." Follow [these instructions](/openvox-server/latest/install_from_packages.html) to install and configure Puppet Server.
 
-A computer that runs the Puppet agent is called a "Puppet agent" or simply "agent". The Puppet agent regularly pulls configuration catalogs from a master and applies them to the local system.
+A computer that runs the OpenVox agent is called a "OpenVox agent" or simply "agent". The OpenVox agent regularly pulls configuration catalogs from a master and applies them to the local system.
 
- Follow these instructions to install a Puppet agent on [Windows](./install_windows.html) or [*nix](./install_linux.html).
+ Follow these instructions to install an OpenVox agent on [Windows](./install_windows.html) or [*nix](./install_linux.html).
 
-To learn how to get your Puppet master and agents to communicate with each other and to ensure your Puppet master will receive certificates from its agents, follow the instructions in the [Master/Agent Communication Quick Start Guide](./quick_start_master_agent_communication.html).
+To learn how to get your OpenVox Server and agents to communicate with each other and to ensure your OpenVox Server will receive certificates from its agents, follow the instructions in the [Master/Agent Communication Quick Start Guide](./quick_start_master_agent_communication.html).
 
 ### 3. Create a user and group
 Learn how to create a Puppet user and group with [these instructions](./quick_start_user_group.html).

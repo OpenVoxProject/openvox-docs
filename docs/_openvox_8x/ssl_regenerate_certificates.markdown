@@ -35,7 +35,7 @@ Regenerating all certs involves the following steps:
    * Puppet Server CA directory: `/etc/puppetlabs/puppetserver/ca/`
    * OpenVoxDB SSL directory (if applicable): `/etc/puppetlabs/puppetdb/ssl/`
 
-2. Stop the Puppet agent service:
+2. Stop the OpenVox agent service:
 
        sudo puppet resource service puppet ensure=stopped
 
@@ -67,7 +67,7 @@ Regenerating all certs involves the following steps:
 
        until curl -sk https://puppet:8140/status/v1/simple > /dev/null 2>&1; do sleep 5; done
 
-7. Start the Puppet agent service:
+7. Start the OpenVox agent service:
 
        sudo puppet resource service puppet ensure=running
 
@@ -89,7 +89,7 @@ documentation for this.
 ### OpenVoxDB
 
 [OpenVoxDB][] maintains its own SSL directory at `/etc/puppetlabs/puppetdb/ssl/`, separate from
-Puppet's. This directory holds its own copies of the CA certificate and the Puppet agent
+Puppet's. This directory holds its own copies of the CA certificate and the OpenVox agent
 certificate and key that OpenVoxDB uses to authenticate with Puppet Server. After CA regeneration,
 refresh it using the `puppetdb ssl-setup` tool, then restart the service:
 
@@ -101,11 +101,11 @@ refresh it using the `puppetdb ssl-setup` tool, then restart the service:
 > overwrite the files. The `-f` flag is required to update them. The service must be restarted
 > (not just ensured running) to load the new certificates.
 
-## Step 3: Clear and regenerate certs for Puppet agents
+## Step 3: Clear and regenerate certs for OpenVox agents
 
 To replace certificates on agent nodes, log into each agent and do the following:
 
-1. Stop the Puppet agent service.
+1. Stop the OpenVox agent service.
 
    On \*nix nodes:
 
@@ -125,7 +125,7 @@ To replace certificates on agent nodes, log into each agent and do the following
    > key are removed. The agent retains the old CA certificate and fails to connect to the Puppet
    > Server, which now presents a certificate signed by the new CA.
 
-3. Start the Puppet agent service.
+3. Start the OpenVox agent service.
 
    On \*nix nodes:
 

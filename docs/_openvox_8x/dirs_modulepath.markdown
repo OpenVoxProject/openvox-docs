@@ -14,7 +14,7 @@ title: "Directories: The modulepath (default config)"
 [puppet.conf]: ./config_file_main.html
 [environment.conf]: ./config_file_environment.html
 
-The Puppet master service and the `puppet apply` command both load most of their content from modules. (See the page on [module structure and behavior][module_fundamentals] for more details.)
+The OpenVox Server service and the `puppet apply` command both load most of their content from modules. (See the page on [module structure and behavior][module_fundamentals] for more details.)
 
 Puppet automatically loads modules from one or more directories. The list of directories Puppet will find modules in is called the **modulepath.**
 
@@ -48,7 +48,7 @@ The modulepath is set by the current node's [environment][environments]. By defa
 You can view the effective modulepath for any environment by specifying the environment when [requesting the setting value][config_print]:
 
 ``` bash
-sudo puppet config print modulepath --section master --environment test
+sudo puppet config print modulepath --section server --environment test
 /etc/puppetlabs/code/environments/test/modules:/etc/puppetlabs/code/modules:/usr/share/puppet/modules
 ```
 {:.concept}
@@ -93,7 +93,7 @@ Puppet uses modules from every directory in the modulepath.
 
 Directories in the modulepath can be empty, and might even be absent. In both cases, this is not an error; it just means Puppet does not load modules from those directories.
 
-If no modules are present across the entire modulepath, or if modules are present but none of them contains a `lib` directory, then Puppet agent will log an error when attempting to sync plugins from the Puppet master. This error is benign and will not prevent the rest of the Puppet run.
+If no modules are present across the entire modulepath, or if modules are present but none of them contains a `lib` directory, then OpenVox agent will log an error when attempting to sync plugins from the OpenVox Server. This error is benign and will not prevent the rest of the Puppet run.
 
 {:.section}
 ### Duplicate or conflicting modules and content
@@ -110,9 +110,9 @@ For most content, this earliest-module-wins behavior is on an all-or-nothing, **
 
 > **However,** Puppet occasionally shows problematic behavior with **Ruby plugins loaded directly from modules.** This includes:
 >
-> - Plugins used by the Puppet master (custom resource types, custom functions)
+> - Plugins used by the OpenVox Server (custom resource types, custom functions)
 > - Plugins used by `puppet apply`
-> - Plugins that happen to be present in Puppet agent's modulepath (which should generally be empty, but might not be when running Puppet agent on a node that is also a Puppet master server)
+> - Plugins that happen to be present in OpenVox agent's modulepath (which should generally be empty, but might not be when running OpenVox agent on a node that is also an OpenVox Server server)
 >
 > With these plugins, the earlier module still wins, but the plugins are handled on a **per-file** basis instead of per-module. This means that if a duplicate module in a later directory has **additional** plugin files that don't exist in the winning module, those extra files will be loaded, and Puppet will use a mixture of files from the winning and duplicate modules.
 >

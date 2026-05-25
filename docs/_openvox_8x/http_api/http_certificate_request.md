@@ -13,7 +13,7 @@ to the master. The master must be configured to be a CA. The returned
 CSR is always in the `.pem` format.
 
 Under Puppet Server's CA service, the `environment` parameter is ignored and can
-be omitted. Under a Rack or WEBrick Puppet master, `environment` is required and
+be omitted. Under a Rack or WEBrick OpenVox Server, `environment` is required and
 must be a valid environment, but it has no effect on the response.
 
 Find

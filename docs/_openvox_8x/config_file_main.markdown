@@ -15,7 +15,7 @@ title: "Config files: The main config file (puppet.conf)"
 [environmentpath]: ./configuration.html#environmentpath
 [puppetserver_diff]: /openvox-server/latest/puppet_conf_setting_diffs.html
 
-The `puppet.conf` file is Puppet's main config file. It configures all of the Puppet commands and services, including Puppet agent, Puppet master, Puppet apply, and Puppet cert. Nearly all of the settings listed in the [configuration reference][conf_ref] can be set in puppet.conf.
+The `puppet.conf` file is Puppet's main config file. It configures all of the Puppet commands and services, including OpenVox agent, OpenVox Server, Puppet apply, and Puppet cert. Nearly all of the settings listed in the [configuration reference][conf_ref] can be set in puppet.conf.
 
 It resembles a standard INI file, with a few syntax extensions. Settings can go into application-specific sections, or into a `[main]` section that affects all applications.
 
@@ -55,7 +55,7 @@ environment = production
 runinterval = 1h
 strict_variables = true
 
-[master]
+[server]
 dns_alt_names = puppetmaster01,puppetmaster01.example.com,puppet,puppet.example.com
 reports = puppetdb
 storeconfigs_backend = puppetdb
@@ -85,15 +85,15 @@ As soon as a new config section `[name]` appears in the file, the former config 
 Puppet uses four **config sections**:
 
 * `main` is the global section used by all commands and services. It can be overridden by the other sections.
-* `master` is used by the Puppet master service and the Puppet cert command.
-* `agent` is used by the Puppet agent service.
+* `master` is used by the OpenVox Server service and the Puppet cert command.
+* `agent` is used by the OpenVox agent service.
 * `user` is used by the Puppet apply command, as well as many of the less common [Puppet subcommands][subcommands].
 
 Puppet prefers to use settings from one of the three application-specific sections (`master`, `agent`, or `user`). If it doesn't find a setting in the application section, it will use the value from `main`. (If `main` doesn't set one, it will fall back to the default value.)
 
 ### Puppet Server ignores some config settings
 
-If you're using Puppet Server, you should note that it honors almost all settings in `puppet.conf` and should pick them up automatically. However, [some Puppet Server settings differ from a Ruby Puppet master’s `puppet.conf` settings][puppetserver_diff].
+If you're using Puppet Server, you should note that it honors almost all settings in `puppet.conf` and should pick them up automatically. However, [some Puppet Server settings differ from a Ruby OpenVox Server’s `puppet.conf` settings][puppetserver_diff].
 
 ### Comment lines
 
@@ -144,7 +144,7 @@ You generally shouldn't do this, as the defaults are good for most users. Howeve
 The allowed keys in the hash are `owner`, `group`, and `mode`. There are only two valid values for the `owner` and `group` keys:
 
 * `root` --- the root or Administrator user or group should own the file.
-* `service` --- the user or group that the Puppet service is running as should own the file. (The service's user and group are specified by the `user` and `group` settings. On a Puppet master running open source Puppet, these default to `puppet`;  on Puppet Enterprise they default to `pe-puppet`.)
+* `service` --- the user or group that the Puppet service is running as should own the file. (The service's user and group are specified by the `user` and `group` settings. On an OpenVox Server running open source Puppet, these default to `puppet`;  on Puppet Enterprise they default to `pe-puppet`.)
 
 ### Interpolating variables in settings
 

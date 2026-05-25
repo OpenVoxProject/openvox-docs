@@ -8,25 +8,23 @@ title: "SSL configuration: autosigning certificate requests"
 
 ## CSRs, certificates, and autosigning
 
-Before Puppet agent nodes can retrieve their configuration catalogs, they need a signed certificate from the local Puppet certificate authority (CA). When using Puppet's built-in CA (that is, not [using an external CA][external_ca]), agents will submit a certificate signing request (CSR) to the CA Puppet master and will retrieve a signed certificate once one is available.
+Before OpenVox agent nodes can retrieve their configuration catalogs, they need a signed certificate from the local Puppet certificate authority (CA). When using Puppet's built-in CA (that is, not [using an external CA][external_ca]), agents will submit a certificate signing request (CSR) to the CA OpenVox Server and will retrieve a signed certificate once one is available.
 
 By default, these CSRs must be manually signed by an admin user using the `puppetserver ca sign` command.
 
-Alternately, you can configure the CA Puppet master to automatically sign certain CSRs to speed up the process of bringing new agent nodes into the deployment.
+Alternately, you can configure the CA OpenVox Server to automatically sign certain CSRs to speed up the process of bringing new agent nodes into the deployment.
 
 > **Important security note:** Autosigning CSRs will change the nature of your deployment's security, and you should be sure you understand the implications before configuring it. Each kind of autosigning has its own security impact.
 
 ## Disabling autosigning
 
-By default, the `autosign` setting in the `[master]` section of the CA Puppet master's `puppet.conf` file is set to `$confdir/autosign.conf`, which means the basic autosigning functionality is enabled upon installation. However, depending on your installation method, there might not be a whitelist at that location once the Puppet master is running.
+By default, the `autosign` setting in the `[server]` section of the CA OpenVox Server's `puppet.conf` file is set to `$confdir/autosign.conf`, which means the basic autosigning functionality is enabled upon installation. However, depending on your installation method, there might not be a whitelist at that location once the OpenVox Server is running.
 
--   In open source Puppet, `autosign.conf` doesn't exist by default.
--   In monolithic Puppet Enterprise (PE) installations, where all required services run on one server, `autosign.conf` exists on the master, but it is empty by default because the master doesn't need to whitelist other servers.
--   In split PE installations, where services like PuppetDB can run on different servers, `autosign.conf` exists on the CA master and contains a whitelist of other required hosts.
+-   In OpenVox, `autosign.conf` doesn't exist by default.
 
-If the `autosign.conf` file is empty or doesn't exist, the whitelist is effectively empty. The CA Puppet master therefore doesn't autosign any certificates until the default `autosign.conf` file, or the `autosign` setting's path if configured, is a non-executable whitelist file with properly formatted content or a custom policy executable that the Puppet user has permission to run.
+If the `autosign.conf` file is empty or doesn't exist, the whitelist is effectively empty. The CA OpenVox Server therefore doesn't autosign any certificates until the default `autosign.conf` file, or the `autosign` setting's path if configured, is a non-executable whitelist file with properly formatted content or a custom policy executable that the Puppet user has permission to run.
 
-To _explicitly_ disable autosigning, set `autosign = false` in the `[master]` section of the CA Puppet master's `puppet.conf`, which disables CA autosigning even if the `autosign.conf` file or a custom policy executable exists.
+To _explicitly_ disable autosigning, set `autosign = false` in the `[server]` section of the CA OpenVox Server's `puppet.conf`, which disables CA autosigning even if the `autosign.conf` file or a custom policy executable exists.
 
 For more information about the different autosigning methods, see [basic autosigning][inpage_basic] and [policy-based autosigning][inpage_policy]. For more information about the `autosign` setting in `puppet.conf`, see the [configuration reference](./configuration.html#autosign).
 
@@ -36,7 +34,7 @@ Naïve autosigning causes the CA to autosign **all** CSRs.
 
 ### Enabling naïve autosigning
 
-To enable naïve autosigning, set `autosign = true` in the `[master]` section of the CA Puppet master's `puppet.conf`.
+To enable naïve autosigning, set `autosign = true` in the `[server]` section of the CA OpenVox Server's `puppet.conf`.
 
 ### Security implications of naïve autosigning
 
@@ -52,19 +50,19 @@ In basic autosigning, the CA uses a config file containing a whitelist of certif
 
 The `autosign.conf` whitelist file's location and contents are described in [its documentation](./config_file_autosign.html).
 
-Puppet looks for `autosign.conf` at the path configured in the [`autosign` setting][autosign setting] in the `[master]` section of `puppet.conf`. The default path is `$confdir/autosign.conf`, and the default `confdir` path depends on your operating system. [See the confdir documentation for more information.](./dirs_confdir.html)
+Puppet looks for `autosign.conf` at the path configured in the [autosign setting](./configuration.html#autosign) in the `[server]` section of `puppet.conf`. The default path is `$confdir/autosign.conf`, and the default `confdir` path depends on your operating system. [See the confdir documentation for more information.](./dirs_confdir.html)
 
 If the `autosign.conf` file pointed to by the `autosign` setting is a file that the Puppet user can execute, Puppet instead attempts to run it as a custom policy executable even if it contains a valid `autosign.conf` whitelist.
 
-> **Note:** In open source Puppet, no `autosign.conf` file exists by default. In Puppet Enterprise, the file exists by default but might be empty. In both cases, the basic autosigning feature is technically enabled by default but doesn't autosign any certificates because the whitelist is effectively empty.
+> **Note:** In OpenVox, no `autosign.conf` file exists by default. The basic autosigning feature is technically enabled by default but doesn't autosign any certificates because the whitelist is effectively empty.
 >
-> The CA Puppet master therefore doesn't autosign any certificates until the `autosign.conf` file contains a properly formatted whitelist or is a custom policy executable that the Puppet user has permission to run, or until the `autosign` setting is pointed at a whitelist file with properly formatted content or a custom policy executable that the Puppet user has permission to run.
+> The CA OpenVox Server therefore doesn't autosign any certificates until the `autosign.conf` file contains a properly formatted whitelist or is a custom policy executable that the Puppet user has permission to run, or until the `autosign` setting is pointed at a whitelist file with properly formatted content or a custom policy executable that the Puppet user has permission to run.
 
 ### Security implications of basic autosigning
 
-Because any host can provide any certname when requesting a certificate, basic autosigning is essentially **insecure**. Use it only when you fully trust any computer capable of connecting to the Puppet master.
+Because any host can provide any certname when requesting a certificate, basic autosigning is essentially **insecure**. Use it only when you fully trust any computer capable of connecting to the OpenVox Server.
 
-With basic autosigning enabled, an attacker that guesses an unused certname allowed by `autosign.conf` can obtain a signed agent certificate from the Puppet master. The attacker could then obtain a configuration catalog, which can contain sensitive information depending on your deployment's Puppet code and node classification.
+With basic autosigning enabled, an attacker that guesses an unused certname allowed by `autosign.conf` can obtain a signed agent certificate from the OpenVox Server. The attacker could then obtain a configuration catalog, which can contain sensitive information depending on your deployment's Puppet code and node classification.
 
 ## Policy-based autosigning
 
@@ -74,13 +72,13 @@ In policy-based autosigning, the CA will run an external policy executable every
 
 ### Enabling policy-based autosigning
 
-To enable policy-based autosigning, set `autosign = <policy executable file>` in the `[master]` section of the CA Puppet master's `puppet.conf`.
+To enable policy-based autosigning, set `autosign = <policy executable file>` in the `[server]` section of the CA OpenVox Server's `puppet.conf`.
 
-The policy executable file **must be executable by the same user as the Puppet master.** If not, it will be treated as a certname whitelist file.
+The policy executable file **must be executable by the same user as the OpenVox Server.** If not, it will be treated as a certname whitelist file.
 
 ### Custom policy executables
 
-A custom policy executable can be written in any programming language; it just has to be executable in a \*nix-like environment. The Puppet master will pass it the certname of the request (as a command line argument) and the PEM-encoded CSR (on stdin), and will expect a `0` (approved) or non-zero (rejected) exit code.
+A custom policy executable can be written in any programming language; it just has to be executable in a \*nix-like environment. The OpenVox Server will pass it the certname of the request (as a command line argument) and the PEM-encoded CSR (on stdin), and will expect a `0` (approved) or non-zero (rejected) exit code.
 
 Once it has the CSR, a policy executable can extract information from it and decide whether to approve the certificate for autosigning. This is most useful if you are [embedding additional information in the CSR][csr_attributes] when you provision your nodes.
 
@@ -100,15 +98,15 @@ As you can see, you must think things through carefully when designing your CSR 
 The API for policy executables is as follows:
 
 -   **Run environment:** The executable will be run once for each incoming CSR.
-    -   It will be executed by the Puppet master process and will run as the same user as the Puppet master.
-    -   The Puppet master process will _block until the executable finishes running._ We expect policy executables to finish in a timely fashion; if they do not, it's possible for them to tie up all available Puppet master threads and deny service to other agents. If an executable needs to perform network requests or other potentially expensive operations, the author is in charge of implementing any necessary timeouts, possibly bailing and exiting non-zero in the event of failure. Alternatively, signing requests consume JRubies on a Puppet Server master but might not block all requests while the pool contains available JRubies, and won't block non-Ruby requests.
+    -   It will be executed by the OpenVox Server process and will run as the same user as the OpenVox Server.
+    -   The OpenVox Server process will _block until the executable finishes running._ We expect policy executables to finish in a timely fashion; if they do not, it's possible for them to tie up all available OpenVox Server threads and deny service to other agents. If an executable needs to perform network requests or other potentially expensive operations, the author is in charge of implementing any necessary timeouts, possibly bailing and exiting non-zero in the event of failure. Alternatively, signing requests consume JRubies on an OpenVox Server but might not block all requests while the pool contains available JRubies, and won't block non-Ruby requests.
 -   **Arguments:** The executable must allow a single command line argument. This argument will be the Subject CN (certname) of the incoming CSR.
     -   No other command line arguments should be provided.
-    -   The Puppet master should never fail to provide this argument.
+    -   The OpenVox Server should never fail to provide this argument.
 -   **Stdin:** The executable will receive the entirety of the incoming CSR on its stdin stream. The CSR will be encoded in PEM format.
     -   The stdin stream will contain nothing but the complete CSR.
-    -   The Puppet master should never fail to provide the CSR on stdin.
+    -   The OpenVox Server should never fail to provide the CSR on stdin.
 -   **Exit status:** The executable must exit with a status of `0` if the certificate should be autosigned; it must exit with a non-zero status if it should not be autosigned.
-    -   The Puppet master will treat all non-zero exit statuses as equivalent.
--   **Stdout and stderr:** Anything the executable emits on stdout or stderr will be copied to the Puppet master's log output at the `debug` log level. Puppet will otherwise ignore the executable's output; only the exit code is considered significant.
+    -   The OpenVox Server will treat all non-zero exit statuses as equivalent.
+-   **Stdout and stderr:** Anything the executable emits on stdout or stderr will be copied to the OpenVox Server's log output at the `debug` log level. Puppet will otherwise ignore the executable's output; only the exit code is considered significant.
 

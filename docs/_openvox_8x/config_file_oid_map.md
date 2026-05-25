@@ -11,11 +11,11 @@ title: "Config files: custom_trusted_oid_mapping.yaml"
 
 The `custom_trusted_oid_mapping.yaml` file lets you set your own short names for [certificate extension][extensions] object identifiers (OIDs), which can make [the `$trusted` variable][trusted] more useful.
 
-It is only valid on a Puppet master server; in Puppet apply, the compiler doesn't add certificate extensions to `$trusted`.
+It is only valid on an OpenVox Server server; in Puppet apply, the compiler doesn't add certificate extensions to `$trusted`.
 
 ## More about certificate extensions
 
-When a node requests a certificate, it can ask the CA to include some additional, permanent metadata in that cert. (Puppet agent uses [the `csr_attributes.yaml` file][csr_attributes] to decide what extensions to request.)
+When a node requests a certificate, it can ask the CA to include some additional, permanent metadata in that cert. (OpenVox agent uses [the `csr_attributes.yaml` file][csr_attributes] to decide what extensions to request.)
 
 If the CA signs a certificate with extensions included, those extensions are available as [trusted facts][trusted] in the top-scope `$trusted` variable. Your manifests or node classifier can then use those trusted facts to decide which nodes can receive which configurations.
 

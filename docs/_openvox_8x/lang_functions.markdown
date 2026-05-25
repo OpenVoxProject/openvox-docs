@@ -158,7 +158,7 @@ An entire function call (including the name, arguments, and lambda) constitutes 
 
 A function call might also result in some side effect, in addition to returning a value.
 
-All functions run during [compilation][catalog], which means they can only access code and data available on the Puppet master. To make changes to an agent node, you must use a [resource][]; to collect data from an agent node, you must use a [custom fact][custom_facts].
+All functions run during [compilation][catalog], which means they can only access code and data available on the OpenVox Server. To make changes to an agent node, you must use a [resource][]; to collect data from an agent node, you must use a [custom fact][custom_facts].
 
 
 ## Documentation for functions

@@ -47,7 +47,7 @@ When compiling a node's catalog, Puppet includes **all** of the following:
 
 To tell OpenVox Server to use an ENC, you need to set two [settings](./config_about_settings.html) in the OpenVox server's `puppet.conf` file: `node_terminus` has to be set to "exec", and `external_nodes` must have the path to the executable.
 
-    [master]
+    [server]
       node_terminus = exec
       external_nodes = /usr/local/bin/puppet_node_classifier
 

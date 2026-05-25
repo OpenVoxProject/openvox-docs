@@ -73,7 +73,7 @@ Configure Puppet Server in three steps:
 2. Set a static value for the `certname` setting in [`puppet.conf`][conf]:
 
    ```
-   [master]
+   [server]
    certname = puppetserver.example.com
    ```
 
@@ -82,14 +82,14 @@ Configure Puppet Server in three steps:
 
    Credential                         | File location
    -----------------------------------|-------------------------------------------
-   Server SSL certificate             | `puppet config print hostcert --section master`
-   Server SSL certificate private key | `puppet config print hostprivkey --section master`
-   Root CA certificate                | `puppet config print localcacert --section master`
-   Root certificate revocation list   | `puppet config print hostcrl --section master`
+   Server SSL certificate             | `puppet config print hostcert --section server`
+   Server SSL certificate private key | `puppet config print hostprivkey --section server`
+   Root CA certificate                | `puppet config print localcacert --section server`
+   Root certificate revocation list   | `puppet config print hostcrl --section server`
 
 If you've put the credentials in the correct locations, you shouldn't need to change any additional settings.
 
-### Puppet agent
+### OpenVox agent
 
 You don't need to change any settings.
 

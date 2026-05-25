@@ -70,7 +70,7 @@ cat /opt/puppetlabs/puppet/ssl/cert.pem /path/to/proxy-ca.pem \
   > /etc/ssl/certs/puppet-custom-bundle.pem
 ```
 
-**Make it permanent for the Puppet agent service** by adding the variable to the service
+**Make it permanent for the OpenVox agent service** by adding the variable to the service
 environment. On systemd systems, create a drop-in:
 
 ```console

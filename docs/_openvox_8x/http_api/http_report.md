@@ -7,7 +7,7 @@ canonical: "/puppet/latest/http_api/http_report.html"
 
 Report
 ======
-This document describes the Puppet master's report endpoint and the schema for
+This document describes the OpenVox Server's report endpoint and the schema for
 Report Format 6 in technical term. Also see the
 [documentation](https://puppet.com/docs/puppet/latest/format_report.html).
 

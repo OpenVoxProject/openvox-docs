@@ -41,7 +41,7 @@ Deploying and Using Types and Providers
 
 To use new types and providers, two conditions must be met:
 
-1. The type and providers must be present in a [module][] on the Puppet master server. Like other types of plugin (such as [custom functions][custom_functions] and [custom facts][custom_facts]), they should go in the module's `lib` directory:
+1. The type and providers must be present in a [module][] on the OpenVox Server server. Like other types of plugin (such as [custom functions][custom_functions] and [custom facts][custom_facts]), they should go in the module's `lib` directory:
     * Type files should be located at `lib/puppet/type/<TYPE NAME>.rb`.
     * Provider files should be located at `lib/puppet/provider/<TYPE NAME>/<PROVIDER NAME>.rb`.
 2. If you are using an agent/master Puppet deployment, each agent node must have its [`pluginsync` setting][pluginsync] in puppet.conf set to `true`.
@@ -434,7 +434,7 @@ In this situation, you can define a method in your type named `pre_run_check`. T
 
 This method is **only available in Puppet 3.7 and later.** (In earlier versions of Puppet, adding a `pre_run_check` method will have no effect.)
 
-If a `pre_run_check` method is present in the type, Puppet agent and Puppet apply will run the check for every resource of the type before attempting to apply the catalog. It will collect any errors raised, and present all of them before aborting the catalog run.
+If a `pre_run_check` method is present in the type, OpenVox agent and Puppet apply will run the check for every resource of the type before attempting to apply the catalog. It will collect any errors raised, and present all of them before aborting the catalog run.
 
 As a trivial example, here's a pre-run check that will fail randomly, about one time out of six:
 

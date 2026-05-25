@@ -133,7 +133,7 @@ In addition to Facter's core facts and any custom facts, Puppet creates some spe
 
 * **The `$trusted` hash,** which has trusted data from the node's certificate
 * **Agent facts,** which are set by `puppet agent` or `puppet apply`
-* **Puppet master variables,** which are set by the Puppet master (and sometimes by `puppet apply`)
+* **OpenVox Server variables,** which are set by the OpenVox Server (and sometimes by `puppet apply`)
 * **Compiler variables,** which are special local variables set for each scope.
 
 ### Trusted facts
@@ -204,7 +204,7 @@ hierarchy:
 
 The `$server_facts` variable provides a hash of server-side facts that cannot be overwritten by client side facts. This is important because it enables you to get trusted server facts that could otherwise be overwritten by client-side facts.
 
-For example, the Puppet master sets the global `$::environment` variable to contain the name of the node's environment. However, if a node provides a fact with the name `environment`, that fact's value overrides the server-set `environment` fact. The same happens with other server-set global variables, like `$::servername` and `$::serverip`. As a result, modules couldn't reliably use these variables for whatever their intended purpose was.
+For example, the OpenVox Server sets the global `$::environment` variable to contain the name of the node's environment. However, if a node provides a fact with the name `environment`, that fact's value overrides the server-set `environment` fact. The same happens with other server-set global variables, like `$::servername` and `$::serverip`. As a result, modules couldn't reliably use these variables for whatever their intended purpose was.
 
 The `$server_facts` variable is opt-in. Its `trusted_server_facts` setting is set to false by default. If you set `trusted_server_facts` to `true`, the `$server_facts` variable will be populated, and will ensure that you get trusted server facts.
 
@@ -223,28 +223,28 @@ The following is an example `$server_facts` hash.
 }
 ```
 
-### Puppet agent facts
+### OpenVox agent facts
 
-Puppet agent and Puppet apply both add several extra pieces of info to their facts before requesting or compiling a catalog. Like other facts, these are available as either top-scope variables or elements in the `$facts` hash.
+OpenVox agent and Puppet apply both add several extra pieces of info to their facts before requesting or compiling a catalog. Like other facts, these are available as either top-scope variables or elements in the `$facts` hash.
 
 * `$clientcert` --- the value of the node's [`certname` setting][certname]. (This is self-reported; for the verified certificate name, use `$trusted['certname']`.)
-* `$clientversion` --- the current version of Puppet agent.
+* `$clientversion` --- the current version of OpenVox agent.
 * `$puppetversion` --- the current version of Puppet on the agent.
 * `$clientnoop` --- the value of the node's [`noop` setting][noop] (true or false) at the time of the run.
-* `$agent_specified_environment` --- the value of the node's [`environment` setting][environment_setting]. If the Puppet master's node classifier specified an environment for the node, `$agent_specified_environment` and `$environment` can have different values.
+* `$agent_specified_environment` --- the value of the node's [`environment` setting][environment_setting]. If the OpenVox Server's node classifier specified an environment for the node, `$agent_specified_environment` and `$environment` can have different values.
 
     If no value was set for the `environment` setting (in puppet.conf or with `--environment`), the value of `$agent_specified_environment` will be `undef`. (That is, it won't default to `production` like the setting does.)
 
-### Puppet master variables
+### OpenVox Server variables
 
-Several variables are set by the Puppet master. These are most useful when managing Puppet with Puppet. (For example, managing puppet.conf with a template.)
+Several variables are set by the OpenVox Server. These are most useful when managing Puppet with Puppet. (For example, managing puppet.conf with a template.)
 
 These are **not** available in the `$facts` hash.
 
 * `$environment` (also available to `puppet apply`) --- the agent node's [environment][]. Note that nodes can accidentally or purposefully override this with a custom fact; the `$server_facts['environment']` variable always contains the correct environment, and can't be overridden.
-* `$servername` --- the Puppet master's fully-qualified domain name. (Note that this information is gathered from the Puppet master by Facter, rather than read from the config files; even if the master's certname is set to something other than its fully-qualified domain name, this variable will still contain the server's fqdn.)
-* `$serverip` --- the Puppet master's IP address.
-* `$serverversion` --- the current version of Puppet on the Puppet master.
+* `$servername` --- the OpenVox Server's fully-qualified domain name. (Note that this information is gathered from the OpenVox Server by Facter, rather than read from the config files; even if the master's certname is set to something other than its fully-qualified domain name, this variable will still contain the server's fqdn.)
+* `$serverip` --- the OpenVox Server's IP address.
+* `$serverversion` --- the current version of Puppet on the OpenVox Server.
 * `$settings::<name of setting>` (also available to `puppet apply`) --- the value of any of the master's [settings](./config_about_settings.html). This is implemented as a special namespace and these variables must be referred to by their qualified names. Note that, other than `$environment` and `$clientnoop`, the agent node's settings are **not** available in manifests. If you wish to expose them to the master in this version of Puppet, you will have to create a custom fact.
 * `$settings::all_local` --- contains all variables in the `$settings` namespace as a Hash of `<SETTING-NAME> => <SETTING-VALUE>`. This helps you reference settings that might be missing, because a direct reference to such a missing setting raises an error when `--strict_variables` is enabled.
 

@@ -11,7 +11,7 @@ title: "Config files: environment.conf"
 [main manifest]: ./dirs_manifest.html
 [configuring_timeout]: ./environments_configuring.html#environmenttimeout
 
-Any [environment][] can contain an `environment.conf` file. This file can override several settings whenever the Puppet master is serving nodes assigned to that environment.
+Any [environment][] can contain an `environment.conf` file. This file can override several settings whenever the OpenVox Server is serving nodes assigned to that environment.
 
 ## Location
 
@@ -68,7 +68,7 @@ That is, Puppet will add the environment's `modules` directory to the value of t
 
 ### `manifest`
 
-The [main manifest][] the Puppet master will use when compiling catalogs for this environment. This can be one file or a directory of manifests to be evaluated in alphabetical order. Puppet manages this path as a directory if one exists or if the path ends with a slash (`/`) or dot (`.`).
+The [main manifest][] the OpenVox Server will use when compiling catalogs for this environment. This can be one file or a directory of manifests to be evaluated in alphabetical order. Puppet manages this path as a directory if one exists or if the path ends with a slash (`/`) or dot (`.`).
 
 If this setting isn't set, Puppet will use the environment's `manifests` directory as the main manifest, even if it is empty or absent. A directory environment will never use the global `manifest` from [puppet.conf][].
 
@@ -86,7 +86,7 @@ If this setting isn't set, the config version will be the **time** at which the 
 
 ### `environment_timeout`
 
-How long the Puppet master should cache the data it loads from an environment. If present, this will override the value of `environment_timeout` from [puppet.conf][].
+How long the OpenVox Server should cache the data it loads from an environment. If present, this will override the value of `environment_timeout` from [puppet.conf][].
 
 * Unless you have a specific reason, we recommend only setting `environment_timeout` globally, in puppet.conf.
 * We also don't recommend using any value other than `0` or `unlimited`.

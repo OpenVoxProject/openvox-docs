@@ -36,7 +36,7 @@ Every manifest (.pp file) in a module contains a single class. File names map to
 
 **To write the `helloworld` class**:
 
-1. From the command line on the Puppet master, navigate to the modules directory: `cd /etc/puppetlabs/code/environments/production/modules`.
+1. From the command line on the OpenVox Server, navigate to the modules directory: `cd /etc/puppetlabs/code/environments/production/modules`.
 2. Run `mkdir -p helloworld/manifests` to create the new module directory and its manifests directory.
 3. In the `manifests` directory, use your text editor to create the `init.pp` file, and edit it so that it contains the following Puppet code:
 
@@ -70,7 +70,7 @@ The [default node](./lang_node_definitions.html#the-default-node) is a special v
 
 **To create the default node**
 
-1. From the command line on the Puppet master, navigate to the main manifest: `cd /etc/puppetlabs/code/environments/production/manifests`.
+1. From the command line on the OpenVox Server, navigate to the main manifest: `cd /etc/puppetlabs/code/environments/production/manifests`.
 2. Use your text editor to create the `site.pp` file, and edit it so that it contains the following Puppet code:
 
         node default {
@@ -84,9 +84,9 @@ The [default node](./lang_node_definitions.html#the-default-node) is a special v
 
 4. Save and exit the file.
 
-5. Ensure that there are no errors in the Puppet code by running `puppet parser validate site.pp` on your Puppet master. The parser will return nothing if there are no errors. If it does detect a syntax error, open the file again and fix the problem before continuing.
+5. Ensure that there are no errors in the Puppet code by running `puppet parser validate site.pp` on your OpenVox Server. The parser will return nothing if there are no errors. If it does detect a syntax error, open the file again and fix the problem before continuing.
 
-6. From the CLI of your Puppet agent, use `puppet agent -t` to trigger a Puppet run.
+6. From the CLI of your OpenVox agent, use `puppet agent -t` to trigger a Puppet run.
 
 ### Viewing the results
 

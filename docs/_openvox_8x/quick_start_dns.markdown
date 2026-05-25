@@ -42,7 +42,7 @@ Modules are directory trees. For this task, you'll create the following files:
 
 **To write the `resolver` class**:
 
-1. From the command line on the Puppet master, navigate to the modules directory: `cd /etc/puppetlabs/code/environments/production/modules`.
+1. From the command line on the OpenVox Server, navigate to the modules directory: `cd /etc/puppetlabs/code/environments/production/modules`.
 
 2. Run `mkdir -p resolver/templates` to create the new module directory and its templates directory.
 
@@ -64,9 +64,9 @@ Modules are directory trees. For this task, you'll create the following files:
 
 ## Add the resolv.conf file to your main manifest
 
-1. On the Puppet master, open `/etc/resolv.conf` with your text editor, and copy the IP address of your master's nameserver (in this example, the nameserver is `10.0.2.3`).
+1. On the OpenVox Server, open `/etc/resolv.conf` with your text editor, and copy the IP address of your master's nameserver (in this example, the nameserver is `10.0.2.3`).
 
-2. On the Puppet master, navigate to the main manifest: `cd /etc/puppetlabs/code/environments/production/manifests`.
+2. On the OpenVox Server, navigate to the main manifest: `cd /etc/puppetlabs/code/environments/production/manifests`.
 3. Use your text editor to open the `site.pp` file and add the following Puppet code to the `default` node, editing your nameserver value to match the one you found in `/etc/resolv.conf`:
 
         $nameservers = ['10.0.2.3']
@@ -79,8 +79,8 @@ Modules are directory trees. For this task, you'll create the following files:
           content => template('resolver/resolv.conf.erb'),
         }
 
-4. From the command line on your Puppet agent, run `puppet agent -t`.
-5. From the command line on your Puppet agent, run `cat /etc/resolv.conf`. The result should reflect the nameserver you added to your main manifest in step 3.
+4. From the command line on your OpenVox agent, run `puppet agent -t`.
+5. From the command line on your OpenVox agent, run `cat /etc/resolv.conf`. The result should reflect the nameserver you added to your main manifest in step 3.
 
 > That's it! You've written a module that contains a class that will ensure your agents resolve to your internal nameserver.
 
@@ -95,8 +95,8 @@ Finally, let's take a look at how Puppet will ensure the desired state of the `r
 
 1. On any agent to which you applied the `resolv.conf` class, edit `/etc/resolv.conf` to be any  nameserver IP address other than the one you desire to use.
 2. Save and exit the file.
-3. From the command line on your Puppet agent, run `puppet agent -t --onetime`.
-4. From the command line on your Puppet agent, run `cat /etc/resolv.conf`, and notice that Puppet has enforced the desired state you specified on your Puppet master.
+3. From the command line on your OpenVox agent, run `puppet agent -t --onetime`.
+4. From the command line on your OpenVox agent, run `cat /etc/resolv.conf`, and notice that Puppet has enforced the desired state you specified on your OpenVox Server.
 
 > That's it --- Puppet has enforced the desired state of your agent!
 
