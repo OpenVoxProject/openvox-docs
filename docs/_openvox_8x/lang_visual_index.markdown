@@ -100,7 +100,7 @@ $myhash = { key => { subkey => 'b' }}
 
 ``` puppet
 ...
-content => "Managed by puppet master version ${serverversion}"
+content => "Managed by OpenVox Server version ${serverversion}"
 ```
 
 ↑ A master-provided [built-in variable][built_in] being [interpolated into a double-quoted string][interpolation] (with optional curly braces).

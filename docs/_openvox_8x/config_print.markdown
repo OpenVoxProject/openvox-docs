@@ -51,8 +51,8 @@ This will show `name = value` pairs for all settings.
 The `--section` option specifies which [section of puppet.conf][config_sections] to use when finding settings. It is optional, and defaults to `main`. Valid sections are:
 
 * `main` **(default)** --- used by all commands and services
-* `master` --- used by the Puppet master service
-* `agent` --- used by the Puppet agent service
+* `master` --- used by the OpenVox Server service
+* `agent` --- used by the OpenVox agent service
 * `user` --- used by the Puppet apply command and most other commands
 
 As usual, the other sections will override the `main` section if they contain a setting; if they don't, the value from `main` will be used, or a default value if the setting isn't present there.
@@ -63,40 +63,40 @@ The `--environment` option specifies which [environment][] to use when finding s
 
 Note that you can only specify environments that already exist.
 
-This option is generally only useful when looking up settings used by the Puppet master service, since it's rare to use environment config sections for Puppet apply and Puppet agent.
+This option is generally only useful when looking up settings used by the OpenVox Server service, since it's rare to use environment config sections for Puppet apply and OpenVox agent.
 
 
-Imitating Puppet Master
+Imitating OpenVox Server
 -----
 
-To see the settings the Puppet master service would use:
+To see the settings the OpenVox Server service would use:
 
-* Specify `--section master`.
+* Specify `--section server`.
 * Use the `--environment` option to specify the environment you want settings for, or let it default to `production`.
 * Remember to use `sudo`.
-* If your Puppet master is managed as a rack application (e.g. with Passenger), check the `config.ru` file to make sure it's using the [confdir][] and [vardir][] that you expect. If it's using non-standard ones, you will need to specify them on the command line with the `--confdir` and `--vardir` options; otherwise you might not see the correct values for settings.
+* If your OpenVox Server is managed as a rack application (e.g. with Passenger), check the `config.ru` file to make sure it's using the [confdir][] and [vardir][] that you expect. If it's using non-standard ones, you will need to specify them on the command line with the `--confdir` and `--vardir` options; otherwise you might not see the correct values for settings.
 
 ### Examples
 
 To see the effective [modulepath][] used in the `dev` environment:
 
-    $ sudo puppet config print modulepath --section master --environment dev
+    $ sudo puppet config print modulepath --section server --environment dev
     /etc/puppetlabs/code/environments/dev/modules:/etc/puppetlabs/code/modules:/opt/puppetlabs/puppet/modules
 
 To see whether PuppetDB is configured for exported resources:
 
-    $ sudo puppet config print storeconfigs storeconfigs_backend --section master
+    $ sudo puppet config print storeconfigs storeconfigs_backend --section server
     storeconfigs = true
     storeconfigs_backend = puppetdb
 
 Imitating Puppet Agent
 -----
 
-To see the settings the Puppet agent service would use:
+To see the settings the OpenVox agent service would use:
 
 * Specify `--section agent`.
 * Remember to use `sudo`.
-* If you are seeing something unexpected, check your Puppet agent init script or cron job to make sure it is using the standard [confdir][] and [vardir][], is running as root, and isn't overriding other settings with command line options. If it's doing anything unusual, you might have to set more options for the config print command.
+* If you are seeing something unexpected, check your OpenVox agent init script or cron job to make sure it is using the standard [confdir][] and [vardir][], is running as root, and isn't overriding other settings with command line options. If it's doing anything unusual, you might have to set more options for the config print command.
 
 ### Example
 

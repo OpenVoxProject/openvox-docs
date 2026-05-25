@@ -13,7 +13,7 @@ Welcome to the Open Source Puppet NTP Quick Start Guide. This document provides 
 
 The clocks on your servers are not inherently accurate. They need to synchronize with something to let them know what the right time is. NTP is a protocol designed to synchronize the clocks of computers over a network. NTP uses Coordinated Universal Time (UTC) to synchronize computer clock times to within a millisecond.
 
-Your entire datacenter, from the network to the applications, depends on accurate time for many different things, such as security services, certificate validation, and file sharing across Puppet agents. If the time is wrong, your Puppet master might mistakenly issue agent certificates from the distant past or future, which other agents will treat as expired.
+Your entire datacenter, from the network to the applications, depends on accurate time for many different things, such as security services, certificate validation, and file sharing across OpenVox agents. If the time is wrong, your OpenVox Server might mistakenly issue agent certificates from the distant past or future, which other agents will treat as expired.
 
 NTP is one of the most crucial, yet easiest, services to configure and manage with Puppet. Using the Puppet NTP module, you can do the following tasks:
 
@@ -40,7 +40,7 @@ The puppetlabs-ntp module is part of the [supported modules](http://forge.puppet
 
 **To install the puppetlabs-ntp module**:
 
-From the Puppet master, run `puppet module install puppetlabs-ntp`.
+From the OpenVox Server, run `puppet module install puppetlabs-ntp`.
 
 You should see output similar to the following:
 
@@ -68,7 +68,7 @@ You're going to add the `ntp` class to the `default` node in your main manifest.
 
 **To create the NTP class:**
 
-1. From the command line on the Puppet master, navigate to the main manifest: `cd /etc/puppetlabs/code/environments/production/manifests`.
+1. From the command line on the OpenVox Server, navigate to the main manifest: `cd /etc/puppetlabs/code/environments/production/manifests`.
 2. Use your text editor to open `site.pp`.
 3. Add the following Puppet code to `site.pp`:
 
@@ -81,11 +81,11 @@ You're going to add the `ntp` class to the `default` node in your main manifest.
 	>**Note**: If you already have a default node, just add the `class` and `servers` lines to it.
 	> To see a list of other time servers, visit [http://www.pool.ntp.org/](http://www.pool.ntp.org/).
 
-4. From the command line on your Puppet agent, trigger a Puppet run with `puppet agent -t`.
+4. From the command line on your OpenVox agent, trigger a Puppet run with `puppet agent -t`.
 
 > That's it! You've successfully configured Puppet to use NTP.
 
-**To check if the NTP service is running**, run `puppet resource service ntpd` on your Puppet agent. The output should be:
+**To check if the NTP service is running**, run `puppet resource service ntpd` on your OpenVox agent. The output should be:
 
         service { 'ntpd':
   		  ensure => 'running',

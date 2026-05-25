@@ -163,12 +163,12 @@ The DN for the host follows a model that should also work well if you decide to 
 
 Once you have your data in LDAP, you just need to configure Puppet to look there.
 
-* If you are using agent/master Puppet, the master will be the one accessing LDAP. Put the configuration in the `[master]` block of its puppet.conf file.
+* If you are using agent/master Puppet, the master will be the one accessing LDAP. Put the configuration in the `[server]` block of its puppet.conf file.
 * If you are using standalone puppet apply nodes, each one will need to access it. Put the configuration in the `[main]` block of their puppet.conf files.
 
 To configure LDAP nodes, set the `node_terminus` to `ldap`:
 
-    [master]
+    [server]
     node_terminus = ldap
     ldapserver = ldapserver.yourdomain.com
     ldapbase = dc=puppet

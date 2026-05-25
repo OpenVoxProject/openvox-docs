@@ -20,7 +20,7 @@ title: "Puppet's services: Puppet apply"
 [puppet.conf]: ./config_file_main.html
 [short_settings]: ./config_important_settings.html#settings-for-agents-all-nodes
 
-Puppet apply is an application that compiles and manages configurations on nodes. It acts like a self-contained combination of the Puppet master and Puppet agent applications. For more info about Puppet's architecture, see [Overview of Puppet's Architecture](./architecture.html) --- in particular, read the note at the end about [differences and trade-offs between agent/master and puppet apply.](architecture.html#note-differences-between-agentmaster-and-puppet-apply)
+Puppet apply is an application that compiles and manages configurations on nodes. It acts like a self-contained combination of the OpenVox Server and OpenVox agent applications. For more info about Puppet's architecture, see [Overview of Puppet's Architecture](./architecture.html) --- in particular, read the note at the end about [differences and trade-offs between agent/master and puppet apply.](architecture.html#note-differences-between-agentmaster-and-puppet-apply)
 
 For details about invoking the Puppet apply command, see [the puppet apply man page][man].
 
@@ -32,13 +32,13 @@ Not all operating systems can manage the same resources with Puppet; some resour
 
 ## Puppet apply's run environment
 
-Unlike Puppet agent, Puppet apply never runs as a daemon or service. It always runs as a single task in the foreground, which compiles a catalog, applies it, files a report, and exits.
+Unlike OpenVox agent, Puppet apply never runs as a daemon or service. It always runs as a single task in the foreground, which compiles a catalog, applies it, files a report, and exits.
 
 By default, it never initiates outbound network connections, although it can be configured to do so. It never accepts inbound network connections.
 
 ### Main manifest
 
-Like the Puppet master application, Puppet apply uses its [settings][short_settings] (such as `basemodulepath`) and the configured [environments][] to locate the Puppet code and configuration data it will use when compiling a catalog.
+Like the OpenVox Server application, Puppet apply uses its [settings][short_settings] (such as `basemodulepath`) and the configured [environments][] to locate the Puppet code and configuration data it will use when compiling a catalog.
 
 The one exception is the [main manifest][]. Puppet apply always requires a single command line argument, which acts as its main manifest. It ignores the [main manifest from its environment][env_main_manifest].
 
@@ -79,7 +79,7 @@ By default, Puppet apply does not communicate over the network. It uses its loca
 
 Depending on your system and the resources you are managing, it might download packages from your configured package repositories or access files on UNC shares.
 
-If you have configured an [external node classifier (ENC)][enc], your ENC script might create an outbound HTTP connection. Additionally, if you've configured [the HTTP report processor][http_report], Puppet agent sends reports via HTTP or HTTPS.
+If you have configured an [external node classifier (ENC)][enc], your ENC script might create an outbound HTTP connection. Additionally, if you've configured [the HTTP report processor][http_report], OpenVox agent sends reports via HTTP or HTTPS.
 
 If you have configured [PuppetDB][], Puppet apply will create outbound HTTPS connections to PuppetDB.
 
@@ -97,7 +97,7 @@ When started with the `--logdest <FILE>` option, it logs to the file specified b
 
 ### Reporting
 
-In addition to local logging, Puppet apply will process a report using its configured [report handlers][], like a Puppet master does. You can enable different reports with [the `reports` setting][reports_setting]; see the [list of available reports][report handlers] for more info. For more about reporting, see [the docs on reporting][report].
+In addition to local logging, Puppet apply will process a report using its configured [report handlers][], like an OpenVox Server does. You can enable different reports with [the `reports` setting][reports_setting]; see the [list of available reports][report handlers] for more info. For more about reporting, see [the docs on reporting][report].
 
 To disable reporting and avoid taking up disk space with the `store` report handler, you can set [`report = false`](./configuration.html#report) in [puppet.conf][].
 

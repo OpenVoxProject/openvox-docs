@@ -144,7 +144,7 @@ export LANGUAGE=''
 export LC_ALL=''
 ```
 
-To set the locale for the Puppet agent service, you can add these `export` statements to:
+To set the locale for the OpenVox agent service, you can add these `export` statements to:
 
 -   `/etc/sysconfig/puppet` on RHEL and its derivatives
 -   `/etc/default/puppet` on Debian, Ubuntu, and their derivatives
@@ -152,9 +152,9 @@ To set the locale for the Puppet agent service, you can add these `export` state
 After updating the file, restart the Puppet service to apply the change.
 
 {:.task}
-### Setting your locale for the Puppet agent service on macOS
+### Setting your locale for the OpenVox agent service on macOS
 
-To set the locale for the Puppet agent service on macOS, update the `LANG` setting in the `/Library/LaunchDaemons/com.puppetlabs.puppet.plist` file.
+To set the locale for the OpenVox agent service on macOS, update the `LANG` setting in the `/Library/LaunchDaemons/com.puppetlabs.puppet.plist` file.
 
 ```xml
 <dict>
@@ -181,4 +181,4 @@ Set-WinSystemLocale en-US
 
 Puppet 5.3.2 added the optional Boolean `disable_i18n` setting, which you can configure in `puppet.conf`. If set to `true`, Puppet disables localized strings in log messages, reports, and parts of the command-line interface. This can improve performance when using Puppet modules, especially if [environment caching](./environments_creating.markdown#environment_timeout) is disabled, and even if you don't need localized strings or the modules aren't localized. This setting is `false` by default in open source Puppet.
 
-If you're experiencing performance issues, configure this setting in the `[master]` section of the Puppet master's `puppet.conf` file. To force unlocalized messages, which are in English by default, configure this section in a node's `[main]` or `[user]` sections of `puppet.conf`.
+If you're experiencing performance issues, configure this setting in the `[server]` section of the OpenVox Server's `puppet.conf` file. To force unlocalized messages, which are in English by default, configure this section in a node's `[main]` or `[user]` sections of `puppet.conf`.

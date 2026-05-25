@@ -15,13 +15,13 @@ Resource Type
 endpoint provided by Puppet Server 2.3.0 and later.
 
 The `resource_type` and `resource_types` endpoints return information about the
-following kinds of objects available to the puppet master:
+following kinds of objects available to the OpenVox Server:
 
 * Classes (`class myclass { ... }`)
 * Defined types (`define mytype ($parameter) { ... }`)
 * Node definitions (`node 'web01.example.com' { ... }`)
 
-For an object to be available to the puppet master, it must be present in the
+For an object to be available to the OpenVox Server, it must be present in the
 site manifest (configured by the `manifest` setting) or in a module located in
 the modulepath (configured by the `modulepath` setting; classes and defined
 types only).

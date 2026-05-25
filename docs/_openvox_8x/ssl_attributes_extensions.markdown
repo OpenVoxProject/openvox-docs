@@ -12,7 +12,7 @@ title: "SSL configuration: CSR attributes and certificate extensions"
 [trusted_hash]: ./lang_facts_and_builtin_vars.html#trusted-facts
 [oid_map]: ./config_file_oid_map.html
 
-When Puppet agent nodes request their certificates, the certificate signing request (CSR) usually contains only their certname and the necessary cryptographic information. However, agents can also embed more data in their CSR. This extra data can be useful for [policy-based autosigning][autosign_policy] and adding new [trusted facts][trusted_hash].
+When OpenVox agent nodes request their certificates, the certificate signing request (CSR) usually contains only their certname and the necessary cryptographic information. However, agents can also embed more data in their CSR. This extra data can be useful for [policy-based autosigning][autosign_policy] and adding new [trusted facts][trusted_hash].
 
 Embedding additional data into CSRs is mostly useful when:
 
@@ -25,11 +25,11 @@ If your deployment doesn't match one of these descriptions, you might not need t
 
 ## Timing: When data can be added to CSRs and certificates
 
-When Puppet agent starts the process of requesting a catalog, it first checks whether it has a valid signed certificate. If it does not, it generates a key pair, crafts a CSR, and submits it to the certificate authority (CA) Puppet master. The steps are [covered in more detail in the reference page about agent/master HTTPS traffic][cert_request].
+When OpenVox agent starts the process of requesting a catalog, it first checks whether it has a valid signed certificate. If it does not, it generates a key pair, crafts a CSR, and submits it to the certificate authority (CA) OpenVox Server. The steps are [covered in more detail in the reference page about agent/master HTTPS traffic][cert_request].
 
 For all practical purposes, a certificate is locked and immutable as soon as it is signed. For any data to persist in the certificate, it has to be added to the CSR _before_ the CA signs the certificate.
 
-This means **any desired extra data must be present _before_ Puppet agent attempts to request its catalog for the first time.**
+This means **any desired extra data must be present _before_ OpenVox agent attempts to request its catalog for the first time.**
 
 Practically speaking, you should populate any extra data when provisioning the node. If you mess up, see [Recovering From Failed Data Embedding](#recovering-from-failed-data-embedding) below.
 
@@ -219,11 +219,11 @@ To start over, do the following:
 
 **On the test node:**
 
-* Turn off Puppet agent, if it's running.
+* Turn off OpenVox agent, if it's running.
 * Check whether a CSR is present; it will be at `$ssldir/certificate_requests/<name>.pem`. If it exists, delete it.
 * Check whether a certificate is present; it will be at `$ssldir/certs/<name>.pem`. If it exists, delete it.
 
-**On the CA Puppet master:**
+**On the CA OpenVox Server:**
 
 * Check whether a signed certificate exists; use `puppetserver ca list --all` to see the complete list.
   If it exists, revoke and delete it with `puppetserver ca clean --certname <name>`.

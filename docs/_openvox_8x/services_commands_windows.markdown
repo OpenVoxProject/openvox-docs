@@ -21,7 +21,7 @@ Since Windows systems work differently, there are a few extra things to keep in 
 
 ## Supported commands
 
-Not all of Puppet's commands work on Windows. Notably, Windows nodes can't run the Puppet master or Puppet cert commands.
+Not all of Puppet's commands work on Windows. Notably, Windows nodes can't run the OpenVox Server or Puppet cert commands.
 
 The following commands are designed for use on Windows:
 
@@ -90,9 +90,9 @@ The Start Menu items do the following:
 This shortcut automatically requests UAC elevation, then runs [Facter][] in a command prompt window with administrator privileges.
 
 
-### Run Puppet agent
+### Run OpenVox agent
 
-This shortcut automatically requests UAC elevation, then performs a single Puppet agent run in a command prompt window with administrator privileges.
+This shortcut automatically requests UAC elevation, then performs a single OpenVox agent run in a command prompt window with administrator privileges.
 
 ### Start command prompt with Puppet
 

@@ -20,9 +20,9 @@ When Puppet is running as either root, a Windows user with administrator privile
 
 The system confdir is what you usually want to use, since you will usually run Puppet's commands and
 services as root or `puppet`. (Note that admin commands like `puppetserver ca` must be run with `sudo`
-to use the same confdir as Puppet agent or Puppet master.)
+to use the same confdir as OpenVox agent or OpenVox Server.)
 
-> **Note:** When Puppet master is running as a Rack application, the `config.ru` file must explicitly set `--confdir` to the system confdir. The example `config.ru` file provided with the Puppet source does this.
+> **Note:** When OpenVox Server is running as a Rack application, the `config.ru` file must explicitly set `--confdir` to the system confdir. The example `config.ru` file provided with the Puppet source does this.
 
 {:.section}
 ### Configuration
@@ -61,10 +61,10 @@ Items labeled "master only" below can also be present on standalone Puppet apply
 ### Config files
 
 * [`puppet.conf`](./config_file_main.html) --- Puppet's main config file. (Any node.)
-* [`auth.conf`](./config_file_auth.html) --- access control rules for the Puppet master's network services. (Master only.)
+* [`auth.conf`](./config_file_auth.html) --- access control rules for the OpenVox Server's network services. (Server only.)
 * [`autosign.conf`](./config_file_autosign.html) --- a list of pre-approved certificate requests. (CA master only.)
 * [`csr_attributes.yaml`](./config_file_csr_attributes.html) --- optional data to be inserted into new certificate requests. (Any node.)
 * [`device.conf`](./config_file_device.html) --- configuration for network devices managed by the `puppet device` command. (Any node acting as an intermediary to configure network devices.)
-* [`fileserver.conf`](./config_file_fileserver.html) --- configuration for additional fileserver mount points. (Master only.)
+* [`fileserver.conf`](./config_file_fileserver.html) --- configuration for additional fileserver mount points. (Server only.)
 * [`hiera.yaml`](./hiera_config_yaml_5.html) --- global configuration for the Hiera data lookup system. Note that environments and modules can have their own hiera.yaml files. (Master, or standalone nodes running Puppet apply.)
-* [`routes.yaml`](./config_file_routes.html) --- advanced configuration of indirector behavior. (Master only.)
+* [`routes.yaml`](./config_file_routes.html) --- advanced configuration of indirector behavior. (Server only.)

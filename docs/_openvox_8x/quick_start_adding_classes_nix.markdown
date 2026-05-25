@@ -18,7 +18,7 @@ Every module contains one or more **classes**. [Classes](./lang_classes.html) ar
 
 ## Add Apache to the main manifest
 
-1. From the command line of your Puppet master, navigate to the main manifest directory: `cd /etc/puppetlabs/code/environments/production/manifests`.
+1. From the command line of your OpenVox Server, navigate to the main manifest directory: `cd /etc/puppetlabs/code/environments/production/manifests`.
 2. Use your text editor to open the `site.pp` file, and edit it so that it contains the following Puppet code:
 
         node default {
@@ -27,14 +27,14 @@ Every module contains one or more **classes**. [Classes](./lang_classes.html) ar
 
 	>**Note**: If you have already created the default node class, simply add `include apache` to it. Code from the [Hello World! exercise](./quick_start_helloworld.html) does not need to be removed, but a class cannot be declared twice. We will explore this later in the guide.
 
-3. Ensure that there are no errors in the Puppet code by running `puppet parser validate site.pp` on the command line of your Puppet master. The parser will return nothing if there are no errors. If it does detect a syntax error, open the file and fix the problem before continuing.
-4. From the command line of your Puppet agent, run `puppet agent -t` to trigger a Puppet run.
+3. Ensure that there are no errors in the Puppet code by running `puppet parser validate site.pp` on the command line of your OpenVox Server. The parser will return nothing if there are no errors. If it does detect a syntax error, open the file and fix the problem before continuing.
+4. From the command line of your OpenVox agent, run `puppet agent -t` to trigger a Puppet run.
 
 ## Create the index.html file
-1. **On the Puppet agent**, navigate to `/var/www/html`, and create a file called `index.html` if it does not already exist.
+1. **On the OpenVox agent**, navigate to `/var/www/html`, and create a file called `index.html` if it does not already exist.
 2. Open `index.html` in your text editor and fill it with some content (for example, "Hello World") or edit what is already there.
-3. From the command line of your Puppet agent, run `puppet agent -t`.
-4. Open a web browser and enter the IP address for the Puppet agent, adding port 80 on the end, as in `http://myagentnodeIP:80/`.
+3. From the command line of your OpenVox agent, run `puppet agent -t`.
+4. Open a web browser and enter the IP address for the OpenVox agent, adding port 80 on the end, as in `http://myagentnodeIP:80/`.
 
    You will see the contents of `/var/www/html/index.html` displayed.
 
@@ -45,7 +45,7 @@ You can edit the [parameters](./lang_classes.html#defining-classes) of a class i
 
 **To edit the parameters of the** `apache` **class**:
 
-1. From the command line of your Puppet master, navigate to `/etc/puppetlabs/code/environments/production/manifests`.
+1. From the command line of your OpenVox Server, navigate to `/etc/puppetlabs/code/environments/production/manifests`.
 2. Use your text editor to open `site.pp`.
 3. Replace the `include apache` command with the following Puppet code:
 

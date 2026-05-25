@@ -12,7 +12,7 @@ title: "Puppet's services: Puppet device"
 
 ## Overview
 
-Puppet device is an application that manages certificates, collects facts, retrieves and applies catalogs, and stores reports for a device. Devices that cannot run Puppet applications require a (proxy) Puppet agent to act as a proxy to run the Puppet device subcommand.
+Puppet device is an application that manages certificates, collects facts, retrieves and applies catalogs, and stores reports for a device. Devices that cannot run Puppet applications require a (proxy) OpenVox agent to act as a proxy to run the Puppet device subcommand.
 
 For details about the Puppet device command, see [the puppet device man page][man].
 
@@ -22,7 +22,7 @@ Puppet device runs similarly on both \*nix and Windows systems.
 
 ## Run environment
 
-Unlike Puppet agent, Puppet device never runs as a daemon or service. It always runs as a single task in the foreground that manages devices, and exits.
+Unlike OpenVox agent, Puppet device never runs as a daemon or service. It always runs as a single task in the foreground that manages devices, and exits.
 
 ### User
 
@@ -51,7 +51,7 @@ You can adjust how verbose the logs are with the `--debug` and `--verbose` optio
 
 By default, Puppet device communicates over the network with the devices it manages. It never accepts inbound network connections.
 
-In addition to local logging, Puppet device submits a [report][] to the Puppet master after each run.
+In addition to local logging, Puppet device submits a [report][] to the OpenVox Server after each run.
 
 ## Configuration of Puppet device
 
@@ -75,7 +75,7 @@ You can also create a separate configuration file for each device, and use `pupp
 
 ### Agent
 
-A common practice is to classify the proxy Puppet agent for a device with the base class of the device provider.
+A common practice is to classify the proxy OpenVox agent for a device with the base class of the device provider.
 
 For example:
 
@@ -85,7 +85,7 @@ node 'device-proxy.example.com' {
 }
 ~~~
 
-Apply the classification by running `puppet agent -t` on the proxy Puppet agent.
+Apply the classification by running `puppet agent -t` on the proxy OpenVox agent.
 
 (Note that this can vary by device provider.)
 

@@ -14,7 +14,7 @@ Puppet's cache directory, sometimes called `vardir`, contains dynamic or growing
 
 Puppet Server's cache directory defaults to `/opt/puppetlabs/server/data/puppetserver`.
 
-The cache directory for Puppet agent and Puppet apply can be found at one of the following locations:
+The cache directory for OpenVox agent and Puppet apply can be found at one of the following locations:
 
 * \*nix Systems: `/var/opt/puppetlabs/puppet/cache`
 * non-root users: `~/.puppetlabs/opt/puppet/cache`
@@ -24,9 +24,9 @@ When Puppet is running as either root, a Windows user with administrator privile
 
 The system cache directory is what you usually want to use, since you will usually run Puppet's commands
 and services as root or `puppet`. (Note that admin commands like `puppetserver ca` must be run with
-`sudo` to use the same directories as Puppet agent or Puppet master.)
+`sudo` to use the same directories as OpenVox agent or OpenVox Server.)
 
-> **Note:** When Puppet master is running as a Rack application, the `config.ru` file must explicitly set `--vardir` to the system cache directory. The example `config.ru` file provided with the Puppet source does this.
+> **Note:** When OpenVox Server is running as a Rack application, the `config.ru` file must explicitly set `--vardir` to the system cache directory. The example `config.ru` file provided with the Puppet source does this.
 
 {:.section}
 ### Configuring the location of the cache directory
@@ -62,10 +62,10 @@ The `vardir` directory has the following default structure. Most of the files an
 * [`lib/facter` (`factpath`)][factpath]
 * [`facts` (`factpath`)][factpath]
 * [`facts.d` (`pluginfactdest`)][pluginfactdest]
-* [`lib` (`libdir`)][libdir] (also [plugindest][]) --- Puppet uses this as a cache for plugins (custom facts, types and providers, functions) synced from a Puppet master. Do not directly change it. If you delete it, the plugins will be restored on the next Puppet run.
+* [`lib` (`libdir`)][libdir] (also [plugindest][]) --- Puppet uses this as a cache for plugins (custom facts, types and providers, functions) synced from an OpenVox Server. Do not directly change it. If you delete it, the plugins will be restored on the next Puppet run.
 * [`puppet-module` (`module_working_dir`)][module_working_dir]
     * [`skeleton` (`module_skeleton_dir`)][module_skeleton_dir]
-* [`reports` (`reportdir`)][reportdir] --- When the `store` report is enabled, a Puppet master will store all reports received from agents as YAML files in this directory. These can be easily mined for analysis by an out-of-band process.
+* [`reports` (`reportdir`)][reportdir] --- When the `store` report is enabled, an OpenVox Server will store all reports received from agents as YAML files in this directory. These can be easily mined for analysis by an out-of-band process.
 * [`server_data` (`serverdatadir`)][serverdatadir]
 * [`state` (`statedir`)][statedir]
     * [`agent_catalog_run.lock` (`agent_catalog_run_lockfile`)][agent_catalog_run_lockfile]

@@ -90,14 +90,14 @@ This example module, `my_module`, shows the standard module layout in more detai
             * `bar.pp`: Contains a class named `my_module::implementation::bar`.
     * `files/`: Contains static files, which managed nodes can download.
         * `service.conf`: This file's `source =>` URL would be `puppet:///modules/my_module/service.conf`. Its contents can also be accessed with the `file` function: `content => file('my_module/service.conf')`.
-    * `lib/`: Contains plug-ins, such as custom facts and custom resource types. These are used by both the Puppet master and the Puppet agent, and they are synced to all agent nodes in the environment on each Puppet run.
+    * `lib/`: Contains plug-ins, such as custom facts and custom resource types. These are used by both the OpenVox Server and the OpenVox agent, and they are synced to all agent nodes in the environment on each Puppet run.
       * `facter`: Contains custom facts, written in Ruby.
       * `puppet`
         * `functions`: Contains functions written in Ruby for the modern `Puppet::Functions` API.
         * `parser/functions`: Contains functions written in Ruby for the legacy `Puppet::Parser::Functions` API.
         * `type` : Contains custom resource types written in the Puppet language.
         * `provider`: Contains custom resource providers written in the Puppet language.
-    * `facts.d/`: Contains external facts, which are an alternative to Ruby-based custom facts. These are synced to all agent nodes, so they can submit values for those facts to the Puppet master.
+    * `facts.d/`: Contains external facts, which are an alternative to Ruby-based custom facts. These are synced to all agent nodes, so they can submit values for those facts to the OpenVox Server.
     * `templates/`: Contains templates, which the module's manifests can use.
         * `component.erb`: A manifest can render this template with `template('my_module/component.erb')`.
         * `component.epp`: A manifest can render this template with `epp('my_module/component.epp')`.

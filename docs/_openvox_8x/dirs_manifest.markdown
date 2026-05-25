@@ -31,9 +31,9 @@ The `puppet apply` command requires a manifest as an argument on the command lin
 The `puppet apply` command does not automatically use an environment's manifest. Instead, it always uses the manifest you pass to it.
 
 {:.section}
-### With Puppet master
+### With OpenVox Server
 
-Puppet master always uses the main manifest set by the current node's [environment][]. The main manifest can be a single file or a directory of `.pp` files.
+OpenVox Server always uses the main manifest set by the current node's [environment][]. The main manifest can be a single file or a directory of `.pp` files.
 
 By default, the main manifest for a given environment is `<ENVIRONMENTS DIRECTORY>/<ENVIRONMENT>/manifests`. (For example: `/etc/puppetlabs/code/environments/production/manifests`.) You can configure the manifest per-environment, and you can also configure the default for all environments.
 
@@ -46,7 +46,7 @@ For more details, see:
 * [Configuring Environments][]
 * [Creating Environments][]
 
-To check the manifest your Puppet master will use for a given environment, [run `puppet config print manifest --section master --environment <ENVIRONMENT>`][print_settings].
+To check the manifest your OpenVox Server will use for a given environment, [run `puppet config print manifest --section server --environment <ENVIRONMENT>`][print_settings].
 
 {:.concept}
 ## Directory behavior (vs. single file)

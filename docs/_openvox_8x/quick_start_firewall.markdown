@@ -37,7 +37,7 @@ The firewall module, available on the Puppet Forge, introduces the firewall reso
 
 **To install the firewall module**:
 
-From the Puppet master, run `puppet module install puppetlabs-firewall`.
+From the OpenVox Server, run `puppet module install puppetlabs-firewall`.
 
 You should see output similar to the following:
 
@@ -72,7 +72,7 @@ Modules are directory trees. For this task, you'll create the following files:
 
 **To write the `my_firewall` module**:
 
-1. From the command line on the Puppet master, navigate to the modules directory:  `cd /etc/puppetlabs/code/environments/production/modules`.
+1. From the command line on the OpenVox Server, navigate to the modules directory:  `cd /etc/puppetlabs/code/environments/production/modules`.
 
 2. Run `mkdir -p my_fw/manifests` to create the new module directory and its manifests directory.
 
@@ -132,7 +132,7 @@ Modules are directory trees. For this task, you'll create the following files:
 
 [inpage_add]: #add-the-firewall-module-to-the-main-manifest
 
-1. On your Puppet master, navigate to the main manifest: `cd /etc/puppetlabs/code/environments/production/manifests`.
+1. On your OpenVox Server, navigate to the main manifest: `cd /etc/puppetlabs/code/environments/production/manifests`.
 2. Use your text editor to open `site.pp`.
 3. Add the following Puppet code to your `site.pp` file. This will clear any existing rules and make sure that only rules defined in Puppet exist on the machine.
 
@@ -154,7 +154,7 @@ Modules are directory trees. For this task, you'll create the following files:
 
 		  class { 'firewall': }
 
-> That's it! To check your firewall configuration, run `iptables --list` from the command line of your Puppet agent. The result should look similar to this:
+> That's it! To check your firewall configuration, run `iptables --list` from the command line of your OpenVox agent. The result should look similar to this:
 
 		Chain INPUT (policy ACCEPT)
 		target     prot opt source               destination

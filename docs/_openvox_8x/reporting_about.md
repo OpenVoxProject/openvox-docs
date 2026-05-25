@@ -13,7 +13,7 @@ those reports.
 
 ## How reporting works
 
-In a client/server configuration, a Puppet agent sends its report to the Puppet master for processing. In a standalone configuration, the `puppet apply` command processes the node's own reports.
+In a client/server configuration, an OpenVox agent sends its report to the OpenVox Server for processing. In a standalone configuration, the `puppet apply` command processes the node's own reports.
 
 In both configurations, report processor plugins handle received reports. If you enable multiple report processors, Puppet runs all of them for each report.
 
@@ -26,9 +26,9 @@ That external service can then provide a way to view the processed report.
 
 ## Configuring reporting
 
-A Puppet agent sends reports by default. You can turn off reporting by changing the [`report`][report] setting in an agent's [`puppet.conf`][puppet.conf].
+An OpenVox agent sends reports by default. You can turn off reporting by changing the [`report`][report] setting in an agent's [`puppet.conf`][puppet.conf].
 
-On Puppet master servers (and nodes running Puppet apply), you can configure enabled report processors as a comma-separated list in the [`reports`][reports] setting. The default `reports` value is 'store',
+On OpenVox Server servers (and nodes running Puppet apply), you can configure enabled report processors as a comma-separated list in the [`reports`][reports] setting. The default `reports` value is 'store',
 which stores them in the configured [`reportdir`][reportdir]. You can also turn off reports entirely by setting `reports` to 'none'.
 
 ## Practical reporting for beginners

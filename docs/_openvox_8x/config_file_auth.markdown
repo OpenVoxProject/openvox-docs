@@ -34,9 +34,9 @@ Access to Puppet's HTTPS API is configured in `auth.conf`.
 {:.concept}
 ## Puppet's HTTPS API
 
-The Puppet agent service requests configurations over HTTPS, and the Puppet master application provides several HTTPS endpoints to support this. (For example, requesting a catalog uses a different endpoint than submitting a report.) There are also a few endpoints that aren't used by Puppet agent.
+The OpenVox agent service requests configurations over HTTPS, and the OpenVox Server application provides several HTTPS endpoints to support this. (For example, requesting a catalog uses a different endpoint than submitting a report.) There are also a few endpoints that aren't used by OpenVox agent.
 
-Because some endpoints should have restricted access (for example, a node shouldn't request another node's configuration catalog), the Puppet master has a list of access rules for all of its HTTPS services. You can edit these rules in `auth.conf`.
+Because some endpoints should have restricted access (for example, a node shouldn't request another node's configuration catalog), the OpenVox Server has a list of access rules for all of its HTTPS services. You can edit these rules in `auth.conf`.
 
 ## Location
 
@@ -89,7 +89,7 @@ allow *
 ### clients can also access these paths, though they rarely need to.
 
 # allow access to the CA certificate; unauthenticated nodes need this
-# in order to validate the puppet master's certificate
+# in order to validate the OpenVox Server's certificate
 path /puppet-ca/v1/certificate/ca
 auth any
 method find
@@ -115,13 +115,13 @@ auth any
 
 ## Access control behavior
 
-Whenever Puppet master receives a valid HTTPS request, it checks it against its full list of authorization rules, in order. As soon as it finds a rule that matches the request, it will use that rule's `allow` and `allow_ip` permissions to decide whether to allow the request. If the request isn't allowed, Puppet will deny it, and will not check any further authorization rules.
+Whenever OpenVox Server receives a valid HTTPS request, it checks it against its full list of authorization rules, in order. As soon as it finds a rule that matches the request, it will use that rule's `allow` and `allow_ip` permissions to decide whether to allow the request. If the request isn't allowed, Puppet will deny it, and will not check any further authorization rules.
 
 In other words, authorization rules work like simple firewall rules. If you want to specifically allow a request that could be caught and rejected by some more general rule, you need to put the more specific rule earlier in the auth.conf file.
 
 ### Default auth rules
 
-Puppet master uses two sets of auth rules: the rules from auth.conf, which it checks first, and a set of hardcoded default rules, which it only checks if a request doesn't match any rules in auth.conf.
+OpenVox Server uses two sets of auth rules: the rules from auth.conf, which it checks first, and a set of hardcoded default rules, which it only checks if a request doesn't match any rules in auth.conf.
 
 If you are modifying auth.conf at all, **you should never rely on the hardcoded default rules.** Start with [a default auth.conf that explicitly includes copies of all of the default rules][default_file].
 
@@ -174,7 +174,7 @@ Which URLs the ACL applies to. **Required.** Must be the first directive in the 
 
     path /puppet/v3/report
 
-If the value of `path` is just an absolute path, Puppet master interprets it as a prefix. The ACL will match any URL that _begins_ with that string.
+If the value of `path` is just an absolute path, OpenVox Server interprets it as a prefix. The ACL will match any URL that _begins_ with that string.
 
 #### Regular expression
 
@@ -215,7 +215,7 @@ Whether the ACL applies to client-verified or non-client-verified HTTPS requests
 
 **Allowed values:** `yes`, `any`, `no` (with `on` and `off` as synonyms). Must be a single value. Optional; defaults to `yes` (verified) if omitted.
 
-Puppet agent makes client-verified requests to fetch configuration data and submit reports, but makes unverified requests to ask for a certificate.
+OpenVox agent makes client-verified requests to fetch configuration data and submit reports, but makes unverified requests to ask for a certificate.
 
 If you set `auth any`, it allows nodes to access an endpoint without a valid certificate. (Setting it to `no` is not very useful, since it will _reject_ requests that have valid certificates.)
 

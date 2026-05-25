@@ -70,7 +70,7 @@ Additionally:
 The following are built-in namespaces used by Puppet and so must not be used as class names:
 
 * `main` --- Puppet automatically creates a `main` [class][], which [contains][] any [resources][] not contained by any other class.
-* `settings` --- The automatically created `settings` namespace contains variables with the [settings][] available to the compiler (that is, the Puppet master's settings).
+* `settings` --- The automatically created `settings` namespace contains variables with the [settings][] available to the compiler (that is, the OpenVox Server's settings).
 
 Additionally, the names of data types can't be used as class names:
 

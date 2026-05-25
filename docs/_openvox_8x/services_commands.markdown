@@ -39,9 +39,9 @@ Puppet's command line interface consists of a single `puppet` command with many 
 
 The following subcommands are the main applications Puppet uses to manage systems. Every user should understand what they do.
 
-### Puppet agent
+### OpenVox agent
 
-Puppet agent manages systems, with the help of a Puppet master. It requests a configuration catalog from a Puppet master server, then ensures that all resources in that catalog are in their desired state.
+OpenVox agent manages systems, with the help of an OpenVox Server. It requests a configuration catalog from an OpenVox Server server, then ensures that all resources in that catalog are in their desired state.
 
 For more information, see:
 
@@ -52,7 +52,7 @@ For more information, see:
 
 ### Puppet Server
 
-Puppet Server compiles configurations for any number of Puppet agents, using Puppet code and various other data sources. It provides the same services as the classic Puppet master application, and more.
+Puppet Server compiles configurations for any number of OpenVox agents, using Puppet code and various other data sources. It provides the same services as the classic OpenVox Server application, and more.
 
 Puppet Server has its own subcommand, `puppetserver`, which isn't prefaced by the usual `puppet` subcommand.
 
@@ -65,7 +65,7 @@ For more information, see:
 
 ### Puppet apply
 
-Puppet apply manages systems without needing to contact a Puppet master server. It compiles its own configuration catalog, using Puppet modules and various other data sources, then immediately applies the catalog.
+Puppet apply manages systems without needing to contact an OpenVox Server server. It compiles its own configuration catalog, using Puppet modules and various other data sources, then immediately applies the catalog.
 
 For more information, see:
 

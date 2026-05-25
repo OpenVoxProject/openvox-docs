@@ -7,7 +7,7 @@ title: "Config files: device.conf"
 [deviceconfig]: ./configuration.html#deviceconfig
 [confdir]: ./dirs_confdir.html
 
-The `puppet-device` subcommand retrieves catalogs from the Puppet master and applies them to remote devices.
+The `puppet-device` subcommand retrieves catalogs from the OpenVox Server and applies them to remote devices.
 Devices to be managed by the `puppet-device` subcommand are configured in `device.conf`.
 
 [See the puppet-device documentation for details.][puppet-device]

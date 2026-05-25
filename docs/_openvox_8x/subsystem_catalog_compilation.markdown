@@ -37,7 +37,7 @@ title: "Subsystems: Catalog compilation"
 
 ### What's a catalog?
 
-When configuring a node, Puppet agent uses a document called a **catalog,** which it downloads from a Puppet master server. The catalog describes the [desired state for each resource][resource_declaration] that should be managed, and can specify [dependency information][relationships] for resources that should be managed in a certain order.
+When configuring a node, OpenVox agent uses a document called a **catalog,** which it downloads from an OpenVox Server server. The catalog describes the [desired state for each resource][resource_declaration] that should be managed, and can specify [dependency information][relationships] for resources that should be managed in a certain order.
 
 ### Why is it used?
 
@@ -50,7 +50,7 @@ Puppet manifests are concise because they can express variation between nodes wi
 
 ### What about Puppet apply?
 
-Puppet apply compiles its own catalog and then applies it, so it plays the role of both Puppet master and Puppet agent.
+Puppet apply compiles its own catalog and then applies it, so it plays the role of both OpenVox Server and OpenVox agent.
 
 
 ## Information sources
@@ -66,7 +66,7 @@ All of these sources are used by both agent/master deployments and by stand-alon
 
 ### Agent-provided data
 
-When agents request a catalog, they send four pieces of information to the Puppet master:
+When agents request a catalog, they send four pieces of information to the OpenVox Server:
 
 * Their **name**, which is embedded in the request URL (such as `/puppet/v3/catalog/web01.example.com?environment=production`). This is almost always the same as the [certname][].
 * Their **certificate,** which contains their [certname][] and possibly some [extra information][cert_extensions]. (This is the one item not used by Puppet apply.)
@@ -104,9 +104,9 @@ This process begins after the catalog request has been received.
 
 ### Step 1: Retrieve the node object
 
-Once the Puppet master has the agent-provided information for this request, it asks its configured **[node terminus][]** for a node object.
+Once the OpenVox Server has the agent-provided information for this request, it asks its configured **[node terminus][]** for a node object.
 
-By default, Puppet master uses the [`plain` node terminus][plain_node], which just returns a blank node object. This results in only manifests and agent-provided info being used in compilation.
+By default, OpenVox Server uses the [`plain` node terminus][plain_node], which just returns a blank node object. This results in only manifests and agent-provided info being used in compilation.
 
 The next most common node terminus is the [`exec` node terminus][exec_node], which will request data from an [external node classifier (ENC)][enc]. This can return classes, variables, an environment, or some combination of the three, depending on how the ENC is designed.
 
@@ -119,13 +119,13 @@ Finally, it's possible to write a custom node terminus that retrieves classes, v
 * Any variables provided by the node object will now be set as top-scope Puppet variables.
 * The node's facts are also set as top-scope variables.
 * The node's facts will also be set in the protected `$facts` hash, and certain data from the node's certificate will be set in the protected `$trusted` hash. See [the page on facts and built-in variables][facts_builtin] for more details.
-* Any variables provided by the Puppet master will also be set. See [the page on facts and built-in variables][facts_builtin] for more details.
+* Any variables provided by the OpenVox Server will also be set. See [the page on facts and built-in variables][facts_builtin] for more details.
 
 All of these variables will be available for use by any manifest or template during the subsequent stages of compilation.
 
 ### Step 3: Evaluate the main manifest
 
-Puppet now parses the [main manifest][]. The node's [environment][] can specify a main manifest to use; if it doesn't, the Puppet master will use the main manifest from its config file.
+Puppet now parses the [main manifest][]. The node's [environment][] can specify a main manifest to use; if it doesn't, the OpenVox Server will use the main manifest from its config file.
 
 The main manifest can contain any arbitrary Puppet code. The way it is evaluated is:
 

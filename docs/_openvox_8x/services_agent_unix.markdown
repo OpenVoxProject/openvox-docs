@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Puppet's services: Puppet agent on *nix systems"
+title: "Puppet's services: OpenVox agent on *nix systems"
 ---
 
 [resource type reference]: ./type.html
@@ -17,27 +17,27 @@ title: "Puppet's services: Puppet agent on *nix systems"
 
 <!--Overview-->
 
-Puppet agent is the application that manages configurations on your nodes. It requires a Puppet master server to fetch configuration catalogs from.
+OpenVox agent is the application that manages configurations on your nodes. It requires an OpenVox Server server to fetch configuration catalogs from.
 
-You can manage systems with Puppet agent as a service, as a cron job, or on demand, depending on your infrastructure and needs.
+You can manage systems with OpenVox agent as a service, as a cron job, or on demand, depending on your infrastructure and needs.
 
-For details about invoking the Puppet agent command, see [the puppet agent man page](./man/agent.html).
+For details about invoking the OpenVox agent command, see [the puppet agent man page](./man/agent.html).
 
-## Puppet agent's run environment
+## OpenVox agent's run environment
 
-Puppet agent runs as a specific user, (usually `root`) and initiates outbound connections on port 8140.
+OpenVox agent runs as a specific user, (usually `root`) and initiates outbound connections on port 8140.
 
 ### Ports
 
-By default, Puppet's HTTPS traffic uses port 8140. Your operating system and firewall must allow Puppet agent to initiate outbound connections on this port.
+By default, Puppet's HTTPS traffic uses port 8140. Your operating system and firewall must allow OpenVox agent to initiate outbound connections on this port.
 
-If you want to use a non-default port, you have to change [the `masterport` setting](./configuration.html#masterport) on all agent nodes, and ensure that you change your Puppet master's port as well.
+If you want to use a non-default port, you have to change [the `masterport` setting](./configuration.html#masterport) on all agent nodes, and ensure that you change your OpenVox Server's port as well.
 
 ### User
 
-By default, Puppet agent runs as `root`, which lets it manage the configuration of the entire system.
+By default, OpenVox agent runs as `root`, which lets it manage the configuration of the entire system.
 
-Puppet agent can also run as a non-root user, as long as it is started by that user. However, this restricts the resources that Puppet agent can manage, and requires you to run Puppet agent as a cron job instead of a service.
+OpenVox agent can also run as a non-root user, as long as it is started by that user. However, this restricts the resources that OpenVox agent can manage, and requires you to run OpenVox agent as a cron job instead of a service.
 
 If you need to install packages into a directory controlled by a non-root user, either use an `exec` to unzip a tarball or use a recursive `file` resource to copy a directory into place.
 
@@ -59,7 +59,7 @@ Resource type | Exception
 `ssh_authorized_key` |
 `ssh_key`     |
 
-## Manage systems with Puppet agent
+## Manage systems with OpenVox agent
 
 <!--Multi-task with child task topics-->
 
@@ -67,21 +67,21 @@ In a normal Puppet configuration, every node periodically does configuration run
 
 On \*nix nodes, there are three main ways to do this:
 
-* **Run Puppet agent as a service.** The easiest method. The Puppet agent daemon does configuration runs at a set interval, which can be configured.
-* **Make a cron job that runs Puppet agent.** Requires more manual configuration, but a good choice if you want to reduce the number of persistent processes on your systems.
-* **Only run Puppet agent on demand.** You can use an orchestration tool such as [Choria][] to trigger runs on demand across many nodes.
+* **Run OpenVox agent as a service.** The easiest method. The OpenVox agent daemon does configuration runs at a set interval, which can be configured.
+* **Make a cron job that runs OpenVox agent.** Requires more manual configuration, but a good choice if you want to reduce the number of persistent processes on your systems.
+* **Only run OpenVox agent on demand.** You can use an orchestration tool such as [Choria][] to trigger runs on demand across many nodes.
 
 Choose whichever one works best for your infrastructure and culture. 
 
-### Run Puppet agent as a service
+### Run OpenVox agent as a service
 
-The Puppet agent command can start a long-lived daemon process, which does configuration runs at a set interval.
+The OpenVox agent command can start a long-lived daemon process, which does configuration runs at a set interval.
 
->**Note:** If you are running Puppet agent as a non-root user, use a cron job instead.
+>**Note:** If you are running OpenVox agent as a non-root user, use a cron job instead.
 
 1. Start the service
 
-   The best way to do this is with Puppet agent's init script / service configuration. If you installed Puppet with packages, they should have included an init script or service configuration for controlling Puppet agent, usually with the service name `puppet` (for both open source and Puppet Enterprise).
+   The best way to do this is with OpenVox agent's init script / service configuration. If you installed Puppet with packages, they should have included an init script or service configuration for controlling OpenVox agent, usually with the service name `puppet` (for both open source and Puppet Enterprise).
 
    In Puppet Enterprise, the agent service is automatically configured and started; you don't need to manually start it.
 
@@ -91,7 +91,7 @@ The Puppet agent command can start a long-lived daemon process, which does confi
    sudo puppet resource service puppet ensure=running enable=true
    ```
 
-   Alternately, you can run `sudo puppet agent` on the command line with no additional options; this will cause Puppet agent to start running and daemonize, but you won't have an easy interface for restarting or stopping it. To stop the daemon, use the process ID from the agent's [`pidfile`][pidfile]:
+   Alternately, you can run `sudo puppet agent` on the command line with no additional options; this will cause OpenVox agent to start running and daemonize, but you won't have an easy interface for restarting or stopping it. To stop the daemon, use the process ID from the agent's [`pidfile`][pidfile]:
 
    ``` bash
    sudo kill $(puppet config print pidfile --section agent)
@@ -99,7 +99,7 @@ The Puppet agent command can start a long-lived daemon process, which does confi
 
 2. (Optional) Configure the run interval
 
-   The Puppet agent service defaults to doing a configuration run every 30 minutes. You can configure this with [the `runinterval` setting][runinterval] in [puppet.conf][]:
+   The OpenVox agent service defaults to doing a configuration run every 30 minutes. You can configure this with [the `runinterval` setting][runinterval] in [puppet.conf][]:
 
    ```
    # /etc/puppetlabs/puppet/puppet.conf
@@ -107,15 +107,15 @@ The Puppet agent command can start a long-lived daemon process, which does confi
      runinterval = 2h
    ```
 
-   If you don't need an aggressive schedule of configuration runs, a longer run interval lets your Puppet master servers handle many more agent nodes.
+   If you don't need an aggressive schedule of configuration runs, a longer run interval lets your OpenVox Server servers handle many more agent nodes.
 
-### Run Puppet agent as a cron job
+### Run OpenVox agent as a cron job
 
-Run Puppet agent as a cron job when running as a non-root user.
+Run OpenVox agent as a cron job when running as a non-root user.
 
-If [the `onetime` setting][onetime] is set to `true`, the Puppet agent command does one configuration run and then quits. If [the `daemonize` setting][daemonize] is set to `false`, the command stays in the foreground until the run is finished; if set to `true`, it does the run in the background.
+If [the `onetime` setting][onetime] is set to `true`, the OpenVox agent command does one configuration run and then quits. If [the `daemonize` setting][daemonize] is set to `false`, the command stays in the foreground until the run is finished; if set to `true`, it does the run in the background.
 
-This behavior is good for building a cron job that does configuration runs. You can use the [`splay`][splay] and [`splaylimit`][splaylimit] settings to keep the Puppet master from getting overwhelmed, because the system time is probably synchronized across all of your agent nodes.
+This behavior is good for building a cron job that does configuration runs. You can use the [`splay`][splay] and [`splaylimit`][splaylimit] settings to keep the OpenVox Server from getting overwhelmed, because the system time is probably synchronized across all of your agent nodes.
 
 1. Use the Puppet resource command to set up a cron job.
 
@@ -125,25 +125,25 @@ This behavior is good for building a cron job that does configuration runs. You 
    sudo puppet resource cron puppet-agent ensure=present user=root minute=30 command='/opt/puppetlabs/bin/puppet agent --onetime --no-daemonize --splay --splaylimit 60'
    ```
 
-### Run Puppet agent on demand
+### Run OpenVox agent on demand
 
-Some sites prefer to only run Puppet agent on demand; others use scheduled runs, but occasionally need to do an on-demand run.
+Some sites prefer to only run OpenVox agent on demand; others use scheduled runs, but occasionally need to do an on-demand run.
 
-Puppet agent runs can be started while logged in to the target system, or remotely via an orchestration tool.
+OpenVox agent runs can be started while logged in to the target system, or remotely via an orchestration tool.
 
-1. Run Puppet agent on one machine, using ssh:
+1. Run OpenVox agent on one machine, using ssh:
 
    ``` bash
    ssh ops@magpie.example.com sudo puppet agent --test
    ```
 
-To run remotely on _many_ machines, you need an orchestration tool. [Choria][] is the community-supported successor to MCollective and supports triggering Puppet agent runs across a fleet of nodes.
+To run remotely on _many_ machines, you need an orchestration tool. [Choria][] is the community-supported successor to MCollective and supports triggering OpenVox agent runs across a fleet of nodes.
 
 ## Disable and re-enable Puppet runs
 
 <!-- maybe this should go at the top? seems like a frequently used command. -->
 
-Whether you're troubleshooting errors, working in a maintenance window, or simply developing in a sandbox environment, you may need to temporarily disable the Puppet agent from running.
+Whether you're troubleshooting errors, working in a maintenance window, or simply developing in a sandbox environment, you may need to temporarily disable the OpenVox agent from running.
 
 1. Run one of these commands, depending on whether you want to disable or re-enable the agent:
 
@@ -152,22 +152,22 @@ Whether you're troubleshooting errors, working in a maintenance window, or simpl
 
 
 
-## Configuring Puppet agent
+## Configuring OpenVox agent
 
-The Puppet agent comes with a default configuration that may not be the most convenient for you.
+The OpenVox agent comes with a default configuration that may not be the most convenient for you.
 
-Configure Puppet agent with [puppet.conf][], using the `[agent]` and/or `[main]` section. For notes on which settings are most relevant to Puppet agent, see the [short list of important settings][short_settings].
+Configure OpenVox agent with [puppet.conf][], using the `[agent]` and/or `[main]` section. For notes on which settings are most relevant to OpenVox agent, see the [short list of important settings][short_settings].
 
-### Logging for Puppet agent on *nix systems
+### Logging for OpenVox agent on *nix systems
 
-When running as a service, Puppet agent logs messages to syslog. Your syslog configuration dictates where these messages are saved, but the default location is `/var/log/messages` on Linux, `/var/log/system.log` on Mac OS X, and `/var/adm/messages` on Solaris.
+When running as a service, OpenVox agent logs messages to syslog. Your syslog configuration dictates where these messages are saved, but the default location is `/var/log/messages` on Linux, `/var/log/system.log` on Mac OS X, and `/var/adm/messages` on Solaris.
 
 You can adjust how verbose the logs are with [the `log_level` setting](./configuration.html#loglevel), which defaults to `notice`.
 
-When running in the foreground with the `--verbose`, `--debug`, or `--test` options, Puppet agent logs directly to the terminal instead of to syslog.
+When running in the foreground with the `--verbose`, `--debug`, or `--test` options, OpenVox agent logs directly to the terminal instead of to syslog.
 
-When started with the `--logdest <FILE>` option, Puppet agent logs to the file specified by `<FILE>`.
+When started with the `--logdest <FILE>` option, OpenVox agent logs to the file specified by `<FILE>`.
 
-### Reporting for Puppet agent on *nix systems
+### Reporting for OpenVox agent on *nix systems
 
-In addition to local logging, Puppet agent submits a [report][] to the Puppet master after each run. (This can be disabled by setting [`report = false`](./configuration.html#report) in [puppet.conf][].)
+In addition to local logging, OpenVox agent submits a [report][] to the OpenVox Server after each run. (This can be disabled by setting [`report = false`](./configuration.html#report) in [puppet.conf][].)

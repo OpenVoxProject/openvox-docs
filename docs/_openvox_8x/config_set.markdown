@@ -34,8 +34,8 @@ This will declaratively set the value of `<SETTING NAME>` to `<VALUE>` (in the s
 The `--section` option specifies which [section of puppet.conf][config_sections] to modify. It is optional, and defaults to `main`. Valid sections are:
 
 * `main` **(default)** --- used by all commands and services
-* `master` --- used by the Puppet master service
-* `agent` --- used by the Puppet agent service
+* `master` --- used by the OpenVox Server service
+* `agent` --- used by the OpenVox agent service
 * `user` --- used by the Puppet apply command and most other commands
 
 If modifying the [system config file][confdir_sys], be sure to use `sudo` or run the command as `root` or `Administrator`.
@@ -56,12 +56,12 @@ If modifying the [system config file][confdir_sys], be sure to use `sudo` or run
     graph = true
     pluginsync = true
 
-    [master]
+    [server]
     dns_alt_names = master,master.example.com,puppet,puppet.example.com
 
 **Commands:**
 
-    $ sudo puppet config set reports puppetdb --section master
+    $ sudo puppet config set reports puppetdb --section server
     $ sudo puppet config set ordering manifest
 
 **After:**
@@ -78,6 +78,6 @@ If modifying the [system config file][confdir_sys], be sure to use `sudo` or run
     graph = true
     pluginsync = true
 
-    [master]
+    [server]
     dns_alt_names = master,master.example.com,puppet,puppet.example.com
     reports = puppetdb
