@@ -1,27 +1,22 @@
 ---
 layout: default
-built_from_commit: 8c9dd1ff315b738818307cc895942164aba30730
-title: 'Puppet HTTP API: Node'
-canonical: "/puppet/latest/http_api/http_node.html"
+title: "OpenVox Server HTTP API: Node"
 ---
 
-Node
-====
+## Node
 
-The `node` endpoint is used by the puppet agent to get basic information
+The `node` endpoint is used by the OpenVox agent to get basic information
 about a node. The returned information includes the node name and
 environment, and optionally any classes set by an External Node
 Classifier and a hash of parameters which may include the node's facts.
 The returned node may have a different environment from the one given in
-the request if Puppet is configured with an ENC.
+the request if OpenVox is configured with an ENC.
 
-Find
-----
+## Find
 
-Retrieve data for a node
+Retrieve data for a node.
 
     GET /puppet/v3/node/:certname?environment=:environment&transaction_uuid=:transaction_uuid&configured_environment=:environment
-
 
 ### Supported HTTP Methods
 
@@ -52,7 +47,7 @@ environment, which might differ from what the client believes is its current env
     < Content-Length: 4630
 
     {
-      "name":"thinky.corp.puppetlabs.net",
+      "name":"thinky.corp.example.net",
       "parameters":{
         "architecture":"amd64",
         "kernel":"Linux",
@@ -65,8 +60,7 @@ environment, which might differ from what the client believes is its current env
       "environment":"production"
     }
 
-Schema
-------
+## Schema
 
 A node response body conforms to
-[the node schema.](../schemas/node.json)
+[the node schema.](/openvox/latest/schemas/node.json)

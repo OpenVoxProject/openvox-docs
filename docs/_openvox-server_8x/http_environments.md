@@ -1,19 +1,16 @@
 ---
 layout: default
-built_from_commit: 8c9dd1ff315b738818307cc895942164aba30730
-title: 'Puppet HTTP API: Environments'
-canonical: "/puppet/latest/http_api/http_environments.html"
+title: "OpenVox Server HTTP API: Environments"
 ---
 
-Environments
-============
+## Environments
 
-The `environments` endpoint allows for enumeration of the environments known to the master. Each environment contains information
-about itself like its modulepath, manifest directory, environment timeout, and the config version.
-This endpoint is by default accessible to any client with a valid certificate, though this may be changed by `auth.conf`.
+The `environments` endpoint allows for enumeration of the environments known to the OpenVox Server. Each environment
+contains information about itself such as its modulepath, manifest directory, environment timeout, and the config
+version. This endpoint is by default accessible to any client with a valid certificate, though this may be changed
+by `auth.conf`.
 
-Get
----
+## Get
 
 Get the list of known environments.
 
@@ -48,10 +45,9 @@ None
       }
     }
 
-The `environment_timeout` attribute could also be the string "unlimited".
+The `environment_timeout` attribute can also be the string `"unlimited"`.
 
-Schema
-------
+## Schema
 
 An environments response body conforms to
-[the environments schema.](../schemas/environments.json)
+[the environments schema.](/openvox/latest/schemas/environments.json)
