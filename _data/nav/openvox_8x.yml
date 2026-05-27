@@ -462,7 +462,7 @@
 - text: Details about OpenVox's internals
   items:
   - text: Agent/server HTTPS communications
-    link: "subsystem_agent_master_comm.html"
+    link: "subsystem_agent_server_comm.html"
   - text: Catalog compilation
     link: "subsystem_catalog_compilation.html"
 - text: Experimental features

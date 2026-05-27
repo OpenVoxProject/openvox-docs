@@ -1,0 +1,7 @@
+{
+  "name": "openvox-docs",
+  "private": true,
+  "dependencies": {
+    "mermaid": "11.15.0"
+  }
+}

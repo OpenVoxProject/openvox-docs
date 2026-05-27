@@ -3,7 +3,7 @@ layout: default
 title: "SSL configuration: CSR attributes and certificate extensions"
 ---
 
-[cert_request]: ./subsystem_agent_master_comm.html#check-for-keys-and-certificates
+[cert_request]: subsystem_agent_server_comm.html#check-for-keys-and-certificates
 [csr_attributes]: ./configuration.html#csrattributes
 [confdir]: ./configuration.html#confdir
 [autosign_policy]: ./ssl_autosign.html#policy-based-autosigning

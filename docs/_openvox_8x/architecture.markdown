@@ -5,7 +5,7 @@ title: "Overview of OpenVox's architecture"
 
 [agent_unix]: ./services_agent_unix.html
 [agent_win]: ./services_agent_windows.html
-[https_walkthrough]: ./subsystem_agent_master_comm.html
+[https_walkthrough]: subsystem_agent_server_comm.html
 [server_http]: ./http_api/http_api_index.html
 [auth.conf]: ./config_file_auth.html
 [catalog_compilation]: ./subsystem_catalog_compilation.html
