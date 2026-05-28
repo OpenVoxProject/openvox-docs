@@ -1,37 +1,36 @@
 ---
 layout: default
-built_from_commit: 8c9dd1ff315b738818307cc895942164aba30730
-title: 'Puppet HTTP API: File Metadata'
-canonical: "/puppet/latest/http_api/http_file_metadata.html"
+title: "OpenVox Server HTTP API: File Metadata"
 ---
 
-File Metadata
-=============
+## File Metadata
 
-The `file_metadata` endpoint returns select metadata for a single file or many files. There are find and search variants
-of the endpoint; the search variant has a trailing 's' so is actually `file_metadatas`.
+The `file_metadata` endpoint returns select metadata for a single file or many files. There are find and search
+variants of the endpoint; the search variant has a trailing `s`, so it is actually `file_metadatas`.
 
-Although the term 'file' is used generically in the endpoint name and documentation, each returned item can be one of
-the following three types:
+Although the term 'file' is used generically in the endpoint name and documentation, each returned item can be one
+of the following three types:
 
-* File
-* Directory
-* Symbolic link
+- File
+- Directory
+- Symbolic link
 
 The endpoint path includes a `:mount` which can be one of the following types:
 
-* Custom file serving mounts as specified in fileserver.conf --- see [the docs on configuring mount points](https://puppet.com/docs/puppet/latest/file_serving.html).
-* `modules/<MODULE>` --- a semi-magical mount point which allows access to the `files` subdirectory of `<MODULE>` --- see [the docs on file serving](https://puppet.com/docs/puppet/latest/file_serving.html).
-* `plugins` --- a highly magical mount point which merges the `lib`  directory of every module together. Used for syncing plugins; not intended for general consumption. Per-module sub-paths can not be specified.
-* `pluginfacts` --- a highly magical mount point which merges the `facts.d` directory of every module together. Used for syncing external facts; not intended for general consumption. Per-module sub-paths can not be specified.
-* `tasks/<MODULE>` --- a semi-magical mount point which allows access to files in the `tasks` subdirectory of `<MODULE>` --- see the [the docs on file serving](https://puppet.com/docs/puppet/latest/file_serving.html).
+- Custom file serving mounts as specified in `fileserver.conf` — see
+  [configuring mount points](/openvox/8.x/config_file_fileserver.html).
+- `modules/<MODULE>` — allows access to the `files` subdirectory of `<MODULE>` — see
+  [file serving](/openvox/8.x/file_serving.html).
+- `plugins` — merges the `lib` directory of every module together. Used for syncing plugins; not intended for
+  general consumption. Per-module sub-paths cannot be specified.
+- `pluginfacts` — merges the `facts.d` directory of every module together. Used for syncing external facts; not
+  intended for general consumption. Per-module sub-paths cannot be specified.
+- `tasks/<MODULE>` — allows access to files in the `tasks` subdirectory of `<MODULE>` — see
+  [file serving](/openvox/8.x/file_serving.html).
 
-Note: PSON responses in the examples below are pretty-printed for readability.
+## Find
 
-Find
-----
-
-Get file metadata for a single file
+Get file metadata for a single file.
 
     GET /puppet/v3/file_metadata/:mount/path/to/file?environment=:environment
 
@@ -47,12 +46,17 @@ GET
 
 Optional parameters to GET:
 
-* `links` -- either `manage` (default) or `follow`. See examples in Search below.
-* `checksum_type` -- the checksum type to calculate the checksum value for the result metadata; one of `md5` (default), `md5lite`, `sha256`, `sha256lite`, `mtime`, `ctime`, and `none`.
-* `source_permissions` -- whether (and how) Puppet should copy owner, group, and mode permissions; one of
-  * `ignore` (the default) will never apply the owner, group, or mode from the source when managing a file. When creating new files without explicit permissions, the permissions they receive will depend on platform-specific behavior. On POSIX, Puppet will use the umask of the user it is running as. On Windows, Puppet will use the default DACL associated with the user it is running as.
-  * `use` will cause Puppet to apply the owner, group, and mode from the source to any files it is managing.
-  * `use_when_creating` will only apply the owner, group, and mode from the source when creating a file; existing files will not have their permissions overwritten.
+- `links` — either `manage` (default) or `follow`. See examples in Search below.
+- `checksum_type` — the checksum type to calculate the checksum value for the result metadata; one of `md5`
+  (default), `md5lite`, `sha256`, `sha256lite`, `mtime`, `ctime`, and `none`.
+- `source_permissions` — whether (and how) OpenVox should copy owner, group, and mode permissions; one of:
+  - `ignore` (the default) will never apply the owner, group, or mode from the source when managing a file. When
+    creating new files without explicit permissions, the permissions they receive depend on platform-specific
+    behavior. On POSIX, OpenVox uses the umask of the user it is running as. On Windows, OpenVox uses the default
+    DACL associated with the user it is running as.
+  - `use` will cause OpenVox to apply the owner, group, and mode from the source to any files it is managing.
+  - `use_when_creating` will only apply the owner, group, and mode from the source when creating a file; existing
+    files will not have their permissions overwritten.
 
 ### Example Response
 
@@ -61,7 +65,7 @@ Optional parameters to GET:
     GET /puppet/v3/file_metadata/modules/example/just_a_file.txt?environment=env
 
     HTTP/1.1 200 OK
-    Content-Type: text/pson
+    Content-Type: application/json
 
     {
         "checksum": {
@@ -83,7 +87,7 @@ Optional parameters to GET:
     GET /puppet/v3/file_metadata/modules/example/subdirectory?environment=env
 
     HTTP/1.1 200 OK
-    Content-Type: text/pson
+    Content-Type: application/json
 
     {
         "checksum": {
@@ -105,7 +109,7 @@ Optional parameters to GET:
     GET /puppet/v3/file_metadata/modules/example/link_to_file.txt?environment=env&source_permissions=ignore
 
     HTTP/1.1 200 OK
-    Content-Type: text/pson
+    Content-Type: application/json
 
     {
         "checksum": {
@@ -130,10 +134,9 @@ Optional parameters to GET:
 
     Not Found: Could not find file_metadata modules/example/does_not_exist
 
-Search
-------
+## Search
 
-Get a list of metadata for multiple files
+Get a list of metadata for multiple files.
 
     GET /puppet/v3/file_metadatas/foo.txt?environment=env
 
@@ -147,14 +150,14 @@ GET
 
 ### Parameters
 
-* `recurse` -- should always be set to `yes`; unfortunately the default is `no`, which causes a search to behave like a find operation.
-* `ignore` -- file or directory regex to ignore; can be repeated.
-* `links` -- either `manage` (default) or `follow`. See examples below.
-* `checksum_type` -- the checksum type to calculate the checksum value for the result metadata; one of `md5` (default), `md5lite`, `sha256`, `sha256lite`, `mtime`, `ctime`, and `none`.
-* `source_permissions` -- whether (and how) Puppet should copy owner, group, and mode permissions; one of
-  * `ignore` (the default) will never apply the owner, group, or mode from the source when managing a file. When creating new files without explicit permissions, the permissions they receive will depend on platform-specific behavior. On POSIX, Puppet will use the umask of the user it is running as. On Windows, Puppet will use the default DACL associated with the user it is running as.
-  * `use` will cause Puppet to apply the owner, group, and mode from the source to any files it is managing.
-  * `use_when_creating` will only apply the owner, group, and mode from the source when creating a file; existing files will not have their permissions overwritten.
+- `recurse` — should always be set to `yes`; unfortunately the default is `no`, which causes a search to behave
+  like a find operation.
+- `ignore` — file or directory regex to ignore; can be repeated.
+- `links` — either `manage` (default) or `follow`. See examples below.
+- `checksum_type` — the checksum type to calculate the checksum value for the result metadata; one of `md5`
+  (default), `md5lite`, `sha256`, `sha256lite`, `mtime`, `ctime`, and `none`.
+- `source_permissions` — whether (and how) OpenVox should copy owner, group, and mode permissions; see the Find
+  section above for the available values and their meanings.
 
 ### Example Response
 
@@ -163,7 +166,7 @@ GET
     GET /puppet/v3/file_metadatas/modules/example?environment=env&recurse=yes
 
     HTTP 200 OK
-    Content-Type: text/pson
+    Content-Type: application/json
 
     [
         {
@@ -238,12 +241,12 @@ GET
         }
     ]
 
-#### Search ignoring 'sub*' and links = manage
+#### Search ignoring 'sub\*' and links = manage
 
     GET /puppet/v3/file_metadatas/modules/example?environment=env&recurse=true&ignore=sub*&links=manage
 
     HTTP 200 OK
-    Content-Type: text/pson
+    Content-Type: application/json
 
     [
         {
@@ -290,77 +293,75 @@ GET
         }
     ]
 
-#### Search ignoring "sub*" and links = follow
+#### Search ignoring "sub\*" and links = follow
 
-This example is identical to the above example, except for the links parameter. The resulting PSON, then,
-is identical to the above example, except for:
+This example is identical to the above example, except for the links parameter. The resulting JSON is identical to
+the above example, except for:
 
-* the "links" field is set to "follow" rather than "manage" in all metadata objects
-* in the "link_to_file.txt" metadata:
-    * for "manage" the "destination" field is the link destination; for "follow", it's null
-    * for "manage" the "type" field is "link"; for "follow" it's "file"
-    * for "manage" the "mode", "owner" and "group" fields are the link's values; for "follow" the destination's values
+- the `"links"` field is set to `"follow"` rather than `"manage"` in all metadata objects
+- in the `"link_to_file.txt"` metadata:
+  - for `"manage"` the `"destination"` field is the link destination; for `"follow"`, it's null
+  - for `"manage"` the `"type"` field is `"link"`; for `"follow"` it's `"file"`
+  - for `"manage"` the `"mode"`, `"owner"`, and `"group"` fields are the link's values; for `"follow"` the
+    destination's values are used
 
-~~~
-GET /puppet/v3/file_metadatas/modules/example?environment=env&recurse=true&ignore=sub*&links=follow
+    GET /puppet/v3/file_metadatas/modules/example?environment=env&recurse=true&ignore=sub*&links=follow
 
-HTTP 200 OK
-Content-Type: text/pson
+    HTTP 200 OK
+    Content-Type: application/json
 
-[
-    {
-        "checksum": {
-            "type": "ctime",
-            "value": "{ctime}2013-10-01 13:15:59 -0700"
+    [
+        {
+            "checksum": {
+                "type": "ctime",
+                "value": "{ctime}2013-10-01 13:15:59 -0700"
+            },
+            "destination": null,
+            "group": 20,
+            "links": "follow",
+            "mode": 493,
+            "owner": 501,
+            "path": "/etc/puppetlabs/code/modules/example/files",
+            "relative_path": ".",
+            "type": "directory"
         },
-        "destination": null,
-        "group": 20,
-        "links": "follow",
-        "mode": 493,
-        "owner": 501,
-        "path": "/etc/puppetlabs/code/modules/example/files",
-        "relative_path": ".",
-        "type": "directory"
-    },
-    {
-        "checksum": {
-            "type": "md5",
-            "value": "{md5}d0a10f45491acc8743bc5a82b228f89e"
+        {
+            "checksum": {
+                "type": "md5",
+                "value": "{md5}d0a10f45491acc8743bc5a82b228f89e"
+            },
+            "destination": null,
+            "group": 20,
+            "links": "follow",
+            "mode": 420,
+            "owner": 501,
+            "path": "/etc/puppetlabs/code/modules/example/files",
+            "relative_path": "just_a_file.txt",
+            "type": "file"
         },
-        "destination": null,
-        "group": 20,
-        "links": "follow",
-        "mode": 420,
-        "owner": 501,
-        "path": "/etc/puppetlabs/code/modules/example/files",
-        "relative_path": "just_a_file.txt",
-        "type": "file"
-    },
-    {
-        "checksum": {
-            "type": "md5",
-            "value": "{md5}d0a10f45491acc8743bc5a82b228f89e"
-        },
-        "destination": null,
-        "group": 20,
-        "links": "follow",
-        "mode": 420,
-        "owner": 501,
-        "path": "/etc/puppetlabs/code/modules/example/files",
-        "relative_path": "link_to_file.txt",
-        "type": "file"
-    }
-]
-~~~
+        {
+            "checksum": {
+                "type": "md5",
+                "value": "{md5}d0a10f45491acc8743bc5a82b228f89e"
+            },
+            "destination": null,
+            "group": 20,
+            "links": "follow",
+            "mode": 420,
+            "owner": 501,
+            "path": "/etc/puppetlabs/code/modules/example/files",
+            "relative_path": "link_to_file.txt",
+            "type": "file"
+        }
+    ]
 
-Schema
-------
+
+## Schema
 
 The file metadata response body conforms to
-[the `file_metadata` schema.](../schemas/file_metadata.json)
+[the `file_metadata` schema.](/openvox/latest/schemas/file_metadata.json)
 
-Sample Module
--------------
+## Sample Module
 
 The examples above use this (faux) module:
 

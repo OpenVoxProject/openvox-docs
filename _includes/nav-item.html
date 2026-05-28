@@ -28,7 +28,16 @@
     </section>
   </div>
 {% elsif include.item.link %}
-  {% assign nav_item_url = include.item.link | prepend: nav_base %}
+  {%- comment -%}
+    Links starting with '/' are already absolute site paths. Prepending nav_base (which also
+    starts with '/') would produce a broken double-prefix like /openvox/latest//other/page.html.
+  {%- endcomment -%}
+  {% assign nav_link_first_char = include.item.link | slice: 0 %}
+  {% if nav_link_first_char == '/' %}
+    {% assign nav_item_url = include.item.link %}
+  {% else %}
+    {% assign nav_item_url = include.item.link | prepend: nav_base %}
+  {% endif %}
 
   <div class="VPSidebarItem level-{{ include.level }} is-link{% if nav_item_url == page.url %} is-active{% endif %}">
     <div class="item">

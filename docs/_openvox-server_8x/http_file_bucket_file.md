@@ -1,55 +1,45 @@
 ---
 layout: default
-built_from_commit: 8c9dd1ff315b738818307cc895942164aba30730
-title: 'Puppet HTTP API: File Bucket File'
-canonical: "/puppet/latest/http_api/http_file_bucket_file.html"
+title: "OpenVox Server HTTP API: File Bucket File"
 ---
 
-File Bucket File
-=============
+## File Bucket File
 
-The `file_bucket_file` endpoint manages the contents of files in the
-file bucket. All access to files is managed with the md5 checksum of the
-file contents, represented as `:md5`. Where used, `:filename` means the
-full absolute path of the file on the client system. This is usually
-optional and used as an error check to make sure correct file is
-retrieved. The environment is required in all requests but ignored, as
-the file bucket does not distinguish between environments.
+The `file_bucket_file` endpoint manages the contents of files in the file bucket. All access to files is managed
+with the MD5 checksum of the file contents, represented as `:md5`. Where used, `:filename` means the full absolute
+path of the file on the client system. This is usually optional and used as an error check to make sure the correct
+file is retrieved. The environment is required in all requests but ignored, as the file bucket does not distinguish
+between environments.
 
-Find
-----
+## Find
 
 Retrieve the contents of a file.
 
     GET /puppet/v3/file_bucket_file/:md5?environment=:environment
     GET /puppet/v3/file_bucket_file/:md5/:original_path?environment=:environment
 
-This will return the contents of the file if it's present. If
-`:original_path` is provided then the contents will only be sent if the
-file was uploaded with the same path at some point.
+This will return the contents of the file if it's present. If `:original_path` is provided then the contents will
+only be sent if the file was uploaded with the same path at some point.
 
-Head
-----
+## Head
 
-Check if a file is present in the filebucket
+Check if a file is present in the filebucket.
 
     HEAD /puppet/v3/file_bucket_file/:md5?environment=:environment
     HEAD /puppet/v3/file_bucket_file/:md5/:original_path?environment=:environment
 
 This behaves identically to find, only returning headers.
 
-Save
-----
+## Save
 
-Save a file to the filebucket
+Save a file to the filebucket.
 
     PUT /puppet/v3/file_bucket_file/:md5?environment=:environment
     PUT /puppet/v3/file_bucket_file/:md5/:original_path?environment=:environment
 
-The body should contain the file contents. This saves the file using the
-md5 sum of the file contents. If `:original_path` is provided, it adds
-the path to a list for the given file. If the md5 sum in the request is
-incorrect, the file will be instead saved under the correct checksum.
+The body should contain the file contents. This saves the file using the MD5 sum of the file contents. If
+`:original_path` is provided, it adds the path to a list for the given file. If the MD5 sum in the request is
+incorrect, the file will be saved under the correct checksum instead.
 
 ### Supported HTTP Methods
 
@@ -98,8 +88,7 @@ None
     <
     < Not Found: Could not find file_bucket_file md5/4949e56d376cc80ce5387e8e89a75396/home/user/wrong_name
 
-Schema
-------
+## Schema
 
-A `file_bucket_file` response body is not structured data according to any standard scheme such as
-json/yaml, so no schema is applicable.
+A `file_bucket_file` response body is not structured data according to any standard scheme such as JSON or YAML,
+so no schema is applicable.
