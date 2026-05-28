@@ -9,6 +9,12 @@
     link: "system_requirements.html"
   - text: About openvox-agent
     link: "about_agent.html"
+- text: Getting started
+  items:
+  - text: Getting started with OpenVox
+    link: "getting_started.html"
+  - text: Try OpenVox locally with crafty (experimental)
+    link: "getting_started_local.html"
 - text: Quick start guides
   items:
   - text: NTP quick start guide
