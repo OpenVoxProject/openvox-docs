@@ -55,8 +55,9 @@ docker compose ps
 
 ## Step 2: Install and enroll agents
 
-Once all containers report healthy, run the agent container. crafty enables autosigning,
-so the certificate is approved automatically — no manual signing step is needed:
+Once all containers report healthy, run the agent container. crafty enables
+[autosigning](./ssl_autosign.html), so the certificate is approved automatically —
+no manual signing step is needed:
 
 ```bash
 docker compose --profile test run --remove-orphans testing agent -t
@@ -81,6 +82,7 @@ as a Puppet environment. Verify the `production` environment was deployed:
 docker exec oss-openvoxserver-1 ls /etc/puppetlabs/code/environments/
 ```
 
+The container is named `oss-openvoxserver-1` by default; adjust if yours differs.
 You should see a `production/` directory containing the files from your fork's
 `production` branch.
 
@@ -121,6 +123,8 @@ environment. To iterate on your Puppet code:
 ```bash
 ./clean.sh
 ```
+
+This removes all containers and volumes, giving you a clean slate for the next run.
 
 ---
 

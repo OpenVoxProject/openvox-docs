@@ -59,8 +59,8 @@ Install `openvox-agent` on each node you want to manage, then connect it to the 
 ## Step 3: Set up a control repository
 
 A control repository is a Git repository that holds all your Puppet environments.
-Each branch becomes an [environment](./environments_about.html) on the server. r10k reads this repository and
-deploys branches to `/etc/puppetlabs/code/environments/`.
+Each branch becomes an [environment](./environments_about.html) on the server.
+r10k reads this repository and deploys branches to `/etc/puppetlabs/code/environments/`.
 
 ### Create the repository
 
@@ -106,15 +106,10 @@ On the OpenVox Server, install r10k using the Ruby runtime that ships with OpenV
 sudo /opt/puppetlabs/puppet/bin/gem install r10k
 ```
 
----
-
-Once your control repo is deployed and your infrastructure is established, consider
-managing r10k with the [`puppet/r10k`](https://forge.puppet.com/modules/puppet/r10k)
-Forge module. It installs r10k and manages `r10k.yaml` as Puppet resources, so
-changes to your r10k configuration go through the same code review and deployment
-workflow as everything else.
-
----
+> **Tip:** Once your infrastructure is established, consider managing r10k with the
+> [`puppet/r10k`](https://forge.puppet.com/modules/puppet/r10k) Forge module. It
+> installs r10k and manages `r10k.yaml` as Puppet resources, so changes to your r10k
+> configuration go through the same code review and deployment workflow as everything else.
 
 ### Configure r10k
 
@@ -194,7 +189,7 @@ From here, a few places to go deeper:
 - **Add more environments** — create a new branch in your control repository and run
   `r10k deploy environment -v` to deploy it. Use environments for testing changes
   before promoting to production.
-- **Automate r10k deploys** — use the [`r10k::webhook` class](https://forge.puppet.com/modules/puppet/r10k)
+- **Automate r10k deploys** — use the [`r10k::webhook` class](https://github.com/voxpupuli/puppet-r10k#webhook)
   from the `puppet/r10k` module to set up a webhook that triggers `r10k deploy environment` on every push.
 - **Expand your node inventory** — install agents on additional nodes and assign
   them classes in `manifests/site.pp` or through [node definitions](./lang_node_definitions.html).
