@@ -17,16 +17,16 @@ of the following three types:
 
 The endpoint path includes a `:mount` which can be one of the following types:
 
-- Custom file serving mounts as specified in `fileserver.conf` — see the Puppet docs on
-  [configuring mount points](https://puppet.com/docs/puppet/latest/file_serving.html).
-- `modules/<MODULE>` — allows access to the `files` subdirectory of `<MODULE>` — see the Puppet docs on
-  [file serving](https://puppet.com/docs/puppet/latest/file_serving.html).
+- Custom file serving mounts as specified in `fileserver.conf` — see
+  [configuring mount points](/openvox/8.x/config_file_fileserver.html).
+- `modules/<MODULE>` — allows access to the `files` subdirectory of `<MODULE>` — see
+  [file serving](/openvox/8.x/file_serving.html).
 - `plugins` — merges the `lib` directory of every module together. Used for syncing plugins; not intended for
   general consumption. Per-module sub-paths cannot be specified.
 - `pluginfacts` — merges the `facts.d` directory of every module together. Used for syncing external facts; not
   intended for general consumption. Per-module sub-paths cannot be specified.
-- `tasks/<MODULE>` — allows access to files in the `tasks` subdirectory of `<MODULE>` — see the Puppet docs on
-  [file serving](https://puppet.com/docs/puppet/latest/file_serving.html).
+- `tasks/<MODULE>` — allows access to files in the `tasks` subdirectory of `<MODULE>` — see
+  [file serving](/openvox/8.x/file_serving.html).
 
 ## Find
 
