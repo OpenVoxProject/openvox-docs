@@ -84,3 +84,10 @@ and reachable.
 
 If you are replacing Puppet packages on an existing host, back up `/etc/puppetlabs/`
 before you begin. OpenVox continues to use that configuration tree after installation.
+
+## What's next?
+
+You now have a running server and at least one enrolled agent. The next step is to set up
+a control repository so you can manage Puppet code across your infrastructure. See the
+[Getting started guide](./getting_started.html) for a walkthrough of control repo setup
+with r10k and writing your first Puppet code.

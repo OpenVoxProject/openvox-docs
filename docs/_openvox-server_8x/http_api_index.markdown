@@ -25,12 +25,12 @@ All configuration endpoints are prefixed with `/puppet`, while all CA endpoints 
 
 ### Authorization
 
-Authorization for `/puppet` and `/puppet-ca` endpoints is controlled with [OpenVox Server's `auth.conf` authorization system](./config_file_auth.html).
+Authorization for `/puppet` and `/puppet-ca` endpoints is controlled with [OpenVox Server's `auth.conf` authorization system](config_file_auth.html).
 
 ## OpenVox V3 HTTP API
 
 The OpenVox agent application uses several network services to manage systems. These services are all grouped under the `/puppet` API.
-Other tools can access these services and use the OpenVox Servers's data for other purposes.
+Other tools can access these services and use the OpenVox Server's data for other purposes.
 
 The V3 API contains endpoints of two types: those that are based on dispatching to OpenVox's internal "indirector" framework, and those that are not (namely the [environments endpoint](#environments-endpoint)).
 
@@ -44,52 +44,47 @@ Using this API requires significant understanding of how OpenVox's internal serv
 
 ### Configuration management services
 
-The OpenVox agent application directly uses these servcies to manage the configuration of a node.
+The OpenVox agent application directly uses these services to manage the configuration of a node.
 
 These endpoints accept payload formats formatted as JSON by default (MIME type of `application/json`), except for `File Content` and `File Bucket File`, which always use `application/octet-stream`.
 
 > **Note:** Legacy PSON (MIME type of `text/pson`) is still an available format, but should be used only as a fallback for binary content.
 
-- [Facts](/openvox/latest/http_api/http_facts.html)
-- [Catalog](/openvox/latest/http_api/http_catalog.html)
-- [Node](/openvox/latest/http_api/http_node.html)
-- [File bucket file](/openvox/latest/http_api/http_file_bucket_file.html)
-- [File content](/openvox/latest/http_api/http_file_content.html)
-- [File metadata](/openvox/latest/http_api/http_file_metadata.html)
-- [Report](/openvox/latest/http_api/http_report.html)
+- [Facts](http_facts.html)
+- [Catalog](http_catalog.html)
+- [Node](http_node.html)
+- [File bucket file](http_file_bucket_file.html)
+- [File content](http_file_content.html)
+- [File metadata](http_file_metadata.html)
+- [Report](http_report.html)
 
-### Informational services
-
-These services are not directly used by OpenVox agent, but can be used by other tools.
-
-- [Status](/openvox/latest/http_api/http_status.html)
-
-> **Note:** The [OpenVox Server status API](#openvox-server-specific-endpoints) provides more detail and features.
+> **Note:** The [Puppet v4 catalog API](puppet-api/v4/catalog.html) is preferred for new integrations. It does
+> not require facts to be submitted as part of the catalog request.
 
 ### Environments endpoint
 
-The `/puppet/v3/environments` endpoint uses a different format than the configuration management and informational services endpoints.
+The `/puppet/v3/environments` endpoint uses a different format than the configuration management endpoints.
 
 The endpoint accepts only payloads formatted as JSON, and responds with JSON (MIME type of `application/json`).
 
-- [Environments](/openvox/latest/http_api/http_environments.html)
+- [Environments](http_environments.html)
 
 ### OpenVox Server-specific endpoints
 
 OpenVox Server adds several unique endpoints of its own. They include these additional `/puppet/v3/` endpoints:
 
-- [Environment classes](./puppet-api/v3/environment_classes.html), at `/puppet/v3/environment_classes`
-- [Environment modules](./puppet-api/v3/environment_modules.html), at `/puppet/v3/environment_modules`
-- [Static file content](./puppet-api/v3/static_file_content.html), at `/puppet/v3/static_file_content`
+- [Environment classes](puppet-api/v3/environment_classes.html), at `/puppet/v3/environment_classes`
+- [Environment modules](puppet-api/v3/environment_modules.html), at `/puppet/v3/environment_modules`
+- [Static file content](puppet-api/v3/static_file_content.html), at `/puppet/v3/static_file_content`
 
 It also includes these unique APIs, with endpoints containing other URL prefixes:
 
-- [Status API](./status-api/v1/services.html), at `/status/v1/services`
-- [Metrics v1 (mbeans) API](./metrics-api/v1/metrics_api.html), at `/metrics/v1/mbeans`
-- [Metrics v2 (Jolokia) API](./metrics-api/v2/metrics_api.html), at `/metrics/v2/`
+- [Status API](status-api/v1/services.html), at `/status/v1/services`
+- [Metrics v1 (mbeans) API](metrics-api/v1/metrics_api.html), at `/metrics/v1/mbeans`
+- [Metrics v2 (Jolokia) API](metrics-api/v2/metrics_api.html), at `/metrics/v2/`
 - Admin API, at `/puppet-admin-api/v1/`:
-  - [Environment cache](./admin-api/v1/environment-cache.html), at `/puppet-admin-api/v1/environment-cache`
-  - [JRuby pool](./admin-api/v1/jruby-pool.html), at `/puppet-admin-api/v1/jruby-pool`
+  - [Environment cache](admin-api/v1/environment-cache.html), at `/puppet-admin-api/v1/environment-cache`
+  - [JRuby pool](admin-api/v1/jruby-pool.html), at `/puppet-admin-api/v1/jruby-pool`
 
 ### Error responses
 
@@ -109,7 +104,7 @@ Except for HEAD requests, error responses contain a body of a uniform JSON objec
 - `message`: (`String`) A human-readable message explaining the error.
 - `issue_kind`: (`String`) A unique label to identify the error class.
 
-OpenVOx provides a [JSON schema for error objects](/openvox/latest/schemas/error.json). Endpoints implemented by OpenVox Server have a different error schema:
+OpenVox provides a [JSON schema for error objects](/openvox/latest/schemas/error.json). Endpoints implemented by OpenVox Server have a different error schema:
 
 ```json
 {
@@ -136,18 +131,22 @@ The following documents specify what is available and how to interact with it.
 
 ### SSL certificate-related services
 
-These endpoints accept only plain-text payload formats. Historically, OpenVox has used the MIME type `s` to mean `text/plain`. In now uses `text/plain`, but continues to accept `s` as an equivalent.
+These endpoints accept only plain-text payload formats. Historically, OpenVox has used the MIME type `s` to mean `text/plain`. It now uses `text/plain`, but continues to accept `s` as an equivalent.
 
-- [Certificate](./http_certificate.html)
-- [Certificate Signing Requests](./http_certificate_request.html)
-- [Certificate Status](./http_certificate_status.html)
-- [Certificate Revocation List](./http_certificate_revocation_list.html)
+- [Certificate](http_certificate.html)
+- [Certificate Signing Requests](http_certificate_request.html)
+- [Certificate Status](http_certificate_status.html)
+- [Certificate Revocation List](http_certificate_revocation_list.html)
+- [Certificate Clean](http_certificate_clean.html)
+- [Certificate Expirations](http_certificate_expirations.html)
+- [Certificate Renewal](http_certificate_renewal.html)
+- [Bulk Certificate Sign](http_certificate_sign.html)
 
 ## Serialization formats
 
 OpenVox sends messages using several serialization formats. Not all REST services support all of the formats.
 
 - [JSON](https://tools.ietf.org/html/rfc7159)
-- [PSON](/openvox/latest/http_api/pson.html)
+- [PSON](pson.html) (deprecated — see the PSON page for details)
 
 `YAML` was supported in earlier versions of OpenVox, but is no longer for security reasons.

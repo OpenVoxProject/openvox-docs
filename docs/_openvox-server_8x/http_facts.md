@@ -1,17 +1,13 @@
 ---
 layout: default
-built_from_commit: 8c9dd1ff315b738818307cc895942164aba30730
-title: 'Puppet HTTP API: Facts'
-canonical: "/puppet/latest/http_api/http_facts.html"
+title: "OpenVox Server HTTP API: Facts"
 ---
 
-Facts
-=====
+## Facts
 
 The `facts` endpoint allows setting the facts for the specified node name.
 
-Save
-----
+## Save
 
 Store facts for a node. The request body should contain JSON-formatted facts.
 
@@ -31,8 +27,10 @@ None
 
 ### Example
 
-* Note: list of facts was shortened for readability.
-* Note: JSON was formatted for readability.
+- Note: list of facts was shortened for readability.
+- Note: JSON was formatted for readability.
+
+<!-- -->
 
     PUT /puppet/v3/facts/elmo.mydomain.com?environment=env
     Content-Type: application/json
@@ -56,8 +54,7 @@ None
     HTTP/1.1 200 OK
     Content-Type: application/json
 
-Schema
-------
+## Schema
 
-The representation of facts contained in a PUT body, should adhere to
-[the facts schema.](../schemas/facts.json)
+The representation of facts contained in a PUT body should adhere to
+[the facts schema.](/openvox/latest/schemas/facts.json)

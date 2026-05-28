@@ -1,0 +1,78 @@
+---
+layout: default
+title: "OpenVox Server HTTP API: File Content"
+---
+
+## File Content
+
+The `file_content` endpoint returns the contents of the specified file.
+
+## Find
+
+Get a file.
+
+    GET /puppet/v3/file_content/:mount_point/:name
+
+The endpoint path includes a `:mount_point` which can be one of the following types:
+
+- Custom file serving mounts as specified in `fileserver.conf` — see
+  [configuring mount points](/openvox/8.x/config_file_fileserver.html).
+- `modules/<MODULE>` — allows access to the `files` subdirectory of `<MODULE>` — see
+  [file serving](/openvox/8.x/file_serving.html).
+- `plugins` — merges the `lib` directory of every module together. Used for syncing plugins; not intended for
+  general consumption. Per-module sub-paths cannot be specified.
+- `pluginfacts` — merges the `facts.d` directory of every module together. Used for syncing external facts; not
+  intended for general consumption. Per-module sub-paths cannot be specified.
+- `tasks/<MODULE>` — allows access to files in the `tasks` subdirectory of `<MODULE>` — see
+  [file serving](/openvox/8.x/file_serving.html).
+
+`:name` is the path to the file within the `:mount_point` that is requested.
+
+### Supported HTTP Methods
+
+GET
+
+### Supported Response Formats
+
+`application/octet-stream`
+
+### Parameters
+
+None
+
+### Responses
+
+#### File found
+
+    GET /puppet/v3/file_content/modules/example/my_file?environment=env
+    Accept: application/octet-stream
+
+    HTTP/1.1 200 OK
+    Content-Type: application/octet-stream
+    Content-Length: 16
+
+    this is my file
+
+#### File not found
+
+    GET /puppet/v3/file_content/modules/example/not_found?environment=env
+    Accept: application/octet-stream
+
+    HTTP/1.1 404 Not Found
+    Content-Type: text/plain
+
+    Not Found: Could not find file_content modules/example/not_found
+
+#### No file name given
+
+    GET /puppet/v3/file_content?environment=env
+
+    HTTP/1.1 400 Bad Request
+    Content-Type: text/plain
+
+    No request key specified in /puppet/v3/file_content/
+
+## Schema
+
+A `file_content` response body is not structured data according to any standard scheme such as JSON or YAML,
+so no schema is applicable.

@@ -9,6 +9,12 @@
     link: "system_requirements.html"
   - text: About openvox-agent
     link: "about_agent.html"
+- text: Getting started
+  items:
+  - text: Getting started with OpenVox
+    link: "getting_started.html"
+  - text: Try OpenVox locally with crafty (experimental)
+    link: "getting_started_local.html"
 - text: Quick start guides
   items:
   - text: NTP quick start guide
@@ -395,58 +401,8 @@
     link: "man/status.html"
 - text: HTTP API
   items:
-  - text: Index
-    link: "http_api/http_api_index.html"
-  - text: PSON
-    link: "http_api/pson.html"
-  - text: Catalog
-    link: "http_api/http_catalog.html"
-  - text: Node
-    link: "http_api/http_node.html"
-  - text: File bucket file
-    link: "http_api/http_file_bucket_file.html"
-  - text: File content
-    link: "http_api/http_file_content.html"
-  - text: File metadata
-    link: "http_api/http_file_metadata.html"
-  - text: Report
-    link: "http_api/http_report.html"
-  - text: Environments
-    link: "http_api/http_environments.html"
-  - text: Resource type
-    link: "http_api/http_resource_type.html"
-  - text: Status
-    link: "http_api/http_status.html"
-  - text: Certificate
-    link: "http_api/http_certificate.html"
-  - text: Certificate signing requests
-    link: "http_api/http_certificate_request.html"
-  - text: Certificate status
-    link: "http_api/http_certificate_status.html"
-  - text: Certificate revocation list
-    link: "http_api/http_certificate_revocation_list.html"
-  - text: catalog.json
-    link: "schemas/catalog.json"
-  - text: environments.json
-    link: "schemas/environments.json"
-  - text: error.json
-    link: "schemas/error.json"
-  - text: facts.json
-    link: "schemas/facts.json"
-  - text: file_metadata.json
-    link: "schemas/file_metadata.json"
-  - text: host.json
-    link: "schemas/host.json"
-  - text: json-meta-schema.json
-    link: "schemas/json-meta-schema.json"
-  - text: node.json
-    link: "schemas/node.json"
-  - text: report.json
-    link: "schemas/report.json"
-  - text: resource_type.json
-    link: "schemas/resource_type.json"
-  - text: status.json
-    link: "schemas/status.json"
+  - text: OpenVox Server HTTP API
+    link: "/openvox-server/latest/http_api_index.html"
 - text: SSL and certificates
   items:
   - text: Using an external CA
