@@ -66,64 +66,98 @@
     link: tuning_guide.html
   - text: Scaling OpenVox Server with compilers
     link: scaling_puppet_server.html
-- text: Administrative API endpoints
+- text: HTTP API
   items:
-  - text: Environment cache
-    link: admin-api/v1/environment-cache.html
-  - text: JRuby pool
-    link: admin-api/v1/jruby-pool.html
-- text: CA API endpoints
-  items:
-  - text: Certificate
-    link: http_certificate.html
-  - text: Certificate signing request
-    link: http_certificate_request.html
-  - text: Certificate status
-    link: http_certificate_status.html
-  - text: Certificate revocation list
-    link: http_certificate_revocation_list.html
-- text: Server-specific Puppet API endpoints
-  items:
-  - text: Environment classes
-    link: puppet-api/v3/environment_classes.html
-  - text: Environment modules
-    link: puppet-api/v3/environment_modules.html
-  - text: Environment transports
-    link: puppet-api/v3/environment_transports.html
-  - text: Compile endpoint
-    link: puppet-api/v3/compile.html
-  - text: Static file content
-    link: puppet-api/v3/static_file_content.html
-  - text: File content
-    link: puppet-api/v3/file_content.html
-  - text: Tasks overview
-    link: puppet-api/v3/tasks.html
-  - text: Tasks details
-    link: puppet-api/v3/task_detail.html
-  - text: Plans overview
-    link: puppet-api/v3/plans.html
-  - text: Plans details
-    link: puppet-api/v3/plan_detail.html
-  - text: Catalog endpoint
-    link: puppet-api/v4/catalog.html
-- text: Status API endpoints
-  items:
-  - text: Services endpoint
-    link: status-api/v1/services.html
-  - text: Simple endpoint
-    link: status-api/v1/simple.html
-- text: Metrics
-  items:
-  - text: Monitoring OpenVox Server metrics
-    link: puppet_server_metrics.html
-  - text: HTTP client metrics
-    link: http_client_metrics.html
-  - text: Applying metrics to improve performance
-    link: puppet_server_metrics_performance.html
-  - text: v1 metrics API
-    link: metrics-api/v1/metrics_api.html
-  - text: v2 (Jolokia) metrics API
-    link: metrics-api/v2/metrics_api.html
+  - text: HTTP API overview
+    link: http_api_index.html
+  - text: PSON
+    link: pson.html
+  - text: Puppet v3 API
+    items:
+    - text: Catalog
+      link: http_catalog.html
+    - text: Node
+      link: http_node.html
+    - text: Facts
+      link: http_facts.html
+    - text: File bucket file
+      link: http_file_bucket_file.html
+    - text: File content
+      link: http_file_content.html
+    - text: File metadata
+      link: http_file_metadata.html
+    - text: Report
+      link: http_report.html
+    - text: Environments
+      link: http_environments.html
+  - text: Puppet v4 API
+    items:
+    - text: Catalog
+      link: puppet-api/v4/catalog.html
+  - text: CA v1 API
+    items:
+    - text: Certificate
+      link: http_certificate.html
+    - text: Certificate request
+      link: http_certificate_request.html
+    - text: Certificate status
+      link: http_certificate_status.html
+    - text: Certificate revocation list
+      link: http_certificate_revocation_list.html
+    - text: Certificate clean
+      link: http_certificate_clean.html
+    - text: Certificate expirations
+      link: http_certificate_expirations.html
+    - text: Certificate renewal
+      link: http_certificate_renewal.html
+    - text: Bulk certificate sign
+      link: http_certificate_sign.html
+  - text: Server-specific API
+    items:
+    - text: Environment classes
+      link: puppet-api/v3/environment_classes.html
+    - text: Environment modules
+      link: puppet-api/v3/environment_modules.html
+    - text: Environment transports
+      link: puppet-api/v3/environment_transports.html
+    - text: Compile endpoint
+      link: puppet-api/v3/compile.html
+    - text: Static file content
+      link: puppet-api/v3/static_file_content.html
+    - text: File content
+      link: puppet-api/v3/file_content.html
+    - text: Tasks overview
+      link: puppet-api/v3/tasks.html
+    - text: Tasks details
+      link: puppet-api/v3/task_detail.html
+    - text: Plans overview
+      link: puppet-api/v3/plans.html
+    - text: Plans details
+      link: puppet-api/v3/plan_detail.html
+  - text: Admin API
+    items:
+    - text: Environment cache
+      link: admin-api/v1/environment-cache.html
+    - text: JRuby pool
+      link: admin-api/v1/jruby-pool.html
+  - text: Status API
+    items:
+    - text: Services endpoint
+      link: status-api/v1/services.html
+    - text: Simple endpoint
+      link: status-api/v1/simple.html
+  - text: Metrics
+    items:
+    - text: Monitoring OpenVox Server metrics
+      link: puppet_server_metrics.html
+    - text: HTTP client metrics
+      link: http_client_metrics.html
+    - text: Applying metrics to improve performance
+      link: puppet_server_metrics_performance.html
+    - text: v1 metrics API
+      link: metrics-api/v1/metrics_api.html
+    - text: v2 (Jolokia) metrics API
+      link: metrics-api/v2/metrics_api.html
 - text: Developer information
   items:
   - text: Developer debugging
