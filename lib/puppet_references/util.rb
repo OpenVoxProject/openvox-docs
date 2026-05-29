@@ -2,7 +2,6 @@
 
 require 'puppet_references'
 require 'yaml'
-require 'versionomy'
 module PuppetReferences
   module Util
     # Given a hash of data, return YAML frontmatter suitable for the docs site.
@@ -19,98 +18,6 @@ module PuppetReferences
         # Bundler replaces the entire environment once this block is finished.
         ENV.delete('RUBYLIB')
         `#{command}`
-      end
-    end
-
-    # Just build an HTML table.
-    def self.table_from_header_and_array_of_body_rows(header_row, other_rows)
-      <<~TABLE
-        <table>
-          <thead>
-            <tr>
-              <th>#{header_row.join('</th> <th>')}</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>#{other_rows.map { |row| '<td>' << row.join('</td> <td>') << '</td>' }.join("</tr>\n    <tr>")}</tr>
-          </tbody>
-        </table>
-
-      TABLE
-    end
-
-    # Get the Puppet version for a given puppet-agent version.
-    def self.puppet_version_for_agent_version(agent_version, agent_info = {})
-      agent_info[agent_version]['Puppet']
-    end
-
-    # Build a release notes URL for a given version, using what we know about each project's URLs and doc formats.
-    # This has to take the hash of agent info, but only because finding the agent release notes relies on hidden info.
-    # If we ever move those to their own dir, it'll fix that.
-    # returns string or nil.
-    def self.release_notes_for_component_version(component, version, agent_info = {})
-      begin
-        parsed_version = Versionomy.parse(version)
-        x = parsed_version.major.to_s
-        x_dot_y = "#{parsed_version.major}.#{parsed_version.minor}"
-        dotless = version.delete('.')
-      rescue StandardError
-        x = version.split('.')[0]
-        x_dot_y = version.split('.')[0..1].join('.')
-        dotless = version.delete('.')
-      end
-      case component
-      when 'Puppet'
-        begin
-          mono_three = (x == '3' and Versonomy.parse(x_dot_y) < Versionomy.parse(3.5))
-        rescue StandardError
-          mono_three = false
-        end
-        if mono_three
-          "/puppet/3/release_notes.html#puppet-#{dotless}"
-        else
-          "/puppet/#{x_dot_y}/release_notes.html#puppet-#{dotless}"
-        end
-      when 'Puppet Agent'
-        begin
-          too_old = Versionomy.parse(version) < Versionomy.parse('1.2')
-        rescue StandardError
-          too_old = false
-        end
-        if too_old
-          nil
-        else
-          puppet_docs = puppet_version_for_agent_version(version, agent_info).split('.')[0..1].join('.')
-          "/puppet/#{puppet_docs}/release_notes_agent.html#puppet-agent-#{dotless}"
-        end
-      when 'Puppet Server'
-        "/puppetserver/#{x_dot_y}/release_notes.html#puppet-server-#{dotless}"
-      when 'Facter'
-        "/facter/#{x_dot_y}/release_notes.html#facter-#{dotless}"
-      when 'Hiera'
-        if x == '1'
-          "/hiera/1/release_notes.html#hiera-#{dotless}"
-        else
-          "/hiera/#{x_dot_y}/release_notes.html#hiera-#{dotless}"
-        end
-      when 'PuppetDB'
-        "/puppetdb/#{x_dot_y}/release_notes.html" # Anchors are broken because Kramdown is silly.
-      when 'MCollective'
-        '/mcollective/releasenotes.html' # Anchors broken here too.
-      when 'r10k'
-        "https://github.com/puppetlabs/r10k/blob/master/CHANGELOG.mkd##{dotless}"
-      end
-    end
-
-    # Returns the provided text, wrapping it in a link if it can find an applicable release notes URL.
-    def self.link_release_notes_if_applicable(component, text, version = nil, agent_data = {})
-      version ||= text
-      notes = release_notes_for_component_version(component, version, agent_data)
-      if notes
-        '<a href="' << notes << '">' << text << '</a>'
-      else
-        text
       end
     end
 

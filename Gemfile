@@ -7,7 +7,6 @@ gem 'git', '~> 4.0'
 gem 'json', '~> 2.5'
 gem 'rack', '>= 2.2.14'
 gem 'rake', '~> 13.0', '>= 13.0.1'
-gem 'versionomy', '~> 0.5.0'
 
 group(:build_site) do
   gem 'jekyll', '~> 4.4'
