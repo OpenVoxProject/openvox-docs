@@ -30,9 +30,6 @@ module PuppetReferences
   require 'puppet_references/facter/core_facts'
   require 'puppet_references/facter/facter_cli'
   require 'puppet_references/openbolt/docs'
-  require 'puppet_references/version_tables/config'
-  require 'puppet_references/version_tables/data/pe'
-  require 'puppet_references/version_tables/data/agent'
 
   def self.build_puppet_references(commit)
     references = [
