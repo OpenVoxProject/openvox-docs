@@ -8,6 +8,14 @@ updates:
     time: "13:00"
   open-pull-requests-limit: 10
 
+# Raise PRs for npm (mermaid CDN version tracking)
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "13:00"
+  open-pull-requests-limit: 5
+
 # Maintain dependencies for GitHub Actions
 - package-ecosystem: github-actions
   directory: "/"
