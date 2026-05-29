@@ -1,0 +1,29 @@
+{%- comment -%}
+Enriches the "report a broken link" link (rendered in the 404 hero tagline)
+so the GitHub issue is pre-filled with the broken URL and referrer. GitHub
+Pages keeps the originally requested (broken) path in the address bar when it
+serves 404.html, so window.location reflects the page that was not found. The
+link's static href is a working no-JS fallback.
+{%- endcomment -%}
+<script>
+  (function () {
+    var link = document.getElementById('report-broken-link');
+    if (!link) { return; }
+    var brokenUrl = window.location.href;
+    var referrer = document.referrer || '(opened directly or referrer unavailable)';
+    var title = 'Broken link: ' + window.location.pathname;
+    var body = [
+      'A broken link was reported from the documentation 404 page.',
+      '',
+      '- **URL that returned 404:** ' + brokenUrl,
+      '- **Linked from (referrer):** ' + referrer,
+      '',
+      '### Additional context',
+      '',
+      '<!-- Where did you find this link? Anything else that would help us fix it? -->',
+    ].join('\n');
+    link.href = 'https://github.com/OpenVoxProject/openvox-docs/issues/new'
+      + '?title=' + encodeURIComponent(title)
+      + '&body=' + encodeURIComponent(body);
+  })();
+</script>

@@ -16,7 +16,7 @@ permalink: /search.json
 {% endif %}
 {% assign static_pages = site.pages | sort: "url" %}
 {% for page in static_pages %}
-  {% if page.title and page.url and page.url != "/" and page.url != "/search.json" %}
+  {% if page.title and page.url and page.url != "/" and page.url != "/search.json" and page.search != false %}
     {% unless first %},{% endunless %}
     {% assign excerpt = page.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | strip | truncate: 2400, "" %}
     {
