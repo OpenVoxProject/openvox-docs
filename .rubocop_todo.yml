@@ -17,13 +17,12 @@ Lint/MixedRegexpCaptureTypes:
   Exclude:
     - 'source/_plugins/partial.rb'
 
-# Offense count: 5
+# Offense count: 4
 Naming/AccessorMethodName:
   Exclude:
     - 'lib/puppet_references/puppet/man.rb'
     - 'lib/puppet_references/puppet/type.rb'
     - 'lib/puppet_references/puppet/type_strings.rb'
-    - 'lib/puppet_references/version_tables/data/agent.rb'
 
 # Offense count: 11
 # This cop supports safe autocorrection (--autocorrect).
