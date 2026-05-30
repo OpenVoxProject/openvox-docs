@@ -9,7 +9,7 @@ layout: default
 [catalog]: lang_summary.html#compilation-and-catalogs
 [file]: type.html#file
 [static]: indirection.html#catalog
-[keepalive_setting]: configuration.html#httpkeepalivetimeout
+[keepalive_setting]: configuration.html#http_keepalive_timeout
 
 OpenVox agent and OpenVox Server communicate via mutually authenticated HTTPS using client
 certificates.

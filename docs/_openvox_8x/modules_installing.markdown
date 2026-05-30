@@ -52,7 +52,7 @@ export http_proxy=http://192.168.0.10:8080
 export https_proxy=http://192.168.0.10:8080
 ```
 
-Alternatively, you can set these two proxy settings inside the `[user]` config section in the `puppet.conf` file: `http_proxy_host` and `http_proxy_port`. For more information, see [the configuration reference](./configuration.html#httpproxyhost).
+Alternatively, you can set these two proxy settings inside the `[user]` config section in the `puppet.conf` file: `http_proxy_host` and `http_proxy_port`. For more information, see [the configuration reference](./configuration.html#http_proxy_host).
 
 > **Important:** Make sure to set these two proxy settings in the `user` section only. Otherwise, there can be adverse effects.
 
@@ -160,7 +160,7 @@ puppet module install --module_repository http://dev-forge.example.com puppetlab
 
 Related topics:
 
-* [The `module_repository` setting](./configuration.html#modulerepository)
+* [The `module_repository` setting](./configuration.html#module_repository)
 
 {:.section}
 ### Installing from a release tarball

@@ -3,7 +3,7 @@ layout: default
 title: "Config files: routes.yaml"
 ---
 
-[route_file]: ./configuration.html#routefile
+[route_file]: ./configuration.html#route_file
 
 The `routes.yaml` file overrides configuration settings involving indirector termini, and allows termini to be set in greater detail than `puppet.conf` allows.
 

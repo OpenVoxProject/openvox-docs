@@ -1,5 +1,5 @@
-[node_name_fact]: ./configuration.html#nodenamefact
-[node_name_value]: ./configuration.html#nodenamevalue
+[node_name_fact]: ./configuration.html#node_name_fact
+[node_name_value]: ./configuration.html#node_name_value
 
 > #### Note on Non-Certname Node Names
 >

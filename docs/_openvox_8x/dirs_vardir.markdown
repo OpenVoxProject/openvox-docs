@@ -79,7 +79,7 @@ The `vardir` directory has the following default structure. Most of the files an
 * [`yaml` (`yamldir`)][yamldir]
 
 [bucketdir]: ./configuration.html#bucketdir
-[client_datadir]: ./configuration.html#clientdatadir
+[client_datadir]: ./configuration.html#client_datadir
 [clientbucketdir]: ./configuration.html#clientbucketdir
 [clientyamldir]: ./configuration.html#clientyamldir
 [devicedir]: ./configuration.html#devicedir
@@ -87,7 +87,7 @@ The `vardir` directory has the following default structure. Most of the files an
 [pluginfactdest]: ./configuration.html#pluginfactdest
 [libdir]: ./configuration.html#libdir
 [plugindest]: ./configuration.html#plugindest
-[module_working_dir]: ./configuration.html#moduleworkingdir
+[module_working_dir]: ./configuration.html#module_working_dir
 [module_skeleton_dir]: ./configuration.html#moduleskeletondir
 [logdir]: ./configuration.html#logdir
 [httplog]: ./configuration.html#httplog
@@ -97,10 +97,10 @@ The `vardir` directory has the following default structure. Most of the files an
 [reportdir]: ./configuration.html#reportdir
 [rundir]: ./configuration.html#rundir
 [pidfile]: ./configuration.html#pidfile
-[serverdatadir]: ./configuration.html#serverdatadir
+[serverdatadir]: ./configuration.html#server_datadir
 [statedir]: ./configuration.html#statedir
-[agent_catalog_run_lockfile]: ./configuration.html#agentcatalogrunlockfile
-[agent_disabled_lockfile]: ./configuration.html#agentdisabledlockfile
+[agent_catalog_run_lockfile]: ./configuration.html#agent_catalog_run_lockfile
+[agent_disabled_lockfile]: ./configuration.html#agent_disabled_lockfile
 [classfile]: ./configuration.html#classfile
 [graphdir]: ./configuration.html#graphdir
 [lastrunfile]: ./configuration.html#lastrunfile

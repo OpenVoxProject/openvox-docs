@@ -13,7 +13,7 @@ title: "Language: Variables"
 [resource]: ./lang_resources.html
 [scope]: ./lang_scope.html
 [undef]: ./lang_data_undef.html
-[strict_variables]: ./configuration.html#strictvariables
+[strict_variables]: ./configuration.html#strict_variables
 [puppet.conf]: ./config_file_main.html
 
 

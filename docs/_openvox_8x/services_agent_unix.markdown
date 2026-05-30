@@ -162,7 +162,7 @@ Configure OpenVox agent with [puppet.conf][], using the `[agent]` and/or `[main]
 
 When running as a service, OpenVox agent logs messages to syslog. Your syslog configuration dictates where these messages are saved, but the default location is `/var/log/messages` on Linux, `/var/log/system.log` on Mac OS X, and `/var/adm/messages` on Solaris.
 
-You can adjust how verbose the logs are with [the `log_level` setting](./configuration.html#loglevel), which defaults to `notice`.
+You can adjust how verbose the logs are with [the `log_level` setting](./configuration.html#log_level), which defaults to `notice`.
 
 When running in the foreground with the `--verbose`, `--debug`, or `--test` options, OpenVox agent logs directly to the terminal instead of to syslog.
 

@@ -45,7 +45,7 @@ The v3 hiera.yaml file can only be used at the [global config layer][layers].
 
 The default location for the global hiera.yaml is [`$confdir`][confdir]`/hiera.yaml`. Depending on your platform, that's usually at `/etc/puppetlabs/puppet/hiera.yaml` or `C:\ProgramData\PuppetLabs\puppet\etc\hiera.yaml`.
 
-You can use [the `hiera_config` setting](./configuration.html#hieraconfig) in `puppet.conf` to change the location of the global hiera.yaml.
+You can use [the `hiera_config` setting](./configuration.html#hiera_config) in `puppet.conf` to change the location of the global hiera.yaml.
 
 ## Format
 

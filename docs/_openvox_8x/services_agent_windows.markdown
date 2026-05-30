@@ -153,7 +153,7 @@ Alternatively, the PowerShell cmdlet `New-EventLog` will do the same thing:
 
 For existing agents, these commands can be placed in an `exec` resource to configure agents going forward. Note that any previously recorded event log messages will not be moved; only new messages will be recorded in the newly created `Puppet` log.
 
-You can adjust how verbose the logs are with [the `log_level` setting](./configuration.html#loglevel), which defaults to `notice`.
+You can adjust how verbose the logs are with [the `log_level` setting](./configuration.html#log_level), which defaults to `notice`.
 
 When running in the foreground with the `--verbose`, `--debug`, or `--test` options, OpenVox agent logs directly to the terminal.
 

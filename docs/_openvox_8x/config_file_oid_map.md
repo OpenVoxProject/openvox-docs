@@ -4,7 +4,7 @@ title: "Config files: custom_trusted_oid_mapping.yaml"
 ---
 
 [extensions]: ./ssl_attributes_extensions.html
-[mapping_setting]: ./configuration.html#trustedoidmappingfile
+[mapping_setting]: ./configuration.html#trusted_oid_mapping_file
 [csr_attributes]: ./config_file_csr_attributes.html
 [trusted]: ./lang_facts_and_builtin_vars.html#trusted-facts
 [registered]: ./ssl_attributes_extensions.html#puppet-specific-registered-ids
