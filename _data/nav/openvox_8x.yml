@@ -397,8 +397,6 @@
     link: "man/filebucket.html"
   - text: puppet report
     link: "man/report.html"
-  - text: puppet status
-    link: "man/status.html"
 - text: HTTP API
   items:
   - text: OpenVox Server HTTP API
