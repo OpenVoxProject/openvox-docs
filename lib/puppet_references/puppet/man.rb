@@ -85,7 +85,7 @@ module PuppetReferences
 
           These subcommands form the core of Puppet's tool set, and every user should understand what they do.
 
-          #{categories[:core].reduce(+'') { |memo, item| memo << "- [puppet #{item}](#{item}.md)\n" }}
+          #{categories[:core].reduce(+'') { |memo, item| memo << "- [puppet #{item}](#{item}.html)\n" }}
 
           > Note: The `puppet cert` command is available only in Puppet versions prior to 6.0. For 6.0 and later, use the [`puppetserver cert`command](https://puppet.com/docs/puppet/6/puppet_server_ca_cli.html).
 
@@ -94,14 +94,14 @@ module PuppetReferences
 
           Many or most users need to use these subcommands at some point, but they aren't needed for daily use the way the core tools are.
 
-          #{categories[:occasional].reduce(+'') { |memo, item| memo << "- [puppet #{item}](#{item}.md)\n" }}
+          #{categories[:occasional].reduce(+'') { |memo, item| memo << "- [puppet #{item}](#{item}.html)\n" }}
 
           Niche subcommands
           -----
 
           Most users can ignore these subcommands. They're only useful for certain niche workflows, and most of them are interfaces to Puppet's internal subsystems.
 
-          #{categories[:weird].reduce(+'') { |memo, item| memo << "- [puppet #{item}](#{item}.md)\n" }}
+          #{categories[:weird].reduce(+'') { |memo, item| memo << "- [puppet #{item}](#{item}.html)\n" }}
 
         MSG
         # write index

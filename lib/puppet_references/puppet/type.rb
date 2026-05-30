@@ -44,7 +44,7 @@ module PuppetReferences
 
         skip_names = %w[component whit]
         links = names.map do |name|
-          "* [#{name}](./#{name}.md)" unless skip_names.include?(name)
+          "* [#{name}](./#{name}.html)" unless skip_names.include?(name)
         end
         content = make_header(header_data, 'OpenVox', PuppetReferences.version_commit) + "## List of resource types\n\n" + links.join("\n") + "\n\n" + PREAMBLE
         filename = @output_dir_individual + 'overview.md'
