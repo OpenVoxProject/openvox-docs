@@ -7,9 +7,9 @@ title: "Creating and editing data"
 [automatic]: ./hiera_automatic.html
 [data types]: ./lang_data.html
 [interpolation_puppet]: ./lang_data_string.html#interpolation
-[facts_hash]: ./lang_facts_and_builtin_vars.html#the-factsfactname-hash
+[facts_hash]: ./lang_facts_and_builtin_vars.html#the-factsfact_name-hash
 [trusted]: ./lang_facts_and_builtin_vars.html#trusted-facts
-[server_facts]: ./lang_facts_and_builtin_vars.html#serverfacts-variable
+[server_facts]: ./lang_facts_and_builtin_vars.html#server_facts-variable
 [environment]: ./environments_about.html
 
 ## Setting the merge behavior for a lookup

@@ -815,7 +815,7 @@ You should help indicate to the user which classes are which by making sure all 
 
 ### Chaining arrow syntax
 
-Most of the time, use [relationship metaparameters](./lang_relationships.html#relationship-metaparameters) rather than [chaining arrows](./lang_relationships.html#chaining-arrows). When you have many [interdependent or order-specific items](https://github.com/puppetlabs/puppetlabs-mysql/blob/3.1.0/manifests/server.pp#L64-L72), chaining syntax may be used. A chain operator should appear on the same line as its right-hand operand. Chaining arrows must be used left to right.
+Most of the time, use [relationship metaparameters](./lang_relationships.html#syntax-relationship-metaparameters) rather than [chaining arrows](./lang_relationships.html#syntax-chaining-arrows). When you have many [interdependent or order-specific items](https://github.com/puppetlabs/puppetlabs-mysql/blob/3.1.0/manifests/server.pp#L64-L72), chaining syntax may be used. A chain operator should appear on the same line as its right-hand operand. Chaining arrows must be used left to right.
 
 **Good:**
 

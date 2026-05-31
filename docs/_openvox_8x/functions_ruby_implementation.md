@@ -10,7 +10,7 @@ title: "Writing functions in Ruby: Using special features in implementation meth
 [variables]: ./lang_variables.html
 [facts]: ./lang_facts_and_builtin_vars.html
 [trusted data]: ./lang_facts_and_builtin_vars.html#trusted-facts
-[server data]: ./lang_facts_and_builtin_vars.html#serverfacts-variable
+[server data]: ./lang_facts_and_builtin_vars.html#server_facts-variable
 [lambdas]: ./lang_lambdas.html
 [proc]: https://ruby-doc.org/core/Proc.html
 
