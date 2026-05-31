@@ -3,17 +3,17 @@ layout: default
 title: Custom Types
 ---
 
-[package_type]: /puppet/latest/type.html#package
-[module]: /puppet/latest/modules_fundamentals.html
-[custom_functions]: /puppet/latest/lang_write_functions_in_puppet.html
+[package_type]: type.html#package
+[module]: modules_fundamentals.html
+[custom_functions]: lang_write_functions_in_puppet.html
 [custom_facts]: /openfact/latest/custom_facts.html
-[pluginsync]: /puppet/latest/configuration.html#pluginsync
+[pluginsync]: configuration.html#pluginsync
 [symbol]: http://www.ruby-doc.org/core/Symbol.html
 [ruby_block]: http://www.robertsosinski.com/2008/12/21/understanding-ruby-blocks-procs-and-lambdas/
 [markdown]: http://commonmark.org/
-[metaparameters]: /puppet/latest/lang_resources.html#metaparameters
+[metaparameters]: lang_resources.html#metaparameters
 [inpage_whitespace]: #type-documentation
-[namevar]: /puppet/latest//lang_resources.html#namenamevar
+[namevar]: lang_resources.html#namenamevar
 
 Custom Types
 ============

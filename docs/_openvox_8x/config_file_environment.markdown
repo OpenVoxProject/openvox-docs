@@ -5,9 +5,9 @@ title: "Config files: environment.conf"
 
 [environment]: ./environments_about.html
 [environmentpath]: ./environments_creating.html#environmentpath
-[modulepath]: /puppet/3.8/configuration.html#modulepath
+[modulepath]: configuration.html#modulepath
 [puppet.conf]: ./config_file_main.html
-[basemodulepath]: /puppet/3.8/configuration.html#basemodulepath
+[basemodulepath]: configuration.html#basemodulepath
 [main manifest]: ./dirs_manifest.html
 [configuring_timeout]: ./environments_configuring.html#environmenttimeout
 
