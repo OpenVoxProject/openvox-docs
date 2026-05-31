@@ -1,7 +1,6 @@
 ---
 layout: default
-title: "Puppet Server: Puppet HTTP API: Certificate Clean"
-canonical: "/puppetserver/latest/puppet-api/v3/task-detail.html"
+title: "OpenVox Server CA API: Certificate Clean"
 ---
 Certificate Clean
 ===============
