@@ -4,7 +4,7 @@ title: "Config files: fileserver.conf"
 ---
 
 [file]: ./type.html#file
-[module_files]: ./modules_fundamentals.html#files
+[module_files]: ./modules_fundamentals.html#files-in-modules
 [fileserverconfig]: ./configuration.html#fileserverconfig
 [auth_conf]: /openvox-server/latest/config_file_auth.html
 [deprecated]: ./deprecated_settings.html#authorization-rules-in-fileserverconf

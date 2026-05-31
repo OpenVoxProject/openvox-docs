@@ -3,7 +3,7 @@ layout: default
 title: "Configuration: Short list of important settings"
 ---
 
-[cli_settings]: ./config_about_settings.html#settings-can-be-set-on-the-command-line
+[cli_settings]: ./config_about_settings.html#settings-on-the-command-line
 [trusted_and_facts]: ./lang_facts_and_builtin_vars.html
 [config_reference]: ./configuration.html
 [environments]: ./environments_about.html
@@ -18,7 +18,7 @@ title: "Configuration: Short list of important settings"
 [write_reports]: ./reporting_write_processors.html
 [passenger_headers]: ./passenger.html#notes-on-ssl-verification
 [puppetdb_install]: /openvoxdb/latest/connect_puppet_master.html
-[static_compiler]: ./indirection.html#staticcompiler-terminus
+[static_compiler]: ./static_catalogs.html
 [ssl_autosign]: ./ssl_autosign.html
 [structured_facts]: ./lang_facts_and_builtin_vars.html#data-types
 
@@ -82,7 +82,7 @@ title: "Configuration: Short list of important settings"
 [jvm_heap_config]: /openvox-server/latest/install_from_packages.html#memory-allocation
 [puppetserver_ca]: /openvox-server/latest/puppet_conf_setting_diffs.html#cahttpsdocspuppetcompuppetlatestreferenceconfigurationhtmlca
 [service_bootstrap]: /openvox-server/latest/configuration.html#service-bootstrapping
-[trusted_server_facts]: ./lang_facts_and_builtin_vars.html#serverfacts-variable
+[trusted_server_facts]: ./lang_facts_and_builtin_vars.html#server_facts-variable
 [always_retry_plugins]: ./configuration.html#always_retry_plugins
 [sourceaddress]: ./configuration.html#sourceaddress
 
@@ -175,7 +175,7 @@ These features configure add-ons and optional features.
 
 * [`node_terminus`][node_terminus] and [`external_nodes`][external_nodes] --- The ENC settings. If you're using an [ENC][], set these to `exec` and the path to your ENC script, respectively.
 * [`storeconfigs`][storeconfigs] and [`storeconfigs_backend`][storeconfigs_backend] --- Used for setting up PuppetDB. See [the PuppetDB docs for details.][puppetdb_install]
-* [`catalog_terminus`][catalog_terminus] --- This can enable the optional static compiler. If you have lots of `file` resources in your manifests, the static compiler lets you sacrifice some extra CPU work on your OpenVox Server to gain faster configuration and reduced HTTPS traffic on your agents. [See the "static compiler" section of the indirection reference][static_compiler] for details.
+* [`catalog_terminus`][catalog_terminus] --- This can enable the optional static compiler. If you have lots of `file` resources in your manifests, the static compiler lets you sacrifice some extra CPU work on your OpenVox Server to gain faster configuration and reduced HTTPS traffic on your agents. [See the static catalogs page][static_compiler] for details.
 
 ### CA settings
 

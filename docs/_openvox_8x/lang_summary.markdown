@@ -9,7 +9,7 @@ title: "Language: Basics"
 [autoload]: ./lang_namespaces.html#autoloader-behavior
 [config]: ./config_file_main.html
 [usecacheonfailure]: ./configuration.html#usecacheonfailure
-[fileserve]: ./modules_fundamentals.html#files
+[fileserve]: ./modules_fundamentals.html#files-in-modules
 [classes]: ./lang_classes.html
 [enc]: ./nodes_external.html
 [resources]: ./lang_resources.html
