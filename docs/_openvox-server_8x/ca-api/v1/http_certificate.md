@@ -1,8 +1,6 @@
 ---
 layout: default
-built_from_commit: 5bfb65354358d6544a36b0195b4d703708a4123d
-title: 'Puppet HTTP API: Certificate'
-canonical: "/puppet/latest/http_api/http_certificate.html"
+title: 'OpenVox Server CA API: Certificate'
 ---
 
 Certificate

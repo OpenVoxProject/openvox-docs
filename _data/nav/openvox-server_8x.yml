@@ -97,21 +97,21 @@
   - text: CA v1 API
     items:
     - text: Certificate
-      link: http_certificate.html
+      link: ca-api/v1/http_certificate.html
     - text: Certificate request
-      link: http_certificate_request.html
+      link: ca-api/v1/http_certificate_request.html
     - text: Certificate status
-      link: http_certificate_status.html
+      link: ca-api/v1/http_certificate_status.html
     - text: Certificate revocation list
-      link: http_certificate_revocation_list.html
+      link: ca-api/v1/http_certificate_revocation_list.html
     - text: Certificate clean
-      link: http_certificate_clean.html
+      link: ca-api/v1/http_certificate_clean.html
     - text: Certificate expirations
-      link: http_certificate_expirations.html
+      link: ca-api/v1/http_certificate_expirations.html
     - text: Certificate renewal
-      link: http_certificate_renewal.html
+      link: ca-api/v1/http_certificate_renewal.html
     - text: Bulk certificate sign
-      link: http_certificate_sign.html
+      link: ca-api/v1/http_certificate_sign.html
   - text: Server-specific API
     items:
     - text: Environment classes
