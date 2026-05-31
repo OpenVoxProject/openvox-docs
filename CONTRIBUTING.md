@@ -51,6 +51,16 @@ bundle exec rake references:openfact INSTALLPATH=docs
 bundle exec rake references:openbolt INSTALLPATH=docs
 ```
 
+Note: It is possible to specify a version (tag or branch) to be used.
+If no version is provided, the latest stable release tag will be used.
+This is useful when checking for changes made in upstream reference source like OpenFact or OpenBolt repo itself.
+
+```console
+bundle exec rake references:openvox INSTALLPATH=docs VERSION=main
+bundle exec rake references:openfact INSTALLPATH=docs VERSION=main
+bundle exec rake references:openbolt INSTALLPATH=docs VERSION=main
+```
+
 ## Writing guidelines
 
 ### Naming of OpenVox and Puppet
