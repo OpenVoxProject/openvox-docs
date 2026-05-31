@@ -10,12 +10,12 @@ title: "Language: Facts and built-in variables"
 [facter]: /openfact/latest
 [customfacts]: /openfact/latest/custom_facts.html
 [external facts]: /openfact/latest/custom_facts.html#external-facts
-[facterconfig]: /openfact/latest/configuring_facter.html
+[facterconfig]: /openfact/latest/configuring_openfact.html
 [catalog]: ./lang_summary.html#compilation-and-catalogs
 [noop]: ./configuration.html#noop
 [environment_setting]: ./configuration.html#environment
 [certname]: ./configuration.html#certname
-[puppetdb_facts]: /openvoxdb/latest/api/index.html
+[puppetdb_facts]: /openvoxdb/latest/api/overview.html
 [localscope]: ./lang_scope.html#local-scopes
 [trusted_on]: ./config_important_settings.html#getting-new-features-early
 [scope]: ./lang_scope.html

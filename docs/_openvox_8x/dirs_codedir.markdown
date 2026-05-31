@@ -48,5 +48,5 @@ Almost everything in the codedir has its own page of documentation.
 {:.section}
 ### Code and Data Directories
 
-* [`environments`](./environments_configuring.html) --- contains alternate versions of the `modules` and `manifests` directories, to allow code changes to be tested on smaller sets of nodes before entering production.
+* [`environments`](./environments_creating.html) --- contains alternate versions of the `modules` and `manifests` directories, to allow code changes to be tested on smaller sets of nodes before entering production.
 * [`modules`](./dirs_modulepath.html) --- the main directory for Puppet's modules.

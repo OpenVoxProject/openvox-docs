@@ -3,8 +3,7 @@ layout: default
 title: "Config files: auth.conf (LEGACY)"
 ---
 
-[rest_authconfig]: ./configuration.html#restauthconfig
-[api]: ./http_api/http_api_index.html
+[api]: /openvox-server/latest/http_api_index.html
 [default_file]: https://github.com/puppetlabs/puppet/blob/4.3.0/conf/auth.conf
 [environment]: ./environments_about.html
 [server_ca]: /openvox-server/latest/config_file_ca.html
@@ -40,7 +39,7 @@ Because some endpoints should have restricted access (for example, a node should
 
 ## Location
 
-The `auth.conf` file is located at `$confdir/auth.conf` by default. Its location is configurable with the [`rest_authconfig` setting][rest_authconfig].
+The `auth.conf` file is located at `$confdir/auth.conf` by default.
 
 The location of the `confdir` depends on your OS. [See the confdir documentation for details.][confdir]
 

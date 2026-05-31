@@ -12,21 +12,15 @@ title: "Language: Relationships and ordering"
 [service]: ./type.html#service
 [exec]: ./type.html#exec
 [type]: ./type.html
-[mount]: ./type.html#mount
+[mount]: https://forge.puppet.com/modules/puppetlabs/mount_core/reference#mount
 [package]: ./type.html#package
 [metaparameters]: ./lang_resources.html#metaparameters
 [require_function]: ./lang_classes.html#using-require
-[moar]: ./configuration.html#ordering
 [lambdas]: ./lang_lambdas.html
 [containment]: ./lang_containment.html
 
 
 By default, Puppet applies resources in the order they're declared in their manifest. However, if a group of resources must _always_ be managed in a specific order, you should explicitly declare such relationships with relationship metaparameters, chaining arrows, and the `require` function.
-
-> **Aside: Default ordering**
->
-> To make Puppet apply unrelated resources in a more-or-less random order, set [the `ordering` setting][moar] to `title-hash` or `random`.
-
 
 ## Syntax: Relationship metaparameters
 

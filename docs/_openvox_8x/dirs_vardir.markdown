@@ -64,7 +64,7 @@ The `vardir` directory has the following default structure. Most of the files an
 * [`facts.d` (`pluginfactdest`)][pluginfactdest]
 * [`lib` (`libdir`)][libdir] (also [plugindest][]) --- Puppet uses this as a cache for plugins (custom facts, types and providers, functions) synced from an OpenVox Server. Do not directly change it. If you delete it, the plugins will be restored on the next Puppet run.
 * [`puppet-module` (`module_working_dir`)][module_working_dir]
-    * [`skeleton` (`module_skeleton_dir`)][module_skeleton_dir]
+    * `skeleton` (`module_skeleton_dir`)
 * [`reports` (`reportdir`)][reportdir] --- When the `store` report is enabled, an OpenVox Server will store all reports received from agents as YAML files in this directory. These can be easily mined for analysis by an out-of-band process.
 * [`server_data` (`serverdatadir`)][serverdatadir]
 * [`state` (`statedir`)][statedir]
@@ -88,7 +88,6 @@ The `vardir` directory has the following default structure. Most of the files an
 [libdir]: ./configuration.html#libdir
 [plugindest]: ./configuration.html#plugindest
 [module_working_dir]: ./configuration.html#module_working_dir
-[module_skeleton_dir]: ./configuration.html#moduleskeletondir
 [logdir]: ./configuration.html#logdir
 [httplog]: ./configuration.html#httplog
 [masterhttplog]: ./configuration.html#masterhttplog

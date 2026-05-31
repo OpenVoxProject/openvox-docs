@@ -18,7 +18,6 @@ title: "Subsystems: Catalog compilation"
 [node terminus]: ./configuration.html#node_terminus
 [plain_node]: ./indirection.html#plain-terminus
 [exec_node]: ./indirection.html#exec-terminus
-[ldap_node]: ./indirection.html#ldap-terminus
 [ldap_guide]: ./nodes_ldap.html
 [trusted_on]: ./config_important_settings.html#getting-new-features-early
 [facts_builtin]: ./lang_facts_and_builtin_vars.html
@@ -46,7 +45,7 @@ Puppet manifests are concise because they can express variation between nodes wi
 * **Separate privileges:** Each individual node has little to no knowledge about other nodes. It only receives its own resources.
 * **Reduce the agent's resource consumption:** Since the agent doesn't have to compile, it can use less CPU and memory.
 * **Simulate changes:** Since the agent is just checking resources and not running arbitrary code, it has the option of simulating changes. If you do a Puppet run in _noop_ mode, the agent will check against its current state and report on what _would_ have changed without actually making any changes.
-* **Record and query configurations:** If you use PuppetDB, you can [query it for information about managed resources on any node](/openvoxdb/latest/api/index.html).
+* **Record and query configurations:** If you use PuppetDB, you can [query it for information about managed resources on any node](/openvoxdb/latest/api/overview.html).
 
 ### What about Puppet apply?
 
@@ -110,7 +109,7 @@ By default, OpenVox Server uses the [`plain` node terminus][plain_node], which j
 
 The next most common node terminus is the [`exec` node terminus][exec_node], which will request data from an [external node classifier (ENC)][enc]. This can return classes, variables, an environment, or some combination of the three, depending on how the ENC is designed.
 
-Less commonly, some people use the [`ldap` node terminus][ldap_node], which will fetch ENC-like information from an LDAP database. See the page on [LDAP nodes][ldap_guide] for more information.
+Less commonly, some people use the `ldap` node terminus, which will fetch ENC-like information from an LDAP database. See the page on [LDAP nodes][ldap_guide] for more information.
 
 Finally, it's possible to write a custom node terminus that retrieves classes, variables, and environments from any kind of external system.
 

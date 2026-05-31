@@ -7,7 +7,6 @@ title: "Config files: fileserver.conf"
 [module_files]: ./modules_fundamentals.html#files-in-modules
 [fileserverconfig]: ./configuration.html#fileserverconfig
 [auth_conf]: /openvox-server/latest/config_file_auth.html
-[deprecated]: ./deprecated_settings.html#authorization-rules-in-fileserverconf
 [custom_mount]: ./file_serving.html
 [mount_auth_examples]: ./file_serving.html#controlling-access-to-a-custom-mount-point-in-authconf
 

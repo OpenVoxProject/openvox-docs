@@ -8,7 +8,7 @@ title: Core types cheat sheet
 [package]: ./type.html#package
 [service]: ./type.html#service
 [exec]: ./type.html#exec
-[cron]: ./type.html#cron
+[cron]: https://forge.puppet.com/modules/puppetlabs/cron_core/reference#cron
 [user]: ./type.html#user
 [group]: ./type.html#group
 [other]: ./type.html
@@ -191,7 +191,7 @@ Executes an arbitrary command on the agent node. When using execs, you must eith
 {:.concept}
 ### [cron][]
 
-Manages cron jobs. Largely self-explanatory. On Windows, you should use [`scheduled_task`](./type.html#scheduledtask) instead.
+Manages cron jobs. Largely self-explanatory. On Windows, you should use [`scheduled_task`](https://forge.puppet.com/modules/puppetlabs/scheduled_task/reference#scheduled_task) instead.
 
     cron { 'logrotate':
       command => '/usr/sbin/logrotate',
@@ -203,16 +203,16 @@ Manages cron jobs. Largely self-explanatory. On Windows, you should use [`schedu
 {:.section}
 #### Important Attributes
 
-* [`command`](./type.html#cron-attribute-command) -- The command to execute.
-* [`ensure`](./type.html#cron-attribute-ensure) -- Whether the job should exist.
+* [`command`](https://forge.puppet.com/modules/puppetlabs/cron_core/reference#command) -- The command to execute.
+* [`ensure`](https://forge.puppet.com/modules/puppetlabs/cron_core/reference#ensure) -- Whether the job should exist.
     * present
     * absent
-* [`hour`](./type.html#cron-attribute-hour), [`minute`](./type.html#cron-attribute-minute), [`month`](./type.html#cron-attribute-month), [`monthday`](./type.html#cron-attribute-monthday), and [`weekday`](./type.html#cron-attribute-weekday) -- The timing of the cron job.
+* [`hour`](https://forge.puppet.com/modules/puppetlabs/cron_core/reference#hour), [`minute`](https://forge.puppet.com/modules/puppetlabs/cron_core/reference#minute), [`month`](https://forge.puppet.com/modules/puppetlabs/cron_core/reference#month), [`monthday`](https://forge.puppet.com/modules/puppetlabs/cron_core/reference#monthday), and [`weekday`](https://forge.puppet.com/modules/puppetlabs/cron_core/reference#weekday) -- The timing of the cron job.
 
 {:.section}
 #### Other Notable Attributes
 
-[`environment`](./type.html#cron-attribute-environment), [`name`](./type.html#cron-attribute-name), [`special`](./type.html#cron-attribute-special), [`target`](./type.html#cron-attribute-target), [`user`](./type.html#cron-attribute-user).
+[`environment`](https://forge.puppet.com/modules/puppetlabs/cron_core/reference#environment), [`name`](https://forge.puppet.com/modules/puppetlabs/cron_core/reference#-cron--name), [`special`](https://forge.puppet.com/modules/puppetlabs/cron_core/reference#special), [`target`](https://forge.puppet.com/modules/puppetlabs/cron_core/reference#target), [`user`](https://forge.puppet.com/modules/puppetlabs/cron_core/reference#user).
 
 {:.concept}
 ### [user][]

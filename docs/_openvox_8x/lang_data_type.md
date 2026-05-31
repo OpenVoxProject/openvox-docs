@@ -207,4 +207,4 @@ Position | Parameter        | Data Type | Default Value | Description
 
 ## Related topics
 
--   [Type aliases](./lang_type_aliases.md)
+-   [Type aliases](./lang_type_aliases.html)

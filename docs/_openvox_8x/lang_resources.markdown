@@ -18,7 +18,7 @@ title: "Language: Resources"
 [defined_type]: ./lang_defined_types.html
 [catalog]: ./lang_summary.html#compilation-and-catalogs
 [files]: ./type.html#file
-[cron jobs]: ./type.html#cron
+[cron jobs]: https://forge.puppet.com/modules/puppetlabs/cron_core/reference#cron
 [services]: ./type.html#service
 [custom_types]: ./custom_types.html
 [resource_advanced]: ./lang_resources_advanced.html
@@ -133,9 +133,8 @@ If multiple classes require the same resource, you can use a [class][] or a [vir
 
 ### Relationships and ordering
 
-[ordering]: ./configuration.html#ordering
 
-By default, OpenVox applies unrelated resources in the order in which they're written in the manifest. You can disable this with the [`ordering`][ordering] setting.
+By default, OpenVox applies unrelated resources in the order in which they're written in the manifest.
 
 However, if a resource must be applied before or after some other resource, you should declare a relationship between them, to show that their order isn't coincidental. You can also make changes in one resource cause a refresh of some other resource. See [the Relationships and Ordering page][relationships] for more information.
 

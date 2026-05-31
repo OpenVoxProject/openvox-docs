@@ -6,7 +6,7 @@ title: "Config files: puppetdb.conf"
 [puppetdb_connection]: /openvoxdb/latest/puppetdb_connection.html
 
 
-The `puppetdb.conf` file configures how Puppet should connect to one or more [PuppetDB](/openvoxdb/latest/) servers. It is only used if you are using PuppetDB and have [connected your OpenVox Server to it](/openvoxdb/latest/connect_puppet_master.html).
+The `puppetdb.conf` file configures how Puppet should connect to one or more [PuppetDB](/openvoxdb/latest/) servers. It is only used if you are using PuppetDB and have [connected your OpenVox Server to it](/openvoxdb/latest/connect_puppet_server.html).
 
 ## PuppetDB documentation
 

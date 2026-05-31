@@ -34,7 +34,7 @@ which stores them in the configured [`reportdir`][reportdir]. You can also turn 
 ## Practical reporting for beginners
 
 Puppet's reporting features are powerful, but there are simple ways to work with them. [PuppetDB](/openvoxdb/latest/),
-with [its report processor enabled](/openvoxdb/latest/connect_puppet_master.html#enabling-report-storage), can interface with third-party tools such as [Puppetboard](https://github.com/puppet-community/puppetboard)
+with [its report processor enabled](/openvoxdb/latest/connect_puppet_server.html#enabling-report-storage), can interface with third-party tools such as [Puppetboard](https://github.com/puppet-community/puppetboard)
 or [PuppetExplorer](https://github.com/spotify/puppetexplorer).
 
 Puppet has several basic built-in [report processors](/openvox/latest/report.html). For example, the `http` processor sends YAML dumps of reports via POST requests to a designated URL, while `log` saves received
