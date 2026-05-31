@@ -158,7 +158,7 @@ Visibility of extensions is somewhat limited:
   under the "X509v3 extensions" section.
 
 Puppet's authorization system (`auth.conf`) does not use certificate extensions, but
-[Puppet Server's authorization system](/puppetserver/latest/config_file_auth.html), which is
+[Puppet Server's authorization system](/openvox-server/latest/config_file_auth.html), which is
 based on `trapperkeeper-authorization`, can use extensions in the ppAuthCertExt OID range, and
 requires them for requests to write access rules.
 
