@@ -3,7 +3,7 @@ layout: default
 title: "Adding file server mount points"
 ---
 
-[module_files]: ./modules_fundamentals.html#files
+[module_files]: ./modules_fundamentals.html#files-in-modules
 [fileserver.conf]: ./config_file_fileserver.html
 [deprecated]: ./deprecated_settings.html#authorization-rules-in-fileserverconf
 [auth.conf]: /openvox-server/latest/config_file_auth.html

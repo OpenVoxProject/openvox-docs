@@ -133,14 +133,14 @@ The following documents specify what is available and how to interact with it.
 
 These endpoints accept only plain-text payload formats. Historically, OpenVox has used the MIME type `s` to mean `text/plain`. It now uses `text/plain`, but continues to accept `s` as an equivalent.
 
-- [Certificate](http_certificate.html)
-- [Certificate Signing Requests](http_certificate_request.html)
-- [Certificate Status](http_certificate_status.html)
-- [Certificate Revocation List](http_certificate_revocation_list.html)
-- [Certificate Clean](http_certificate_clean.html)
-- [Certificate Expirations](http_certificate_expirations.html)
-- [Certificate Renewal](http_certificate_renewal.html)
-- [Bulk Certificate Sign](http_certificate_sign.html)
+- [Certificate](ca-api/v1/http_certificate.html)
+- [Certificate Signing Requests](ca-api/v1/http_certificate_request.html)
+- [Certificate Status](ca-api/v1/http_certificate_status.html)
+- [Certificate Revocation List](ca-api/v1/http_certificate_revocation_list.html)
+- [Certificate Clean](ca-api/v1/http_certificate_clean.html)
+- [Certificate Expirations](ca-api/v1/http_certificate_expirations.html)
+- [Certificate Renewal](ca-api/v1/http_certificate_renewal.html)
+- [Bulk Certificate Sign](ca-api/v1/http_certificate_sign.html)
 
 ## Serialization formats
 

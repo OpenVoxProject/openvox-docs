@@ -252,4 +252,4 @@ If you select the deleted release, a warning banner appears on the page with the
 
 Related topics:
 
-* [Installing modules](./modules_installing.html#installing-modules)
+* [Installing modules](./modules_installing.html#installing-modules-from-the-command-line)

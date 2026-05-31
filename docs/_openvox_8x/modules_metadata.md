@@ -88,7 +88,7 @@ After you've created your module and gone through the metadata dialog, you must 
 {:.section}
 ## Specifying Puppet version requirements in modules 
 
-[inpage_require]: #specifying-puppet-version-requirements-in-module
+[inpage_require]: #specifying-puppet-version-requirements-in-modules
 
 The `requirements` key specifies external requirements for the module, particularly the Puppet version required. Although you can express any requirement here, the Puppet Forge module pages and search function support only the "puppet" requirement for Puppet version.
 

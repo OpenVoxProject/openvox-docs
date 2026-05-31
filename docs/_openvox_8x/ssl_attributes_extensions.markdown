@@ -3,7 +3,7 @@ layout: default
 title: "SSL configuration: CSR attributes and certificate extensions"
 ---
 
-[cert_request]: subsystem_agent_server_comm.html#check-for-keys-and-certificates
+[cert_request]: subsystem_agent_server_comm.html#the-process-of-agent-side-checks-and-https-requests-during-a-single-agent-run
 [csr_attributes]: configuration.html#csr_attributes
 [confdir]: configuration.html#confdir
 [autosign_policy]: ssl_autosign.html#policy-based-autosigning
@@ -158,7 +158,7 @@ Visibility of extensions is somewhat limited:
   under the "X509v3 extensions" section.
 
 Puppet's authorization system (`auth.conf`) does not use certificate extensions, but
-[Puppet Server's authorization system](/puppetserver/latest/config_file_auth.html), which is
+[Puppet Server's authorization system](/openvox-server/latest/config_file_auth.html), which is
 based on `trapperkeeper-authorization`, can use extensions in the ppAuthCertExt OID range, and
 requires them for requests to write access rules.
 

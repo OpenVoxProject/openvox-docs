@@ -162,7 +162,7 @@ Comparisons of [string][strings] values are case insensitive for characters in t
 
 Characters are compared based on their encoding. This means that for characters in the US ASCII range, punctuation comes before digits, digits are in the order 0, 1, 2, ... 9, and letters are in alphabetical order. For characters outside US ASCII, ordering is defined by their UTF-8 character code, which might not always place them in alphabetical order for a given locale.
 
-### `==` (equality)
+### `==` (equality) {#equality}
 
 Resolves to `true` if the operands are equal. Accepts the following data types as operands:
 
@@ -204,7 +204,7 @@ Resolves to `true` if the left operand is bigger than or equal to the right oper
 
 When acting on data types, `>=` is true if the left operand is the same as the right operand or a _superset_ of it.
 
-### `=~` (regex or data type match)
+### `=~` (regex or data type match) {#regex-or-data-type-match}
 
 Resolves to `true` if the left operand **matches** the right operand. "Match" can mean two different things, depending on what the right operand is.
 
@@ -316,7 +316,7 @@ Arithmetic Operators have the following traits:
 
 Resolves to the sum of the two operands.
 
-### `-` (subtraction and negation)
+### `-` (subtraction and negation) {#subtraction-and-negation}
 
 Resolves to the difference of the two operands.
 
@@ -347,7 +347,7 @@ Array Operators
 
 Array operators take [arrays][] as operands; with the exception of `*` (unary splat), they resolve to array values.
 
-### `*` (splat)
+### `*` (splat) {#splat}
 
 This unary operator accepts a single [array][arrays] value. (If given a scalar value, it will convert it to a single-element array first.)
 
@@ -435,7 +435,7 @@ Hash operators take:
 
 They resolve to hash values.
 
-### `+` (merging)
+### `+` (merging) {#merging}
 
 Resolves to a hash containing the keys and values in the left operand _plus_ the keys and values in the right operand; if any keys are present in both operands, the final hash will use the value from the right. It does not merge hashes recursively; it only merges top-level keys.
 

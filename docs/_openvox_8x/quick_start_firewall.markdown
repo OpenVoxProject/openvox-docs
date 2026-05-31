@@ -51,7 +51,7 @@ You should see output similar to the following:
 
 ## Write the `my_firewall` module
 
-[inpage_write]: #write-the-myfirewall-module
+[inpage_write]: #write-the-my_firewall-module
 
 Some modules can be large, complex, and require a significant amount of trial and error. This module, however, will be a very simple module to write. It contains just three classes.
 
@@ -172,7 +172,7 @@ Modules are directory trees. For this task, you'll create the following files:
 
 ## Enforce the desired state of the `my_firewall` class
 
-[inpage_enforce]: #enforce-the-desired-state-of-the-myfirewall-class
+[inpage_enforce]: #enforce-the-desired-state-of-the-my_firewall-class
 
 Lastly, let's take a look at how Puppet ensures the desired state of the `my_firewall` class on your agents. In the previous task, you applied your firewall class. Now imagine a scenario where a member of your team changes the contents of the `iptables` to allow connections on a random port that was not specified in `my_firewall`.
 

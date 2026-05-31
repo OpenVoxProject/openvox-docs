@@ -6,7 +6,7 @@ title: "Puppet's services: Puppet device"
 
 [man]: ./man/device.html
 [device.conf]: ./config_file_device.html
-[deviceconfig]: /configuration.html#deviceconfig
+[deviceconfig]: configuration.html#deviceconfig
 [PUP-1391]: https://tickets.puppetlabs.com/browse/PUP-1391
 [report]: ./reporting_about.html
 
