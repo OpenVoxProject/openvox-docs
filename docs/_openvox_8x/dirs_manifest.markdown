@@ -9,8 +9,8 @@ title: "Directories: The main manifest"
 [manifest_setting]: ./configuration.html#manifest
 [print_settings]: ./config_print.html
 [enc]: ./nodes_external.html
-[default_manifest]: ./configuration.html#defaultmanifest
-[disable_per_environment_manifest]: ./configuration.html#disableperenvironmentmanifest
+[default_manifest]: ./configuration.html#default_manifest
+[disable_per_environment_manifest]: ./configuration.html#disable_per_environment_manifest
 [environment.conf]: ./config_file_environment.html
 [puppet.conf]: ./config_file_main.html
 [configuring environments]: ./environments_configuring.html

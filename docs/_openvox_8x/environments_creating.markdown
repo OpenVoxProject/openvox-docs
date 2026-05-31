@@ -7,7 +7,7 @@ title: "Creating Environments"
 [modulepath]: ./dirs_modulepath.html
 [manifest_dir]: ./dirs_manifest.html
 [hiera.yaml]: ./hiera_config_yaml_5.html
-[default_manifest]: ./configuration.html#defaultmanifest
+[default_manifest]: ./configuration.html#default_manifest
 [puppet.conf]: ./config_file_main.html
 [writingenc]: ./nodes_external.html
 

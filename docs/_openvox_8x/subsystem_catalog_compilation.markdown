@@ -15,7 +15,7 @@ title: "Subsystems: Catalog compilation"
 [functions]: ./lang_functions.html
 [main manifest]: ./dirs_manifest.html
 [modules]: ./modules_fundamentals.html
-[node terminus]: ./configuration.html#nodeterminus
+[node terminus]: ./configuration.html#node_terminus
 [plain_node]: ./indirection.html#plain-terminus
 [exec_node]: ./indirection.html#exec-terminus
 [ldap_node]: ./indirection.html#ldap-terminus

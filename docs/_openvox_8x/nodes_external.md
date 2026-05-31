@@ -53,8 +53,8 @@ To tell OpenVox Server to use an ENC, you need to set two [settings](./config_ab
 
 ### Related topics
 
--   [`node_terminus`](./configuration.html#nodeterminus)
--   [`external_nodes`](./configuration.html#externalnodes)
+-   [`node_terminus`](./configuration.html#node_terminus)
+-   [`external_nodes`](./configuration.html#external_nodes)
 
 
 ## ENC output format

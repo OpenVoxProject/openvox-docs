@@ -10,7 +10,7 @@ title: "Directories: SSLdir"
 [cacert]: ./configuration.html#cacert
 [cakey]: ./configuration.html#cakey
 [capub]: ./configuration.html#capub
-[cert_inventory]: ./configuration.html#certinventory
+[cert_inventory]: ./configuration.html#cert_inventory
 [caprivatedir]: ./configuration.html#caprivatedir
 [capass]: ./configuration.html#capass
 [csrdir]: ./configuration.html#csrdir
