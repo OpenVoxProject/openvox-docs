@@ -419,9 +419,5 @@
     link: "subsystem_agent_server_comm.html"
   - text: Catalog compilation
     link: "subsystem_catalog_compilation.html"
-- text: Experimental features
-  items:
-  - text: Overview
-    link: "experiments_overview.html"
-  - text: Msgpack support
-    link: "experiments_msgpack.html"
+  - text: Msgpack serialization support
+    link: "subsystem_msgpack.html"

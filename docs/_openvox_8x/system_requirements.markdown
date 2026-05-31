@@ -67,4 +67,4 @@ If you install OpenVox via the official packages, you don't need to worry about 
   * [Hiera](/openvox/latest/hiera_intro.html) 3.2.1 or later
   * [Facter](/openfact/latest/) 2.0 or later
 
-* Optional libraries: The `msgpack` gem is required if you are using [msgpack serialization](./experiments_msgpack.html).
+* Optional libraries: The `msgpack` gem is required if you are using [msgpack serialization](subsystem_msgpack.html).
