@@ -3,8 +3,8 @@ layout: default
 title: "Hiera: Legacy config file syntax (hiera.yaml v4)"
 ---
 
-[hierarchy]: ./hiera_hierarchy.html
-[layers]: ./hiera_layers.html
+[hierarchy]: ./hiera_intro.html#hiera-hierarchies
+[layers]: ./hiera_intro.html#hieras-three-config-layers
 [v3]: ./hiera_config_yaml_3.html
 [v5]: ./hiera_config_yaml_5.html
 

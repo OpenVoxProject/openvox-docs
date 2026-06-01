@@ -9,7 +9,7 @@ title: "Configuring Hiera"
 [module]: ./modules_fundamentals.html
 [yaml]: http://www.yaml.org/YAML_for_ruby.html
 [variables]: ./hiera_merging.html#interpolating-variables
-[interpolation]: ./hiera_interpolation.html
+[interpolation]: ./hiera_merging.html#interpolation
 [eyaml]: https://github.com/voxpupuli/hiera-eyaml
 [custom puppet function]: ./functions_basics.html
 [backends]: ./hiera_custom_backends.html

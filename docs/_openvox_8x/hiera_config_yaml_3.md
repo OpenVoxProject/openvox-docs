@@ -5,8 +5,8 @@ title: "Hiera: Legacy config file syntax (hiera.yaml v3)"
 
 <!-- markdownlint-disable MD013 -->
 
-[hierarchy]: ./hiera_hierarchy.html
-[layers]: ./hiera_layers.html
+[hierarchy]: ./hiera_intro.html#hiera-hierarchies
+[layers]: ./hiera_intro.html#hieras-three-config-layers
 [v4]: ./hiera_config_yaml_4.html
 [v5]: ./hiera_config_yaml_5.html
 [merge]: ./hiera_merging.html
@@ -15,7 +15,7 @@ title: "Hiera: Legacy config file syntax (hiera.yaml v3)"
 [custom_backends]: /openvox/latest/hiera_custom_backends.html
 [puppetserver_gem]: /openvox-server/latest/gems.html#installing-and-removing-gems
 [deep_merge_gem_docs]: https://github.com/danielsdeleo/deep_merge/blob/master/README.md
-[interpolate]: ./hiera_interpolation.html
+[interpolate]: ./hiera_merging.html#interpolation
 
 Hiera's config file is called hiera.yaml. It configures the [hierarchy][] for a given [layer][layers] of data.
 
@@ -140,7 +140,7 @@ Must be one of the following:
 
 Anything but `native` requires the `deep_merge` Ruby gem to be installed. If you're using Puppet Server, you'll need to use the [`puppetserver gem`][puppetserver_gem] command to install the gem.
 
-For more details about hash merge lookup strategies, see ["Hash Merge"](./lookup_types.html#hash-merge) and ["Deep Merging in Hiera"](./lookup_types.html#deep-merging-in-hiera).
+For more details about hash merge lookup strategies, see ["Hash"](./hiera_merging.html#hash) and ["Deep"](./hiera_merging.html#deep) under Merge behaviors.
 
 ### `:deep_merge_options`
 

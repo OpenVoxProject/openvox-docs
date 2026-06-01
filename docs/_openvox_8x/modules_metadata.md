@@ -3,7 +3,7 @@ layout: default
 title: "Module metadata and metadata.json"
 ---
 
-[module data]: ./hiera_layers.html
+[module data]: ./hiera_intro.html#the-module-layer
 [hiera_yaml_4]: ./hiera_config_yaml_4.html
 
 Your modules must contain a `metadata.json` file, which tracks important information about the module and can configure certain features. This file is located in the module's main directory, outside any subdirectories.
