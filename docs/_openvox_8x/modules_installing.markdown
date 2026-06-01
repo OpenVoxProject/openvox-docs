@@ -258,29 +258,4 @@ Upgrades a Puppet module.
 sudo puppet module upgrade puppetlabs-apache --version 0.0.3
 ```
 
-{:.concept}
-## Troubleshooting Puppet Enterprise module errors
-
-If you get an error when installing a Puppet Enterprise module, check for common issues.
-
-When installing or upgrading a PE-only module, you might get the following error:
-
-```
-Error: Request to Puppet Forge failed.
-  The server being queried was https://forgeapi.puppetlabs.com/v3/releases?module=puppetlabs-f5&module_groups=base+pe_only
-  The HTTP response we received was '403 Forbidden'
-  The message we received said 'You must have a valid Puppet Enterprise license on this node in order to download puppetlabs-f5. If you have a Puppet Enterprise license, please see https://docs.puppetlabs.com/pe/latest/modules_installing.html#puppet-enterprise-modules for more information.'
-```
-
-If you aren't a Puppet Enterprise user, you won't be able to use this module unless you purchase [Puppet Enterprise](https://puppetlabs.com/puppet/puppet-enterprise).
-
-If you are a Puppet Enterprise user, check the following:
-
-1. Are you logged in as the root user? If not, log in as root and try again.
-2. Are you using either the `puppet module install` or `puppet module upgrade` command? If not, you must use the Puppet module subcommands to install or upgrade Puppet Enterprise modules.
-3. Does the node you're on have a valid Puppet Enterprise license? If not, switch to a node that has a valid PE license on it.
-4. Are you running a version of Puppet Enterprise that supports this module? If not, you might need to upgrade.
-5. Do you have access to the internet on the node? If not, you need to switch to a node that has access to the internet.
-6. If you are using r10k, is it running from `/opt/puppetlabs/bin/r10k`? If not, run r10k  from that location.
-
 

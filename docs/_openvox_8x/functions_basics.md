@@ -49,7 +49,7 @@ Interface | Description
 ----------|------------
 [The Puppet language][func_puppet]                                         | The easiest way to write functions, which you can use without knowing any Ruby. However, it's less powerful than the Ruby API: pure Puppet functions can only have one signature per function, and can't take a [lambda][] (block of Puppet code).
 [The modern Ruby functions API][func_modern] (`Puppet::Functions`)         | The most powerful and flexible way to write functions. It requires some knowledge of Ruby.
-[The legacy Ruby functions API][func_legacy] (`Puppet::Parser::Functions`) | **Avoid unless you must support Puppet 3.** This API has major problems, but it is the only way to fully support both Puppet 4.x and Puppet 3.x. (Note that Puppet 3.x can use the modern API when the future parser is enabled.)
+[The legacy Ruby functions API][func_legacy] (`Puppet::Parser::Functions`) | **Avoid.** This deprecated API has major problems and remains only for backward compatibility with very old modules. Use the Puppet language or the modern Ruby API instead.
 
 ## Guidelines for writing custom functions
 
