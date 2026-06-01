@@ -6,7 +6,7 @@ This is the documentation for OpenVox's built-in resource types and providers. A
 
 You can find and install modules by browsing the
 [Puppet Forge](http://forge.puppet.com). See each module's documentation for
-information on how to use its custom resource types. For more information about creating custom types, see [Custom resources](/openvox/latest/custom_resources.html).
+information on how to use its custom resource types. For more information about creating custom types, see [Custom types](/openvox/latest/custom_types.html).
 
 > As of Puppet 6.0, some resource types were removed from Puppet and repackaged as individual modules.
 > These supported type modules are still included in the `puppet-agent` package, so you don't have to download them from the Forge.
@@ -146,4 +146,4 @@ The following types were deprecated with Puppet 6.0.0. They are available in mod
 
 ## OpenVox core types
 
-For a list of core OpenVox types, see the [core types cheat sheet](cheatsheet_core_types.html).
+For a list of core OpenVox types, see the [core types cheat sheet](/openvox/latest/cheatsheet_core_types.html).
