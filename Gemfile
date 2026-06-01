@@ -36,6 +36,10 @@ group(:development) do
   gem 'voxpupuli-rubocop', '~> 5.2.0'
 end
 
+group(:test) do
+  gem 'html-proofer', '~> 5.2'
+end
+
 # group(:debug) do
 #   gem 'byebug'
 # end
