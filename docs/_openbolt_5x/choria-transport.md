@@ -18,9 +18,9 @@ Key components:
 
 The transport uses the `choria-mcorpc-support` Ruby gem as its client library.
 
-For the project roadmap, see [choria-transport-plan.md](choria-transport-plan.html).
-For developer documentation, see [choria-transport-dev.md](choria-transport-dev.html).
-For test environment setup, see [choria-transport-testing.md](choria-transport-testing.html).
+For the project roadmap, see [choria-transport-plan.md](https://github.com/openvoxproject/openbolt/blob/main/developer-docs/choria/choria-transport-plan.md).
+For developer documentation, see [choria-transport-dev.md](https://github.com/openvoxproject/openbolt/blob/main/developer-docs/choria/choria-transport-dev.md).
+For test environment setup, see [choria-transport-testing.md](https://github.com/openvoxproject/openbolt/blob/main/developer-docs/choria/choria-transport-testing.md).
 
 ## Prerequisites
 
@@ -230,7 +230,7 @@ agent is not available on a target, that target gets a clear error result.
 
 Not yet supported. These will be implemented in Phase 4 with a new
 chunked file-transfer agent. See the
-[project plan](choria-transport-plan.html#phase-4-file-transfer-agent) for
+[project plan](https://github.com/openvoxproject/openbolt/blob/main/developer-docs/choria/choria-transport-plan.md#phase-4-file-transfer-agent) for
 details.
 
 ### connected?
@@ -295,7 +295,7 @@ mcollective::plugin_classes:
 Restart `choria-server` on target nodes after installing.
 
 For detailed installation instructions (including manual file copy), see
-[choria-transport-testing.md](choria-transport-testing.html#shell-agent).
+[choria-transport-testing.md](https://github.com/openvoxproject/openbolt/blob/main/developer-docs/choria/choria-transport-testing.md#shell-agent).
 
 ## Using bolt_tasks with an OpenVox/Puppet Server
 

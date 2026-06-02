@@ -562,7 +562,7 @@ in the inventory, otherwise it will create the target and return it. Similarly
 an array of target objects. Some transport options can be [configured in the URI
 string](https://puppet.com/docs/bolt/latest/configuring_bolt.html), but if this
 isn't sufficient you can use
-[set_config](https://puppet.com/docs/bolt/latest/plan_functions.html#set-config)
+[set_config](https://puppet.com/docs/bolt/latest/plan_functions.html#set_config)
 to set configuration options on the targets.
 
 Use `Target.new()` to create a target that clobbers an existing target with the
@@ -616,12 +616,12 @@ plan create_targets(
 There are a handful of functions available to modify existing target objects
 inside a plan:
 
-* [add_facts](https://puppet.com/docs/bolt/latest/plan_functions.html#add-facts)
-* [add_to_group](https://puppet.com/docs/bolt/latest/plan_functions.html#add-to-group)
-* [remove_from_group](https://puppet.com/docs/bolt/latest/plan_functions.html#remove-from-group)
-* [set_config](https://puppet.com/docs/bolt/latest/plan_functions.html#set-config)
-* [set_feature](https://puppet.com/docs/bolt/latest/plan_functions.html#set-feature)
-* [set_var](https://puppet.com/docs/bolt/latest/plan_functions.html#set-var)
+* [add_facts](https://puppet.com/docs/bolt/latest/plan_functions.html#add_facts)
+* [add_to_group](https://puppet.com/docs/bolt/latest/plan_functions.html#add_to_group)
+* [remove_from_group](https://puppet.com/docs/bolt/latest/plan_functions.html#remove_from_group)
+* [set_config](https://puppet.com/docs/bolt/latest/plan_functions.html#set_config)
+* [set_feature](https://puppet.com/docs/bolt/latest/plan_functions.html#set_feature)
+* [set_var](https://puppet.com/docs/bolt/latest/plan_functions.html#set_var)
 
 These can be used to add facts, transport specific configuration options,
 features, and variables to target objects, as well as add or remove objects from
@@ -634,7 +634,7 @@ runs.
 
 Target objects can be temporarily modified during a plan run. For example, you
 can store a target's configuration in a temporary variable, modify the target's
-configuration using the [`set_config`](plan_functions.html#set-config) function,
+configuration using the [`set_config`](plan_functions.html#set_config) function,
 and then restore the target's original configuration.
 
 Temporarily modify a target's configuration:

@@ -769,7 +769,7 @@ converted and prints the converted Puppet language plan to stdout.
 syntactically correct, but behaves differently. Always manually verify a
 converted Puppet language plan's functionality. There are some constructs that
 do not translate from YAML plans to Puppet language plans. These are
-[listed](#yaml-plan-constructs-that-cannot-be-translated-to-puppet-plans) below.
+listed below.
 If you convert a YAML plan to Puppet and it changes behavior, [file an
 issue](https://github.com/puppetlabs/bolt/issues) in Bolt's Git repo.
 

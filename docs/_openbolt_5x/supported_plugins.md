@@ -18,7 +18,7 @@ files, and plans.
 | --- | --- | --- |
 | `aws_inventory` | Generate targets from Amazon Web Services EC2 instances. | [aws_inventory](https://forge.puppet.com/puppetlabs/aws_inventory) |
 | `azure_inventory` | Generate targets from Azure VMs and VM scale sets. | [azure_inventory](https://forge.puppet.com/puppetlabs/azure_inventory) |
-| `env_var` | Read values stored in environment variables. | [env_var](#env-var) |
+| `env_var` | Read values stored in environment variables. | [env_var](#env_var) |
 | `gcloud_inventory` | Generate targets from Google Cloud compute engine instances. | [gcloud_inventory](https://forge.puppet.com/puppetlabs/gcloud_inventory) |
 | `pkcs7` | Decrypt ciphertext. | [pkcs7](https://forge.puppet.com/puppetlabs/pkcs7) |
 | `prompt` | Prompt the user for a sensitive value. | [prompt](#prompt) |

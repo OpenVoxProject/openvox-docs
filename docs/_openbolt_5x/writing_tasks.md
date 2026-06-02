@@ -174,7 +174,7 @@ for simple JSON types such as strings and numbers. For arrays and hashes, use
 structured input instead, because parameters with undefined values (`nil`,
 `undef`) passed as environment variables have the `String` value `null`. For
 more information, see [Structured input and
-output](#structured-input-and-output).
+output](#using-structured-input-and-output).
 
 To add a parameter to your task as an environment variable, pass the argument
 prefixed with the Puppet task prefix `PT_`.

@@ -17,7 +17,7 @@ Use the `apply` [Bolt plan function](writing_plans.html) to apply a block of Pup
 block) to a target.
 
 Before you can apply a manifest to a target, prepare the target using
-the `apply_prep` plan function. See [`apply_prep`](#apply-prep).
+the `apply_prep` plan function. See [`apply_prep`](#apply_prep).
 
 📖 **Related information**
 
@@ -32,7 +32,7 @@ path. The `puppet-agent` package and facts are required for an `apply`.
 📖 **Related information**
 
 - [Applying Puppet code](https://puppet.com/docs/bolt/latest/applying_manifest_blocks.html)
-- [`apply_prep` example](plan_functions.html#apply-prep)
+- [`apply_prep` example](plan_functions.html#apply_prep)
 
 ## catalog
 
@@ -59,7 +59,7 @@ for a list of supported platforms.
 ## fact
 
 A fact is a piece of information about a target, such as its hostname, IP
-address, or operating system. Facts are typically gathered by Puppet's [Facter](#Facter) tool.
+address, or operating system. Facts are typically gathered by Puppet's [Facter](#facter) tool.
 
 ## Facter
 

@@ -331,7 +331,7 @@ gems with Bolt packages](bolt_installing.html#).
 [Hiera interpolations](https://puppet.com/docs/puppet/latest/hiera_merging.html#hiera_interpolation)
 are not supported in Bolt outside of apply blocks, because Hiera data is looked up per-target and
 plans do not run in a per-target context. If you want to use Hiera to look up data outside of an apply
-block, you can use a [plan hierarchy](writing_plans.html#using-hiera-data-in-plans).
+block, you can use a [plan hierarchy](#using-hiera-data-in-a-manifest-block).
 
 ## Puppet log functions in Bolt
 
@@ -360,7 +360,7 @@ In addition to the standard Puppet functions available to a catalog, such as
 `lookup()`, you can use the following Bolt functions in a manifest block:
 
 - [`puppetdb_query`](plan_functions.html#puppetdb_query)
-- [`puppetdb_facts`](plan_functions.html#puppetdb_facts)
+- [`puppetdb_facts`](plan_functions.html#puppetdb_fact)
 - [`facts`](plan_functions.html#facts)
 - [`vars`](plan_functions.html#vars)
 
@@ -455,7 +455,7 @@ Create a manifest that sets up a web server with nginx, and run it as a plan.
 📖 **Related information**  
 
 - [NGINX](https://www.nginx.com/resources/glossary/nginx/)
-- [Specify targets](running_bolt_commands.html#adding-options-to-bolt-commands)
+- [Specify targets](running_bolt_commands.html)
 - [Bolt Projects](projects.html)
 
 
@@ -544,9 +544,9 @@ Create a manifest that sets up a web server with IIS and run it as a plan.
 
 📖 **Related information**  
 - [IIS](https://www.iis.net)
-- [Specify targets](running_bolt_commands.html#adding-options-to-bolt-commands)
+- [Specify targets](running_bolt_commands.html)
 - [Bolt projects](projects.html)
 - [Puppet language Bolt plans](writing_plans.html)
 - For information on how Bolt loads the modulepath, see [Modules overview](modules.html#modulepath).
 - To learn more about using Puppet device modules, see [Running Bolt on network
-  devices](running_bolt_network.html#-using-puppet-device-modules-from-an-apply-block)
+  devices](running_bolt_network.html#-using-puppet-network-device-modules-from-an-apply-block)

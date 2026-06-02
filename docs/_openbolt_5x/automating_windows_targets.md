@@ -172,7 +172,7 @@ documentation.](https://puppet.com/docs/pdk/1.x/pdk_overview.html)
 
     **Note:** `--targets windows` refers to the name of the group of targets
     that you specified in your inventory file. For more information, see
-    [Specify targets](running_bolt_commands.html#adding-options-to-bolt-commands).
+    [Specify targets](running_bolt_commands.html).
 
 ## Deploy a package with Bolt and Chocolatey
 
