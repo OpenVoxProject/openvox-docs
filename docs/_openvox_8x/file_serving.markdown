@@ -5,7 +5,6 @@ title: "Adding file server mount points"
 
 [module_files]: ./modules_fundamentals.html#files-in-modules
 [fileserver.conf]: ./config_file_fileserver.html
-[deprecated]: ./deprecated_settings.html#authorization-rules-in-fileserverconf
 [auth.conf]: /openvox-server/latest/config_file_auth.html
 [auth_legacy]: ./config_file_auth.html
 [disable_legacy]: /openvox-server/latest/config_file_puppetserver.html
@@ -58,7 +57,7 @@ In the example above, a file at `/etc/puppetlabs/puppet/installer_files/oracle.p
 
 Make sure that the `puppet` user can access that directory and its contents.
 
-Always include the `allow *` line, since the default behavior is to deny all access. If you need to control access to a custom mount point, do so in [`auth.conf`][auth.conf]. [Putting authorization rules in `fileserver.conf` is deprecated.][deprecated]
+Always include the `allow *` line, since the default behavior is to deny all access. If you need to control access to a custom mount point, do so in [`auth.conf`][auth.conf]. Putting authorization rules in `fileserver.conf` is deprecated.
 
 > **Caution:** You should always restrict write access to mounted directories. The file server will follow any symlinks in a file server mount, including links to files that agent nodes should not access (like SSL keys).
 >

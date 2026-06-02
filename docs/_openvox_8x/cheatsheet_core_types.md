@@ -8,7 +8,6 @@ title: Core types cheat sheet
 [package]: ./type.html#package
 [service]: ./type.html#service
 [exec]: ./type.html#exec
-[cron]: ./type.html#cron
 [user]: ./type.html#user
 [group]: ./type.html#group
 [other]: ./type.html
@@ -187,32 +186,6 @@ Executes an arbitrary command on the agent node. When using execs, you must eith
 #### Other Notable Attributes:
 
 [`cwd`](./type.html#exec-attribute-cwd), [`group`](./type.html#exec-attribute-group), [`logoutput`](./type.html#exec-attribute-logoutput), , [`timeout`](./type.html#exec-attribute-timeout), [`tries`](./type.html#exec-attribute-tries), [`try_sleep`](./type.html#exec-attribute-try_sleep), [`user`](./type.html#exec-attribute-user).
-
-{:.concept}
-### [cron][]
-
-Manages cron jobs. Largely self-explanatory. On Windows, you should use [`scheduled_task`](./type.html#scheduledtask) instead.
-
-    cron { 'logrotate':
-      command => '/usr/sbin/logrotate',
-      user    => 'root',
-      hour    => 2,
-      minute  => 0,
-    }
-
-{:.section}
-#### Important Attributes
-
-* [`command`](./type.html#cron-attribute-command) -- The command to execute.
-* [`ensure`](./type.html#cron-attribute-ensure) -- Whether the job should exist.
-    * present
-    * absent
-* [`hour`](./type.html#cron-attribute-hour), [`minute`](./type.html#cron-attribute-minute), [`month`](./type.html#cron-attribute-month), [`monthday`](./type.html#cron-attribute-monthday), and [`weekday`](./type.html#cron-attribute-weekday) -- The timing of the cron job.
-
-{:.section}
-#### Other Notable Attributes
-
-[`environment`](./type.html#cron-attribute-environment), [`name`](./type.html#cron-attribute-name), [`special`](./type.html#cron-attribute-special), [`target`](./type.html#cron-attribute-target), [`user`](./type.html#cron-attribute-user).
 
 {:.concept}
 ### [user][]

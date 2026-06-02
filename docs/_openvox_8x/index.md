@@ -13,7 +13,7 @@ OpenVox is downstream-compatible with Puppet Open Source — existing manifests,
 
 OpenVox operates in two modes:
 
-**Agent/server** — Managed nodes run `openvox-agent` as a background service. Periodically, each agent sends facts (system inventory data) to an [OpenVox Server](../openvox-server/latest/), receives a compiled catalog, and enforces it. Results are reported back to the server. Communication is HTTPS with mutual TLS.
+**Agent/server** — Managed nodes run `openvox-agent` as a background service. Periodically, each agent sends facts (system inventory data) to an [OpenVox Server](/openvox-server/latest/), receives a compiled catalog, and enforces it. Results are reported back to the server. Communication is HTTPS with mutual TLS.
 
 **Standalone** — The `puppet apply` command compiles and applies a catalog locally, with no server required.
 

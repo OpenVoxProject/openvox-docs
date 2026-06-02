@@ -7,7 +7,7 @@ title: "Config files: The main config file (puppet.conf)"
 [about]: ./config_about_settings.html
 [short]: ./config_important_settings.html
 [config]: ./configuration.html#config
-[subcommands]: ./man/
+[subcommands]: ./man/overview.html
 [reports]: ./configuration.html#reports
 [modulepath]: ./configuration.html#modulepath
 [ssldir]: ./configuration.html#ssldir

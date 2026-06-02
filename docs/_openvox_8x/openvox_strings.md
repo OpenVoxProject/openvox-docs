@@ -19,7 +19,7 @@ Markdown output includes the reference documentation only, and writes the inform
 
 **Related links**:
 
-* [Puppet Strings style guide](/openvox/latest/puppet_strings_style.html)
+* [Puppet Strings style guide](./openvox_strings_style.html)
 * [Module README Template](/openvox/latest/modules_documentation.html)
 * [YARD Getting Started Guide](http://www.rubydoc.info/gems/yard/file/docs/GettingStarted.md)
 * [YARD Tags Overview](http://www.rubydoc.info/gems/yard/file/docs/Tags.md)
@@ -211,8 +211,8 @@ Option   | Description   | Values      | Default
 * `@api`: Describes the resource as belonging to the private or public API. Specify as private, `# @api private`, to mark a module element, such as a class, as part of the private API.
 * `@example`: Shows an example snippet of code for an object. The first line is an optional title, and any subsequent lines are automatically formatted as a code snippet. Use for specific examples of a given component. One example tag per example.
 * `@param`: Documents a parameter with a given name, type and optional description.
-* `@!puppet.type.param`: Documents dynamic type parameters. See [Documenting resource types and providers](/openvox/latest/puppet_strings.html#resource-types).
-* `@!puppet.type.property`: Documents dynamic type properties. See [Documenting resource types and providers](/openvox/latest/puppet_strings.html#resource-types).
+* `@!puppet.type.param`: Documents dynamic type parameters.
+* `@!puppet.type.property`: Documents dynamic type properties.
 * `@option`: With a `@param` tag, defines what optional parameters the user can pass in an options hash to the method.
   For example:
   ```

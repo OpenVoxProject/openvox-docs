@@ -4,9 +4,9 @@ title: "Static catalogs"
 ---
 
 [catalogs]: ./subsystem_catalog_compilation.html
-[catalog endpoint]: ./http_api/http_catalog.html
-[file metadata]: ./http_api/http_file_metadata.html
-[`file_content`]: ./http_api/http_file_content.html
+[catalog endpoint]: /openvox-server/latest/http_catalog.html
+[file metadata]: /openvox-server/latest/http_file_metadata.html
+[`file_content`]: /openvox-server/latest/http_file_content.html
 [`static_file_content`]: /openvox-server/latest/puppet-api/v3/static_file_content.html
 [resource_declaration]: ./lang_resources.html
 [file resources]: ./types/file.html

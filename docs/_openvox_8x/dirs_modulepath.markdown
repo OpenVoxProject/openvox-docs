@@ -118,4 +118,4 @@ For most content, this earliest-module-wins behavior is on an all-or-nothing, **
 >
 > The upshot is, if you refactor a module's Ruby plugins and then maintain two versions of that module in your modulepath, it can sometimes result in weirdness.
 >
-> This is essentially the same Ruby loading problem that environments have, [as described elsewhere in this manual](./environments_limitations.html#plugins-running-on-the-puppet-master-are-weird). It's not intentional, but it's not likely to get fixed soon, since it's a byproduct of the way Ruby works and Puppet only has a limited amount of control over it.
+> This is essentially the same Ruby loading problem that environments have. It's not intentional, but it's not likely to get fixed soon, since it's a byproduct of the way Ruby works and Puppet only has a limited amount of control over it.

@@ -175,7 +175,7 @@ manner to the `fail()` function:
 
 ## Referencing Custom Functions In Templates
 
-To call a custom function within a [Puppet Template](./templating.html), you can do:
+To call a custom function within a [Puppet Template](./lang_template.html), you can do:
 
     <%= scope.function_namegoeshere(["one","two"]) %>
 

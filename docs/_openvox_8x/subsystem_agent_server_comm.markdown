@@ -3,7 +3,7 @@ title: "Subsystems: Agent/server HTTPS communications"
 layout: default
 ---
 
-[http_api]: http_api/http_api_index.html
+[http_api]: /openvox-server/latest/http_api_index.html
 [authconf]: config_file_auth.html
 [facts]: lang_variables.html#facts-and-built-in-variables
 [catalog]: lang_summary.html#compilation-and-catalogs

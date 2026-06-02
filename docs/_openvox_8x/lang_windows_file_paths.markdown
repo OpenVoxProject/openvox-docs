@@ -4,7 +4,7 @@ title: "Language: Handling file paths on Windows"
 ---
 
 [template]: ./lang_template.html
-[scheduledtask]: ./type.html#scheduledtask
+[scheduledtask]: https://forge.puppet.com/modules/puppetlabs/scheduled_task/reference#scheduled_task
 [exec]: ./type.html#exec
 [package]: ./type.html#package
 [file]: ./type.html#file

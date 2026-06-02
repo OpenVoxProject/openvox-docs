@@ -18,7 +18,6 @@ title: "Language: Resources"
 [defined_type]: ./lang_defined_types.html
 [catalog]: ./lang_summary.html#compilation-and-catalogs
 [files]: ./type.html#file
-[cron jobs]: ./type.html#cron
 [services]: ./type.html#service
 [custom_types]: ./custom_types.html
 [resource_advanced]: ./lang_resources_advanced.html
@@ -37,7 +36,7 @@ This page describes the basics of using resource declarations. For more advanced
 
 Every resource is associated with a **resource type,** which determines the kind of configuration it manages.
 
-OpenVox has many built-in resource types, like [files][], [cron jobs][], [services][], etc. [See the resource type reference][types] for information about the built-in resource types.
+OpenVox has many built-in resource types, like [files][] and [services][]. [See the resource type reference][types] for information about the built-in resource types.
 
 You can also add new resource types to OpenVox:
 
@@ -133,9 +132,8 @@ If multiple classes require the same resource, you can use a [class][] or a [vir
 
 ### Relationships and ordering
 
-[ordering]: ./configuration.html#ordering
 
-By default, OpenVox applies unrelated resources in the order in which they're written in the manifest. You can disable this with the [`ordering`][ordering] setting.
+By default, OpenVox applies unrelated resources in the order in which they're written in the manifest.
 
 However, if a resource must be applied before or after some other resource, you should declare a relationship between them, to show that their order isn't coincidental. You can also make changes in one resource cause a refresh of some other resource. See [the Relationships and Ordering page][relationships] for more information.
 

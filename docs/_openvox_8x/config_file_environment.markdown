@@ -9,7 +9,7 @@ title: "Config files: environment.conf"
 [puppet.conf]: ./config_file_main.html
 [basemodulepath]: configuration.html#basemodulepath
 [main manifest]: ./dirs_manifest.html
-[configuring_timeout]: ./environments_configuring.html#environmenttimeout
+[configuring_timeout]: ./configuration.html#environment_timeout
 
 Any [environment][] can contain an `environment.conf` file. This file can override several settings whenever the OpenVox Server is serving nodes assigned to that environment.
 

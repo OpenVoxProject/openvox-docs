@@ -14,7 +14,6 @@ title: "Language: Node definitions"
 [enc]: ./nodes_external.html
 [facts]: ./lang_variables.html#facts-and-built-in-variables
 [catalogs]: ./lang_summary.html#compilation-and-catalogs
-[strict]: ./configuration.html#stricthostnamechecking
 [conditional]: ./lang_conditional.html
 
 A **node definition** or **node statement** is a block of Puppet code that will only be included in matching nodes' [catalogs][]. This feature allows you to assign specific configurations to specific nodes.
@@ -124,20 +123,13 @@ A given node will only get the contents of **one** node definition, even if two 
 
 1. If there is a node definition with the node's exact name, Puppet will use it.
 2. If there is a regular expression node statement that matches the node's name, Puppet will use it. (If more than one regex node matches, Puppet will use one of them, with no guarantee as to which.)
-3. If the node's name looks like a fully qualified domain name (i.e. multiple period-separated groups of letters, numbers, underscores and dashes), Puppet will chop off the final group and start again at step 1. (That is, if a definition for `www01.example.com` isn't found, Puppet will look for a definition matching `www01.example`.)
-4. Puppet will use the `default` node.
+3. Puppet will use the `default` node.
 
 Thus, for the node `www01.example.com`, Puppet would try the following, in order:
 
 * `www01.example.com`
 * A regex that matches `www01.example.com`
-* `www01.example`
-* A regex that matches `www01.example`
-* `www01`
-* A regex that matches `www01`
 * `default`
-
-You can turn off this fuzzy name matching by changing the OpenVox Server's [`strict_hostname_checking`][strict] setting to `true`. This will cause Puppet to skip step 3 and only use the node's full name before resorting to `default`.
 
 ### Regex capture variables
 

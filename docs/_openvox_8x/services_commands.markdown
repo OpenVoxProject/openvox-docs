@@ -28,7 +28,6 @@ title: "Puppet's commands"
 [help_man]: ./man/help.html
 [all_manpages]: ./man/overview.html
 [about_server]: /openvox-server/latest/services_puppetserver.html
-[server_vs_passenger]: /openvox-server/latest/puppetserver_vs_passenger.html
 [subcommands]: /openvox-server/latest/subcommands.html
 
 Puppet's command line interface consists of a single `puppet` command with many subcommands.
@@ -60,7 +59,6 @@ For more information, see:
 
 * [Overview of Puppet's Architecture][arch]
 * [Puppet Server][about_server]
-* [Puppet Server vs. Apache/Passenger master][server_vs_passenger]
 * [Puppet Server Subcommands][subcommands]
 
 ### Puppet apply

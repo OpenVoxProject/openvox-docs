@@ -16,8 +16,7 @@ title: "Configuration: Short list of important settings"
 [manifest_dir]: ./dirs_manifest.html
 [report_reference]: ./report.html
 [write_reports]: ./reporting_write_processors.html
-[passenger_headers]: ./passenger.html#notes-on-ssl-verification
-[puppetdb_install]: /openvoxdb/latest/connect_puppet_master.html
+[puppetdb_install]: /openvoxdb/latest/connect_puppet_server.html
 [static_compiler]: ./static_catalogs.html
 [ssl_autosign]: ./ssl_autosign.html
 [structured_facts]: ./lang_facts_and_builtin_vars.html#data-types
@@ -26,7 +25,6 @@ title: "Configuration: Short list of important settings"
 [immutable_node_data]: ./configuration.html#immutablenodedata
 [strict_variables]: ./configuration.html#strict_variables
 [stringify_facts]: ./configuration.html#stringifyfacts
-[ordering]: ./configuration.html#ordering
 [reports]: ./configuration.html#reports
 [parser]: ./configuration.html#parser
 [server]: ./configuration.html#server
@@ -59,31 +57,26 @@ title: "Configuration: Short list of important settings"
 [basemodulepath]: ./configuration.html#basemodulepath
 [modulepath]: ./configuration.html#modulepath
 [manifest]: ./configuration.html#manifest
-[ssl_client_header]: ./configuration.html#ssl_client_header
-[ssl_client_verify_header]: ./configuration.html#ssl_client_verify_header
 [node_terminus]: ./configuration.html#node_terminus
 [external_nodes]: ./configuration.html#external_nodes
 [storeconfigs]: ./configuration.html#storeconfigs
 [storeconfigs_backend]: ./configuration.html#storeconfigs_backend
 [catalog_terminus]: ./configuration.html#catalog_terminus
 [config_version]: ./configuration.html#config_version
-[ca]: ./configuration.html#ca
 [ca_ttl]: ./configuration.html#ca_ttl
 [autosign]: ./configuration.html#autosign
 [environmentpath]: ./configuration.html#environmentpath
 [environment.conf]: ./config_file_environment.html
-[alwayscachefeatures]: ./configuration.html#alwayscachefeatures
 [environment_timeout]: ./configuration.html#environment_timeout
-[configuring_timeout]: ./environments_configuring.html#environmenttimeout
+[configuring_timeout]: ./configuration.html#environment_timeout
 [puppetserver_config_files]: /openvox-server/latest/configuration.html
 [settings_diffs]: /openvox-server/latest/puppet_conf_setting_diffs.html
 [puppet_admin]: /openvox-server/latest/config_file_puppetserver.html
 [jruby_puppet]: /openvox-server/latest/tuning_guide.html#puppet-server-and-jruby
-[jvm_heap_config]: /openvox-server/latest/install_from_packages.html#memory-allocation
-[puppetserver_ca]: /openvox-server/latest/puppet_conf_setting_diffs.html#cahttpsdocspuppetcompuppetlatestreferenceconfigurationhtmlca
+[jvm_heap_config]: /openvox-server/latest/install_from_packages.html
+[puppetserver_ca]: /openvox-server/latest/puppet_conf_setting_diffs.html
 [service_bootstrap]: /openvox-server/latest/configuration.html#service-bootstrapping
 [trusted_server_facts]: ./lang_facts_and_builtin_vars.html#server_facts-variable
-[always_retry_plugins]: ./configuration.html#always_retry_plugins
 [sourceaddress]: ./configuration.html#sourceaddress
 
 Puppet has about 200 settings, all of which are listed in the [configuration reference][config_reference]. Most users can ignore about 170 of those.
@@ -164,11 +157,6 @@ Puppet Server has [its own configuration files][puppetserver_config_files]; cons
 * [`jruby-puppet`][jruby_puppet] --- Provides details on tuning JRuby for better performance.
 * [`JAVA_ARGS`][jvm_heap_config] --- Instructions on tuning the Puppet Server memory allocation.
 
-### Rack related settings
-
-* [`ssl_client_header`][ssl_client_header] and [`ssl_client_verify_header`][ssl_client_verify_header] --- These are used when running OpenVox Server as a Rack application, a method deprecated in favor of running Puppet Server. See [the Passenger setup guide][passenger_headers] for more context about how these settings work; depending on how you configure your Rack server, you can usually leave these settings with their default values.
-* [`always_retry_plugins`][always_retry_plugins] --- If this setting is set to false, then types and features will only be checked once, and if they are not available, the negative result is cached and returned for all subsequent attempts to load the type or feature. This replaces the [`always_cache_features`][alwayscachefeatures] setting.
-
 ### Extensions
 
 These features configure add-ons and optional features.
@@ -179,9 +167,7 @@ These features configure add-ons and optional features.
 
 ### CA settings
 
-* [`ca`][ca] --- Whether to act as a CA. **There should only be one CA at a Puppet deployment.** If you're using [multiple OpenVox Servers][multi_master], you'll need to set `ca = false` on all but one of them.
-
-   Note that the `ca` setting is not valid for Puppet Server. Refer to these sections about the [Puppet Server `ca`][puppetserver_ca] and [service bootstrapping][service_bootstrap].
+* **Acting as a CA** --- OpenVox Server provides the certificate authority, run as a JRuby service rather than a `ca` setting. There should be only one CA in a deployment, so in a [multi-server][multi_master] setup you disable the CA service on all but one node via [service bootstrapping][service_bootstrap] (the `ca.cfg` file). See also the [OpenVox Server `ca` settings][puppetserver_ca].
 
 * [`ca_ttl`][ca_ttl] --- How long newly signed certificates should be valid for.
 * [`autosign`][autosign] --- Whether (and how) to autosign certificates. See [the autosigning page][ssl_autosign] for details.

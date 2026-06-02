@@ -13,7 +13,7 @@ title: "Directories: The main manifest"
 [disable_per_environment_manifest]: ./configuration.html#disable_per_environment_manifest
 [environment.conf]: ./config_file_environment.html
 [puppet.conf]: ./config_file_main.html
-[configuring environments]: ./environments_configuring.html
+[configuring environments]: ./environments_creating.html
 [creating environments]: ./environments_creating.html
 
 Puppet always starts compiling with either a single manifest file or a directory of manifests that get treated like a single file. This main starting point is called the **main manifest** or **site manifest.**
