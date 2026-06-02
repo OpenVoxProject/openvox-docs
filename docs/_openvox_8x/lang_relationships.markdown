@@ -12,7 +12,6 @@ title: "Language: Relationships and ordering"
 [service]: ./type.html#service
 [exec]: ./type.html#exec
 [type]: ./type.html
-[mount]: https://forge.puppet.com/modules/puppetlabs/mount_core/reference#mount
 [package]: ./type.html#package
 [metaparameters]: ./lang_resources.html#metaparameters
 [require_function]: ./lang_classes.html#using-require
@@ -232,7 +231,7 @@ By default, _unrelated_ resources are managed in the order in which they're writ
 
 Some resource types can do a special "refresh" action when a dependency changes. For example, some services must restart when their config files change, so `service` resources can refresh by restarting the service.
 
-(The built-in resource types that can refresh are [service][], [mount][], [exec][], and sometimes [package][]. See each type's docs for info about their refresh behavior.)
+(The built-in resource types that can refresh are [service][], [exec][], and sometimes [package][]. See each type's docs for info about their refresh behavior.)
 
 Puppet uses notifying relationships (`subscribe`, `notify`, and `~>`) to tell resources when they should refresh. A resource will perform its refresh action if Puppet changes any of the resources it subscribes to.
 

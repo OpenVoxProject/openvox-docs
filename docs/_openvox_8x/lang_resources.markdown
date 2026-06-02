@@ -18,7 +18,6 @@ title: "Language: Resources"
 [defined_type]: ./lang_defined_types.html
 [catalog]: ./lang_summary.html#compilation-and-catalogs
 [files]: ./type.html#file
-[cron jobs]: https://forge.puppet.com/modules/puppetlabs/cron_core/reference#cron
 [services]: ./type.html#service
 [custom_types]: ./custom_types.html
 [resource_advanced]: ./lang_resources_advanced.html
@@ -37,7 +36,7 @@ This page describes the basics of using resource declarations. For more advanced
 
 Every resource is associated with a **resource type,** which determines the kind of configuration it manages.
 
-OpenVox has many built-in resource types, like [files][], [cron jobs][], [services][], etc. [See the resource type reference][types] for information about the built-in resource types.
+OpenVox has many built-in resource types, like [files][] and [services][]. [See the resource type reference][types] for information about the built-in resource types.
 
 You can also add new resource types to OpenVox:
 
