@@ -9,7 +9,7 @@ canonical: "/openvoxdb/latest/scaling_recommendations.html"
 [dashboard]: ./maintain_and_tune.html#monitor-the-performance-dashboard
 [heap]: ./maintain_and_tune.html#tune-the-max-heap-size
 [threads]: ./maintain_and_tune.html#tune-the-number-of-threads
-[postgres]: ./configure.html#using-postgresql
+[postgres]: ./configure_postgres.html
 [pg_ha]: http://www.postgresql.org/docs/current/interactive/high-availability.html
 [pg_replication]: http://wiki.postgresql.org/wiki/Replication,_Clustering,_and_Connection_Pooling
 [ram]: #bottleneck-java-heap-size

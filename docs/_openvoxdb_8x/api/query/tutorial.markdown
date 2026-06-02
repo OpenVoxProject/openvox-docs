@@ -8,7 +8,7 @@ canonical: "/openvoxdb/latest/api/query/tutorial.html"
 
 [array]: ./v4/ast.html#array
 [curl]: ./curl.html
-[select]: ./v4/ast.html#selectentity-subquery-statements
+[select]: ./v4/ast.html#select_entity-subquery-statements
 [config_jetty]: ../../configure.html#jetty-http-settings
 
 This page walks through the construction of several types of OpenVoxDB queries. We use the **version 4 API** in all examples.

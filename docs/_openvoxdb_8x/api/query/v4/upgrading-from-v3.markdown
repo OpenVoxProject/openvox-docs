@@ -139,6 +139,6 @@ Each change below is marked with the corresponding release version.
   [subquery examples documentation](../../../api/query/v4/ast.html#explicit-subquery-examples).
 
 - (2.2.0) We have added the regexp array match operator `~>` for querying fact paths on the `fact-contents` or `fact-paths endpoints`. This is documented with the other
-  [operators](../../../api/query/v4/ast.html#regexp-array-match). An example of usage is given at the bottom of the [subquery examples page](../../../api/query/v4/ast.html#explicit-subquery-examples).
+  [operators](../../../api/query/v4/ast.html#-regexp-array-match). An example of usage is given at the bottom of the [subquery examples page](../../../api/query/v4/ast.html#explicit-subquery-examples).
 
 - (3.0) We have added the `group_by` and `function` operators, as well as support for the `count` function. For more information, see the [operators documentation](../../../api/query/v4/ast.html#function).

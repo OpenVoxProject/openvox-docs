@@ -16,7 +16,7 @@ canonical: "/openvoxdb/latest/connect_puppet_server.html"
 [report]: ./api/query/v4/reports.html
 [store_report]: ./api/command/v1/commands.html#store-report-version-7
 [report_format]: ./api/wire_format/report_format_v5.html
-[puppetdb_server_urls]: ./puppetdb_connection.html#serverurls
+[puppetdb_server_urls]: ./puppetdb_connection.html#server_urls
 [package_repos]: /openvox/latest/openvox_platform.html
 
 

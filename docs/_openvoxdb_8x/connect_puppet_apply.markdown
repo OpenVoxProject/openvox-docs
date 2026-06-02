@@ -16,7 +16,7 @@ canonical: "/openvoxdb/latest/connect_puppet_apply.markdown"
 [routes_yaml]: /openvox/latest/config_file_routes.html
 [jetty]: ./configure.html#jetty-http-settings
 [ssl_script]: ./maintain_and_tune.html#redo-ssl-setup-after-changing-certificates
-[settings_namespace]: /openvox/latest/lang_facts_and_builtin_vars.html#puppet-master-variables
+[settings_namespace]: /openvox/latest/lang_facts_and_builtin_vars.html#openvox-server-variables
 [package_repos]: /openvox/latest/openvox_platform.html
 [intermediate_ca]: /openvox-server/latest/intermediate_ca.html#set-up-openvox-as-an-intermediate-ca-with-an-external-root
 
