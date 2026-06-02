@@ -255,7 +255,7 @@ To run a source OpenVoxDB with OpenVox Server, OpenVox Server needs standard Ope
 OpenVox Server to load the OpenVoxDB terminus from the specified directory.
 
 From here, the instructions are similar to installing OpenVoxDB manually via packages. The OpenVox Server instance needs configuration for connecting to OpenVoxDB. See the
-[OpenVoxDB documentation](../../../openvoxdb/latest/connect_puppet_server.html) for details.
+[OpenVoxDB documentation](/openvoxdb/latest/connect_puppet_server.html) for details.
 
 Update `~/.puppetlabs/etc/puppet/puppet.conf` to include:
 

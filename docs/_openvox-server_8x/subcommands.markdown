@@ -51,7 +51,7 @@ Because these commands are shipped as a gem alongside Puppet Server, it can be u
 
 **Note:** These commands are available in Puppet 5, but in order to use them, you must update Puppet Server’s `auth.conf` to include a rule allowing the master’s certname to access the `certificate_status` and
 `certificate_statuses` endpoints. The same applies to upgrading in open source Puppet: if you're upgrading from Puppet 5 to Puppet 6 and are not regenerating your CA, you must whitelist the master’s certname.
-See [Puppet Server Configuration Files: auth.conf](/puppetserver/latest/config_file_auth.html) for details on how to use `auth.conf`.
+See [Puppet Server Configuration Files: auth.conf](/openvox-server/latest/config_file_auth.html) for details on how to use `auth.conf`.
 
 Example:
 

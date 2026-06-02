@@ -13,11 +13,11 @@ OpenVox Server enforces a max ttl of 50 standard years (up to 1576800000 seconds
 ## `cacert`
 
 If you enable OpenVox Server's certificate authority service, it uses the `cacert` setting in puppet.conf to determine the location of the CA certificate for such tasks as generating the CA certificate or
-using the CA to sign client certificates. This is true regardless of the configuration of the `ssl-` settings in [webserver.conf](./configuration.html#webserverconf).
+using the CA to sign client certificates. This is true regardless of the configuration of the `ssl-` settings in [webserver.conf](./config_file_webserver.html).
 
 ## `cacrl`
 
-If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, or `ssl-crl-path` in [webserver.conf](./configuration.html#webserverconf), OpenVox Server uses the file at `ssl-crl-path` as the CRL for authenticating
+If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, or `ssl-crl-path` in [webserver.conf](./config_file_webserver.html), OpenVox Server uses the file at `ssl-crl-path` as the CRL for authenticating
 clients via SSL. If at least one of the `ssl-` settings in webserver.conf is set but `ssl-crl-path` is not set, OpenVox Server will _not_ use a CRL to validate clients via SSL.
 
 If none of the `ssl-` settings in webserver.conf are set, OpenVox Server uses the CRL file defined for the `hostcrl` setting---and not the file defined for the `cacrl` setting--in puppet.conf. At start time,
@@ -28,7 +28,7 @@ of the CRL. This is true regardless of the `ssl-` settings in webserver.conf.
 
 ## `hostcert`
 
-If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, or `ssl-crl-path` in [webserver.conf](./configuration.html#webserverconf), OpenVox Server presents the file at `ssl-cert` to clients as the server
+If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, or `ssl-crl-path` in [webserver.conf](./config_file_webserver.html), OpenVox Server presents the file at `ssl-cert` to clients as the server
 certificate via SSL.
 
 If at least one of the `ssl-` settings in webserver.conf is set but `ssl-cert` is not set, OpenVox Server gives an error and shuts down at startup. If none of the `ssl-` settings in webserver.conf are set,
@@ -39,7 +39,7 @@ to determine the location of the server host certificate to generate.
 
 ## `hostcrl`
 
-If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, or `ssl-crl-path` in [webserver.conf](./configuration.html#webserverconf), OpenVox Server uses the file at `ssl-crl-path` as the CRL for authenticating
+If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, or `ssl-crl-path` in [webserver.conf](./config_file_webserver.html), OpenVox Server uses the file at `ssl-crl-path` as the CRL for authenticating
 clients via SSL. If at least one of the `ssl-` settings in webserver.conf is set but `ssl-crl-path` is not set, OpenVox Server will _not_ use a CRL to validate clients via SSL.
 
 If none of the `ssl-` settings in webserver.conf are set, OpenVox Server uses the CRL file defined for the `hostcrl` setting---and not the file defined for the `cacrl` setting--in puppet.conf. At start time,
@@ -50,7 +50,7 @@ of the CRL. This is true regardless of the `ssl-` settings in webserver.conf.
 
 ## `hostprivkey`
 
-If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, or `ssl-crl-path` in [webserver.conf](./configuration.html#webserverconf), OpenVox Server uses the file at `ssl-key` as the server private key during SSL
+If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, or `ssl-crl-path` in [webserver.conf](./config_file_webserver.html), OpenVox Server uses the file at `ssl-key` as the server private key during SSL
 transactions.
 
 If at least one of the `ssl-` settings in webserver.conf is set but `ssl-key` is not, OpenVox Server gives an error and shuts down at startup. If none of the `ssl-` settings in webserver.conf are set,
@@ -61,7 +61,7 @@ regardless of the configuration of the `ssl-` settings in webserver.conf.
 
 ## `localcacert`
 
-If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, and/or `ssl-crl-path` in [webserver.conf](./configuration.html#webserverconf), OpenVox Server uses the file at `ssl-ca-cert` as the CA cert store for
+If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, and/or `ssl-crl-path` in [webserver.conf](./config_file_webserver.html), OpenVox Server uses the file at `ssl-ca-cert` as the CA cert store for
 authenticating clients via SSL.
 
 If at least one of the `ssl-` settings in webserver.conf is set but `ssl-ca-cert` is not set, OpenVox Server gives an error and shuts down at startup. If none of the `ssl-` settings in webserver.conf is set,
@@ -70,7 +70,7 @@ OpenVox Server uses the CA file defined for the `localcacert` setting in puppet.
 ## `masterport`
 
 OpenVox Server does not use this setting. To set the port on which the server listens, set the `port` (unencrypted) or `ssl-port` (SSL encrypted) setting in the
-[webserver.conf](./configuration.html#webserverconf) file.
+[webserver.conf](./config_file_webserver.html) file.
 
 ## `ssl_client_header`
 
@@ -96,7 +96,7 @@ any requests that the server would make to the `reporturl` for the `http` report
 
 ## Overriding Puppet settings in OpenVox Server
 
-Currently, the [`jruby-puppet` section of your `puppetserver.conf` file](./configuration.html#puppetserver.conf) contains five settings (`master-conf-dir`, `master-code-dir`, `master-var-dir`,
+Currently, the [`jruby-puppet` section of your `puppetserver.conf` file](./config_file_puppetserver.html) contains five settings (`master-conf-dir`, `master-code-dir`, `master-var-dir`,
 `master-run-dir`, and `master-log-dir`) that allow you to override settings set in your `puppet.conf` file. On installation, these five settings will be set to the proper default values.
 
 While you are free to change these settings at will, please note that any changes made to the `master-conf-dir` and `master-code-dir` settings absolutely MUST be made to the corresponding Puppet settings

@@ -237,7 +237,7 @@ The `resource_type` and `resource_types` HTTP APIs were removed in OpenVox Serve
 
 ### Previously
 
-The [`resource_type` and `resource_types` OpenVox HTTP API endpoints](/openvox/latest/http_api/http_resource_type.html) return information about classes, defined types, and node definitions.
+The `resource_type` and `resource_types` OpenVox HTTP API endpoints returned information about classes, defined types, and node definitions.
 
 The [`environment_classes` HTTP API in OpenVox Server](./puppet-api/v3/environment_classes.html) serves as a replacement for the OpenVox resource type API for classes.
 

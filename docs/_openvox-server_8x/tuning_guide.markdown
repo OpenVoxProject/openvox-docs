@@ -42,7 +42,7 @@ Puppet Server.
 ### Number of JRubies
 
 The most important setting that you can use to improve the throughput of your
-Puppet Server installation is the [`max-active-instances`](./configuration.html#puppetserver_conf)
+Puppet Server installation is the [`max-active-instances`](./config_file_puppetserver.html)
 setting.  The value of this setting is used by Puppet Server to determine how
 many JRuby instances to create when the server starts up.
 

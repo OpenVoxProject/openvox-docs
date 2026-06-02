@@ -149,9 +149,9 @@ server in order to see all of your agents' reports.
 If you use exported resources, use OpenVoxDB and point your primary server and all compilers at a shared
 OpenVoxDB instance. A reasonably robust OpenVoxDB server can handle many compilers and many thousands of agents.
 
-See the [OpenVoxDB documentation](../../../openvoxdb/latest/) for instructions on deploying an OpenVoxDB
+See the [OpenVoxDB documentation](/openvoxdb/latest/) for instructions on deploying an OpenVoxDB
 server, then configure every compiler to use it. Note that every server and compiler must have its own
-[certificate allowlist entry](../../../openvoxdb/latest/configure.html) if you're using HTTPS certificates
+[certificate allowlist entry](/openvoxdb/latest/configure.html) if you're using HTTPS certificates
 for authorization.
 
 ## Keeping manifests and modules synchronized across compilers

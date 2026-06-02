@@ -4,7 +4,7 @@ title: "OpenVox Server Configuration Files: auth.conf"
 ---
 
 [deprecated]: ./deprecated_features.html
-[short names]: /openvox/latest/ssl_attributes_extensions.html#puppet_registered_ids
+[short names]: /openvox/latest/ssl_attributes_extensions.html#puppet-specific-registered-ids
 
 OpenVox Server's `auth.conf` file contains rules for authorizing access to OpenVox Server's HTTP API endpoints. For an overview, see [OpenVox Server Configuration](./configuration.html).
 
