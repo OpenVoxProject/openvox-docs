@@ -12,7 +12,6 @@ layout: default
 [start_source]: ./install_from_source.html#step-4-start-the-openvoxdb-service
 [plugin_source]: ./connect_puppet_server.html#on-platforms-without-packages
 [module]: ./install_via_module.html
-[puppetdb3]: /puppetdb/3.2/migrate.html
 [versioning]: ./versioning_policy.html#upgrades
 
 ## Checking for updates

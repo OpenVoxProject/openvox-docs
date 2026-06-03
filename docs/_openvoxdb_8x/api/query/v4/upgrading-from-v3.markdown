@@ -75,8 +75,8 @@ Each change below is marked with the corresponding release version.
 
 ### /pdb/cmd/v1 (formerly /v3/commands)
 
-- (3.0) For users posting commands directly to the /pdb/cmd/v1 endpoint, the only valid command submission versions will be [replace catalogs v6](../../../api/wire_format/catalog_format_v6.html),
-  [store report v5](../../../api/wire_format/report_format_v5.html), and [replace facts v4](../../../api/wire_format/facts_format_v4.html).
+- (3.0) For users posting commands directly to the /pdb/cmd/v1 endpoint, the only valid command submission versions will be [replace catalogs v6](../../wire_format/catalog_format_v6.html),
+  [store report v5](../../wire_format/report_format_v5.html), and [replace facts v4](../../wire_format/facts_format_v4.html).
 
 ### /pdb/meta/v1/version (formerly /v3/version)
 
@@ -109,24 +109,24 @@ Each change below is marked with the corresponding release version.
 
 ### Features affecting all endpoints
 
-- (3.0) Extract is available as a top-level query operator, useful for selecting only certain fields from a response. See the [documentation on the extract operator](../../../api/query/v4/ast.html#extract)
+- (3.0) Extract is available as a top-level query operator, useful for selecting only certain fields from a response. See the [documentation on the extract operator](ast.html#extract)
   for more information.
 
 - (2.2.0) The `in` and `extract` operators have been changed to accept multiple fields, allowing more concise subquerying as explained [here](https://github.com/OpenVoxProject/openvoxdb/pull/1053).
 
 ### /pdb/query/v4/events
 
-- (3.0) The v4 events endpoint does not require a query parameter, so `/pdb/query/v4/events` is now a valid query. See the [events endpoint documentation](../../../api/query/v4/events.html#pdbqueryv4events)
+- (3.0) The v4 events endpoint does not require a query parameter, so `/pdb/query/v4/events` is now a valid query. See the [events endpoint documentation](events.html#pdbqueryv4events)
   for more information.
 
 ### /pdb/query/v4/reports
 
 - (3.0) The response of the reports endpoint includes the new fields `noop`, `environment`, `status`, `resource_events`, `logs`, and `metrics`. For more information, see the
-  [documentation on the reports endpoint](../../../api/query/v4/reports.html). For comparison, see [an example of the new format](../../../api/query/v4/reports.html#examples), and
+  [documentation on the reports endpoint](reports.html). For comparison, see [an example of the new format](reports.html#examples), and
   [an example of the old format](https://github.com/OpenVoxProject/openvoxdb/blob/doc-2.3/documentation/api/query/v3/reports.html#response-format) (OpenVoxDB 2.3 docs).
 
 - (3.0) The reports endpoint takes a `latest_report?` query to return only reports associated with the most recent puppet run for their nodes. Similar to the corresponding events query, there is no
-  corresponding field in the response. For more information, see the [documentation on the report query fields](../../../api/query/v4/reports.html#query-fields).
+  corresponding field in the response. For more information, see the [documentation on the report query fields](reports.html#query-fields).
 
 ### /pdb/query/v4/catalogs
 
@@ -136,9 +136,9 @@ Each change below is marked with the corresponding release version.
 ### Operators
 
 - (2.2.0) The new `select_fact_contents` subquery operator allows for filtering the results of other endpoints based on detailed queries about structured fact values. This is exhibited on the bottom of the
-  [subquery examples documentation](../../../api/query/v4/ast.html#explicit-subquery-examples).
+  [subquery examples documentation](ast.html#explicit-subquery-examples).
 
 - (2.2.0) We have added the regexp array match operator `~>` for querying fact paths on the `fact-contents` or `fact-paths endpoints`. This is documented with the other
-  [operators](../../../api/query/v4/ast.html#regexp-array-match). An example of usage is given at the bottom of the [subquery examples page](../../../api/query/v4/ast.html#explicit-subquery-examples).
+  [operators](ast.html#-regexp-array-match). An example of usage is given at the bottom of the [subquery examples page](ast.html#explicit-subquery-examples).
 
-- (3.0) We have added the `group_by` and `function` operators, as well as support for the `count` function. For more information, see the [operators documentation](../../../api/query/v4/ast.html#function).
+- (3.0) We have added the `group_by` and `function` operators, as well as support for the `count` function. For more information, see the [operators documentation](ast.html#function).

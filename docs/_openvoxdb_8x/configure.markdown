@@ -419,9 +419,9 @@ is done via plaintext.
 The database user specified for database migration operations, in
 particular the database validation and migration at startup.  Defaults
 to the `username`.  See the [PostgreSQL configuration
-section](configure-postgres) for some important requirements for the
+section][configure-postgres] for some important requirements for the
 privileges of this user (role), and the [migration coordination
-section](migration-coordination) for an overview of the process.
+section][migration-coordination] for an overview of the process.
 
 ### `connection-migrator-username`
 The database migrator user for special cases when the database connection username
@@ -446,9 +446,9 @@ When set to `true` (the default), OpenVoxDB will upgrade the data in
 the database to the latest format at startup.  When `false`, OpenVoxDB
 will exit with an error status if the format version is not the one it
 expects, whether newer or older.  See the [PostgreSQL configuration
-section](configure-postgres) for some important requirements for the
+section][configure-postgres] for some important requirements for the
 privileges of this user (role), and the [migration coordination
-section](migration-coordination) for an overview of the process.
+section][migration-coordination] for an overview of the process.
 
 ### `maximum-pool-size`
 
@@ -557,7 +557,7 @@ parameters, OpenVoxDB's database connections will communicate in plaintext.
 ### `username`
 
 This is the username to use when connecting.  See the [PostgreSQL
-configuration section](configure-postgres) for some important
+configuration section][configure-postgres] for some important
 requirements for the privileges of this user (role).
 
 ### `password`

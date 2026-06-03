@@ -8,7 +8,7 @@ canonical: "/openvoxdb/latest/api/query/v4/paging.html"
 [api]: ../../overview.html
 [curl]: ../curl.html#using-curl-from-localhost-non-sslhttp
 [query]: query.html
-[ast]: ./ast.html#paging-operators-limit-offset-orderby
+[ast]: ./ast.html#paging-operators-limit-offset-order_by
 
 Most of OpenVoxDB's [query endpoints][api] support a general set of HTTP URL parameters that
 can be used for paging results. OpenVoxDB also supports paging via query

@@ -6,12 +6,12 @@ layout: default
 # Installing from source
 
 [leiningen]: https://github.com/technomancy/leiningen#installation
-[configure_postgres]: ./configure.html#using-postgresql
+[configure_postgres]: ./configure_postgres.html
 [configure_heap]: ./configure.html#configuring-the-java-heap-size
 [module]: ./install_via_module.html
 [postgres_ssl]: ./postgres_ssl.html
 [packages]: ./install_from_packages.html
-[running_tests]: ./CONTRIBUTING.md#running-the-tests
+[running_tests]: ./CONTRIBUTING.html#testing
 
 This page describes how to install OpenVoxDB from source code, and how to run OpenVoxDB directly from source without installing.
 

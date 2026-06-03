@@ -3,7 +3,7 @@ title: "Contributing to OpenVoxDB"
 layout: default
 ---
 
-[configure_postgres]: ./configure.html#using-postgresql
+[configure_postgres]: ./configure_postgres.html
 
 # Contributing to OpenVoxDB
 
@@ -56,7 +56,7 @@ top of things.
 ### Testing
 
 > **Quick setup:** For a streamlined development workflow using the `ovdb` helper
-> script, see the [Local Development Guide](../dev-docs/local-dev.md).
+> script, see the [Local Development Guide](https://github.com/OpenVoxProject/openvoxdb/blob/main/dev-docs/local-dev.md).
 
 The easiest way to run the tests until you need to do it often is to
 use the built-in sandbox harness.  If you just want to check some

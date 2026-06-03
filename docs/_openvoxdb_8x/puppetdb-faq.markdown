@@ -7,21 +7,10 @@ subtitle: "Frequently asked questions"
 
 [connect_puppet_apply]: ./connect_puppet_apply.html
 [support_guide]: ./pdb_support_guide.html
-[puppetdb3]: /puppetdb/3.2/migrate.html
 [threads]: ./configure.html#threads
 [concurrent-writes]: ./configure.html#concurrent-writes
 [mq metrics]: ./api/metrics/v2/jolokia.html#message-queue-metrics
 [java heap]: ./configure.html#configuring-the-java-heap-size
-
-## Can I migrate my data from ActiveRecord storeconfigs?
-
-Yes, but you must use OpenVoxDB 3.x to do so. Please consult the
-[OpenVoxDB 3.x documentiation][puppetdb3] for more details.
-
-## Can I migrate from an HSQL OpenVoxDB to PostgreSQL OpenVoxDB instance?
-
-Yes, but you must use OpenVoxDB 3.x to do so. Please consult the
-[Migrating Data][puppetdb3] for more information.
 
 ## The OpenVoxDB dashboard gives me a weird SSL error when I visit it. What gives?
 
