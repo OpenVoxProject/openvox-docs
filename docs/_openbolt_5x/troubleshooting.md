@@ -191,7 +191,7 @@ would be in Puppet. For example, Puppet `notice` level logs are equivalent to
 the `info` level in Bolt. As a result, if you use the `notice()` Puppet log
 function, Bolt does not print the contents of `notice` to the console by
 default. You can see which Bolt log level each Puppet log level maps to in
-[Puppet log functions in Bolt](writing_plans.html#puppet-log-functions-in-bolt).
+[Puppet log functions in Bolt](debugging_plans.html#puppet-log-functions-in-bolt).
 
 To print logs and messages in Bolt to the console you can do one or more of the
 following:
@@ -201,7 +201,7 @@ following:
   configuration file.
 
 - When you have messages you want to log directly from Bolt, use Bolt's [log
-  plan functions](writing_plans.html#log-functions).
+  plan functions](debugging_plans.html#log-functions).
 
 - When you have messages you want printed to the console regardless of log
   level, you should use the [`out::message` plan

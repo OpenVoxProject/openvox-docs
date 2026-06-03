@@ -59,7 +59,7 @@ and have the mocked function return `{ 'stdout' => 'Task was successful!' }`.
 ### `expect_command`
 
 The `expect_command` function mocks the [`run_command`
-function](plan_functions.html#run-command). It accepts a single parameter: a
+function](plan_functions.html#run_command). It accepts a single parameter: a
 command.
 
 ```ruby
@@ -95,7 +95,7 @@ The `expect_command` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The [options](plan_functions.html#run-command) that must be passed to the
+  The [options](plan_functions.html#run_command) that must be passed to the
   `run_command` function. The test fails if the command is not run with the set
   of options.
 
@@ -153,7 +153,7 @@ The `expect_command` function accepts the following modifiers:
 ### `expect_download`
 
 The `expect_download` function mocks the [`download_file`
-function](plan_functions.html#download-file). It accepts a single parameter: the
+function](plan_functions.html#download_file). It accepts a single parameter: the
 path to a remote file to download.
 
 ```ruby
@@ -189,7 +189,7 @@ The `expect_download` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The [options](plan_functions.html#download-file) that must be passed to the
+  The [options](plan_functions.html#download_file) that must be passed to the
   `download_file` function. The test fails if the file is not downloaded with
   the set of options.
 
@@ -303,7 +303,7 @@ The `expect_out_verbose` function accepts the following modifiers:
 
 ### `expect_plan`
 
-The `expect_plan` function mocks the [`run_plan` function](plan_functions.html#run-plan).
+The `expect_plan` function mocks the [`run_plan` function](plan_functions.html#run_plan).
 It accepts a single parameter: the name of a plan.
 
 ```ruby
@@ -330,7 +330,7 @@ The `expect_plan` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The parameters and [options](plan_functions.html#run-plan) that must be passed
+  The parameters and [options](plan_functions.html#run_plan) that must be passed
   to the `run_plan` function. The test fails if the plan is not run with the set
   of parameters and options.
 
@@ -370,7 +370,7 @@ The `expect_plan` function accepts the following modifiers:
 ### `expect_script`
 
 The `expect_script` function mocks the [`run_script`
-function](plan_functions.html#run-script). It accepts a single parameter: the path
+function](plan_functions.html#run_script). It accepts a single parameter: the path
 to a script.
 
 ```ruby
@@ -406,7 +406,7 @@ The `expect_script` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The [options](plan_functions.html#run-script) that must be passed to the
+  The [options](plan_functions.html#run_script) that must be passed to the
   `run_script` function. The test fails if the script is not run with the set of
   options.
 
@@ -463,7 +463,7 @@ The `expect_script` function accepts the following modifiers:
 ### `expect_task`
 
 The `expect_task` functions mocks the [`run_task`
-function](plan_functions.html#run-task). It accepts a single parameter: the name
+function](plan_functions.html#run_task). It accepts a single parameter: the name
 of a task.
 
 ```ruby
@@ -499,7 +499,7 @@ The `expect_task` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The parameters and [options](plan_functions.html#run-script) that must be passed
+  The parameters and [options](plan_functions.html#run_script) that must be passed
   to the `run_task` function. The test fails if the task is not run with the set
   of parameters and options.
 
@@ -556,7 +556,7 @@ The `expect_task` function accepts the following modifiers:
 ### `expect_upload`
 
 The `expect_upload` function mocks the [`upload_file`
-function](plan_functions.html#upload-file). It accepts a single parameter: the
+function](plan_functions.html#upload_file). It accepts a single parameter: the
 path to a local file to upload.
 
 ```ruby
@@ -592,7 +592,7 @@ The `expect_upload` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The [options](plan_functions.html#upload-file) that must be passed to the
+  The [options](plan_functions.html#upload_file) that must be passed to the
   `upload_file` function. The test fails if the file is not uploaded with the
   set of options.
 
@@ -650,14 +650,14 @@ function in a plan.
 ### `allow_apply_prep`
 
 The `allow_apply_prep` function stubs the [`apply_prep`
-function](plan_functions.html#apply-prep). It does not accept parameters or
+function](plan_functions.html#apply_prep). It does not accept parameters or
 modifiers. Using the `allow_apply_prep` stub only allows you to invoke the
 `apply_prep` function in a plan.
 
 ### `allow_command`
 
 The `allow_command` function stubs the [`run_command`
-function](plan_functions.html#run-command). It accepts a single parameter: a
+function](plan_functions.html#run_command). It accepts a single parameter: a
 command.
 
 ```ruby
@@ -693,7 +693,7 @@ The `allow_command` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The [options](plan_functions.html#run-command) that can be passed to the
+  The [options](plan_functions.html#run_command) that can be passed to the
   `run_command` function. The test fails if the command is run with a different
   set of options.
 
@@ -751,7 +751,7 @@ The `allow_command` function accepts the following modifiers:
 ### `allow_download`
 
 The `allow_download` function stubs the [`download_file`
-function](plan_functions.html#download-file). It accepts a single parameter: the
+function](plan_functions.html#download_file). It accepts a single parameter: the
 path to a remote file to download.
 
 ```ruby
@@ -787,7 +787,7 @@ The `allow_download` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The [options](plan_functions.html#download-file) that can be passed to the
+  The [options](plan_functions.html#download_file) that can be passed to the
   `download_file` function. The test fails if the file is downloaded with a
   different set of options.
 
@@ -903,7 +903,7 @@ The `allow_out_verbose` function accepts the following stub modifiers:
 ### `allow_plan`
 
 The `allow_plan` function stubs the [`run_plan`
-function](plan_functions.html#run-plan). It accepts a single parameter: the name
+function](plan_functions.html#run_plan). It accepts a single parameter: the name
 of a plan.
 
 ```ruby
@@ -930,7 +930,7 @@ The `allow_plan` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The parameters and [options](plan_functions.html#run-plan) that can be passed to
+  The parameters and [options](plan_functions.html#run_plan) that can be passed to
   the `run_plan` function. The test fails if the plan is run with a different
   set of parameters and options.
 
@@ -970,7 +970,7 @@ The `allow_plan` function accepts the following modifiers:
 ### `allow_script`
 
 The `allow_script` function stubs the [`run_script`
-function](plan_functions.html#run-script). It accepts a single parameter: the path
+function](plan_functions.html#run_script). It accepts a single parameter: the path
 to a script.
 
 ```ruby
@@ -1006,7 +1006,7 @@ The `allow_script` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The [options](plan_functions.html#run-script) that can be passed to the
+  The [options](plan_functions.html#run_script) that can be passed to the
   `run_script` function. The test fails if the script is run with a different
   set of options.
 
@@ -1063,7 +1063,7 @@ The `allow_script` function accepts the following modifiers:
 ### `allow_task`
 
 The `allow_task` function stubs the [`run_task`
-function](plan_functions.html#run-task). It accepts a single parameter: the name
+function](plan_functions.html#run_task). It accepts a single parameter: the name
 of a task.
 
 ```ruby
@@ -1099,7 +1099,7 @@ The `allow_task` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The parameters and [options](plan_functions.html#run-script) that can be passed to the
+  The parameters and [options](plan_functions.html#run_script) that can be passed to the
   `run_task` function. The test fails if the task is run with a different
   set of parameters and options.
 
@@ -1156,7 +1156,7 @@ The `allow_task` function accepts the following modifiers:
 ### `allow_upload`
 
 The `allow_upload` function stubs the [`upload_file`
-function](plan_functions.html#upload-file). It accepts a single parameter: the
+function](plan_functions.html#upload_file). It accepts a single parameter: the
 path to a local file to upload.
 
 ```ruby
@@ -1192,7 +1192,7 @@ The `allow_upload` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The [options](plan_functions.html#upload-file) that can be passed to the
+  The [options](plan_functions.html#upload_file) that can be passed to the
   `upload_file` function. The test fails if the file is uploaded with a
   different set of  options.
 
@@ -1243,7 +1243,7 @@ scheme.
 ### `allow_any_command`
 
 The `allow_any_command` function stubs all invocations of the [`run_command`
-function](plan_functions.html#run-command). It does not accept parameters.
+function](plan_functions.html#run_command). It does not accept parameters.
 
 ```ruby
 allow_any_command
@@ -1278,7 +1278,7 @@ The `allow_any_command` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The [options](plan_functions.html#run-command) that can be passed to the
+  The [options](plan_functions.html#run_command) that can be passed to the
   `run_command` function. The test fails if any command is run with a different
   set of options.
 
@@ -1336,7 +1336,7 @@ The `allow_any_command` function accepts the following modifiers:
 ### `allow_any_download`
 
 The `allow_any_download` function stubs all invocations of the [`download_file`
-function](plan_functions.html#download-file). It does not accept parameters.
+function](plan_functions.html#download_file). It does not accept parameters.
 
 ```ruby
 allow_any_download
@@ -1371,7 +1371,7 @@ The `allow_any_download` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The [options](plan_functions.html#download-file) that can be passed to the
+  The [options](plan_functions.html#download_file) that can be passed to the
   `download_file` function. The test fails if any file is downloaded with a
   different set of options.
 
@@ -1489,7 +1489,7 @@ The `allow_any_out_verbose` function accepts the following modifiers:
 ### `allow_any_plan`
 
 The `allow_any_plan` function stubs all invocations of the [`run_plan`
-function](plan_functions.html#run-plan). It does not accept parameters.
+function](plan_functions.html#run_plan). It does not accept parameters.
 
 ```ruby
 allow_any_plan
@@ -1515,7 +1515,7 @@ The `allow_any_plan` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The parameters and [options](plan_functions.html#run-plan) that can be passed to
+  The parameters and [options](plan_functions.html#run_plan) that can be passed to
   the `run_plan` function. The test fails if any plan is run with a different
   set of parameters and options.
 
@@ -1555,7 +1555,7 @@ The `allow_any_plan` function accepts the following modifiers:
 ### `allow_any_script`
 
 The `allow_script` function stubs all invocations of the [`run_script`
-function](plan_functions.html#run-script). It does not accept parameters.
+function](plan_functions.html#run_script). It does not accept parameters.
 
 ```ruby
 allow_any_script
@@ -1590,7 +1590,7 @@ The `allow_any_script` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The [options](plan_functions.html#run-script) that can be passed to the
+  The [options](plan_functions.html#run_script) that can be passed to the
   `run_script` function. The test fails if any script is run with a different
   set of options.
 
@@ -1647,7 +1647,7 @@ The `allow_any_script` function accepts the following modifiers:
 ### `allow_any_task`
 
 The `allow_any_task` function stubs the [`run_task`
-function](plan_functions.html#run-task). It does not accept parameters.
+function](plan_functions.html#run_task). It does not accept parameters.
 
 ```ruby
 allow_any_task
@@ -1682,7 +1682,7 @@ The `allow_any_task` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The parameters and [options](plan_functions.html#run-script) that can be passed to the
+  The parameters and [options](plan_functions.html#run_script) that can be passed to the
   `run_task` function. The test fails if any task is run with a different
   set of parameters and options.
 
@@ -1730,7 +1730,7 @@ The `allow_any_task` function accepts the following modifiers:
 ### `allow_any_upload`
 
 The `allow_any_upload` function stubs any invocation of the [`upload_file`
-function](plan_functions.html#upload-file). It does not accept parameters.
+function](plan_functions.html#upload_file). It does not accept parameters.
 
 ```ruby
 allow_any_upload
@@ -1765,7 +1765,7 @@ The `allow_any_upload` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The [options](plan_functions.html#upload-file) that can be passed to the
+  The [options](plan_functions.html#upload_file) that can be passed to the
   `upload_file` function. The test fails if any file is uploaded with a
   different set of  options.
 

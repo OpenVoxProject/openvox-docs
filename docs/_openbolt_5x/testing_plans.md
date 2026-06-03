@@ -267,16 +267,16 @@ documentation.
 
 | plan function | Stub function | Global stub function | Mock function
 | --- | --- | --- | --- |
-| [`apply`](plan_functions.html#apply) | [`allow_apply`](boltspec_reference.html#allow-apply) | - | - |
-| [`apply_prep`](plan_functions.html#apply-prep) | [`allow_apply_prep`](boltspec_reference.html#allow-apply-prep) | - | - |
-| [`download_file`](plan_functions.html#download-file) | [`allow_download`](boltspec_reference.html#allow-download) | [`allow_any_download`](boltspec_reference.html#allow-any-download) | [`expect_download`](boltspec_reference.html#expect_download) |
-| [`out::message`](plan_functions.html#outmessage) | [`allow_out_message`](boltspec_reference.html#allow-out-message) | [`allow_any_out_message`](boltspec_reference.html#allow-any-out-message) | [`expect_out_message`](boltspec_reference.html#expect-out-message) |
-| [`out::verbose`](plan_functions.html#outverbose) | [`allow_out_verbose`](boltspec_reference.html#allow-out-verbose) | [`allow_any_out_verbose`](boltspec_reference.html#allow-any-out-verbose) | [`expect_out_verbose`](boltspec_reference.html#expect-out-verbose) |
-| [`run_command`](plan_functions.html#run-command) | [`allow_command`](boltspec_reference.html#allow-command) | [`allow_any_command`](boltspec_reference.html#allow-any-command) | [`expect_command`](boltspec_reference.html#expect-command) |
-| [`run_plan`](plan_functions.html#run-plan) | [`allow_plan`](boltspec_reference.html#allow-plan) | [`allow_any_plan`](boltspec_reference.html#allow-any-plan) | [`expect_plan`](boltspec_reference.html#expect-plan) |
-| [`run_script`](plan_functions.html#run-script) | [`allow_script`](boltspec_reference.html#allow-script) | [`allow_any_script`](boltspec_reference.html#allow-any-script) |[`expect_script`](boltspec_reference.html#expect-script) |
-| [`run_task`](plan_functions.html#run-task) | [`allow_task`](boltspec_reference.html#allow-task) | [`allow_any_task`](boltspec_reference.html#allow-any-task) | [`expect_task`](boltspec_reference.html#expect-task) |
-| [`upload_file`](plan_functions.html#upload-file) | [`allow_upload`](boltspec_reference.html#allow-upload) | [`allow_any_upload`](boltspec_reference.html#allow-any-upload) | [`expect_upload`](boltspec_reference.html#expect-upload) |
+| [`apply`](plan_functions.html#apply) | [`allow_apply`](boltspec_reference.html#allow_apply) | - | - |
+| [`apply_prep`](plan_functions.html#apply_prep) | [`allow_apply_prep`](boltspec_reference.html#allow_apply_prep) | - | - |
+| [`download_file`](plan_functions.html#download_file) | [`allow_download`](boltspec_reference.html#allow_download) | [`allow_any_download`](boltspec_reference.html#allow_any_download) | [`expect_download`](boltspec_reference.html#expect_download) |
+| [`out::message`](plan_functions.html#outmessage) | [`allow_out_message`](boltspec_reference.html#allow_out_message) | [`allow_any_out_message`](boltspec_reference.html#allow_any_out_message) | [`expect_out_message`](boltspec_reference.html#expect_out_message) |
+| [`out::verbose`](plan_functions.html#outverbose) | [`allow_out_verbose`](boltspec_reference.html#allow_out_verbose) | [`allow_any_out_verbose`](boltspec_reference.html#allow_any_out_verbose) | [`expect_out_verbose`](boltspec_reference.html#expect_out_verbose) |
+| [`run_command`](plan_functions.html#run_command) | [`allow_command`](boltspec_reference.html#allow_command) | [`allow_any_command`](boltspec_reference.html#allow_any_command) | [`expect_command`](boltspec_reference.html#expect_command) |
+| [`run_plan`](plan_functions.html#run_plan) | [`allow_plan`](boltspec_reference.html#allow_plan) | [`allow_any_plan`](boltspec_reference.html#allow_any_plan) | [`expect_plan`](boltspec_reference.html#expect_plan) |
+| [`run_script`](plan_functions.html#run_script) | [`allow_script`](boltspec_reference.html#allow_script) | [`allow_any_script`](boltspec_reference.html#allow_any_script) |[`expect_script`](boltspec_reference.html#expect_script) |
+| [`run_task`](plan_functions.html#run_task) | [`allow_task`](boltspec_reference.html#allow_task) | [`allow_any_task`](boltspec_reference.html#allow_any_task) | [`expect_task`](boltspec_reference.html#expect_task) |
+| [`upload_file`](plan_functions.html#upload_file) | [`allow_upload`](boltspec_reference.html#allow_upload) | [`allow_any_upload`](boltspec_reference.html#allow_any_upload) | [`expect_upload`](boltspec_reference.html#expect_upload) |
 
 ### Modifiers
 
@@ -870,7 +870,7 @@ pdk bundle exec rake spec
 ### Testing a plan that uses `run_task_with`
 
 The following example demonstrates testing a plan that uses the [`run_task_with()`
-plan function](plan_functions.html#run-task-with).
+plan function](plan_functions.html#run_task_with).
 
 This plan accepts two parameters: `sql` and `targets`. The plan executes SQL on
 a Postgres database using the `postgresql::sql` task. Each target has a

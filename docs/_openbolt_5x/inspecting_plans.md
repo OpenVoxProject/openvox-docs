@@ -10,7 +10,7 @@ effect it has on your targets.
 
 > 🔩 **Tip:** Bolt is packaged with a collection of modules that contain useful
 > plans to support common workflows. For details, see [Packaged
-> modules](bolt_installing_modules.html#packaged-modules).
+> modules](packaged_modules.html).
 
 ## Discover plans
 
@@ -30,7 +30,7 @@ View a list of available plans:
 
 If you don't see a plan you were expecting to find, make sure the plan is
 located in the correct directory. For more information, see [How Bolt locates
-plans](./bolt_running_plans.html#how-bolt-locates-plans)
+plans](./bolt_running_plans.html#plan-location)
 
 ## Show documentation for a plan
 

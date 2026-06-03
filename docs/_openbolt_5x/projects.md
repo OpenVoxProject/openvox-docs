@@ -51,7 +51,7 @@ file:
 
 > 🔩 **Tip:** To create a project with a list of pre-installed modules, use the
 > `--modules` option. For more information, see
-> [](./bolt_installing_modules.html#create-a-Bolt-project-with-pre-installed-modules).
+> [](./bolt_installing_modules.html#create-a-bolt-project-with-pre-installed-modules).
 
 ## Configuring a project
 

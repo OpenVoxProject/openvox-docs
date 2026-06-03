@@ -222,7 +222,7 @@ The next time you run Bolt, the warning message will not be logged.
 
 - [Debugging tasks](writing_tasks.html#debugging-tasks)
 - [Debugging YAML plans](writing_tasks.html#debugging-tasks)
-- [Debugging Puppet language plans](writing_plans.html#debugging-plans)
+- [Debugging Puppet language plans](debugging_plans.html#debugging-plans)
 - [Project level configuration](configuring_bolt.html#project-level-configuration)
 - [Applying Puppet code](applying_manifest_blocks.html) 
 - [Bolt command reference](bolt_command_reference.html)

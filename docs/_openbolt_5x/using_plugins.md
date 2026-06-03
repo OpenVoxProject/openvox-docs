@@ -142,7 +142,7 @@ $resolved = resolve_references($references)
 
 📖 **Related information**
 
-- [Bolt functions: resolve_references](plan_functions.html#resolve-references)
+- [Bolt functions: resolve_references](plan_functions.html#resolve_references)
 
 ## Secret plugins
 

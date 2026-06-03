@@ -128,7 +128,7 @@ parameters:
 ```
 
 Next set that argument as an environment variable as part of the [script
-step](writing_yaml_plans.html#script_step)
+step](writing_yaml_plans.html#script-step)
 ```yaml
 steps:
   - name: run_script
@@ -204,7 +204,7 @@ parameters:
     ...
 ```
 
-Next, add the argument to the [script step](writing_yaml_plans.html#script_step)
+Next, add the argument to the [script step](writing_yaml_plans.html#script-step)
 ```yaml
 steps:
   - name: run_script
@@ -304,7 +304,7 @@ parameters:
     ...
 ```
 
-Next, add the argument to the [script step](writing_yaml_plans.html#script_step)
+Next, add the argument to the [script step](writing_yaml_plans.html#script-step)
 ```yaml
 steps:
   - name: run_script

@@ -8,7 +8,7 @@ title: Running plans
 Bolt plans allow you to tie together complex workflows that include multiple
 tasks, scripts, commands, and even other plans. Bolt is packaged with a
 collection of modules that contain useful plans to support common workflows. For
-details, see [Packaged modules](bolt_installing_modules.html#packaged-modules).
+details, see [Packaged modules](packaged_modules.html).
 
 To execute a plan, run `bolt plan run` and specify:
 -   The full name of the plan, formatted as `<MODULE>::<PLAN>`.
@@ -40,7 +40,7 @@ target that the plan runs its tasks or functions on. If your load balancer was
 You can pass a comma-separated list of target names, wildcard patterns, or group
 names to a plan parameter of type `TargetSpec`. For more information on the
 `TargetSpec` type, see [Writing plans in the Puppet
-language](./writing_plans.html#targetspec).
+language](bolt_types_reference.html#targetspec).
 
 ## Plan location
 

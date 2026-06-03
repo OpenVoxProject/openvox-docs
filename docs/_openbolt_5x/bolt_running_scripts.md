@@ -29,7 +29,7 @@ Using a Puppet file reference is preferred for a few reasons:
 To execute a script you'll want to specify:
 - The script file reference (Puppet file reference, relative path, or absolute path)
 - Any arguments the script takes
-- [Bolt CLI options](bolt_command_reference.html#script-run) 
+- [Bolt CLI options](bolt_command_reference.html) 
 
 For example, the following script is named `update_images.sh` and is in a module named
 `manage_docker`. The script gets an updated image for every Docker container running in a
