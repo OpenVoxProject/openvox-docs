@@ -341,7 +341,7 @@ of plan steps to execute in the background while other parts of the plan execute
 * The `background` plan function begins executing a block of code in parellel with the main plan
   and other backgrounded code blocks. This is great for use cases where you want to start a process
   and don't care about the results, or don't need the results until much later in the plan. This
-  function returns a [Future](bolt_types_reference.html#Future) object so that the result can be
+  function returns a [Future](bolt_types_reference.html#future) object so that the result can be
   accessed later in the plan.
 * The `wait` function is a sister to `background`. It accepts a Future or array of Futures and
   blocks until they are finished, optionally with a timeout, then returns the results.
