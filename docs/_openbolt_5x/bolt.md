@@ -30,7 +30,6 @@ you are not required to install any agent software.
             <li><a class="xref" href="bolt_installing.html">Installing Bolt</a> - Follow the installation instructions for your operating system: *nix, macOS, or Windows.</li>
         </ul>
     </p>
-    <p><a class="xref" href="upgrading_to_bolt_3.html">Upgrade to Bolt 3.0</a></p>
     <p>Make one-time changes to your remote targets
         <ul>
             <li><a class="xref" href="running_bolt_commands.html">Run a command</a></li>

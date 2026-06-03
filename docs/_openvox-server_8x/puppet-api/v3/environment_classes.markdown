@@ -6,7 +6,7 @@ title: "OpenVox Server: Puppet API: Environment Classes"
 [classes]: /openvox/latest/lang_classes.html
 [node definitions]: /openvox/latest/lang_node_definitions.html
 [defined types]: /openvox/latest/lang_defined_types.html
-[`environment_timeout`]: /openvox/latest/config_file_environment.html#environmenttimeout
+[`environment_timeout`]: /openvox/latest/config_file_environment.html#environment_timeout
 [`manifest` setting]: /openvox/latest/config_file_environment.html#manifest
 [`auth.conf`]: ../../config_file_auth.html
 [environment cache API]: ../../admin-api/v1/environment-cache.html

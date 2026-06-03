@@ -163,4 +163,4 @@ Schema
 -----
 
 Find and search operations return objects which
-conform to [the host schema.](../schemas/host.json)
+conform to [the host schema.](/openvox/latest/schemas/host.json)

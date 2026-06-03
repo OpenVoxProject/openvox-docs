@@ -202,7 +202,7 @@ groups:
 A map of [plugin hooks](writing_plugins.html#plugin-hooks) and which plugins a
 hook should use for targets in the group. The only configurable plugin hook is
 `puppet_library`, which configures the plugin used to install the Puppet agent
-on targets when plans call [apply_prep](plan_functions.html#apply-prep) or the
+on targets when plans call [apply_prep](plan_functions.html#apply_prep) or the
 `bolt apply` command or `Invoke-BoltApply` PowerShell cmdlet are used.
 
 The `puppet_library` plugin hook can use one of two plugins: `puppet_agent` or
@@ -348,7 +348,7 @@ targets:
 A map of [plugin hooks](writing_plugins.html#plugin-hooks) and which plugins a
 hook should use for the target. The only configurable plugin hook is
 `puppet_library`, which configures the plugin used to install the Puppet agent
-on a target when plans call [apply_prep](plan_functions.html#apply-prep) or the
+on a target when plans call [apply_prep](plan_functions.html#apply_prep) or the
 `bolt apply` command or `Invoke-BoltApply` PowerShell cmdlet are used.
 
 The `puppet_library` plugin hook can use one of two plugins: `puppet_agent` or
