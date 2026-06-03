@@ -4,6 +4,5 @@ puppet:
     # False defaults make true overrides easier to read/code
     skip_download: false
 openbolt:
-  version: main
   repo:
     skip_download: false
