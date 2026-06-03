@@ -184,7 +184,7 @@ environment in task code as `PT_message`. When a user runs the task, they can
 specify the value for the parameter on the command line as `message=hello`, and
 the task runner submits the value `hello` to the `PT_message` variable.
 
-```shell script
+```shell
 #!/usr/bin/env bash
 echo your message is $PT_message
 ```
@@ -700,7 +700,7 @@ targets:
 
 Finally, make `my_slack` a target that can run the `slack::message`:
 
-```shell script
+```shell
 bolt task run slack::message --targets my_slack message="hello" channel=<slack channel id>
 ```
 
@@ -721,7 +721,7 @@ them instead of arguments.
 
 Given a script that accepts positional arguments on the command line:
 
-```shell script
+```shell
 version=$1
 [ -z "$version" ] && echo "Must specify a version to deploy && exit 1
 
@@ -734,7 +734,7 @@ fi
 
 To convert the script into a task, replace this logic with task variables:
 
-```shell script
+```shell
 version=$PT_version #no need to validate if we use metadata
 if [ -z "$PT_filename" ]; then
   filename=$PT_filename
@@ -984,13 +984,13 @@ quoting to prevent substituted variables from being executed.
 
 Instead of
 
-```shell script
+```shell
 eval "echo $input"
 ```
 
 use
 
-```shell script
+```shell
 eval "echo '$input'"
 ```
 

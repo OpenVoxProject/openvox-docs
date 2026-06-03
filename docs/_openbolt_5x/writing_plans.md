@@ -111,9 +111,9 @@ plan](https://github.com/puppetlabs/puppetlabs-facts/blob/master/plans/init.pp).
 ## Defining plan parameters
 
 After the plan's name, in parentheses, define any parameters that you want to
-pass into your plan as arguments. To define a parameter, use the syntax `<TYPE>
-<PARAMETER_NAME>`. For example, the following plan defines two parameters, `src`
-and `dest`, which are both strings:
+pass into your plan as arguments. To define a parameter, use the syntax
+`<TYPE> <PARAMETER_NAME>`. For example, the following plan defines two
+parameters, `src` and `dest`, which are both strings:
 
 ```puppet
 plan mymodule::myplan(
@@ -144,7 +144,7 @@ plan test::parameter_passing (
 
 The implementation of the `demo_undef_bash.sh` task is:
 
-```shell script
+```shell
 #!/bin/bash
 example_env=$PT_example_nul
 echo "Environment: $PT_example_nul"
@@ -675,7 +675,7 @@ PuppetDB. Variables are computed externally or assigned directly.
 Using the `facts` plan function does not automatically collect facts for a
 target, and will only return facts that are currently set in the inventory. To
 collect facts from a target and set them in the inventory, run the
-[facts](#collect-facts-from-targets) plan or
+[facts](#collect-facts-from-the-targets) plan or
 [puppetdb_fact](#collect-facts-from-puppetdb) plan.
 
 Set variables in a plan using `$target.set_var`:
