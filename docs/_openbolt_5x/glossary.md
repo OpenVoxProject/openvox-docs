@@ -197,7 +197,7 @@ into Bolt and Puppet, or custom functions
 
 📖 **Related information**
 
-- [Bolt built-in functions](plan_functions)
+- [Bolt built-in functions](plan_functions.html)
 - [Puppet built-in functions](https://puppet.com/docs/puppet/7/function.html)
 - [More information on custom functions](https://puppet.com/docs/puppet/7/writing_custom_functions.html)
 
