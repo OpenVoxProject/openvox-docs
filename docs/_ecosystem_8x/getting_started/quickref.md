@@ -33,7 +33,7 @@ Here are some of the commands you'll use most often as you're getting started:
 | [`hiera.yaml`](/openvox/latest/hiera_config_yaml_5.html) | Hiera hierarchy configuration |
 | [`/etc/puppetlabs/r10k/r10k.yaml`](https://github.com/puppetlabs/r10k/blob/main/r10k.yaml.example) | Code deployment configuration |
 | [`/etc/puppetlabs/puppetserver/conf.d`](/openvox-server/8.x/configuration.html) | OpenVox Server configuration |
-| [`environment.conf`](/latest/config_file_environment.html) | Per environment configuration |
+| [`environment.conf`](/openvox/latest/config_file_environment.html) | Per environment configuration |
 
 
 ## Glossary
