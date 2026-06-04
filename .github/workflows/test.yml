@@ -30,10 +30,43 @@ jobs:
       - name: Validate code
         run: bundle exec jekyll build
 
+  internal_links:
+    name: Internal links
+    runs-on: ubuntu-24.04
+    steps:
+      # needs fetch-depth because the packaging gem reads old git tags
+      - name: Checkout current PR
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Install Ruby version 3.3
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3
+          bundler-cache: true
+      # pandoc renders the openvox man-page references; mandoc renders the
+      # openfact CLI references (see lib/puppet_references/).
+      - name: Install pandoc and mandoc
+        run: sudo apt-get install -y pandoc mandoc
+      # The link check covers every collection, and the shared site-wide sidebar
+      # links into the generated reference pages, so the whole site (including
+      # those generated pages) must exist. Generate every collection's references
+      # into docs/ first, the same way the publish workflow does.
+      - name: Generate reference docs
+        run: |
+          bundle exec rake references:openfact INSTALLPATH=docs
+          bundle exec rake references:openvox INSTALLPATH=docs
+          bundle exec rake references:openbolt INSTALLPATH=docs
+      - name: Build site
+        run: bundle exec jekyll build
+      - name: Check internal links
+        run: bundle exec rake test:links
+
   tests:
     if: always()
     needs:
       - rake_checks
+      - internal_links
     runs-on: ubuntu-24.04
     name: Test suite
     steps:
