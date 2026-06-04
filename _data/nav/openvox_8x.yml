@@ -15,16 +15,8 @@
     link: "getting_started.html"
   - text: Try OpenVox locally with crafty (experimental)
     link: "getting_started_local.html"
-- text: Quick start guides
-  items:
-  - text: NTP quick start guide
-    link: "quick_start_ntp.html"
-  - text: DNS quick start guide
-    link: "quick_start_dns.html"
-  - text: Sudo quick start guide
-    link: "quick_start_sudo.html"
-  - text: Firewall quick start guide
-    link: "quick_start_firewall.html"
+  - text: Manage a service with a module
+    link: "manage_a_service_with_a_module.html"
 - text: Installing and upgrading
   items:
   - text: Overview of OpenVox's architecture
