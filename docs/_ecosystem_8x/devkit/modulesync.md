@@ -69,7 +69,7 @@ message: "Update from modulesync_config"
 The `managed_modules.yml` file contains a list of all the modules you want to manage.
 They should all be in the namespace configured in `modulesync.yml`.
 
-For example, the modules described in this configuration would be found at https://github.com/your_username/puppet-amanda and so forth.
+For example, the modules described in this configuration would be found at `https://github.com/your_username/puppet-amanda` and so forth.
 
 ```yaml
 ---
@@ -129,7 +129,7 @@ bundle exec rake metadata_deps
 
 And if you'd like to bump a dependency's supported version upper bound, it might look like so:
 
-```
+```console
 ./bin/bump-dependency-upper-bound puppetlabs/stdlib 10.0.0 modules/*/*/metadata.json
 ```
 

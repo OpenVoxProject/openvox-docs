@@ -184,7 +184,7 @@ If you'd like to explore the possibility, here is a non-exhaustive list of some 
 {% include alert.html type="warning" content="This section describes an ecosystem mitigation that is sometimes required, but never recommended if you can avoid it." %}
 
 The Rubygems environment will manage dependencies for you and recursively install all the gems needed by the gems you specify.
-This is very convenient, but it does rely on *all module and gem authors* to have properly maintained their dependencies.
+This is very convenient, but it does rely on _all module and gem authors_ to have properly maintained their dependencies.
 If you are testing third-party modules, you may stumble into modules in which these dependencies have not yet been updated to specify OpenVox instead of Puppet and run into compatibility issues or actually be testing something you didn't intend to.
 
 If you have the ability to fix the module/gem, then do that and help get the fix published so the whole ecosystem improves.
