@@ -8,19 +8,19 @@ reporting problems with the published docs.
 To build the documentation in this repository, first install Ruby 3.2 or later.
 Then use Bundler to install the project dependencies:
 
-```
+```console
 bundle install
 ```
 
 Then build the documentation with:
 
-```
+```console
 bundle exec jekyll build
 ```
 
 Or serve it locally to preview in a browser:
 
-```
+```console
 bundle exec jekyll serve
 ```
 
@@ -71,4 +71,7 @@ customized or overridden, see the theme documentation for details.
 
 ## Copyright
 
-Copyright (c) 2009-2024 Puppet, Inc. See LICENSE for details.
+Copyright (c) 2009-2024 Puppet, Inc.
+Copyright (c) 2024-present Vox Pupuli.
+
+See LICENSE for details.
