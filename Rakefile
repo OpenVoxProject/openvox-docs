@@ -51,6 +51,16 @@ namespace :references do
     PuppetReferences.build_openbolt_references(ENV.fetch('VERSION', nil))
   end
 
+  desc 'Generate _data/agent_release_contents.yml from upstream component pins'
+  task :agent_versions do
+    require 'puppet_references/agent_release_table'
+    series = ENV.fetch('SERIES', '8.')
+    min_version = ENV.fetch('MIN_RELEASE', '8.25.0')
+    path = ENV.fetch('AGENT_VERSIONS_DATA', '_data/agent_release_contents.yml')
+    rows = PuppetReferences::AgentReleaseTable.write_data_file(series:, min_version:, path:)
+    puts "Wrote #{rows.size} releases to #{path}"
+  end
+
   task :check do
     puts 'No VERSION given to build references for - using latest tag' unless ENV['VERSION']
     puts "Using provided install path #{ENV.fetch('INSTALLPATH')} instead of default" if ENV['INSTALLPATH']
