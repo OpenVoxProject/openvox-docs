@@ -107,7 +107,7 @@ Jig can create other types of content for your module:
   * Creates a standard Ruby fact and associated spec file.
   * This does not know how to do external facts or structured data facts.
 * `function`
-  * Creates a new *Puppet language* function and associated spec file.
+  * Creates a new _Puppet language_ function and associated spec file.
   * This does not currently know how to create Ruby functions.
 * `provider`
   * Creates a new type and provider using the [Resource API](https://github.com/puppetlabs/puppet-resource_api) and associated spec files for each.
@@ -117,7 +117,7 @@ Jig can create other types of content for your module:
   * Creates a new OpenBolt task and its associated metadata file.
 * `test`
   * Creates a basic spec test for an existing class or defined type.
-* `transport` *(uncommon)*
+* `transport` _(uncommon)_
   * Creates a new [Resource API](https://github.com/puppetlabs/puppet-resource_api) transport and its associated files.
 
 See [Jig's GitHub page](https://github.com/avitacco/jig) for full documentation.
