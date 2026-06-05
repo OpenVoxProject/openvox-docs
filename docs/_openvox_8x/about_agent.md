@@ -49,6 +49,7 @@ latest [OpenVox Server documentation][openvox_server].
 
 | OpenVox release | OpenFact | Ruby | OpenSSL |
 | --- | --- | --- | --- |
+| 8.27.0 | 5.6.1 | 3.2.11 | 3.0.20 |
 | 8.26.2 | 5.6.0 | 3.2.11 | 3.0.20 |
 | 8.26.1 | 5.6.0 | 3.2.11 | 3.0.20 |
 | 8.26.0 | 5.6.0 | 3.2.11 | 3.0.20 |
