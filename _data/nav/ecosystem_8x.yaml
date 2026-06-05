@@ -21,4 +21,31 @@
     link: "getting_started/orchestration.html"
   - text: Quick Reference
     link: "getting_started/quickref.html"
-
+- text: Developer Tooling
+  items:
+  - text: Devkit Overview
+    link: "devkit/index.html"
+  - text: Set up the DevKit
+    link: "devkit/setup.html"
+  - text: DevKit Components
+    link: "devkit/components.html"
+  - text: Scaffolding New Content
+    link: "devkit/jig.html"
+  - text: Consistent Style
+    link: "devkit/linting.html"
+  - text: Unit Testing
+    link: "devkit/unit_testing.html"
+  - text: Publishing Modules
+    link: "devkit/publishing.html"
+  - text: Managing Many Modules
+    link: "devkit/modulesync.html"
+  - text: Smoke Testing Your Control Repo
+    link: "devkit/onceover.html"
+  - text: Impact Analysis
+    link: "devkit/impact_analysis.html"
+  - text: Acceptance Testing
+    link: "devkit/acceptance_testing.html"
+  - text: Migrating From the PDK
+    link: "devkit/migrating.html"
+  - text: Vox Pupuli Workflow
+    link: "devkit/vox_pupuli_workflow.html"
