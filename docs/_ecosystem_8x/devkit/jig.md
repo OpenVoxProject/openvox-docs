@@ -7,7 +7,9 @@ Puppet modules have a defined standard structure; the directories and filenames 
 In other words, the directory name should match the module name, and each class or defined type should be a matching filename under the `manifests` directory, and so on.
 This structure allows the OpenVox compiler to locate and load the proper files when including various classes and such.
 
-{% include alert.html type="warning" title="Historical Note" content="You may stumble into very old Puppet code that doesn't maintain the 'one _thing_ per file' convention. These are vestigial remnants of the times before the module structure was finalized. While OpenVox can technically load content this way in some cases, it's best to just avoid that style since it leads to undefined behaviour." %}
+{% include alert.html type="warning" title="Historical Note" content="You may stumble into very old Puppet code that doesn't maintain the 'one _thing_ per file' convention.
+These are vestigial remnants of the times before the module structure was finalized.
+While OpenVox can technically load content this way in some cases, it's best to just avoid that style since it leads to undefined behaviour." %}
 
 It's possible to create files and maintain the proper directory structure by hand and nothing prevents you from doing so.
 However, many people today prefer to use a scaffolding tool to maintain proper structure and consistency.
@@ -18,7 +20,8 @@ The tool we recommend for this today is [Jig](https://github.com/avitacco/jig).
 Download the latest release for your platform from the [releases page](https://github.com/avitacco/jig/releases).
 Uncompress it and move the `jig` binary to a path like `/usr/local/bin`.
 
-{% include alert.html type="tip" title="macOS Security Alert" content="The packages are unsigned, so macOS won't open them by default. Run it once and cancel the warning dialog that tells you to trash it. Then go to `System Settings -> Privacy & Security` and scroll to the bottom of the pane. You'll see the option to allow `jig` to run." %}
+{% include alert.html type="tip" title="macOS Security Alert" content="The packages are unsigned, so macOS won't open them by default. Run it once and cancel the warning dialog that tells you to trash it.
+Then go to `System Settings -> Privacy & Security` and scroll to the bottom of the pane. You'll see the option to allow `jig` to run." %}
 
 Jig is one of the few tools in the Vox Pupuli ecosystem implemented in Go.
 If you have [Go installed](https://go.dev/doc/install), then you can choose to install via the Go package manager instead.

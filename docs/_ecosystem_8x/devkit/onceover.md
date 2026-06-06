@@ -55,7 +55,8 @@ opts:
 
 ## Running the Tests
 
-When you run tests, Onceover will use `r10k` to temporarily install all the modules specified in your `Puppetfile` as fixtures and then run basic `it_compiles` spec tests on each class matching the `classes` setting in your configuration.
+When you run tests, Onceover will use `r10k` to temporarily install all the modules specified in your `Puppetfile` as fixtures
+and then run basic `it_compiles` spec tests on each class matching the `classes` setting in your configuration.
 
 ```console
 bundle exec onceover run spec

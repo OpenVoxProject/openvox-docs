@@ -49,28 +49,22 @@ Notice: Add --debug for realtime output, add --render-as {json,yaml} for parsed 
 --------------------------------------------------------------------------------
 new                                                           33.33333333333333%
 --------------------------------------------------------------------------------
-Old version:	1780641948
-New version:	1780641933
-Old environment:	production
-New environment:	production
-Total resources in old:	3
-Total resources in new:	3
+Old version:  1780641948
+New version:  1780641933
+Old environment:  production
+New environment:  production
+Total resources in old: 3
+Total resources in new: 3
 Only in old:
   notify[hello]
 Only in new:
   notify[world]
-Catalag percentage added:	33.33
-Catalog percentage removed:	33.33
-Catalog percentage changed:	0.00
-Added and removed resources:	+1 / -1
-Node percentage:	33.33333333333333
-Node differences:	2
-
-
-
-
-
-
+Catalog percentage added:    33.33
+Catalog percentage removed:  33.33
+Catalog percentage changed:  0.00
+Added and removed resources: +1 / -1
+Node percentage:  33.33333333333333
+Node differences: 2
 
 --------------------------------------------------------------------------------
 1 out of 1 nodes changed.                                     33.33333333333333%
@@ -117,7 +111,8 @@ puppet catalog diff \
 The tool is very powerful and has many more options and configurability.
 [Find out more on its project page](https://github.com/voxpupuli/puppet-catalog_diff).
 
-Orchestrating this to run on pull/merge requests or the like is beyond the scope of this quick guide, but a community member [wrote a couple posts](https://dev.to/camptocamp-ops/diffing-puppet-environments-1fno) on setting this up.
+Orchestrating this to run on pull/merge requests or the like is beyond the scope of this quick guide, but a community member
+[wrote a couple posts](https://dev.to/camptocamp-ops/diffing-puppet-environments-1fno) on setting this up.
 
 ## Graphical visualization of differences
 

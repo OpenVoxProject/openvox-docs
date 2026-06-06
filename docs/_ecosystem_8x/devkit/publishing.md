@@ -68,7 +68,8 @@ require 'voxpupuli-release'
 Then you should set up your Forge API token.
 You can use the same token you generated for Jig, or you can create one specifically for these tasks.
 
-{% include alert.html type="tip" title="Pro tip" content="If you're going to use the token in a pipeline, you should generate one specifically for it so that you can revoke it if needed without disrupting other work." %}
+{% include alert.html type="tip" title="Pro tip" content="If you're going to use the token in a pipeline,
+you should generate one specifically for it so that you can revoke it if needed without disrupting other work." %}
 
 Add your token to `~/.puppetforge.yml`:
 

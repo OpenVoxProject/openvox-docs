@@ -20,7 +20,8 @@ sudo gem install bundler
 
 Once you have a working Ruby environment you're ready to start using the Vox Pupuli testing suite!
 
-{% include alert.html type="tip" content="If you'd prefer to run the testing tools via a container runtime like Docker or Podman, then check out the [VoxBox](https://github.com/voxpupuli/container-voxbox) project." %}
+{% include alert.html type="tip" content="If you'd prefer to run the testing tools via a container runtime like Docker or Podman,
+then check out the [VoxBox](https://github.com/voxpupuli/container-voxbox) project." %}
 
 
 ## Installing a devkit component
@@ -170,13 +171,15 @@ Nevertheless, the ability to do local direct testing with a variety of versions 
 If you'd like to explore the possibility, here is a non-exhaustive list of some Ruby version managers to try out.
 
 * [Mise](https://mise.jdx.dev) and [asdf](https://github.com/asdf-vm/asdf)
-    * Both pluggable runtime version managers that let you change between Node.js versions the same as you would with Ruby. Being so featureful can make them a bit slower than the more minimal options, but the familiarity of managing all your runtimes the same way often makes up for it.
+  * Both pluggable runtime version managers that let you change between Node.js versions the same as you would with Ruby.
+  Being so featureful can make them a bit slower than the more minimal options, but the familiarity of managing all your runtimes the same way often makes up for it.
 * [rbenv](https://rbenv.org)
-    * A minimal Ruby version manager that lets you configure the desired version on a per-project basis, changing versions as you enter the directory on the command line.
+  * A minimal Ruby version manager that lets you configure the desired version on a per-project basis, changing versions as you enter the directory on the command line.
 * [rvm](https://rvm.io)
-    * The original Ruby version manager. It will install and manage Ruby versions and multiple gemsets for you. It's fallen somewhat out of fashion these days because the way that it hooks into the shell environment can be fragile.
+  * The original Ruby version manager. It will install and manage Ruby versions and multiple gemsets for you.
+  It's fallen somewhat out of fashion these days because the way that it hooks into the shell environment can be fragile.
 * [rv](https://github.com/spinel-coop/rv)
-    * A brand new very fast Ruby gem and project manager. Some of us have tried the tool and love its potential. However, you should be aware that it's very new and hasn't been as battle tested as other options.
+  * A brand new very fast Ruby gem and project manager. Some of us have tried the tool and love its potential. However, you should be aware that it's very new and hasn't been as battle tested as other options.
 
 
 ## 🧩 [advanced] Overriding dependencies
@@ -185,7 +188,8 @@ If you'd like to explore the possibility, here is a non-exhaustive list of some 
 
 The Rubygems environment will manage dependencies for you and recursively install all the gems needed by the gems you specify.
 This is very convenient, but it does rely on _all module and gem authors_ to have properly maintained their dependencies.
-If you are testing third-party modules, you may stumble into modules in which these dependencies have not yet been updated to specify OpenVox instead of Puppet and run into compatibility issues or actually be testing something you didn't intend to.
+If you are testing third-party modules, you may stumble into modules in which these dependencies have not yet been updated to
+specify OpenVox instead of Puppet and run into compatibility issues or actually be testing something you didn't intend to.
 
 If you have the ability to fix the module/gem, then do that and help get the fix published so the whole ecosystem improves.
 But if you can't or don't have the time, then you can temporarily _alias_ one gem name to another.

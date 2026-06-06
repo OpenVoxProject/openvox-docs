@@ -3,7 +3,8 @@ layout: default
 title: "Manage an Entire Portfolio of Modules with ModuleSync"
 ---
 
-Puppet modules within an organization tend to have a number of boilerplate files that are identical or very similar between modules, such as the `Gemfile`, `LICENSE.md`, CI configuration, or `.spec_helper.rb` configuration for the testing framework.
+Puppet modules within an organization tend to have a number of boilerplate files that are identical or very similar between modules, such as the `Gemfile`, `LICENSE.md`,
+CI configuration, or `.spec_helper.rb` configuration for the testing framework.
 If a file needs to change in one module, it likely needs to change in the same way in every other module that the organization manages.
 This is even true when the files are not exactly the same.
 For example, organizations with robust CI testing will often pre-flight OS upgrades by bumping the supported OS version in module `metadata.json` files and then letting CI tell them what needs to be fixed.
