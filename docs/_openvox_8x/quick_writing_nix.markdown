@@ -208,7 +208,3 @@ You have now performed the core workflows of an intermediate Puppet user. In the
 * Download and modify Forge modules to fit their deployment's needs.
 * Create new modules and write new classes to manage many types of resources, including files, services, and more.
 * Build and curate a site module to safely empower junior admins and simplify the decisions involved in deploying new machines.
-
-* * *
-
-- [Next: Essential configuration tasks](./quick_start_essential_config.html)
