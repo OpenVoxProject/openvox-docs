@@ -47,9 +47,14 @@ latest [OpenVox Server documentation][openvox_server].
 
 ## Release contents of `openvox-agent` 8.x
 
-| OpenVox release | OpenFact | Ruby | OpenSSL |
-| --- | --- | --- | --- |
-| 8.26.2 | 5.6.0 | 3.2.11 | 3.0.20 |
-| 8.26.1 | 5.6.0 | 3.2.11 | 3.0.20 |
-| 8.26.0 | 5.6.0 | 3.2.11 | 3.0.20 |
-| 8.25.0 | 5.4.0 | 3.2.10 | 3.0.19 |
+This table is generated from the upstream component pins for each release.
+Regenerate it with `bundle exec rake references:agent_versions`.
+
+<!-- markdownlint-disable MD055 MD056 -->
+
+| OpenVox release | OpenFact | Ruby | OpenSSL | curl | r10k |
+| --- | --- | --- | --- | --- | --- |
+{% for r in site.data.agent_release_contents %}| {{ r.release }} | {{ r.openfact }} | {{ r.ruby }} | {{ r.openssl }} | {{ r.curl }} | {{ r.r10k }} |
+{% endfor %}
+
+<!-- markdownlint-enable MD055 MD056 -->

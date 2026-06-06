@@ -76,10 +76,15 @@ jobs:
         run: |
           sudo apt install -y pandoc mandoc
       - name: Build website
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
         run: |
           bundle exec rake references:openfact INSTALLPATH=docs
           bundle exec rake references:openvox INSTALLPATH=docs
           bundle exec rake references:openbolt INSTALLPATH=docs
+          # Refresh the openvox-agent release-contents table from upstream pins.
+          # Falls back to the committed _data file if the GitHub API is unreachable.
+          bundle exec rake references:agent_versions || echo 'agent_versions refresh failed; using committed _data'
           bundle exec jekyll build
       - name: Archive website
         run: |
