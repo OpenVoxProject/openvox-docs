@@ -29,15 +29,19 @@ When you [set up the `voxpupuli-test` suite](setup.html#setting-up-the-vox-pupul
 The individual pages in this guide will have more information about how to use each of them.
 
 * [`voxpupuli-test`](https://github.com/voxpupuli/voxpupuli-test) is the suite itself. It pulls in other tools as dependencies.
-* [`rspec-puppet`](https://github.com/puppetlabs/rspec-puppet) is the standard unit testing framework for Puppet and OpenVox. It allows you to assert certain expectations about your compiled catalog, such as whether it does or does not contain certain resources with specific parameters. Tests are written in Ruby, which allows tests to be constructed programmatically as needed.
-    * [`facterdb`](https://github.com/voxpupuli/facterdb) is a database of representative facts for various platforms. This will let you test your module as if it were being applied on each platform.
-    * [`rspec-puppet-facts`](https://github.com/voxpupuli/rspec-puppet-facts) uses `facterdb` to loop over all supported platforms from `metadata.json`.
+* [`rspec-puppet`](https://github.com/puppetlabs/rspec-puppet) is the standard unit testing framework for Puppet and OpenVox.
+It allows you to assert certain expectations about your compiled catalog, such as whether it does or does not contain certain resources with specific parameters.
+Tests are written in Ruby, which allows tests to be constructed programmatically as needed.
+  * [`facterdb`](https://github.com/voxpupuli/facterdb) is a database of representative facts for various platforms. This will let you test your module as if it were being applied on each platform.
+  * [`rspec-puppet-facts`](https://github.com/voxpupuli/rspec-puppet-facts) uses `facterdb` to loop over all supported platforms from `metadata.json`.
 * [`puppet-syntax`](https://github.com/voxpupuli/puppet-syntax/) will syntax check Puppet manifests, `.erb` and `.epp` templates, and Hiera data files.
 * Linters enforce consistency in code and other files. The suite includes several types of linters.
-    * [`puppet-lint`](https://github.com/puppetlabs/puppet-lint) lints Puppet manifests against the [Puppet Language Style Guide](https://help.puppet.com/core//current/Content/PuppetCore/style_guide.htm).
-    * [`voxpupuli-puppet-lint-plugins`](https://github.com/voxpupuli/voxpupuli-puppet-lint-plugins) are various plugins that enforce various optional extensions to the style guide. See the [`.gemspec`](https://github.com/voxpupuli/voxpupuli-puppet-lint-plugins/blob/master/voxpupuli-puppet-lint-plugins.gemspec) for a list of the enabled checks.
+  * [`puppet-lint`](https://github.com/puppetlabs/puppet-lint) lints Puppet manifests against the [Puppet Language Style Guide](https://help.puppet.com/core//current/Content/PuppetCore/style_guide.htm).
+    * [`voxpupuli-puppet-lint-plugins`](https://github.com/voxpupuli/voxpupuli-puppet-lint-plugins) are various plugins that enforce various optional extensions to the style guide.
+    See the [`.gemspec`](https://github.com/voxpupuli/voxpupuli-puppet-lint-plugins/blob/master/voxpupuli-puppet-lint-plugins.gemspec) for a list of the enabled checks.
     * [`metadata-json-lint`](https://github.com/voxpupuli/metadata-json-lint) validates the module's `metadata.json` file for maximum compatibility.
-    [`rubocop`](https://rubocop.org) is a Ruby static code checker (linter) and formatter based on the community-driven [Ruby Style Guide](https://rubystyle.guide/).
+    * [`rubocop`](https://rubocop.org) is a Ruby static code checker (linter) and formatter based on the community-driven [Ruby Style Guide](https://rubystyle.guide/).
 * [`openvox-strings`](https://github.com/voxpupuli/openvox-strings) automatically generates references for Puppet code and extensions.
 * [`parallel_tests`](https://github.com/grosser/parallel_tests) speed up your tests by safely running them in parallel.
-* [`puppet_fixtures`](https://github.com/voxpupuli/puppet_fixtures) manages fixtures for your tests. Many times modules will depend on others for their functionality, and that means that dependencies need to be installed for testing. These are called _fixtures_.
+* [`puppet_fixtures`](https://github.com/voxpupuli/puppet_fixtures) manages fixtures for your tests.
+Many times modules will depend on others for their functionality, and that means that dependencies need to be installed for testing. These are called _fixtures_.
