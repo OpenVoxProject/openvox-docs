@@ -36,7 +36,7 @@ Tests are written in Ruby, which allows tests to be constructed programmatically
   * [`rspec-puppet-facts`](https://github.com/voxpupuli/rspec-puppet-facts) uses `facterdb` to loop over all supported platforms from `metadata.json`.
 * [`puppet-syntax`](https://github.com/voxpupuli/puppet-syntax/) will syntax check Puppet manifests, `.erb` and `.epp` templates, and Hiera data files.
 * Linters enforce consistency in code and other files. The suite includes several types of linters.
-  * [`puppet-lint`](https://github.com/puppetlabs/puppet-lint) lints Puppet manifests against the [Puppet Language Style Guide](https://help.puppet.com/core//current/Content/PuppetCore/style_guide.htm).
+  * [`puppet-lint`](https://github.com/puppetlabs/puppet-lint) lints Puppet manifests against the [OpenVox Language Style Guide](/openvox/latest/style_guide.html).
     * [`voxpupuli-puppet-lint-plugins`](https://github.com/voxpupuli/voxpupuli-puppet-lint-plugins) are various plugins that enforce various optional extensions to the style guide.
     See the [`.gemspec`](https://github.com/voxpupuli/voxpupuli-puppet-lint-plugins/blob/master/voxpupuli-puppet-lint-plugins.gemspec) for a list of the enabled checks.
     * [`metadata-json-lint`](https://github.com/voxpupuli/metadata-json-lint) validates the module's `metadata.json` file for maximum compatibility.
