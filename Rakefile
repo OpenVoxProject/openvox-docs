@@ -14,16 +14,21 @@ RuboCop::RakeTask.new do |task|
   task.plugins << 'rubocop-rake'
 end
 
-CLOBBER.include('references_output')
+clobber_dirs = [
+  # ceated by references rake sub tasks
+  'references_output',
+  'vendor/openbolt',
+  'vendor/openfact',
+  'vendor/openvox',
+  '.yardoc',
+  # created by running jekyll
+  '_site',
+  '.jekyll-cache',
+]
 
-# top_dir = Dir.pwd
-
-# SOURCE_DIR = "#{top_dir}/source".freeze
-# OUTPUT_DIR = "#{top_dir}/output".freeze
-# STASH_DIR = "#{top_dir}/_stash".freeze
-# PREVIEW_DIR = "#{top_dir}/_preview".freeze
-
-# VERSION_FILE = "#{OUTPUT_DIR}/VERSION.txt".freeze
+clobber_dirs.each do |dir|
+  CLOBBER.include(dir)
+end
 
 desc 'List the available groups of references. Run `rake references:<GROUP>` to build.'
 task :references do
