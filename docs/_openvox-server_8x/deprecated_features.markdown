@@ -114,7 +114,7 @@ After adding the desired rules to the `trapperkeeper-authorization` "auth.conf" 
 ### Context
 
 In previous OpenVox Server releases, there was no unified mechanism for controlling access to the various endpoints that OpenVox Server hosts. OpenVox Server used core OpenVox "auth.conf" to authorize requests
-handled by the primary service and custom client whitelists for the CA and Admin endpoints. The custom client whitelists do not provide granular enough control to meet some use cases.
+handled by its core API endpoints, and custom client whitelists for the CA and Admin endpoints. The custom client whitelists do not provide granular enough control to meet some use cases.
 
 `trapperkeeper-authorization` unifies authorization configuration across all of these endpoints into a single file and provides more granular control.
 
@@ -225,76 +225,60 @@ After adding the desired rules to the `trapperkeeper-authorization` "auth.conf" 
 ### Context
 
 In previous OpenVox Server releases, there was no unified mechanism for controlling access to the various endpoints that OpenVox Server hosts. OpenVox Server used core OpenVox "auth.conf" to authorize requests
-handled by the master service and custom client whitelists for the CA and Admin endpoints. The custom client whitelists do not provide granular enough control to meet some use cases.
+handled by its core API endpoints, and custom client whitelists for the CA and Admin endpoints. The custom client whitelists do not provide granular enough control to meet some use cases.
 
 `trapperkeeper-authorization` unifies authorization configuration across all of these endpoints into a single file and provides more granular control.
 
-## OpenVox's "resource_types" API endpoint
+## `master.allow-header-cert-info` setting
 
 ### Now
 
-The `resource_type` and `resource_types` HTTP APIs were removed in OpenVox Server 5.0.
+The `master.allow-header-cert-info` setting in [`puppetserver.conf`](./config_file_puppetserver.html) controls whether OpenVox Server reads client identity, such as the client's certificate name, from HTTP headers
+instead of from the SSL connection. This is used when OpenVox Server runs behind a TLS-terminating proxy or load balancer that authenticates the client certificate and forwards the details in headers.
 
-### Previously
+OpenVox Server also accepts an equivalent `allow-header-cert-info` setting in the `authorization` section of the [`trapperkeeper-authorization` "auth.conf"](./config_file_auth.html) file. If
+`master.allow-header-cert-info` is set, OpenVox Server logs a deprecation warning.
 
-The `resource_type` and `resource_types` OpenVox HTTP API endpoints returned information about classes, defined types, and node definitions.
+### In a Future Major Release
 
-The [`environment_classes` HTTP API in OpenVox Server](./puppet-api/v3/environment_classes.html) serves as a replacement for the OpenVox resource type API for classes.
+The `master.allow-header-cert-info` setting will be ignored completely. Whether OpenVox Server trusts certificate information from HTTP headers will be controlled only by the
+`authorization.allow-header-cert-info` setting.
 
 ### Detecting and Updating
 
-If your application calls the `resource_type` or `resource_types` HTTP API endpoints for information about classes, point those calls to the `environment_classes` endpoint. The `environment_classes` endpoint
-has different features and returns different values than `resource_type`; see the [changes in the environment classes API](./puppet-api/v3/environment_classes.html) for details.
+Look for `allow-header-cert-info` in the `master` section of your `puppetserver.conf` file. Set `allow-header-cert-info` in the `authorization` section of your `trapperkeeper-authorization` "auth.conf" file to
+the same value, then remove the setting from the `master` section.
 
-The `environment_classes` endpoint ignores OpenVox's Ruby-based authorization methods and configuration in favor of OpenVox Server's Trapperkeeper authorization. For more information, see the
-["Authorization" section](./puppet-api/v3/environment_classes.html) of the environment classes API documentation.
+{% include alert.html type="warning" content="Only enable `allow-header-cert-info` when OpenVox Server is behind a trusted TLS-terminating proxy that sets these headers.
+If it is enabled when requests can reach OpenVox Server directly, clients can spoof their identity through the headers." %}
 
 ### Context
 
-Users often rely on the `resource_types` endpoint for lists of classes and associated parameters in an environment. For such requests, the `resource_types` endpoint is inefficient and can trigger problematic
-events, such as manifests being parsed during a catalog request.
+Header-based certificate information was historically configured separately for the legacy request handler and for `trapperkeeper-authorization`. Consolidating on the `authorization` setting keeps all
+request-authorization configuration in the `trapperkeeper-authorization` "auth.conf" file.
 
-To fulfill these requests more efficiently and safely, OpenVox Server 2.3.0 introduced the narrowly defined `environment_classes` endpoint.
-
-## OpenVox's node cache terminus
+## `jruby-puppet` `master-*` directory settings
 
 ### Now
 
-OpenVox 5.0 (and by extension, OpenVox Server 5.0) no longer writes node YAML files to its cache by default.
+The `jruby-puppet` section of [`puppetserver.conf`](./config_file_puppetserver.html) accepts both the `server-*` directory settings and their older `master-*` equivalents. The `master-*` settings are deprecated:
 
-### Previously
+| Deprecated setting | Replacement |
+| --- | --- |
+| `master-conf-dir` | `server-conf-dir` |
+| `master-code-dir` | `server-code-dir` |
+| `master-var-dir` | `server-var-dir` |
+| `master-run-dir` | `server-run-dir` |
+| `master-log-dir` | `server-log-dir` |
 
-OpenVox wrote YAML to its node cache.
+### In a Future Major Release
 
-### Detecting and Updating
-
-To retain the OpenVox 4.x behavior, add the [`puppet.conf`](./configuration.html) setting `node_cache_terminus = write_only_yaml`. The `write_only_yaml` option is deprecated.
-
-### Context
-
-This cache was used in workflows where external tooling needs a list of nodes. OpenVoxDB is the preferred source of node information.
-
-## JRuby's "compat-version" setting
-
-### Now
-
-OpenVox Server 5.0 removes the `jruby-puppet.compat-version` setting in [`puppetserver.conf`](./config_file_puppetserver.html), and exits the `puppetserver` service with an error if you start the service with
-that setting.
-
-### Previously
-
-OpenVox Server 2.7.x allowed you to set `compat-version` to `1.9` or `2.0` to choose a preferred Ruby interpreter version.
+The `master-*` directory settings will be removed. Use the `server-*` settings instead.
 
 ### Detecting and Updating
 
-Launching the `puppetserver` service with this setting enabled will cause it to exit with an error message. The error includes information on [switching from JRuby 1.7.x to JRuby 9k](./configuration.html).
-
-For Ruby language 2.x support in OpenVox Server, configure OpenVox Server to use JRuby 9k instead of JRuby 1.7.27. See the "Configuring the JRuby Version" section of
-[Puppet Server Configuration](./configuration.html) for details.
+Look in the `jruby-puppet` section of your `puppetserver.conf` file for any of the `master-*` directory settings listed above. Rename each to its `server-*` equivalent; the values do not change.
 
 ### Context
 
-OpenVox Server 5.0 updated JRuby v1.7 to v1.7.27, which in turn updated the `jruby-openssl` gem to v0.9.19 and `bouncycastle` libraries to v1.55. JRuby 1.7.27 breaks setting `jruby-puppet.compat-version` to
-`2.0`.
-
-OpenVox Server 5.0 also added optional, experimental support for JRuby 9k, which includes Ruby 2.x language support.
+These settings were renamed as part of moving away from "master" terminology toward "server". The `server-*` names are the supported form.
