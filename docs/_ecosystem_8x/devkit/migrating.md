@@ -20,7 +20,7 @@ If you get an error about a command not being available, you probably just need 
 |---------------------|----------------------------------|
 | `pdk new module`    | `jig new module`                 |
 | `pdk new class`     | `jig new class`                  |
-| `pdk build`         | `jig new module`                 |
+| `pdk build`         | `jig build`                 |
 | `pdk release`       | `jig release`                    |
 | `pdk convert`       | _not needed_                     |
 | `pdk update`        | `bundle exec msync update`       |
