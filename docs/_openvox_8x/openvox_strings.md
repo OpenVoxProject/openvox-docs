@@ -24,7 +24,6 @@ Markdown output includes the reference documentation only, and writes the inform
 * [YARD Getting Started Guide](http://www.rubydoc.info/gems/yard/file/docs/GettingStarted.md)
 * [YARD Tags Overview](http://www.rubydoc.info/gems/yard/file/docs/Tags.md)
 
-{:.task}
 ## Install Puppet Strings
 
 Requires:
@@ -36,7 +35,6 @@ Requires:
 1. Install the YARD gem by running `gem install yard`
 1. Install the `puppet-strings` gem by running `gem install puppet-strings`
 
-{:.concept}
 ## Generating documentation with Puppet Strings
 
 Generate documentation in HTML, JSON, or Markdown by running Puppet Strings. Strings creates reference documentation based on the code and comments in all Puppet and Ruby source files under the `./manifests/`, `./functions/`, `./lib/`, `./types/`, and `./tasks/` directories.
@@ -45,7 +43,6 @@ By default, Strings outputs HTML of the reference information and the module REA
 
 If you specify JSON or Markdown output, documentation includes the reference information only. Strings writes Markdown output to a `REFERENCE.md` file, or sends JSON output either to `STDOUT` or to a file.
 
-{:.task}
 ### Generate and view documentation in HTML
 
 To generate HTML documentation for a Puppet module, run Strings from that module's directory:
@@ -68,7 +65,6 @@ To view the generated HTML documentation for a module, open the `index.html` fil
 
 To view HTML documentation for all of your local modules, run `puppet strings server` from any directory. This command serves documentation for all modules in the [module path](./dirs_modulepath.html) at `http://localhost:8808`.
 
-{:.task}
 ### Generate documentation in Markdown
 
 To generate reference documentation in Markdown, specify the `markdown` format when you run Strings. The reference documentation includes descriptions, usage details, and parameter information for classes, defined types, functions, and resource types and providers.
@@ -86,7 +82,6 @@ Strings generates Markdown output as a `REFERENCE.md` file in the main module di
 
 View the Markdown file by opening it in a text editor or Markdown viewer.
 
-{:.task}
 ### Generate documentation in JSON
 
 To generate reference documentation as JSON output to a file or to standard output, specify the `json` format when you run Strings. JSON output is useful if you want to use the output in a custom application that reads JSON.
@@ -105,7 +100,6 @@ By default, Strings prints JSON output to `STDOUT`.
 For details about Strings JSON output, see [Strings JSON schema](https://github.com/voxpupuli/openvox-strings/blob/main/JSON.md).
 
 
-{:.task}
 ## Publish documentation to GitHub Pages
 
 To make your module documentation available on GitHub Pages, generate and publish HTML documentation with the `strings:gh_pages:update` Rake task, available in `puppet-strings/tasks`
@@ -156,7 +150,6 @@ Action   | Description
 `generate` | Generates documentation with any specified parameters, including format and output location.
 `server` | Serves documentation for all modules in the [module path](./dirs_modulepath.html) locally at `http://localhost:8808`.
 
-{:.section}
 ### `puppet strings generate` action
 
 Usage: `puppet strings generate [--format <FORMAT>][--out <DESTINATION>] [<ARGUMENTS>]`
@@ -181,7 +174,6 @@ Filenames or directory paths | Outputs documentation for only specified files or
 `--markup FORMAT` | The markup format to use for documentation. | "markdown", "textile", "rdoc", "ruby", "text", "html", or "none"    | If no `--format` is specified, Strings outputs HTML.
 `--help` | Displays help documentation for the command. | None.    | If specified, displays help.
 
-{:.section}
 ### `puppet strings server` command reference
 
 Usage: `puppet strings server [--markup <FORMAT>][[module_name]...][--modulepath <PATH>]`
@@ -205,7 +197,6 @@ Option   | Description   | Values      | Default
 `--help` | Displays help documentation for the command. | none | If specified, displays help.
 
 
-{:.section}
 ### Available Strings tags
 
 * `@api`: Describes the resource as belonging to the private or public API. Specify as private, `# @api private`, to mark a module element, such as a class, as part of the private API.

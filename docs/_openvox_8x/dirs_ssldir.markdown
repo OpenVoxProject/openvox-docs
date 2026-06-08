@@ -35,7 +35,6 @@ title: "Directories: SSLdir"
 
 Puppet stores its certificate infrastructure in the `ssldir` directory. This directory has a similar structure on all Puppet nodes, whether they are agent nodes, OpenVox Server servers, or the certificate authority (CA) master.
 
-{:.concept}
 ## Location of the `ssldir` directory
 
 By default, the `ssldir` directory is located at `$confdir/ssl`. For more information about the `confdir` folder, see [confdir][confdir].
@@ -46,7 +45,6 @@ Its location can be configured with the [`ssldir` setting][ssldir]. To see what 
 >
 > If a distro changes the `ssldir` directory location, it will do so by setting `ssldir` in the `$confdir/puppet.conf` file, usually in the `[main]` section. You can find out its location by running `puppet config print ssldir`.
 
-{:.concept}
 ## What the `ssldir` directory contains
 
 The `ssldir` directory contains Puppet certificates, private keys, certificate signing requests (CSRs), and other cryptographic documents.
@@ -57,7 +55,6 @@ Since agent and master credentials are identified by [certname][], an OpenVox ag
 
 The `ssldir` directory for the Puppet CA, which runs on the CA OpenVox Server server, contains similar credentials: private and public keys, certificate, master copy of the CRL. It also maintains a list of all signed certificates in the deployment, a copy of each signed certificate, and an incrementing serial number for new certificates. All of the CA's data is stored in the `ca` subdirectory, to keep it separated from any general Puppet credentials on the same server.
 
-{:.reference}
 ## The `ssldir` directory structure
 
 All of the files and directories in the `ssldir` directory have corresponding Puppet settings, which can be used to individually change their locations. However, this is generally not recommended.

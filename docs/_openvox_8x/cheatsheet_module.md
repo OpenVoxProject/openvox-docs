@@ -12,7 +12,6 @@ title: Module cheat sheet
 [forge]: https://forge.puppet.com/
 [documentation]: ./modules_documentation.html
 
-{:.reference}
 ## Module cheat sheet
 
 A quick reference to Puppet module terms and concepts.
@@ -29,7 +28,6 @@ Related topics:
 
 **Example Module: `/etc/puppetlabs/puppet/modules/apache`**
 
-{:.section}
 ### manifests
 
 This directory holds the module's Puppet code.
@@ -73,7 +71,6 @@ class apache::config::ssl {
 
 Subdirectories add intermediate namespaces.
 
-{:.section}
 ### files
 
 Nodes can download any files in this directory from Puppet's built-in file server.
@@ -106,7 +103,6 @@ file { '/etc/apache2/httpd-ssl.conf':
 }
 ```
 
-{:.section}
 ### lib
 
 This directory holds Ruby plugins, which can add features to Puppet and Facter.
@@ -120,7 +116,6 @@ A custom function.
 apache/lib/facter/apache_confdir.rb**
 A custom fact.
 
-{:.section}
 ### templates
 
 This directory holds ERB templates.

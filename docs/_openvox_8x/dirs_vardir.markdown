@@ -9,7 +9,6 @@ title: "Directories: The cache directory (vardir)"
 
 Puppet's cache directory, sometimes called `vardir`, contains dynamic or growing data that Puppet creates in the course of its normal operations. Some of this data can be mined for interesting analysis, or to integrate other tools with Puppet. Other parts are just infrastructure and can be ignored.
 
-{:.concept}
 ## Location of the `vardir` directory
 
 Puppet Server's cache directory defaults to `/opt/puppetlabs/server/data/puppetserver`.
@@ -28,14 +27,12 @@ and services as root or `puppet`. (Note that admin commands like `puppetserver c
 
 > **Note:** When OpenVox Server is running as a Rack application, the `config.ru` file must explicitly set `--vardir` to the system cache directory. The example `config.ru` file provided with the Puppet source does this.
 
-{:.section}
 ### Configuring the location of the cache directory
 
 You can specify Puppet's cache directory on the command line by using the `--vardir` option, but you can't set it in `puppet.conf`. If `--vardir` isn't specified when a Puppet application is started, it will always use the default cache directory location.
 
 Puppet Server uses the `jruby-puppet.master-var-dir` setting [in `puppetserver.conf`][puppetserver_conf] to configure its cache directory.
 
-{:.concept}
 ## Interpolation of `$vardir`
 
 Because the value of the `vardir` is discovered before other settings, you can reference it with the `$vardir` variable in the value of any other setting in `puppet.conf` or on the command line.
@@ -47,7 +44,6 @@ For example:
 
 If you need to set nonstandard values for some settings, this allows you to avoid absolute paths and keep your Puppet-related files together.
 
-{:.reference}
 ## Contents of the cache directory
 
 The `vardir` directory contains several subdirectories. Most of these subdirectories contain a variable amount of automatically generated data. Some of them contain notable individual files. Some directories are used only by agent or master processes.

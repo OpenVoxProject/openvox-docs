@@ -15,7 +15,6 @@ If you created your module with Puppet Development Kit, the `metadata.json` is c
 
 The `metadata.json` file uses standard JSON syntax and contains a single JSON object. A JSON object is a map of keys to values; it's sometimes called a hash and is equivalent to a Ruby or Puppet hash.
 
-{:.example}
 ### metadata.json example 
 
 ``` json
@@ -60,7 +59,6 @@ The `metadata.json` file uses standard JSON syntax and contains a single JSON ob
 }
 ```
 
-{:.section}
 ## Specifying dependencies in modules
 
 [inpage_deps]: #specifying-dependencies-in-modules
@@ -85,7 +83,6 @@ If a dependency is not installed, the `puppet module` command installs the most 
 After you've created your module and gone through the metadata dialog, you must manually edit the `metadata.json` file to include the dependency information. For information about how to format dependency versions, see the related topic about version specifiers in module metadata.
 
 
-{:.section}
 ## Specifying Puppet version requirements in modules 
 
 [inpage_require]: #specifying-puppet-version-requirements-in-modules
@@ -108,7 +105,6 @@ For Puppet Enterprise versions, specify the core Puppet version of that version 
 For information about formatting version requirements, see the related topic about version specifiers in module metadata.
 
 
-{:.section}
 ## Specifying operating system compatibility in modules
 
 [inpage_os]: #specifying-operating-system-compatibility-in-modules
@@ -136,7 +132,6 @@ This key accepts an array of hashes, where each hash contains `operatingsystem` 
 ]
 ```
 
-{:.section}
 ## Version specifiers in module metadata
 
 Your module metadata specifies your own module's version as well as the versions for your module's dependencies and requirements. When you specify a version for a module dependency or requirement, you can use several version specifiers that allow multiple versions.
@@ -185,7 +180,6 @@ Format   | Description
 * `< 4.x`
 
 
-{:.reference}
 ## Available `metadata.json` keys
 
 The main JSON object in `metadata.json` can contain only certain keys.

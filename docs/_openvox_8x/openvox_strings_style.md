@@ -15,7 +15,6 @@ This style guide applies to:
 
 For information about the specific meaning of terms like 'must,' 'must not,' 'required,' 'should,' 'should not,' 'recommend,' 'may,' and 'optional,' see [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
-{:.section}
 ## The module README
 
 Include basic module information and extended usage examples for common use cases in your module README. Strings generates reference information, but the README tells users what your module does and how to use it.
@@ -31,7 +30,6 @@ The README should contain the following sections:
 * Limitations: OS compatibility and known issues.
 * Development: Guide for contributing to the module.
 
-{:.section}
 ## Comment style guidelines
 
 Strings documentation comments inside module code follow these rules and guidelines:
@@ -43,7 +41,6 @@ Strings documentation comments inside module code follow these rules and guideli
 * Untagged comments for a given element are output in an overview section that precedes all tagged information for that code element.
 * If an element, such as a class or parameter, is deprecated, indicate it in the description for that element with **Deprecated** in bold.
 
-{:.section}
 ### Classes and defined types
 
 Document each class and defined type, along with its parameters, with comments before the code.
@@ -57,7 +54,6 @@ List the class and defined type information in the following order:
    1. Code example showing how the class or defined type is used. This example should be directly under the `@example` tag and description, indented two spaces.
 1. One `@param` tag for each parameter in the class or defined type. See the Parameters section for formatting guidelines.
 
-{:.section}
 ### Parameters
 
 Add parameter information as part of any class, defined type, or function that accepts parameters.
@@ -77,7 +73,6 @@ For example:
 ```
 
 
-{:.example}
 #### Example class
 
 ```
@@ -124,7 +119,6 @@ class apache::mod::php (
 ) { … }
 ```
 
-{:.example}
 #### Example defined type
 
 ```
@@ -168,7 +162,6 @@ class apache::mod::php (
 #
 ```
 
-{:.section}
 ### Functions
 
 Put documentation comments for functions immediately before the function definition, and include the following information:
@@ -182,7 +175,6 @@ Put documentation comments for functions immediately before the function definit
 1. For custom Ruby functions, docs should come immediately before each ‘dispatch’ call.
 1. For functions in Puppet, docs should come immediately before the function name.
 
-{:.example}
 #### Ruby function examples
 
 This example function has one potential return type.
@@ -224,7 +216,6 @@ Puppet::Functions.create_function(:example) do
 end
 ```
 
-{:.example}
 #### Puppet function example
 
 ```
@@ -237,7 +228,6 @@ function example(String $name) {
 }
 ```
 
-{:.section}
 ### Resource types
 
 Add descriptions to the type and its attributes by passing either a here document (heredoc) or a short string to the `desc` method. Strings automatically detects much of the information for types, including the parameters and properties, collectively known as attributes.
@@ -258,7 +248,6 @@ Document the resource type description in the following order:
    1. An `@example` tag with a description of a usage example on the same line.
    1. Code example showing how the type is used. This example should be directly under the `@example` tag and description, indented two spaces.
 
-{:.example}
 #### Example resource type
 
 ```
@@ -284,14 +273,12 @@ DESC
 end
 ```
 
-{:.section}
 ### Resource API type
 
 For resource API types, follow the guidelines for standard resource types, but pass the heredoc or documentation string to a `desc` key in the data structure. You can include tags and multiple lines with the heredoc. Strings extracts the heredoc information along with other information from this data structure.
 
 The heredoc and documentation strings that Strings uses are called out in comments in this code example:
 
-{:.example}
 #### Resource API example
 
 ```
@@ -339,7 +326,6 @@ EOS
 )
 ```
 
-{:.section}
 ### Puppet tasks and plans
 
 Puppet Strings documents Puppet tasks automatically, taking all information from the task metadata. Document Puppet task plans just as you would a class or defined type, with tags and descriptions in the plan file.

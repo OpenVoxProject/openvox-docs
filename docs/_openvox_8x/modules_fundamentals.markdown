@@ -42,7 +42,6 @@ Related topics:
 * [Using plug-ins][plugins]
 
 
-{:.concept}
 ## Module structure
 
 Modules have a specific directory structure that allows Puppet to find and automatically load classes, defined types, facts, custom types and providers, functions, and tasks. 
@@ -75,7 +74,6 @@ Related topics:
 * [Defined types][defined_types]
 * [Type aliases](./lang_type_aliases.html)
 
-{:.example}
 ### Example
 
 This example module, `my_module`, shows the standard module layout in more detail.
@@ -109,7 +107,6 @@ This example module, `my_module`, shows the standard module layout in more detai
     * `types`: Contains resource type aliases.
     * `tasks`: Contains Puppet tasks, written in any language.
 
-{:.section}
 ### Module names
 
 Module names should contain only lowercase letters, numbers, and underscores, and should begin with a lowercase letter.
@@ -118,7 +115,6 @@ That is, module names should match the expression `[a-z][a-z0-9_]*`. Note that t
 
 Certain module names are disallowed; see the list of [reserved words and names][reserved names].
 
-{:.section}
 ### Manifests
 
 Each manifest in a module's `manifests` folder should contain only one class or defined type. The file names of manifests map predictably to the names of the classes and defined types they contain.
@@ -139,7 +135,6 @@ Thus:
 
 The double colon that divides the sections of a class's name is called the *namespace separator.*
 
-{:.section}
 ### Files in modules
 
 You can serve files in a module's `files` directory to agent nodes.
@@ -158,7 +153,6 @@ Puppet URLs are formatted as follows:
 
 So `puppet:///modules/my_module/service.conf` would map to `my_module/files/service.conf`.
 
-{:.section}
 ### Templates in modules
 
 Any ERB or EPP template can be rendered in a manifest. Templates combine code, data, and literal text to produce a final rendered output. The template output is a string, which can be used as the content attribute of a `file` resource or as the value of a variable.
@@ -176,7 +170,6 @@ So `template('my_module/component.erb')` renders the template `my_module/templat
 
 See the [templates][templates] topic for more details.
 
-{:.concept}
 ## Writing modules
 
 Every Puppet user should expect to write at least some of their own modules. Modules must have a specific directory structure and include correctly formatted metadata. The Puppet Development Kit provides tools for writing, validating, and testing modules.
