@@ -22,7 +22,7 @@ v4     | Environment and module layers | Deprecated. A transitional format, used
 
 ## Important: version 4 is deprecated.
 
-Version 4 of hiera.yaml is deprecated, and we plan to remove support for it in Puppet 6.
+Version 4 of hiera.yaml is deprecated and not recommended. OpenVox 8.x still supports it for backward compatibility, but you should use [version 5][v5] instead.
 
 More importantly, version 4 can't use some of Hiera 5's best new features, like custom backends.
 

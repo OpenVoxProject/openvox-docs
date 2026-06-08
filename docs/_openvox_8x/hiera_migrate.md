@@ -21,6 +21,8 @@ title: "Upgrading to Hiera 5"
 [custom_backend_system]: ./hiera_custom_backends.html
 [functions_puppet]: ./lang_write_functions_in_puppet.html
 
+> **Note:** Hiera 5 has been the default since Puppet 5 (2017), so most OpenVox 8.x users already use it and do not need this guide. It remains here for the rare case of migrating very old Hiera 3 data.
+
 Upgrading to Hiera 5 offers some major advantages. A real environment data layer means changes to your hierarchy are now routine and testable,
 using multiple backends in your hierarchy is easier and you can make a custom backend.
 
