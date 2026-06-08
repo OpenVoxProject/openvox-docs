@@ -55,9 +55,23 @@ module PuppetReferences
             next
           end
 
-          content = rewrite_md_links(source.read)
+          content = insert_generated_note(rewrite_md_links(source.read))
           dest = OUTPUT_DIR + filename
           dest.open('w') { |f| f.write(content) }
+        end
+      end
+
+      # Stamp the shared "generated, don't edit" notice after the page's
+      # leading H1 (the placement make_header uses for the other collections).
+      # Falls back to after the YAML front matter, then to the top of the file.
+      def insert_generated_note(content)
+        note = PuppetReferences::Util.generated_note('OpenBolt', @commit)
+        if (m = content.match(/\A(---\n.*?\n---\n\n)?(# [^\n]*\n)/m))
+          "#{m[1]}#{m[2]}\n#{note}\n#{m.post_match}"
+        elsif (m = content.match(/\A(---\n.*?\n---\n)/m))
+          "#{m[1]}\n#{note}\n\n#{m.post_match}"
+        else
+          "#{note}\n\n#{content}"
         end
       end
 
