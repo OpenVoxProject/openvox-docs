@@ -255,7 +255,7 @@
     link: "designing_convenient_roles.html"
 - text: Hiera
   items:
-  - text: Hiera
+  - text: About Hiera
     link: "hiera_intro.html"
   - text: Interactive Hiera Demo
     link: "hiera_demo.html"

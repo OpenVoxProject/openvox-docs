@@ -29,7 +29,7 @@ This version of Puppet supports three formats for hiera.yaml --- you can use any
 
 ## Important: version 3 is deprecated
 
-Version 3 of hiera.yaml is deprecated, and we plan to remove support for it in Puppet 6.
+Version 3 of hiera.yaml is deprecated and not recommended. OpenVox 8.x still supports it for backward compatibility, but you should use [version 5][v5] instead.
 
 More importantly, it has some major problems:
 

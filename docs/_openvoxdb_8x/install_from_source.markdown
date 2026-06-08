@@ -11,7 +11,7 @@ layout: default
 [module]: ./install_via_module.html
 [postgres_ssl]: ./postgres_ssl.html
 [packages]: ./install_from_packages.html
-[running_tests]: ./CONTRIBUTING.html#testing
+[running_tests]: https://github.com/OpenVoxProject/openvoxdb/blob/main/dev-docs/local-dev.md
 
 This page describes how to install OpenVoxDB from source code, and how to run OpenVoxDB directly from source without installing.
 
