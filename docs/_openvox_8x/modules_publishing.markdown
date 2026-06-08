@@ -165,35 +165,6 @@ Your module package should be a compiled `tar.gz` package of 10MB or less.
 
 After a successful upload, your browser should load the new release page of your module, with any errors popping up on the same screen. Your module's README, Changelog,and License files are displayed on your module's Forge page.
 
-## Publish to the Forge automatically with Travis CI
-
-You can automatically publish new versions of your module to the Forge using Travis CI.
-
-First, set up Travis CI for automatic publishing.
-
-1. Enable Travis CI for the module repository.
-2. Generate a Travis-encrypted Forge password string. For instructions, see the Travis CI [encryption keys docs](https://docs.travis-ci.com/user/encryption-keys/).
-3. Create a `.travis.yml` file in the module's repository base. This file should have a deployment section that includes your Forge username and the encrypted Forge password, such as:
-
-```
-deploy:
-  provider: puppetforge
-  user: <FORGE_USER>
-  password:
-    secure: "<ENCRYPTED_FORGE_PASSWORD>"
-  on:
-    tags: true
-    # all_branches is required to use tags
-    all_branches: true
-```
-
-To publish to the Forge with Travis CI, update your version, tag your repo, and push your commit.
-
-1. Update the version number in the module's `metadata.json` file and commit the change to the module repository.
-2. Tag the module repo with the desired version number. For more information about how to do this, see Git docs on [basic tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging).
-3. Push the commit and tag to your Git repository.
-
-Travis CI will build and publish the module.
 
 ## Deprecate a module on the Forge
 
