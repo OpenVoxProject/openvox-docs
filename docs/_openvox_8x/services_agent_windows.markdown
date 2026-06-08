@@ -165,4 +165,4 @@ In addition to local logging, OpenVox agent submits a [report][] to the OpenVox 
 
 ### Setting Puppet Agent CPU priority
 
-When CPU usage is high, try lowering the priority of the Puppet Agent service. This can be achieved using the [process priority setting](https://puppet.com/docs/puppet/latest/configuration.html#priority), a cross platform configuration option. This can also be set in the OpenVox Server. 
+When CPU usage is high, try lowering the priority of the Puppet Agent service. This can be achieved using the [process priority setting](configuration.html#priority), a cross platform configuration option. This can also be set in the OpenVox Server.

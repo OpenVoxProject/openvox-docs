@@ -3,9 +3,8 @@ layout: default
 title: "Puppet tasks"
 ---
 
-[writing]: https://puppet.com/docs/bolt/0.x/writing_tasks_and_plans.html
-[bolt]: https://puppet.com/docs/bolt/0.x/bolt.html
-[pe_tasks]: https://puppet.com/docs/pe/2017.3/orchestrator/running_tasks.html
+[writing]: /openbolt/latest/writing_tasks.html
+[bolt]: /openbolt/latest/getting_started_with_bolt.html
 
 Puppet tasks are single, ad hoc actions that you can run on target machines in your infrastructure, allowing you to make as-needed changes to remote systems. You can run tasks with the Puppet Enterprise orchestrator or with Puppet's standalone task runner, Bolt.
 
@@ -19,4 +18,3 @@ Related topics:
 
 * [Writing tasks and plans][writing]
 * [Running tasks and plans with Bolt][bolt]
-* [Running tasks with the PE orchestrator][pe_tasks]

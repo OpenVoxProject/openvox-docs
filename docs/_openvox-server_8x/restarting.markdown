@@ -5,11 +5,11 @@ canonical: "/puppetserver/latest/restarting.html"
 ---
 
 [logback.xml]: ./config_file_logbackxml.html
-[Hiera]: https://puppet.com/docs/puppet/latest/hiera_intro.html
+[Hiera]: /openvox/latest/hiera_intro.html
 [gems]: ./gems.html
-[core dependencies]: https://puppet.com/docs/puppet/latest/about_agent.html#what-are-puppet-agent-and-puppet-server
-[environment]: https://puppet.com/docs/puppet/latest/environments_about.html
-[environment caching]: https://puppet.com/docs/puppet/latest/configuration.html#environmenttimeout
+[core dependencies]: /openvox/latest/about_agent.html#what-openvox-agent-provides
+[environment]: /openvox/latest/environments_about.html
+[environment caching]: /openvox/latest/configuration.html#environment_timeout
 
 Starting in version 2.3.0, you can restart Puppet Server by sending a hangup signal, also known as a [HUP signal or SIGHUP](https://en.wikipedia.org/wiki/SIGHUP), to the running Puppet Server process. The HUP
 signal stops Puppet Server and reloads it gracefully, without terminating the JVM process. This is generally _much_ faster than completely stopping and restarting the process. This allows you to quickly load
@@ -46,10 +46,6 @@ OS distributions which use systemd service configurations:
 
     systemctl reload puppetserver
 
-> **Note:** If you're using Puppet Enterprise (PE), you can reload the server from the command line by running `service pe-puppetserver reload`. However if you need to change a setting, do so in console or with
-> Heira, and then the agent will reload the server when it applies the change. For more information, see
-> [Configuring and tuning Puppet Server](https://puppet.com/docs/pe/2018.1/config_puppetserver.html#configuring_and_tuning_puppet_server).
-
 ## Restarting Puppet Server to pick up changes
 
 There are three ways to trigger your Puppet Server environment to refresh and pick up changes you've made. A request to the [HTTP Admin API to flush the JRuby pool](./admin-api/v1/jruby-pool.html) is the
@@ -81,4 +77,4 @@ For these types of changes, you must restart the process by using the operating 
 
 > Note: To ensure that the Puppet master and CA service is running in a platform agnostic way, use the `puppet resource service puppetserver ensure=running` command. This command is equivalent to
 > `systemctl start puppetserver` on systems that support it. For more information on the resource command and managing a server’s desired state, see
-> [Man Page: puppet resource](https://puppet.com/docs/puppet/6.4/man/resource.html) and [Resource Type: service](https://puppet.com/docs/puppet/6.4/types/service.html).
+> [Man Page: puppet resource](/openvox/latest/man/resource.html) and [Resource Type: service](/openvox/latest/types/service.html).
