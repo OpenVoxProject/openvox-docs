@@ -8,14 +8,14 @@ title: "Publishing modules on the Puppet Forge"
 [fundamentals]: ./modules_fundamentals.html
 [plugins]: ./plugins_in_modules.html
 [forge]: https://forge.puppet.com/
-[signup]: ./images/forge_signup.png
 [documentation]: ./modules_documentation.html
 [metadata]: ./modules_metadata.html
 [devkit]: ../../ecosystem/latest/devkit/index.html
 [ignore]: https://git-scm.com/docs/gitignore
 
 
-To share your module with other Puppet users, get contributions to your modules, and maintain your module releases, publish your module on the Puppet Forge. The Forge is a community repository of modules, written and contributed by open source Puppet and Puppet Enterprise users.
+To share your module with other Puppet users, get contributions to your modules, and maintain your module releases, publish your module on the Puppet Forge.
+The Forge is a community repository of modules, written and contributed by open source Puppet and Puppet Enterprise users.
 
 To publish your module:
 
@@ -39,11 +39,18 @@ To publish your module:
 
 Your module has two names: a short name, like "mysql", and a long name that includes your Forge username, like "puppetlabs-mysql".
 
-To upload to the Forge, use the module long name. This name is composed of your Forge username and the short name of your module. For example, the "puppetlabs" user maintains a "mysql" module, which is known to the Forge as "puppetlabs-mysql". Use this long name in your module's `metadata.json` file. This helps disambiguate modules that might have common short names, such as "mysql" or "apache."
+To upload to the Forge, use the module long name.
+This name is composed of your Forge username and the short name of your module.
+For example, the "puppetlabs" user maintains a "mysql" module, which is known to the Forge as "puppetlabs-mysql".
+Use this long name in your module's `metadata.json` file.
+This helps disambiguate modules that might have common short names, such as "mysql" or "apache."
 
-However, your module directory on disk must use the short name, without the username prefix. Module directory names cannot contain dashes or periods; only letters, numbers, and underscores. As long as you have the correct long name in your `metadata.json` file, the `puppet module build` command uses the correct names in the correct places.
+However, your module directory on disk must use the short name, without the username prefix.
+Module directory names cannot contain dashes or periods; only letters, numbers, and underscores.
+As long as you have the correct long name in your `metadata.json` file, the `puppet module build` command uses the correct names in the correct places.
 
-{% include alert.html type="note" content="Although the  Forge expects to receive modules named `username-module`, its web interface presents them as `username/module`. Always use the `username-module` style in your metadata files and when issuing commands." %}
+{% include alert.html type="note" content="Although the  Forge expects to receive modules named `username-module`, its web interface presents them as `username/module`.
+Always use the `username-module` style in your metadata files and when issuing commands." %}
 
 
 Related topics:
@@ -66,7 +73,8 @@ Before you build your module package for publishing, you'll need to make sure it
 
 To do this, you'll exclude unnecessary files from your package or repository, remove or ignore any symlinks your module contains, and make sure your `metadata.json` contains the correct information.
 
-{% include alert.html type="note" content="In order to successfully publish your module to the Puppet Forge and ensure that everything is rendered correctly, your `README`, license file, changelog, and `metadata.json` must be UTF-8 encoded. If you used modern tooling to create your module, these files are already UTF-8 encoded." %}
+{% include alert.html type="note" content="In order to successfully publish your module to the Puppet Forge and ensure that everything is rendered correctly, your `README`, license file, changelog, and `metadata.json` must be UTF-8 encoded.
+If you used modern tooling to create your module, these files are already UTF-8 encoded." %}
 
 
 ### Excluding files from the package
@@ -79,7 +87,7 @@ Files in `.gitignore` will be excluded from modules and also from git, unless sp
 
 #### `.pdkignore` example
 
-```
+```text
 import/
 /spec/fixtures/
 .tmp
@@ -95,7 +103,9 @@ junit/
 tmp/
 ```
 
-The `.pdkignore` file excludes files during `jig module build` only. For example, you might want spec tests in your source control but not in your module package, so you would list them in `.pdkignore`. To prevent files, such as those in temporary directories, from ever being checked into Git, use `.gitignore`.
+The `.pdkignore` file excludes files during `jig module build` only.
+For example, you might want spec tests in your source control but not in your module package, so you would list them in `.pdkignore`.
+To prevent files, such as those in temporary directories, from ever being checked into Git, use `.gitignore`.
 
 If you have both a `.pdkignore` and a `.gitignore` file, the `jig module` command uses the `.pdkignore` file.
 
@@ -104,19 +114,24 @@ If you have both a `.pdkignore` and a `.gitignore` file, the `jig module` comman
 Symlinks in modules are unsupported.
 If your module contains symlinks, either remove them or ignore them before you build your module.
 
-{% include alert.html type="warning" content="If you try to build a module package that contains symlinks, you will receive an warning informing you to remove them. They will not be included in the module package." %}
+{% include alert.html type="warning" content="If you try to build a module package that contains symlinks, you will receive an warning informing you to remove them.
+They will not be included in the module package." %}
 
 
 ### Adding module metadata in `metadata.json`
 
 To publish your module on the Forge, it must contain required metadata in a `metadata.json` file.
 
-If you generated your module using modern tooling, you'll already have a `metadata.json` file. Check it and make any necessary edits.
+If you generated your module using modern tooling, you'll already have a `metadata.json` file.
+Check it and make any necessary edits.
 
-If you assembled your module manually, you must make sure that you have a `metadata.json` file in your module's main directory. For details on writing or editing the `metadata.json` file, see the related topic about module metadata.
+If you assembled your module manually, you must make sure that you have a `metadata.json` file in your module's main directory.
+For details on writing or editing the `metadata.json` file, see the related topic about module metadata.
 
-{% include alert.html type="warning" content="If you maintain very old modules, you might find the metadata stored in a `Modulefile`. Move any metadata contained in the `Modulefile` to `metadata.json`. Modulefiles were deprecated in Puppet 3 and removed in Puppet 4. They are now treated like any other text file in the root directory of the module." %}
-
+{% include alert.html type="warning" content="If you maintain very old modules, you might find the metadata stored in a `Modulefile`.
+Move any metadata contained in the `Modulefile` to `metadata.json`.
+Modulefiles were deprecated in Puppet 3 and removed in Puppet 4.
+They are now treated like any other text file in the root directory of the module." %}
 
 Related topics:
 
@@ -150,7 +165,8 @@ Your module package should be a compiled `tar.gz` package of 10MB or less.
 
 4. On the upload page, click **Choose File** and use the file browser to locate and select the release tarball. Then click **Upload Release**.
 
-After a successful upload, your browser should load the new release page of your module, with any errors popping up on the same screen. Your module's README, Changelog,and License files are displayed on your module's Forge page.
+After a successful upload, your browser should load the new release page of your module, with any errors popping up on the same screen.
+Your module's README, Changelog,and License files are displayed on your module's Forge page.
 
 
 ## Deprecate a module on the Forge
