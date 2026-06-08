@@ -5,8 +5,6 @@
     link: release_notes.html
   - text: Overview and requirements
     link: index.html
-  - text: Contributing to OpenVoxDB
-    link: CONTRIBUTING.html
   - text: Frequently asked questions
     link: puppetdb-faq.html
   - text: Versioning policy
