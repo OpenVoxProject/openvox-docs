@@ -7,16 +7,19 @@ title: "Running OpenVox Server from Source"
 
 The following steps will help you get OpenVox Server up and running from source.
 
-## Step 0: Quick Start for Developers
+## Quick Start for Developers
 
-```bash
+This quick start assumes the [prerequisites](#step-1-install-prerequisites) are already installed: Java and Leiningen to run the server, Git to check out the source, and Ruby 3.1 or later to run the
+agent. See [Step 1](#step-1-install-prerequisites) for details.
+
+```console
 # clone git repository and initialize submodules
 $ git clone --recursive https://github.com/OpenVoxProject/openvox-server
 $ cd openvox-server
 
-# Remove any old config if you want to make sure you're using the latest
-# defaults
-$ rm -rf ~/.puppetserver
+# Move any old config aside (rename rather than delete, so you can restore
+# it) if you want to be sure you're starting from the latest defaults
+$ mv ~/.puppetlabs ~/.puppetlabs.bak.$(date +%Y%m%d-%H%M%S)
 
 # Run the `dev-setup` script to initialize all required configuration
 $ ./dev-setup
@@ -33,16 +36,16 @@ values that `puppet` uses (for non-root users).
 
 You can find the specific paths in the `dev/puppetserver.conf` file.
 
-In another shell, you can run the agent:
+In another shell, you can run the agent from source. Run it through Bundler so the source tree is isolated from any `puppet` or `openvox` gems installed in your Ruby (otherwise the two copies of
+Puppet collide):
 
-```bash
-# Go to the directory where you checked out openvox-server
-$ cd openvox-server
-# Set ruby and bin paths
-$ export RUBYLIB=./ruby/puppet/lib:./ruby/facter/lib
-$ export PATH=./ruby/puppet/bin:./ruby/facter/bin:$PATH
-# Run the agent
-$ puppet agent -t
+```console
+# Go to the agent source in your openvox-server checkout
+$ cd openvox-server/ruby/puppet
+# Install the source tree's dependencies (first time only)
+$ bundle install
+# Run the source agent against your running server
+$ bundle exec puppet agent -t --confdir ~/.puppetlabs/etc/puppet
 ```
 
 More detailed instructions follow.
@@ -52,12 +55,14 @@ More detailed instructions follow.
 Use your system's package tools to ensure that the following prerequisites are installed:
 
 - Java 17 or 21
-- [Leiningen 2.9.1 (latest)](http://leiningen.org/)
+- [Leiningen 2.9.1 or later](http://leiningen.org/)
 - Git (for checking out the source code)
+- Ruby 3.1 or later -- only needed to run a Puppet Agent from source on the host (the source agent is run through Bundler, which isolates it from any Puppet gems in your Ruby). You can skip this if you
+  [run the agent in a Docker container](#running-the-agent-inside-a-docker-container) instead.
 
 ## Step 2: Clone Git Repo and Set Up Working Tree
 
-```bash
+```console
 git clone --recursive https://github.com/OpenVoxProject/openvox-server
 cd openvox-server
 ```
@@ -66,7 +71,7 @@ cd openvox-server
 
 The easiest way to do this is to just run:
 
-```bash
+```console
 ./dev-setup
 ```
 
@@ -78,7 +83,15 @@ The default paths should all align with the default values that are used by `pup
 If you'd like to customize your environment, here are a few things you can do:
 
 - Before running `./dev-setup`, set an environment variable called `MASTERHOST`. If this variable is found during `dev-setup`, it will configure your `puppet.conf` file to use this value for your certname (both
-  for Puppet Server and for `puppet`) and for the `server` configuration (so that your agent runs will automatically use this hostname as their puppet master).
+  for Puppet Server and for `puppet`) and for the `server` configuration (so that your agent runs will automatically use this hostname as their Puppet Server).
+- After running `./dev-setup`, you can enable autosigning so that agent certificate requests are signed automatically -- convenient when [running agents in Docker
+  containers](#running-the-agent-inside-a-docker-container). Configure this before you start the server in Step 4 so the change is picked up without a restart. It is best suited to development
+  environments rather than production:
+
+  ```console
+  puppet config set autosign true --section server
+  ```
+
 - Create a file called `dev/user.clj`. This file will be automatically loaded when you run Puppet Server from the REPL. In it, you can define a function called `get-config`, and use it to override the default
   values of various settings from `dev/puppetserver.conf`. For an example of what this file should look like, see `./dev/user.clj.sample`.
 
@@ -86,11 +99,11 @@ You don't need to create a `user.clj` in most cases; settings most likely to war
 
 - `jruby-puppet.max-active-instances`: the number of JRuby instances to put into the pool. This can usually be set to 1 for dev purposes, unless you're working on something that involves concurrency.
 - `jruby-puppet.splay-instance-flush`: Do not attempt to splay JRuby flushing, set when testing if using multiple JRuby instances and you need to control when they are flushed from the pool
-- `jruby-puppet.master-conf-dir`: the puppet master confdir (where `puppet.conf`, `modules`, `manifests`, etc. should be located).
-- `jruby-puppet.master-code-dir`: the puppet master codedir
-- `jruby-puppet.master-var-dir`: the puppet master vardir
-- `jruby-puppet.master-run-dir`: the puppet master rundir
-- `jruby-puppet.master-log-dir`: the puppet master logdir
+- `jruby-puppet.server-conf-dir`: the OpenVox Server confdir (where `puppet.conf`, `modules`, `manifests`, etc. should be located).
+- `jruby-puppet.server-code-dir`: the OpenVox Server codedir
+- `jruby-puppet.server-var-dir`: the OpenVox Server vardir
+- `jruby-puppet.server-run-dir`: the OpenVox Server rundir
+- `jruby-puppet.server-log-dir`: the OpenVox Server logdir
 
 ## Step 4a: Run the server from the clojure REPL
 
@@ -135,13 +148,13 @@ Have a look at `dev-tools.clj` if you're interested in seeing what other utility
 
 If you prefer not to run the server interactively in the REPL, you can launch it as a normal process. To start the OpenVox Server when running from source, simply run the following:
 
-```bash
+```console
 lein run -c /path/to/puppetserver.conf
 ```
 
 ## Step 4c: Development environment gotchas
 
-## Missing git submodules
+### Missing git submodules
 
 If you get an error like the following:
 
@@ -153,7 +166,7 @@ Execution error (LoadError) at org.jruby.RubyKernel/require
 
 Then you've probably forgotten to fetch the git submodules.
 
-## Failing tests
+### Failing tests
 
 If you change the `:webserver :ssl-port` config option from the default value of `8140`, tests will fail with errors like the following:
 
@@ -181,7 +194,7 @@ Changing the `ssl-port` variable back to `8140` makes the tests run properly.
 
 Use a command like the one below to run an agent against your running OpenVox Server:
 
-```bash
+```console
 puppet agent --confdir ~/.puppetlabs/etc/puppet \
              --debug -t
 ```
@@ -189,26 +202,62 @@ puppet agent --confdir ~/.puppetlabs/etc/puppet \
 Note that a system installed Puppet Agent is ok for use with source-based OpenVoxDB and OpenVox Server. The `--confdir` above specifies the same confdir that OpenVox Server is using. Because the Puppet Agent and
 OpenVox Server instances are both using the same confdir, they're both using the same certificates as well. This alleviates the need to sign certificates as a separate step.
 
+To run the agent from source instead -- for example, to exercise local changes to the agent code -- use the Bundler approach shown in [Quick Start for Developers](#quick-start-for-developers).
+
 ## Running the Agent inside a Docker container
 
-You can easily run a Puppet Agent inside a Docker container, either by using the `host` network profile or by accessing the OpenVox Server service using the Docker host IP:
+You can run a Puppet Agent inside a Docker container to test against an OpenVox Server you are running from source. Unlike the host agent described above, a containerized agent has its own certificate
+identity, so it must connect to the server by the **hostname** the server certificate was issued for. Connecting by the Docker host IP (for example `--server 172.17.0.1`) fails with a TLS hostname
+mismatch, because the server certificate is issued for a name rather than an address.
 
-```bash
-docker run -ti                                \
-       --name agent1                          \
-       ghcr.io/openvoxproject/openvoxagent:8  \
-       agent -t --server 172.17.0.1
+### Prerequisites
 
-docker run -ti                                \
-       --name agent2                          \
-       --network host                         \
-       --add-host puppet:127.0.0.1            \
-       ghcr.io/openvoxproject/openvoxagent:8
+Before starting the server (Step 4), configure it as described in [Step 3: Set up Config Files](#step-3-set-up-config-files):
+
+- Run `MASTERHOST=puppet ./dev-setup` so the server certificate covers the `puppet` hostname the agent connects to.
+- Enable autosigning so each new agent certificate is signed automatically, rather than signing each one by hand.
+
+If you would rather sign certificates manually, see [Sign the agent certificate](#sign-the-agent-certificate) below.
+
+### Start the agent
+
+The agent image already defaults to the server name `puppet`, so you only need to make that name resolve to your Docker host. Map it with `--add-host`, and persist the agent's SSL directory in a
+named volume so it keeps a stable key and certificate across runs:
+
+```console
+docker run -ti                                  \
+       --name agent1                            \
+       --add-host puppet:host-gateway           \
+       -v agent1-ssl:/etc/puppetlabs/puppet/ssl \
+       ghcr.io/openvoxproject/openvoxagent:8    \
+       agent -t --certname agent1
 ```
 
-To start another Puppet Agent run in a previous container you can use the `docker start` command:
+- `--add-host puppet:host-gateway` resolves the `puppet` hostname inside the container to your Docker host, where the server you are running from source listens on port `8140`.
+- `-v agent1-ssl:/etc/puppetlabs/puppet/ssl` persists the agent's keys and certificates in a named volume. Without it, each `docker run` generates a new private key, causing certificate/key
+  mismatches on subsequent runs.
 
-```bash
+On Linux you can instead share the host's network stack with `--network host --add-host puppet:127.0.0.1`, which points the `puppet` hostname at the loopback address the server is bound to.
+
+### Sign the agent certificate
+
+With autosigning enabled in the [Prerequisites](#prerequisites), each agent certificate is signed automatically and you can skip this step.
+
+If you turn autosigning off, the agent's first run submits a certificate signing request and then exits without compiling a catalog (`Certificate for agent1 has not been signed yet`). Sign the
+pending request on the server, then run the agent again. From source, use the `puppetserver-ca` CLI and point it at your development config:
+
+```console
+puppetserver-ca sign --certname agent1 --config ~/.puppetlabs/etc/puppet/puppet.conf
+```
+
+The CLI signs by connecting to the running server under the name in that config (`puppet`), so that name must also resolve on the host running the command -- for example, with a `127.0.0.1 puppet`
+entry in `/etc/hosts`. Because the SSL directory is persisted in the named volume, the agent reuses its signed certificate on every subsequent run.
+
+### Re-running a container
+
+To start a previously created agent container again, use the `docker start` command:
+
+```console
 docker start -a agent1
 ```
 
@@ -223,7 +272,7 @@ arguments for the `:jvm-opts` `defproject` key within the `project.clj` file, it
 
 1. An environment variable named `PUPPETSERVER_HEAP_SIZE`. For example, to use a heap size of 6 GiB for a `lein test` run, you could run the following:
 
-   ```bash
+   ```console
    PUPPETSERVER_HEAP_SIZE=6G lein test
    ```
 
@@ -260,7 +309,7 @@ From here, the instructions are similar to installing OpenVoxDB manually via pac
 Update `~/.puppetlabs/etc/puppet/puppet.conf` to include:
 
 ```ini
-[master]
+[server]
 storeconfigs = true
 storeconfigs_backend = puppetdb
 reports = store,puppetdb
@@ -277,15 +326,15 @@ Then create a new routes file at `~/.puppetlabs/etc/puppet/routes.yaml` that con
 
 ```yaml
 ---
-master:
+server:
   facts:
     terminus: puppetdb
     cache: yaml
 ```
 
-Assuming you have a OpenVoxDB instance up and running, start your OpenVox Server instance with the new puppetserver.conf file that you changed:
+Assuming you have an OpenVoxDB instance up and running, start your OpenVox Server instance with the new puppetserver.conf file that you changed:
 
-```bash
+```console
 lein run -c ~/<YOUR CONFIG DIR>/puppetserver.conf
 ```
 
@@ -304,7 +353,7 @@ ssl-ca-cert = <home dir>/.puppetlabs/etc/puppet/ssl/certs/ca.pem
 
 After the SSL config is in place, start (or restart) OpenVoxDB:
 
-```bash
+```console
 lein run services -c <path to PDB config>/conf.d
 ```
 
