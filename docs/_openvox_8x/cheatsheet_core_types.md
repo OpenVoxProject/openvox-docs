@@ -20,7 +20,6 @@ Related topics:
 
 * [Type reference](./type.html)
 
-{:.concept}
 ## The Trifecta
 
 Package/file/service: Learn it, live it, love it. Even if this is the only Puppet you know, you can still get a whole lot done.
@@ -47,12 +46,10 @@ service { 'sshd':
 
 <!--**INSERT PICTURE OF DEPENDENCY GRAPH HERE**-->
 
-{:.concept}
 ### file
 
 Manages files, directories, and symlinks.
 
-{:.section}
 #### Important Attributes
 
 * [`ensure`](./type.html#file-attribute-ensure) -- Whether the file should exist, and what it should be. Allowed values:
@@ -66,25 +63,21 @@ Manages files, directories, and symlinks.
 * [`group`](./type.html#file-attribute-group) -- By name or GID.
 * [`mode`](./type.html#file-attribute-mode) -- Must be specified exactly. Does the right thing for directories.
 
-{:.section}
 #### For Normal Files
 
 * [`source`](./type.html#file-attribute-source) -- Where to download contents for the file. Usually a `puppet:///` URL.
 * [`content`](./type.html#file-attribute-content) -- The file's desired contents, as a string. Most useful when paired with [templates](./lang_template.html), but you can also use the output of the [file function](./function.html#file).
 
-{:.section}
 #### For Directories
 
 * [`source`](./type.html#file-attribute-source) -- Where to download contents for the directory, when `recurse => true`.
 * [`recurse`](./type.html#file-attribute-recurse) -- Whether to recursively manage files in the directory.
 * [`purge`](./type.html#file-attribute-purge) -- Whether unmanaged files in the directory should be deleted, when `recurse => true`.
 
-{:.section}
 #### For Symlinks
 
 * [`target`](./type.html#file-attribute-target) -- The symlink target. (Required when `ensure => link`.)
 
-{:.section}
 #### Other Notable Attributes
 
 * [`backup`](./type.html#file-attribute-backup)
@@ -95,12 +88,10 @@ Manages files, directories, and symlinks.
 * [`recurselimit`](./type.html#file-attribute-recurselimit)
 * [`replace`](./type.html#file-attribute-replace)
 
-{:.concept}
 ### package
 
 Manages software packages.
 
-{:.section}
 #### Important Attributes
 
 * [`name`](./type.html#package-attribute-name) -- The name of the package, as known to your packaging system; **defaults to title.**
@@ -113,7 +104,6 @@ Manages software packages.
 * [`source`](./type.html#package-attribute-source) -- Where to obtain the package, if your system's packaging tools don't use a repository.
 * [`provider`](./type.html#package-attribute-provider) -- Which packaging system to use (e.g. Yum vs. Rubygems), if a system has more than one available.
 
-{:.concept}
 ### service
 
 Manages services running on the node. Like with packages, some platforms have better tools than others, so read up.
@@ -124,7 +114,6 @@ Related topics:
 
 * [Relationships](./lang_relationships.html)
 
-{:.section}
 #### Important Attributes
 
 * [`name`](./type.html#service-attribute-name) -- The name of the service to run; **defaults to title.**
@@ -135,16 +124,13 @@ Related topics:
 * [`hasrestart`](./type.html#service-attribute-hasrestart) -- Whether to use the init script's restart command instead of stop+start. Defaults to false.
 * [`hasstatus`](./type.html#service-attribute-hasstatus) -- Whether to use the init script's status command. Defaults to true.
 
-{:.section}
 #### Other Notable Attributes
 
 If a service has a bad init script, you can work around it and manage almost anything using the [`status`](./type.html#service-attribute-status), [`start`](./type.html#service-attribute-start), [`stop`](./type.html#service-attribute-stop), [`restart`](./type.html#service-attribute-restart), [`pattern`](./type.html#service-attribute-pattern), and [`binary`](./type.html#service-attribute-binary) attributes.
 
 
-{:.concept}
 ## Hello World
 
-{:.concept}
 ### notify
 
 Logs an arbitrary message, at the `notice` log level. This appears in the POSIX syslog or Windows Event Log on the OpenVox agent node and is also logged in reports.
@@ -153,20 +139,16 @@ Logs an arbitrary message, at the `notice` log level. This appears in the POSIX 
 notify { 'This message is getting logged on the agent node.': }
 ```
 
-{:.section}
 #### Important Attributes
 
 * [`message`](./type.html#notify-attribute-message) -- **Defaults to title.**
 
-{:.concept}
 ## Grab bag
 
-{:.concept}
 ### [exec][]
 
 Executes an arbitrary command on the agent node. When using execs, you must either make sure the command can be safely run multiple times, or specify that it should only run under certain conditions.
 
-{:.section}
 #### Important Attributes
 
 * [`command`](./type.html#exec-attribute-command) -- The command to run; **defaults to title.** If this isn't a fully-qualified path, use the `path` attribute.
@@ -174,7 +156,6 @@ Executes an arbitrary command on the agent node. When using execs, you must eith
 * [`returns`](./type.html#exec-attribute-returns) -- Which exit codes indicate success. Defaults to `0`.
 * [`environment`](./type.html#exec-attribute-environment) -- An array of environment variables to set (for example, `['MYVAR=somevalue', 'OTHERVAR=othervalue']`).
 
-{:.section}
 #### Attributes to Limit When a Command Should Run
 
 * [`creates`](./type.html#exec-attribute-creates) -- A file to look for before running the command. The command only runs if the file doesn’t exist.
@@ -182,12 +163,10 @@ Executes an arbitrary command on the agent node. When using execs, you must eith
 * [`onlyif`](./type.html#exec-attribute-onlyif) -- A command or array of commands; if any have a non-zero return value, the command won't run.
 * [`unless`](./type.html#exec-attribute-unless) -- The opposite of onlyif.
 
-{:.section}
 #### Other Notable Attributes:
 
 [`cwd`](./type.html#exec-attribute-cwd), [`group`](./type.html#exec-attribute-group), [`logoutput`](./type.html#exec-attribute-logoutput), , [`timeout`](./type.html#exec-attribute-timeout), [`tries`](./type.html#exec-attribute-tries), [`try_sleep`](./type.html#exec-attribute-try_sleep), [`user`](./type.html#exec-attribute-user).
 
-{:.concept}
 ### [user][]
 
 Manages user accounts; mostly used for system users.
@@ -201,7 +180,6 @@ Manages user accounts; mostly used for system users.
         managehome => true,
     }
 
-{:.section}
 #### Important Attributes
 
 * [`name`](./type.html#user-attribute-name) -- The name of the user; **defaults to title.**
@@ -216,17 +194,14 @@ Manages user accounts; mostly used for system users.
 * [`managehome`](./type.html#user-attribute-managehome) -- Whether to manage the home directory when managing the user; if you don't set this to true, you'll need to create the user's home directory manually.
 * [`shell`](./type.html#user-attribute-shell) -- The user's login shell.
 
-{:.section}
 #### Other Notable Attributes
 
 [`comment`](./type.html#user-attribute-comment), [`expiry`](./type.html#user-attribute-expiry), [`membership`](./type.html#user-attribute-membership), [`password`](./type.html#user-attribute-password), [`password_max_age`](./type.html#user-attribute-password_max_age), [`password_min_age`](./type.html#user-attribute-password_min_age), [`purge_ssh_keys`](./type.html#user-attribute-purge_ssh_keys), [`salt`](./type.html#user-attribute-salt).
 
-{:.concept}
 ### [group][]
 
 Manages groups.
 
-{:.section}
 #### Important Attributes
 
 * [`name`](./type.html#group-attribute-name) -- The name of the group; **defaults to title.**

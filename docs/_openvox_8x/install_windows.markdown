@@ -5,7 +5,6 @@ title: "Installing OpenVox agent: Microsoft Windows"
 
 [downloads]: https://downloads.voxpupuli.org/windows
 
-{:.task}
 Install `openvox-agent` on Microsoft Windows nodes.
 
 **Before you begin:** Review the [pre-install tasks](./install_pre.html). In
@@ -51,8 +50,6 @@ To set the server name during install:
 ```powershell
 msiexec /qn /norestart /i openvox-agent-<VERSION>-x64.msi PUPPET_MASTER_SERVER=puppet.example.com
 ```
-
-{:.reference}
 
 ## MSI properties
 

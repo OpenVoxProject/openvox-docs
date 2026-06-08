@@ -7,7 +7,6 @@ title: "Directories: Config directory (confdir)"
 
 Puppet's `confdir` is the main directory for Puppet's configuration. It contains config files and SSL data.
 
-{:.concept}
 ## Location
 
 Puppet's confdir can be found at one of the following locations:
@@ -24,7 +23,6 @@ to use the same confdir as OpenVox agent or OpenVox Server.)
 
 > **Note:** When OpenVox Server is running as a Rack application, the `config.ru` file must explicitly set `--confdir` to the system confdir. The example `config.ru` file provided with the Puppet source does this.
 
-{:.section}
 ### Configuration
 
 Puppet's confdir can be specified on the command line with the `--confdir` option, but it can't be set
@@ -36,14 +34,12 @@ to configure its confdir. Note that if you're using a non-default confdir, you m
 `--confdir` whenever you run commands like `puppet module` to ensure they use the same directories as
 Puppet Server.
 
-{:.concept}
 ## Interpolation of `$confdir`
 
 Since the value of the confdir is discovered before other settings, you can safely reference it (with the `$confdir` variable) in the value of any other setting in puppet.conf.
 
 If you need to set nonstandard values for some settings, this allows you to avoid absolute paths and keep your Puppet-related files together.
 
-{:.concept}
 ## Contents
 
 Puppet's confdir contains several config files and the SSL data. Their locations can be changed with settings, but most users should use the default layout.
@@ -52,12 +48,10 @@ Almost everything in the confdir has its own page of documentation.
 
 Items labeled "master only" below can also be present on standalone Puppet apply nodes, since they act as both masters and agents.
 
-{:.section}
 ### SSL Data
 
 * [`ssl`](./dirs_ssldir.html) --- contains each node's certificate infrastructure. (All nodes.)
 
-{:.section}
 ### Config files
 
 * [`puppet.conf`](./config_file_main.html) --- Puppet's main config file. (Any node.)
