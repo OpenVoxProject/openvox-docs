@@ -13,8 +13,9 @@ We'll focus on the tools that you may want to be aware of and install or use dir
 * [ModuleSync](https://github.com/voxpupuli/modulesync) helps maintain a portfolio of many modules at once.
   It does this by maintaining both common static files (like contributing guides, licenses, or testing boilerplate) as well as templated files like `metadata.json` across multiple module repositories.
   This allows you to keep them all in a consistent state with minimal fuss.
-* [Voxbox](https://github.com/voxpupuli/container-voxbox) is a container that lets you run many of the developer
+* [VoxBox](https://github.com/voxpupuli/container-voxbox) is a container that lets you run many of the developer
 tools without installing anything but a container runtime like Docker or Podman.
+  See [Using VoxBox in CI](voxbox.html) for how to run it locally and in GitLab pipelines.
 * [OnceOver](https://github.com/voxpupuli/onceover) is used for basic validation of your control repository.
   It can sometimes be insurmountable to get proper unit testing for every single module you use, especially when most of them are maintained by others.
   OnceOver will do basic `it_compiles` spec tests for each of your profile classes, giving you some confidence in them.

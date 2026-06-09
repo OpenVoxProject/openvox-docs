@@ -21,7 +21,7 @@ sudo gem install bundler
 Once you have a working Ruby environment you're ready to start using the Vox Pupuli testing suite!
 
 {% include alert.html type="tip" content="If you'd prefer to run the testing tools via a container runtime like Docker or Podman,
-then check out the [VoxBox](https://github.com/voxpupuli/container-voxbox) project." %}
+then check out [Using VoxBox in CI](voxbox.html)." %}
 
 
 ## Installing a devkit component
