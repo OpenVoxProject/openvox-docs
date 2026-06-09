@@ -33,6 +33,8 @@
     link: "devkit/jig.html"
   - text: Consistent Style
     link: "devkit/linting.html"
+  - text: Using VoxBox in CI
+    link: "devkit/voxbox.html"
   - text: Unit Testing
     link: "devkit/unit_testing.html"
   - text: Publishing Modules
