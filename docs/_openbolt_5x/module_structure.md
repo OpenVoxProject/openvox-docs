@@ -18,7 +18,7 @@ module you downloaded from the Forge.
 ## Directory structure of a module
 
 Modules have a specific directory structure outlined in the [Puppet
-documentation](https://puppet.com/docs/puppet/latest/modules_fundamentals.html#module_structure).
+documentation](/openvox/latest/modules_fundamentals.html#module-structure).
 However, a typical module for use with Bolt might contain these files and directories:
 
 |Directory/File|Contents|
@@ -52,7 +52,7 @@ in your project. For information on creating a new project, see [Bolt
 projects](./projects.html).
 
 **Note**:  To use the `pdk` command, you must [install the Puppet Development
-Kit](https://puppet.com/docs/pdk/1.x/pdk_install.html) 
+Kit](/pdk.html)
 
 ## Standalone modules
 

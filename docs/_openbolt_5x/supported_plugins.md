@@ -120,7 +120,7 @@ to look up configuration values for the `alias`, `config`, `facts`, `features`,
 `name`, `uri` and `vars` inventory options for each target. Set these values in
 the `target_mapping` field. The fact look up values can be either `certname` to
 reference the `[certname]` of the target, or a [PQL dot
-notation](https://puppet.com/docs/puppetdb/latest/api/query/v4/ast.html#dot-notation)
+notation](/openvoxdb/latest/api/query/v4/ast.html#dot-notation)
 facts string such as `facts.os.family` to reference a fact value. Dot notation
 is required for both structured and unstructured facts.
 
@@ -130,7 +130,7 @@ The following parameters are available to the `puppetdb` plugin:
 
 | Parameter | Description | Type | Default |
 | --- | ----------- | ---- | ------- |
-| `query` | **Required.** A string containing a [PQL query](https://puppet.com/docs/puppetdb/latest/api/query/v4/pql.html) or an array containing a [PuppetDB AST format query](https://puppet.com/docs/puppetdb/latest/api/query/v4/ast.html). | `String` | None |
+| `query` | **Required.** A string containing a [PQL query](/openvoxdb/latest/api/query/v4/pql.html) or an array containing a [PuppetDB AST format query](/openvoxdb/latest/api/query/v4/ast.html). | `String` | None |
 | `target_mapping` | **Required.** A hash of target attributes (`name`, `uri`, `config`) to populate with fact lookup values. | `Hash` | None |
 
 > **Note:** If neither `name` nor `uri` is specified in `target_mapping`, then
@@ -144,7 +144,7 @@ The following values/patterns are available to use for looking up facts in the
 | Key | Description |
 | --- | ----------- |
 | `certname` | The certname of the node returned from PuppetDB. This is short hand for doing: `facts.trusted.certname`. |
-| `facts.*` | [PQL dot notation](https://puppet.com/docs/puppetdb/latest/api/query/v4/ast.html#dot-notation) facts string such as `facts.os.family` to reference fact value. Dot notation is required for both structured and unstructured facts. |
+| `facts.*` | [PQL dot notation](/openvoxdb/latest/api/query/v4/ast.html#dot-notation) facts string such as `facts.os.family` to reference fact value. Dot notation is required for both structured and unstructured facts. |
 
 #### Example usage
 

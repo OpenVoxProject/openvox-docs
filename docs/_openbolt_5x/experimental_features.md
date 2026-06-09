@@ -64,7 +64,7 @@ project-level policy named `myproject::user`, run:
 
 Bolt creates an empty class in the project's `manifests/` directory that you can
 populate with code. Policy names must follow [class naming
-conventions](https://puppet.com/docs/puppet/7/lang_reserved.html#classes-and-defined-resource-type-names).
+conventions](/openvox/latest/lang_reserved.html#classes-and-defined-resource-types).
 
 
 Example output:
@@ -105,7 +105,7 @@ Modulepath
 ### Applying policies to targets
 
 Applying policies is similar to [applying Puppet
-code](https://puppet.com/docs/bolt/latest/applying_manifest_blocks.html), with
+code](applying_manifest_blocks.html), with
 the addition that you can apply one or more policies at a time. The Bolt
 commands for applying policies accept a single policy name or a comma-separated
 list of policy names to apply to a list of one or more targets. 
@@ -736,8 +736,8 @@ Each `ResourceInstance` has the following attributes:
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `target` | The target that the resource is for. | `Target` |
-| `type` | The [type of the resource](https://puppet.com/docs/puppet/latest/type.html). This can be either the stringified name of the resource type or the actual type itself. For example, both `"file"` and `File` are acceptable. | `Variant[String[1], Type[Resource]]` |
-| `title` | The title, or [namevar](https://puppet.com/docs/puppet/latest/type.html#namevars-and-titles), of the resource. | `String[1]` |
+| `type` | The [type of the resource](/openvox/latest/type.html). This can be either the stringified name of the resource type or the actual type itself. For example, both `"file"` and `File` are acceptable. | `Variant[String[1], Type[Resource]]` |
+| `title` | The title, or [namevar](/openvox/latest/type.html#namevars-and-titles), of the resource. | `String[1]` |
 | `state` | The _observed state_ of the resource. This is the point-in-time state of the resource when it is queried. | `Hash[String[1], Data]` |
 | `desired_state` | The _desired state_ of the resource. This is the state that you want the resource to be in. | `Hash[String[1], Data]` |
 | `events` | Resource events that are generated from reports. | `Array[Hash[String[1], Data]]` | 

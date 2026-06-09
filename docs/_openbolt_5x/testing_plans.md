@@ -10,7 +10,7 @@ writing unit tests for plans with the `RSpec` testing tool. Before writing unit
 tests for plans, get familiar with [RSpec](https://rspec.info/).
 
 `BoltSpec` requires other Puppet testing tools like `rspec-puppet`. The [Puppet
-Development Kit (PDK)](https://puppet.com/docs/pdk/latest/pdk.html) provides
+Development Kit (PDK)](/pdk.html) provides
 commands for installing and configuring these tools in new or existing modules.
 If your plan is part of a Bolt project, you can either move the plan to a module
 created with PDK or [manually setup
@@ -24,13 +24,13 @@ Before you can write and run tests, you need to set up the test environment.
 1. Install [Ruby](https://www.ruby-lang.org/en/documentation/installation/).
 
 1. Install the [Puppet Development Kit
-   (PDK)](https://puppet.com/docs/pdk/latest/pdk_install.html), which is used to
+   (PDK)](/pdk.html), which is used to
    develop Puppet modules and provides integrated testing tools.
 
 1. Create a [new
-   module](https://puppet.com/docs/pdk/latest/pdk_creating_modules.html) using
+   module](/pdk.html) using
    `pdk new module` or [convert an existing
-   module](https://puppet.com/docs/pdk/latest/pdk_converting_modules.html) with
+   module](/pdk.html) with
    `pdk convert`.
 
 1. Ensure your module has `Gemfile`, `Rakefile`, and `spec/spec_helper.rb`

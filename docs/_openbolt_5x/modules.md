@@ -135,7 +135,7 @@ Bolt sets the moduledir in the Puppetfile to `.modules/` which is not on the
 modulepath in versions of Bolt before 2.30.0. If you're using Bolt's dependency
 management feature in an environment in Puppet Enterprise, you must specify
 `.modules` on the modulepath in your
-[environment.conf](https://puppet.com/docs/puppet/latest/config_file_environment.html#example).
+[environment.conf](/openvox/latest/config_file_environment.html#example).
 
 For example:
 

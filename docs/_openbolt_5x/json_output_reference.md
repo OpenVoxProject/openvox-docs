@@ -35,7 +35,7 @@ This command outputs an array of objects. Each object uses the following keys:
   - `report` (object):
     A report from the reply. This is a serialized representation of the
     [`Puppet::Transaction::Report`
-    object](https://puppet.com/docs/puppet/latest/format_report.html#format_report-puppet-transaction-report).
+    object](/openvox/latest/format_report.html).
 
 For example:
 
@@ -583,7 +583,7 @@ This command does not provide JSON output.
 ## `plan run`
 
 This command outputs a serialized representation of the [plan
-result](https://puppet.com/docs/bolt/latest/bolt_types_reference.html#planresult).
+result](bolt_types_reference.html#planresult).
 
 ## `plan show`
 

@@ -279,7 +279,7 @@ requirement.
 
 > 🔩 **Tip**: For information on how to specify module versions, see the Puppet
 > documentation on [Specifying
-> versions](https://puppet.com/docs/puppet/latest/modules_metadata.html#specifying-versions).
+> versions](/openvox/latest/modules_metadata.html#version-specifiers-in-module-metadata).
 
 ## Install Forge modules from an alternate Forge
 

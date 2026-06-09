@@ -231,8 +231,8 @@ project/
 In this example, you could run a Bolt command from the parent `project`
 directory, and Bolt would still find your Bolt project.
 
-> 🔩 **Tip:** You can use an existing [Puppet control
-  repo](https://puppet.com/docs/pe/latest/control_repo.html) as a Bolt directory
+> 🔩 **Tip:** You can use an existing Puppet control
+  repo as a Bolt directory
   by adding a `bolt-project.yaml` file to it and configuring the `modulepath` to
   match the `modulepath` in `environment.conf`.
 

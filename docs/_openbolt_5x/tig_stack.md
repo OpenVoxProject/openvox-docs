@@ -299,7 +299,7 @@ tig::params::influxdb_password: "hunter2"
 tig::params::grafana_password: "boltIsAwesome"
 ```
 
-> 🔩 **Tip**: For information on Hiera, see [Puppet: About Hiera](https://puppet.com/docs/puppet/latest/hiera_intro.html). 
+> 🔩 **Tip**: For information on Hiera, see [Puppet: About Hiera](/openvox/latest/hiera_intro.html).
 
 The second apply block in the TIG plan applies the `manifests/telegraf.pp`
 manifest. The `telegraf` manifest installs and configures Telegraf on each of

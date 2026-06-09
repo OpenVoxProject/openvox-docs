@@ -56,7 +56,7 @@ configuration file contains an empty JSON object:
 
 You can also write plugins at the project level. To write a project-level
 plugin, you will first need to [create a Bolt
-project](https://puppet.com/docs/bolt/latest/projects.html#create-a-bolt-project).
+project](projects.html#create-a-bolt-project).
 Project-level plugins are referred to by the project's name, similar to how
 module plugins are referred to by the module's name.
 
