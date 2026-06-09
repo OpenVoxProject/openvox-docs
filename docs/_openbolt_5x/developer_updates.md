@@ -16,7 +16,7 @@ we're making.
 
 Currently, you can point to the location of a script or file as an absolute path
 or use a [Module-style load
-path](https://puppet.com/docs/puppet/latest/file_serving.html). Puppet
+path](/openvox/latest/file_serving.html). Puppet
 module-style paths use the syntax `<module_name>/<path_to_file>`, where the `<module_name>` is the
 name of the module on the modulepath to load from, and `<path_to_file>` is the path to the file
 within the `<module_name>/files/` subdirectory. For example, if you provided Bolt with
@@ -166,7 +166,7 @@ compiled a list of expected changes and removals.
   plans.
 
   To read more about the changes in Puppet 7, see the [Puppet 7 release
-  notes](https://puppet.com/docs/puppet/7.0/release_notes_puppet.html#release_notes_puppet_x-0-0).
+  notes](/openvox/latest/release_notes.html).
 
 - **Ship with Ruby 2.7**
 

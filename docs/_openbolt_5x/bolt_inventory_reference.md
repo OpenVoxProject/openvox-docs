@@ -40,7 +40,7 @@ config:
 ### `facts`
 
 A map of system information, also known as
-[facts](https://puppet.com/docs/puppet/latest/lang_facts_and_builtin_vars.html),
+[facts](/openvox/latest/lang_facts_and_builtin_vars.html),
 for the implicit `all` group. Facts set at this level apply to all groups and
 targets in the inventory file.
 
@@ -138,7 +138,7 @@ groups:
 ### `facts`
 
 A map of system information, also known as
-[facts](https://puppet.com/docs/puppet/latest/lang_facts_and_builtin_vars.html),
+[facts](/openvox/latest/lang_facts_and_builtin_vars.html),
 for the group. Facts set at this level apply to all groups and targets under
 the group.
 
@@ -301,7 +301,7 @@ targets:
 ### `facts`
 
 A map of system information, also known as
-[facts](https://puppet.com/docs/puppet/latest/lang_facts_and_builtin_vars.html),
+[facts](/openvox/latest/lang_facts_and_builtin_vars.html),
 for the target.
 
 - **Type:** Hash

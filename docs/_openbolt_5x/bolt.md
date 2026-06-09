@@ -68,9 +68,8 @@ you are not required to install any agent software.
     </p>
     <p>Docs for related Puppet products
         <ul>
-            <li><a class="xref" target="_blank" href="https://puppet.com/docs/puppet/latest/index.html">Open source Puppet</a></li>
-            <li><a class="xref" target="_blank" href="https://puppet.com/docs/pe/latest/pe_user_guide.html">Puppet Enterprise®</a></li>
-            <li><a class="xref" target="_blank" href="https://puppet.com/docs/pdk/latest/pdk.html">Puppet Development Kit</a></li>
+            <li><a class="xref" target="_blank" href="/openvox/latest/index.html">Open source Puppet</a></li>
+            <li><a class="xref" target="_blank" href="/pdk.html">Puppet Development Kit</a></li>
         </ul>
     </p>
     <p>Why and how people are using Bolt

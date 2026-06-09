@@ -454,7 +454,7 @@ Parameter values can be referenced from steps as variables.
 
 Parameters use these fields:
 
--   `type`: (Optional) A valid [Puppet data type](https://puppet.com/docs/puppet/latest/lang_data.html#puppet-data-types).
+-   `type`: (Optional) A valid [Puppet data type](/openvox/latest/lang_data.html#puppets-data-types).
     The value supplied must match the type or the plan fails.
 -   `default`: (Optional) Used if no value is given for the parameter
 -   `description`: (Optional)
@@ -611,7 +611,7 @@ steps:
 ### Calling functions
 
 You can call a built-in [Bolt function](plan_functions.html#) or [Puppet
-function](https://puppet.com/docs/puppet/latest/function.html) to compute a
+function](/openvox/latest/function.html) to compute a
 value.
 
 ```yaml

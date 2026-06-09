@@ -11,7 +11,7 @@ data from your code. There are some key differences in how Bolt and Puppet use
 Hiera, which this page covers in more detail.
 
 Before you start using Hiera in Bolt, get familiar with:
-- [How to use Hiera](https://puppet.com/docs/puppet/latest/hiera_intro.html).
+- [How to use Hiera](/openvox/latest/hiera_intro.html).
 - [Applying Puppet code](applying_manifest_blocks.html) with Bolt.
 
 ## Hiera configuration layers
@@ -51,7 +51,7 @@ data set by a user overrides the default data set by the module’s author.
 ## Look up data in plans
 
 You can use the [Puppet `lookup()`
-function](https://puppet.com/docs/puppet/latest/hiera_automatic.html#puppet_lookup)
+function](/openvox/latest/hiera_automatic.html#puppet-lookup)
 in plans to look up data. It's useful to think of looking up Hiera data in Bolt
 plans in two different contexts: inside apply blocks and outside apply blocks.
 

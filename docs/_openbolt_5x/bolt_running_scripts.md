@@ -12,7 +12,7 @@ target's operating system. This includes any scripting language the target can r
 
 There are a few ways to reference scripts for Bolt to load:
 - _Preferred_: Using a [Puppet file
-  reference](https://puppet.com/docs/puppet/latest/types/file.html#file-attribute-source) of the
+  reference](/openvox/latest/types/file.html#file-attribute-source) of the
   form `<module>/scripts/myscript.sh`. Puppet file references load files from specific directories in
   modules that are on [the modulepath](modules.html#modulepath). You can load a script from the
   `files/` directory using `<module>/files/myscript.sh`, but the preferred place for scripts to be

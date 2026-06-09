@@ -14,7 +14,7 @@ blocks of Puppet code to remote targets.
 
 When you're writing a plan, you can use any combination of [Bolt
 functions](plan_functions.html) or [built-in Puppet
-functions](https://puppet.com/docs/puppet/latest/function.html).
+functions](/openvox/latest/function.html).
 
 > **Note:** For information on how to convert an existing YAML plan to a Puppet
 > plan, see [Converting YAML plans to Puppet language
@@ -78,7 +78,7 @@ Each plan name segment must begin with a lowercase letter and:
 -   Can include digits.
 -   Can include underscores.
 -   Must not be a [reserved
-    word](https://puppet.com/docs/puppet/latest/lang_reserved.html).
+    word](/openvox/latest/lang_reserved.html).
 -   Must not have the same name as any Puppet data types.
 -   Namespace segments must match the regular expression: `\A[a-z][a-z0-9_]*\Z`.
 
@@ -345,7 +345,7 @@ plan test (String[1] $role) {
 ## Puppet and Ruby functions in plans
 
 You can define and call [built-in Puppet
-functions](https://puppet.com/docs/puppet/latest/function.html) and custom Ruby
+functions](/openvox/latest/function.html) and custom Ruby
 functions in plans.
 
 This is useful for packaging common general logic in your plan. You can also
@@ -354,7 +354,7 @@ function.
 
 > 🔩 **Tip**: You can use any combination of [Bolt functions](plan_functions.html)
 > or [built-in Puppet
-> functions](https://puppet.com/docs/puppet/latest/function.html) in a plan.
+> functions](/openvox/latest/function.html) in a plan.
 
 Not all Puppet language constructs are allowed in plans. The following
 constructs are not allowed:
@@ -560,9 +560,9 @@ URI and returns a single target object with the same name if it already exists
 in the inventory, otherwise it will create the target and return it. Similarly
 `get_targets` takes an array of URIs, gets or creates each target, and returns
 an array of target objects. Some transport options can be [configured in the URI
-string](https://puppet.com/docs/bolt/latest/configuring_bolt.html), but if this
+string](configuring_bolt.html), but if this
 isn't sufficient you can use
-[set_config](https://puppet.com/docs/bolt/latest/plan_functions.html#set_config)
+[set_config](plan_functions.html#set_config)
 to set configuration options on the targets.
 
 Use `Target.new()` to create a target that clobbers an existing target with the
@@ -616,17 +616,17 @@ plan create_targets(
 There are a handful of functions available to modify existing target objects
 inside a plan:
 
-* [add_facts](https://puppet.com/docs/bolt/latest/plan_functions.html#add_facts)
-* [add_to_group](https://puppet.com/docs/bolt/latest/plan_functions.html#add_to_group)
-* [remove_from_group](https://puppet.com/docs/bolt/latest/plan_functions.html#remove_from_group)
-* [set_config](https://puppet.com/docs/bolt/latest/plan_functions.html#set_config)
-* [set_feature](https://puppet.com/docs/bolt/latest/plan_functions.html#set_feature)
-* [set_var](https://puppet.com/docs/bolt/latest/plan_functions.html#set_var)
+* [add_facts](plan_functions.html#add_facts)
+* [add_to_group](plan_functions.html#add_to_group)
+* [remove_from_group](plan_functions.html#remove_from_group)
+* [set_config](plan_functions.html#set_config)
+* [set_feature](plan_functions.html#set_feature)
+* [set_var](plan_functions.html#set_var)
 
 These can be used to add facts, transport specific configuration options,
 features, and variables to target objects, as well as add or remove objects from
 existing [inventory
-groups](https://puppet.com/docs/bolt/latest/inventory_file.html). Targets are
+groups](inventory_files.html). Targets are
 modified in-memory for the life cycle of the plan and are not saved between plan
 runs.
 
@@ -753,9 +753,9 @@ You can use the `puppetdb_query` function in plans to make direct queries to
 PuppetDB. For example, you can discover targets from PuppetDB and run tasks on
 them. You'll have to configure the PuppetDB client before running it. You can
 learn how to structure Puppet Query Language (PQL) queries using [the PQL
-tutorial](https://puppet.com/docs/puppetdb/latest/api/query/tutorial-pql.html).
+tutorial](/openvoxdb/latest/api/query/tutorial-pql.html).
 For information, see [the PQL reference
-guide](https://puppet.com/docs/puppetdb/latest/api/query/v4/pql.html).
+guide](/openvoxdb/latest/api/query/v4/pql.html).
 
 ```
 plan pdb_discover {
@@ -782,7 +782,7 @@ on how to run the plan.
 Unlike tasks, plans do not have a corresponding
 [metadata.json](writing_tasks.html#task-metadata) file. Instead, Bolt pulls
 documentation directly from the plan using Puppet Types and [Puppet
-Strings](https://puppet.com/docs/puppet/latest/puppet_strings.html).
+Strings](/openvox/latest/openvox_strings.html).
 
 ### Plan description
 

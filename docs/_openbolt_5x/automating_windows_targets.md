@@ -110,10 +110,10 @@ task runner executes the task.
 creating the `.ps1` file in a directory called `tasks`. Alternatively, you can
 use Puppet Development Kit (PDK), to create a task by using the [`pdk new
 task`
-command](https://puppet.com/docs/pdk/1.x/pdk_reference.html#pdk-new-task-command).
+command](/pdk.html).
 If you’re going to be creating a lot of tasks, using PDK is worth getting to
 know. For more information, see the [PDK
-documentation.](https://puppet.com/docs/pdk/1.x/pdk_overview.html)
+documentation.](/pdk.html)
 
 1.  In the `bolt-guide` directory, create the following subdirectories:
     ```

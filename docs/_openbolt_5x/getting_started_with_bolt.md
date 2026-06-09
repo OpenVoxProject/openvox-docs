@@ -67,7 +67,7 @@ New-BoltProject -Name my_project
 
 To use Bolt plans or tasks, your Bolt project must use a specific directory
 structure. The directory structure of a Bolt project is closely tied to [Puppet
-modules](https://puppet.com/docs/puppet/latest/modules_fundamentals.html).
+modules](/openvox/latest/modules_fundamentals.html).
 Because your plan will install Apache, you need an `apache` module directory.
 Your `apache` directory needs `files` and `plans` subdirectories.
 

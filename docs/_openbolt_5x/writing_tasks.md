@@ -163,7 +163,7 @@ because they can never be matched.
 📖 **Related information**  
 
 For more information on Puppet data types, see [Data type
-syntax](https://puppet.com/docs/puppet/latest/lang_data_type.html)
+syntax](/openvox/latest/lang_data_type.html)
 
 ## Defining parameters in tasks
 
@@ -204,7 +204,7 @@ task's parameters:
   
 - Task parameter types must be a sub-type of the `Data` data type. For more
   information about this abstract data type, see [the `Data` data
-  type](https://puppet.com/docs/puppet/latest/lang_data_abstract.html#the-data-data-type).
+  type](/openvox/latest/lang_data_abstract.html#data).
 
 ### Defining parameters in Windows
 
