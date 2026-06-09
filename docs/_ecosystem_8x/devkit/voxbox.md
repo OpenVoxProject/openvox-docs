@@ -16,7 +16,9 @@ Use VoxBox when you want the devkit tooling without managing a local Ruby toolch
 If you're working locally and already have a Ruby environment, the [`voxpupuli-test` suite](setup.html#setting-up-the-vox-pupuli-test-suite) installed via your `Gemfile` is usually the more convenient choice.
 VoxBox shines when you want isolation from the host, identical behavior across machines, or a turnkey CI image.
 
-GitHub Actions users generally don't need VoxBox: Vox Pupuli modules run the shared reusable workflows ([`voxpupuli/gha-puppet`](https://github.com/voxpupuli/gha-puppet)) instead.
+As of June 2026, GitHub Actions users generally don't need VoxBox: Vox Pupuli modules run the
+shared reusable workflows ([`voxpupuli/gha-puppet`](https://github.com/voxpupuli/gha-puppet)),
+which don't use VoxBox yet (see [gha-puppet#96](https://github.com/voxpupuli/gha-puppet/pull/96)).
 VoxBox is most useful for GitLab CI and local runs.
 
 ## Running tasks locally
@@ -43,9 +45,14 @@ podman run -it --rm -v "$PWD:/repo:Z" ghcr.io/voxpupuli/voxbox:latest
 
 Common tasks include `spec`, `lint`, `validate`, `rubocop`, and the same `voxpupuli-test` tasks described elsewhere in this guide.
 
+If you run VoxBox locally a lot, the bundled [EasyVoxBox (`evb`)](https://github.com/voxpupuli/container-voxbox#easyvoxbox-evb)
+helper script shortens these commands and lets you pass options in any order, which is handy for shell aliases.
+Use `evb --noop <task>` to print the full command it would run without executing it.
+
 ## GitLab CI
 
 Running VoxBox under GitLab CI requires one non-obvious change: you **must blank the image entrypoint** with `entrypoint: [""]`.
+The [container-voxbox GitLab docs](https://github.com/voxpupuli/container-voxbox#gitlab) cover the same setup upstream.
 
 GitLab runners start your job by launching a shell and feeding it your `script:`.
 If the image keeps its default entrypoint (`bundle exec rake -f /opt/voxbox/Rakefile`), GitLab hands that shell invocation to rake as a task name instead of running your script, and the job fails before it starts.
