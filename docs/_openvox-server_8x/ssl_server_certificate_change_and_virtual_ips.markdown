@@ -4,8 +4,6 @@ title: "Puppet Server: Known Issues: SSL Server Certificate Change and Virtual I
 canonical: "/puppetserver/latest/ssl_server_certificate_change_and_virtual_ips.html"
 ---
 
-[pe_db_instructions]: https://puppet.com/docs/pe/2017.2/release_notes_known_issues_puppetdb.html#puppetdb-behind-a-load-balancer-causes-puppet-server-errors
-
 Puppet Server can often encounter `server certificate change is restricted` errors when it makes HTTPS requests to a group of load-balanced servers behind a virtual IP address. This page describes the issue, workarounds for the issue, and our future plans for handling the issue.
 
 The behavior described in this page was identified in [SERVER-207](https://tickets.puppet.com/browse/SERVER-207).
@@ -34,9 +32,6 @@ javax.net.ssl.SSLHandshakeException: server certificate change is restricted dur
 If you need Puppet Server to act as a client to a load-balanced HTTPS service (e.g., multiple PuppetDB servers), your best option right now is to have all of the servers behind the load balancer present the same certificate.
 
 There appear to be ways to fulfill the renegotiation check with certificates that only partially match ([see here for more info](http://hg.openjdk.java.net/bsd-port/bsd-port/jdk/rev/eabde5c42157#l1.186)), but these might not be foolproof, especially because future JDK implementations might disallow these partial matches. The most reliable way is to simply use the same certificates.
-
-The Puppet Enterprise documentation has [instructions for configuring multiple PuppetDB][pe_db_instructions] servers to use a single certificate, but note that this configuration isn't necessarily supported.
-
 
 ### Alternate Workaround
 

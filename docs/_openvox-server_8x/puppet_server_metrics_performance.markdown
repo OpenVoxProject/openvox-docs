@@ -69,7 +69,7 @@ For real-world catalogs, you can generally add an absolute minimum of 15MB for e
 compilation to compiling a catalog for a basic role that installs Tomcat and Postgres servers.
 
 Your Puppet-managed infrastructure is probably larger and more complex than that test scenario, and every complication adds more to each additional JRuby's memory requirements. (For instance, we recommend
-assuming that OpenVox Server will use [at least 512MB per JRuby](https://puppet.com/docs/pe/latest/configuring/config_puppetserver.html) while under load.) You can calculate a similar value unique to your
+assuming that OpenVox Server will use [at least 512MB per JRuby](tuning_guide.html) while under load.) You can calculate a similar value unique to your
 infrastructure by measuring `puppetserver` memory usage during your infrastructure's catalog compilations and comparing it to compiling a minimal catalog for a similar number of nodes.
 
 The `jruby-metrics` section of the [status API][] endpoint also lists the `requested-instances`, which shows what requests have come in that are waiting to borrow a JRuby instance. This part of the status

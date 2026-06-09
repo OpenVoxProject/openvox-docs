@@ -7,7 +7,7 @@ title: "Monitoring OpenVox Server metrics"
 [Graphite]: https://graphiteapp.org
 [Grafana]: http://grafana.org
 [sample Grafana dashboard]: ./sample-puppetserver-metrics-dashboard.json
-[static catalogs]: https://puppet.com/docs/puppet/latest/static_catalogs.html
+[static catalogs]: /openvox/latest/static_catalogs.html
 [HTTP client metrics]: ./http_client_metrics.html
 [`grafanadash`]: https://forge.puppet.com/cprice404/grafanadash
 [`metrics.conf`]: ./config_file_metrics.html

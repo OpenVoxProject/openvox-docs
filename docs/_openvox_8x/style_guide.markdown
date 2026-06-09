@@ -1299,7 +1299,7 @@ The example manifest should provide a clear example of how to declare the class 
 
 We recommend several community tools for testing your code and style.
 
-* [Puppet development kit](https://puppet.com/docs/pdk/latest/pdk.html) a package of development and testing tools to help you create great Puppet modules.
+* [Puppet development kit](/pdk.html) a package of development and testing tools to help you create great Puppet modules.
 * [puppet-lint](https://puppet-lint.com/) tests your code for adherence to the style guidelines.
 * [metadata-json-lint](https://github.com/voxpupuli/metadata-json-lint) tests your `metadata.json` for adherence to the style guidelines.
 * For testing your module, we recommend rspec. [rspec-puppet](https://github.com/puppetlabs/rspec-puppet) can help you write rspec tests for Puppet.

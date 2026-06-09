@@ -26,7 +26,7 @@ Note: This assumes the default behavior of Puppet 5 and greater of using Puppet 
 >
 > With `allow-header-cert-info` set to 'true', authorization code will use only the client HTTP header values---not an SSL-layer client certificate---to determine the client subject name, authentication status,
 > and trusted facts. This is true even if the web server is hosting an HTTPS connection. This applies to validation of the client via rules in the
-> [auth.conf](https://puppet.com/docs/puppet/latest/config_file_auth.html) file and any [trusted facts][trusted] extracted from certificate extensions.
+> [auth.conf](/openvox/latest/config_file_auth.html) file and any [trusted facts][trusted] extracted from certificate extensions.
 >
 > If the `client-auth` setting in the `webserver` config block is set to `need` or `want`, the Jetty web server will still validate the client certificate against a certificate authority store, but it will only
 > verify the SSL-layer client certificate---not a certificate in an `X-Client-Cert` header.
@@ -67,4 +67,4 @@ characters must be encoded as `%20` and not `+` characters.
 > [SERVER-217](https://tickets.puppetlabs.com/browse/SERVER-217).
 
 [pem format]: /docs/background/ssl/cert_anatomy.html#pem-file
-[trusted]: https://puppet.com/docs/puppet/latest/lang_facts_and_builtin_vars.html#trusted-facts
+[trusted]: /openvox/latest/lang_facts_and_builtin_vars.html#trusted-facts
