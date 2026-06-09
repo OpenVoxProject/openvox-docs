@@ -4,12 +4,20 @@ require 'puppet_references'
 require 'yaml'
 module PuppetReferences
   module Util
+    # The "this page is generated, don't edit it here" notice that every
+    # generated reference page carries. Kept in one place so all generators
+    # (and the openbolt copy step, which doesn't use make_header) stay in sync.
+    def self.generated_note(repo, commit)
+      '> **NOTE:** This page was generated from the ' \
+        "#{repo} source code based on version #{commit} on #{Time.now}. " \
+        'Do not edit it here; fix it upstream.'
+    end
+
     # Given a hash of data, return YAML frontmatter suitable for the docs site.
     def self.make_header(data, repo, commit)
       # clean out any symbols:
-      generated_at = "> **NOTE:** This page was generated from the #{repo} source code based on version #{commit} on #{Time.now}"
       clean_data = data.transform_keys(&:to_s)
-      YAML.dump(clean_data) + "---\n\n" + "# #{clean_data['title']}" + "\n\n" + generated_at + "\n\n"
+      YAML.dump(clean_data) + "---\n\n" + "# #{clean_data['title']}" + "\n\n" + generated_note(repo, commit) + "\n\n"
     end
 
     # Run a command that can't cope with a contaminated shell environment.
