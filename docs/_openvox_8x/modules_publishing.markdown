@@ -8,26 +8,14 @@ title: "Publishing modules on the Puppet Forge"
 [fundamentals]: ./modules_fundamentals.html
 [plugins]: ./plugins_in_modules.html
 [forge]: https://forge.puppet.com/
-[signup]: ./images/forge_signup.png
-[publishmodule]: ./images/forge_publish_module.png
-[uploadtarball]: ./images/forge_upload_tarball.png
-[uploadtarball2]: ./images/forge_upload_tarball2.png
-[forgenewrelease]: ./images/forge_new_release.png
 [documentation]: ./modules_documentation.html
-[selectrelease]: ./images/selectrelease.png
-[deletebutton]: ./images/deletebutton.png
-[deletionpage]: ./images/deletionpage.png
-[deleteconfirmation]: ./images/deleteconfirmation.png
-[deletedrelease]: ./images/deletedrelease.png
-[delteddownloadwarning]: ./images/delteddownloadwarning.png
-[onereleasesearch]: ./images/onereleasesearch.png
-[noreleasesearch]: ./images/noreleasesearch.png
-[noreleasesearchfilter]: ./images/noreleasesearchfilter.png
 [metadata]: ./modules_metadata.html
-[pdk]: {{pdk}}/pdk.html
+[devkit]: ../../ecosystem/latest/devkit/index.html
+[ignore]: https://git-scm.com/docs/gitignore
 
 
-To share your module with other Puppet users, get contributions to your modules, and maintain your module releases, publish your module on the Puppet Forge. The Forge is a community repository of modules, written and contributed by open source Puppet and Puppet Enterprise users.
+To share your module with other Puppet users, get contributions to your modules, and maintain your module releases, publish your module on the Puppet Forge.
+The Forge is a community repository of modules, written and contributed by open source Puppet and Puppet Enterprise users.
 
 To publish your module:
 
@@ -44,18 +32,26 @@ To publish your module:
 * [Installing modules][installing]: How to install pre-built modules from the Puppet Forge.
 * [Using plugins][plugins]: How to arrange plugins (such as custom facts and custom resource types) in modules and sync them to agent nodes.
 * [Documenting modules][documentation]: How to write good documentation for your modules.
-* [Puppet Development Kit][pdk]: A package of development and testing tools to help you create great modules.
+* [Vox Pupuli Development Kit][devkit]: A package of development and testing tools to help you create great modules.
 
 
-## Naming your module 
+## Naming your module
 
 Your module has two names: a short name, like "mysql", and a long name that includes your Forge username, like "puppetlabs-mysql".
 
-To upload to the Forge, use the module long name. This name is composed of your Forge username and the short name of your module. For example, the "puppetlabs" user maintains a "mysql" module, which is known to the Forge as "puppetlabs-mysql". Use this long name in your module's `metadata.json` file. This helps disambiguate modules that might have common short names, such as "mysql" or "apache."
+To upload to the Forge, use the module long name.
+This name is composed of your Forge username and the short name of your module.
+For example, the "puppetlabs" user maintains a "mysql" module, which is known to the Forge as "puppetlabs-mysql".
+Use this long name in your module's `metadata.json` file.
+This helps disambiguate modules that might have common short names, such as "mysql" or "apache."
 
-However, your module directory on disk must use the short name, without the username prefix. Module directory names cannot contain dashes or periods; only letters, numbers, and underscores. As long as you have the correct long name in your `metadata.json` file, the `puppet module build` command uses the correct names in the correct places.
+However, your module directory on disk must use the short name, without the username prefix.
+Module directory names cannot contain dashes or periods; only letters, numbers, and underscores.
+As long as you have the correct long name in your `metadata.json` file, the `puppet module build` command uses the correct names in the correct places.
 
-> **Note**: Although the  Forge expects to receive modules named `username-module`, its web interface presents them as `username/module`. Always use the `username-module` style in your metadata files and when issuing commands.
+{% include alert.html type="note" content="Although the  Forge expects to receive modules named `username-module`, its web interface presents them as `username/module`.
+Always use the `username-module` style in your metadata files and when issuing commands." %}
+
 
 Related topics:
 
@@ -77,15 +73,21 @@ Before you build your module package for publishing, you'll need to make sure it
 
 To do this, you'll exclude unnecessary files from your package or repository, remove or ignore any symlinks your module contains, and make sure your `metadata.json` contains the correct information.
 
->**Note:** In order to successfully publish your module to the Puppet Forge and ensure that everything is rendered correctly, your README, license file, changelog, and metadata.json must be UTF-8 encoded. If you used the Puppet Development Kit (or the deprecated `puppet module generate` command) to create your module, these files are already UTF-8 encoded.
+{% include alert.html type="note" content="In order to successfully publish your module to the Puppet Forge and ensure that everything is rendered correctly, your `README`, license file, changelog, and `metadata.json` must be UTF-8 encoded.
+If you used modern tooling to create your module, these files are already UTF-8 encoded." %}
+
 
 ### Excluding files from the package
 
-To exclude certain files from your module build, include them in either a `.gitignore` or a `.pmtignore` file. This is useful for excluding files that are not needed to run the module, such as files generated by spec tests. The ignore file must be in the root directory.
+It can be useful to exclude files that are not needed to run the module, such as files generated by spec tests.
+This can reduce the size of your generated module or reduce user clutter, for example.
+To exclude files, add them to an [ignore file][ignore] in the root directory.
+Files in `.pdkignore` will be excluded from module builds.
+Files in `.gitignore` will be excluded from modules and also from git, unless specifically added.
 
-#### .pmtignore example
+#### `.pdkignore` example
 
-```
+```text
 import/
 /spec/fixtures/
 .tmp
@@ -101,33 +103,35 @@ junit/
 tmp/
 ```
 
-The `.pmtignore` file excludes files during `puppet module build` only. For example, you might want spec tests in your source control but not in your module package, so you would list them in `.pmtignore`. To prevent files, such as those in temporary directories, from ever being checked into Git, use `.gitignore`.
+The `.pdkignore` file excludes files during `jig module build` only.
+For example, you might want spec tests in your source control but not in your module package, so you would list them in `.pdkignore`.
+To prevent files, such as those in temporary directories, from ever being checked into Git, use `.gitignore`.
 
-If you have both a `.pmtignore` and a `.gitignore` file, the `puppet module` command uses the `.pmtignore` file.
+If you have both a `.pdkignore` and a `.gitignore` file, the `jig module` command uses the `.pdkignore` file.
 
 ### Removing symlinks from your module
 
-Symlinks in modules are unsupported. If your module contains symlinks, either remove them or ignore them before you build your module.
+Symlinks in modules are unsupported.
+If your module contains symlinks, either remove them or ignore them before you build your module.
 
-If you try to build a module package that contains symlinks, you will receive the following error:
+{% include alert.html type="warning" content="If you try to build a module package that contains symlinks, you will receive an warning informing you to remove them.
+They will not be included in the module package." %}
 
-```
-Warning: Symlinks in modules are unsupported. Please investigate symlink manifests/foo.pp->manifests/init.pp.
-Error: Found symlinks. Symlinks in modules are not allowed, please remove them.
-Error: Try 'puppet help module build' for usage
-```
 
 ### Adding module metadata in `metadata.json`
 
 To publish your module on the Forge, it must contain required metadata in a `metadata.json` file.
 
-If you generated your module using the Puppet Development Kit or the deprecated `puppet module generate` command, you'll already have a `metadata.json` file. Check it and make any necessary edits.
+If you generated your module using modern tooling, you'll already have a `metadata.json` file.
+Check it and make any necessary edits.
 
-If you assembled your module manually, you must make sure that you have a `metadata.json` file in your module's main directory. For details on writing or editing the `metadata.json` file, see the related topic about module metadata.
+If you assembled your module manually, you must make sure that you have a `metadata.json` file in your module's main directory.
+For details on writing or editing the `metadata.json` file, see the related topic about module metadata.
 
-> **Modulefiles**
->
-> If you maintain older modules, you might find the metadata stored in a Modulefile. Move any metadata contained in the Modulefile to the `metadata.json`. Modulefiles were deprecated in Puppet 3 and removed in Puppet 4. They are now treated like any other text file in the root directory of the module. 
+{% include alert.html type="warning" content="If you maintain very old modules, you might find the metadata stored in a `Modulefile`.
+Move any metadata contained in the `Modulefile` to `metadata.json`.
+Modulefiles were deprecated in Puppet 3 and removed in Puppet 4.
+They are now treated like any other text file in the root directory of the module." %}
 
 Related topics:
 
@@ -135,18 +139,18 @@ Related topics:
 * [Semantic versioning](http://semver.org/)
 
 
-## Build your module 
+## Build your module
 
 To upload your module to the Forge, you first must build the module package.
 
-1. From the command line, run `puppet module build <MODULE DIRECTORY>`. This command generates a `.tar.gz` package and saves it in the module's `pkg/` subdirectory.
+1. From the command line in your module's root directory, run `jig build build`. This command generates a `.tar.gz` package and saves it in the module's `pkg/` subdirectory.
 
    For example:
 
-   ```
-   # puppet module build /etc/puppetlabs/puppet/modules/mymodule
-   Building /etc/puppetlabs/puppet/modules/mymodule for release
-   /etc/puppetlabs/puppet/modules/mymodule/pkg/examplecorp-mymodule-0.0.1.tar.gz
+   ```console
+   $ cd /etc/puppetlabs/puppet/modules/mymodule
+   $ jig build
+   built /home/user/modules/mymodule/pkg/examplecorp-mymodule-0.0.1.tar.gz
    ```
 
 ## Upload a module to the Forge
@@ -161,37 +165,9 @@ Your module package should be a compiled `tar.gz` package of 10MB or less.
 
 4. On the upload page, click **Choose File** and use the file browser to locate and select the release tarball. Then click **Upload Release**.
 
-After a successful upload, your browser should load the new release page of your module, with any errors popping up on the same screen. Your module's README, Changelog,and License files are displayed on your module's Forge page.
+After a successful upload, your browser should load the new release page of your module, with any errors popping up on the same screen.
+Your module's README, Changelog,and License files are displayed on your module's Forge page.
 
-## Publish to the Forge automatically with Travis CI
-
-You can automatically publish new versions of your module to the Forge using Travis CI.
-
-First, set up Travis CI for automatic publishing.
-
-1. Enable Travis CI for the module repository.
-2. Generate a Travis-encrypted Forge password string. For instructions, see the Travis CI [encryption keys docs](https://docs.travis-ci.com/user/encryption-keys/).
-3. Create a `.travis.yml` file in the module's repository base. This file should have a deployment section that includes your Forge username and the encrypted Forge password, such as:
-
-```
-deploy:
-  provider: puppetforge
-  user: <FORGE_USER>
-  password:
-    secure: "<ENCRYPTED_FORGE_PASSWORD>"
-  on:
-    tags: true
-    # all_branches is required to use tags
-    all_branches: true
-```
-
-To publish to the Forge with Travis CI, update your version, tag your repo, and push your commit.
-
-1. Update the version number in the module's `metadata.json` file and commit the change to the module repository.
-2. Tag the module repo with the desired version number. For more information about how to do this, see Git docs on [basic tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging).
-3. Push the commit and tag to your Git repository.
-
-Travis CI will build and publish the module.
 
 ## Deprecate a module on the Forge
 
