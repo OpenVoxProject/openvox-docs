@@ -6,7 +6,6 @@ require 'fileutils'
 module PuppetReferences
   module Openbolt
     class Docs < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + '_openbolt_5x'
       DOCS_SOURCE = PuppetReferences::BOLT_DIR + 'documentation'
 
       GENERATED_PAGES = %w[
@@ -21,13 +20,8 @@ module PuppetReferences
         privilege_escalation.md
       ].freeze
 
-      def initialize(*)
-        @latest = '/openbolt/latest'
-        super
-      end
-
       def build_all
-        OUTPUT_DIR.mkpath
+        collection_dir.mkpath
         puts 'OpenBolt Docs: Building all...'
         generate_reference_pages
         copy_reference_pages
@@ -56,7 +50,7 @@ module PuppetReferences
           end
 
           content = insert_generated_note(rewrite_md_links(source.read))
-          dest = OUTPUT_DIR + filename
+          dest = collection_dir + filename
           dest.open('w') { |f| f.write(content) }
         end
       end
@@ -77,7 +71,7 @@ module PuppetReferences
 
       def copy_images
         Pathname.glob(DOCS_SOURCE + '*.{png,jpg,gif,svg}').each do |img|
-          FileUtils.cp(img.to_path, (OUTPUT_DIR + img.basename).to_path)
+          FileUtils.cp(img.to_path, (collection_dir + img.basename).to_path)
         end
       end
 

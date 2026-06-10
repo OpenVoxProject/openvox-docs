@@ -33,27 +33,28 @@ end
 desc 'List the available groups of references. Run `rake references:<GROUP>` to build.'
 task :references do
   puts 'The following references are available:'
-  puts 'bundle exec rake references:openvox [VERSION=<GIT TAG OR COMMIT> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
-  puts 'bundle exec rake references:openfact [VERSION=<GIT TAG OR COMMIT> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
-  puts 'bundle exec rake references:openbolt [VERSION=<GIT TAG OR COMMIT> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
-  puts '  VERSION can be omitted, uses latest tag'
+  puts 'bundle exec rake references:openvox [VERSION=<GIT TAG OR COMMIT> COLLECTION=<DIR> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
+  puts 'bundle exec rake references:openfact [VERSION=<GIT TAG OR COMMIT> COLLECTION=<DIR> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
+  puts 'bundle exec rake references:openbolt [VERSION=<GIT TAG OR COMMIT> COLLECTION=<DIR> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
+  puts '  VERSION can be omitted, uses latest non-prerelease tag; an explicit VERSION builds that exact ref (e.g. a 9.x prerelease)'
+  puts '  COLLECTION can be omitted, defaults to the current stable dir per product (e.g. _openvox_latest); set it to build a frozen version (e.g. _openvox_9x)'
   puts '  INSTALLPATH can be omitted, defaults to references_output/'
 end
 
 namespace :references do
   task openvox: 'references:check' do
     require 'puppet_references'
-    PuppetReferences.build_puppet_references(ENV.fetch('VERSION', nil))
+    PuppetReferences.build_puppet_references(ENV.fetch('VERSION', nil), collection: ENV.fetch('COLLECTION', '_openvox_latest'))
   end
 
   task openfact: 'references:check' do
     require 'puppet_references'
-    PuppetReferences.build_facter_references(ENV.fetch('VERSION', nil))
+    PuppetReferences.build_facter_references(ENV.fetch('VERSION', nil), collection: ENV.fetch('COLLECTION', '_openfact_latest'))
   end
 
   task openbolt: 'references:check' do
     require 'puppet_references'
-    PuppetReferences.build_openbolt_references(ENV.fetch('VERSION', nil))
+    PuppetReferences.build_openbolt_references(ENV.fetch('VERSION', nil), collection: ENV.fetch('COLLECTION', '_openbolt_latest'))
   end
 
   desc 'Generate _data/agent_release_contents.yml from upstream component pins'
@@ -68,6 +69,7 @@ namespace :references do
 
   task :check do
     puts 'No VERSION given to build references for - using latest tag' unless ENV['VERSION']
+    puts "Building into collection #{ENV.fetch('COLLECTION')}" if ENV['COLLECTION']
     puts "Using provided install path #{ENV.fetch('INSTALLPATH')} instead of default" if ENV['INSTALLPATH']
     puts "Using default install path 'references_output'" unless ENV['INSTALLPATH']
   end
