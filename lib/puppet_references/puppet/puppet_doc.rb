@@ -5,15 +5,9 @@ module PuppetReferences
   module Puppet
     class PuppetDoc < PuppetReferences::Reference
       REFERENCES = %w[configuration metaparameter indirection report].freeze
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + '_openvox_latest'
-
-      def initialize(*)
-        @latest = '/openvox/latest'
-        super
-      end
 
       def build_all
-        OUTPUT_DIR.mkpath
+        collection_dir.mkpath
         puts 'Oldskool refs: Building all...'
         REFERENCES.each do |ref|
           build_reference(ref)
@@ -31,7 +25,7 @@ module PuppetReferences
                         toc: 'columns',
                         canonical: "#{@latest}/#{reference}.html", }
         content = make_header(header_data, 'OpenVox', PuppetReferences.version_commit) + raw_content
-        filename = OUTPUT_DIR + "#{reference}.md"
+        filename = collection_dir + "#{reference}.md"
         filename.open('w') { |f| f.write(content) }
       end
 

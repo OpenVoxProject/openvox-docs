@@ -61,6 +61,14 @@ bundle exec rake references:openfact INSTALLPATH=docs VERSION=main
 bundle exec rake references:openbolt INSTALLPATH=docs VERSION=main
 ```
 
+By default the references are built into each product's current stable collection
+(e.g. `_openvox_latest`). Use `COLLECTION` to target a specific version's directory,
+for example when regenerating a frozen older major from its matching upstream tag:
+
+```console
+bundle exec rake references:openvox INSTALLPATH=docs VERSION=8.27.0 COLLECTION=_openvox_8x
+```
+
 ## Writing guidelines
 
 ### Naming of OpenVox and Puppet

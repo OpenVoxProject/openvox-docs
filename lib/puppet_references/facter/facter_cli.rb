@@ -4,13 +4,6 @@ require 'puppet_references'
 module PuppetReferences
   module Facter
     class FacterCli < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + '_openfact_latest'
-
-      def initialize(*)
-        @latest = '/openvox/latest'
-        super
-      end
-
       def header_data
         { title: 'Facter: CLI',
           toc: 'columns',
@@ -20,7 +13,7 @@ module PuppetReferences
       def build_all
         require 'open3'
         puts 'Building CLI documentation page for facter.'
-        OUTPUT_DIR.mkpath
+        collection_dir.mkpath
         Bundler.with_unbundled_env do
           Open3.capture3("BUNDLE_GEMFILE=#{PuppetReferences::FACTER_DIR}/Gemfile bundle update")
         end
@@ -33,14 +26,14 @@ module PuppetReferences
         # Strip the "TITLE - Manual" header line and the dated footer line mandoc adds
         markdown_text = markdown_text.lines[1...-1].join
         content = make_header(header_data, 'OpenFact', PuppetReferences.version_commit) + markdown_text
-        filename = OUTPUT_DIR + 'cli.md'
+        filename = collection_dir + 'cli.md'
         filename.open('w') { |f| f.write(content) }
         puts 'CLI documentation is done!'
       end
 
       def build_v3_cli
-        OUTPUT_DIR.mkpath
-        filename = OUTPUT_DIR + 'cli.md'
+        collection_dir.mkpath
+        filename = collection_dir + 'cli.md'
         man_filepath = PuppetReferences::FACTER_DIR + 'man/man8/facter.8'
         raw_text = PuppetReferences::Util.convert_man(man_filepath)
         content = make_header(header_data, 'OpenFact', PuppetReferences.version_commit) + raw_text

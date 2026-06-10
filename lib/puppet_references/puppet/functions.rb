@@ -10,23 +10,17 @@ module PuppetReferences
   module Puppet
     class Functions < PuppetReferences::Reference
       TEMPLATE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'functions_template.erb'
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + '_openvox_latest'
       PREAMBLE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'functions_preamble.md'
       PREAMBLE = PREAMBLE_FILE.read
-
-      def initialize(*)
-        @latest = '/openvox/latest'
-        super
-      end
 
       def build_all
         build_variant('function.md')
       end
 
       def build_variant(filename, preferred_version = 'ruby4x')
-        OUTPUT_DIR.mkpath
+        collection_dir.mkpath
         puts "Functions ref (#{filename}): Building"
-        strings_data = PuppetReferences::Puppet::Strings.new
+        strings_data = PuppetReferences::Puppet::Strings.new(@collection)
         functions = strings_data['puppet_functions']
         header_data = { title: 'Built-in function reference',
                         canonical: "#{@latest}/function.html",
@@ -46,10 +40,10 @@ module PuppetReferences
         # This substitution could potentially make things a bit brittle, but it has to be done because the jump
         # From H2s to H4s is causing issues with the DITA-OT, which sees this as a rule violation. If it
         # Does become an issue, we should return to this and figure out a better way to generate the functions doc.
-        content = make_header(header_data, 'OpenVox', PuppetReferences.version_commit) + "\n\n" + PREAMBLE + "\n\n" + body.gsub(/#####\s(.*?:)/, '**\1**').gsub(
+        content = localize_links(make_header(header_data, 'OpenVox', PuppetReferences.version_commit) + "\n\n" + PREAMBLE + "\n\n" + body.gsub(/#####\s(.*?:)/, '**\1**').gsub(
           /####\s/, '###\s'
-        )
-        output_path = OUTPUT_DIR + filename
+        ))
+        output_path = collection_dir + filename
         output_path.open('w') { |f| f.write(content) }
         puts "Functions ref (#{filename}): Done!"
       end

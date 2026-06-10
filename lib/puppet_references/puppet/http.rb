@@ -5,17 +5,19 @@ require 'fileutils'
 module PuppetReferences
   module Puppet
     class Http < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + '_openvox_latest'
-      DOCS_DIR = OUTPUT_DIR + 'http_api'
       API_SOURCE = PuppetReferences::PUPPET_DIR + 'api'
 
       def initialize(*)
-        @latest = '/openvox/latest/http_api'
         super
+        @latest = "#{@latest}/http_api"
+      end
+
+      def docs_dir
+        collection_dir + 'http_api'
       end
 
       def build_all
-        DOCS_DIR.mkpath
+        docs_dir.mkpath
         puts 'HTTP API: Building all...'
         copy_schemas
         copy_docs
@@ -24,7 +26,7 @@ module PuppetReferences
 
       def copy_schemas
         # This cp_r method is finicky and makes me long for rsync.
-        FileUtils.cp_r((API_SOURCE + 'schemas').to_path, OUTPUT_DIR.to_path)
+        FileUtils.cp_r((API_SOURCE + 'schemas').to_path, collection_dir.to_path)
       end
 
       def copy_docs
@@ -48,7 +50,7 @@ module PuppetReferences
         header_data = { title: "Puppet HTTP API: #{title}",
                         canonical: "#{@latest}/#{shortname}.html", }
         content = make_header(header_data, 'OpenVox', PuppetReferences.version_commit) + file.read
-        dest = DOCS_DIR + file.basename
+        dest = docs_dir + file.basename
         dest.open('w') { |f| f.write(content) }
       end
     end

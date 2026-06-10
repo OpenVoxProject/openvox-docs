@@ -5,15 +5,17 @@ require 'puppet_references'
 module PuppetReferences
   module Puppet
     class Man < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + '_openvox_latest/man'
-
       def initialize(*)
-        @latest = '/openvox/latest/man'
         super
+        @latest = "#{@latest}/man"
+      end
+
+      def man_dir
+        collection_dir + 'man'
       end
 
       def build_all
-        OUTPUT_DIR.mkpath
+        man_dir.mkpath
         commands = get_subcommands
         puts 'Man pages: Building all...'
         build_index(commands)
@@ -105,7 +107,7 @@ module PuppetReferences
 
         MSG
         # write index
-        filename = OUTPUT_DIR + 'overview.md'
+        filename = man_dir + 'overview.md'
         filename.open('w') { |f| f.write(index_text) }
       end
 
@@ -125,7 +127,7 @@ module PuppetReferences
         # raw_text = PuppetReferences::ManCommand.new(subcommand).get
         man_filepath = PuppetReferences::PUPPET_DIR.to_s + "/man/man8/puppet-#{subcommand}.8"
         content = make_header(header_data, 'OpenVox', PuppetReferences.version_commit) + PuppetReferences::Util.convert_man(man_filepath)
-        filename = OUTPUT_DIR + "#{subcommand}.md"
+        filename = man_dir + "#{subcommand}.md"
         filename.open('w') { |f| f.write(content) }
       end
     end
