@@ -18,6 +18,29 @@ Puppet Open Source is no longer actively developed.
 
 You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade to OpenVox 8, or you can upgrade to Puppet 8 and then migrate to OpenVox 8.
 
+## OpenVox 8.28.0
+
+Released June 10, 2026.
+
+This is a bug-fix and security release of OpenVox.
+
+All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/8.28.0).
+
+### Security Issues Resolved in 8.28.0
+
+|                            Identifier                             | CVSS 3.1 Score |             Resolved By             |
+| ----------------------------------------------------------------- | :------------: | ----------------------------------- |
+| [CVE-2026-45447](https://nvd.nist.gov/vuln/detail/CVE-2026-45447) |      9.8       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-7383](https://nvd.nist.gov/vuln/detail/CVE-2026-7383)   |      8.1       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-45445](https://nvd.nist.gov/vuln/detail/CVE-2026-45445) |      7.5       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-34180](https://nvd.nist.gov/vuln/detail/CVE-2026-34180) |      7.5       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-9076](https://nvd.nist.gov/vuln/detail/CVE-2026-9076)   |      7.5       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-42766](https://nvd.nist.gov/vuln/detail/CVE-2026-42766) |      5.9       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-45446](https://nvd.nist.gov/vuln/detail/CVE-2026-45446) |      4.8       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-42770](https://nvd.nist.gov/vuln/detail/CVE-2026-42770) |      3.7       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-34182](https://nvd.nist.gov/vuln/detail/CVE-2026-34182) |      N/A       | `pkg:github/openssl/openssl@3.0.21` |
+
+
 ## OpenVox 8.27.0
 
 Released May 18, 2026.
