@@ -54,9 +54,7 @@ jobs:
       # into docs/ first, the same way the publish workflow does.
       - name: Generate reference docs
         run: |
-          bundle exec rake references:openfact INSTALLPATH=docs
-          bundle exec rake references:openvox INSTALLPATH=docs
-          bundle exec rake references:openbolt INSTALLPATH=docs
+          bundle exec rake references:all INSTALLPATH=docs
       - name: Build site
         run: bundle exec jekyll build
       - name: Check internal links

@@ -1,0 +1,102 @@
+# Single source of truth for products and their documentation versions.
+#
+# Read by:
+#   - the `references:all` build loop: `references`, plus per-version `ref` and
+#     `collection` (which upstream tag builds into which collection dir).
+#   - the version selector UI (forthcoming): `label`, `latest`, `single_version`,
+#     and per-version `id`, `label`, `base`.
+#
+# Keyed by product id; insertion order is the display order. Each product has:
+#   - label:          display name for the UI (e.g. "OpenVox").
+#   - latest:         the version `id` that the `/<product>/latest/` alias points
+#                     at. `latest` is an ALIAS, never its own build row — reference
+#                     builds always target a real version dir (e.g. `_openvox_8x`),
+#                     and the `_<product>_latest` symlink serves it under `/latest/`.
+#   - references:     the rake task that (re)generates this product's reference
+#                     pages. Omit for authored-only products — their versions never
+#                     build generated references.
+#   - single_version: (optional) true when the product has no numbered collection,
+#                     only a real `_<product>_latest` dir (e.g. OpenVox Containers);
+#                     the selector can hide the picker for these.
+#   - versions:       list of version entries, newest first, each with:
+#       - id:         short version id (e.g. "8x"); the `latest` key references one.
+#       - label:      display label for the UI (e.g. "8.x").
+#       - collection: the Jekyll collection directory (e.g. `_openvox_8x`).
+#       - base:       the published URL base (e.g. `/openvox/8.x/`).
+#       - ref:        (products with a `references:` task only) the exact upstream
+#                     git tag to build the reference pages from. Pinning to a tag —
+#                     rather than a branch or "newest" — keeps a docs commit
+#                     reproducible and avoids a moving target ("newest stable" is
+#                     global, so it jumps majors once a new major ships, and `main`
+#                     rolls into the next major over time). Bump it to reflect a
+#                     newer release; a frozen older major keeps its final tag.
+
+openvox:
+  label: OpenVox
+  latest: 8x
+  references: references:openvox
+  versions:
+    - id: 8x
+      label: "8.x"
+      collection: _openvox_8x
+      base: /openvox/8.x/
+      ref: "8.28.0"
+
+openfact:
+  label: OpenFact
+  latest: 5x
+  references: references:openfact
+  versions:
+    - id: 5x
+      label: "5.x"
+      collection: _openfact_5x
+      base: /openfact/5.x/
+      ref: "5.6.1"
+
+openbolt:
+  label: OpenBolt
+  latest: 5x
+  references: references:openbolt
+  versions:
+    - id: 5x
+      label: "5.x"
+      collection: _openbolt_5x
+      base: /openbolt/5.x/
+      ref: "5.6.0"
+
+openvox-server:
+  label: OpenVox Server
+  latest: 8x
+  versions:
+    - id: 8x
+      label: "8.x"
+      collection: _openvox-server_8x
+      base: /openvox-server/8.x/
+
+openvoxdb:
+  label: OpenVoxDB
+  latest: 8x
+  versions:
+    - id: 8x
+      label: "8.x"
+      collection: _openvoxdb_8x
+      base: /openvoxdb/8.x/
+
+ecosystem:
+  label: Ecosystem
+  latest: 8x
+  versions:
+    - id: 8x
+      label: "8.x"
+      collection: _ecosystem_8x
+      base: /ecosystem/8.x/
+
+openvox-containers:
+  label: OpenVox Containers
+  latest: latest
+  single_version: true  # real `_latest` dir, no numbered collection (see header)
+  versions:
+    - id: latest
+      label: latest
+      collection: _openvox-containers_latest
+      base: /openvox-containers/latest/
