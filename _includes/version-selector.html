@@ -1,0 +1,66 @@
+{%- comment -%}
+  Per-product documentation version selector, rendered at the top of the sidebar.
+
+  Lists the current product's versions (newest first, per _data/products.yml),
+  marks the one being viewed, and badges the version that `latest` aliases. Links
+  point at each version's root (e.g. /openvox/9.x/); switching versions is a
+  deliberate, infrequent jump, and root links stay correct in the theme's
+  persistent (Turbo-navigated) sidebar without per-page rewriting. Keeping the
+  reader on the same page across a switch is a possible later enhancement.
+
+  Each qualifying product gets a block so the selector survives Turbo navigation
+  between products; the layout-end script shows the block matching the current
+  collection and marks the active version. A product is skipped when it is flagged
+  single_version (no numbered collections, e.g. OpenVox Containers) or has fewer
+  than two versions — there is nothing to switch between, so no picker is shown.
+  The wrapper is only emitted when at least one product qualifies, to avoid a
+  stray empty bordered box.
+{%- endcomment -%}
+{%- capture version_picker_groups -%}
+  {%- for product_entry in site.data.products -%}
+    {%- assign product_id = product_entry[0] -%}
+    {%- assign product = product_entry[1] -%}
+    {%- if product.single_version == true -%}{%- continue -%}{%- endif -%}
+    {%- if product.versions.size < 2 -%}{%- continue -%}{%- endif -%}
+
+    {%- comment -%} Collections this product owns: each numbered version, plus the _latest alias. {%- endcomment -%}
+    {%- assign latest_alias = product_id | append: '_latest' -%}
+    {%- assign collections = '' -%}
+    {%- assign latest_collection = '' -%}
+    {%- for version in product.versions -%}
+      {%- assign version_collection = version.collection | remove_first: '_' -%}
+      {%- assign collections = collections | append: version_collection | append: '|' -%}
+      {%- if version.id == product.latest -%}{%- assign latest_collection = version_collection -%}{%- endif -%}
+    {%- endfor -%}
+    {%- assign collections = collections | append: latest_alias -%}
+    {%- assign collection_list = collections | split: '|' -%}
+
+    {%- assign is_current_product = false -%}
+    {%- if collection_list contains page.collection -%}{%- assign is_current_product = true -%}{%- endif -%}
+
+    <div class="VPVersionPickerGroup" data-product="{{ product_id }}" data-collections="{{ collections }}" data-latest-collection="{{ latest_collection }}"{% unless is_current_product %} hidden{% endunless %}>
+      <span class="VPVersionPickerLabel">{{ product.label }} version</span>
+      <ul class="VPVersionPickerList">
+        {%- for version in product.versions -%}
+          {%- assign version_collection = version.collection | remove_first: '_' -%}
+          {%- assign is_active = false -%}
+          {%- if version_collection == page.collection -%}
+            {%- assign is_active = true -%}
+          {%- elsif page.collection == latest_alias and version.id == product.latest -%}
+            {%- assign is_active = true -%}
+          {%- endif -%}
+          <li>
+            <a class="VPVersionPickerItem{% if is_active %} is-active{% endif %}" href="{{ version.base }}" data-collection="{{ version_collection }}"{% if is_active %} aria-current="true"{% endif %}>
+              <span class="VPVersionPickerVersion">{{ version.label }}</span>
+              {%- if version.id == product.latest -%}<span class="VPVersionPickerBadge">latest</span>{%- endif -%}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign version_picker_groups = version_picker_groups | strip -%}
+{%- if version_picker_groups != '' -%}
+<div class="VPVersionPicker" id="vp-version-picker">{{ version_picker_groups }}</div>
+{%- endif -%}

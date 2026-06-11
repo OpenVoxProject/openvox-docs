@@ -11,6 +11,8 @@
   <nav class="nav" id="VPSidebarNav" aria-labelledby="sidebar-aria-label" tabindex="-1">
     <span class="visually-hidden" id="sidebar-aria-label">Sidebar Navigation</span>
 
+    {% include version-selector.html %}
+
     {%- assign current_nav_collection_dir = page.collection | prepend: '_' | append: '/' -%}
     {%- assign current_nav_page_subpath = page.relative_path | remove_first: current_nav_collection_dir | replace: '.md', '.html' | replace: '.markdown', '.html' -%}
     {%- assign current_nav_base = page.url | remove: current_nav_page_subpath -%}
