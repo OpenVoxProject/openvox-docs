@@ -8,6 +8,73 @@ table.resolution > tbody > tr:last-child > td:first-child {
   text-align: right;
 }
 
+/* Per-product version picker at the top of the sidebar */
+.VPVersionPicker {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.VPVersionPickerLabel {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--vp-c-text-2);
+  margin-bottom: 0.4rem;
+}
+
+.VPVersionPickerList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.VPVersionPickerItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 0.5rem;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+  transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+}
+
+.VPVersionPickerItem:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+.VPVersionPickerItem.is-active {
+  border-color: var(--vp-c-brand-1);
+  background-color: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+
+.VPVersionPickerBadge {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 0.05rem 0.3rem;
+  border-radius: 0.4rem;
+  background-color: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+
+.VPVersionPickerItem.is-active .VPVersionPickerBadge {
+  background-color: var(--vp-c-brand-1);
+  color: var(--vp-c-white);
+}
+
 /* Highlight the active page more visibly */
 .VPSidebarItem.level-0.is-active > .item .link > .text,
 .VPSidebarItem.level-1.is-active > .item .link > .text,
