@@ -150,13 +150,17 @@ service { 'sshd':
 }
 ```
 
-And since collectors can be chained, you can create many-to-many relationships:
+And since collectors can be chained, you can create many-to-many relationships, although this practice is generally discouraged:
 
 ``` puppet
-Yumrepo <| |> -> Package <| |>
+Yumrepo <| tag == 'internal' |> -> Package <| tag == 'internal' |>
 ```
 
-This example applies all yum repository resources before applying any package resources, which protects any packages that rely on custom repositories.
+This example applies all internal yum repository resources before applying any internal package resources, which protects any packages that rely on custom repositories.
+
+{% include alert.html type="warning" content="Do not use unbounded resource collectors without search expressions to limit which resources match.
+They have a side effect of _realizing_ any matching virtual resources whether declared in your own code or in third party modules.
+Using unbounded collectors may result in many unexpected resources being managed and may have catastrophic consequences." %}
 
 ### Capturing resource references for generated resources
 
