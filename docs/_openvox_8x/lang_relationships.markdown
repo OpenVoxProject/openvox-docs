@@ -19,7 +19,8 @@ title: "Language: Relationships and ordering"
 [containment]: ./lang_containment.html
 
 
-By default, Puppet applies resources in the order they're declared in their manifest. However, if a group of resources must _always_ be managed in a specific order, you should explicitly declare such relationships with relationship metaparameters, chaining arrows, and the `require` function.
+By default, Puppet applies resources in the order they're declared in their manifest.
+However, if a group of resources must _always_ be managed in a specific order, you should explicitly declare such relationships with relationship metaparameters, chaining arrows, and the `require` function.
 
 ## Syntax: Relationship metaparameters
 
@@ -31,14 +32,16 @@ package { 'openssh-server':
 }
 ```
 
-Puppet uses four [metaparameters][] to establish relationships, and you can set each of them as an attribute in any resource. The value of any relationship metaparameter should be a [resource reference][reference] (or [array][] of references) pointing to one or more **target resources**.
+Puppet uses four [metaparameters][] to establish relationships, and you can set each of them as an attribute in any resource.
+The value of any relationship metaparameter should be a [resource reference][reference] (or [array][] of references) pointing to one or more **target resources**.
 
 * `before` --- Applies a resource **before** the target resource.
 * `require` --- Applies a resource **after** the target resource.
 * `notify` --- Applies a resource **before** the target resource. The target resource [refreshes][refresh] if the notifying resource changes.
 * `subscribe` --- Applies a resource **after** the target resource. The subscribing resource [refreshes][refresh] if the target resource changes.
 
-If two resources need to happen in order, you can either put a `before` attribute in the prior one or a `require` attribute in the subsequent one; either approach creates the same relationship. The same is true of `notify` and `subscribe`.
+If two resources need to happen in order, you can either put a `before` attribute in the prior one or a `require` attribute in the subsequent one; either approach creates the same relationship.
+The same is true of `notify` and `subscribe`.
 
 The two examples below create the same ordering relationship:
 
@@ -166,11 +169,13 @@ Using unbounded collectors may result in many unexpected resources being managed
 
 In this version of the Puppet language, the _value_ of a resource declaration is a _reference_ to the resource it creates.
 
-You can take advantage of this if you're automatically creating resources whose titles you can't predict, by using the [iteration functions][lambdas] to declare several resources at once or using an array of strings as a resource title. If you assign the resulting resource references to a variable, you can then use them in chaining statements without ever knowing the final title of the affected resources.
+You can take advantage of this if you're automatically creating resources whose titles you can't predict, by using the [iteration functions][lambdas] to declare several resources at once or using an array of strings as a resource title.
+If you assign the resulting resource references to a variable, you can then use them in chaining statements without ever knowing the final title of the affected resources.
 
 For example:
 
-* The `map` function iterates over its arguments and returns an array of values, with each value produced by the last expression in the block. If that last expression is a resource declaration, `map` produces an array of resource references, which could then be used as an operand for a chaining arrow.
+* The `map` function iterates over its arguments and returns an array of values, with each value produced by the last expression in the block.
+  If that last expression is a resource declaration, `map` produces an array of resource references, which could then be used as an operand for a chaining arrow.
 * The value of a resource declaration whose title is an array, is itself an array of resource references that you can assign to a variable and use in a chaining statement.
 
 ### Caveats when chaining resource collectors
@@ -181,11 +186,14 @@ Chained collectors can cause huge [dependency cycles](#dependency-cycles); be ca
 
 #### Potential for breaking chains
 
-Although you can usually chain many resources or collectors together (`File['one'] -> File['two'] -> File['three']`), the chain can be broken if it includes a collector whose search expression doesn't match any resources. This is [Puppet bug PUP-1410](https://tickets.puppetlabs.com/browse/PUP-1410).
+Although you can usually chain many resources or collectors together (`File['one'] -> File['two'] -> File['three']`), the chain can be broken if it includes a collector whose search expression doesn't match any resources.
+This is [Puppet bug PUP-1410](https://tickets.puppetlabs.com/browse/PUP-1410).
 
 #### Implicit properties aren't searchable
 
-Collectors can search only on attributes present in the manifests; they cannot see properties that are automatically set or are read from the target system. For example, if the example above had been written as `Yumrepo <| |> -> Package <| provider == yum |>`, it would only create relationships with packages whose `provider` attribute had been _explicitly_ set to `yum` in the manifests. It would not affect any packages that didn't specify a provider but would end up using Yum because it's the default provider for the node's operating system.
+Collectors can search only on attributes present in the manifests; they cannot see properties that are automatically set or are read from the target system.
+For example, if the example above had been written as `Yumrepo <| |> -> Package <| provider == yum |>`, it would only create relationships with packages whose `provider` attribute had been _explicitly_ set to `yum` in the manifests.
+It would not affect any packages that didn't specify a provider but would end up using Yum because it's the default provider for the node's operating system.
 
 ### Reversed forms
 
@@ -209,7 +217,8 @@ class wordpress {
 
 The above example causes every resource in the `apache` and `mysql` classes to be applied before any of the resources in the `wordpress` class.
 
-Unlike the relationship metaparameters and chaining arrows, the `require` function does not have a reciprocal form or a notifying form. However, more complex behavior can be obtained by combining `include` and chaining arrows inside a class definition:
+Unlike the relationship metaparameters and chaining arrows, the `require` function does not have a reciprocal form or a notifying form.
+However, more complex behavior can be obtained by combining `include` and chaining arrows inside a class definition:
 
 ``` puppet
 class apache::ssl {
@@ -237,7 +246,8 @@ Some resource types can do a special "refresh" action when a dependency changes.
 
 (The built-in resource types that can refresh are [service][], [exec][], and sometimes [package][]. See each type's docs for info about their refresh behavior.)
 
-Puppet uses notifying relationships (`subscribe`, `notify`, and `~>`) to tell resources when they should refresh. A resource will perform its refresh action if Puppet changes any of the resources it subscribes to.
+Puppet uses notifying relationships (`subscribe`, `notify`, and `~>`) to tell resources when they should refresh.
+A resource will perform its refresh action if Puppet changes any of the resources it subscribes to.
 
 Notifying relationships also interact with [containment][]. The complete rules for notification and refreshing are:
 
@@ -256,8 +266,10 @@ Notifying relationships also interact with [containment][]. The complete rules f
 
 #### No-op
 
-* If a resource is in no-op mode (due to the global `noop` setting or the per-resource `noop` metaparameter), it _will not refresh_ when it receives a refresh event. However, Puppet will log a message stating what would have happened.
-* If a resource is in no-op mode but Puppet would otherwise have changed or refreshed it, it _will not send refresh events_ to subscribed resources. However, Puppet will log messages stating what would have happened to any resources further down the subscription chain.
+* If a resource is in no-op mode (due to the global `noop` setting or the per-resource `noop` metaparameter), it _will not refresh_ when it receives a refresh event.
+  However, Puppet will log a message stating what would have happened.
+* If a resource is in no-op mode but Puppet would otherwise have changed or refreshed it, it _will not send refresh events_ to subscribed resources.
+  However, Puppet will log messages stating what would have happened to any resources further down the subscription chain.
 
 ### Auto\* relationships
 
