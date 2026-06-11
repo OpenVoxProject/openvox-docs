@@ -39,6 +39,8 @@ task :references do
   puts '  VERSION can be omitted, uses latest non-prerelease tag; an explicit VERSION builds that exact ref (e.g. a 9.x prerelease)'
   puts '  COLLECTION can be omitted, defaults to the current stable dir per product (e.g. _openvox_latest); set it to build a frozen version (e.g. _openvox_9x)'
   puts '  INSTALLPATH can be omitted, defaults to references_output/'
+  puts 'bundle exec rake references:all [INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
+  puts '  Builds every pinned product/version from _data/products.yml into its collection'
 end
 
 namespace :references do
@@ -55,6 +57,36 @@ namespace :references do
   task openbolt: 'references:check' do
     require 'puppet_references'
     PuppetReferences.build_openbolt_references(ENV.fetch('VERSION', nil), collection: ENV.fetch('COLLECTION', '_openbolt_latest'))
+  end
+
+  desc 'Build every pinned product/version from _data/products.yml into its collection'
+  task :all do
+    versions = YAML.load_file('_data/products.yml')
+    installpath = ENV.fetch('INSTALLPATH', nil)
+
+    # Each (product, version) builds in its own subprocess. A fresh process avoids
+    # cross-version contamination from load-time output constants and process-level
+    # caches (e.g. the Strings JSON cache), and re-resolves bundler cleanly for the
+    # vendored repo it checks out. Only products with a `references` task generate
+    # reference pages; authored-only products are skipped.
+    versions.each do |product_id, product|
+      task_name = product['references']
+      next unless task_name
+
+      product.fetch('versions', []).each do |version|
+        ref = version['ref']
+        collection = version['collection']
+        unless ref && collection
+          warn "references:all: skipping #{product_id} #{version['id']} (missing ref or collection)"
+          next
+        end
+
+        cmd = ['bundle', 'exec', 'rake', task_name, "VERSION=#{ref}", "COLLECTION=#{collection}"]
+        cmd << "INSTALLPATH=#{installpath}" if installpath
+        puts "references:all: #{cmd.join(' ')}"
+        Bundler.with_unbundled_env { sh(*cmd) }
+      end
+    end
   end
 
   desc 'Generate _data/agent_release_contents.yml from upstream component pins'
