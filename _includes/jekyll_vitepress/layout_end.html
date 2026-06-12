@@ -9,9 +9,38 @@
         group.hidden = collections.indexOf(currentCollection) < 0;
       });
     }
+    // Show the version picker for the current product and mark the active version.
+    // The sidebar persists across Turbo navigation, so this re-runs per frame load.
+    function syncVersionPicker() {
+      var frameState = document.getElementById('vp-page-state');
+      if (!frameState) return;
+      var currentCollection = frameState.getAttribute('data-collection') || '';
+      document.querySelectorAll('.VPVersionPickerGroup').forEach(function (group) {
+        var collections = (group.getAttribute('data-collections') || '').split('|');
+        var isCurrent = collections.indexOf(currentCollection) >= 0;
+        group.hidden = !isCurrent;
+        if (!isCurrent) return;
+        // The _latest alias collection has no version link of its own; fall back
+        // to the version `latest` points at.
+        var target = currentCollection;
+        if (!group.querySelector('.VPVersionPickerItem[data-collection="' + currentCollection + '"]')) {
+          target = group.getAttribute('data-latest-collection') || '';
+        }
+        group.querySelectorAll('.VPVersionPickerItem').forEach(function (link) {
+          var active = link.getAttribute('data-collection') === target;
+          link.classList.toggle('is-active', active);
+          if (active) {
+            link.setAttribute('aria-current', 'true');
+          } else {
+            link.removeAttribute('aria-current');
+          }
+        });
+      });
+    }
     document.addEventListener('turbo:frame-load', function (event) {
       if (!event.target || event.target.id !== 'vp-content-frame') return;
       syncSidebarNavGroups();
+      syncVersionPicker();
     });
   })();
 
