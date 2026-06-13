@@ -7,6 +7,7 @@ title: "About openvox-agent"
 [services_agent]: ./services_agent_unix.html
 [services_apply]: ./services_apply.html
 [openvox_server]: /openvox-server/latest/
+[component_versions]: ./component_versions.html
 
 `openvox-agent` is the core OpenVox package for managed nodes and standalone use.
 It bundles the OpenVox runtime and the dependencies needed to run it, so it is the
@@ -45,16 +46,7 @@ even if the core OpenVox language and command behavior stay the same.
 For package-specific changes, see the [OpenVox release notes][release_notes] and the
 latest [OpenVox Server documentation][openvox_server].
 
-## Release contents of `openvox-agent` 8.x
-
-This table is generated from the upstream component pins for each release.
-Regenerate it with `bundle exec rake references:agent_versions`.
-
-<!-- markdownlint-disable MD055 MD056 -->
-
-| OpenVox release | OpenFact | Ruby | OpenSSL | curl | r10k |
-| --- | --- | --- | --- | --- | --- |
-{% for r in site.data.agent_release_contents %}| {{ r.release }} | {{ r.openfact }} | {{ r.ruby }} | {{ r.openssl }} | {{ r.curl }} | {{ r.r10k }} |
-{% endfor %}
-
-<!-- markdownlint-enable MD055 MD056 -->
+For the bundled versions of OpenFact, Ruby, OpenSSL, and curl in each
+`openvox-agent` release, see
+[Component versions in recent OpenVox releases][component_versions], which also
+covers the server and database components.

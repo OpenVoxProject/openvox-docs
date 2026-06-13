@@ -82,9 +82,13 @@ jobs:
           # Build each product/version's reference docs from the pin table in
           # _data/products.yml into its collection (see `rake references:all`).
           bundle exec rake references:all INSTALLPATH=docs
-          # Refresh the openvox-agent release-contents table from upstream pins.
-          # Falls back to the committed _data file if the GitHub API is unreachable.
+          # Refresh the component-version tables (agent, server, openvoxdb) from
+          # upstream pins. Each falls back to its committed _data file if the
+          # GitHub API is unreachable, so a transient failure never breaks the build.
           bundle exec rake references:agent_versions || echo 'agent_versions refresh failed; using committed _data'
+          bundle exec rake references:server_versions || echo 'server_versions refresh failed; using committed _data'
+          bundle exec rake references:openvoxdb_versions || echo 'openvoxdb_versions refresh failed; using committed _data'
+          bundle exec rake references:openbolt_versions || echo 'openbolt_versions refresh failed; using committed _data'
           bundle exec jekyll build
       - name: Archive website
         run: |

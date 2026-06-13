@@ -24,7 +24,7 @@ OpenVox operates in two modes:
 | `openvox-agent` | OpenVox, OpenFact, Hiera, bundled Ruby and OpenSSL |
 | `openvox-server` | JVM-based catalog server; depends on `openvox-agent` |
 
-See [Component versions in openvox-agent](about_agent.html) for exact version tables.
+See [Component versions in recent OpenVox releases](component_versions.html) for exact version tables.
 
 ## Getting started
 
