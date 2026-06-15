@@ -24,7 +24,7 @@ agent-server deployments, the server side should already be installed and reacha
 4. Run an initial agent execution after installation:
 
    ```powershell
-   & 'C:\Program Files\Puppet Labs\OpenVox\bin\puppet.bat' agent --test
+   & 'C:\Program Files\Puppet Labs\Puppet\bin\puppet.bat' agent --test
    ```
 
 5. Sign the certificate on the CA if your deployment uses manual approval.
