@@ -57,7 +57,10 @@ jobs:
 
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    # references:all clones and generates docs for three products and the
+    # component-version tasks make live GitHub API calls, so the build is network-
+    # variable and runs ~5 min; give headroom above the previous tight 5-min cap.
+    timeout-minutes: 10
     needs:
       - setup
     env:
