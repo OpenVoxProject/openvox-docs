@@ -9,6 +9,8 @@
     link: "system_requirements.html"
   - text: About openvox-agent
     link: "about_agent.html"
+  - text: Component versions in recent releases
+    link: "component_versions.html"
 - text: Getting started
   items:
   - text: Getting started with OpenVox

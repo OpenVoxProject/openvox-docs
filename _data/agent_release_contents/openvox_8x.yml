@@ -1,31 +1,31 @@
 ---
+- release: 8.28.0
+  openfact: 5.6.1
+  ruby: 3.2.11
+  openssl: 3.0.21
+  curl: 8.20.0
 - release: 8.27.0
   openfact: 5.6.1
   ruby: 3.2.11
   openssl: 3.0.20
   curl: 8.20.0
-  r10k: 5.0.3
 - release: 8.26.2
   openfact: 5.6.0
   ruby: 3.2.11
   openssl: 3.0.20
   curl: 8.19.0
-  r10k: 5.0.3
 - release: 8.26.1
   openfact: 5.6.0
   ruby: 3.2.11
   openssl: 3.0.20
   curl: 8.19.0
-  r10k: 5.0.3
 - release: 8.26.0
   openfact: 5.6.0
   ruby: 3.2.11
   openssl: 3.0.20
   curl: 8.19.0
-  r10k: 5.0.3
 - release: 8.25.0
   openfact: 5.4.0
   ruby: 3.2.10
   openssl: 3.0.19
   curl: 8.18.0
-  r10k: 5.0.2

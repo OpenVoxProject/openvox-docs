@@ -89,15 +89,61 @@ namespace :references do
     end
   end
 
-  desc 'Generate _data/agent_release_contents.yml from upstream component pins'
+  # The agent/server/openvoxdb tables are per-OpenVox-series: each writes into a
+  # file named for the collection's nav_key (e.g. openvox_8x), so the component-
+  # versions page can render its own series via `site.data.<table>[page.nav]` and
+  # a future 9.x collection gets its own data file without colliding. The nav_key
+  # is derived from SERIES ("8." -> openvox_8x) and overridable with NAV_KEY.
+  openvox_nav_key = lambda do
+    ENV.fetch('NAV_KEY', "openvox_#{ENV.fetch('SERIES', '8.').gsub(/\D/, '')}x")
+  end
+
+  desc 'Generate _data/agent_release_contents/<nav_key>.yml from upstream component pins'
   task :agent_versions do
-    require 'puppet_references/agent_release_table'
+    require 'puppet_references/release_tables'
     series = ENV.fetch('SERIES', '8.')
     min_version = ENV.fetch('MIN_RELEASE', '8.25.0')
-    path = ENV.fetch('AGENT_VERSIONS_DATA', '_data/agent_release_contents.yml')
+    path = ENV.fetch('AGENT_VERSIONS_DATA', "_data/agent_release_contents/#{openvox_nav_key.call}.yml")
     rows = PuppetReferences::AgentReleaseTable.write_data_file(series:, min_version:, path:)
     puts "Wrote #{rows.size} releases to #{path}"
   end
+
+  desc 'Generate _data/server_release_contents/<nav_key>.yml from upstream component pins'
+  task :server_versions do
+    require 'puppet_references/release_tables'
+    series = ENV.fetch('SERIES', '8.')
+    min_version = ENV.fetch('MIN_RELEASE', '8.12.0')
+    path = ENV.fetch('SERVER_VERSIONS_DATA', "_data/server_release_contents/#{openvox_nav_key.call}.yml")
+    rows = PuppetReferences::ServerReleaseTable.write_data_file(series:, min_version:, path:)
+    puts "Wrote #{rows.size} releases to #{path}"
+  end
+
+  desc 'Generate _data/openvoxdb_release_contents/<nav_key>.yml from upstream releases'
+  task :openvoxdb_versions do
+    require 'puppet_references/release_tables'
+    series = ENV.fetch('SERIES', '8.')
+    min_version = ENV.fetch('MIN_RELEASE', '8.12.0')
+    path = ENV.fetch('OPENVOXDB_VERSIONS_DATA', "_data/openvoxdb_release_contents/#{openvox_nav_key.call}.yml")
+    rows = PuppetReferences::OpenvoxdbReleaseTable.write_data_file(series:, min_version:, path:)
+    puts "Wrote #{rows.size} releases to #{path}"
+  end
+
+  desc 'Generate _data/openbolt_release_contents.yml from upstream component pins'
+  task :openbolt_versions do
+    require 'puppet_references/release_tables'
+    # OpenBolt is on its own 5.x line, independent of the OpenVox major, so it uses
+    # its own OPENBOLT_SERIES / OPENBOLT_MIN_RELEASE rather than the generic
+    # SERIES / MIN_RELEASE. That keeps an OpenVox 9.x regeneration (SERIES=9.) from
+    # leaking into OpenBolt, where it would resolve no 9.x releases and abort.
+    series = ENV.fetch('OPENBOLT_SERIES', '5.')
+    min_version = ENV.fetch('OPENBOLT_MIN_RELEASE', '5.1.0')
+    path = ENV.fetch('OPENBOLT_VERSIONS_DATA', '_data/openbolt_release_contents.yml')
+    rows = PuppetReferences::OpenboltReleaseTable.write_data_file(series:, min_version:, path:)
+    puts "Wrote #{rows.size} releases to #{path}"
+  end
+
+  desc 'Generate all component-version data files (agent, server, openvoxdb, openbolt)'
+  task component_versions: %i[agent_versions server_versions openvoxdb_versions openbolt_versions]
 
   task :check do
     puts 'No VERSION given to build references for - using latest tag' unless ENV['VERSION']
