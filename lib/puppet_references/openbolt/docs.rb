@@ -59,7 +59,7 @@ module PuppetReferences
       # leading H1 (the placement make_header uses for the other collections).
       # Falls back to after the YAML front matter, then to the top of the file.
       def insert_generated_note(content)
-        note = PuppetReferences::Util.generated_note('OpenBolt', @commit)
+        note = PuppetReferences::Util.generated_note('OpenBolt', PuppetReferences.version_commit)
         if (m = content.match(/\A(---\n.*?\n---\n\n)?(# [^\n]*\n)/m))
           "#{m[1]}#{m[2]}\n#{note}\n#{m.post_match}"
         elsif (m = content.match(/\A(---\n.*?\n---\n)/m))
