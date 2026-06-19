@@ -1,9 +1,17 @@
 ---
 default: true
 
+# Line length is capped high (400), rather than at a typical prose width.
+# These docs are ported with one-paragraph-per-line source: a whole paragraph
+# is a single source line, which the renderer wraps to the viewport, so the
+# raw line length has no effect on the published page. Enforcing a tight limit
+# would mean reflowing ~800 lines purely for source formatting, with nothing
+# visible to readers. We keep a high cap anyway because very long source lines
+# do hurt diff review and editing -- 400 leaves normal long prose alone while
+# still flagging the genuinely unreadable outliers. Table rows can't wrap, so
+# they're exempt at any limit.
 line-length:
-  line_length: 210
-  # Table rows can't wrap, so exempt them from the line-length limit.
+  line_length: 400
   tables: false
 
 blank_lines:
