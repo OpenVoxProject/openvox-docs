@@ -11,6 +11,7 @@ Run the `bolt task show` command or `Get-BoltTask` PowerShell cmdlet and look
 for any warnings related to your task metadata.
 
 Make sure your task name is valid: Task names must
+
 - Be lowercase
 - Start with a letter
 - Can only contain letters, numbers and underscores
@@ -120,7 +121,7 @@ if you are unable to authenticate using keys.
 You can disable `BatchMode` in your transport configuration using the
 `batch-mode` setting, which allows SSH to fall back to querying for a password
 when key authentication fails. However, `native-ssh` uses the `ssh` client by
-default, which prompts for passwords interactively and causes Bolt to hang. 
+default, which prompts for passwords interactively and causes Bolt to hang.
 
 To avoid hanging when `BatchMode` is disabled, you must configure `ssh-command`
 to use an SSH utility like `sshpass` to provide a password to the SSH client
@@ -152,16 +153,19 @@ config:
 
 By default, Bolt tries to connect over SSH. Make sure you've specified the
 `winrm` protocol for the target. There are three ways to specify `winrm`:
+
 - Include the `winrm` in the name of the target. For example:
-  `winrm://hostname.example.com` 
+  `winrm://hostname.example.com`
 - Pass `--transport winrm` on the CLI
 - Set the `winrm` transport in your config or inventory file:
+
   ```yaml
   # inventory.yaml
   ...
   config:
     transport: winrm
   ```
+
 If you're still getting "connection refused" messages, try disabling SSL. By
 default, Bolt connects to targets over WinRM using the HTTPS port 5986. Your
 target might not be set up to connect over HTTPS. If you disable SSL, Bolt
@@ -208,12 +212,16 @@ following:
   function](plan_functions.html#outmessage).
 
 ## 'Extensions are not built' error message
-If you see a `gem` related error similar to the following: 
+
+If you see a `gem` related error similar to the following:
+
 ```shell
     Ignoring nokogiri-1.10.2 because its extensions are not built. Try: gem pristine nokogiri --version 1.10.2
     Ignoring unf_ext-0.0.7.5 because its extensions are not built. Try: gem pristine unf_ext --version 0.0.7.5
 ```
+
 Use the Bolt-provided gem command to reinstall/install these gems. For example:
+
 ```shell
     sudo /opt/puppetlabs/bolt/bin/gem pristine nokogiri --version 1.10.2
     sudo /opt/puppetlabs/bolt/bin/gem pristine unf_ext --version 0.0.7.5
@@ -250,11 +258,14 @@ using PowerShell 3.0, add the Bolt module manually.
 To allow PowerShell to load Bolt, add the correct module to your PowerShell
 profile.
 
-1.  Update your PowerShell profile.
+1. Update your PowerShell profile.
+
     ```
     'Import-Module -Name ${Env:ProgramFiles}\WindowsPowerShell\Modules\PuppetBolt' | Out-File -Append $PROFILE
     ```
-1.  Load the module in your current PowerShell window.
+
+1. Load the module in your current PowerShell window.
+
     ```
     . $PROFILE
     ```
@@ -296,12 +307,14 @@ For more information, run 'Import-Module PuppetBolt'.
 
 To change your script execution policy:
 
-1.  Press **Windows+X**, **A** to run PowerShell as an administrator.
+1. Press **Windows+X**, **A** to run PowerShell as an administrator.
 
-1.  Set your script execution policy to at least `RemoteSigned`:
+1. Set your script execution policy to at least `RemoteSigned`:
+
     ```
     Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
     ```
+
     For more information about PowerShell execution policies, see Microsoft's
     documentation about [execution
     policies](http://go.microsoft.com/fwlink/?LinkID=135170) and [how to set
@@ -313,7 +326,7 @@ Bolt does not support encrypted SSH private keys if the keys are provided using 
 `key-data` field in your transport configuration. If providing a decrypted key is feasible
 for your use case and security practices, you can manually decrypt the key by running
 `openssl rsa -in <KEY FILE>` and providing your passphrase. Alternatively, you can
-add the key to your SSH agent and *not* specify a `private-key` for Bolt to use. Bolt
+add the key to your SSH agent and _not_ specify a `private-key` for Bolt to use. Bolt
 will use the agent to authenticate your connection.
 
 ## Running commands with the Docker transport does not use environment variables

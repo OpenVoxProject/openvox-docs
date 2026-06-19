@@ -61,24 +61,26 @@ end
 
 You use a task name to interact with a task from the Bolt command line. For
 example, you can use `bolt task run puppet_agent::version --targets localhost`
-to run the `puppet_agent::version` task. 
+to run the `puppet_agent::version` task.
 
 Task names are composed of one or two name segments, indicating:
--   The name of the module where the task is located.
--   The name of the task file, without the extension.
+
+- The name of the module where the task is located.
+- The name of the task file, without the extension.
 
 For example, in the `puppetlabs/mysql` module, the `sql` task is located at
-`./mysql/tasks/sql.rb`, so the task name is `mysql::sql`. 
+`./mysql/tasks/sql.rb`, so the task name is `mysql::sql`.
 
 You can write tasks in any language that runs on the targets. Give task files
 the extension for the language they are written in (such as `.rb` for Ruby), and
 place them in the top level of your module's `./tasks` directory.
 
 Each task or plan name segment must begin with a lowercase letter and:
--   Can include digits.
--   Can include underscores.
--   Namespace segments must match the regular expression: `\A[a-z][a-z0-9_]*\Z`.
--   The file extension must not use the reserved extensions `.md` or `.json`.
+
+- Can include digits.
+- Can include underscores.
+- Namespace segments must match the regular expression: `\A[a-z][a-z0-9_]*\Z`.
+- The file extension must not use the reserved extensions `.md` or `.json`.
 
 > **Note:** The task filename `init` is special: the task it defines is
 > referenced using the module name only. For example, in the
@@ -344,7 +346,7 @@ your task.
 
 By default, Bolt passes task parameters as both environment variables and as a
 single JSON object on `stdin`. The JSON input allows the task to accept complex
-data structures. 
+data structures.
 
 To accept parameters as JSON on `stdin`, set the `params` key to accept JSON on
 `stdin`:
@@ -409,10 +411,11 @@ included in the message.
 ```
 
 An error object includes the following keys:
--   `msg` - A human readable string that appears in the UI.
--   `kind` - A standard string for machines to handle. You can share kinds
+
+- `msg` - A human readable string that appears in the UI.
+- `kind` - A standard string for machines to handle. You can share kinds
     between your modules or namespace kinds per module.
--   `details` - An object of structured data about the tasks.
+- `details` - An object of structured data about the tasks.
 
 Tasks can provide more details about the failure by including their own error
 object in the result at `_error`.
@@ -580,7 +583,7 @@ other `./mysql/tasks/sql.*` files can exist.
 A task can have multiple implementations, with metadata that explains when to
 use each one. A primary use case for this is to support different
 implementations for different target platforms, referred to as cross-platform
-tasks. 
+tasks.
 
 For instance, consider a module with the following files:
 
@@ -626,14 +629,15 @@ requirements correspond directly to Bolt _features_. A feature must be available
 on the target in order for Bolt to use an implementation. You can specify
 additional features for a target using the `set_feature` function in a Bolt
 plan, or by adding `features` to your inventory file. Bolt chooses the first
-implementation whose requirements are satisfied. 
+implementation whose requirements are satisfied.
 
 Bolt defines the following features by default:
--   `puppet-agent`: Present if the target has the Puppet agent package
+
+- `puppet-agent`: Present if the target has the Puppet agent package
     installed. This feature is automatically added to hosts with the name
     `localhost`.
--   `shell`: Present if the target has a POSIX shell.
--   `powershell`: Present if the target has PowerShell.
+- `shell`: Present if the target has a POSIX shell.
+- `powershell`: Present if the target has PowerShell.
 
 In the above example, the `sql_linux.sh` implementation requires the `shell`
 feature, and the `sql_windows.ps1` implementation requires the PowerShell
@@ -817,15 +821,15 @@ library code from other modules.
 To create a task that includes additional files pulled from modules, include
 the `files` property in your metadata as an array of paths. A path consists of:
 
--   The module name.
--   One of the following directories within the module:
-    -   `files` — Most helper files. This prevents the file from being treated
+- The module name.
+- One of the following directories within the module:
+  - `files` — Most helper files. This prevents the file from being treated
         as a task or added to the Puppet Ruby load path.
-    -   `tasks` — Helper files that can be called as tasks on their own.
-    -   `lib` — Ruby code that might be reused by types, providers, or Puppet
+  - `tasks` — Helper files that can be called as tasks on their own.
+  - `lib` — Ruby code that might be reused by types, providers, or Puppet
         functions.
-    -   `scripts` — Scripts that can be called from a task.
--   The remaining path to a file or directory; directories must include a
+  - `scripts` — Scripts that can be called from a task.
+- The remaining path to a file or directory; directories must include a
     trailing slash `/`.
 
 All path separators must be forward slashes. For example, `stdlib/lib/puppet/`.
@@ -1065,7 +1069,7 @@ Bolt does log additional information about a task run, including output sent to
 the `--log-level debug` CLI option.
 
 ```shell
-$ bolt task run mytask param1=foo param2=bar -t all --log-level debug
+bolt task run mytask param1=foo param2=bar -t all --log-level debug
 ```
 
 ### Debuggers
@@ -1099,7 +1103,7 @@ on every target you want to debug the task on.
 You can install the `rpdb` library using `pip`:
 
 ```shell
-$ pip install rpdb
+pip install rpdb
 ```
 
 Then, add the following line to your task wherever you want to begin debugging:
@@ -1119,6 +1123,7 @@ $ nc 127.0.0.1 4444
 ```
 
 📖 **Related information**
+
 - [`rpdb` documentation](https://pypi.org/project/rpdb/)
 - [`pdb` documentation](https://docs.python.org/3/library/pdb.html)
 
@@ -1138,14 +1143,14 @@ If you are running the task on remote targets, you can install the `pry-remote`
 gem using `gem install`:
 
 ```shell
-$ gem install pry-remote
+gem install pry-remote
 ```
 
 If you are running the task on `localhost`, you can install the `pry-remote`
 gem locally using Bolt's Ruby:
 
 ```shell
-$ /opt/puppetlabs/bolt/bin/gem install --user-install pry-remote
+/opt/puppetlabs/bolt/bin/gem install --user-install pry-remote
 ```
 
 If you are running the task on `localhost` on Windows, run the following
@@ -1179,6 +1184,7 @@ From: /tmp/4f9dcfa3-ce0c-49e2-bcf5-8d761b202186/ruby/tasks/init.rb @ line 9 MyCl
 > debugger for a list of available commands.
 
 📖 **Related information**
+
 - [`pry-remote` documentation](https://www.rubydoc.info/gems/pry-remote)
 - [`pry` documentation](http://pry.github.io/)
 
@@ -1204,6 +1210,7 @@ the breakpoint.
 ```
 
 📖 **Related information**
+
 - [`Set-PSBreakpoint`
   documentation](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/set-psbreakpoint?view=powershell-7)
 
@@ -1302,6 +1309,7 @@ $ bolt task run mytask -t localhost value_1=10 value_2=0 --format json
 ```
 
 📖 **Related information**
+
 - [Python task helper
   debugging](https://github.com/puppetlabs/puppetlabs-python_task_helper#debugging)
 
@@ -1378,9 +1386,10 @@ $ bolt task run mytask -t localhost value_1=10 value_2=0 --format json
   "target_count":1,
   "elapsed_time":0
 }
-```       
+```
 
 📖 **Related information**
+
 - [Ruby task helper
   debugging](https://github.com/puppetlabs/puppetlabs-ruby_task_helper#debugging)
 
@@ -1410,7 +1419,7 @@ print(json.dumps(result))
 ```
 
 ```shell
-$ echo '{"num1":10,"num2":5}' | ./mytask.py
+echo '{"num1":10,"num2":5}' | ./mytask.py
 ```
 
 Alternatively, you can write your task to parse command-line arguments
@@ -1436,7 +1445,7 @@ print(json.dumps(result))
 ```
 
 ```shell
-$ ./mytask.py 10 5
+./mytask.py 10 5
 ```
 
 #### Ruby examples
@@ -1458,7 +1467,7 @@ puts result.to_json
 ```
 
 ```shell
-$ echo '{"num1":10,"num2":5}' | ./mytask.rb
+echo '{"num1":10,"num2":5}' | ./mytask.rb
 ```
 
 Alternatively, you can write your task to parse command-line arguments
@@ -1485,7 +1494,7 @@ puts result.to_json
 ```
 
 ```shell
-$ ./mytask.rb 10 5
+./mytask.rb 10 5
 ```
 
 #### PowerShell example
@@ -1497,7 +1506,7 @@ from the command line and providing the parameters as named arguments:
 ```powershell
 [CmdletBinding()]
 Param(
-	[Int]$num1,
+ [Int]$num1,
   [Int]$num2
 )
 

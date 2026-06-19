@@ -15,11 +15,11 @@ script to a Bolt task and running that.
 
 > **Before you begin**
 >
-> -   Ensure you’ve already [installed Bolt](bolt_installing.html#) on your
+> - Ensure you’ve already [installed Bolt](bolt_installing.html#) on your
 >     Windows machine.
-> -   Identify a remote Windows target to work with.
-> -   Ensure you have Windows credentials for the target.
-> -   Ensure you have [configured Windows Remote
+> - Identify a remote Windows target to work with.
+> - Ensure you have Windows credentials for the target.
+> - Ensure you have [configured Windows Remote
 >     Management](https://docs.microsoft.com/en-us/windows/desktop/winrm/installation-and-configuration-for-windows-remote-management)
 >     on the target.
 
@@ -28,21 +28,22 @@ called [restart_service.ps1](https://gist.github.com/RandomNoun7/03dfb910e5d93f
 performs common task of restarting a service on demand. The process involves
 these steps:
 
-1.  Run your PowerShell script on a Windows target.
-1.  Create an inventory file to store information about the target.
-1.  Convert your script to a task.
-1.  Execute your new task.
+1. Run your PowerShell script on a Windows target.
+1. Create an inventory file to store information about the target.
+1. Convert your script to a task.
+1. Execute your new task.
 
 
 ### 1. Run your PowerShell script on a Windows target
 
 First, we’ll use Bolt to run the script as-is on a single target.
 
-1.  Create a Bolt project directory to work in, called `bolt-guide`.
-1.  Copy the
+1. Create a Bolt project directory to work in, called `bolt-guide`.
+1. Copy the
     [`restart_service.ps1`](https://gist.github.com/RandomNoun7/03dfb910e5d93fefaae6e6c2da625c44#file-restart_service-ps1)
     script into `bolt-guide`.
-1.  In the `bolt-guide` directory, run the `restart_service.ps1` script:
+1. In the `bolt-guide` directory, run the `restart_service.ps1` script:
+
     ```
     bolt script run .\restart_service.ps1 W32Time --targets winrm://<HOSTNAME> -u Administrator -p 
     ```
@@ -64,14 +65,15 @@ information about the environment by creating an [inventory
 file](inventory_files.html). The inventory file is a YAML file that contains a
 list of targets and target specific data.
 
-1.  Inside the `bolt-guide` directory, use a text editor to create an
+1. Inside the `bolt-guide` directory, use a text editor to create an
     `inventory.yaml` file and a `bolt-project.yaml` file. The `inventory.yaml` file is where
     connection information is stored, while `bolt-project.yaml` tells Bolt that the directory is a project
     and that it should load the inventory file from the directory.
-1.  Inside the new `inventory.yaml` file, add the following content, listing the
+1. Inside the new `inventory.yaml` file, add the following content, listing the
     fully qualified domain names of the targets you want to run the script on,
     and replacing the credentials in the `winrm` section with those appropriate
     for your target:
+
     ```yaml
     groups:
       - name: windows
@@ -115,18 +117,20 @@ If you’re going to be creating a lot of tasks, using PDK is worth getting to
 know. For more information, see the [PDK
 documentation.](/pdk.html)
 
-1.  In the `bolt-guide` directory, create the following subdirectories:
+1. In the `bolt-guide` directory, create the following subdirectories:
+
     ```
     bolt-guide/
     └── modules
         └── gsg
             └── tasks
     ```
-1.  Move the `restart_service.ps1` script into the `tasks` directory.
-1.  In the `tasks` directory, use your text editor to create a task metadata
+
+1. Move the `restart_service.ps1` script into the `tasks` directory.
+1. In the `tasks` directory, use your text editor to create a task metadata
     file — named after the script, but with a `.json` extension, in this
     example, `restart_service.json`.
-1.  Add the following content to the new task metadata file:
+1. Add the following content to the new task metadata file:
 
     ```json
     {
@@ -146,14 +150,14 @@ documentation.](/pdk.html)
     }
     ```
 
-1.  Save the task metadata file and navigate back to the `bolt-guide` directory.
+1. Save the task metadata file and navigate back to the `bolt-guide` directory.
 
     You now have two files in the `gsg` module’s `tasks` directory:
     `restart_service.ps1` and `restart_service.json` -- the script is officially
     converted to a Bolt task. Now that it’s converted, you no longer need to
     specify the file extension when you call it from a Bolt command.
-1.  Validate that Bolt recognizes the script as a task:
-    
+1. Validate that Bolt recognizes the script as a task:
+
     ```
     bolt task show gsg::restart_service
     ```
@@ -163,7 +167,8 @@ documentation.](/pdk.html)
     Congratulations! You’ve successfully converted the `restart_service.ps1`
     script to a Bolt task.
 
-1.  Execute your new task:
+1. Execute your new task:
+
     ```
     bolt task run gsg::restart_service service=W32Time --targets windows
     ```
@@ -183,14 +188,16 @@ Chocolatey package provider to install the package.
 This example installs the Frogsay package on a Windows target.
 
 **Before you begin:**
+
 - [Install Bolt](bolt_installing_modules.html)
 - Configure Windows Remote Management (WinRM) on your Windows target.
 
 To install the Frogsay package with Chocolatey:
+
 1. Install the Chocolatey module to your Bolt project. This allows you to
    install Chocolatey to your target in the next step.
    - If you're using an existing Bolt project:
-     
+
       _\*nix shell command_
 
       ```shell
@@ -204,7 +211,7 @@ To install the Frogsay package with Chocolatey:
       ```
 
    - If you want to create a project (named `choco_project`) that includes the Chocolatey module. Create a directory named `choco_project` and run the following command inside the directory:
-    
+
       _\*nix shell command_
 
       ```shell
@@ -218,7 +225,7 @@ To install the Frogsay package with Chocolatey:
       ```
 
 1. Install Chocolatey on your Windows target using the `apply` command:
-   
+
    _\*nix shell command_
 
     ```shell
@@ -232,7 +239,7 @@ To install the Frogsay package with Chocolatey:
     ```
 
 1. Use the built-in Package task to install Frogsay on your target:
-    
+
     _\*nix shell command_
 
     ```shell
@@ -243,10 +250,10 @@ To install the Frogsay package with Chocolatey:
 
     ```powershell
     Invoke-BoltTask -Name package -Targets <TARGET URI> -User <USER> -Password <PASSWORD> -Transport winrm action=install name=frogsay
-    ```     
+    ```
 
 1. Run `frogsay` on your target to test:
-   
+
    _\*nix shell command_
 
    ```shell
@@ -257,9 +264,10 @@ To install the Frogsay package with Chocolatey:
 
    ```powershell
    Invoke-BoltCommand 'frogsay ribbit' -Targets <TARGET URI> -User <USER> -Password <PASSWORD> -Transport winrm
-   ``` 
+   ```
   
    Your output should look something like this:
+
    ```shell
    Started on example.windowstarget.net...
    Finished on example.windowstarget.net:

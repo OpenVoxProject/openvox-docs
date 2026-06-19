@@ -36,7 +36,7 @@ you are not required to install any agent software.
             <li><a class="xref" href="running_bolt_commands.html">Run a script</a></li>
             <li><a class="xref" href="running_bolt_commands.html">Upload files</a></li>
         </ul>
-    </p> 
+    </p>
     <p>Automate your workflow with existing tasks and plans
         <ul>
             <li><a class="xref" href="bolt_running_tasks.html">Running tasks</a></li>
@@ -50,7 +50,7 @@ you are not required to install any agent software.
             <li><a class="xref" href="writing_yaml_plans.html">Writing plans in YAML</a></li>
             <li><a class="xref" href="writing_plans.html">Example plans</a></li>
             <li><a class="xref" href="applying_manifest_blocks.html">Applying manifest blocks</a></li>
-        </ul> 
+        </ul>
     </p>
    </td>
    <td>
@@ -87,7 +87,7 @@ you are not required to install any agent software.
             <li><a class="xref" target="_blank" href="https://forge.puppet.com">Puppet Forge</a> - Find modules you can use, and contribute modules you've made to the community.</li>
             <li><a class="xref" target="_blank" href="https://github.com/puppetlabs/">Open source projects from Puppet on GitHub</a></li>
         </ul>
-    </p>        
+    </p>
    </td>
  </tr>
  </tbody>

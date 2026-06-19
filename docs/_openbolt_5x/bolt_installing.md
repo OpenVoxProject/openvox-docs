@@ -149,6 +149,7 @@ Use the Apple Disk Image (DMG) to install Bolt on macOS:
    then double-click `puppet-bolt-[version]-installer.pkg` to run the installer.
 
 If you get a message that the installer "can't be opened because Apple cannot check it for malicious software:"
+
 1. Click **** > **System Preferences** > **Security & Privacy**.
 1. From the **General** tab, click the lock icon to allow changes to your security settings and enter your macOS password.
 1. Look for a message that says the Bolt installer "was blocked from use because it is not from an identified developer" and click "Open Anyway".
@@ -178,13 +179,13 @@ Use one of the supported Windows installation methods to install Bolt.
 To install Bolt with Chocolatey, you must have the [Chocolatey package
 manager](https://chocolatey.org/docs/installation) installed.
 
-1.  Download and install the bolt package:
+1. Download and install the bolt package:
 
     ```powershell
     choco install puppet-bolt
     ```
 
-1.  Refresh the environment:
+1. Refresh the environment:
 
     ```powershell
     refreshenv
@@ -220,14 +221,14 @@ choco uninstall puppet-bolt
 
 Use the Windows installer (MSI) package to install Bolt on Windows:
 
-1.  Download the [Bolt installer
+1. Download the [Bolt installer
     package](https://downloads.puppet.com/windows/puppet-tools/puppet-bolt-x64-latest.msi).
 
-1.  Double-click the MSI file and run the installer.
+1. Double-click the MSI file and run the installer.
 
 1. Install the [PuppetBolt PowerShell module](#puppetbolt-powershell-module).
 
-1.  Open a new PowerShell window and run a [Bolt cmdlet](bolt_cmdlet_reference.html).
+1. Open a new PowerShell window and run a [Bolt cmdlet](bolt_cmdlet_reference.html).
     If you see an error message instead of the expected output, you might need to
     [add the Bolt module to
     PowerShell](troubleshooting.html#powershell-does-not-recognize-bolt-cmdlets) or [change
@@ -444,11 +445,15 @@ enables sharing gem content with Puppet installations — such as when running
 
 To install a gem for use with Bolt, use the command appropriate to your
 operating system:
+
 - On Windows with the default install location:
+
     ```
     "C:/Program Files/Puppet Labs/Bolt/bin/gem.bat" install --user-install <GEM>
     ```
+
 - On other platforms:
+
     ```
     /opt/puppetlabs/bolt/bin/gem install --user-install <GEM>
     ```

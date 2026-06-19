@@ -99,7 +99,7 @@ A workaround is to use native SSH when you need to authenticate with ed25519
 keys. When native SSH is enabled, Bolt will use a specified SSH client to
 connect to targets instead of the `net-ssh` Ruby library. To learn more about
 native SSH, see [native SSH
-transport](experimental_features.html#native-ssh-transport). 
+transport](experimental_features.html#native-ssh-transport).
 
 🧪 Native SSH is
 experimental and might change in future minor (y) releases.
@@ -146,5 +146,5 @@ or set `concurrency: <CONCURRENCY>` in [Bolt config](configuring_bolt.html).
 
 📖 **Related issues**
 
-- [#1789 - Too Many Open Files 
+- [#1789 - Too Many Open Files
   Error](https://github.com/puppetlabs/bolt/issues/1789)

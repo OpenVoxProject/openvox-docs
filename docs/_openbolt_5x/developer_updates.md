@@ -200,6 +200,7 @@ compiled a list of expected changes and removals.
 - **New default configuration for the local transport**
 
   In Bolt 2.x, Bolt applied the following settings to targets named `localhost` by default:
+
   ```
   targets:
     - name: localhost
@@ -211,6 +212,7 @@ compiled a list of expected changes and removals.
       features:
         - puppet-agent
   ```
+
   These settings will now be applied to all targets using the local transport. Settings can be
   overridden at the target level in inventory. They can also be enabled or disabled starting in Bolt
   2.37 using the `bundled-ruby` local transport config option.
@@ -373,16 +375,19 @@ the task which collection to download the package from. This defaults to
 the command line:
 
 _\*nix shell command_
+
 ```
 bolt task run puppet_agent::install -t mytargets collection='puppet6'
 ```
 
 _PowerShell cmdlet_
+
 ```
 Invoke-BoltTask -Name puppet_agent::install -Targets mytargets collection='puppet6'
 ```
 
 Or to the `run_task()` plan function:
+
 ```
 run_task('puppet_agent::install', $targets, { collection => 'puppet6' })
 ```

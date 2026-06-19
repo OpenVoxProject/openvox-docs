@@ -82,7 +82,7 @@ command-line option:
 ### Definitions and declarations
 
 When applying manifest blocks, it's important to understand the distinction
-between _definitions_ and _declarations_. 
+between _definitions_ and _declarations_.
 
 Definitions, which include class definitions and defined resource types, are
 blocks of Puppet code that can be used when called by name. Defining a class or
@@ -219,7 +219,7 @@ The `apply` function returns a [`ResultSet`
 object](bolt_types_reference.html#resultset)
 that contains an [`ApplyResult`
 object](bolt_types_reference.html#applyresult)
-for each target. 
+for each target.
 
 ```puppet
 $results = apply($targets) { ... }
@@ -387,16 +387,16 @@ defaults in Bolt.
 
 Create a manifest that sets up a web server with nginx, and run it as a plan.
 
-1.  Go to the `site-modules` directory in the default Bolt project directory:
+1. Go to the `site-modules` directory in the default Bolt project directory:
     `~/.puppetlabs/bolt/site-modules`
 
-1.  Create a module named profiles.
-    -   If you use the Puppet Development Kit: `pdk new module profiles`
-    -   Otherwise create `~/.puppetlabs/bolt/site-modules/profiles`
+1. Create a module named profiles.
+    - If you use the Puppet Development Kit: `pdk new module profiles`
+    - Otherwise create `~/.puppetlabs/bolt/site-modules/profiles`
 
-1.  Add a `plans` directory to the profiles module.
+1. Add a `plans` directory to the profiles module.
 
-1.  In the plans directory, create a manifest file called `nginx_install.pp` and
+1. In the plans directory, create a manifest file called `nginx_install.pp` and
     add the following code:
 
     ```puppet
@@ -440,13 +440,13 @@ Create a manifest that sets up a web server with nginx, and run it as a plan.
        }
     ```
 
-1.  Run the plan on a target:
+1. Run the plan on a target:
 
     ```shell
     bolt plan run profiles::nginx_install --targets mytarget.mydomain
     ```
 
-1.  In a web browser, open `mytarget.mydomain`. The page displays the text
+1. In a web browser, open `mytarget.mydomain`. The page displays the text
     `hello!`
 
 > 🔩 **Tip:** For complex web server deployments, consider adding the
@@ -463,21 +463,24 @@ Create a manifest that sets up a web server with nginx, and run it as a plan.
 
 Create a manifest that sets up a web server with IIS and run it as a plan.
 
-1. Create a directory to use as your Bolt project or use an existing directory. 
+1. Create a directory to use as your Bolt project or use an existing directory.
 1. Convert the directory into a Bolt project named 'profiles' by running `bolt project init
    profiles`, or `New-BoltProject -Name profiles` if you're using PowerShell.
 1. Add the `puppetlabs-iis` module to your `bolt-project.yaml` under the `modules` key:
+
    ```
    modules:
      - name: puppetlabs-iis
        version_requirement: 4.3.2
    ```
+
 1. Run `bolt module install` or `Install-BoltModule` if you're using PowerShell.
 1. Create a new Puppet language Bolt plan inside your project by running
    `bolt plan new profiles` or `New-BoltPlan -Name profiles -Pp` on PowerShell. This creates a `plans/`
    directory in your Bolt project, and a file named `init.pp` inside that directory with some basic
    commands.
-1. Replace the contents of `<PROJECT DIRECTORY>/plans/init.pp` with this Bolt plan: 
+1. Replace the contents of `<PROJECT DIRECTORY>/plans/init.pp` with this Bolt plan:
+
    ```puppet
    plan profiles(
         TargetSpec $targets,
@@ -526,23 +529,28 @@ Create a manifest that sets up a web server with IIS and run it as a plan.
      }
    }
    ```
-   This plan uses the `apply` function to apply a manifest to targets. The manifest uses the 
-   [puppetlabs-iis module](https://forge.puppet.com/modules/puppetlabs/iis) to set up an IIS 
+
+   This plan uses the `apply` function to apply a manifest to targets. The manifest uses the
+   [puppetlabs-iis module](https://forge.puppet.com/modules/puppetlabs/iis) to set up an IIS
    server on the targets.
 1. Run the plan on a target:
    _\*nix shell command_
+
    ```shell
    bolt plan run profiles --targets winrm://mytarget.mydomain
    ```
+
    _PowerShell cmdlet_
+
    ```shell
    Invoke-BoltPlan -Name profiles -Targets winrm://mytarget.mydomain
    ```
 
-1.  In a web browser, open `mytarget.mydomain`. The page displays the text
+1. In a web browser, open `mytarget.mydomain`. The page displays the text
     `hello!`
 
 📖 **Related information**  
+
 - [IIS](https://www.iis.net)
 - [Specify targets](running_bolt_commands.html)
 - [Bolt projects](projects.html)

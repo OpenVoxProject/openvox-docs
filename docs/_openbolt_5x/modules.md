@@ -82,6 +82,7 @@ directory (moduledir) in your Bolt project directory (`.modules`):
 
 The list of directories where Bolt looks for content is called the modulepath.
 Bolt always loads content from:
+
 - The current Bolt project.
 - Any modules in the configurable modules directory. By default this is
   `modules/`.
@@ -109,11 +110,13 @@ You can see a list of directories and modules Bolt is
 loading from the current modulepath using the following command:
 
 _*nix shell command_
+
 ```
 bolt module show
 ```
 
 _PowerShell cmdlet_
+
 ```
 Get-BoltModule
 ```
@@ -122,6 +125,7 @@ Get-BoltModule
 
 Bolt 2.30.0 introduced module dependency management. The changes introduced by
 this feature affect:
+
 - Existing Bolt projects that were created before the dependency changes came
   into effect. For information on how to migrate your Bolt project to use
   dependency management, see [Migrate a Bolt

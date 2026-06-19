@@ -29,17 +29,17 @@ curl -X GET $SERVER_URL/pdb/query/v4 --data-urlencode 'query=nodes[certname] {}'
 If you use Puppet Enterprise you can grant more restricted access to PuppetDB
 with a PE role-based access control (RBAC) token.
 
-1.  In PE, verify you are assigned to a role that has the appropriate RBAC
+1. In PE, verify you are assigned to a role that has the appropriate RBAC
     permission. It needs the permission type **Nodes** and the action **View
     node data from PuppetDB**.
 
-2.  From the command line, run `puppet-access login --lifetime <TIME PERIOD>`.
+2. From the command line, run `puppet-access login --lifetime <TIME PERIOD>`.
 
-3.  When prompted, enter the same username and password that you use to log into
+3. When prompted, enter the same username and password that you use to log into
     the PE console. The token is generated and stored in a file for later use.
-    The default location for storing the token is ~/.puppetlabs/token. 
+    The default location for storing the token is ~/.puppetlabs/token.
 
-4.  Verify that authentication is working with the following curl command.
+4. Verify that authentication is working with the following curl command.
 
 ```
 curl -X GET https://$SERVER_URL/pdb/query/v4 --data-urlencode 'query=nodes[certname] {}' -H "X-Authentication: `cat ~/.puppetlabs/token`" --cacert $CACERT_PATH
@@ -84,6 +84,7 @@ puppetdb:
 
 If PE is installed and PuppetDB is not defined in a config file, Bolt uses the
 PuppetDB config defined in either:
+
 - `$HOME/.puppetlabs/client-tools/puppetdb.conf` or
 - `/etc/puppetlabs/client-tools/puppetdb.conf` (Windows:
 `%CSIDL_COMMON_APPDATA%\PuppetLabs\client-tools\puppetdb.conf`).
@@ -224,7 +225,7 @@ command-line option:
 _\*nix shell command_
 
 ```shell
-$ bolt plan run example --puppetdb instance-1
+bolt plan run example --puppetdb instance-1
 ```
 
 _PowerShell cmdlet_

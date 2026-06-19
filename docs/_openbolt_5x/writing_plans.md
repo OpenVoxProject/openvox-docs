@@ -69,18 +69,20 @@ The first line of your plan contains the plan name. You use the plan name to
 call the plan from the Bolt command line, or from other plans.
 
 Plan names are composed of two or more name segments, indicating:
--   The name of the module the plan is located in.
--   The name of the plan file, without the extension.
--   The path within the module, if the plan is in a subdirectory of `./plans`.
+
+- The name of the module the plan is located in.
+- The name of the plan file, without the extension.
+- The path within the module, if the plan is in a subdirectory of `./plans`.
 
 Each plan name segment must begin with a lowercase letter and:
--   Can include lowercase letters.
--   Can include digits.
--   Can include underscores.
--   Must not be a [reserved
+
+- Can include lowercase letters.
+- Can include digits.
+- Can include underscores.
+- Must not be a [reserved
     word](/openvox/latest/lang_reserved.html).
--   Must not have the same name as any Puppet data types.
--   Namespace segments must match the regular expression: `\A[a-z][a-z0-9_]*\Z`.
+- Must not have the same name as any Puppet data types.
+- Namespace segments must match the regular expression: `\A[a-z][a-z0-9_]*\Z`.
 
 > **Note**: Avoid giving plans the same names as constructs in the Puppet
 > language. Although plans do not share their namespace with other language
@@ -231,16 +233,16 @@ The result of a plan must match the `PlanResult` type alias. This roughly
 includes JSON types as well as the plan language types which have well defined
 JSON representations in Bolt.
 
--   `Undef`
--   `String`
--   `Numeric`
--   `Boolean`
--   `Target`
--   `Result`
--   `ResultSet`
--   `Error`
--   `Array` with only `PlanResult`
--   `Hash` with `String` keys and `PlanResult` values
+- `Undef`
+- `String`
+- `Numeric`
+- `Boolean`
+- `Target`
+- `Result`
+- `ResultSet`
+- `Error`
+- `Array` with only `PlanResult`
+- `Hash` with `String` keys and `PlanResult` values
 
 or
 
@@ -283,18 +285,19 @@ fail_plan($errorobject)
 Bolt includes a `catch_errors` function that executes a block of code and
 returns the error if an error is raised, or returns the result of the block if
 no errors are raised. You might get an `Error` object returned if you:
+
 - call `run_plan` with `_catch_errors`.
 - use a `catch_errors` block.
 - call the `error` method on a result.
 
 The `Error` data type includes:
 
--   `msg`: The error message string.
--   `kind`: A string that defines the kind of error similar to an error class.
--   `details`: A hash with details about the error from a task or from
+- `msg`: The error message string.
+- `kind`: A string that defines the kind of error similar to an error class.
+- `details`: A hash with details about the error from a task or from
     information about the state of a plan when it fails, for example,
     `exit_code` or `stack_trace`.
--   `issue_code`: A unique code for the message that can be used for
+- `issue_code`: A unique code for the message that can be used for
     translation.
 
 
@@ -359,26 +362,26 @@ function.
 Not all Puppet language constructs are allowed in plans. The following
 constructs are not allowed:
 
--   Defined types
--   Classes
--   Resource expressions, such as `file { title: mode => '0777' }`
--   Resource default expressions, such as `File { mode => '0666' }`
--   Resource overrides, such as `File['/tmp/foo'] { mode => '0444' }`
--   Relationship operators: `-> <- ~> <~`
--   Functions that operate on a catalog: `contain`, `create_resources`,
+- Defined types
+- Classes
+- Resource expressions, such as `file { title: mode => '0777' }`
+- Resource default expressions, such as `File { mode => '0666' }`
+- Resource overrides, such as `File['/tmp/foo'] { mode => '0444' }`
+- Relationship operators: `-> <- ~> <~`
+- Functions that operate on a catalog: `contain`, `create_resources`,
     `include`, `realize`, `require`, `tag`, `tagged`
--   Collector expressions, such as `SomeType <| |>`, `SomeType <<| |>>`
--   ERB templates are not supported. Use EPP instead
+- Collector expressions, such as `SomeType <| |>`, `SomeType <<| |>>`
+- ERB templates are not supported. Use EPP instead
 
 Be aware of a few other Puppet behaviors in plans:
 
--   The `--strict_variables` option is on, so if you reference a variable that
+- The `--strict_variables` option is on, so if you reference a variable that
     is not set, you get an error.
--   `--strict=error` is always on, so minor language issues generate errors. For
+- `--strict=error` is always on, so minor language issues generate errors. For
     example `{ a => 10, a => 20 }` is an error because there is a duplicate key
     in the hash.
--   Most Puppet settings are empty and not-configurable when using Bolt.
--   Logs include "source location" (file, line) instead of resource type or
+- Most Puppet settings are empty and not-configurable when using Bolt.
+- Logs include "source location" (file, line) instead of resource type or
     name.
 
 ## Handling plan function results
@@ -478,7 +481,7 @@ allowing you to collect facts or set variables for a target and retrieve them
 later. You can get a printable representation via the `name` function, as well
 as access components of the target: `protocol, host, port, user, password`. For
 a list of functions available to a target, see [Bolt data
-types](./bolt_types_reference.html#target) 
+types](./bolt_types_reference.html#target)
 
 ### `TargetSpec`
 
@@ -490,7 +493,7 @@ parameter.
 `TargetSpec` accepts a URI string, a target object, or an array of URI strings
 and Target objects. URI strings must include a hostname, and can also set the
 protocol, the username, the password, and the port to use using the format
-`protocol://user:password@hostname:port`. 
+`protocol://user:password@hostname:port`.
 
 To operate on individual targets, resolve `TargetSpec` to a list via
 `get_targets`. For example, to loop over each target in a plan, accept a
@@ -553,7 +556,7 @@ exist for the life cycle of the plan run.
 
 There are two main ways you might want to instantiate target objects within a
 plan: getting a target that might already exist, or making a new target object
-that clobbers any existing targets with the same name. 
+that clobbers any existing targets with the same name.
 
 To get or create a target, use the `get_target` function. This takes a single
 URI and returns a single target object with the same name if it already exists
@@ -616,12 +619,12 @@ plan create_targets(
 There are a handful of functions available to modify existing target objects
 inside a plan:
 
-* [add_facts](plan_functions.html#add_facts)
-* [add_to_group](plan_functions.html#add_to_group)
-* [remove_from_group](plan_functions.html#remove_from_group)
-* [set_config](plan_functions.html#set_config)
-* [set_feature](plan_functions.html#set_feature)
-* [set_var](plan_functions.html#set_var)
+- [add_facts](plan_functions.html#add_facts)
+- [add_to_group](plan_functions.html#add_to_group)
+- [remove_from_group](plan_functions.html#remove_from_group)
+- [set_config](plan_functions.html#set_config)
+- [set_feature](plan_functions.html#set_feature)
+- [set_var](plan_functions.html#set_var)
 
 These can be used to add facts, transport specific configuration options,
 features, and variables to target objects, as well as add or remove objects from
@@ -709,9 +712,9 @@ on the targets in the inventory for later use.
 
 The methods used to collect facts:
 
--   On `ssh` targets, it runs a Bash script.
--   On `winrm` targets, it runs a PowerShell script.
--   On `pcp` or targets where the Puppet agent is present, it runs Facter.
+- On `ssh` targets, it runs a Bash script.
+- On `winrm` targets, it runs a PowerShell script.
+- On `pcp` or targets where the Puppet agent is present, it runs Facter.
 
 This example collects facts with the facts plan and uses those facts to decide
 which task to run on the targets.
@@ -917,7 +920,7 @@ The `private` metadata is cached in your Bolt project. Bolt updates the cache:
 - When you update plans in the current Bolt project.
 - When you update modules in the `<PROJECT DIRECTORY>/modules/` directory.
 - When you install modules using a Bolt command that installs modules.
-- When you generate Puppet types using a `generate` command. 
+- When you generate Puppet types using a `generate` command.
 
 If you manually edit a plan that is located outside of the `<PROJECT DIRECTORY>/plans/` directory or
 `<PROJECT DIRECTORY>/modules/` path, Bolt might not pick up manual edits to metadata. If your plan

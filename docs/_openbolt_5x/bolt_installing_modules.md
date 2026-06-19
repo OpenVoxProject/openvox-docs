@@ -6,9 +6,10 @@ title: Installing modules
 # Installing modules
 
 When you use the Bolt command line to install a module, Bolt manages your
-dependencies for you. 
+dependencies for you.
 
 You can use the command line to:
+
 - Create a project with pre-installed modules.
 - Add a Puppet Forge module to your existing Bolt project.
 - Install the modules associated with a Bolt project. This is useful if you've
@@ -71,12 +72,14 @@ To add a single Puppet Forge module and its dependencies to your Bolt project,
 use the `bolt module add` *nix shell command or the `Add-BoltModule` Powershell
 cmdlet. For example, to add the `puppetlabs/apt` module:
 
-*\*nix shell command*
+_\*nix shell command_
+
 ```shell
 bolt module add puppetlabs/apt
 ```
 
-*Powershell cmdlet*
+_Powershell cmdlet_
+
 ```shell
 Add-BoltModule -Module puppetlabs/apt
 ```
@@ -93,7 +96,8 @@ When Bolt adds a new module to the project and resolves its dependencies, it
 attempts to keep all installed modules on the same versions. If Bolt encounters
 a version conflict, it might update installed modules to newer versions.
 
-📖 **Related information** 
+📖 **Related information**
+
 - If you receive an error telling you to "update your project configuration to
   manage module dependencies", see [migrate a Bolt
   project](projects.html#migrate-a-bolt-project).
@@ -103,12 +107,14 @@ a version conflict, it might update installed modules to newer versions.
 If you've just downloaded a Bolt project from source control and want to install
 the modules associated with it, use the following command:
 
-*\*nix shell command*
+_\*nix shell command_
+
 ```shell
 bolt module install
 ```
 
-*Powershell cmdlet*
+_Powershell cmdlet_
+
 ```shell
 Install-BoltModule
 ```
@@ -140,12 +146,14 @@ This error usually only occurs if you've manually modified your
 `bolt-project.yaml` or `Puppetfile`. To resolve the conflict and install the
 modules declared in `bolt-project.yaml`, run the following command:
 
-*\*nix shell command*
+_\*nix shell command_
+
 ```shell
 bolt module install --force 
 ```
 
-*Powershell cmdlet*
+_Powershell cmdlet_
+
 ```shell
 Install-BoltModule -Force
 ```
@@ -154,12 +162,14 @@ Install-BoltModule -Force
 
 To update the modules in your project, run:
 
-*\*nix shell command*
+_\*nix shell command_
+
 ```shell
 bolt module install --force
 ```
 
-*Powershell cmdlet*
+_Powershell cmdlet_
+
 ```shell
 Install-BoltModule -Force
 ```
@@ -245,11 +255,13 @@ add a version requirement to the module in your `bolt-project.yaml` and run the
 `install` command with the `force` option.
 
 Follow these steps to pin a module version:
+
 1. Find the module under the `modules` key in your `bolt-project.yaml` file.
 1. Add a `version_requirement` key that specifies the version requirements for
    the module. For example, the following `bolt-project.yaml` file sets the
    version requirement for the `puppetlabs/apache` module to greater than or equal to
    4.0.0, but less than 6.0.0:
+
    ```yaml
    # bolt-project.yaml
    ...
@@ -257,16 +269,19 @@ Follow these steps to pin a module version:
    - name: puppetlabs/apache
      version_requirement: '>= 4.0.0 < 6.0.0'
    ```
+
 1. Run the following command. The `force` option is required because you've made
    a change to your `bolt-project.yaml` file, and it no longer matches the
    Puppetfile.
 
-   *\*nix shell command*
+   _\*nix shell command_
+
    ```shell
    bolt module install --force 
    ```
 
-   *Powershell cmdlet*
+   _Powershell cmdlet_
+
    ```shell
    Install-BoltModule -Force
    ```
@@ -275,7 +290,7 @@ When you run the install command with the `force` option, Bolt attempts to
 resolve all of the modules in the project configuration file to ensure that
 there are no version conflicts between modules and their dependencies. Bolt
 fails with an error message if it cannot resolve a dependency due to a version
-requirement. 
+requirement.
 
 > 🔩 **Tip**: For information on how to specify module versions, see the Puppet
 > documentation on [Specifying

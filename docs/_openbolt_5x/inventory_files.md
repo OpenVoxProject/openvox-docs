@@ -47,6 +47,7 @@ configuration. Each group is a map that can contain any of the following fields:
 | `vars` | The variables for the group. Optional. | `Hash` |
 
 An example of an inventory file with two groups named `linux` and `windows`:
+
 ```yaml
 groups:
   - name: linux
@@ -66,7 +67,8 @@ groups:
 ### Target object
 
 Specify a target under the `targets` key. The `targets` key accepts an array
-where each element is either a string or a hash. 
+where each element is either a string or a hash.
+
 - For a string, use the string representation of the target's Universal Resource
   Identifier (URI).
 - A hash must specify either the `uri` for a hash, or a `name`. If you don't
@@ -150,9 +152,10 @@ Targets specified with a hash accept the following fields:
 Use the `config` field to configure the transports that Bolt uses to connect to
 targets in your inventory file. For example, you can use this section to specify
 a transport like SSH, configure authentication options like passwords or the
-path to your private key file, or specify a proxy. 
+path to your private key file, or specify a proxy.
 
 You can configure the transport at multiple levels of your inventory file:
+
 - Put `config` at the top (`all` group) level to configure settings that apply
   to all targets in the inventory file.
 - Put `config` at the `groups` level to configure settings that apply to all
@@ -340,6 +343,7 @@ values:
   ]
 }
 ```
+
 > **Note**: The password for mytarget is defined at the target level in
 > `group2`, and overrides the password set at the group level.
 
@@ -353,6 +357,7 @@ are implemented by plugin authors and called by Bolt.
 ### How Bolt resolves plugins
 
 Bolt resolves Plugins in an inventory file at specific times:
+
 - Bolt resolves plugins used under a `groups` or `targets` key when the
   inventory is loaded.
 - Bolt loads plugins under data keys such as `config`, `facts`, `features`, and
@@ -559,13 +564,13 @@ groups:
 
 The following inventory file uses several bundled plugins.
 
-* The `yaml` plugin composes `aws_inventory.yaml` and `azure_inventory.yaml`
+- The `yaml` plugin composes `aws_inventory.yaml` and `azure_inventory.yaml`
   into a single inventory file loaded by Bolt.
-* The `aws_inventory` plugin generates targets from AWS EC2 instances.
-* The `azure_inventory` plugin generates targets from Azure VMs.
-* The `vault` plugin loads a secret from a Hashicorp Vault server and uses it as
+- The `aws_inventory` plugin generates targets from AWS EC2 instances.
+- The `azure_inventory` plugin generates targets from Azure VMs.
+- The `vault` plugin loads a secret from a Hashicorp Vault server and uses it as
   a password.
-* The `prompt` plugin configures the `vault` plugin in a configuration file and
+- The `prompt` plugin configures the `vault` plugin in a configuration file and
   prompts for the user's Vault password.
 
 The `inventory.yaml` file:

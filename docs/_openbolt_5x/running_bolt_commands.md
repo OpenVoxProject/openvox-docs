@@ -7,7 +7,7 @@ title: Run Bolt
 
 You can use Bolt commands to connect to targets and perform actions on
 them. These actions range in complexity from invoking a simple command to
-running a series of commands and tasks as part of an orchestration workflow. 
+running a series of commands and tasks as part of an orchestration workflow.
 
 For a full list of available Bolt commands, see the [Bolt command
 reference](bolt_command_reference.html).
@@ -59,8 +59,8 @@ Invoke-BoltCommand -Command "Get-WMIObject Win32_Service -Filter \""Name like '%
 
 ### Read a command from a file
 
-Reading a command from a file is useful when you need to run a script on a target 
-that does not permit file uploads. To read a command from a file, pass an `@` symbol, 
+Reading a command from a file is useful when you need to run a script on a target
+that does not permit file uploads. To read a command from a file, pass an `@` symbol,
 followed by the relative path to the file.
 
 _\*nix shell command_
@@ -213,7 +213,7 @@ _PowerShell cmdlet_
 
 ```powershell
 Invoke-BoltTask -Name restart_server -Targets servers -Rerun success
-``` 
+```
 
 #### Disable `.rerun.json`
 
@@ -227,6 +227,7 @@ Use the `--no-save-rerun` option to disable saving the rerun file:
 ```shell
 bolt task run restart_server --targets server --rerun success --no-save-rerun
 ```
+
 _PowerShell cmdlet_
 
 Use the `-SaveRerun` argument with a value of `$false` to disable saving the
@@ -591,7 +592,7 @@ the command:
 Invoke-BoltTask -Name reboot -Params @{targets='servers'}
 ```
 
-### Pass targets to a plan parameter 
+### Pass targets to a plan parameter
 
 If a plan accepts a `targets` parameter with the type `TargetSpec`, you can
 use the `targets` command-line option to provide a value to the parameter.

@@ -5,28 +5,29 @@ title: Deploy a TIG stack with Bolt
 
 # Deploy a TIG stack with Bolt
 
-In this guide, you'll use Bolt to configure and deploy a TIG stack. 
+In this guide, you'll use Bolt to configure and deploy a TIG stack.
 
 A TIG stack provides metrics visualization to help you monitor your
 infrastructure. TIG stands for:
+
 - [Telegraf](https://docs.influxdata.com/telegraf/v1.14/) - A plugin-driven
   server agent for collecting and reporting metrics.
 - [InfluxDB](https://docs.influxdata.com/influxdb/v1.8/) - A time series
-  database designed to handle time-stamped data like metrics and events.     
+  database designed to handle time-stamped data like metrics and events.
 - [Grafana](https://grafana.com/docs/grafana/latest/getting-started/what-is-grafana/) -
   An open source visualization and analytics tool.
 
 > **Before you begin**
 >
 > - Make sure you've installed Bolt version 2.10.0 or greater on your machine.
->  For instructions on how to install Bolt, see
->  [Installing Bolt](./bolt_installing.html).
+> For instructions on how to install Bolt, see
+> [Installing Bolt](./bolt_installing.html).
 > - Clone or download the [TIG stack repo](https://github.com/puppetlabs/bolt-tig-stack)
 > - This guide uses virtual machines
->  to host the stack, which requires [Vagrant](https://www.vagrantup.com/docs/installation) and a hypervisor like 
->  [VirtualBox](https://www.virtualbox.org/). If you'd prefer to use your own
->  targets, you can skip the directions for provisioning targets and go straight
->  to [installing the TIG modules](#install-the-tig-modules).
+> to host the stack, which requires [Vagrant](https://www.vagrantup.com/docs/installation) and a hypervisor like
+> [VirtualBox](https://www.virtualbox.org/). If you'd prefer to use your own
+> targets, you can skip the directions for provisioning targets and go straight
+> to [installing the TIG modules](#install-the-tig-modules).
 
 To deploy your TIG stack, you'll use a Bolt plan that leverages existing Puppet
 Modules. You can find all the files you need in the
@@ -86,11 +87,13 @@ end
 ```
 
 To provision your targets:
+
 1. Spin up your virtual machines with Vagrant:
-   
+
    ```shell
    vagant up
    ```  
+
 2. Generate the SSH configuration for both targets. Bolt will automatically
    detect the configuration.
 
@@ -98,18 +101,19 @@ To provision your targets:
     mkdir ~/.ssh
     vagrant ssh-config | sed /StrictHostKeyChecking/d | sed /UserKnownHostsFile/d >> ~/.ssh/config
     ```
-1. Make sure you can SSH into the targets. For example:
+3. Make sure you can SSH into the targets. For example:
+
    ```shell
    ssh vagrant@target0
    ```
-      
-Next, install the Puppet modules for the different components of the TIG stack. 
+
+Next, install the Puppet modules for the different components of the TIG stack.
 
 ## Install the TIG modules
 
 Before you can use Bolt to install modules, you must install the relevant
 modules. The modules you need are all listed in the `bolt-project.yaml` file
-under the `modules` key: 
+under the `modules` key:
 
 ```yaml
 name: tig
@@ -363,6 +367,7 @@ Invoke-BoltPlan -Name tig
 ```
 
 Your output should look similar to this:
+
 ```
 Starting: plan tig
 Starting: install puppet and gather facts on target0, target1
@@ -380,6 +385,7 @@ Finished: plan tig in 135.65 sec
 Enter the address from the plan's result into your browser to find the Grafana
 dashboard. You can sign in with the following credentials (from
 `data/common.yaml`):
+
 - username: `bolt`
 - password: `boltIsAwesome`.
 

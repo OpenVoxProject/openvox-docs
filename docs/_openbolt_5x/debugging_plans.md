@@ -42,7 +42,7 @@ command-line option:
 _\*nix shell command_
 
 ```shell
-$ bolt plan run example --targets example.org --log-level trace
+bolt plan run example --targets example.org --log-level trace
 ```
 
 _PowerShell cmdlet_
@@ -145,7 +145,7 @@ the `verbose` command-line option:
 _\*nix shell command_
 
 ```shell
-$ bolt plan run example --targets example.org --verbose
+bolt plan run example --targets example.org --verbose
 ```
 
 _PowerShell cmdlet_
@@ -169,7 +169,7 @@ string.
 ### Printing values in Puppet language plans
 
 To print values to stdout from a Puppet language plan, use the `out::message`
-or `out::verbose` plan functions. 
+or `out::verbose` plan functions.
 
 To print a message every time the plan is run, use the `out::message` plan
 function. When a message is printed using the `out::message` function, it is

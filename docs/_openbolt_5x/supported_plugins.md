@@ -113,7 +113,7 @@ config:
 
 ### `puppetdb`
 
-The `puppetdb` plugin queries PuppetDB for a group of targets. 
+The `puppetdb` plugin queries PuppetDB for a group of targets.
 
 If you require target-specific configuration, you can use the `puppetdb` plugin
 to look up configuration values for the `alias`, `config`, `facts`, `features`,
@@ -150,12 +150,13 @@ The following values/patterns are available to use for looking up facts in the
 
 Look up targets with the fact `osfamily: RedHat` and the following configuration
 values:
- * The alias with the fact `hostname`
- * The name with the fact `certname`
- * A target fact called `custom_fact` with the `custom_fact` from PuppetDB
- * A feature from the fact `custom_feature`
- * The SSH hostname with the fact `networking.interfaces.en0.ipaddress`
- * The puppetversion variable from the fact `puppetversion`
+
+* The alias with the fact `hostname`
+* The name with the fact `certname`
+* A target fact called `custom_fact` with the `custom_fact` from PuppetDB
+* A feature from the fact `custom_feature`
+* The SSH hostname with the fact `networking.interfaces.en0.ipaddress`
+* The puppetversion variable from the fact `puppetversion`
 
 ```yaml
 targets:
