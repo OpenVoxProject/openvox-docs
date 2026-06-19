@@ -4,6 +4,7 @@ layout: default
 canonical: "/openvoxdb/latest/api/wire_format/report_format_v8.html"
 ---
 # Report wire format - v8
+
 ## Report interchange format
 
 A report is represented as JSON (this implies UTF-8 encoding). Unless otherwise

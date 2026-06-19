@@ -3,6 +3,7 @@ title: "Logging configuration"
 layout: default
 ---
 # Logging configuration
+
 ## Structured logging
 
 OpenVoxDB uses logback, a standard Java logging library. In certain subsystems,
@@ -82,8 +83,8 @@ You will also need to add a reference to the appender from the `<root>` element:
 These example configurations should get you started. For more advanced
 scenarios, the respective tools have good documentation.
 
-* Logstash Appender: https://github.com/logstash/logstash-logback-encoder#tcp
+* Logstash Appender: <https://github.com/logstash/logstash-logback-encoder#tcp>
 
-* JSON Encoder: https://github.com/logstash/logstash-logback-encoder#composite_encoder
+* JSON Encoder: <https://github.com/logstash/logstash-logback-encoder#composite_encoder>
 
-* Logback configuration: http://logback.qos.ch/manual/configuration.html
+* Logback configuration: <http://logback.qos.ch/manual/configuration.html>

@@ -7,7 +7,6 @@ canonical: "/openvoxdb/latest/api/query/v4/paging.html"
 
 [api]: ../../overview.html
 [curl]: ../curl.html#using-curl-from-localhost-non-sslhttp
-[query]: query.html
 [ast]: ./ast.html#paging-operators-limit-offset-order_by
 
 Most of OpenVoxDB's [query endpoints][api] support a general set of HTTP URL parameters that
@@ -29,7 +28,7 @@ order. The default value for this key, if not specified, is `"asc"`.
 
 Note that the legal values for `field` vary depending on which endpoint you are querying. For lists of legal fields, please refer to the documentation for the specific query endpoints.
 
-#### Example:
+#### Example
 
 [Using `curl` from localhost][curl]:
 
@@ -52,7 +51,7 @@ The value should be a Boolean, and defaults to `false`. If `true`, the HTTP resp
 
 **Note:** Setting this flag to `true` can decrease performance.
 
-#### Example:
+#### Example
 
 [Using `curl` from localhost][curl]:
 
@@ -91,7 +90,7 @@ This parameter can be used to tell OpenVoxDB to return results beginning at the 
 
 This value should be an integer. Note that the order in which results are returned by OpenVoxDB is not guaranteed to be consistent unless you specify a value for `order_by`, so this parameter should generally be used in conjunction with `order_by`.
 
-#### Example:
+#### Example
 
 [Using `curl` from localhost][curl]:
 

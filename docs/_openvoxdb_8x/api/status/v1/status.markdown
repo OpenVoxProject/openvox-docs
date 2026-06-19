@@ -6,7 +6,6 @@ canonical: "/openvoxdb/latest/api/status/v1/status.html"
 
 # Status endpoint
 
-[curl]: ../curl.html#using-curl-from-localhost-non-sslhttp
 The `/status` endpoint provides status information for coordinated
 monitoring of OpenVoxDB.
 
@@ -36,22 +35,22 @@ following:
 * `service_status_version`: version of the status API.
 * `service_version`: version of OpenVoxDB.
 * `state`: short description of OpenVoxDB's current state:
-    * "starting" if OpenVoxDB is in maintenance mode.
-    * "running" if not in maintenance mode and read and write databases are up.
-    * "error" if the read or write databases are down.
+  * "starting" if OpenVoxDB is in maintenance mode.
+  * "running" if not in maintenance mode and read and write databases are up.
+  * "error" if the read or write databases are down.
 * `status`:
-    * `maintenance_mode?`: indicates whether OpenVoxDB is in maintenance mode.
+  * `maintenance_mode?`: indicates whether OpenVoxDB is in maintenance mode.
     OpenVoxDB enters maintenance mode at startup and exits it after completing any
     pending migrations and initial data synchronization (when using HA).
     While in maintenance mode, OpenVoxDB will not respond to queries.
-    * `read_db_up?`: indicates whether the read database is responding to queries.
-    * `write_db_up?`: boolean indicating whether at least one write
+  * `read_db_up?`: indicates whether the read database is responding to queries.
+  * `write_db_up?`: boolean indicating whether at least one write
       database is responding to queries.
-    * `write_dbs_up?`: boolean indicating whether all of the write
+  * `write_dbs_up?`: boolean indicating whether all of the write
       databases are responding to queries.
-    * `write_dbs_up?`: map of database (string) names to `{"up?":
+  * `write_dbs_up?`: map of database (string) names to `{"up?":
       boolean}` values indicating whether the database is responding
       to queries.  If there is only one write database, the name will
       be an empty string.
-    * `queue_depth`: depth of the command queue. If the queue is not yet
+  * `queue_depth`: depth of the command queue. If the queue is not yet
       initialized, this field will be null.

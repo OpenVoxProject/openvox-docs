@@ -248,7 +248,7 @@ nodes { certname in inventory[certname] { facts.osfamily = "Windows" } and
 Get only the `certname`, `os.family` and `puppetversion` for all nodes whose most recent
 report indicated a failure.
 
-```
+```text
 inventory[certname, facts.os.family, facts.puppetversion] {
   certname in nodes[certname] { latest_report_status = "failed" }
 }

@@ -6,7 +6,6 @@ canonical: "/openvoxdb/latest/api/query/v4/query.html"
 
 # Query structure
 
-[prefix]: http://en.wikipedia.org/wiki/Polish_notation
 [jetty]: ../../../configure.html#jetty-http-settings
 [urlencode]: http://en.wikipedia.org/wiki/Percent-encoding
 [ast]: ./ast.html
@@ -29,8 +28,9 @@ jetty settings][jetty] if you need to access the API over unencrypted HTTP.
 
 ## Query structure
 
-A query consists of an HTTP GET request to an endpoint URL which may or may not contain: 
-* A `query` URL parameter, whose value is a **query string**. 
+A query consists of an HTTP GET request to an endpoint URL which may or may not contain:
+
+* A `query` URL parameter, whose value is a **query string**.
 * Other URL parameters, to configure [paging][] or other behavior.
 
 That is, most queries will look like a GET request to a URL that resembles the following:
@@ -130,7 +130,7 @@ but the variable is likely to be removed in a future release.
 
 ## Experimental query optimization
 
-> *Note*: this feature is experimental and may be altered or removed
+> _Note_: this feature is experimental and may be altered or removed
 > in a future release, and while it is expected to be safe to enable
 > it, and it is now enabled by default, some caution is still
 > advisable.  If something were to go wrong, the result set returned

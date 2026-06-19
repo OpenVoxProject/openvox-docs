@@ -12,9 +12,7 @@ canonical: "/openvoxdb/latest/api/query/v4/facts.html"
 [subqueries]: ./ast.html#subquery-operators
 [ast]: ./ast.html
 [environments]: ./environments.html
-[factsets]: ./factsets.html
 [fact-contents]: ./fact-contents.html
-[nodes]: ./nodes.html
 
 The `/facts` endpoint provides access to a represntation of node
 factsets where a result is returned for each top-level key in the

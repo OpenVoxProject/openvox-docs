@@ -45,7 +45,7 @@ Puppet Server with the `puppetserver ca generate` command.
 > **Note:** If you have turned on [certificate allowlisting][allowlist], you must
 make sure to authorize the certificate you are using:
 >
-> ```
+> ```console
 > curl 'https://<your.puppetdb.server>:8081/pdb/query/v4/nodes' \
 >   --tlsv1 \
 >   --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
@@ -57,7 +57,9 @@ make sure to authorize the certificate you are using:
 
 Locate Puppet's `ssldir` as follows:
 
-    sudo puppet config print ssldir
+```console
+sudo puppet config print ssldir
+```
 
 Within this directory:
 
@@ -71,8 +73,10 @@ Many query strings will contain characters like `[` and `]`, which must be URL-e
 
 If you do this with an endpoint that accepts `GET` requests, **you must also use the `-G` or `--get` option.** This is because `curl` defaults to `POST` requests when the `--data-urlencode` option is present.
 
-    curl -G http://localhost:8080/pdb/query/v4/nodes \
-      --data-urlencode 'query=["=", "node_state", "active"]'
+```console
+curl -G http://localhost:8080/pdb/query/v4/nodes \
+  --data-urlencode 'query=["=", "node_state", "active"]'
+```
 
 ## Pretty querying of OpenVoxDB
 
@@ -83,19 +87,23 @@ should be pretty-printed. Note that pretty printing comes at the cost of
 performance on some of our endpoints, such as `/v4/catalogs`, `/v4/reports` and
 `/v4/factsets`, due to the storage of some of their data as JSON/JSONB in PostgreSQL.
 
-    curl -X GET http://localhost:8080/pdb/query/v4/nodes \
-        --data-urlencode 'pretty=true'
+```console
+curl -X GET http://localhost:8080/pdb/query/v4/nodes \
+    --data-urlencode 'pretty=true'
+```
 
 ## Querying OpenVoxDB with POST
 
 OpenVoxDB supports querying by POST, which is useful for large
-queries (exact limits depend on the client and webserver used). POST queries allow you to limit the number of entries in the response. The example below limits the query to return one entry.   
+queries (exact limits depend on the client and webserver used). POST queries allow you to limit the number of entries in the response. The example below limits the query to return one entry.
 
 POST queries use the following syntax:
 
-    curl -X POST http://localhost:8080/pdb/query/v4/nodes \
-      -H 'Content-Type:application/json' \
-      -d '{"query":["~","certname",".*.com"],"order_by":[{"field":"certname"}],"limit":1}'
+```console
+curl -X POST http://localhost:8080/pdb/query/v4/nodes \
+  -H 'Content-Type:application/json' \
+  -d '{"query":["~","certname",".*.com"],"order_by":[{"field":"certname"}],"limit":1}'
+```
 
 ## Querying OpenVoxDB based on specific resource attributes
 
@@ -104,15 +112,19 @@ requires you to escape your quotes (`"`). Alternatively, use the [OpenVoxDB
 CLI][pdb-cli], together with the [Puppet Query Language (PQL)][pql] to make
 queries without having to escape characters.
 
-To query for the following resource attributes: 
+To query for the following resource attributes:
 
-    resources {
-      tag = "foo" and
-      exported = true
-    } 
+```text
+resources {
+  tag = "foo" and
+  exported = true
+} 
+```
 
 Use the following CURL command:
 
-    curl -X POST http://localhost:8080/pdb/query/v4 \
-      -H 'Content-Type:application/json' \
-      -d '{"query": "resources { tag = \"foo\" and exported = true }"}'
+```console
+curl -X POST http://localhost:8080/pdb/query/v4 \
+  -H 'Content-Type:application/json' \
+  -d '{"query": "resources { tag = \"foo\" and exported = true }"}'
+```

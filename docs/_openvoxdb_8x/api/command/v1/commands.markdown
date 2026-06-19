@@ -59,11 +59,11 @@ method of command submission.
 
 > **Note**: every command must provide the certname both as a query parameter and
 > as a JSON value in the payload.
-
+>
 > **Note**: when providing a command name as a query parameter, any spaces in the
 > command name must be replaced with underscores.
 
-```
+```text
 Request:
 POST http://localhost:8080/pdb/cmd/v1?command=<command>&version=<version>&certname=<certname>&checksum=<checksum>
 
@@ -71,14 +71,14 @@ JSON Body:
 <payload>
 ```
 
-2. All-encompassing JSON body (DEPRECATED):
+1. All-encompassing JSON body (DEPRECATED):
 
 This method entails POSTing a single JSON body containing all the command
 information. The JSON body contains the command name, command version,
 certname, and payload. The checksum can optionally be provided as another
 top-level key.
 
-```
+```text
 Request:
 POST http://localhost:8080/pdb/cmd/v1
 
@@ -144,9 +144,9 @@ sent from the OpenVoxDB termini now include this header by default.
 
 ## Command semantics
 
-Commands are processed _asynchronously_. If OpenVoxDB returns a 200
+Commands are processed *asynchronously*. If OpenVoxDB returns a 200
 when you submit a command, that only indicates that the command has
-been _accepted_ for processing. There are no guarantees as to when
+been *accepted* for processing. There are no guarantees as to when
 that command will be processed, nor that when it is processed it will
 be successful.
 
@@ -283,24 +283,30 @@ Each piece of information has a type and a name such as `["hiera", "openvoxdb::g
 
 To post a `replace facts` command you can use the following curl command:
 
-    curl -X POST \
-      -H 'Content-Type:application/json' \
-      -H 'Accept:application/json' \
-      -d '{"certname":"test1","environment":"DEV","values":{"myfact":"myvalue"},"producer_timestamp":"2015-01-01", "producer":"server1"}' \
-      "http://localhost:8080/pdb/cmd/v1?command=replace_facts&version=5&certname=test1"
+```console
+curl -X POST \
+  -H 'Content-Type:application/json' \
+  -H 'Accept:application/json' \
+  -d '{"certname":"test1","environment":"DEV","values":{"myfact":"myvalue"},"producer_timestamp":"2015-01-01", "producer":"server1"}' \
+  "http://localhost:8080/pdb/cmd/v1?command=replace_facts&version=5&certname=test1"
+```
 
 An example of `deactivate node`:
 
-    curl -X POST \
-      -H 'Content-Type:application/json' \
-      -H 'Accept:application/json' \
-      -d '{"certname":"test1","producer_timestamp":"2015-01-01"}' \
-      "http://localhost:8080/pdb/cmd/v1?certname=test1&command=deactivate_node&version=3"
+```console
+curl -X POST \
+  -H 'Content-Type:application/json' \
+  -H 'Accept:application/json' \
+  -d '{"certname":"test1","producer_timestamp":"2015-01-01"}' \
+  "http://localhost:8080/pdb/cmd/v1?certname=test1&command=deactivate_node&version=3"
+```
 
 To `configure expiration` for facts:
 
-    curl -X POST \
-      -H 'Content-Type:application/json' \
-      -H 'Accept:application/json' \
-      -d '{"certname":"test1","producer_timestamp":"2019-01-01","expire":{"facts":false}}' \
-      "http://localhost:8080/pdb/cmd/v1?certname=test1&command=configure_expiration&version=1"
+```console
+curl -X POST \
+  -H 'Content-Type:application/json' \
+  -H 'Accept:application/json' \
+  -d '{"certname":"test1","producer_timestamp":"2019-01-01","expire":{"facts":false}}' \
+  "http://localhost:8080/pdb/cmd/v1?certname=test1&command=configure_expiration&version=1"
+```

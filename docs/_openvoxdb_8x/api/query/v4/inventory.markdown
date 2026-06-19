@@ -6,17 +6,7 @@ canonical: "/openvoxdb/latest/api/query/v4/inventory.html"
 # Inventory endpoint
 
 [curl]: ../curl.html#using-curl-from-localhost-non-sslhttp
-[subqueries]: ./ast.html#subquery-operators
 [dotted]: ./ast.html#dot-notation
-[environments]: ./environments.html
-[factsets]: ./factsets.html
-[catalogs]: ./catalogs.html
-[facts]: ./facts.html
-[fact-contents]: ./fact-contents.html
-[events]: ./events.html
-[edges]: ./edges.html
-[resources]: ./resources.html
-[nodes]: ./nodes.html
 [query]: query.html
 [ast]: ./ast.html
 

@@ -4,6 +4,7 @@ layout: default
 canonical: "/openvoxdb/latest/trouble_session_logging.html"
 ---
 # Troubleshooting: Session Logging
+
 ## What is Session Logging?
 
 OpenVoxDB's default log level only contains successfully negotiated HTTP or
@@ -27,17 +28,17 @@ to:
 
     2016-01-05 01:09:31,132 DEBUG [qtp296414558-71] [o.e.j.s.HttpConnection]
     javax.net.ssl.SSLHandshakeException: null cert chain
-	    at sun.security.ssl.Handshaker.checkThrown(Handshaker.java:1431) ~[na:1.8.0_60]
-	    at sun.security.ssl.SSLEngineImpl.checkTaskThrown(SSLEngineImpl.java:535) ~[na:1.8.0_60]
-	    at sun.security.ssl.SSLEngineImpl.readNetRecord(SSLEngineImpl.java:813) ~[na:1.8.0_60]
-	    at sun.security.ssl.SSLEngineImpl.unwrap(SSLEngineImpl.java:781) ~[na:1.8.0_60]
-	    at javax.net.ssl.SSLEngine.unwrap(SSLEngine.java:624) ~[na:1.8.0_60]
-	    at org.eclipse.jetty.io.ssl.SslConnection$DecryptedEndPoint.fill(SslConnection.java:516) ~[jetty-io-9.2.10.v20150310.jar:9.2.10.v20150310]
-	    at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:239) ~[jetty-server-9.2.10.v20150310.jar:9.2.10.v20150310]
-	    at org.eclipse.jetty.io.AbstractConnection$2.run(AbstractConnection.java:540) [jetty-io-9.2.10.v20150310.jar:9.2.10.v20150310]
-	    at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:635) [jetty-util-9.2.10.v20150310.jar:9.2.10.v20150310]
-	    at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:555) [jetty-util-9.2.10.v20150310.jar:9.2.10.v20150310]
-	    at java.lang.Thread.run(Thread.java:745) [na:1.8.0_60]
+     at sun.security.ssl.Handshaker.checkThrown(Handshaker.java:1431) ~[na:1.8.0_60]
+     at sun.security.ssl.SSLEngineImpl.checkTaskThrown(SSLEngineImpl.java:535) ~[na:1.8.0_60]
+     at sun.security.ssl.SSLEngineImpl.readNetRecord(SSLEngineImpl.java:813) ~[na:1.8.0_60]
+     at sun.security.ssl.SSLEngineImpl.unwrap(SSLEngineImpl.java:781) ~[na:1.8.0_60]
+     at javax.net.ssl.SSLEngine.unwrap(SSLEngine.java:624) ~[na:1.8.0_60]
+     at org.eclipse.jetty.io.ssl.SslConnection$DecryptedEndPoint.fill(SslConnection.java:516) ~[jetty-io-9.2.10.v20150310.jar:9.2.10.v20150310]
+     at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:239) ~[jetty-server-9.2.10.v20150310.jar:9.2.10.v20150310]
+     at org.eclipse.jetty.io.AbstractConnection$2.run(AbstractConnection.java:540) [jetty-io-9.2.10.v20150310.jar:9.2.10.v20150310]
+     at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:635) [jetty-util-9.2.10.v20150310.jar:9.2.10.v20150310]
+     at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:555) [jetty-util-9.2.10.v20150310.jar:9.2.10.v20150310]
+     at java.lang.Thread.run(Thread.java:745) [na:1.8.0_60]
 
 When troubleshooting is complete, cancel the foreground job (commonly
 ctrl+c/`^C`) and restart the daemonized service.
