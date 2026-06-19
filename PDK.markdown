@@ -6,7 +6,12 @@ permalink: /pdk.html
 
 The **Puppet Development Kit (PDK)** is a package of development and testing tools that helps you create, validate, and test Puppet modules.
 
-> **Note:** Puppet (Perforce) ceased open-source maintenance of PDK at version **3.4.0**. Newer versions are distributed from a protected repository requiring either a Puppet Forge API key or a Puppet Enterprise license ID to download; see [Puppet's PDK documentation](https://help.puppet.com/pdk/current/topics/pdk.htm) for details. Documentation for the last open-source release is available in the [pdk repository on GitHub](https://github.com/puppetlabs/pdk/blob/main/docs/pdk.md).
+> **Note:** Puppet (Perforce) ceased open-source maintenance of PDK at version **3.4.0**.
+> Newer versions are distributed from a protected repository requiring either a Puppet Forge
+> API key or a Puppet Enterprise license ID to download; see [Puppet's PDK
+> documentation](https://help.puppet.com/pdk/current/topics/pdk.htm) for details.
+> Documentation for the last open-source release is available in the [pdk repository on
+> GitHub](https://github.com/puppetlabs/pdk/blob/main/docs/pdk.md).
 
 ## Overview
 
