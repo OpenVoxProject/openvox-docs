@@ -173,7 +173,7 @@ target or group of targets:
 
 - _\*nix shell command_
 
-  ```shell
+  ```console
   bolt inventory show --targets <TARGET LIST> --detail
   ```
 
@@ -228,7 +228,7 @@ group, the `server` target still uses the SSH transport and configuration,
 not the WinRM transport and configuration. You can see this by showing
 the inventory detail for the `winrm` group:
 
-```shell
+```console
 $ bolt inventory show --targets winrm --detail
 
 server
@@ -665,13 +665,13 @@ config:
 
 Specify the shared inventory file from the command line:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt inventory show --targets all --inventoryfile ~/.puppetlabs/etc/bolt/shared_inventory.yaml
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Get-BoltInventory -Targets 'all' -Inventoryfile 'C:\Users\Administrator\.puppetlabs\etc\bolt\shared_inventory.yaml'
@@ -863,13 +863,13 @@ When the `BOLT_TRANSPORT` environment variable is not set, the default value is
 `pcp`. To override the transport, set the `BOLT_TRANSPORT` environment
 variable when running a command:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 BOLT_TRANSPORT=ssh bolt file download /var/logs downloads --targets all
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 $env:BOLT_TRANSPORT = 'ssh'
@@ -895,13 +895,13 @@ inventory-config:
 To override the default `pcp` transport, use the `transport` command-line
 option:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt file download /var/logs downloads --targets all --transport ssh
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Receive-BoltFile -Source '/var/logs' -Destination 'downloads' -Targets 'all' -Transport 'ssh'

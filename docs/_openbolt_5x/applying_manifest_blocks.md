@@ -52,7 +52,7 @@ manifest:
 
 - _\*nix shell command_
 
-  ```shell
+  ```console
   bolt apply manifests/server.pp --targets servers
   ```
 
@@ -69,7 +69,7 @@ command-line option:
 
 - _\*nix shell command_
 
-  ```shell
+  ```console
   bolt apply --execute "file { '/etc/puppetlabs': ensure => present }" --targets servers
   ```
 
@@ -94,7 +94,7 @@ applied to the targets.
 When you apply a manifest containing only definitions, Bolt will issue a helpful
 warning to let you know that the apply will do nothing:
 
-```shell
+```console
 $ bolt apply --execute "define bolt { file { 'etc/puppetlabs': ensure => present } }" --targets servers
 
 Manifest only contains definitions and will result in no changes on the targets.
@@ -130,7 +130,7 @@ When you run the command, Bolt will first install required packages and gather
 facts, apply the catalog compiled from the manifest blocks, and then report a
 summary of any changes made on the remote systems:
 
-```shell
+```console
 Starting: install puppet and gather facts on target1, target2
 Finished: install puppet and gather facts with 0 failures in 3.81 sec
 Starting: apply catalog on target1, target2
@@ -266,7 +266,7 @@ plan example (
 
 Running the above plan prints output similar to this:
 
-```shell
+```console
 $ bolt plan run example --targets server
 Starting: plan example
 Starting: install puppet and gather facts on server
@@ -442,7 +442,7 @@ Create a manifest that sets up a web server with nginx, and run it as a plan.
 
 1. Run the plan on a target:
 
-    ```shell
+    ```console
     bolt plan run profiles::nginx_install --targets mytarget.mydomain
     ```
 
@@ -468,7 +468,7 @@ Create a manifest that sets up a web server with IIS and run it as a plan.
    profiles`, or `New-BoltProject -Name profiles` if you're using PowerShell.
 1. Add the `puppetlabs-iis` module to your `bolt-project.yaml` under the `modules` key:
 
-   ```
+   ```yaml
    modules:
      - name: puppetlabs-iis
        version_requirement: 4.3.2
@@ -534,15 +534,15 @@ Create a manifest that sets up a web server with IIS and run it as a plan.
    [puppetlabs-iis module](https://forge.puppet.com/modules/puppetlabs/iis) to set up an IIS
    server on the targets.
 1. Run the plan on a target:
-   _\*nix shell command_
+   _\*nix shell command:_
 
-   ```shell
+   ```console
    bolt plan run profiles --targets winrm://mytarget.mydomain
    ```
 
-   _PowerShell cmdlet_
+   _PowerShell cmdlet:_
 
-   ```shell
+   ```console
    Invoke-BoltPlan -Name profiles -Targets winrm://mytarget.mydomain
    ```
 

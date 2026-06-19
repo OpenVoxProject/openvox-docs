@@ -365,7 +365,7 @@ sudo puppet module install puppetlabs-python_task_helper
 
 Without these, you'll see download errors like:
 
-```
+```text
 bolt/choria-task-download-failed: ... ruby_task_helper/files/task_helper.rb: 404
 ```
 

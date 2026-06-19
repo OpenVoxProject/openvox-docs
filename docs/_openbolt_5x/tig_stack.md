@@ -36,7 +36,7 @@ Modules. You can find all the files you need in the
 After you've cloned or downloaded the repo, you can access the TIG Bolt
 project from the `tig_stack` directory. The project has the following file structure:
 
-```shell
+```console
 .
 ├── Puppetfile
 ├── Vagrantfile
@@ -67,7 +67,7 @@ this section.
 
 The `bolt_tig` directory contains the following `Vagrantfile`:
 
-```shell
+```console
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -90,20 +90,20 @@ To provision your targets:
 
 1. Spin up your virtual machines with Vagrant:
 
-   ```shell
+   ```console
    vagant up
    ```  
 
 2. Generate the SSH configuration for both targets. Bolt will automatically
    detect the configuration.
 
-    ```shell
+    ```console
     mkdir ~/.ssh
     vagrant ssh-config | sed /StrictHostKeyChecking/d | sed /UserKnownHostsFile/d >> ~/.ssh/config
     ```
 3. Make sure you can SSH into the targets. For example:
 
-   ```shell
+   ```console
    ssh vagrant@target0
    ```
 
@@ -129,13 +129,13 @@ modules:
 To install the modules and their dependencies, run the
 following command:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt module install
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Install-BoltModule
@@ -143,7 +143,7 @@ Install-BoltModule
 
 The `puppet-telegraf` module requires the `toml-rb` Ruby gem. To install the gem, run the following command:
 
-```shell
+```console
 /opt/puppetlabs/bolt/bin/gem install toml-rb
 ```
 
@@ -354,13 +354,13 @@ Next, run the plan.
 
 To run the plan, use the following command
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt plan run tig
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltPlan -Name tig
@@ -368,7 +368,7 @@ Invoke-BoltPlan -Name tig
 
 Your output should look similar to this:
 
-```
+```text
 Starting: plan tig
 Starting: install puppet and gather facts on target0, target1
 Finished: install puppet and gather facts with 0 failures in 47.67 sec

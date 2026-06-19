@@ -26,7 +26,7 @@ an updated image for every Docker container running in a `docker-compose` projec
 
 _update\_images.sh_
 
-```
+```bash
 #!/bin/sh
 for c in `docker-compose ps --services |sort`; do
   echo "redoing $c"
@@ -40,13 +40,13 @@ docker-compose up -d --remove-orphans
    the project, Bolt uses the directory name as the Bolt project name.
 1. Inside the 'manage_docker' directory, create a Bolt project:
 
-   _\*nix shell command_
+   _\*nix shell command:_
 
-   ```shell
+   ```console
    bolt project init
    ```
 
-   _PowerShell cmdlet_
+   _PowerShell cmdlet:_
 
    ```powershell
    New-BoltProject
@@ -55,13 +55,13 @@ docker-compose up -d --remove-orphans
 1. Place the `update_images.sh` script in the `scripts/` directory.
 1. Create a Bolt plan using `bolt plan new --script`.
 
-   _\*nix shell command_
+   _\*nix shell command:_
 
-   ```
+   ```console
    bolt plan new manage_docker::update_images --script manage_docker/scripts/update_images.sh
    ```
 
-   _PowerShell cmdlet_
+   _PowerShell cmdlet:_
 
    ```powershell
    New-BoltPlan -Name manage_docker::update_images -Script manage_docker/scripts/update_images.sh
@@ -75,13 +75,13 @@ docker-compose up -d --remove-orphans
 Et voilà! Your plan is now in `plans/update_images.yaml` in your project. You can now run your plan
 with:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```
+```console
 bolt plan run manage_docker::update_images -t <TARGETS>
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltPlan -Name manage_docker::update_images -Targets <TARGETS>
@@ -100,7 +100,7 @@ Modify the example script above to take a command-line argument for the director
 
 _update\_images.sh_
 
-```
+```bash
 #!/bin/sh
 if [ -n $DOCKER_COMPOSE_DIRECTORY ]
   cd $DOCKER_COMPOSE_DIRECTORY
@@ -116,13 +116,13 @@ docker-compose up -d --remove-orphans
 Run this script directly with Bolt by passing the `--env-var` command-line option to set
 environment variables during script execution:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```
+```console
 bolt script run manage_docker/scripts/update_images.sh -t <TARGETS> --env-var DOCKER_COMPOSE_DIRECTORY=./docker
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltScript -Name manage_docker/scripts/update_images.sh -Targets <TARGETS> -EnvVar DOCKER_COMPOSE_DIRECTORY=.\docker
@@ -179,13 +179,13 @@ return: $run_script
 
 You can run the plan with:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```
+```console
 bolt plan run manage_docker::update_images -t <TARGETS> directory=./docker
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltPlan -Name manage_docker::update_images -Targets <TARGETS> directory=./docker
@@ -200,7 +200,7 @@ For example, the following script takes a command-line argument for the director
 
 _update\_images.sh_
 
-```
+```bash
 #!/bin/sh
 cd $1
 for c in `docker-compose ps --services |sort`; do
@@ -261,13 +261,13 @@ return: $run_script
 
 You can run the plan with:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```
+```console
 bolt plan run manage_docker::update_images -t <TARGETS> directory=./docker
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltPlan -Name manage_docker::update_images -Targets <TARGETS> directory=./docker
@@ -283,9 +283,9 @@ For example, the following script reboots your machine and takes a `timeout` par
 long to wait for the reboot and a `shutdown_only` parameter to tell the script not to turn the
 machine back on:
 
-_reboot.ps1_
+_reboot.ps1:_
 
-```
+```powershell
 [CmdletBinding()]
 Param(
   [Int]$timeout = 3,
@@ -373,13 +373,13 @@ return: $run_script
 
 You can run the plan with:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```
+```console
 bolt plan run manage_docker::reboot -t <TARGETS> timeout=30 shutdown_only=true
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltPlan -Name manage_docker::update_images -Targets <TARGETS> timeout=30 shutdown_only=true

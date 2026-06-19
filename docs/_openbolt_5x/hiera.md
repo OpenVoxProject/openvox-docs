@@ -166,7 +166,7 @@ plan my_project::request (
 
 Running the plan results in an error like this:
 
-```shell
+```console
 $ bolt plan run my_project::request --targets server
 Starting: plan my_project::request
 Interpolation failed with 'application', but compilation continuing; 
@@ -348,13 +348,13 @@ password: Puppet!
 You can look up the value for the `password` key from the command line using
 facts collected from your targets:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt lookup password --targets windows_target,ubuntu_target
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltLooup -Key 'password' -Targets 'windows_target,ubuntu_target'
@@ -362,7 +362,7 @@ Invoke-BoltLooup -Key 'password' -Targets 'windows_target,ubuntu_target'
 
 Bolt prints the value for the key to the console:
 
-```shell
+```console
 Starting: install puppet and gather facts on windows_target, ubuntu_target
 Finished: install puppet and gather facts with 0 failures in 6.7 sec
 Finished on windows_target:
@@ -386,14 +386,14 @@ with the `--targets`, `--rerun`, or `--query` options.
 If your `plan_hierarchy` contains [interpolations from plan
 variables](#interpolations-outside-apply-blocks), you can pass values to interpolate to `lookup`:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```
+```console
 bolt lookup key --plan-hierarchy plan_var=interpolate_me
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
-```
+```powershell
 Invoke-BoltLookup -Key key -PlanHierarchy plan_var=interpolate_me
 ```

@@ -14,7 +14,7 @@ system package and Rubygem versions. The newest version has a `latest` tag.
 
 You can download the latest image with this command:
 
-```
+```console
 docker pull puppet/puppet-bolt
 ```
 
@@ -201,7 +201,7 @@ $ tree
 
 Give the Dockerfile the following content:
 
-```
+```dockerfile
 FROM puppet/puppet-bolt
 COPY . /Boltdir
 ```

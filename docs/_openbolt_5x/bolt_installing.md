@@ -24,14 +24,14 @@ and Microsoft Windows.
 
 ## Install Bolt on Debian
 
-**Install Bolt**
+### Install Bolt
 
 To install Bolt, run the appropriate command for the version of Debian you
 have installed:
 
 - _Debian 10_
 
-  ```shell
+  ```console
   wget https://apt.puppet.com/puppet-tools-release-buster.deb
   sudo dpkg -i puppet-tools-release-buster.deb
   sudo apt-get update
@@ -40,57 +40,57 @@ have installed:
 
 - _Debian 11_
 
-  ```shell
+  ```console
   wget https://apt.puppet.com/puppet-tools-release-bullseye.deb
   sudo dpkg -i puppet-tools-release-bullseye.deb
   sudo apt-get update
   sudo apt-get install puppet-bolt
   ```
 
-**Upgrade Bolt**
+### Upgrade Bolt
 
 To upgrade Bolt to the latest version, run the following command:
 
-```shell
+```console
 sudo apt-get update
 sudo apt install puppet-bolt
 ```
 
-**Uninstall Bolt**
+### Uninstall Bolt
 
 To uninstall Bolt, run the following command:
 
-```shell
+```console
 sudo apt remove puppet-bolt
 ```
 
 ## Install Bolt on Fedora
 
-**Install Bolt**
+### Install Bolt
 
 To install Bolt, run the appropriate command for the version of Fedora you
 have installed:
 
 - _Fedora 36_
 
-  ```shell
+  ```console
   sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-fedora-36.noarch.rpm
   sudo dnf install puppet-bolt
   ```
 
-**Upgrade Bolt**
+### Upgrade Bolt
 
 To upgrade Bolt to the latest version, run the following command:
 
-```shell
+```console
 sudo dnf upgrade puppet-bolt
 ```
 
-**Uninstall Bolt**
+### Uninstall Bolt
 
 To uninstall Bolt, run the following command:
 
-```shell
+```console
 sudo dnf remove puppet-bolt
 ```
 
@@ -101,42 +101,42 @@ macOS installer.
 
 ### Homebrew
 
-**Install Bolt**
+#### Install Bolt
 
 To install Bolt with Homebrew, you must have the [Homebrew package
 manager](https://brew.sh/) installed.
 
 1. Tap the Puppet formula repository:
 
-   ```shell
+   ```console
    brew tap puppetlabs/puppet
    ```
 
 1. Install Bolt:
 
-   ```shell
+   ```console
    brew install --cask puppet-bolt
    ```
 
-**Upgrade Bolt**
+#### Upgrade Bolt
 
 To upgrade Bolt to the latest version, run the following command:
 
-```shell
+```console
 brew upgrade --cask puppet-bolt
 ```
 
-**Uninstall Bolt**
+#### Uninstall Bolt
 
 To uninstall Bolt, run the following command:
 
-```shell
+```console
 brew uninstall --cask puppet-bolt
 ```
 
 ### macOS installer (DMG)
 
-**Install Bolt**
+#### Install Bolt
 
 Use the Apple Disk Image (DMG) to install Bolt on macOS:
 
@@ -155,16 +155,16 @@ If you get a message that the installer "can't be opened because Apple cannot ch
 1. Look for a message that says the Bolt installer "was blocked from use because it is not from an identified developer" and click "Open Anyway".
 1. Click the lock icon again to lock your security settings.
 
-**Upgrade Bolt**
+#### Upgrade Bolt
 
 To upgrade Bolt to the latest version, download the DMG again and repeat the
 installation steps.
 
-**Uninstall Bolt**
+#### Uninstall Bolt
 
 To uninstall Bolt, remove Bolt's files and executable:
 
-```shell
+```console
 sudo rm -rf /opt/puppetlabs/bolt /opt/puppetlabs/bin/bolt
 ```
 
@@ -174,7 +174,7 @@ Use one of the supported Windows installation methods to install Bolt.
 
 ### Chocolatey
 
-**Install Bolt**
+#### Install Bolt
 
 To install Bolt with Chocolatey, you must have the [Chocolatey package
 manager](https://chocolatey.org/docs/installation) installed.
@@ -199,7 +199,7 @@ manager](https://chocolatey.org/docs/installation) installed.
    [change execution policy
    restrictions](troubleshooting.html#powershell-could-not-load-the-bolt-powershell-module).
 
-**Upgrade Bolt**
+#### Upgrade Bolt
 
 To upgrade Bolt to the latest version, run the following command:
 
@@ -207,7 +207,7 @@ To upgrade Bolt to the latest version, run the following command:
 choco upgrade puppet-bolt
 ```
 
-**Uninstall Bolt**
+#### Uninstall Bolt
 
 To uninstall Bolt, run the following command:
 
@@ -217,7 +217,7 @@ choco uninstall puppet-bolt
 
 ### Windows installer (MSI)
 
-**Install Bolt**
+#### Install Bolt
 
 Use the Windows installer (MSI) package to install Bolt on Windows:
 
@@ -235,12 +235,12 @@ Use the Windows installer (MSI) package to install Bolt on Windows:
     execution policy
     restrictions](troubleshooting.html#powershell-could-not-load-the-bolt-powershell-module).
 
-**Upgrade Bolt**
+#### Upgrade Bolt
 
 To upgrade Bolt to the latest version, download the MSI again and repeat the
 installation steps.
 
-**Uninstall Bolt**
+#### Uninstall Bolt
 
 You can uninstall Bolt from Windows **Apps & Features**:
 
@@ -256,7 +256,7 @@ help documents and [PowerShell cmdlets](bolt_cmdlet_reference.html) for running
 each of Bolt's commands. New versions of the PuppetBolt module are shipped at the
 same time as a new Bolt release.
 
-**Install PuppetBolt**
+#### Install PuppetBolt
 
 To install the PuppetBolt PowerShell module, run the following command in
 PowerShell:
@@ -265,7 +265,7 @@ PowerShell:
 Install-Module PuppetBolt
 ```
 
-**Update PuppetBolt**
+#### Update PuppetBolt
 
 To update the PuppetBolt PowerShell module, run the following command in
 PowerShell:
@@ -274,7 +274,7 @@ PowerShell:
 Update-Module PuppetBolt
 ```
 
-**Uninstall PuppetBolt**
+#### Uninstall PuppetBolt
 
 To uninstall the PuppetBolt PowerShell module, run the following command in
 PowerShell:
@@ -285,102 +285,102 @@ Remove-Module PuppetBolt
 
 ## Install Bolt on RHEL
 
-**Install Bolt**
+### Install Bolt
 
 To install Bolt, run the appropriate command for the version of RHEL you
 have installed:
 
 - _RHEL 6_
 
-  ```shell
+  ```console
   sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-el-6.noarch.rpm
   sudo yum install puppet-bolt 
   ```
 
 - _RHEL 7_
 
-  ```shell
+  ```console
   sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-el-7.noarch.rpm
   sudo yum install puppet-bolt
   ```
 
 - _RHEL 8_
 
-  ```shell
+  ```console
   sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-el-8.noarch.rpm
   sudo yum install puppet-bolt
   ```
 
 - _RHEL 9_
 
-  ```shell
+  ```console
   sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-el-9.noarch.rpm
   sudo yum install puppet-bolt
   ```
 
-**Upgrade Bolt**
+### Upgrade Bolt
 
 To upgrade Bolt to the latest version, run the following command:
 
-```shell
+```console
 sudo yum update puppet-bolt
 ```
 
-**Uninstall Bolt**
+### Uninstall Bolt
 
 To uninstall Bolt, run the following command:
 
-```shell
+```console
 sudo yum remove puppet-bolt
 ```
 
 ## Install Bolt on SLES
 
-**Install Bolt**
+### Install Bolt
 
 To install Bolt, run the appropriate command for the version of SLES you
 have installed:
 
 - _SLES 12_
 
-  ```shell
+  ```console
   sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-sles-12.noarch.rpm
   sudo zypper install puppet-bolt
   ```
 
 - _SLES 15_
 
-  ```shell
+  ```console
   sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-sles-15.noarch.rpm
   sudo zypper install puppet-bolt
   ```
 
-**Upgrade Bolt**
+### Upgrade Bolt
 
 To upgrade Bolt to the latest version, run the following command:
 
-```shell
+```console
 sudo zypper update puppet-bolt
 ```
 
-**Uninstall Bolt**
+### Uninstall Bolt
 
 To uninstall Bolt, run the following command:
 
-```shell
+```console
 sudo zypper remove puppet-bolt
 ```
 
 ## Install Bolt on Ubuntu
 
-**Install Bolt**
+### Install Bolt
 
 To install Bolt, run the appropriate command for the version of Ubuntu you
 have installed:
 
 - _Ubuntu 18.04_
 
-  ```shell
+  ```console
   wget https://apt.puppet.com/puppet-tools-release-bionic.deb
   sudo dpkg -i puppet-tools-release-bionic.deb
   sudo apt-get update 
@@ -389,7 +389,7 @@ have installed:
 
 - _Ubuntu 20.04_
 
-  ```shell
+  ```console
   wget https://apt.puppet.com/puppet-tools-release-focal.deb
   sudo dpkg -i puppet-tools-release-focal.deb
   sudo apt-get update 
@@ -398,27 +398,27 @@ have installed:
 
 - _Ubuntu 22.04_
 
-  ```shell
+  ```console
   wget https://apt.puppet.com/puppet-tools-release-jammy.deb
   sudo dpkg -i puppet-tools-release-jammy.deb
   sudo apt-get update 
   sudo apt-get install puppet-bolt
   ```
 
-**Upgrade Bolt**
+### Upgrade Bolt
 
 To upgrade Bolt to the latest version, run the following command:
 
-```shell
+```console
 sudo apt-get update
 sudo apt install puppet-bolt
 ```
 
-**Uninstall Bolt**
+### Uninstall Bolt
 
 To uninstall Bolt, run the following command:
 
-```shell
+```console
 sudo apt remove puppet-bolt
 ```
 
@@ -430,7 +430,7 @@ modules which are required for common Bolt actions.
 
 To install Bolt as a gem:
 
-```shell
+```console
 gem install bolt
 ```
 
@@ -448,12 +448,12 @@ operating system:
 
 - On Windows with the default install location:
 
-    ```
+    ```powershell
     "C:/Program Files/Puppet Labs/Bolt/bin/gem.bat" install --user-install <GEM>
     ```
 
 - On other platforms:
 
-    ```
+    ```console
     /opt/puppetlabs/bolt/bin/gem install --user-install <GEM>
     ```

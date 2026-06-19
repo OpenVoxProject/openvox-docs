@@ -24,7 +24,7 @@ example, if your task is named `mytask.rb`, you must name your metadata file
 
 If you receive the following error:
 
-```shell
+```console
 Unable to use command 'bolt module add'. To use this command, update your project configuration to manage module dependencies.
 ```
 
@@ -37,7 +37,7 @@ project](./projects.html#migrate-a-bolt-project).
 If your task fails with the following error, the issue might be that your temporary directory (tmpdir)
 is [mounted with noexec](https://superuser.com/questions/728127/what-does-noexec-flag-mean-when-mounting-directories-on-rhel).
 
-```
+```text
 The task failed with exit code 126 and no stdout but stderr contained: 
 .... <temp path to task>>.rb: Permission denied
 ```
@@ -83,7 +83,7 @@ Both Microsoft and Puppet recommend updating the target with Windows PowerShell 
 
 This will show up as an error similar to the following:
 
-```shell
+```console
 fingerprint SHA256:6+fv7inQSgU2DuYF5NolTlGF6xM8RBRTw1W6B9rbHkc is unknown for "hostname.example.com,10.16.112.82"
 ```
 
@@ -215,14 +215,14 @@ following:
 
 If you see a `gem` related error similar to the following:
 
-```shell
+```console
     Ignoring nokogiri-1.10.2 because its extensions are not built. Try: gem pristine nokogiri --version 1.10.2
     Ignoring unf_ext-0.0.7.5 because its extensions are not built. Try: gem pristine unf_ext --version 0.0.7.5
 ```
 
 Use the Bolt-provided gem command to reinstall/install these gems. For example:
 
-```shell
+```console
     sudo /opt/puppetlabs/bolt/bin/gem pristine nokogiri --version 1.10.2
     sudo /opt/puppetlabs/bolt/bin/gem pristine unf_ext --version 0.0.7.5
 ```
@@ -241,7 +241,7 @@ certificate, which are installed with the Bolt package:
 If you see an SSL connection error similar to the following when running on
 Windows:
 
-```
+```text
 SSL_connect returned=1 errno=0 state=error: certificate verify failed (unable to get local issuer certificate)
 ```
 
@@ -260,13 +260,13 @@ profile.
 
 1. Update your PowerShell profile.
 
-    ```
+    ```text
     'Import-Module -Name ${Env:ProgramFiles}\WindowsPowerShell\Modules\PuppetBolt' | Out-File -Append $PROFILE
     ```
 
 1. Load the module in your current PowerShell window.
 
-    ```
+    ```text
     . $PROFILE
     ```
 
@@ -294,7 +294,7 @@ policy changes.
 If you see this or a similar error when trying to run Bolt, you probably need to
 change your script execution policy restrictions:
 
-```
+```text
 bolt : The 'bolt' command was found in the module 'PuppetBolt', but the module could not be loaded. 
 For more information, run 'Import-Module PuppetBolt'.
                 At line:1 char:1
@@ -311,7 +311,7 @@ To change your script execution policy:
 
 1. Set your script execution policy to at least `RemoteSigned`:
 
-    ```
+    ```powershell
     Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
     ```
 
@@ -339,13 +339,13 @@ interpolations, the environment variables are not interpolated as expected.
 
 For example, the following command:
 
-```shell
+```console
 bolt command run 'echo \"\$PHRASE\"' --env-var PHRASE=hello --targets docker://example
 ```
 
 Results in output similar to:
 
-```shell
+```console
 Started on docker://example...
 Finished on docker://example:
   $PHRASE
@@ -357,13 +357,13 @@ To run commands that interpolate environment variables using the Docker
 transport, update the command to execute a new shell process and then read
 the command from a string. For example, you can update the command to:
 
-```shell
+```console
 bolt command run "/bin/sh -c 'echo \"\$PHRASE\"'" --env-var PHRASE=hello --targets docker://example
 ```
 
 This results in the expected output:
 
-```shell
+```console
 Started on docker://example...
 Finished on docker://example:
   hello

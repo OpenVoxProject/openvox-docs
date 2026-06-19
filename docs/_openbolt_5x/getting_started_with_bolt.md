@@ -53,15 +53,15 @@ mkdir my_project; cd my_project
 
 Run the following command to turn `my_project` into a Bolt project:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt project init my_project
 ```
 
-_Powershell cmdlet_
+_Powershell cmdlet:_
 
-```shell
+```console
 New-BoltProject -Name my_project
 ```
 

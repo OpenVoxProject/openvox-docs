@@ -132,7 +132,7 @@ The following table shows task metadata keys, values, and default values.
 | Metadata key | Description | Value | Default |
 |------------|-----------|-----|-------|
 | `"description"` | A description of what the task does. | String | None |
-| `"input_method"` | What input method the task runner uses to pass parameters to the task. | <ul><li>`environment`</li><li>`stdin`</li><li>`powershell`</li></ul> | `powershell` for `.ps1` tasks. </br> Both `environment` and `stdin` for other tasks. |
+| `"input_method"` | What input method the task runner uses to pass parameters to the task. | `environment`, `stdin`, `powershell` | `powershell` for `.ps1` tasks. <br> Both `environment` and `stdin` for other tasks. |
 | `"parameters"` | The parameters or input the task accepts listed with a puppet type string and optional description. For more information, see [Adding parameters to metadata](#adding-parameters-to-metadata). | Array of objects describing each parameter | None |
 | `"puppet_task_version"` | The version of the spec used. | Integer | `1` (This is the only valid value.) |
 | `"supports_noop"` | Whether the task supports no-op mode. Required for the task to accept the `--noop` option on the command line. | Boolean | `false` |
@@ -186,7 +186,7 @@ environment in task code as `PT_message`. When a user runs the task, they can
 specify the value for the parameter on the command line as `message=hello`, and
 the task runner submits the value `hello` to the `PT_message` variable.
 
-```shell
+```console
 #!/usr/bin/env bash
 echo your message is $PT_message
 ```
@@ -475,7 +475,7 @@ puts result.to_json
 
 Running the task prints:
 
-```
+```console
 $ bolt task run mytask -t myhost
 Started on myhost...
 Finished on myhost:
@@ -587,7 +587,7 @@ tasks.
 
 For instance, consider a module with the following files:
 
-```
+```text
 - tasks
   - sql_linux.sh
   - sql_linux.json
@@ -704,7 +704,7 @@ targets:
 
 Finally, make `my_slack` a target that can run the `slack::message`:
 
-```shell
+```console
 bolt task run slack::message --targets my_slack message="hello" channel=<slack channel id>
 ```
 
@@ -725,7 +725,7 @@ them instead of arguments.
 
 Given a script that accepts positional arguments on the command line:
 
-```shell
+```console
 version=$1
 [ -z "$version" ] && echo "Must specify a version to deploy && exit 1
 
@@ -738,7 +738,7 @@ fi
 
 To convert the script into a task, replace this logic with task variables:
 
-```shell
+```console
 version=$PT_version #no need to validate if we use metadata
 if [ -z "$PT_filename" ]; then
   filename=$PT_filename
@@ -759,7 +759,7 @@ Executables can access the `_task` metaparameter, which contains the task name.
 For example, the following creates the tasks `service::stop` and
 `service::start`, which live in the executable but appear as two separate tasks.
 
-```
+```text
 myservice/tasks/init.rb
 ```
 
@@ -775,7 +775,7 @@ end
 
 ```
 
-```
+```text
 myservice/tasks/start.json
 ```
 
@@ -794,7 +794,7 @@ myservice/tasks/start.json
 }
 ```
 
-```
+```text
 myservice/tasks/stop.json
 ```
 
@@ -859,7 +859,7 @@ executable.
 For example, you can create a task and metadata in a module at
 `~/.puppetlabs/bolt/site-modules/mymodule/tasks/task.{json,rb}`.
 
-**Metadata**
+**Metadata:**
 
 ```json
 {
@@ -867,7 +867,7 @@ For example, you can create a task and metadata in a module at
 }
 ```
 
-**File resource**
+**File resource:**
 
 `multi_task/files/rb_helper.rb`
 
@@ -877,7 +877,7 @@ def useful_ruby
 end
 ```
 
-**Task**
+**Task:**
 
 ```ruby
 #!/usr/bin/env ruby
@@ -890,7 +890,7 @@ require_relative File.join(params['_installdir'], 'multi_task', 'files', 'rb_hel
 puts useful_ruby.to_json
 ```
 
-**Output**
+**Output:**
 
 ```console
 Started on localhost...
@@ -930,13 +930,13 @@ this assurance.
 For example, if your task has a parameter that selects from several operational
 modes that are passed to a shell command, instead of
 
-```
+```text
 String $mode = 'file'
 ```
 
 use
 
-```
+```text
 Enum[file,directory,link,socket] $mode = file
 ```
 
@@ -946,13 +946,13 @@ be. Reject file names that have slashes.
 
 Instead of
 
-```
+```text
 String $path
 ```
 
 use
 
-```
+```text
 Pattern[/\A[^\/\\]*\z/] $path
 ```
 
@@ -988,13 +988,13 @@ quoting to prevent substituted variables from being executed.
 
 Instead of
 
-```shell
+```console
 eval "echo $input"
 ```
 
 use
 
-```shell
+```console
 eval "echo '$input'"
 ```
 
@@ -1068,7 +1068,7 @@ Bolt does log additional information about a task run, including output sent to
 `stderr`, at the `debug` level. You can view these logs during a task run using
 the `--log-level debug` CLI option.
 
-```shell
+```console
 bolt task run mytask param1=foo param2=bar -t all --log-level debug
 ```
 
@@ -1102,7 +1102,7 @@ on every target you want to debug the task on.
 
 You can install the `rpdb` library using `pip`:
 
-```shell
+```console
 pip install rpdb
 ```
 
@@ -1114,7 +1114,7 @@ import rpdb; rpdb.set_trace()
 
 You can then open a connection to a target on port `4444` to begin debugging:
 
-```shell
+```console
 $ nc 127.0.0.1 4444
 
 > /tmp/96a96045-0eed-4dea-a497-400b9d5c8e30/python/tasks/init.py(13)task()
@@ -1142,14 +1142,14 @@ on.
 If you are running the task on remote targets, you can install the `pry-remote`
 gem using `gem install`:
 
-```shell
+```console
 gem install pry-remote
 ```
 
 If you are running the task on `localhost`, you can install the `pry-remote`
 gem locally using Bolt's Ruby:
 
-```shell
+```console
 /opt/puppetlabs/bolt/bin/gem install --user-install pry-remote
 ```
 
@@ -1168,7 +1168,7 @@ require 'pry-remote'; binding.remote_pry
 
 You can then open a connection to a target using the `pry-remote` command:
 
-```shell
+```console
 $ pry-remote -s 127.0.0.1
 
 Frame number: 0/4
@@ -1237,7 +1237,7 @@ debugging statements when raising a `TaskError` yourself by calling
 The following Python task includes a few debugging statements which describe
 what the task is doing and the results from a couple arithmetic operations:
 
-**Metadata**
+**Metadata:**
 
 ```json
 {
@@ -1245,7 +1245,7 @@ what the task is doing and the results from a couple arithmetic operations:
 }
 ```
 
-**Task**
+**Task:**
 
 ```python
 #!/usr/bin/env python
@@ -1271,13 +1271,13 @@ if __name__ == '__main__':
 
 ```
 
-**Output**
+**Output:**
 
 Running this task with the parameter `value_2=0` will raise a `TaskError`
 that will automatically include the logged debugging statements under the
 `details` key:
 
-```shell
+```console
 $ bolt task run mytask -t localhost value_1=10 value_2=0 --format json
 {
   "items":[
@@ -1318,7 +1318,7 @@ $ bolt task run mytask -t localhost value_1=10 value_2=0 --format json
 The following Ruby task includes a few debugging statements which describe
 what the task is doing and the results from a couple arithmetic operations:
 
-**Metadata**
+**Metadata:**
 
 ```json
 {
@@ -1326,7 +1326,7 @@ what the task is doing and the results from a couple arithmetic operations:
 }
 ```
 
-**Task**
+**Task:**
 
 ```ruby
 #!/usr/bin/env ruby
@@ -1352,13 +1352,13 @@ if __FILE__ == $0
 end
 ```
 
-**Output**
+**Output:**
 
 Running this task with the parameter `value_2=0` will raise a `TaskError`
 that will automatically include the logged debugging statements under the
 `details` key:
 
-```shell
+```console
 $ bolt task run mytask -t localhost value_1=10 value_2=0 --format json
 
 {
@@ -1418,7 +1418,7 @@ result = {
 print(json.dumps(result))
 ```
 
-```shell
+```console
 echo '{"num1":10,"num2":5}' | ./mytask.py
 ```
 
@@ -1444,7 +1444,7 @@ result = {
 print(json.dumps(result))
 ```
 
-```shell
+```console
 ./mytask.py 10 5
 ```
 
@@ -1466,7 +1466,7 @@ result = {
 puts result.to_json
 ```
 
-```shell
+```console
 echo '{"num1":10,"num2":5}' | ./mytask.rb
 ```
 
@@ -1493,7 +1493,7 @@ result = {
 puts result.to_json
 ```
 
-```shell
+```console
 ./mytask.rb 10 5
 ```
 

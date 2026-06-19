@@ -11,15 +11,6 @@
 # none remain, delete this file entirely.
 extends: ../../.markdownlint.yaml
 
-# MD040: fenced code blocks without a language specifier
-fenced-code-language: false
-
-# MD036: bold/italic used as informal headings
-no-emphasis-as-heading: false
-
-# MD033: inline HTML beyond what the root config permits
-no-inline-html: false
-
 # MD055: inconsistent table pipe style
 table-pipe-style: false
 

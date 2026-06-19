@@ -40,7 +40,7 @@ For example, the following script is named `update_images.sh` and is in a module
 
 _update\_images.sh_
 
-```
+```bash
 #!/bin/sh
 for c in `docker-compose ps --services |sort`; do
   echo "redoing $c"
@@ -52,13 +52,13 @@ docker-compose up -d --remove-orphans
 
 You can run the script with:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt script run manage_docker/scripts/update_images.sh -t <TARGETS>
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltScript -Script manage_docker/scripts/update_images.sh -Targets <TARGETS>
@@ -71,7 +71,7 @@ change directories (cd) into the value:
 
 _update\_images.sh_
 
-```
+```bash
 #!/bin/sh
 if [ -n $DOCKER_COMPOSE_DIRECTORY ]
   cd $DOCKER_COMPOSE_DIRECTORY
@@ -87,13 +87,13 @@ docker-compose up -d --remove-orphans
 
 You can run the script with:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt script run manage_docker/scripts/update_images.sh -t <TARGETS> --env-var DOCKER_COMPOSE_DIRECTORY=./docker
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltScript -Script manage_docker/scripts/update_images.sh -Targets <TARGETS> -EnvVar DOCKER_COMPOSE_DIRECTORY=.\docker
@@ -105,7 +105,7 @@ If your script accepts command-line arguments, like this:
 
 _update\_images.sh_
 
-```
+```bash
 #!/bin/sh
 cd $1
 for c in `docker-compose ps --services |sort`; do
@@ -118,13 +118,13 @@ docker-compose up -d --remove-orphans
 
 You can run the script with:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt script run manage_docker/scripts/update_images.sh ./docker -t <TARGETS>
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltScript -Script manage_docker/scripts/update_images.sh .\docker -Targets <TARGETS>
@@ -136,9 +136,9 @@ The following script reboots your machine. It takes a `timeout` parameter to spe
 long to wait for the reboot, and a `shutdown_only` parameter to tell the script not to turn the
 machine back on. The script still lives in the `manage_docker` module.
 
-_reboot.ps1_
+_reboot.ps1:_
 
-```
+```powershell
 [CmdletBinding()]
 Param(
   [Int]$timeout = 3,
@@ -169,13 +169,13 @@ If ($shutdown_only) {
 
 You can run the script with:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt script run manage_docker/scripts/reboot.ps1 30 true -t <TARGETS>
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltScript -Script manage_docker/scripts/reboot.ps1 -Targets <TARGETS> -Arguments 30,$true

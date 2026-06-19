@@ -11,7 +11,7 @@ When running the `facts` task on a Windows target that has Facter 3 installed,
 the task will fail but still return facts for the target. Output might look
 similar to the following:
 
-```shell
+```console
 $ bolt task run facts --targets windows_target
 Started on windows_target...
 Failed on windows_target:
@@ -88,7 +88,7 @@ with compiling native extensions.
 Attempting to authenticate with ed25519 keys over SSH on Windows will result
 in an error message similar to this:
 
-```
+```text
 unsupported key type `ssh-ed25519'
  net-ssh requires the following gems for ed25519 support:
   * ed25519 (>= 1.2, < 2.0)
@@ -129,14 +129,14 @@ to authenticate with Kerberos over WinRM.
 This error is raised when there are too many files open in Bolt's Ruby process.
 To see what your current limit is, run:
 
-```
+```console
 ulimit -n
 ```
 
 To raise the limit, set the following in your shell configuration file (For
 example, `~/.bash_profile`):
 
-```
+```console
 ulimit -n 1024
 ```
 

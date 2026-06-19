@@ -38,7 +38,7 @@ includes both the `myproject::admin` and `myproject::sshkeys` policies.
 The following configuration file makes the `myproject::admin` and
 `myproject::sshkeys` policies available to the project:
 
-```
+```yaml
 ---
 # bolt-project.yaml
 name: myproject
@@ -55,13 +55,13 @@ project-level policy named `myproject::user`, run:
 
 * _*nix shell command_
 
-  ```
+  ```console
   bolt policy new myproject::user
   ```
 
 * _PowerShell cmdlet_
 
-  ```
+  ```powershell
   New-BoltPolicy -Name myproject::user
   ```
 
@@ -72,7 +72,7 @@ conventions](/openvox/latest/lang_reserved.html#classes-and-defined-resource-typ
 
 Example output:
 
-```
+```text
 Created policy 'myproject::user' at '/Users/puppet.user/myproject/manifests/user.pp'
 ```
 
@@ -88,19 +88,19 @@ You can list available policies for the project:
 
 * _*nix shell command_
 
-  ```
+  ```console
   bolt policy show 
   ```
 
 * _PowerShell cmdlet_
 
-  ```
+  ```powershell
   Get-BoltPolicy 
   ```
 
 Example output:
 
-```
+```text
 Policies
   myproject::admin
   myproject::sshkeys
@@ -122,19 +122,19 @@ to a target:
 
 * _*nix shell command_
 
-  ```
+  ```console
   bolt policy apply myproject::admin,myproject::sshkeys -t mytarget                                
   ```
 
 * _PowerShell cmdlet_
 
-  ```
+  ```powershell
   Invoke-BoltPolicy -Name myproject::admin,myproject::sshkeys -Targets mytarget
   ```
 
 Example output:
 
-```
+```text
 Starting: install puppet and gather facts on mytarget
 Finished: install puppet and gather facts with 0 failures in 6.51 sec
 Starting: apply catalog on mytarget
@@ -170,7 +170,7 @@ supported on both \*nix and Windows systems.
 This plan clones the [Relay repository](https://github.com/puppetlabs/relay), builds the Go binary in a
 container that has all the dependencies in it, and installs the binary to a local path.
 
-```
+```puppet
 plan bolt (
   TargetSpec $targets = 'localhost'
 ) {
@@ -198,7 +198,7 @@ issue](https://github.com/puppetlabs/bolt/issues).
 The example inventory file below demonstrates connecting to a Podman container target named
 `postgres_db`.
 
-```
+```yaml
 targets:
   - uri: podman://postgres_db
     config:
@@ -222,7 +222,7 @@ issue](https://github.com/puppetlabs/bolt/issues).
 The example inventory file below demonstrates connecting to a jail container target named
 `postgres_db`.
 
-```
+```yaml
 targets:
   - uri: jail://postgres_db
     config:
@@ -239,7 +239,7 @@ specify the option on the command line as `--stream`. Bolt streams results back 
 they are received, with the target's safe name (the URI without the password included) and the
 stream (either 'out' or 'err') appended to the message, like so:
 
-```
+```text
 Started on docker://puppet_6_node...
 Started on docker://puppet_7_node...
 [docker://puppet_7_node] out: Hello!
@@ -264,7 +264,7 @@ transport, the LXD transport accepts the name of the container as the URI, and c
 container by shelling out to the `lxc` command. The example inventory file below demonstrates
 connecting to a Linux container target named `ubuntuone`.
 
-```
+```yaml
 targets:
   - uri: lxd://ubuntuone
     config:
@@ -307,7 +307,7 @@ with any Bolt command.
 
 This inventory sets a TTL of 1 hour, or 3600 seconds, for the PuppetDB plugin:
 
-```
+```yaml
 targets:
   - _plugin: puppetdb
     _cache:
@@ -319,7 +319,7 @@ targets:
 
 This config file sets a default TTL of 30 minutes, or 1800 seconds, for all plugins:
 
-```
+```yaml
 plugin-cache:
   ttl: 1800
 ```
@@ -338,7 +338,7 @@ function takes a list of targets and operates on them, the function runs that st
 parallel. For example, the following plan runs `hostname` on all targets at the same time, waits for
 all targets to finish, and then runs `whoami` on all targets at the same time.
 
-```
+```puppet
 # $targets = target1,target2,target3
 plan myplan(TargetSpec $targets) {
   run_command('hostname', $targets)
@@ -364,7 +364,7 @@ of plan steps to execute in the background while other parts of the plan execute
 
 These two function invocations are equivalent:
 
-```
+```puppet
 parallelize(['./file1', './file2']) |$file| {
   file_upload($file, '/home/user/', $targets)
   ...
@@ -405,7 +405,7 @@ the provided targets in the background, then executes a task in parallel. Once t
 finished, the commands may still be running in the background. Another task is kicked off in the
 background. Then the backgrounded commands and tasks are waited on before continuing.
 
-```
+```puppet
 # $targets = target1,target2,target3
 plan myplan(TargetSpec $targets) {
   $binary_future = background("Run mycoolbinary") || {
@@ -444,7 +444,7 @@ run subsequent plan functions before all targets have finished each step. For ex
 runs the block to execute two commands on each target in parallel, regardless of how long it takes
 the block to run on any one target:
 
-```
+```puppet
 # $targets = target1,target2,target3
 plan myplan(TargetSpec $targets) {
   # Convert the input into an array of targets
@@ -479,7 +479,7 @@ execution on other targets until they complete. For example, in the following pl
 running `task2` and `task3` while `task1` is still executing. However, it cannot start `task4` while
 `out::message` is executing on any of the targets.
 
-```
+```puppet
 # $targets = target1,target2,target3
 plan myplan(TargetSpec $targets) {
   # Convert the input into an array of targets
@@ -504,7 +504,7 @@ a `return` statement, the result of the last function in the block, or an error.
 
 For example, consider the following plan:
 
-```
+```puppet
 $ts = get_targets($targets)
 $result = parallelize($ts) |$target| {
     if $target.name == 'target1' {
@@ -520,7 +520,7 @@ out::message($result)
 
 Similarly, using `wait()`:
 
-```
+```puppet
 $ts = get_targets($targets)
 $futures = $ts.map |$target| {
   background() || {
@@ -567,7 +567,7 @@ plan example (
 Bolt does not print the error result from the targets the command is run on,
 making it difficult to know why the command failed:
 
-```shell
+```console
 $ bolt plan run example -t target1,target2
 
 Starting: plan example
@@ -585,13 +585,13 @@ parallel block failed on 2 targets
 To view error results from parallel blocks, you can run the plan in verbose mode.
 To run in verbose mode, use the `verbose` flag:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt plan run <PLAN NAME> --verbose
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltPlan -Name <PLAN NAME> -Verbose
@@ -599,7 +599,7 @@ Invoke-BoltPlan -Name <PLAN NAME> -Verbose
 
 Running the same plan in verbose mode shows the error results for each target:
 
-```shell
+```console
 $ bolt plan run example -t target1,target2
 
 Starting: plan example
@@ -739,7 +739,7 @@ ResourceInstance.new(
 You can retrieve a specific `ResourceInstance` object stored on a Target in a
 plan using the `resource()` function:
 
-```
+```puppet
 $packages = $target.get_resources(Package).first['resources']
 $target.set_resources($packages)
 $resource = $target.resource(Package, 'openssl')
@@ -887,7 +887,7 @@ and `copy-command` configures the copy command. The default is `scp -r`, and
 
 For example:
 
-```
+```yaml
 ssh:
   ssh-command: 'ssh'
   copy-command: ['scp', '-r', '-F', '~/ssh-config/myconf']
@@ -905,7 +905,7 @@ To encrypt SSH connections using the unsupported algorithm
 `chacha20-poly1305@openssh.com`, add the SSH command and cypher
 option to your inventory file:
 
-```
+```yaml
 # inventory.yaml
 config:
   ssh:
@@ -921,13 +921,13 @@ To encrypt SSH connections using the unsupported algorithm
 
 1. Store the following config in your SSH config at `~/.ssh/config` as:
 
-   ```
+   ```text
    Ciphers+=chacha20-poly1305@openssh.com
    ```
 
 2. In your inventory file, configure Bolt to use the SSH shell command:
 
-   ```
+   ```yaml
    # inventory.yaml
    config:
      ssh:

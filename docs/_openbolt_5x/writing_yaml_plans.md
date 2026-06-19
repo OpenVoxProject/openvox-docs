@@ -15,13 +15,13 @@ You can create a new project-level YAML plan in your Bolt project using a Bolt
 command. The command accepts a single argument: the name of the plan.
 Project-level plans must be namespaced to the project.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt plan new <PLAN NAME>
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 New-BoltPlan -Name <PLAN NAME>
@@ -30,7 +30,7 @@ New-BoltPlan -Name <PLAN NAME>
 For example, running `bolt plan new myproject::myplan` will result in
 a directory structure similar to this:
 
-```shell
+```console
 myproject/
 ├── bolt-project.yaml
 └── plans/
@@ -758,7 +758,7 @@ specific resource.
 You can convert a YAML plan to a Puppet language plan with the `bolt plan
 convert` command.
 
-```
+```console
 bolt plan convert path/to/my/plan.yaml
 ```
 
@@ -836,7 +836,7 @@ return: $eval_step
 
 And here is the same plan, converted to the Puppet language:
 
-```
+```puppet
 plan yaml_plans::with_lambda(
   Optional[Integer] $foo = 0
 ) {
@@ -858,7 +858,7 @@ natural or readable as it could be.
 When applying Puppet resources in a `resource` step, variable interpolation
 behaves differently in YAML plans and Puppet language plans. For example:
 
-```pp
+```puppet
 plan yaml_plans::interpolation_pp() {
   apply_prep('localhost')
   $interpolation = apply('localhost') {

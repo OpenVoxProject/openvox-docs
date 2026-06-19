@@ -44,7 +44,7 @@ First, we’ll use Bolt to run the script as-is on a single target.
     script into `bolt-guide`.
 1. In the `bolt-guide` directory, run the `restart_service.ps1` script:
 
-    ```
+    ```console
     bolt script run .\restart_service.ps1 W32Time --targets winrm://<HOSTNAME> -u Administrator -p 
     ```
 
@@ -119,7 +119,7 @@ documentation.](/pdk.html)
 
 1. In the `bolt-guide` directory, create the following subdirectories:
 
-    ```
+    ```text
     bolt-guide/
     └── modules
         └── gsg
@@ -158,7 +158,7 @@ documentation.](/pdk.html)
     specify the file extension when you call it from a Bolt command.
 1. Validate that Bolt recognizes the script as a task:
 
-    ```
+    ```console
     bolt task show gsg::restart_service
     ```
 
@@ -169,7 +169,7 @@ documentation.](/pdk.html)
 
 1. Execute your new task:
 
-    ```
+    ```console
     bolt task run gsg::restart_service service=W32Time --targets windows
     ```
 
@@ -198,13 +198,13 @@ To install the Frogsay package with Chocolatey:
    install Chocolatey to your target in the next step.
    - If you're using an existing Bolt project:
 
-      _\*nix shell command_
+      _\*nix shell command:_
 
-      ```shell
+      ```console
       bolt module add puppetlabs-chocolatey
       ```
 
-      _PowerShell cmdlet_
+      _PowerShell cmdlet:_
 
       ```powershell
       Add-BoltModule -Module puppetlabs-chocolatey
@@ -212,13 +212,13 @@ To install the Frogsay package with Chocolatey:
 
    - If you want to create a project (named `choco_project`) that includes the Chocolatey module. Create a directory named `choco_project` and run the following command inside the directory:
 
-      _\*nix shell command_
+      _\*nix shell command:_
 
-      ```shell
+      ```console
       bolt project init chocho_project --modules puppetlabs-chocolatey
       ```
 
-      _PowerShell cmdlet_
+      _PowerShell cmdlet:_
 
       ```powershell
       New-BoltProject -Name choco_project -Modules puppetlabs-chocolatey
@@ -226,13 +226,13 @@ To install the Frogsay package with Chocolatey:
 
 1. Install Chocolatey on your Windows target using the `apply` command:
 
-   _\*nix shell command_
+   _\*nix shell command:_
 
-    ```shell
+    ```console
     bolt apply -e 'include chocolatey' -t <TARGET URI> -u <USER> -p <PASSWORD> --transport winrm
     ```
 
-    _PowerShell cmdlet_
+    _PowerShell cmdlet:_
 
     ```powershell
     Invoke-BoltApply -Execute "include chocolatey"  -Targets <TARGET URI> -User <USER> -Password <PASSWORD> -Transport winrm
@@ -240,13 +240,13 @@ To install the Frogsay package with Chocolatey:
 
 1. Use the built-in Package task to install Frogsay on your target:
 
-    _\*nix shell command_
+    _\*nix shell command:_
 
-    ```shell
+    ```console
     bolt task run package -t <TARGET URI> -u <USER> -p <PASSWORD> --transport winrm action=install name=frogsay
     ```
 
-    _PowerShell cmdlet_
+    _PowerShell cmdlet:_
 
     ```powershell
     Invoke-BoltTask -Name package -Targets <TARGET URI> -User <USER> -Password <PASSWORD> -Transport winrm action=install name=frogsay
@@ -254,13 +254,13 @@ To install the Frogsay package with Chocolatey:
 
 1. Run `frogsay` on your target to test:
 
-   _\*nix shell command_
+   _\*nix shell command:_
 
-   ```shell
+   ```console
    bolt command run 'frogsay ribbit' -t <TARGET URI> -u <USER> -p <PASSWORD> --transport winrm
    ```
 
-   _PowerShell cmdlet_
+   _PowerShell cmdlet:_
 
    ```powershell
    Invoke-BoltCommand 'frogsay ribbit' -Targets <TARGET URI> -User <USER> -Password <PASSWORD> -Transport winrm
@@ -268,7 +268,7 @@ To install the Frogsay package with Chocolatey:
   
    Your output should look something like this:
 
-   ```shell
+   ```console
    Started on example.windowstarget.net...
    Finished on example.windowstarget.net:
       STDOUT:

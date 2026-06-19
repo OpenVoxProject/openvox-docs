@@ -298,13 +298,13 @@ Currently, the `migrate` command:
 
 To migrate a project:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt project migrate
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Update-BoltProject

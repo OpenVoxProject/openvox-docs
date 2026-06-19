@@ -40,7 +40,7 @@ desired level. Available log levels are `trace`, `debug`, `info`, `warn`,
 
 - _\*nix shell command_
 
-  ```shell
+  ```console
   bolt command run whoami -t target1 --log-level trace
   ```
 
@@ -189,7 +189,7 @@ more information. You can also use `out::verbose` in plans to print messages to
 stdout in verbose mode. For example, to print "Hello world" to stdout in verbose
 mode:
 
- ```shell
+ ```console
 plan mymodule::myplan {
   out::verbose('Hello world')
 }
@@ -204,13 +204,13 @@ the lists of warnings are concatenated per the [configuration merge
 strategy](configuring_bolt.html#merge-strategy). For example, if Bolt issues the
 following warning:
 
-```shell
+```console
 The configuration option 'apples' is deprecated. Use 'oranges' instead. [ID: fruit_option]
 ```
 
 You could add the ID `fruit_option` under the `disable-warnings` configuration option:
 
-```
+```yaml
 # bolt-project.yaml
 ---
 name: myproject

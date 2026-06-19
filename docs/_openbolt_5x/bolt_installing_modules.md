@@ -32,13 +32,13 @@ module and resolves and installs all dependencies required by those modules. For
 example, to turn the current directory into a project named `example_project`
 with the `puppetlabs/apache` and `puppetlabs/mysql` modules installed, use the following command:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt project init example_project --modules puppetlabs-apache,puppetlabs-mysql
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 New-BoltProject -Name example_project -Modules puppetlabs-apache,puppetlabs-mysql
@@ -72,15 +72,15 @@ To add a single Puppet Forge module and its dependencies to your Bolt project,
 use the `bolt module add` *nix shell command or the `Add-BoltModule` Powershell
 cmdlet. For example, to add the `puppetlabs/apt` module:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt module add puppetlabs/apt
 ```
 
-_Powershell cmdlet_
+_Powershell cmdlet:_
 
-```shell
+```console
 Add-BoltModule -Module puppetlabs/apt
 ```
 
@@ -107,15 +107,15 @@ a version conflict, it might update installed modules to newer versions.
 If you've just downloaded a Bolt project from source control and want to install
 the modules associated with it, use the following command:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt module install
 ```
 
-_Powershell cmdlet_
+_Powershell cmdlet:_
 
-```shell
+```console
 Install-BoltModule
 ```
 
@@ -132,7 +132,7 @@ modules in the Puppetfile to check if an existing Puppetfile is managed by Bolt.
 If the Puppetfile is missing any module specifications, Bolt assumes the
 Puppetfile is not managed by Bolt and raises an error like this:
 
-```shell
+```console
 Puppetfile at /myproject/Puppetfile does not include modules that
 satisfy the following specifications:
 
@@ -146,15 +146,15 @@ This error usually only occurs if you've manually modified your
 `bolt-project.yaml` or `Puppetfile`. To resolve the conflict and install the
 modules declared in `bolt-project.yaml`, run the following command:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt module install --force 
 ```
 
-_Powershell cmdlet_
+_Powershell cmdlet:_
 
-```shell
+```console
 Install-BoltModule -Force
 ```
 
@@ -162,15 +162,15 @@ Install-BoltModule -Force
 
 To update the modules in your project, run:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt module install --force
 ```
 
-_Powershell cmdlet_
+_Powershell cmdlet:_
 
-```shell
+```console
 Install-BoltModule -Force
 ```
 
@@ -274,15 +274,15 @@ Follow these steps to pin a module version:
    a change to your `bolt-project.yaml` file, and it no longer matches the
    Puppetfile.
 
-   _\*nix shell command_
+   _\*nix shell command:_
 
-   ```shell
+   ```console
    bolt module install --force 
    ```
 
-   _Powershell cmdlet_
+   _Powershell cmdlet:_
 
-   ```shell
+   ```console
    Install-BoltModule -Force
    ```
 
@@ -488,13 +488,13 @@ dependencies, follow these steps:
 
 1. Install the modules in the Puppetfile without resolving dependencies:
 
-   _\*nix shell command_
+   _\*nix shell command:_
 
-   ```shell
+   ```console
    bolt module install --no-resolve
    ```
 
-   _PowerShell cmdlet_
+   _PowerShell cmdlet:_
 
    ```powershell
    Install-BoltModule -NoResolve
@@ -563,13 +563,13 @@ following:
 1. If your project has a Puppetfile, install the modules in the Puppetfile
    without resolving dependencies:
 
-   _\*nix shell command_
+   _\*nix shell command:_
 
-   ```shell
+   ```console
    bolt module install --no-resolve
    ```
 
-   _PowerShell cmdlet_
+   _PowerShell cmdlet:_
 
    ```powershell
    Install-BoltModule -NoResolve
