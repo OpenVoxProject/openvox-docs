@@ -48,7 +48,7 @@ First, we’ll use Bolt to run the script as-is on a single target.
     bolt script run .\restart_service.ps1 W32Time --targets winrm://<HOSTNAME> -u Administrator -p 
     ```
 
-    ![](restart_service.png)
+    ![Output of running the restart_service.ps1 script with Bolt](restart_service.png)
 
     **Note:** The `-p` option prompts you to enter a password.
 
@@ -162,7 +162,7 @@ documentation.](/pdk.html)
     bolt task show gsg::restart_service
     ```
 
-    ![](bolt_PS_2.png)
+    ![Output of bolt task show for the restart_service task](bolt_PS_2.png)
 
     Congratulations! You’ve successfully converted the `restart_service.ps1`
     script to a Bolt task.
@@ -173,7 +173,7 @@ documentation.](/pdk.html)
     bolt task run gsg::restart_service service=W32Time --targets windows
     ```
 
-    ![](bolt_PS_3.png)
+    ![Output of running the gsg::restart_service task](bolt_PS_3.png)
 
     **Note:** `--targets windows` refers to the name of the group of targets
     that you specified in your inventory file. For more information, see

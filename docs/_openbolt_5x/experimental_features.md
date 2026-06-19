@@ -468,12 +468,14 @@ plan author wants the plan to be able to continue quickly on successful targets.
 #### How plan functions run in parallel
 
 Within a backgrounded code block, only the following functions can run in parallel:
+
 * `run_command`
 * `run_task`
 * `run_task_with`
 * `run_script`
 * `upload_file`
 * `download_file`.
+
 You can run other functions from a parallelize or background block, but those functions will block
 execution on other targets until they complete. For example, in the following plan, Bolt can start
 running `task2` and `task3` while `task1` is still executing. However, it cannot start `task4` while
@@ -675,7 +677,7 @@ $target.set_resources(
   parameter is **optional**. If the `target` parameter is not specified, the
   function automatically sets the target to the target the function is called
   on.
-
+>
 > **Note:** If the `target` parameter is any target other than the one you are
   setting the resource on, Bolt will raise an error.
 

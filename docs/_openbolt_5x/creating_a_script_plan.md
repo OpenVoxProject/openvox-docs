@@ -51,6 +51,7 @@ docker-compose up -d --remove-orphans
    ```powershell
    New-BoltProject
    ```
+
 1. Make a `scripts/` directory in your Bolt project.
 1. Place the `update_images.sh` script in the `scripts/` directory.
 1. Create a Bolt plan using `bolt plan new --script`.
@@ -395,6 +396,7 @@ If you need to use a task, you can convert your script into a task. Writing a sc
 that accepts input through environment variables makes it easier to convert into a task.
 
 Turning your script into a task is useful if your script has:
+
 - **Structured or typed input**: Scripts can only accept strings so if you want to pass structured objects, you
   might need turn it into a task.
 - **Structured or typed output**: If the script returns structured or typed data to your plan, turn

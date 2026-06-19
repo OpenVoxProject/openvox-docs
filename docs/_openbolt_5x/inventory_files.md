@@ -26,7 +26,7 @@ The following fields are available at the top level of an inventory file:
 | --- | ----------- | ---- |
 | `config` | The transport configuration for the `all` group. Optional. For more information see [Configuring Bolt](configuring_bolt.html#inventoryyaml).  | `Hash` |
 | `facts` | The facts for the `all` group. Optional. | `Hash` |
-| `features` | The features for the `all` group. Optional. | `Array[String]`
+| `features` | The features for the `all` group. Optional. | `Array[String]` |
 | `groups` | A list of targets and groups and their associated configuration. Optional. | `Array[Group]` |
 | `targets` | A list of targets and their associated configuration. Optional. | `Array[Target]` |
 | `vars` | The vars for the `all` group. Optional. | `Hash` |
@@ -40,7 +40,7 @@ configuration. Each group is a map that can contain any of the following fields:
 | --- | ----------- | ---- |
 | `config` | The transport configuration for the group. Optional. For more information see [Configuring Bolt](configuring_bolt.html#inventoryyaml). | `Hash` |
 | `facts` | The facts for the group. Optional. | `Hash` |
-| `features` | The features for the group. Optional. | `Array[String]`
+| `features` | The features for the group. Optional. | `Array[String]` |
 | `groups` | A list of groups and their associated configuration. Optional. | `Array[Group]` |
 | `name` | The name of the group. **Required.** | `String` |
 | `targets` | A list of targets and their associated configuration. Optional. | `Array[Target]` |
@@ -142,7 +142,7 @@ Targets specified with a hash accept the following fields:
 | `alias` | A unique alias to refer to the target. Optional. | `String` |
 | `config` | The configuration for the target. Optional. | `Hash` |
 | `facts` | The facts for the target. Optional. | `Hash` |
-| `features` | The features for the target. Optional. | `Array[String]`
+| `features` | The features for the target. Optional. | `Array[String]` |
 | `name` | A human-readable name for a target.<br> **Required** when specifying a target using a hash. Optional if using `uri`. If you don't specify a `name`, Bolt uses the `uri` as the target name. | `String` |
 | `uri` | The URI of the target. Bolt uses the `uri` to establish a connection to the target. <br> **Required** when specifying a target using a hash, unless you specify a `name` **and** configure a hostname using `host` in the target's transport configuration.| `String` |
 | `vars` | The variables for the target. Optional. | `Hash` |

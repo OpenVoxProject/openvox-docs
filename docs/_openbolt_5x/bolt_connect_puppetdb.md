@@ -57,7 +57,7 @@ config](configuring_bolt.html) with the following values:
 | `connect_timeout` | `Integer` | How long to wait in seconds when establishing connections with PuppetDB. |
 | `headers` | `Hash` | A map of HTTP headers to add to PuppetDB requests. |
 | `read_timeout` | `Integer` | How long to wait in seconds for a response from PuppetDB. |
-| `server_urls` | `Array` | An array of strings containing the PuppetDB host to connect to. Include the protocol `https` and the port, which is usually `8081`. For example, `https://my-puppetdb-server.example.com:8081`. The Bolt PuppetDB client attempts to connect to each host in the list until it makes a successful connection. |
+| `server_urls` | `Array` | An array of PuppetDB hosts to connect to, each including the `https` protocol and port (usually `8081`), for example `https://my-puppetdb-server.example.com:8081`. Bolt tries each host until one connects. |
 
 If you are using certificate authentication also set:
 

@@ -101,6 +101,7 @@ To provision your targets:
     mkdir ~/.ssh
     vagrant ssh-config | sed /StrictHostKeyChecking/d | sed /UserKnownHostsFile/d >> ~/.ssh/config
     ```
+
 3. Make sure you can SSH into the targets. For example:
 
    ```console

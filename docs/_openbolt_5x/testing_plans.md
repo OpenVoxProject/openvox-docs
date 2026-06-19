@@ -265,7 +265,7 @@ is a stub or a mock.
 You can stub or mock the following functions. Click on each function to view its
 documentation.
 
-| plan function | Stub function | Global stub function | Mock function
+| plan function | Stub function | Global stub function | Mock function |
 | --- | --- | --- | --- |
 | [`apply`](plan_functions.html#apply) | [`allow_apply`](boltspec_reference.html#allow_apply) | - | - |
 | [`apply_prep`](plan_functions.html#apply_prep) | [`allow_apply_prep`](boltspec_reference.html#allow_apply_prep) | - | - |

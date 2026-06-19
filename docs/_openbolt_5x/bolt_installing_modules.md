@@ -201,7 +201,7 @@ To specify a Forge module, use the following keys in the specification:
 | Key | Description | Required |
 | --- | --- | :-: |
 | `name` | The full name of the module. Can be either `<OWNER>-<NAME>` or `<OWNER>/<NAME>`. | ✓ |
-| `version_requirement` | The version requirement that the module must satisfy. Can be either a specific semantic version (`1.0.0`), a version range (`>= 1.0.0 < 3.0.0`), or version shorthand (`1.x`).  |
+| `version_requirement` | The version requirement that the module must satisfy. Can be either a specific semantic version (`1.0.0`), a version range (`>= 1.0.0 < 3.0.0`), or version shorthand (`1.x`). | |
 | `resolve` | Boolean. Whether to resolve the module's dependencies when installing modules. | |
 
 After you've made changes to the module specification, [update your
@@ -232,7 +232,7 @@ To specify a git module, use the following keys in the specification:
 | Key | Description | Required |
 | --- | --- | :-: |
 | `git` | The URI to the git repository. URI must begin with either `git@`, `http://`, or `https://`. | ✓ |
-| `name` | The name of the module. Bolt uses this name for the module in the Puppetfile, the directory that the module's contents are downloaded to, and as a namespace for the module's content. To avoid errors, make sure this name matches the name specified in the module's `metadata.json`. **Required if `resolve` is `false`.** | |
+| `name` | The name of the module. Bolt uses it in the Puppetfile, as the download directory name, and as a namespace for the module's content. Make sure it matches the name in the module's `metadata.json`. **Required if `resolve` is `false`.** | |
 | `ref` | The git reference to checkout. Can be either a branch, commit, or tag. | ✓ |
 | `resolve` | Boolean. Whether to resolve the module's dependencies when installing modules. | |
 

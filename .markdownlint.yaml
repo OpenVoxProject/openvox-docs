@@ -3,6 +3,8 @@ default: true
 
 line-length:
   line_length: 210
+  # Table rows can't wrap, so exempt them from the line-length limit.
+  tables: false
 
 blank_lines:
   maximum: 2
