@@ -3,14 +3,12 @@ layout: default
 title: 'OpenVox Server CA API: Certificate'
 ---
 
-Certificate
-=============
+# Certificate
 
 The `certificate` endpoint returns the certificate for the specified name,
 which might be either a standard certname or `ca`.
 
-Find
-----
+## Find
 
 Get a certificate.
 
@@ -102,8 +100,7 @@ None
     this master is not a CA
 
 
-Schema
-------
+## Schema
 
 A `certificate` response body is not structured data according to any standard scheme such as
 json/pson/yaml, so no schema is applicable.

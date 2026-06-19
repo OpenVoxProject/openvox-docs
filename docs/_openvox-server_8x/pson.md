@@ -3,8 +3,7 @@ layout: default
 title: "OpenVox Server HTTP API: PSON"
 ---
 
-PSON
-====
+# PSON
 
 > **Deprecated:** PSON support is retained for backward compatibility but should not be used in new integrations.
 > All OpenVox HTTP API endpoints that previously supported PSON now prefer JSON (`application/json`). PSON remains
@@ -16,8 +15,7 @@ ASCII, which allows it to represent arbitrary byte sequences in strings.
 
 OpenVox uses the MIME types `"pson"` and `"text/pson"` to refer to PSON.
 
-Differences from JSON
----------------------
+## Differences from JSON
 
 PSON does *not differ* from JSON in its representation of objects, arrays, numbers, booleans, and null values.
 PSON *does* serialize strings differently from JSON.
@@ -40,8 +38,7 @@ In addition, any character between 0x00 and 0x1F (except the ones listed above) 
 sequence of `\u` followed by four ASCII digits of the hex number of the desired character. For example the ASCII
 Record Separator character (0x1E) is represented as `` (0x5C, 0x75, 0x30, 0x30, 0x31, 0x45).
 
-Decoding PSON Using JSON Parsers
----------------------------------
+## Decoding PSON Using JSON Parsers
 
 Many languages have JSON parsers already, which can often be used to parse PSON data. Although JSON requires that
 it is encoded as unicode, most parsers will produce usable output from PSON if they are instructed to interpret the
