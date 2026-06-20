@@ -109,7 +109,7 @@ Each operator has its own rules for the [data types][datatypes] of its operands.
 
 When creating compound expressions by using other expressions as operands, you should use parentheses for clarity:
 
-``` puppet
+```puppet
 (90 < 7) and ('Solaris' == 'Solaris') # resolves to false
 (90 < 7) or ('Solaris' in ['Linux', 'Solaris']) # resolves to true
 ```
@@ -120,7 +120,7 @@ When creating compound expressions by using other expressions as operands, you s
 
 Compound expressions are evaluated in a standard order of operations. However, parentheses will override the order of operations:
 
-``` puppet
+```puppet
 # This example will resolve to 30, rather than 23.
 notice( (7+8)*2 )
 ```
@@ -252,7 +252,7 @@ If the left operand is a data type, it checks the right operand as follows:
 
 Examples:
 
-``` puppet
+```puppet
 # Right operand is a string:
 'eat' in 'eaten' # resolves to true
 'Eat' in 'eaten' # resolves to true
@@ -294,7 +294,7 @@ Resolves to `true` if either operand is true.
 
 **Takes one operand:**
 
-``` puppet
+```puppet
 $my_value = true
 notice ( !$my_value ) # Will resolve to false
 ```
@@ -353,13 +353,13 @@ This unary operator accepts a single [array][arrays] value. (If given a scalar v
 
 For example:
 
-``` puppet
+```puppet
 $a = ['vim', 'emacs']
 myfunc($a)    # calls myfunc with a single argument: the array containing 'vim' and 'emacs'
 myfunc(*$a)   # calls myfunc with two arguments: 'vim' and 'emacs'
 ```
 
-``` puppet
+```puppet
 $a = ['vim', 'emacs']
 $x = 'vim'
 notice case $x {
@@ -383,7 +383,7 @@ Resolves to an array containing the elements in the left operand, plus the right
 
 The left operand should be an [array][arrays], and the right operand can be any data type. Appending will only add a single element at a time to an array; to add multiple elements from a second array, use `+` (concatenation).
 
-``` puppet
+```puppet
 [1, 2, 3] << 4     # resolves to [1, 2, 3, 4]
 [1, 2, 3] << [4, 5]   # resolves to [1, 2, 3, [4, 5]]
 ```
@@ -398,7 +398,7 @@ Both operands should be [arrays][]; if the right operand is a scalar value, it w
 
 If the left operand isn't an array, Puppet will interpret `+` as arithmetic addition.
 
-``` puppet
+```puppet
 [1, 2, 3] + 1     # resolves to [1, 2, 3, 1]
 [1, 2, 3] + [1]   # resolves to [1, 2, 3, 1]
 [1, 2, 3] + [[1]] # resolves to [1, 2, 3, [1]]
@@ -414,7 +414,7 @@ Both operands should be [arrays][]; if the right operand is a scalar value, it w
 
 If the left operand isn't an array, Puppet will interpret `-` as arithmetic subtraction.
 
-``` puppet
+```puppet
 [1, 2, 3, 4, 5, 1, 1] - 1    # resolves to [2, 3, 4, 5]
 [1, 2, 3, 4, 5, 1, 1] - [1]  # resolves to [2, 3, 4, 5]
 [1, 2, 3, [1, 2]] - [1, 2]   # resolves to [3, [1, 2]]
@@ -442,7 +442,7 @@ The right operand can be one of the following:
 * A hash
 * An array with an **even** number of elements; the first element of each pair will be used as a key, and the second element will be used as its value.
 
-``` puppet
+```puppet
 {a => 10, b => 20} + {b => 30}  # resolves to {a => 10, b => 30}
 {a => 10, b => 20} + {c => 30}  # resolves to {a => 10, b => 30, c => 30}
 {a => 10, b => 20} + [c, 30]    # resolves to {a => 10, b => 20, c => 30}
@@ -463,7 +463,7 @@ The right operand can be one of the following:
 * An array of keys
 * A single key
 
-``` puppet
+```puppet
 {a => first, b => second, c => 17} - c                                # resolves to {a => first, b => second}
 {a => first, b => second, c => 17} - [c, a]                           # resolves to {b => second}
 {a => first, b => second, c => 17} - {c => 17, a => "something else"} # resolves to {b => second}

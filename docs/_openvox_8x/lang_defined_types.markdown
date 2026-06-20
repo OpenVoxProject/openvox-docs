@@ -85,7 +85,7 @@ The **parameters** used when defining the type become the **attributes** (withou
 
 To declare a resource of the `apache::vhost` defined type from the example above:
 
-``` puppet
+```puppet
 apache::vhost {'homepages':
   port    => 8081,
   docroot => '/var/www-testhost',
@@ -103,7 +103,7 @@ Declaring a new resource of the defined type will make Puppet re-evaluate the bl
 
 Every parameter of a defined type can be used as a local variable inside the definition. These variables are not set with [normal assignment statements][variable_assignment]; instead, each instance of the defined type uses its attributes to set them:
 
-``` puppet
+```puppet
 apache::vhost {'homepages':
   port    => 8081, # Becomes the value of $port
   docroot => '/var/www-testhost', # Becomes the value of $docroot
@@ -123,7 +123,7 @@ Every defined type gets two "free" parameters, which are always available and do
 
 Unlike the other parameters, the values of `$title` and `$name` are already available **inside the parameter list.** This means you can use `$title` as the default value (or part of the default value) for another attribute:
 
-``` puppet
+```puppet
 define apache::vhost (
   Integer $port,
   String[1] $docroot,
@@ -138,7 +138,7 @@ Since multiple instances of a defined type might be declared in your manifests, 
 
 You can make resources different across instances by making their **titles** and **names/namevars** include the value of `$title` or another parameter.
 
-``` puppet
+```puppet
 file { "${vhost_dir}/${servername}.conf":
 ```
 
@@ -159,7 +159,7 @@ The declaration of a defined type instance can include any [metaparameter][metap
 
 Just like with a normal resource type, you can declare [resource defaults][resource_defaults] for a defined type:
 
-``` puppet
+```puppet
 # /etc/puppetlabs/puppet/manifests/site.pp
 Apache::Vhost {
   port => 80,

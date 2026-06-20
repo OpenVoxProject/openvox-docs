@@ -30,7 +30,7 @@ It can also call `self.to_yaml` to dump the entire report to YAML. Note that the
 
 A report processor looks like this:
 
-``` ruby
+```ruby
 # Located in /etc/puppetlabs/puppet/modules/myreport/lib/puppet/reports/myreport.rb.
 require 'puppet'
 # If necessary, require any other Ruby libraries for this report here.

@@ -49,7 +49,7 @@ title: "Language: Visual index"
 This page can help you find syntax elements when you can't remember their names.
 
 
-``` puppet
+```puppet
 file { 'ntp.conf':
   path    => '/etc/ntp.conf',
   ensure  => file,
@@ -67,7 +67,7 @@ file { 'ntp.conf':
 * `'/etc/ntp.conf'`: The value of an [attribute][]; in this case, a [string][]
 * `template('ntp/ntp.conf')`: A [function][] call that [returns a value][rvalue]; in this case, the [`template`][template_func] function, with the name of a template in a [module][] as its argument
 
-``` puppet
+```puppet
 package { 'ntp':
   ensure => installed,
   before => File['ntp.conf'],
@@ -80,25 +80,25 @@ service { 'ntpd':
 
 ↑ Two resources using the `before` and `subscribe` [relationship metaparameters][relationship_meta] (which accept [resource references][refs]).
 
-``` puppet
+```puppet
 Package['ntp'] -> File['ntp.conf'] ~> Service['ntpd']
 ```
 
 ↑ [Chaining arrows][chaining] forming relationships between three resources, using [resource references][refs].
 
-``` puppet
+```puppet
 $package_list = ['ntp', 'apache2', 'vim-nox', 'wget']
 ```
 
 ↑ A [variable][] being assigned an [array][] value.
 
-``` puppet
+```puppet
 $myhash = { key => { subkey => 'b' }}
 ```
 
 ↑ A [variable][] being assigned a [hash][] value.
 
-``` puppet
+```puppet
 ...
 content => "Managed by OpenVox Server version ${serverversion}"
 ```
@@ -106,7 +106,7 @@ content => "Managed by OpenVox Server version ${serverversion}"
 ↑ A master-provided [built-in variable][built_in] being [interpolated into a double-quoted string][interpolation] (with optional curly braces).
 
 
-``` puppet
+```puppet
 class ntp {
   package { 'ntp':
     ...
@@ -117,7 +117,7 @@ class ntp {
 
 ↑ A [class definition][class_def], which makes a class avaliable for later use.
 
-``` puppet
+```puppet
 include ntp
 require ntp
 class { 'ntp': }
@@ -126,7 +126,7 @@ class { 'ntp': }
 ↑ [Declaring a class][class_decl] in three different ways: with the `include` function, with the `require` function, and with the resource-like syntax. Declaring a class causes the resources in it to be managed.
 
 
-``` puppet
+```puppet
 define apache::vhost ($port, $docroot, $servername = $title, $vhost_name = '*') {
   include apache
   include apache::params
@@ -144,7 +144,7 @@ define apache::vhost ($port, $docroot, $servername = $title, $vhost_name = '*') 
 
 ↑ A [defined type][defined_type], which makes a new resource type available. Note that the name of that resource type has two [namespace segments][namespace].
 
-``` puppet
+```puppet
 apache::vhost { 'homepages':
   port    => 8081,
   docroot => '/var/www-testhost',
@@ -153,13 +153,13 @@ apache::vhost { 'homepages':
 
 ↑ [Declaring an instance][defined_resource] of the resource type defined above.
 
-``` puppet
+```puppet
 Apache::Vhost['homepages']
 ```
 
 ↑ A [resource reference][refs] to the defined resource declared above. Note that every [namespace segment][namespace] must be capitalized.
 
-``` puppet
+```puppet
 node 'www1.example.com' {
   include common
   include apache
@@ -169,7 +169,7 @@ node 'www1.example.com' {
 
 ↑ A [node definition][node].
 
-``` puppet
+```puppet
 node /^www\d+$/ {
   include common
 }
@@ -177,7 +177,7 @@ node /^www\d+$/ {
 
 ↑ A [regular expression node definition][regex_node].
 
-``` puppet
+```puppet
 # comment
 /* comment */
 ```
@@ -185,7 +185,7 @@ node /^www\d+$/ {
 ↑ Two [comments][].
 
 
-``` puppet
+```puppet
 if $is_virtual {
   warning( 'Tried to include class ntp on virtual machine; this node might be misclassified.' )
 }
@@ -199,7 +199,7 @@ else {
 ↑ An [if statement][if], whose conditions are [expressions][] that use agent-provided [facts][].
 
 
-``` puppet
+```puppet
 if $hostname =~ /^www(\d+)\./ {
   notify { "Welcome web server #$1": }
 }
@@ -207,7 +207,7 @@ if $hostname =~ /^www(\d+)\./ {
 
 ↑ An [if statement][if] using a [regular expression][regex] and the [regex match operator][regex_match].
 
-``` puppet
+```puppet
 if 'www' in $hostname {
   ...
 }
@@ -215,7 +215,7 @@ if 'www' in $hostname {
 
 ↑ An [if statement][if] using an [`in` expression][in]
 
-``` puppet
+```puppet
 case $operatingsystem {
   'Solaris':          { include role::solaris }
   'RedHat', 'CentOS': { include role::redhat  }
@@ -226,7 +226,7 @@ case $operatingsystem {
 
 ↑ A [case statement][case].
 
-``` puppet
+```puppet
 $rootgroup = $osfamily ? {
     'Solaris'          => 'wheel',
     /(Darwin|FreeBSD)/ => 'wheel',
@@ -236,19 +236,19 @@ $rootgroup = $osfamily ? {
 
 ↑ A [selector statement][selector] being used to set the value of the `$rootgroup` [variable][].
 
-``` puppet
+```puppet
 User <| groups == 'admin' |>
 ```
 
 ↑ A [resource collector][collector], sometimes called the "spaceship operator."
 
-``` puppet
+```puppet
 Concat::Fragment <<| tag == "bacula-storage-dir-${bacula_director}" |>>
 ```
 
 ↑ An [exported resource collector][export_collector], which works with [exported resources][export]
 
-``` puppet
+```puppet
 Exec {
   path        => '/usr/bin:/bin:/usr/sbin:/sbin',
   environment => 'RUBYLIB=/opt/puppetlabs/puppet/lib/ruby/site_ruby/2.1.0/',
@@ -259,7 +259,7 @@ Exec {
 
 ↑ A [resource default][defaults] for the `exec` resource type.
 
-``` puppet
+```puppet
 Exec['update_migrations'] {
   environment => 'RUBYLIB=/usr/lib/ruby/site_ruby/1.8/',
 }
@@ -267,7 +267,7 @@ Exec['update_migrations'] {
 
 ↑ A [resource override][override], which will only work in an [inherited class][inherits].
 
-``` puppet
+```puppet
 Exec <| title == 'update_migrations' |> {
   environment => 'RUBYLIB=/usr/lib/ruby/site_ruby/1.8/',
 }
@@ -276,7 +276,7 @@ Exec <| title == 'update_migrations' |> {
 ↑ A [resource override using a collector][coll_override], which will work anywhere. Dangerous, but very useful in rare cases.
 
 
-``` puppet
+```puppet
 @user { 'deploy':
   uid     => 2004,
   comment => 'Deployment User',
@@ -289,7 +289,7 @@ Exec <| title == 'update_migrations' |> {
 ↑ A [virtual resource][virtual].
 
 
-``` puppet
+```puppet
 @@nagios_service { "check_zfs${hostname}":
   use                 => 'generic-service',
   host_name           => $fqdn,

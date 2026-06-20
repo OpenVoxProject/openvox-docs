@@ -8,7 +8,7 @@ title: "Resource tips and examples: Package on Windows"
 
 Puppet's built-in [`package`][package] resource type can manage software packages on Windows.
 
-``` puppet
+```puppet
 package { 'mysql':
   ensure          => '5.5.16',
   source          => 'N:\packages\mysql-5.5.16-winx64.msi',
@@ -98,7 +98,7 @@ Any file path arguments within the `install_options` attribute (such as `INSTALL
 
 It's a good idea to use the hash notation for file path arguments since they might contain spaces, for example:
 
-``` puppet
+```puppet
 install_options => [ { 'INSTALLDIR' => ${packagedir} } ]
 ```
 

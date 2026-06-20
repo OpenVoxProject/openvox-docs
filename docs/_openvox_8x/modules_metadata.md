@@ -16,7 +16,7 @@ The `metadata.json` file uses standard JSON syntax and contains a single JSON ob
 
 ## metadata.json example
 
-``` json
+```json
 {
   "name": "puppetlabs-ntp",
   "version": "6.1.0",
@@ -68,7 +68,7 @@ The `dependencies` key accepts an array of hashes. This key is required, but if 
 
 The hash for each dependency must contain `"name"` and `"version_requirement"` keys. For example:
 
-``` json
+```json
 "dependencies": [
   { "name": "puppetlabs/stdlib", "version_requirement": ">= 3.2.0 < 5.0.0" },
   { "name": "puppetlabs/firewall", "version_requirement": ">= 0.0.4" },
@@ -115,7 +115,7 @@ This key accepts an array of hashes, where each hash contains `operatingsystem` 
 * `operatingsystem` should be a string. The Puppet Forge uses this for search filters.
 * `operatingsystemrelease` should be an array of strings. The Puppet Forge displays these versions on module pages, and you can format them in whatever way makes sense for the OS in question.
 
-``` json
+```json
 "operatingsystem_support": [
   {
   "operatingsystem":"RedHat",

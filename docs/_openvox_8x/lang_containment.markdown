@@ -16,7 +16,7 @@ title: "Language: Containment of resources"
 
 This effectively means that if any resource or class forms a [relationship][] with the container, it will form the same relationship with every resource inside the container.
 
-``` puppet
+```puppet
 class ntp {
   file { '/etc/ntp.conf':
     ...
@@ -61,7 +61,7 @@ Use the `contain` function when a class should be contained. The `contain` funct
 
 In an example NTP module where service configuration is moved out into its own class:
 
-``` puppet
+```puppet
 class ntp {
   file { '/etc/ntp.conf':
     ...
@@ -84,7 +84,7 @@ This will ensure that the exec will happen after all the resources in both class
 
 To contain classes that are declared with the resource-like declaration syntax, use the contain function **after** declaring the class:
 
-``` puppet
+```puppet
 class ntp {
   # ...
   class { 'ntp::service':
@@ -108,7 +108,7 @@ To use the anchor pattern:
 
 In an example NTP module where service configuration is moved out into its own class:
 
-``` puppet
+```puppet
 class ntp {
   file { '/etc/ntp.conf':
     ...

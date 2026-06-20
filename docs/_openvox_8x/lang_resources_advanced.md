@@ -41,7 +41,7 @@ This page describes the full syntax of resource expressions. Please make sure yo
 
 ## Full syntax
 
-``` puppet
+```puppet
 <TYPE> {
   default:
     *           => <HASH OF ATTRIBUTE/VALUE PAIRS>,
@@ -113,7 +113,7 @@ Instead, every other resource in that expression will use attribute values from 
 
 This is useful because it lets you set many attributes at once (like with an array of titles), but also lets you override some of them.
 
-``` puppet
+```puppet
 file {
   default:
     ensure => file,
@@ -150,7 +150,7 @@ The value of the `*` attribute must be a [hash][], where:
 
 This will set values for that resource's attributes, using every attribute and value listed in the hash.
 
-``` puppet
+```puppet
 $file_ownership = {
   'owner' => 'root',
   'group' => 'wheel',
@@ -179,7 +179,7 @@ Since a resource expression can accept a [resource type data type][resource_data
 
 That is, all of the following are equivalent:
 
-``` puppet
+```puppet
 file { '/tmp/foo': ensure => file, }
 File { '/tmp/foo': ensure => file, }
 Resource[File] { '/tmp/foo': ensure => file, }
@@ -198,7 +198,7 @@ This lets you declare resources without knowing in advance what type of resource
 
 If you specify an [array][] of [strings][string] as the title of a resource body, Puppet will create multiple resources with the same set of attributes. This is useful when you have many resources that are nearly identical.
 
-``` puppet
+```puppet
 $rc_dirs = [
   '/etc/rc.d',       '/etc/rc.d/init.d','/etc/rc.d/rc0.d',
   '/etc/rc.d/rc1.d', '/etc/rc.d/rc2.d', '/etc/rc.d/rc3.d',
@@ -222,7 +222,7 @@ Although you cannot declare the same resource twice, you can add attributes to a
 
 ### Amending attributes with a resource reference
 
-``` puppet
+```puppet
 file { '/etc/passwd':
   ensure => file,
 }
@@ -247,7 +247,7 @@ You can also use the special `*` attribute to amend attributes from a hash. See 
 
 ### Amending attributes with a collector
 
-``` puppet
+```puppet
 class base::linux {
   file { '/etc/passwd':
     ensure => file,
@@ -291,7 +291,7 @@ Since classic [resource default statements][resdefaults] are subject to dynamic 
 
 To control those effects, you can define your defaults in a variable and re-use them in multiple places, by combining [per-expression defaults][inpage_defaults] and [setting attributes from a hash][inpage_splat].
 
-``` puppet
+```puppet
 class mymodule::params {
   $file_defaults = {
     mode  => '0644',
@@ -326,7 +326,7 @@ The `create_resources` function expects three arguments:
 
 If we assume we have those values in variables (`$type`, `$resources`, and `$defaults`):
 
-``` puppet
+```puppet
 $type = 'user'
 $resources = {
   'nick' => { uid    => '1330',
@@ -342,7 +342,7 @@ $defaults = { gid => 'allstaff',
 
 ...then we can create matching resources like this:
 
-``` puppet
+```puppet
 $resources.each |String $resource, Hash $attributes| {
   Resource[$type] {
     $resource: * => $attributes;

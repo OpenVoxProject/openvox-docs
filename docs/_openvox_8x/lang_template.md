@@ -49,7 +49,7 @@ You can put template files in the `templates` directory of a [module][]. EPP fil
 
 To use a template file, evaluate it with the [`template`](./function.html#template) (ERB) or [`epp`](./function.html#epp) function:
 
-``` puppet
+```puppet
 # epp(<FILE REFERENCE>, [<PARAMETER HASH>])
 file { '/etc/ntp.conf':
   ensure  => file,
@@ -96,7 +96,7 @@ The `template` function can take any number of additional template files, and wi
 
 If you have a [string][] value that contains template content, you can evaluate it with the `inline_template` (ERB) or `inline_epp` functions as follows:
 
-``` puppet
+```puppet
 $ntp_conf_template = @(END)
 ...template content goes here...
 END
@@ -164,7 +164,7 @@ You can use Ruby to check the syntax of ERB code by piping output from the `erb`
 
 If you need to validate many templates quickly, you can implement this command as a shell function in your shell's login script, such as `.bashrc`, `.zshrc`, or `.profile`:
 
-``` bash
+```bash
 validate_erb() {
   erb -P -x -T '-' $1 | ruby -c
 }

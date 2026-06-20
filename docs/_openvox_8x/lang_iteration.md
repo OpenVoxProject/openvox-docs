@@ -67,13 +67,13 @@ Hash            | `[<KEY>, <VALUE>]` (two-element array) | `<KEY>, <VALUE>`
 
 For example:
 
-``` puppet
+```puppet
 ['a','b','c'].each |Integer $index, String $value| { notice("${index} = ${value}") }
 ```
 
 This results in:
 
-``` text
+```text
 Notice: Scope(Class[main]): 0 = a
 Notice: Scope(Class[main]): 1 = b
 Notice: Scope(Class[main]): 2 = c
@@ -92,7 +92,7 @@ the loops occur in the order that they are written.
 Since the focus of the Puppet language is declaring resources, most people will want to use iteration to
 declare many similar resources at once:
 
-``` puppet
+```puppet
 $binaries = ['facter', 'hiera', 'mco', 'puppet', 'puppetserver']
 
 # function call with lambda:
@@ -113,7 +113,7 @@ In earlier versions of Puppet, when there were no iteration functions and lambda
 could achieve a clunkier form of iteration by writing [defined resource types][defined types] and
 [using arrays as resource titles.][array_titles] To do the same thing as the previous example:
 
-``` puppet
+```puppet
 # one-off defined resource type, in
 # /etc/puppetlabs/code/environments/production/modules/puppet/manifests/binary/symlink.pp
 define puppet::binary::symlink ($binary = $title) {
@@ -142,7 +142,7 @@ style, and might have to use it yourself to target older versions of Puppet.
 
 You can also use iteration to transform data into more useful forms. For example:
 
-``` puppet
+```puppet
 $filtered_array = [1,20,3].filter |$value| { $value < 10 }
 # returns [1,3]
 

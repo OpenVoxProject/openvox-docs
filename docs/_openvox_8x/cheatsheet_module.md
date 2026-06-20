@@ -36,7 +36,7 @@ This directory holds the module's Puppet code.
 
 **apache/manifests/init.pp**
 
-``` puppet
+```puppet
 class apache {
   ...
 }
@@ -46,7 +46,7 @@ class apache {
 
 **apache/manifests/vhost.pp**
 
-``` puppet
+```puppet
 define apache::vhost(
   $port,
   $docroot,
@@ -61,7 +61,7 @@ Other classes (and defined types) should be named
 
 **apache/manifests/config/ssl.pp**
 
-``` puppet
+```puppet
 class apache::config::ssl {
   ...
 }
@@ -83,7 +83,7 @@ filename`.
 
 To fetch this file:
 
-``` puppet
+```puppet
 file { '/etc/apache2/httpd.conf':
   ensure => file,
   source => 'puppet:///modules/apache/httpd.conf',
@@ -94,7 +94,7 @@ file { '/etc/apache2/httpd.conf':
 
 Puppet's file server can navigate any subdirectories:
 
-``` puppet
+```puppet
 file { '/etc/apache2/httpd-ssl.conf':
   ensure => file,
   source => 'puppet:///modules/apache/extra/ssl',
@@ -126,7 +126,7 @@ This directory holds ERB templates.
 
 To use this template:
 
-``` puppet
+```puppet
 file     {'/etc/apache2/sites-enabled/wordpress.conf':
   ensure => file,
   content => template('apache/vhost.erb'),

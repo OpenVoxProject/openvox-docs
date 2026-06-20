@@ -201,21 +201,21 @@ Note that this doesn't distinguish between an explicit value of `undef` and an a
 
 #### Examples
 
-``` puppet
+```puppet
 Struct[{mode => Enum[read, write, update],
         path => String[1]}]
 ```
 
 This data type would match hashes like `{mode => 'read', path => '/etc/fstab'}`. Both the `mode` and `path` keys are mandatory; `mode`'s value must be one of `'read', 'write',` or `'update'`, and `path` must be a string of at least one character.
 
-``` puppet
+```puppet
 Struct[{mode => Enum[read, write, update],
         path => Optional[String[1]]}]
 ```
 
 This data type would match the same values as the previous example, but the `path` key is optional. If present, `path` must match `String[1]` or Undef.
 
-``` puppet
+```puppet
 Struct[{mode            => Enum[read, write, update],
         path            => Optional[String[1]],
         Optional[owner] => String[1]}]
@@ -223,7 +223,7 @@ Struct[{mode            => Enum[read, write, update],
 
 In this data type, the `owner` key can be absent, but if it's present, it _must_ be a string; a value of `undef` isn't allowed.
 
-``` puppet
+```puppet
 Struct[{mode            => Enum[read, write, update],
         path            => Optional[String[1]],
         NotUndef[owner] => Optional[String[1]]}]
@@ -321,7 +321,7 @@ The signature for `Init` is:
 
 Check if a string value can be converted to a `SemVer`:
 
-``` puppet
+```puppet
 "1.2.3" =~ Init[SemVer]    # result is true
 "latest" =~ Init[SemVer]   # result is false
 ```
@@ -335,7 +335,7 @@ Check if a value can be converted to an `Integer`:
 
 Accept a parameter value that is either an `Integer` or a value convertible to one:
 
-``` puppet
+```puppet
 function example(Variant[Integer, Init[Integer]] $x) {
    $int_value = Integer($x)  # Safe conversion
 }

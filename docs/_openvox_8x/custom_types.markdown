@@ -59,7 +59,7 @@ not how it does it.
 
 Types are created by calling the `newtype` method on the `Puppet::Type` class:
 
-``` ruby
+```ruby
     # lib/puppet/type/database.rb
     Puppet::Type.newtype(:database) do
       @doc = "Create a new database."
@@ -85,7 +85,7 @@ You can and should write a string describing the resource type and assign it to 
 
 The string should be in [Markdown][] format (avoiding dialect-specific features that aren't universally supported). When the Puppet tools extract the string, they will strip the greatest common amount of leading whitespace from the front of each line, excluding the first line. For example:
 
-``` ruby
+```ruby
 Puppet::Type.newtype(:database) do
   @doc = %q{Creates a new database. Depending
     on the provider, this might create relational
@@ -133,7 +133,7 @@ special because it's used to create and destroy resources. You can
 set this property up on your resource type just by calling the
 ensurable method in your type definition:
 
-``` ruby
+```ruby
     Puppet::Type.newtype(:database) do
       ensurable
       ...
@@ -154,7 +154,7 @@ The rest of the properties are defined a lot like you define the
 types, with the newproperty method, which should be called on the
 type:
 
-``` ruby
+```ruby
     Puppet::Type.newtype(:database) do
       ensurable
       newproperty(:owner) do
@@ -176,7 +176,7 @@ and it will automatically handle accepting either strings or
 symbols. In most cases, you only define allowed values for ensure,
 but it works for other properties, too:
 
-``` ruby
+```ruby
     newproperty(:enable) do
       newvalue(:true)
       newvalue(:false)
@@ -190,7 +190,7 @@ unnecessary.
 For most properties, though, it is sufficient to set up
 validation:
 
-``` ruby
+```ruby
     newproperty(:owner) do
       validate do |value|
         unless value =~ /^\w+/
@@ -216,7 +216,7 @@ If, instead, the property should only be in sync if _all_
 values match the current value (e.g., a list of times in a cron
 job), you can declare this:
 
-``` ruby
+```ruby
     newproperty(:minute, :array_matching => :all) do # :array_matching defaults to :first
       ...
     end
@@ -238,14 +238,14 @@ those values directly by calling should on your resource (although
 note that when `:array_matching` is set to `:first` you get the first
 value in the array, otherwise you get the whole array):
 
-``` ruby
+```ruby
     myval = should(:color)
 ```
 
 When you're not sure (or don't care) whether you're dealing with a
 property or parameter, it's best to use value:
 
-``` ruby
+```ruby
     myvalue = value(:color)
 ```
 
@@ -257,7 +257,7 @@ methods being called on providers.
 
 To define a new parameter, call the `newparam` method. This method takes the name of the parameter (as a symbol) as its argument, as well as a block of code. You can and should provide documentation for each parameter by calling the `desc` method inside its block. Leading whitespace is trimmed from multiline strings [as described above][inpage_whitespace].
 
-``` ruby
+```ruby
     newparam(:name) do
       desc "The name of the database."
     end
@@ -273,7 +273,7 @@ There are three ways to designate a namevar. Every type must have **exactly one*
 
 **Option 1:** Create a parameter whose name is `:name`. Since most types just use `:name` as the namevar, it gets special treatment and will automatically become the namevar.
 
-``` ruby
+```ruby
     newparam(:name) do
       desc "The name of the database."
     end
@@ -281,7 +281,7 @@ There are three ways to designate a namevar. Every type must have **exactly one*
 
 **Option 2:** Provide the `:namevar => true` option as an additional argument to the `newparam` call. This allows you to use a namevar with a different, more descriptive name (such as the `file` type's `path` parameter).
 
-``` ruby
+```ruby
     newparam(:path, :namevar => true) do
       ...
     end
@@ -289,7 +289,7 @@ There are three ways to designate a namevar. Every type must have **exactly one*
 
 **Option 3:** Call the `isnamevar` method (which takes no arguments) inside the parameter's code block. This allows you to use a namevar with a different, more descriptive name. There is no practical difference between this and option 2.
 
-``` ruby
+```ruby
     newparam(:path) do
       isnamevar
       ...
@@ -317,7 +317,7 @@ There are three ways to designate a namevar. Every type must have **exactly one*
 If your parameter has a fixed list of valid values, you can declare
 them all at once:
 
-``` ruby
+```ruby
     newparam(:color) do
       newvalues(:red, :green, :blue, :purple)
     end
@@ -328,7 +328,7 @@ against regexes always happen after equality comparisons against
 literal values, and those matches are not converted to symbols. For
 instance, given the following definition:
 
-``` ruby
+```ruby
     newparam(:color) do
       desc "Your color, and stuff."
 
@@ -346,7 +346,7 @@ If your parameter does not have a defined list of values, or you
 need to convert the values in some way, you can use the validate
 and munge hooks:
 
-``` ruby
+```ruby
     newparam(:color) do
       desc "Your color, and stuff."
 
@@ -390,7 +390,7 @@ value, only during assignment.
 
 Boolean parameters are common.  To avoid repetition, some utilities are available:
 
-``` ruby
+```ruby
     require 'puppet/parameter/boolean'
     # ...
     newparam(:force, :boolean => true, :parent => Puppet::Parameter::Boolean)
@@ -410,7 +410,7 @@ autosubscribe, which all require a resource type as an argument,
 and your code should return a list of resource names that your
 resource could be related to.
 
-``` ruby
+```ruby
   autorequire(:user) do
       self[:user]
   end
@@ -434,7 +434,7 @@ If a `pre_run_check` method is present in the type, OpenVox agent and Puppet app
 
 As a trivial example, here's a pre-run check that will fail randomly, about one time out of six:
 
-``` ruby
+```ruby
     Puppet::Type.newtype(:thing) do
       newparam :name, :namevar => true
 
@@ -467,7 +467,7 @@ properties and parameters in the type can declare that they require
 one or more specific features, and Puppet will throw an error if
 those parameters are used with providers missing those features:
 
-``` ruby
+```ruby
     newtype(:coloring) do
       feature :paint, "The ability to paint.", :methods => [:paint]
       feature :draw, "The ability to draw."
@@ -486,7 +486,7 @@ more methods that must be defined on the provider. If no methods
 are specified, then the provider needs to specifically declare that
 it has that feature:
 
-``` ruby
+```ruby
     Puppet::Type.type(:coloring).provide(:drawer) do
       has_feature :draw
     end

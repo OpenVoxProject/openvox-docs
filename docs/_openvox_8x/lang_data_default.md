@@ -30,7 +30,7 @@ You can use `default` as the title in a [resource declaration][] to invoke speci
 
 Instead of creating a resource and adding it to the catalog, the special `default` resource sets fallback attributes that can be used by any other resource in the same resource expression. That is:
 
-``` puppet
+```puppet
 file {
   default:
     ensure => file,

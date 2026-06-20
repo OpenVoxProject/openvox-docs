@@ -1,4 +1,4 @@
-``` yaml
+```yaml
 ---
 version: 5
 defaults:  # Used for any hierarchy level that omits these keys.

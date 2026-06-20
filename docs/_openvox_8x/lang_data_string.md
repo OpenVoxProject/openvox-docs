@@ -37,7 +37,7 @@ Each of these have slightly different behavior around syntax, interpolation feat
 
 ## Bare words
 
-``` puppet
+```puppet
 service { 'ntp':
   ensure => running, # bare word string
 }
@@ -56,7 +56,7 @@ Bare word strings can't interpolate values and can't use escape sequences.
 
 ## Single-quoted strings
 
-``` puppet
+```puppet
 if $autoupdate {
   notice('autoupdate parameter has been deprecated and replaced with package_ensure.  Set this to latest for the same behavior as autoupdate => true.')
 }
@@ -107,7 +107,7 @@ Sequence | Result
 
 ## Heredocs
 
-``` puppet
+```puppet
 $gitconfig = @("GITCONFIG"/L)
     [user]
         name = ${displayname}
@@ -350,7 +350,7 @@ If the second number is omitted, it defaults to `1` (a single character).
 
 Examples:
 
-``` puppet
+```puppet
 $foo = 'abcdef'
 notice( $foo[0] )    # resolves to 'a'
 notice( $foo[0,2] )  # resolves to 'ab'
@@ -361,7 +361,7 @@ notice( $foo[-3,2] ) # resolves to 'de'
 
 Text outside the actual range of the string is treated as an infinite amount of empty string.
 
-``` puppet
+```puppet
 $foo = 'abcdef'
 notice( $foo[10] )    # resolves to ''
 notice( $foo[3,10] )  # resolves to 'def'

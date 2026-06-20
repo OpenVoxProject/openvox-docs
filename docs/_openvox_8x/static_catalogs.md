@@ -44,7 +44,7 @@ We call this type of catalog "static" because it contains all of the information
 
 A static catalog includes file metadata in its own section and associates it with the catalog's file resources. For example, consider the following file resource:
 
-``` puppet
+```puppet
 file { '/etc/application/config.conf':
   ensure => file,
   source => 'puppet:///modules/module_name/config.conf'
@@ -77,7 +77,7 @@ The `code-id-command` and `code-content-command` scripts can be as simple or com
 
 For example, for files in an environment managed by Git, use something like the following `code-id-command` script, with the environment name passed in as the first command-line argument:
 
-``` bash
+```bash
 #!/bin/bash
 set -e
 if [[ -z "$1" ]]; then
@@ -91,7 +91,7 @@ As long as the script's exit code is zero, OpenVox Server uses the script's stan
 
 A `code-content-command` script can also be simple. OpenVox Server passes the environment name as the first command-line argument, the `code_id` as the second argument, and the path to the file resource from its `content_uri` as the third argument:
 
-``` bash
+```bash
 #!/bin/bash
 set -e
 if [[ $# < 3 ]]; then

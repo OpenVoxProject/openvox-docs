@@ -23,7 +23,7 @@ This page covers how to write EPP templates. See [Templates](./lang_template.htm
 
 ## EPP structure and syntax
 
-``` erp
+```erp
 <%- | Boolean $keys_enable,
       String  $keys_file,
       Array   $keys_trusted,
@@ -78,7 +78,7 @@ An expression-printing tag inserts the value of a single [Puppet expression](./l
 
 All facts are available in EPP templates. For example, to insert the value of the `fqdn` and `hostname` facts in an EPP template for an Apache config file, you could do something like:
 
-``` epp
+```epp
 ServerName <%= $facts[fqdn] %>
 ServerAlias <%= $facts[hostname] %>
 ```
@@ -99,7 +99,7 @@ Non-printing tags that contain [iterative](./lang_iteration.html) and [condition
 
 For example, to insert text only if a certain variable was set, you could do something like:
 
-``` erp
+```erp
 <% if $broadcastclient == true { -%>
 broadcastclient
 <% } -%>
@@ -107,7 +107,7 @@ broadcastclient
 
 Expressions in non-printing tags don't have to resolve to a value or be a complete statement, but the tag must close at a place where it would be legal to write another expression. For example, you couldn't write:
 
-``` erp
+```erp
 <%# Syntax error: %>
 <% $servers.each -%>
 # some server
@@ -136,7 +136,7 @@ The parameter tag is optional; if used, it **must** be the first content in a te
 
 The parameter tag's pair of pipe characters (`|`) should contain a comma-separated list of parameters. Each parameter follows this format:
 
-``` puppet
+```puppet
 Boolean $keys_enable = false
 ```
 
@@ -192,11 +192,11 @@ This means templates can use short names to access global variables (like `$os` 
 
 You can pass parameters when you call a template, and they will become local variables inside the template. To do this, pass a [hash][] as the last argument of the [`epp`][epp] or [`inline_epp`][inline_epp] functions:
 
-``` puppet
+```puppet
 epp('example/example.epp', { 'logfile' => "/var/log/ntp.log" })
 ```
 
-``` epp
+```epp
 <%- | Optional[String] $logfile = undef | -%>
 <%# (Declare the $logfile parameter as optional) -%>
 
@@ -239,7 +239,7 @@ If:
 
 The following example is an EPP translation of the `ntp.conf.erb` template from the [`puppetlabs-ntp`][ntp] module.
 
-``` epp
+```epp
 # ntp.conf: Managed by puppet.
 #
 <% if $ntp::tinker == true and ($ntp::panic or $ntp::stepout) { -%>
@@ -336,7 +336,7 @@ leapfile <%= $ntp::leapfile %>
 
 To call this template from a manifest (presuming that the template file is located in the `templates` directory of the `puppetlabs-ntp` module), add the following code to the manifest:
 
-``` puppet
+```puppet
 # epp(<FILE REFERENCE>, [<PARAMETER HASH>])
 file { '/etc/ntp.conf':
   ensure  => file,

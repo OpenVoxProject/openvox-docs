@@ -12,7 +12,7 @@ The options hash contains the following keys:
 
 For example: this hierarchy level in hiera.yaml...
 
-``` yaml
+```yaml
   - name: "Secret data: per-node, per-datacenter, common"
     lookup_key: eyaml_lookup_key # eyaml backend
     datadir: data
@@ -27,7 +27,7 @@ For example: this hierarchy level in hiera.yaml...
 
 ...would result in several different options hashes (depending on the current node's facts, whether the files exist, etc.), but they would all resemble the following:
 
-``` ruby
+```ruby
 {
   'path' => '/etc/puppetlabs/code/environments/production/data/secrets/nodes/web01.example.com.eyaml',
   'pkcs7_private_key' => '/etc/puppetlabs/puppet/eyaml/private_key.pkcs7.pem',

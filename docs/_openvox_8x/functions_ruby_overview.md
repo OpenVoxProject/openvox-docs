@@ -20,7 +20,7 @@ OpenVox includes two Ruby APIs for writing custom functions. This page is about 
 
 ## Basic syntax
 
-``` ruby
+```ruby
 # /etc/puppetlabs/code/environments/production/modules/mymodule/lib/puppet/functions/mymodule/upcase.rb
 Puppet::Functions.create_function(:'mymodule::upcase') do
   dispatch :up do
@@ -45,7 +45,7 @@ The `create_function` method requires:
 
 In summary, with the pieces labled:
 
-``` ruby
+```ruby
 Puppet::Functions.create_function(:<FUNCTION NAME>) do
   dispatch :<METHOD NAME> do
     param '<DATA TYPE>', :<ARGUMENT NAME (displayed in docs/errors)>

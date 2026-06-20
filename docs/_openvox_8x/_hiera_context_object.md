@@ -109,7 +109,7 @@ For best performance, use this method to read files in Hiera backends.
 
 Returns the content of the specified file, as a string. If an optional block is provided, it passes the content to the block and returns the block's return value. For example, the built-in JSON backend uses a block to parse JSON and return a hash:
 
-``` ruby
+```ruby
     context.cached_file_data(path) do |content|
       begin
         JSON.parse(content)
