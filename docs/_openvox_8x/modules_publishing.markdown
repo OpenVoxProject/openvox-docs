@@ -103,11 +103,11 @@ junit/
 tmp/
 ```
 
-The `.pdkignore` file excludes files during `jig module build` only.
+The `.pdkignore` file excludes files during `jig build` only.
 For example, you might want spec tests in your source control but not in your module package, so you would list them in `.pdkignore`.
 To prevent files, such as those in temporary directories, from ever being checked into Git, use `.gitignore`.
 
-If you have both a `.pdkignore` and a `.gitignore` file, the `jig module` command uses the `.pdkignore` file.
+If you have both a `.pdkignore` and a `.gitignore` file, the `jig build` command uses the `.pdkignore` file.
 
 ### Removing symlinks from your module
 
@@ -143,7 +143,7 @@ Related topics:
 
 To upload your module to the Forge, you first must build the module package.
 
-1. From the command line in your module's root directory, run `jig build build`. This command generates a `.tar.gz` package and saves it in the module's `pkg/` subdirectory.
+1. From the command line in your module's root directory, run `jig build`. This command generates a `.tar.gz` package and saves it in the module's `pkg/` subdirectory.
 
    For example:
 
