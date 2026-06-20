@@ -72,7 +72,9 @@ You can use parameters to restrict which values `Regexp` will match.
 
 The full signature for `Regexp` is:
 
-    Regexp[<SPECIFIC REGULAR EXPRESSION>]
+```puppet
+Regexp[<SPECIFIC REGULAR EXPRESSION>]
+```
 
 This parameter is optional.
 

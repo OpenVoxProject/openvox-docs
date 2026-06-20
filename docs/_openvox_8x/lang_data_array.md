@@ -155,7 +155,9 @@ You can use parameters to restrict which values `Array` will match.
 
 The full signature for `Array` is:
 
-    Array[<CONTENT TYPE>, <MIN SIZE>, <MAX SIZE>]
+```puppet
+Array[<CONTENT TYPE>, <MIN SIZE>, <MAX SIZE>]
+```
 
 All of these parameters are optional. They must be listed in order; if you need to specify a later parameter, you must specify values for any prior ones.
 

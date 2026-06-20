@@ -190,7 +190,9 @@ You can use parameters to restrict which values `Type` will match.
 
 The full signature for `Type` is:
 
-    Type[<ANY DATA TYPE>]
+```puppet
+Type[<ANY DATA TYPE>]
+```
 
 All of these parameters are optional. They must be listed in order; if you need to specify a later parameter, you must specify values for any prior ones.
 

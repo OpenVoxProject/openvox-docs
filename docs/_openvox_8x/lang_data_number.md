@@ -105,7 +105,9 @@ You can use parameters to restrict which values `Integer` will match.
 
 The full signature for `Integer` is:
 
-    Integer[<MIN VALUE>, <MAX VALUE>]
+```puppet
+Integer[<MIN VALUE>, <MAX VALUE>]
+```
 
 All of these parameters are optional. They must be listed in order; if you need to specify a later parameter, you must specify values for any prior ones.
 
@@ -136,7 +138,9 @@ You can use parameters to restrict which values `Float` will match.
 
 The full signature for `Float` is:
 
-    Float[<MIN VALUE>, <MAX VALUE>]
+```puppet
+Float[<MIN VALUE>, <MAX VALUE>]
+```
 
 All of these parameters are optional. They must be listed in order; if you need to specify a later parameter, you must specify values for any prior ones.
 

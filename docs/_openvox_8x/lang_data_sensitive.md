@@ -15,7 +15,9 @@ The Sensitive type can be written as `Sensitive.new(val)`, or the shortform `Sen
 
 The full signature for `Sensitive` is:
 
-    Sensitive.new([<ANY VALUE>])
+```puppet
+Sensitive.new([<ANY VALUE>])
+```
 
 The Sensitive type is parameterized, but the parameterized type (the type of the value it contains) only retains the basic type, but sensitive information about the length or details about the contained data value can be leaked.
 
@@ -34,7 +36,7 @@ This outputs `Notice: Scope(Class[main]): Sensitive [value redacted]`.
 
 However, you can still unwrap this with the `unwrap` function and gain access to the original data.
 
-```
+```puppet
 $secret = Sensitive('myPassword')
 $processed = $secret.unwrap
 notice $processed
