@@ -16,15 +16,18 @@ If you get an error about a command not being available, you probably just need 
 
 {% include alert.html type="tip" content="There are a few exceptions to this pattern. For example, Jig is an installed package and VoxBox is a Docker container." %}
 
-| You used to type... | Now you type...                  |
-|---------------------|----------------------------------|
-| `pdk new module`    | `jig new module`                 |
-| `pdk new class`     | `jig new class`                  |
-| `pdk build`         | `jig build`                 |
-| `pdk release`       | `jig release`                    |
-| `pdk convert`       | _not needed_                     |
-| `pdk update`        | `bundle exec msync update`       |
-| `pdk validate`      | `bundle exec rake validate lint` |
-| `pdk test unit`     | `bundle exec rake spec`          |
+| You used to type... | Now you type...  |
+|---------------------|------------------|
+| `pdk new module`    | `jig new module` |
+| `pdk new class`     | `jig new class`  |
+| `pdk build`         | `jig build`      |
+| `pdk release`       | `jig release`    |
+| `pdk convert`       | _not needed_     |
+| `pdk update`        | `jig update`     |
+| `pdk validate`      | `jig validate`   |
+| `pdk test unit`     | `jig test unit`  |
+
+`jig update`, `jig validate`, and `jig test unit` are thin wrappers around `bundle exec msync update`, `bundle exec rake validate lint`, and `bundle exec rake spec` respectively, so they still need the module's gems installed (`bundle install`).
+You can keep running the underlying `bundle exec` commands directly if you prefer.
 
 Browse through the individual subpages of this Developer Tooling section to learn more about each component.

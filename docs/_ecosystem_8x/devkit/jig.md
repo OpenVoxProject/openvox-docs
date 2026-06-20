@@ -13,11 +13,11 @@ While OpenVox can technically load content this way in some cases, it's best to 
 
 It's possible to create files and maintain the proper directory structure by hand and nothing prevents you from doing so.
 However, many people today prefer to use a scaffolding tool to maintain proper structure and consistency.
-The tool we recommend for this today is [Jig](https://github.com/avitacco/jig).
+The tool we recommend for this today is [Jig](https://github.com/voxpupuli/jig).
 
 ## Installing Jig
 
-Download the latest release for your platform from the [releases page](https://github.com/avitacco/jig/releases).
+Download the latest release for your platform from the [releases page](https://github.com/voxpupuli/jig/releases).
 Uncompress it and move the `jig` binary to a path like `/usr/local/bin`.
 
 {% include alert.html type="tip" title="macOS Security Alert" content="The packages are unsigned, so macOS won't open them by default. Run it once and cancel the warning dialog that tells you to trash it.
@@ -29,7 +29,7 @@ This will place the compiled binary into `$GOPATH/bin`, which is likely to be `~
 Ensure that location is in your `$PATH`.
 
 ```console
-go install github.com/avitacco/jig@latest
+go install github.com/voxpupuli/jig@latest
 ```
 
 ## Creating a new module
@@ -46,6 +46,9 @@ Summary of the module []: This is not a real module; it just demonstrates the Ji
 Source URL for the module []: https://http.cat/status/404
 Created new module demo in /Users/ben.ford/Projects/demo
 ```
+
+To skip the interview and take the values from your config file, flags, or defaults instead, pass `--skip-interview` (or `-i`).
+You can supply individual values with flags such as `--forge-user`, `--author`, `--license`, `--summary`, and `--source`.
 
 Jig will create the full directory structure with starter files for the main class, Hiera data, rspec initialization helpers, etc.
 
@@ -123,7 +126,7 @@ Jig can create other types of content for your module:
 * `transport` _(uncommon)_
   * Creates a new [Resource API](https://github.com/puppetlabs/puppet-resource_api) transport and its associated files.
 
-See [Jig's GitHub page](https://github.com/avitacco/jig) for full documentation.
+See [Jig's GitHub page](https://github.com/voxpupuli/jig) for full documentation.
 
 ## Configuring Jig
 
@@ -148,7 +151,12 @@ To customize them, you'd dump them to disk and then edit as you like.
 jig templates dump ~/.config/jig/templates
 ```
 
-To use your new templates, add this directory to your Jig config file.
+Any template found in your directory takes precedence over the embedded default, and any template you don't override falls back to the embedded version, so you only need to include the files you want to change.
+
+To tell Jig where your templates live, use either of the following:
+
+* the `--template-dir` (`-t`) flag on `jig new`, which takes precedence, or
+* the `template_dir` key in your Jig config file.
 
 -----
 
