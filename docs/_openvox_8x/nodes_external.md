@@ -28,9 +28,9 @@ When compiling a node's catalog, Puppet includes **all** of the following:
 * Any classes specified in the node object it received from the node terminus
 * Any classes or resources which are in the site manifest but outside any node definitions
 * Any classes or resources in the most specific node definition in site.pp that matches the current node (if site.pp contains any node definitions)
-    * Note 1: If site.pp contains at least one node definition, it **must** have a node definition that matches the current node; compilation fails if a match can't be found.
-    * Note 2: If the node name resembles a dot-separated fully qualified domain name, Puppet makes multiple attempts to match a node definition, removing the right-most part of the name each time. Thus, Puppet would first try `agent1.example.com`, then `agent1.example`, then `agent1`. This behavior isn't mimicked when calling an ENC, which is invoked only once with the agent's full node name.
-    * Note 3: If no matching node definition can be found with the node's name, Puppet tries one last time with a node name of `default`; most users include a `node default {}` statement in their site.pp file. This behavior isn't mimicked when calling an ENC.
+  * Note 1: If site.pp contains at least one node definition, it **must** have a node definition that matches the current node; compilation fails if a match can't be found.
+  * Note 2: If the node name resembles a dot-separated fully qualified domain name, Puppet makes multiple attempts to match a node definition, removing the right-most part of the name each time. Thus, Puppet would first try `agent1.example.com`, then `agent1.example`, then `agent1`. This behavior isn't mimicked when calling an ENC, which is invoked only once with the agent's full node name.
+  * Note 3: If no matching node definition can be found with the node's name, Puppet tries one last time with a node name of `default`; most users include a `node default {}` statement in their site.pp file. This behavior isn't mimicked when calling an ENC.
 
 
 ## Considerations and differences from node definitions
@@ -53,8 +53,8 @@ To tell OpenVox Server to use an ENC, you need to set two [settings](./config_ab
 
 ### Related topics
 
--   [`node_terminus`](./configuration.html#node_terminus)
--   [`external_nodes`](./configuration.html#external_nodes)
+* [`node_terminus`](./configuration.html#node_terminus)
+* [`external_nodes`](./configuration.html#external_nodes)
 
 
 ## ENC output format

@@ -3,7 +3,6 @@ layout: default
 title: "Resource tips and examples: Exec on Windows"
 ---
 
-[package]: ./type.html#package
 [exec]: ./type.html#exec
 
 

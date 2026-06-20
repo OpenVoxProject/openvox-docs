@@ -9,17 +9,13 @@ layout: default
 [collector]: ./lang_collectors.html
 [resource]: ./lang_resources.html
 [naming]: ./lang_reserved.html#classes-and-defined-resource-types
-[resource_namevar]: ./lang_resources.html#namenamevar
 [relationships]: ./lang_relationships.html
-[resource_title]: ./lang_resources.html#title
 [metaparameters]: ./lang_resources.html#metaparameters
 [modules]: ./modules_fundamentals.html
 [resource_defaults]: ./lang_defaults.html
-[classes]: ./lang_classes.html
 [variable_assignment]: ./lang_variables.html#assignment
 [variable]: ./lang_variables.html
 [references_namespaced]: ./lang_data_resource_reference.html
-[attributes]: ./lang_resources.html#attributes
 [title]: ./lang_resources.html#title
 [contains]: ./lang_containment.html
 [catalog]: ./lang_summary.html#compilation-and-catalogs
@@ -68,13 +64,13 @@ The general form of a define statement is:
 * The `define` keyword
 * The [name][naming] of the defined type
 * An optional **parameter list,** which consists of:
-    * An opening parenthesis
-    * A comma-separated list of **parameters** (e.g. `String $myparam = "default value"`). Each parameter consists of:
-        * An optional [data type][literal_types], which will restrict the allowed values for the parameter (defaults to `Any`)
-        * A [variable][] name to represent the parameter, including the `$` prefix
-        * An optional equals (`=`) sign and **default value** (which must match the data type, if one was specified)
-    * An optional trailing comma after the last parameter
-    * A closing parenthesis
+  * An opening parenthesis
+  * A comma-separated list of **parameters** (e.g. `String $myparam = "default value"`). Each parameter consists of:
+    * An optional [data type][literal_types], which will restrict the allowed values for the parameter (defaults to `Any`)
+    * A [variable][] name to represent the parameter, including the `$` prefix
+    * An optional equals (`=`) sign and **default value** (which must match the data type, if one was specified)
+  * An optional trailing comma after the last parameter
+  * A closing parenthesis
 * An opening curly brace
 * A block of arbitrary Puppet code, which generally contains at least one [resource declaration][resource]
 * A closing curly brace

@@ -3,9 +3,6 @@ layout: default
 title: "Language: Data types: Sensitive"
 ---
 
-[arithmetic]: ./lang_expressions.html#arithmetic-operators
-[data type]: ./lang_data_type.html
-[variant]: ./lang_data_abstract.html#variant
 
 
 Sensitive types in the Puppet language are strings marked as sensitive. The value is displayed in plain text in the catalog and manifest, but is redacted from logs and reports. Because the value is currently maintained as plain text, you should only use it as an aid to ensure that sensitive values are not inadvertently disclosed.
@@ -45,6 +42,4 @@ notice $processed
 
 
 In future implementations, this info might be encrypted, removing access to the original data with this method, but it currently is not and therefore you should only use it as an aid for logs and reports.
-
-
 

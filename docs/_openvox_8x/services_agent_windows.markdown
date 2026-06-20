@@ -4,18 +4,14 @@ title: "Puppet's services: OpenVox agent on Windows systems"
 ---
 
 [catalogs]: ./subsystem_catalog_compilation.html
-[unix_agent]: ./services_agent_unix.html
-[resource type reference]: ./type.html
 [Choria]: https://choria.io
 [puppet.conf]: ./config_file_main.html
 [runinterval]: ./configuration.html#runinterval
 [short_settings]: ./config_important_settings.html#settings-for-agents-all-nodes
-[page on triggering puppet runs]: {{pe}}/orchestration_puppet.html
 [msiproperties]: ./install_windows.html#automated-installation
 [uac]: ./images/uac.png
 [rightclick]: ./images/run_as_admin.png
 [report]: ./reporting_about.html
-[running]: ./services_commands_windows.html
 
 OpenVox agent is the application that manages configurations on nodes. It requires an OpenVox Server server to fetch configuration [catalogs][] from. (For more info, see [Overview of Puppet's Architecture](./architecture.html).)
 

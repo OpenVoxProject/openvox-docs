@@ -33,7 +33,7 @@ The section name specifies the `certname` of the device.
 
 The values for the `type` and `url` properties are specific to each type of device.
 
-The the optional `debug` property specifies transport-level debugging, 
+The the optional `debug` property specifies transport-level debugging,
 and is limited to telnet and ssh transports.
 
 

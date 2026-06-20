@@ -12,16 +12,16 @@ This guide walks you through the process to make sure your OpenVox Server and ag
 >
 > For this walk-through, log in as root or administrator on your nodes.
 
-##  Modifying the `/etc/hosts` files
+## Modifying the `/etc/hosts` files
 
 To make sure your OpenVox Server and agents communicate, update the `/etc/hosts` file on each so that they’re aware of each other.
 First, use your text editor to open `/etc/hosts` on your OpenVox Server. Add each of your agents by IP address and name below the existing text. It should look something like this:
 
-		192.168.33.11    agent1.example.com
+  192.168.33.11    agent1.example.com
 
 Next, add the name and IP address of your OpenVox Server to each of your OpenVox agents. Use your text editor to open `/etc/hosts` on your OpenVox agent and add the IP address and name of your OpenVox Server below the existing text, as well as the alias `puppet`. It should look similar to this:
 
-		192.168.33.10    master.example.com puppet
+  192.168.33.10    master.example.com puppet
 
 Repeat this step for all of your OpenVox agents.
 
@@ -35,7 +35,7 @@ For your OpenVox Server to sign an agent certificate, the agent needs to be able
 
 From the command line on your OpenVox Server, run:
 
-		iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 8140 -j ACCEPT
+  iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 8140 -j ACCEPT
 
 From the command line on each OpenVox agent, run `puppet agent -t`.
 

@@ -3,7 +3,6 @@ layout: default
 title: "Directories: The cache directory (vardir)"
 ---
 
-[confdir]: ./dirs_confdir.html
 [config_ref]: ./configuration.html
 [puppetserver_conf]: /openvox-server/latest/config_file_puppetserver.html
 
@@ -60,18 +59,18 @@ The `vardir` directory has the following default structure. Most of the files an
 * [`facts.d` (`pluginfactdest`)][pluginfactdest]
 * [`lib` (`libdir`)][libdir] (also [plugindest][]) --- Puppet uses this as a cache for plugins (custom facts, types and providers, functions) synced from an OpenVox Server. Do not directly change it. If you delete it, the plugins will be restored on the next Puppet run.
 * [`puppet-module` (`module_working_dir`)][module_working_dir]
-    * `skeleton` (`module_skeleton_dir`)
+  * `skeleton` (`module_skeleton_dir`)
 * [`reports` (`reportdir`)][reportdir] --- When the `store` report is enabled, an OpenVox Server will store all reports received from agents as YAML files in this directory. These can be easily mined for analysis by an out-of-band process.
 * [`server_data` (`serverdatadir`)][serverdatadir]
 * [`state` (`statedir`)][statedir]
-    * [`agent_catalog_run.lock` (`agent_catalog_run_lockfile`)][agent_catalog_run_lockfile]
-    * [`agent_disabled.lock` (`agent_disabled_lockfile`)][agent_disabled_lockfile]
-    * [`classes.txt` (`classfile`)][classfile] --- This file is a favorite for external integration. It lists all of the classes assigned to this agent node.
-    * [`graphs` (`graphdir`)][graphdir] --- Agent nodes write a set of `.dot` graph files to this directory when graphing is enabled. These graphs can be used to diagnose problems with catalog application, as well as to visualize the configuration catalog.
-    * [`last_run_summary.yaml` (`lastrunfile`)][lastrunfile]
-    * [`last_run_report.yaml` (`lastrunreport`)][lastrunreport]
-    * [`resources.txt` (`resourcefile`)][resourcefile]
-    * [`state.yaml` (`statefile`)][statefile]
+  * [`agent_catalog_run.lock` (`agent_catalog_run_lockfile`)][agent_catalog_run_lockfile]
+  * [`agent_disabled.lock` (`agent_disabled_lockfile`)][agent_disabled_lockfile]
+  * [`classes.txt` (`classfile`)][classfile] --- This file is a favorite for external integration. It lists all of the classes assigned to this agent node.
+  * [`graphs` (`graphdir`)][graphdir] --- Agent nodes write a set of `.dot` graph files to this directory when graphing is enabled. These graphs can be used to diagnose problems with catalog application, as well as to visualize the configuration catalog.
+  * [`last_run_summary.yaml` (`lastrunfile`)][lastrunfile]
+  * [`last_run_report.yaml` (`lastrunreport`)][lastrunreport]
+  * [`resources.txt` (`resourcefile`)][resourcefile]
+  * [`state.yaml` (`statefile`)][statefile]
 * [`yaml` (`yamldir`)][yamldir]
 
 [bucketdir]: ./configuration.html#bucketdir
@@ -84,14 +83,7 @@ The `vardir` directory has the following default structure. Most of the files an
 [libdir]: ./configuration.html#libdir
 [plugindest]: ./configuration.html#plugindest
 [module_working_dir]: ./configuration.html#module_working_dir
-[logdir]: ./configuration.html#logdir
-[httplog]: ./configuration.html#httplog
-[masterhttplog]: ./configuration.html#masterhttplog
-[masterlog]: ./configuration.html#masterlog
-[puppetdlog]: ./configuration.html#puppetdlog
 [reportdir]: ./configuration.html#reportdir
-[rundir]: ./configuration.html#rundir
-[pidfile]: ./configuration.html#pidfile
 [serverdatadir]: ./configuration.html#server_datadir
 [statedir]: ./configuration.html#statedir
 [agent_catalog_run_lockfile]: ./configuration.html#agent_catalog_run_lockfile

@@ -103,9 +103,9 @@ The general form of an "if" statement is:
 * A **condition** (any expression resolving to a boolean value)
 * A pair of curly braces containing any Puppet code
 * **Optionally:** any number of `elsif` clauses, which will be processed in order. An `elsif` clause consists of:
-    * The `elsif` keyword
-    * A **condition**
-    * A pair of curly braces containing any Puppet code
+  * The `elsif` keyword
+  * A **condition**
+  * A pair of curly braces containing any Puppet code
 * **Optionally:** the `else` keyword and a pair of curly braces containing Puppet code
 
 ### Behavior
@@ -200,7 +200,6 @@ Static values can also be conditions, although doing this would be pointless.
 Although "unless" statements receive regex capture variables like "if" statements, they usually aren't used, since the code in the statement will only be executed if the condition didn't match anything. It's possible to use regex captures in the "else" clause, but it would make more sense to just use an "if" statement.
 
 
-
 Case Statements
 -----
 
@@ -223,9 +222,9 @@ The general form of a case statement is:
 * A **control expression** (any expression resolving to a value; see below)
 * An opening curly brace
 * Any number of possible matches, which consist of:
-    * A **case** (see below) or comma-separated list of cases
-    * A colon
-    * A pair of curly braces containing any arbitrary Puppet code
+  * A **case** (see below) or comma-separated list of cases
+  * A colon
+  * A pair of curly braces containing any arbitrary Puppet code
 * A closing curly brace
 
 
@@ -345,10 +344,10 @@ The general form of a selector is:
 * The `?` (question mark) keyword
 * An opening curly brace
 * Any number of possible matches, each of which consists of:
-    * A **case** (see below)
-    * The `=>` (fat comma) keyword
-    * A **value** (which can be any expression resolving to a value)
-    * A trailing comma
+  * A **case** (see below)
+  * The `=>` (fat comma) keyword
+  * A **value** (which can be any expression resolving to a value)
+  * A trailing comma
 * A closing curly brace
 
 ### Behavior

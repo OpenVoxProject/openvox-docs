@@ -17,8 +17,8 @@ A report processor must adhere to these standards:
 * It must be in its own Ruby file named `<NAME>.rb`, inside a Puppet module's `lib/puppet/reports/` directory.
 * Its Ruby code must start with `require 'puppet'`.
 * It must call the `Puppet::Reports.register_report(:NAME)` method. This method takes the name of the report as a symbol, and a mandatory block of code with no arguments that contains:
-    * A Markdown-formatted string describing the processor, passed to the `desc(<DESCRIPTION>)` method.
-    * An implementation of a method named `process` that contains the report processor's main functionality.
+  * A Markdown-formatted string describing the processor, passed to the `desc(<DESCRIPTION>)` method.
+  * An implementation of a method named `process` that contains the report processor's main functionality.
 
 Puppet will let the `process` method access a `self` object, which will be a [`Puppet::Transaction::Report` object][format] describing a Puppet run.
 

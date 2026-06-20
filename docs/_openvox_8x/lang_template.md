@@ -16,7 +16,6 @@ title: "Language: Using templates"
 [string]: ./lang_data_string.html
 [hash]: ./lang_data_hash.html
 [valid local variable names]: ./lang_reserved.html#variables
-[heredoc]: ./lang_data_string.html#heredocs
 [iteration functions]: ./lang_iteration.html
 [stdlib]: https://forge.puppet.com/puppetlabs/stdlib
 

@@ -70,6 +70,7 @@ Configure Puppet Server in three steps:
    # To disable the CA service, comment out the above line and uncomment the line below
    puppetlabs.services.ca.certificate-authority-disabled-service/certificate-authority-disabled-service
    ```
+
 2. Set a static value for the `certname` setting in [`puppet.conf`][conf]:
 
    ```

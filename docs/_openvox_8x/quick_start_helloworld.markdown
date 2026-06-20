@@ -24,15 +24,15 @@ Some modules can be large, complex, and require a significant amount of trial an
 
 Modules are directory trees. For this task, you'll create the following structure and files:
 
- - `helloworld/` (the module name)
-   - `manifests/`
-      - `init.pp` (manifest file that contains the `helloworld` class)
-      - `motd.pp` (manifest file that contains a file resource that ensures the creation of the motd)
+- `helloworld/` (the module name)
+  - `manifests/`
+    - `init.pp` (manifest file that contains the `helloworld` class)
+    - `motd.pp` (manifest file that contains a file resource that ensures the creation of the motd)
 
 Every manifest (.pp file) in a module contains a single class. File names map to class names in a predictable way, described in the [Autoloader Behavior documentation](./lang_namespaces.html#autoloader-behavior). The `init.pp` file is a special case that contains a class named after the module, `helloworld`. Other manifest files contain classes called `<MODULE NAME>::<FILE NAME>`, or in this case, `helloworld::motd`.
 
-* For more on how modules work, see [Module Fundamentals](./modules_fundamentals.html) in the Puppet documentation.
-* For more on best practices, methods, and approaches to writing modules, see the [Beginners Guide to Modules](./bgtm.html).
+- For more on how modules work, see [Module Fundamentals](./modules_fundamentals.html) in the Puppet documentation.
+- For more on best practices, methods, and approaches to writing modules, see the [Beginners Guide to Modules](./bgtm.html).
 
 **To write the `helloworld` class**:
 
@@ -60,7 +60,7 @@ Every manifest (.pp file) in a module contains a single class. File names map to
 
 6. Save and exit the file.
 
->  Hooray! You've written a module that contains two classes that will, once applied, show a notification message when Puppet runs, and manage the motd on your server.
+> Hooray! You've written a module that contains two classes that will, once applied, show a notification message when Puppet runs, and manage the motd on your server.
 
 ## Add the `helloworld` and `helloworld::motd` classes to the main manifest
 
@@ -80,7 +80,7 @@ The [default node](./lang_node_definitions.html#the-default-node) is a special v
 3. Add the following Puppet code within `node default {  }`:
 
         class { 'helloworld': }
-		class { 'helloworld::motd': }
+  class { 'helloworld::motd': }
 
 4. Save and exit the file.
 
@@ -92,15 +92,15 @@ The [default node](./lang_node_definitions.html#the-default-node) is a special v
 
 After you kick off the puppet run, you will see the following on the command line as the `helloworld` class is applied:
 
-		[root@agent1 ~]# puppet agent -t
-		Info: Retrieving pluginfacts
-		Info: Retrieving plugin
-		Info: Loading facts
-		Info: Caching catalog for agent1.example.com
-		Info: Applying configuration version '1437172035'
-		Notice: hello, world!
-		Notice: /Stage[main]/Main/Node[default]/Notify[hello, world!]/message: defined 'message' as 'hello, world!'
-		Notice: Applied catalog in 1.25 seconds
+  [root@agent1 ~]# puppet agent -t
+  Info: Retrieving pluginfacts
+  Info: Retrieving plugin
+  Info: Loading facts
+  Info: Caching catalog for agent1.example.com
+  Info: Applying configuration version '1437172035'
+  Notice: hello, world!
+  Notice: /Stage[main]/Main/Node[default]/Notify[hello, world!]/message: defined 'message' as 'hello, world!'
+  Notice: Applied catalog in 1.25 seconds
 
 From the command line of your agent, run `cat /etc/motd`. The result should show `hello, world!`
 

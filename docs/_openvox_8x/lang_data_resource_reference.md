@@ -81,8 +81,8 @@ file { '/etc/second.conf':
 * Like referencing variables, attribute access depends on evaluation order: Puppet must evaluate the resource you're accessing _before_ you try to access it. If it hasn't been evaluated yet, Puppet will raise an evaluation error.
 * You can only access attributes that are valid for that resource type. If you try to access a nonexistent attribute, Puppet will raise an evaluation error.
 * Puppet can only read the values of attributes that are _explicitly set_ in the resource's declaration.
-    * It can't read the values of properties that would have to be read from the target system.
-    * It also can't read the values of attributes that default to some predictable value; for example, in the code above, you wouldn't be able to access the value of the `path` attribute, even though it defaults to the resource's title.
+  * It can't read the values of properties that would have to be read from the target system.
+  * It also can't read the values of attributes that default to some predictable value; for example, in the code above, you wouldn't be able to access the value of the `path` attribute, even though it defaults to the resource's title.
 * Like with [hash access][], the value of an attribute whose value was never set is [`undef`.][undef]
 
 ## Resource references as data types

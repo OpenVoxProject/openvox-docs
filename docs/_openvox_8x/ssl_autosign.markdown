@@ -20,7 +20,7 @@ Alternately, you can configure the CA OpenVox Server to automatically sign certa
 
 By default, the `autosign` setting in the `[server]` section of the CA OpenVox Server's `puppet.conf` file is set to `$confdir/autosign.conf`, which means the basic autosigning functionality is enabled upon installation. However, depending on your installation method, there might not be a whitelist at that location once the OpenVox Server is running.
 
--   In OpenVox, `autosign.conf` doesn't exist by default.
+- In OpenVox, `autosign.conf` doesn't exist by default.
 
 If the `autosign.conf` file is empty or doesn't exist, the whitelist is effectively empty. The CA OpenVox Server therefore doesn't autosign any certificates until the default `autosign.conf` file, or the `autosign` setting's path if configured, is a non-executable whitelist file with properly formatted content or a custom policy executable that the Puppet user has permission to run.
 
@@ -88,8 +88,8 @@ If you aren't embedding additional data, the CSR will contain only the node's ce
 
 Policy-based autosigning can be both fast and extremely secure, _depending on how you manage the information the policy executable is using._ For example:
 
--   If you embed a unique pre-shared key in each node when you provision it, and provide your policy executable with a database of these keys, your autosigning security will be as good as your handling of the keys --- as long as it's impractical for an attacker to acquire a PSK, it will be impractical for them to acquire a signed certificate.
--   If nodes running on a cloud service embed their instance UUIDs in their CSRs, and your executable queries the cloud provider's API to check that a node with that UUID exists in your account, your autosigning security will be as good as the security of the cloud provider's API. If an attacker can impersonate a legit user to the API and get a list of node UUIDs, or if they can create a rogue node in your account, they can acquire a signed certificate.
+- If you embed a unique pre-shared key in each node when you provision it, and provide your policy executable with a database of these keys, your autosigning security will be as good as your handling of the keys --- as long as it's impractical for an attacker to acquire a PSK, it will be impractical for them to acquire a signed certificate.
+- If nodes running on a cloud service embed their instance UUIDs in their CSRs, and your executable queries the cloud provider's API to check that a node with that UUID exists in your account, your autosigning security will be as good as the security of the cloud provider's API. If an attacker can impersonate a legit user to the API and get a list of node UUIDs, or if they can create a rogue node in your account, they can acquire a signed certificate.
 
 As you can see, you must think things through carefully when designing your CSR data and signing policy. As long as you can arrange reasonable end-to-end security for secret data on your nodes, you should be able to rig up a secure autosigning system.
 
@@ -97,16 +97,16 @@ As you can see, you must think things through carefully when designing your CSR 
 
 The API for policy executables is as follows:
 
--   **Run environment:** The executable will be run once for each incoming CSR.
-    -   It will be executed by the OpenVox Server process and will run as the same user as the OpenVox Server.
-    -   The OpenVox Server process will _block until the executable finishes running._ We expect policy executables to finish in a timely fashion; if they do not, it's possible for them to tie up all available OpenVox Server threads and deny service to other agents. If an executable needs to perform network requests or other potentially expensive operations, the author is in charge of implementing any necessary timeouts, possibly bailing and exiting non-zero in the event of failure. Alternatively, signing requests consume JRubies on an OpenVox Server but might not block all requests while the pool contains available JRubies, and won't block non-Ruby requests.
--   **Arguments:** The executable must allow a single command line argument. This argument will be the Subject CN (certname) of the incoming CSR.
-    -   No other command line arguments should be provided.
-    -   The OpenVox Server should never fail to provide this argument.
--   **Stdin:** The executable will receive the entirety of the incoming CSR on its stdin stream. The CSR will be encoded in PEM format.
-    -   The stdin stream will contain nothing but the complete CSR.
-    -   The OpenVox Server should never fail to provide the CSR on stdin.
--   **Exit status:** The executable must exit with a status of `0` if the certificate should be autosigned; it must exit with a non-zero status if it should not be autosigned.
-    -   The OpenVox Server will treat all non-zero exit statuses as equivalent.
--   **Stdout and stderr:** Anything the executable emits on stdout or stderr will be copied to the OpenVox Server's log output at the `debug` log level. Puppet will otherwise ignore the executable's output; only the exit code is considered significant.
+- **Run environment:** The executable will be run once for each incoming CSR.
+  - It will be executed by the OpenVox Server process and will run as the same user as the OpenVox Server.
+  - The OpenVox Server process will _block until the executable finishes running._ We expect policy executables to finish in a timely fashion; if they do not, it's possible for them to tie up all available OpenVox Server threads and deny service to other agents. If an executable needs to perform network requests or other potentially expensive operations, the author is in charge of implementing any necessary timeouts, possibly bailing and exiting non-zero in the event of failure. Alternatively, signing requests consume JRubies on an OpenVox Server but might not block all requests while the pool contains available JRubies, and won't block non-Ruby requests.
+- **Arguments:** The executable must allow a single command line argument. This argument will be the Subject CN (certname) of the incoming CSR.
+  - No other command line arguments should be provided.
+  - The OpenVox Server should never fail to provide this argument.
+- **Stdin:** The executable will receive the entirety of the incoming CSR on its stdin stream. The CSR will be encoded in PEM format.
+  - The stdin stream will contain nothing but the complete CSR.
+  - The OpenVox Server should never fail to provide the CSR on stdin.
+- **Exit status:** The executable must exit with a status of `0` if the certificate should be autosigned; it must exit with a non-zero status if it should not be autosigned.
+  - The OpenVox Server will treat all non-zero exit statuses as equivalent.
+- **Stdout and stderr:** Anything the executable emits on stdout or stderr will be copied to the OpenVox Server's log output at the `debug` log level. Puppet will otherwise ignore the executable's output; only the exit code is considered significant.
 

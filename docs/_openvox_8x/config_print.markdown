@@ -23,25 +23,25 @@ The `puppet config print` command loads and evaluates settings, and can imitate 
 
 > **Note:** To ensure that you're seeing the values Puppet will use when running as a service, be sure to use `sudo` or run the command as `root` or `Administrator`. If you run `puppet config print` as some other user, Puppet might not use the [system config file.][confdir_sys]
 
-#### To see the value of one setting:
+#### To see the value of one setting
 
-    $ sudo puppet config print <SETTING NAME> [--section <CONFIG SECTION>] [--environment <ENVIRONMENT>]
+    sudo puppet config print <SETTING NAME> [--section <CONFIG SECTION>] [--environment <ENVIRONMENT>]
 
 This will show _just the value_ of `<SETTING NAME>`.
 
 ---
 
-#### To see the value of multiple settings:
+#### To see the value of multiple settings
 
-    $ sudo puppet config print <SETTING 1> <SETTING 2> [...] [--section <CONFIG SECTION>] [--environment <ENVIRONMENT>]
+    sudo puppet config print <SETTING 1> <SETTING 2> [...] [--section <CONFIG SECTION>] [--environment <ENVIRONMENT>]
 
 This will show `name = value` pairs for all requested settings.
 
 ---
 
-#### To see the value of all settings:
+#### To see the value of all settings
 
-    $ sudo puppet config print [--section <CONFIG SECTION>] [--environment <ENVIRONMENT>]
+    sudo puppet config print [--section <CONFIG SECTION>] [--environment <ENVIRONMENT>]
 
 This will show `name = value` pairs for all settings.
 

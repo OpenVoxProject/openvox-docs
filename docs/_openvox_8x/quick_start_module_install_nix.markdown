@@ -37,7 +37,7 @@ The process for installing a module is the same on both Windows and *nix operati
         /etc/puppetlabs/code/environments/production/modules
         └── puppetlabs-apache (v1.1.1)
 
->  That's it! You have installed a Puppet module. All of the classes in the module are now available to be assigned to nodes.
+> That's it! You have installed a Puppet module. All of the classes in the module are now available to be assigned to nodes.
 
 > ### A quick note about module directories
 >
@@ -50,6 +50,4 @@ The process for installing a module is the same on both Windows and *nix operati
 --------
 
 Next: [Adding classes to OpenVox agents (*nix)](./quick_start_adding_classes_nix.html)
-
-
 

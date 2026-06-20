@@ -32,6 +32,6 @@ The location of the `confdir` depends on your OS. [See the confdir documentation
 The `routes.yaml` file should be a YAML hash.
 
 * Each top level key should be the name of a run mode (`master`, `agent`, or `user`), and its value should be another hash.
-    * Each key of these second-level hashes should be the name of an indirection, and its value should be another hash.
-        * The only keys allowed in these third-level hashes are `terminus` and `cache`. The value of each of these keys should be the name of a valid terminus for the indirection named above.
+  * Each key of these second-level hashes should be the name of an indirection, and its value should be another hash.
+    * The only keys allowed in these third-level hashes are `terminus` and `cache`. The value of each of these keys should be the name of a valid terminus for the indirection named above.
 

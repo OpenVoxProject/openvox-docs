@@ -309,7 +309,7 @@ Resolves to `true` if the operand is false, and `false` if the operand is true.
 Arithmetic Operators have the following traits:
 
 * They take two [**numeric**][numbers] operands (except unary `-`).
-    * If an operand is a string, it will be converted to numeric form. The operation fails if a string can't be converted.
+  * If an operand is a string, it will be converted to numeric form. The operation fails if a string can't be converted.
 * They resolve to [**numeric**][numbers] values.
 
 ### `+` (addition)
@@ -483,7 +483,6 @@ This operator does not change its operands; it only creates a new value.
 The assignment operator sets the [variable][variables] on the left hand side to the value on the right hand side. The entire expression resolves to the value of the right hand side.
 
 Note that variables can only be set once, after which any attempt to set the variable to a new value will cause an error.
-
 
 
 ## Formal descriptions of Puppet expressions

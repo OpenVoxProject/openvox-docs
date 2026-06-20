@@ -10,7 +10,6 @@ title: "Language: Resources"
 [report]: ./reporting_about.html
 [types]: ./type.html
 [string]: ./lang_data_string.html
-[array]: ./lang_data_array.html
 [datatype]: ./lang_data.html
 [relationships]: ./lang_relationships.html
 [reference]: ./lang_data_resource_reference.html
@@ -21,7 +20,6 @@ title: "Language: Resources"
 [services]: ./type.html#service
 [custom_types]: ./custom_types.html
 [resource_advanced]: ./lang_resources_advanced.html
-[expressions]: ./lang_expressions.html
 
 
 **Resources** are the fundamental unit for modeling system configurations. Each resource describes some aspect of a system, like a specific service or package.
@@ -75,10 +73,10 @@ The form of a resource declaration is:
 * The **title,** which is a [string][].
 * A colon (`:`).
 * Optionally, any number of **attribute and value pairs,** each of which consists of:
-    * An attribute name, which is a lowercase word with no quotes.
-    * A `=>` (called an arrow, "fat comma," or "hash rocket").
-    * A value, which can have any [data type][datatype].
-    * A trailing comma.
+  * An attribute name, which is a lowercase word with no quotes.
+  * A `=>` (called an arrow, "fat comma," or "hash rocket").
+  * A value, which can have any [data type][datatype].
+  * A trailing comma.
 * A closing curly brace (`}`).
 
 Note that you can use any amount of whitespace in the OpenVox language.
@@ -201,5 +199,4 @@ Some attributes in OpenVox can be used with every resource type. These are calle
 The most commonly used metaparameters are for specifying [order relationships][relationships] between resources.
 
 You can see the full list of all metaparameters in the [Metaparameter Reference](./metaparameter.html).
-
 

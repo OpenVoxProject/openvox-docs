@@ -18,6 +18,7 @@ You should still be logged in as root or administrator on your nodes.
 Although many Forge modules are exact solutions that fit your site, many are *almost* but not quite what you need. Sometimes you will need to edit some of your Forge modules.
 
 ### Module basics
+>
 > ### About module directories
 >
 >By default, Puppet keeps modules in an environment's [`modulepath`](./dirs_modulepath.html), which for the production environment defaults to `/etc/puppetlabs/code/environments/production/modules`. This includes modules that Puppet installs, those that you download from the Forge, and those you write yourself. In a fresh installation, you need to create this `modules` subdirectory yourself by navigating to `/etc/puppetlabs/code/environments/production` and running `mkdir modules`.
@@ -27,15 +28,14 @@ Although many Forge modules are exact solutions that fit your site, many are *al
 >There are plenty of resources about modules and the creation of modules that you can reference. Check out [Module Fundamentals](./modules_fundamentals.html), the [Beginner's Guide to Modules](./bgtm.html), and the [Puppet Forge](https://forge.puppetlabs.com/).
 
 
-
 Modules are directory trees. For these exercises you'll use the following files:
 
-- `apache/` (the module name)
-    - `manifests/`
-        - `init.pp` (contains the `apache` class)
-    - `templates/`
-        - `vhost/`
-            - `_file_header.erb` (contains the vhost template, managed by Puppet)
+* `apache/` (the module name)
+  * `manifests/`
+    * `init.pp` (contains the `apache` class)
+  * `templates/`
+    * `vhost/`
+      * `_file_header.erb` (contains the vhost template, managed by Puppet)
 
 Every manifest (.pp file) in a module contains a single class. File names map to class names in a predictable way, described in the [Autoloader Behavior documentation](./lang_namespaces.html#autoloader-behavior). The `init.pp` file is a special case that contains a class named after the module, `apache`. Other manifest files contain classes called `<MODULE NAME>::<FILE NAME>` or `<MODULE NAME>::<FOLDER>::<FILE NAME>`.
 Many modules, including Apache, contain directories other than `manifests` and `templates`. For simplicity's sake, we do not cover them in this introductory guide.
@@ -58,8 +58,8 @@ Many modules, including Apache, contain directories other than `manifests` and `
         # ************************************
 
 4. Collect the following facts about your agent:
-   - on your OpenVox agent, run `facter osfamily`. This returns your agent's OS.
-   - on your OpenVox agent, run `facter id`. This returns the id of the currently logged in user.
+   * on your OpenVox agent, run `facter osfamily`. This returns your agent's OS.
+   * on your OpenVox agent, run `facter id`. This returns the id of the currently logged in user.
 5. Edit the header of `_file_header.erb` so that it contains the following variables for Facter lookups:
 
         # ************************************
@@ -78,8 +78,8 @@ Many modules, including Apache, contain directories other than `manifests` and `
 At this point, Puppet configures Apache and starts the httpd service. When this happens, a default Apache virtual host is created based on the contents of `_file_header.erb`.
 
 1. **On the agent**, navigate to one of the following locations based on your operating system:
-   - Redhat-based: `/etc/httpd/conf.d`
-   - Debian-based: `/etc/apache2/sites-available`
+   * Redhat-based: `/etc/httpd/conf.d`
+   * Debian-based: `/etc/apache2/sites-available`
 
 2. View `15-default.conf`. Depending on the node's OS, the header will show some variation of the following contents:
 
@@ -146,9 +146,9 @@ Puppet modules save time, but at some point you may need to write your own modul
 1. From the command line on the OpenVox Server, navigate to the main manifest (`cd /etc/puppetlabs/code/environments/production/manifests`).
 2. With your text editor, open `site.pp` and add the following Puppet code to your default node. **Remove the apache class you added previously.** Your site.pp file should look like this after you make your changes (although you may have portions from earlier in the Quick Start Guide):
 
-		 node default {
+   node default {
            class { 'puppet_quickstart_app': }
-		 }
+   }
 
    >**Note**: Since the `puppet_quickstart_app` includes the `apache` class, you need to remove the first `apache` class you added the master node, as Puppet will only allow you to declare a class once.
 

@@ -116,13 +116,13 @@ node 'device.example.com' {
 
 To run Puppet device on demand and manage all of the devices specified in [device.conf][]
 
-    $ puppet device -v --user=root
+    puppet device -v --user=root
 
 Since Puppet device doesn't run as a service, you must manually create a cron job or scheduled task if you want it to run on a regular basis.
 
 On \*nix, you can use the Puppet resource command to set up a cron job. Below is an example that runs Puppet device once an hour; adjust the path to the Puppet command if you are not using Puppet Enterprise.
 
-    $ sudo puppet resource cron puppet-device ensure=present user=root minute=30 command='/opt/puppetlabs/bin/puppet device --user=root --logdest syslog'
+    sudo puppet resource cron puppet-device ensure=present user=root minute=30 command='/opt/puppetlabs/bin/puppet device --user=root --logdest syslog'
 
 ## Limitations with other Puppet applications
 

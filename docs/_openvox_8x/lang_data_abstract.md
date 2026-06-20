@@ -112,7 +112,7 @@ Position | Parameter        | Data Type | Default Value | Description
 
 Note that you can use capture groups in the regular expressions, but they won't cause any variables like `$1` to be set.
 
-#### Examples:
+#### Examples
 
 * `Pattern[/\A[a-z].*/]` --- matches any string that begins with a lowercase letter.
 * `Pattern[/\A[a-z].*/, /\Anone\Z/]` --- matches the above **or** the exact string `"none"`.
@@ -135,7 +135,7 @@ Position | Parameter        | Data Type | Default Value | Description
 1–∞ | Option | `String` | none **(mandatory)** | One of the literal string values that the resulting data type should match. You must provide at least one option parameter, and can provide any number of additional ones.
 
 
-#### Examples:
+#### Examples
 
 * `Enum['stopped', 'running']` --- matches the strings `'stopped'` and `'running'`, and no other values.
 * `Enum['true', 'false']` --- matches the strings `'true'` and `'false'`, and no other values. Will not match the [boolean][booleans] values `true` or `false` (without quotes).

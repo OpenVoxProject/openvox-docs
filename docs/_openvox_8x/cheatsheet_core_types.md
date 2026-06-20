@@ -3,14 +3,9 @@ layout: default
 title: Core types cheat sheet
 ---
 
-[notify]: ./type.html#notify
-[file]: ./type.html#file
-[package]: ./type.html#package
-[service]: ./type.html#service
 [exec]: ./type.html#exec
 [user]: ./type.html#user
 [group]: ./type.html#group
-[other]: ./type.html
 
 A quick reference guide for the core Puppet types.
 
@@ -53,11 +48,11 @@ Manages files, directories, and symlinks.
 #### Important Attributes
 
 * [`ensure`](./type.html#file-attribute-ensure) -- Whether the file should exist, and what it should be. Allowed values:
-    * `file` (a normal file)
-    * `directory` (a directory)
-    * `link` (a symlink)
-    * `present` (anything)
-    * `absent`
+  * `file` (a normal file)
+  * `directory` (a directory)
+  * `link` (a symlink)
+  * `present` (anything)
+  * `absent`
 * [`path`](./type.html#file-attribute-path) -- The full path to the file on disk; **defaults to title.**
 * [`owner`](./type.html#file-attribute-owner) -- By name or UID.
 * [`group`](./type.html#file-attribute-group) -- By name or GID.
@@ -81,7 +76,7 @@ Manages files, directories, and symlinks.
 #### Other Notable Attributes
 
 * [`backup`](./type.html#file-attribute-backup)
-* [`checksum`](./type.html#file-attribute-checksum) 
+* [`checksum`](./type.html#file-attribute-checksum)
 * [`force`](./type.html#file-attribute-force)
 * [`ignore`](./type.html#file-attribute-ignore)
 * [`links`](./type.html#file-attribute-links)
@@ -96,11 +91,11 @@ Manages software packages.
 
 * [`name`](./type.html#package-attribute-name) -- The name of the package, as known to your packaging system; **defaults to title.**
 * [`ensure`](./type.html#package-attribute-ensure) -- Whether the package should be installed, and what version to use. Allowed values:
-    * `present`
-    * `latest` (implies `present`)
-    * any version string (implies `present`)
-    * `absent`
-    * `purged` (Potentially dangerous. Ensures absent, then zaps configuration files and dependencies, including those that other packages depend on. Provider-dependent.)
+  * `present`
+  * `latest` (implies `present`)
+  * any version string (implies `present`)
+  * `absent`
+  * `purged` (Potentially dangerous. Ensures absent, then zaps configuration files and dependencies, including those that other packages depend on. Provider-dependent.)
 * [`source`](./type.html#package-attribute-source) -- Where to obtain the package, if your system's packaging tools don't use a repository.
 * [`provider`](./type.html#package-attribute-provider) -- Which packaging system to use (e.g. Yum vs. Rubygems), if a system has more than one available.
 
@@ -118,8 +113,8 @@ Related topics:
 
 * [`name`](./type.html#service-attribute-name) -- The name of the service to run; **defaults to title.**
 * [`ensure`](./type.html#service-attribute-ensure) -- The desired status of the service. Allowed values:
-    * `running` (or `true`)
-    * `stopped` (or `false`)
+  * `running` (or `true`)
+  * `stopped` (or `false`)
 * [`enable`](./type.html#service-attribute-enable) -- Whether the service should start on boot. Doesn't work on all systems.
 * [`hasrestart`](./type.html#service-attribute-hasrestart) -- Whether to use the init script's restart command instead of stop+start. Defaults to false.
 * [`hasstatus`](./type.html#service-attribute-hasstatus) -- Whether to use the init script's status command. Defaults to true.
@@ -163,7 +158,7 @@ Executes an arbitrary command on the agent node. When using execs, you must eith
 * [`onlyif`](./type.html#exec-attribute-onlyif) -- A command or array of commands; if any have a non-zero return value, the command won't run.
 * [`unless`](./type.html#exec-attribute-unless) -- The opposite of onlyif.
 
-#### Other Notable Attributes:
+#### Other Notable Attributes
 
 [`cwd`](./type.html#exec-attribute-cwd), [`group`](./type.html#exec-attribute-group), [`logoutput`](./type.html#exec-attribute-logoutput), , [`timeout`](./type.html#exec-attribute-timeout), [`tries`](./type.html#exec-attribute-tries), [`try_sleep`](./type.html#exec-attribute-try_sleep), [`user`](./type.html#exec-attribute-user).
 
@@ -184,9 +179,9 @@ Manages user accounts; mostly used for system users.
 
 * [`name`](./type.html#user-attribute-name) -- The name of the user; **defaults to title.**
 * [`ensure`](./type.html#user-attribute-ensure) -- Whether the user should exist. Allowed values:
-    * `present`
-    * `absent`
-    * `role`
+  * `present`
+  * `absent`
+  * `role`
 * [`uid`](./type.html#user-attribute-uid) -- The user ID. Must be specified numerically; chosen automatically if omitted. Read-only on Windows.
 * [`gid`](./type.html#user-attribute-gid) -- The user’s primary group. Can be specified numerically or by name. (Not used on Windows; use `groups` instead.)
 * [`groups`](./type.html#user-attribute-groups) -- An array of other groups to which the user belongs. (Don't include the group specified as the `gid`.)
@@ -206,7 +201,7 @@ Manages groups.
 
 * [`name`](./type.html#group-attribute-name) -- The name of the group; **defaults to title.**
 * [`ensure`](./type.html#group-attribute-ensure) -- Whether the group should exist. Allowed values:
-    * `present`
-    * `absent`
+  * `present`
+  * `absent`
 * [`gid`](./type.html#group-attribute-gid) -- The group ID; must be specified numerically, and is chosen automatically if omitted. Read-only on Windows.
 * [`members`](./type.html#group-attribute-members) -- Users and groups that should be members of the group. Only applicable to certain operating systems; see the full type reference for details.

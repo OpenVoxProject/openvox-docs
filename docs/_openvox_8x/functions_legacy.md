@@ -15,7 +15,6 @@ Puppet includes two Ruby APIs for writing custom functions. This page is about t
 > * If you want an easier way to write functions, try [writing them in the Puppet language.][func_puppet]
 
 
-
 ## Where to put your functions
 
 Functions are implemented in individual .rb files (whose filenames must match the names of their respective functions), and should be distributed in modules. Put custom functions in the lib/puppet/parser/functions subdirectory of your module.
@@ -92,7 +91,7 @@ your problems.
 
 ## Using Facts and Variables
 
-Which raises the question: what _should_ you do if you want to splay
+Which raises the question: what *should* you do if you want to splay
 your cron jobs on different machines?
 The trick is to tie the minute value to something that's invariant
 in time, but different across machines. Perhaps the MD5
