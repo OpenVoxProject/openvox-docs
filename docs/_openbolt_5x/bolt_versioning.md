@@ -19,12 +19,12 @@ public API. In general this means that plans, inventory and config tested with
 any 2.y series release of Bolt will continue to work when used with a later 2.y
 series release. You can expect the following types of changes in the 2.0 series:
 
--   New keys in JSON format output.
--   Differences in log output and human format output.
--   New methods added to plan Data Type Objects.
--   New options added to plan functions.
--   Support for new revisions of the task spec and newer tasks.
--   Versions of bundled modules will be updated and might include breaking
+- New keys in JSON format output.
+- Differences in log output and human format output.
+- New methods added to plan Data Type Objects.
+- New options added to plan functions.
+- Support for new revisions of the task spec and newer tasks.
+- Versions of bundled modules will be updated and might include breaking
     changes.
 
 ## Bolt releases

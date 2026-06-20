@@ -708,7 +708,7 @@ This command outputs an object. It uses the following keys:
 
     - `stderr` (string):
       Output sent to `stderr`.
-      
+
     - `stdout` (string):
       Output sent to `stdout`.
 
@@ -758,7 +758,7 @@ This command outputs an object. It uses the following keys:
   The time, in seconds, that it took for the task to run.
 
 - `items` (array of objects):
-  A list of objects describing the result of running the task on each 
+  A list of objects describing the result of running the task on each
   target.
 
   - `action` (string):

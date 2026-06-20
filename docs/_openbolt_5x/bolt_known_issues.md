@@ -11,7 +11,7 @@ When running the `facts` task on a Windows target that has Facter 3 installed,
 the task will fail but still return facts for the target. Output might look
 similar to the following:
 
-```shell
+```console
 $ bolt task run facts --targets windows_target
 Started on windows_target...
 Failed on windows_target:
@@ -88,7 +88,7 @@ with compiling native extensions.
 Attempting to authenticate with ed25519 keys over SSH on Windows will result
 in an error message similar to this:
 
-```
+```text
 unsupported key type `ssh-ed25519'
  net-ssh requires the following gems for ed25519 support:
   * ed25519 (>= 1.2, < 2.0)
@@ -99,7 +99,7 @@ A workaround is to use native SSH when you need to authenticate with ed25519
 keys. When native SSH is enabled, Bolt will use a specified SSH client to
 connect to targets instead of the `net-ssh` Ruby library. To learn more about
 native SSH, see [native SSH
-transport](experimental_features.html#native-ssh-transport). 
+transport](experimental_features.html#native-ssh-transport).
 
 🧪 Native SSH is
 experimental and might change in future minor (y) releases.
@@ -129,14 +129,14 @@ to authenticate with Kerberos over WinRM.
 This error is raised when there are too many files open in Bolt's Ruby process.
 To see what your current limit is, run:
 
-```
+```console
 ulimit -n
 ```
 
 To raise the limit, set the following in your shell configuration file (For
 example, `~/.bash_profile`):
 
-```
+```console
 ulimit -n 1024
 ```
 
@@ -146,5 +146,5 @@ or set `concurrency: <CONCURRENCY>` in [Bolt config](configuring_bolt.html).
 
 📖 **Related issues**
 
-- [#1789 - Too Many Open Files 
+- [#1789 - Too Many Open Files
   Error](https://github.com/puppetlabs/bolt/issues/1789)

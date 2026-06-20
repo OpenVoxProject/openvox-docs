@@ -23,10 +23,10 @@ Bolt offers the following JSON schemas:
 
 | Bolt file                                          | JSON schema                                             |
 | -------------------------------------------------- | ------------------------------------------------------- |
-| [`bolt-defaults.yaml`](bolt_defaults_reference.html) | https://forgeapi.puppet.com/schemas/bolt-defaults.json  |
-| [`bolt-project.yaml`](bolt_project_reference.html)   | https://forgeapi.puppet.com/schemas/bolt-project.json   |
-| [`inventory.yaml`](bolt_inventory_reference.html)    | https://forgeapi.puppet.com/schemas/bolt-inventory.json |
-| [YAML plans](writing_yaml_plans.html)                | https://forgeapi.puppet.com/schemas/bolt-yaml-plan.json |
+| [`bolt-defaults.yaml`](bolt_defaults_reference.html) | <https://forgeapi.puppet.com/schemas/bolt-defaults.json>  |
+| [`bolt-project.yaml`](bolt_project_reference.html)   | <https://forgeapi.puppet.com/schemas/bolt-project.json>   |
+| [`inventory.yaml`](bolt_inventory_reference.html)    | <https://forgeapi.puppet.com/schemas/bolt-inventory.json> |
+| [YAML plans](writing_yaml_plans.html)                | <https://forgeapi.puppet.com/schemas/bolt-yaml-plan.json> |
 
 ### Enabling schemas
 

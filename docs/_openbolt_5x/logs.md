@@ -15,7 +15,7 @@ of your project directory. You can also configure custom logs from your project
 configuration file.
 
 ## The `bolt-debug.log` file
- 
+
 Each time you run a Bolt command, Bolt prints a debug-level log to a
 `bolt-debug.log` file in the root of your project directory.
 
@@ -40,7 +40,7 @@ desired level. Available log levels are `trace`, `debug`, `info`, `warn`,
 
 - _\*nix shell command_
 
-  ```shell
+  ```console
   bolt command run whoami -t target1 --log-level trace
   ```
 
@@ -85,7 +85,7 @@ log:
 
 Set the `append` key to `false` if you want to overwrite the file on each run,
 or `true` if you want to append to the existing file.
- 
+
 > **Note**: The directory you set for logging must exist, and Bolt must have
 > permission to write to it.
 
@@ -163,7 +163,8 @@ Verbose output is useful when you want to see the results for Bolt actions on yo
 usually not printed to standard out (stdout). Verbose isn't a log level, but is a way of telling
 Bolt to output additional information in a human-readable format.
 
-The following Bolt commands include the `--verbose` CLI option: 
+The following Bolt commands include the `--verbose` CLI option:
+
 - `bolt command run`
 - `bolt task run`
 - `bolt plan run`
@@ -173,6 +174,7 @@ The following Bolt commands include the `--verbose` CLI option:
 - `bolt apply`
 
 The following PowerShell cmdlets include the `-Verbose` argument:
+
 - `Invoke-BoltCommand`
 - `Invoke-BoltTask`
 - `Invoke-BoltPlan`
@@ -187,7 +189,7 @@ more information. You can also use `out::verbose` in plans to print messages to
 stdout in verbose mode. For example, to print "Hello world" to stdout in verbose
 mode:
 
- ```shell
+ ```console
 plan mymodule::myplan {
   out::verbose('Hello world')
 }
@@ -202,13 +204,13 @@ the lists of warnings are concatenated per the [configuration merge
 strategy](configuring_bolt.html#merge-strategy). For example, if Bolt issues the
 following warning:
 
-```shell
+```console
 The configuration option 'apples' is deprecated. Use 'oranges' instead. [ID: fruit_option]
 ```
 
 You could add the ID `fruit_option` under the `disable-warnings` configuration option:
 
-```
+```yaml
 # bolt-project.yaml
 ---
 name: myproject
@@ -224,5 +226,5 @@ The next time you run Bolt, the warning message will not be logged.
 - [Debugging YAML plans](writing_tasks.html#debugging-tasks)
 - [Debugging Puppet language plans](debugging_plans.html#debugging-plans)
 - [Project level configuration](configuring_bolt.html#project-level-configuration)
-- [Applying Puppet code](applying_manifest_blocks.html) 
+- [Applying Puppet code](applying_manifest_blocks.html)
 - [Bolt command reference](bolt_command_reference.html)

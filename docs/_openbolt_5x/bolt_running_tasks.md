@@ -6,16 +6,16 @@ title: Running tasks
 # Running tasks
 
 Bolt can run Puppet tasks on remote targets without requiring any Puppet
-infrastructure. 
+infrastructure.
 
 To execute a task, specify the following:
 
--   The full name of the task, formatted as `<MODULE::TASK>`, or as `<MODULE>`
+- The full name of the task, formatted as `<MODULE::TASK>`, or as `<MODULE>`
     for a module's main task (the `init` task).
--   Any task parameters, as `parameter=value`.
--   The targets on which to run the task and the connection protocol, with the
+- Any task parameters, as `parameter=value`.
+- The targets on which to run the task and the connection protocol, with the
     `targets` command-line option.
--   (If credentials are required to connect to the target.) The username and
+- (If credentials are required to connect to the target.) The username and
     password, with the `user` and `password` command-line options.
 
 For example, to run the `sql` task from the `mysql` module on a target named

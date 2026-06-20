@@ -13,7 +13,8 @@ Docker Hub contains different versions of Bolt, with tags corresponding to Bolt
 system package and Rubygem versions. The newest version has a `latest` tag.
 
 You can download the latest image with this command:
-```
+
+```console
 docker pull puppet/puppet-bolt
 ```
 
@@ -21,6 +22,7 @@ docker pull puppet/puppet-bolt
 
 When running Bolt from a Docker image, Docker creates a container and executes
 the Bolt command within that container. Running Bolt in this way is simple:
+
 ```console
 $ docker run puppet/puppet-bolt command run 'cat /etc/os-release' -t localhost
 Started on localhost...
@@ -199,7 +201,7 @@ $ tree
 
 Give the Dockerfile the following content:
 
-```
+```dockerfile
 FROM puppet/puppet-bolt
 COPY . /Boltdir
 ```

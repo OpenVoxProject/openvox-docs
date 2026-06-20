@@ -6,9 +6,10 @@ title: Installing modules
 # Installing modules
 
 When you use the Bolt command line to install a module, Bolt manages your
-dependencies for you. 
+dependencies for you.
 
 You can use the command line to:
+
 - Create a project with pre-installed modules.
 - Add a Puppet Forge module to your existing Bolt project.
 - Install the modules associated with a Bolt project. This is useful if you've
@@ -31,13 +32,13 @@ module and resolves and installs all dependencies required by those modules. For
 example, to turn the current directory into a project named `example_project`
 with the `puppetlabs/apache` and `puppetlabs/mysql` modules installed, use the following command:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt project init example_project --modules puppetlabs-apache,puppetlabs-mysql
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 New-BoltProject -Name example_project -Modules puppetlabs-apache,puppetlabs-mysql
@@ -71,13 +72,15 @@ To add a single Puppet Forge module and its dependencies to your Bolt project,
 use the `bolt module add` *nix shell command or the `Add-BoltModule` Powershell
 cmdlet. For example, to add the `puppetlabs/apt` module:
 
-*\*nix shell command*
-```shell
+_\*nix shell command:_
+
+```console
 bolt module add puppetlabs/apt
 ```
 
-*Powershell cmdlet*
-```shell
+_Powershell cmdlet:_
+
+```console
 Add-BoltModule -Module puppetlabs/apt
 ```
 
@@ -93,7 +96,8 @@ When Bolt adds a new module to the project and resolves its dependencies, it
 attempts to keep all installed modules on the same versions. If Bolt encounters
 a version conflict, it might update installed modules to newer versions.
 
-📖 **Related information** 
+📖 **Related information**
+
 - If you receive an error telling you to "update your project configuration to
   manage module dependencies", see [migrate a Bolt
   project](projects.html#migrate-a-bolt-project).
@@ -103,13 +107,15 @@ a version conflict, it might update installed modules to newer versions.
 If you've just downloaded a Bolt project from source control and want to install
 the modules associated with it, use the following command:
 
-*\*nix shell command*
-```shell
+_\*nix shell command:_
+
+```console
 bolt module install
 ```
 
-*Powershell cmdlet*
-```shell
+_Powershell cmdlet:_
+
+```console
 Install-BoltModule
 ```
 
@@ -126,7 +132,7 @@ modules in the Puppetfile to check if an existing Puppetfile is managed by Bolt.
 If the Puppetfile is missing any module specifications, Bolt assumes the
 Puppetfile is not managed by Bolt and raises an error like this:
 
-```shell
+```console
 Puppetfile at /myproject/Puppetfile does not include modules that
 satisfy the following specifications:
 
@@ -140,13 +146,15 @@ This error usually only occurs if you've manually modified your
 `bolt-project.yaml` or `Puppetfile`. To resolve the conflict and install the
 modules declared in `bolt-project.yaml`, run the following command:
 
-*\*nix shell command*
-```shell
+_\*nix shell command:_
+
+```console
 bolt module install --force 
 ```
 
-*Powershell cmdlet*
-```shell
+_Powershell cmdlet:_
+
+```console
 Install-BoltModule -Force
 ```
 
@@ -154,13 +162,15 @@ Install-BoltModule -Force
 
 To update the modules in your project, run:
 
-*\*nix shell command*
-```shell
+_\*nix shell command:_
+
+```console
 bolt module install --force
 ```
 
-*Powershell cmdlet*
-```shell
+_Powershell cmdlet:_
+
+```console
 Install-BoltModule -Force
 ```
 
@@ -191,7 +201,7 @@ To specify a Forge module, use the following keys in the specification:
 | Key | Description | Required |
 | --- | --- | :-: |
 | `name` | The full name of the module. Can be either `<OWNER>-<NAME>` or `<OWNER>/<NAME>`. | ✓ |
-| `version_requirement` | The version requirement that the module must satisfy. Can be either a specific semantic version (`1.0.0`), a version range (`>= 1.0.0 < 3.0.0`), or version shorthand (`1.x`).  |
+| `version_requirement` | The version requirement that the module must satisfy. Can be either a specific semantic version (`1.0.0`), a version range (`>= 1.0.0 < 3.0.0`), or version shorthand (`1.x`). | |
 | `resolve` | Boolean. Whether to resolve the module's dependencies when installing modules. | |
 
 After you've made changes to the module specification, [update your
@@ -222,7 +232,7 @@ To specify a git module, use the following keys in the specification:
 | Key | Description | Required |
 | --- | --- | :-: |
 | `git` | The URI to the git repository. URI must begin with either `git@`, `http://`, or `https://`. | ✓ |
-| `name` | The name of the module. Bolt uses this name for the module in the Puppetfile, the directory that the module's contents are downloaded to, and as a namespace for the module's content. To avoid errors, make sure this name matches the name specified in the module's `metadata.json`. **Required if `resolve` is `false`.** | |
+| `name` | The name of the module. Bolt uses it in the Puppetfile, as the download directory name, and as a namespace for the module's content. Make sure it matches the name in the module's `metadata.json`. **Required if `resolve` is `false`.** | |
 | `ref` | The git reference to checkout. Can be either a branch, commit, or tag. | ✓ |
 | `resolve` | Boolean. Whether to resolve the module's dependencies when installing modules. | |
 
@@ -245,11 +255,13 @@ add a version requirement to the module in your `bolt-project.yaml` and run the
 `install` command with the `force` option.
 
 Follow these steps to pin a module version:
+
 1. Find the module under the `modules` key in your `bolt-project.yaml` file.
 1. Add a `version_requirement` key that specifies the version requirements for
    the module. For example, the following `bolt-project.yaml` file sets the
    version requirement for the `puppetlabs/apache` module to greater than or equal to
    4.0.0, but less than 6.0.0:
+
    ```yaml
    # bolt-project.yaml
    ...
@@ -257,17 +269,20 @@ Follow these steps to pin a module version:
    - name: puppetlabs/apache
      version_requirement: '>= 4.0.0 < 6.0.0'
    ```
+
 1. Run the following command. The `force` option is required because you've made
    a change to your `bolt-project.yaml` file, and it no longer matches the
    Puppetfile.
 
-   *\*nix shell command*
-   ```shell
+   _\*nix shell command:_
+
+   ```console
    bolt module install --force 
    ```
 
-   *Powershell cmdlet*
-   ```shell
+   _Powershell cmdlet:_
+
+   ```console
    Install-BoltModule -Force
    ```
 
@@ -275,7 +290,7 @@ When you run the install command with the `force` option, Bolt attempts to
 resolve all of the modules in the project configuration file to ensure that
 there are no version conflicts between modules and their dependencies. Bolt
 fails with an error message if it cannot resolve a dependency due to a version
-requirement. 
+requirement.
 
 > 🔩 **Tip**: For information on how to specify module versions, see the Puppet
 > documentation on [Specifying
@@ -473,13 +488,13 @@ dependencies, follow these steps:
 
 1. Install the modules in the Puppetfile without resolving dependencies:
 
-   _\*nix shell command_
+   _\*nix shell command:_
 
-   ```shell
+   ```console
    bolt module install --no-resolve
    ```
 
-   _PowerShell cmdlet_
+   _PowerShell cmdlet:_
 
    ```powershell
    Install-BoltModule -NoResolve
@@ -548,13 +563,13 @@ following:
 1. If your project has a Puppetfile, install the modules in the Puppetfile
    without resolving dependencies:
 
-   _\*nix shell command_
+   _\*nix shell command:_
 
-   ```shell
+   ```console
    bolt module install --no-resolve
    ```
 
-   _PowerShell cmdlet_
+   _PowerShell cmdlet:_
 
    ```powershell
    Install-BoltModule -NoResolve

@@ -35,9 +35,10 @@ However, a typical module for use with Bolt might contain these files and direct
 
 ### Where to put module content
 
-You have two options when it comes to storing and developing module content: 
+You have two options when it comes to storing and developing module content:
+
 - You can develop modules directly in the Bolt project directory inside the
-  `modules` directory. 
+  `modules` directory.
 - You can develop your module content outside of a project directory and then
   add the module's directory to your project's modulepath for use with Bolt.
   Alternatively, you can publish the module to the Forge and install it to your
@@ -62,6 +63,7 @@ in multiple Bolt projects, but don't want to publish it, you [can add the
 directory that contains the module to your modulepath](modules.html#modulepath).
 
 To create a standalone module and publish it on the Forge:
+
 1. Run `pdk new module` outside of a Bolt project directory.
 1. Develop the module.
 1. Push the module to a code repository or the Forge.
@@ -71,10 +73,11 @@ using the Bolt command line. For more information, see [Installing
 modules](./bolt_installing_modules.html).
 
 Follow these tips and best practices for managing standalone modules:
--   If you're testing a standalone module inside a project, add `modules/*` to
+
+- If you're testing a standalone module inside a project, add `modules/*` to
     the project's `.gitignore` file to prevent accidentally committing the
     module.
--   Wherever possible, write automated tests for the tasks and plans in your
+- Wherever possible, write automated tests for the tasks and plans in your
     module. For information about automated testing patterns, check
     out these resources: [Example of unit testing plans and integration
     \(acceptance\) testing

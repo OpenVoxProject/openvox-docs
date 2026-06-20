@@ -11,6 +11,7 @@ data from your code. There are some key differences in how Bolt and Puppet use
 Hiera, which this page covers in more detail.
 
 Before you start using Hiera in Bolt, get familiar with:
+
 - [How to use Hiera](/openvox/latest/hiera_intro.html).
 - [Applying Puppet code](applying_manifest_blocks.html) with Bolt.
 
@@ -48,6 +49,7 @@ data set by a user overrides the default data set by the module’s author.
 - [bolt-project.yaml options](bolt_project_reference.html#hiera-config)
 - [*nix shell commands](bolt_command_reference.html)
 - [PowerShell cmdlets](bolt_cmdlet_reference.html)
+
 ## Look up data in plans
 
 You can use the [Puppet `lookup()`
@@ -164,7 +166,7 @@ plan my_project::request (
 
 Running the plan results in an error like this:
 
-```shell
+```console
 $ bolt plan run my_project::request --targets server
 Starting: plan my_project::request
 Interpolation failed with 'application', but compilation continuing; 
@@ -220,8 +222,8 @@ apply block.
 
 Interpolations are not well supported in the `plan_hierarchy` hierarchy.
 Target-level data such as facts are not available to lookups outside of apply blocks,
-so the normal hierarchy interpolation does not work. 
-However, the `lookup()` function can perform lookups without error by using default 
+so the normal hierarchy interpolation does not work.
+However, the `lookup()` function can perform lookups without error by using default
 values provided by Puppet and Hiera when the necessary context is not available.
 
 The following example demonstrates interpolating the `$application` variable
@@ -298,8 +300,8 @@ You can use the `bolt lookup` command and `Invoke-BoltLookup` PowerShell cmdlet
 to look up Hiera data from the command line. By default, Bolt uses the `hierarchy`
 key in your `hiera.yaml` file to look up data and performs the lookup inside an apply
 block. Similar to looking up data outside of an apply block in a plan, you can use
-the `--plan-hierarchy` or `-PlanHierarchy` command options to look up data from 
-the `plan_hierarchy` key. 
+the `--plan-hierarchy` or `-PlanHierarchy` command options to look up data from
+the `plan_hierarchy` key.
 
 ### Inside apply blocks
 
@@ -346,13 +348,13 @@ password: Puppet!
 You can look up the value for the `password` key from the command line using
 facts collected from your targets:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt lookup password --targets windows_target,ubuntu_target
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltLooup -Key 'password' -Targets 'windows_target,ubuntu_target'
@@ -360,7 +362,7 @@ Invoke-BoltLooup -Key 'password' -Targets 'windows_target,ubuntu_target'
 
 Bolt prints the value for the key to the console:
 
-```shell
+```console
 Starting: install puppet and gather facts on windows_target, ubuntu_target
 Finished: install puppet and gather facts with 0 failures in 6.7 sec
 Finished on windows_target:
@@ -384,12 +386,14 @@ with the `--targets`, `--rerun`, or `--query` options.
 If your `plan_hierarchy` contains [interpolations from plan
 variables](#interpolations-outside-apply-blocks), you can pass values to interpolate to `lookup`:
 
-_\*nix shell command_
-```
+_\*nix shell command:_
+
+```console
 bolt lookup key --plan-hierarchy plan_var=interpolate_me
 ```
 
-_PowerShell cmdlet_
-```
+_PowerShell cmdlet:_
+
+```powershell
 Invoke-BoltLookup -Key key -PlanHierarchy plan_var=interpolate_me
 ```

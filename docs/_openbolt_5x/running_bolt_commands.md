@@ -7,7 +7,7 @@ title: Run Bolt
 
 You can use Bolt commands to connect to targets and perform actions on
 them. These actions range in complexity from invoking a simple command to
-running a series of commands and tasks as part of an orchestration workflow. 
+running a series of commands and tasks as part of an orchestration workflow.
 
 For a full list of available Bolt commands, see the [Bolt command
 reference](bolt_command_reference.html).
@@ -17,13 +17,13 @@ reference](bolt_command_reference.html).
 Bolt can run arbitrary commands on targets. To run a command, provide a
 command and a list of targets to run the command on.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run 'pwd' --targets servers
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command 'Get-Location' -Targets servers
@@ -40,9 +40,9 @@ using Bash or PowerShell.
 
 In a Bash shell, use backslashes `\` or double the the quotation marks:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run "Get-WMIObject Win32_Service -Filter ""Name like '%mon'""" -t localhost
 ```
 
@@ -51,7 +51,7 @@ quotation marks. The example below uses two double quotation marks to quote the
 value being passed to `Filter`, however the example also uses a backslash so
 that Bolt's underlying Ruby argument parser accepts the command.
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command "Get-WMIObject Win32_Service -Filter \""Name like '%mon'\""" -Targets localhost
@@ -59,17 +59,17 @@ Invoke-BoltCommand -Command "Get-WMIObject Win32_Service -Filter \""Name like '%
 
 ### Read a command from a file
 
-Reading a command from a file is useful when you need to run a script on a target 
-that does not permit file uploads. To read a command from a file, pass an `@` symbol, 
+Reading a command from a file is useful when you need to run a script on a target
+that does not permit file uploads. To read a command from a file, pass an `@` symbol,
 followed by the relative path to the file.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run @configure.sh --targets servers
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command '@configure.ps1' -Targets servers
@@ -82,9 +82,9 @@ Invoke-BoltCommand -Command '@configure.ps1' -Targets servers
 To read a command from standard input (stdin), pipe the results from another
 command to Bolt and pass a single dash (`-`) as the command.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 cat command.sh | bolt command run - --targets servers
 ```
 
@@ -95,13 +95,13 @@ Reading from stdin is not supported by the PowerShell module.
 The most common way to specify targets on the command line is with the
 `targets` option. This option accepts a comma-separated list of targets.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run 'pwd' --targets bolt1.example.org,bolt2.example.org
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command 'pwd' -Targets bolt1.example.org,bolt2.example.org
@@ -112,13 +112,13 @@ Invoke-BoltCommand -Command 'pwd' -Targets bolt1.example.org,bolt2.example.org
 If you have an inventory file, you can list targets and groups of targets by
 name instead of using the target's Universal Resource Identifier (URI).
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run 'pwd' --targets servers,databases
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command 'pwd' -Targets servers,databases
@@ -130,13 +130,13 @@ Bolt supports extended glob matching for targets. This is helpful when you have
 several targets that you want to run a comand on that have similar names. For
 example, to run a command on all targets that start with the word `bolt`:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run 'pwd' --targets 'bolt*'
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command 'pwd' -Targets 'bolt*'
@@ -161,13 +161,13 @@ command-line interface. Plans do not support extended glob matching.
 To read a file of targets, pass an `@` symbol, followed by the relative path to
 the file, to the `targets` option.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run 'pwd' --targets '@targets.txt'
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command 'pwd' -Targets '@targets.txt'
@@ -180,9 +180,9 @@ Invoke-BoltCommand -Command 'pwd' -Targets '@targets.txt'
 To read a list of targets from stdin, pipe the results from another command to
 Bolt and pass a single dash (`-`) to the `targets` option.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 cat targets.txt | bolt command run 'pwd' --targets -
 ```
 
@@ -203,31 +203,32 @@ For example, if you need to run a command that is dependent on the success of
 the previous command, you can target the successful targets with the `success`
 value.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt task run restart_server --targets servers --rerun success
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltTask -Name restart_server -Targets servers -Rerun success
-``` 
+```
 
 #### Disable `.rerun.json`
 
 If you want to preserve the results of a specific Bolt run and run multiple
 `rerun` commands against it, you can disable the `.rerun.json` file.
 
-_\*nix shell command_
+_\*nix shell command:_
 
 Use the `--no-save-rerun` option to disable saving the rerun file:
 
-```shell
+```console
 bolt task run restart_server --targets server --rerun success --no-save-rerun
 ```
-_PowerShell cmdlet_
+
+_PowerShell cmdlet:_
 
 Use the `-SaveRerun` argument with a value of `$false` to disable saving the
 rerun file:
@@ -247,13 +248,13 @@ Whether a target is running a Unix-like operating system or Windows, the
 simplest way to specify credentials is to pass the `user` and `password`
 to the Bolt command:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run 'pwd' --targets servers --user bolt --password puppet
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command 'pwd' -Targets servers -User bolt -Password puppet
@@ -263,13 +264,13 @@ If you'd prefer to have Bolt securely prompt for a password, so that it does not
 appear in a process listing or on the console, use the `password-prompt` option
 instead:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run 'pwd' --targets servers --user bolt --password-prompt
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command 'pwd' -Targets servers -User bolt -PasswordPrompt
@@ -285,13 +286,13 @@ configure transports in your inventory file.
 You can specify the transport used to connect to a specific target by setting
 it as the protocol in the target's URI:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run 'Get-Location' --targets winrm://windows.example.org
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command 'Get-Location' -Targets winrm://windows.example.org
@@ -299,13 +300,13 @@ Invoke-BoltCommand -Command 'Get-Location' -Targets winrm://windows.example.org
 
 You can also use the `transport` command-line option:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run 'Get-Location' --targets windows.example.org --transport winrm
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command 'Get-Location' -Targets windows.example.org -Transport winrm
@@ -326,13 +327,13 @@ to see what is happening on a target as an action runs.
 To enable streaming from the command line, you can specify the `stream` command-line
 option:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run whoami --targets servers --stream
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command whoami -Targets servers -Stream
@@ -352,7 +353,7 @@ receives it. Each line of the output includes the name of the target that
 returned the output and whether it was printed to standard output (`out`) or
 standard error (`err`).
 
-```shell
+```console
 $ bolt command run 'echo stdout && echo stderr 1>&2' -t localhost --stream
 
 Started on localhost...
@@ -371,13 +372,13 @@ can specify the `no-verbose` command-line option when running a command or
 script. This command-line option does not have a corresponding configuration
 option.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run whoami --targets servers --stream --no-verbose
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command whoami -Targets servers -Stream -Verbose:$false
@@ -385,7 +386,7 @@ Invoke-BoltCommand -Command whoami -Targets servers -Stream -Verbose:$false
 
 When you specify `no-verbose`, the output from the target is only printed once.
 
-```shell
+```console
 $ bolt command run 'echo stdout && echo stderr 1>&2' -t localhost --stream --no-verbose
 
 Started on localhost...
@@ -408,13 +409,13 @@ installed on the system. This includes any scripting language the system can run
 To run a script, provide the path to the script on the Bolt controller and a list of
 targets to run the script on.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt script run ./scripts/configure.sh --targets servers
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltScript -Script ./scripts/configure.ps1 -Targets servers
@@ -425,13 +426,13 @@ part of a project or module are saved in the `scripts/` directory. To run the
 script, specify a Puppet file path with the form `<MODULE OR PROJECT
 NAME>/scripts/<FILE NAME>`:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt script run my_module/scripts/configure.sh --targets servers
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltScript -Script my_module/scripts/configure.ps1 -Targets servers
@@ -442,15 +443,15 @@ Invoke-BoltScript -Script my_module/scripts/configure.ps1 -Targets servers
 Argument values are passed literally and are not interpolated by the shell on
 the target.
 
-_\*nix shell command_
+_\*nix shell command:_
 
 To pass arguments to a script, specify them after the command:
 
-```shell
+```console
 bolt script run ./scripts/configure.sh --targets servers arg1 arg2
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 To pass arguments to a script, specify them after the command:
 
@@ -506,13 +507,13 @@ modules from the Puppet Forge that include tasks.
 To run a task, provide the name of the task and a list of targets to run the
 task on.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt task run facts --targets servers
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltTask -Name facts -Targets servers
@@ -522,16 +523,16 @@ Invoke-BoltTask -Name facts -Targets servers
 
 If a task accepts parameters, you can pass them to Bolt as part of the command.
 
-_\*nix shell command_
+_\*nix shell command:_
 
 To pass parameters to a task, add parameter declarations of the form
 `parameter=value` to the command:
 
-```shell
+```console
 bolt task run package action=status name=apache2 --targets servers
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 To pass parameters to a task, add an object with parameter declarations to
 the command:
@@ -557,13 +558,13 @@ include plans.
 
 To run a plan, provide the name of the plan.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt plan run myplan
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltPlan -Name myplan
@@ -573,16 +574,16 @@ Invoke-BoltPlan -Name myplan
 
 If a plan accepts parameters, you can pass them to Bolt as part of the command.
 
-_\*nix shell command_
+_\*nix shell command:_
 
 To pass parameters to a plan, add parameter declarations of the form
 `parameter=value` to the command:
 
-```shell
+```console
 bolt plan run reboot targets=servers
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 To pass parameters to a task, add an object with parameter declarations to
 the command:
@@ -591,18 +592,18 @@ the command:
 Invoke-BoltTask -Name reboot -Params @{targets='servers'}
 ```
 
-### Pass targets to a plan parameter 
+### Pass targets to a plan parameter
 
 If a plan accepts a `targets` parameter with the type `TargetSpec`, you can
 use the `targets` command-line option to provide a value to the parameter.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt task run reboot --targets servers
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltPlan -Name reboot -Targets servers
@@ -627,13 +628,13 @@ provide a relative path as the `destination`, Bolt will copy the file relative
 to the current working directory on the target. Typically, the current working
 directory for the target is the log-in user's home directory.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt file upload /path/to/source /path/to/destination --targets servers
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Send-BoltFile -Source /path/to/source -Destination /path/to/destination -Targets servers
@@ -651,13 +652,13 @@ provide a relative path as the `source`, Bolt will copy the file relative to the
 current working directory on the target. Typically, the current working
 directory for the target is the log-in user's home directory.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt file download /path/to/source /path/to/destination --targets servers
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Receive-BoltFile -Source /path/to/source -Destination /path/to/destination -Targets servers
@@ -676,13 +677,13 @@ For example, the following command downloads the SSH daemon configuration file f
 two targets, `linux` and `ssh://example.com`, saving it to the destination
 directory `sshd_config`:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt file download /etc/ssh/sshd_config sshd_config --targets linux,ssh://example.com
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Receive-BoltFile -Source /etc/ssh/sshd_config -Destination sshd_config -Targets linux,ssh://example.com
@@ -691,7 +692,7 @@ Receive-BoltFile -Source /etc/ssh/sshd_config -Destination sshd_config -Targets 
 After running this command from the root of your project directory, your project
 directory structure would look similar to this:
 
-```shell
+```console
 .
 ├── bolt-project.yaml
 ├── inventory.yaml
@@ -717,13 +718,13 @@ The Puppet Agent package needs to be installed on the target for the manifest
 code to be run. When you apply Puppet manifest code, Bolt ensures that the
 Puppet Agent package is installed on the target.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt apply manifests/servers.pp --targets servers
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltApply -Manifest manifests/servers.pp -Targets servers
@@ -735,13 +736,13 @@ You can also apply Puppet code directly to your targets, without the need
 for writing it to a file first. To apply Puppet code directly to a target,
 use the `execute` command-line option.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt apply --execute "file { '/etc/puppetlabs': ensure => present }" --targets servers
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltApply -Execute "file { '/etc/puppetlabs': ensure => present}" -Targets servers
