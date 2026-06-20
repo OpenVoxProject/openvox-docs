@@ -7,9 +7,10 @@ The Vox Pupuli developer toolkit is spread amongst many Ruby gems and other tool
 Most will be automatically pulled in via Bundler and the `Gemfile`, and some of the main ones will be listed at the bottom of this page for convenience.
 We'll focus on the tools that you may want to be aware of and install or use directly.
 
-* [Jig](https://github.com/avitacco/jig) is useful for scaffolding content for new and existing modules.
+* [Jig](https://github.com/voxpupuli/jig) is useful for scaffolding content for new and existing modules.
   All content it generates includes the appropriate barebones unit tests ready for you to fill out.
   It can also publish modules to the Puppet Forge.
+  See [Scaffolding New Content with Jig](jig.html) for installation and usage.
 * [ModuleSync](https://github.com/voxpupuli/modulesync) helps maintain a portfolio of many modules at once.
   It does this by maintaining both common static files (like contributing guides, licenses, or testing boilerplate) as well as templated files like `metadata.json` across multiple module repositories.
   This allows you to keep them all in a consistent state with minimal fuss.

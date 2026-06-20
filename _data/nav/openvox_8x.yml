@@ -99,6 +99,8 @@
     link: "modules_fundamentals.html"
   - text: Beginner's guide to writing modules
     link: "bgtm.html"
+  - text: Scaffolding modules with Jig
+    link: "/ecosystem/latest/devkit/jig.html"
   - text: Plugins in modules
     link: "plugins_in_modules.html"
   - text: Installing modules
