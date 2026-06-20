@@ -26,7 +26,7 @@ The following fields are available at the top level of an inventory file:
 | --- | ----------- | ---- |
 | `config` | The transport configuration for the `all` group. Optional. For more information see [Configuring Bolt](configuring_bolt.html#inventoryyaml).  | `Hash` |
 | `facts` | The facts for the `all` group. Optional. | `Hash` |
-| `features` | The features for the `all` group. Optional. | `Array[String]`
+| `features` | The features for the `all` group. Optional. | `Array[String]` |
 | `groups` | A list of targets and groups and their associated configuration. Optional. | `Array[Group]` |
 | `targets` | A list of targets and their associated configuration. Optional. | `Array[Target]` |
 | `vars` | The vars for the `all` group. Optional. | `Hash` |
@@ -40,13 +40,14 @@ configuration. Each group is a map that can contain any of the following fields:
 | --- | ----------- | ---- |
 | `config` | The transport configuration for the group. Optional. For more information see [Configuring Bolt](configuring_bolt.html#inventoryyaml). | `Hash` |
 | `facts` | The facts for the group. Optional. | `Hash` |
-| `features` | The features for the group. Optional. | `Array[String]`
+| `features` | The features for the group. Optional. | `Array[String]` |
 | `groups` | A list of groups and their associated configuration. Optional. | `Array[Group]` |
 | `name` | The name of the group. **Required.** | `String` |
 | `targets` | A list of targets and their associated configuration. Optional. | `Array[Target]` |
 | `vars` | The variables for the group. Optional. | `Hash` |
 
 An example of an inventory file with two groups named `linux` and `windows`:
+
 ```yaml
 groups:
   - name: linux
@@ -66,7 +67,8 @@ groups:
 ### Target object
 
 Specify a target under the `targets` key. The `targets` key accepts an array
-where each element is either a string or a hash. 
+where each element is either a string or a hash.
+
 - For a string, use the string representation of the target's Universal Resource
   Identifier (URI).
 - A hash must specify either the `uri` for a hash, or a `name`. If you don't
@@ -140,7 +142,7 @@ Targets specified with a hash accept the following fields:
 | `alias` | A unique alias to refer to the target. Optional. | `String` |
 | `config` | The configuration for the target. Optional. | `Hash` |
 | `facts` | The facts for the target. Optional. | `Hash` |
-| `features` | The features for the target. Optional. | `Array[String]`
+| `features` | The features for the target. Optional. | `Array[String]` |
 | `name` | A human-readable name for a target.<br> **Required** when specifying a target using a hash. Optional if using `uri`. If you don't specify a `name`, Bolt uses the `uri` as the target name. | `String` |
 | `uri` | The URI of the target. Bolt uses the `uri` to establish a connection to the target. <br> **Required** when specifying a target using a hash, unless you specify a `name` **and** configure a hostname using `host` in the target's transport configuration.| `String` |
 | `vars` | The variables for the target. Optional. | `Hash` |
@@ -150,9 +152,10 @@ Targets specified with a hash accept the following fields:
 Use the `config` field to configure the transports that Bolt uses to connect to
 targets in your inventory file. For example, you can use this section to specify
 a transport like SSH, configure authentication options like passwords or the
-path to your private key file, or specify a proxy. 
+path to your private key file, or specify a proxy.
 
 You can configure the transport at multiple levels of your inventory file:
+
 - Put `config` at the top (`all` group) level to configure settings that apply
   to all targets in the inventory file.
 - Put `config` at the `groups` level to configure settings that apply to all
@@ -170,7 +173,7 @@ target or group of targets:
 
 - _\*nix shell command_
 
-  ```shell
+  ```console
   bolt inventory show --targets <TARGET LIST> --detail
   ```
 
@@ -225,7 +228,7 @@ group, the `server` target still uses the SSH transport and configuration,
 not the WinRM transport and configuration. You can see this by showing
 the inventory detail for the `winrm` group:
 
-```shell
+```console
 $ bolt inventory show --targets winrm --detail
 
 server
@@ -340,6 +343,7 @@ values:
   ]
 }
 ```
+
 > **Note**: The password for mytarget is defined at the target level in
 > `group2`, and overrides the password set at the group level.
 
@@ -353,6 +357,7 @@ are implemented by plugin authors and called by Bolt.
 ### How Bolt resolves plugins
 
 Bolt resolves Plugins in an inventory file at specific times:
+
 - Bolt resolves plugins used under a `groups` or `targets` key when the
   inventory is loaded.
 - Bolt loads plugins under data keys such as `config`, `facts`, `features`, and
@@ -559,13 +564,13 @@ groups:
 
 The following inventory file uses several bundled plugins.
 
-* The `yaml` plugin composes `aws_inventory.yaml` and `azure_inventory.yaml`
+- The `yaml` plugin composes `aws_inventory.yaml` and `azure_inventory.yaml`
   into a single inventory file loaded by Bolt.
-* The `aws_inventory` plugin generates targets from AWS EC2 instances.
-* The `azure_inventory` plugin generates targets from Azure VMs.
-* The `vault` plugin loads a secret from a Hashicorp Vault server and uses it as
+- The `aws_inventory` plugin generates targets from AWS EC2 instances.
+- The `azure_inventory` plugin generates targets from Azure VMs.
+- The `vault` plugin loads a secret from a Hashicorp Vault server and uses it as
   a password.
-* The `prompt` plugin configures the `vault` plugin in a configuration file and
+- The `prompt` plugin configures the `vault` plugin in a configuration file and
   prompts for the user's Vault password.
 
 The `inventory.yaml` file:
@@ -660,13 +665,13 @@ config:
 
 Specify the shared inventory file from the command line:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt inventory show --targets all --inventoryfile ~/.puppetlabs/etc/bolt/shared_inventory.yaml
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Get-BoltInventory -Targets 'all' -Inventoryfile 'C:\Users\Administrator\.puppetlabs\etc\bolt\shared_inventory.yaml'
@@ -858,13 +863,13 @@ When the `BOLT_TRANSPORT` environment variable is not set, the default value is
 `pcp`. To override the transport, set the `BOLT_TRANSPORT` environment
 variable when running a command:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 BOLT_TRANSPORT=ssh bolt file download /var/logs downloads --targets all
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 $env:BOLT_TRANSPORT = 'ssh'
@@ -890,13 +895,13 @@ inventory-config:
 To override the default `pcp` transport, use the `transport` command-line
 option:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt file download /var/logs downloads --targets all --transport ssh
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Receive-BoltFile -Source '/var/logs' -Destination 'downloads' -Targets 'all' -Transport 'ssh'

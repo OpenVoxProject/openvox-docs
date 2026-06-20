@@ -15,6 +15,7 @@ tasks, and even other plans. Your plan will install Apache on a group
 of target machines and upload a customized home page.
 
 After you've completed this guide, you'll know how to:
+
 - Set up a Bolt project directory.
 - Run a Bolt command on a target.
 - Create an inventory file to set up groups and add connection information for
@@ -25,15 +26,15 @@ After you've completed this guide, you'll know how to:
 > **Before you begin**
 >
 >- Make sure you've installed Bolt on your machine. For instructions on how to
->  install Bolt on your operating system, see [Installing
->  Bolt](./bolt_installing.html).
+> install Bolt on your operating system, see [Installing
+> Bolt](./bolt_installing.html).
 >- Make sure you've [installed Docker](https://docs.docker.com/get-docker/).
->  Bolt does not require Docker to run, but for the purposes of this guide,
->  Docker containers offer a safe and relatively simple way to set up some
->  targets to practice on.
+> Bolt does not require Docker to run, but for the purposes of this guide,
+> Docker containers offer a safe and relatively simple way to set up some
+> targets to practice on.
 >- You can follow along and create the content you need as you go, or download
->  everything you need from the [Getting started
->  repo](https://github.com/puppetlabs/bolt-getting-started).
+> everything you need from the [Getting started
+> repo](https://github.com/puppetlabs/bolt-getting-started).
 
 ## Create a Bolt project and set up targets
 
@@ -45,19 +46,22 @@ recognizes it as a Bolt project.
 ### Create a Bolt project directory
 
 Create a directory named `my_project` and set it as your working directory:
+
 ```bash
 mkdir my_project; cd my_project
 ```
 
 Run the following command to turn `my_project` into a Bolt project:
 
-*\*nix shell command*
-```shell
+_\*nix shell command:_
+
+```console
 bolt project init my_project
 ```
 
-*Powershell cmdlet*
-```shell
+_Powershell cmdlet:_
+
+```console
 New-BoltProject -Name my_project
 ```
 
@@ -79,6 +83,7 @@ mkdir -p modules/apache/plans; mkdir -p modules/apache/files
 ```
 
 After creating the directories, the file structure of `my_project` looks like this:
+
 ```bash
 .
 ├── bolt-project.yaml
@@ -92,6 +97,7 @@ After creating the directories, the file structure of `my_project` looks like th
 Next, set up Docker targets to run Apache on.
 
 ### Create your targets
+
 Bolt connects directly to computers, or _targets_, using Secure Shell (SSH) or
 Windows Remote Management (WinRM). To see how a Bolt plan works, you'll build
 and run some Docker containers to use as targets.
@@ -236,10 +242,11 @@ groups:
       user: root
       password: root
       host-key-check: false
-```      
+```
 
 This inventory file contains a group called `containers`. The `containers` group
 lists:
+
 - The Uniform Resource Identifier (URI) and name for each Docker container.
 - The transport type that Bolt is using to communicate with the containers. In
   this case you're using the SSH transport.
@@ -253,15 +260,17 @@ bolt command run whoami -t target1
 ```
 
 Notice how much shorter the command is now that the inventory file is handling
-connection details like the user, password, ports, and URIs. 
+connection details like the user, password, ports, and URIs.
 
 To run the command on both containers in the `containers` group:
+
 ```bash
 bolt command run whoami -t containers
 ```
 
 To run the command on all targets in an inventory, use Bolt's implicit `all`
 group:
+
 ```bash
 bolt command run whoami -t all
 ```
@@ -310,6 +319,7 @@ After the `parameters` section, you define the steps that make up the body of
 your plan. The first step in your plan is named `install_apache`. This step uses
 a Bolt task called `package` to install Apache on your targets. The `package`
 task includes:
+
 - A `targets` parameter so Bolt knows which targets to execute the step on: In
   this case the task is using the `$targets` parameter, so the step will run on
   all of the targets that you specify when you run your plan.
@@ -336,7 +346,7 @@ After creating `install.yaml`, your file structure looks like this:
         ├── files
         └── plans
             └── install.yaml
-```            
+```
 
 From the root of your project directory, run the plan on your containers group
 using the following command:
@@ -414,7 +424,7 @@ step, paste the following:
   script: apache/start_apache.sh
   targets: $targets
   description: "Starting Apache service"
-``` 
+```
 
 The step calls the `start_apache.sh` script from your apache module directory.
 Because the file is in your `<MODULE_NAME>/files` location, you can use the
@@ -475,7 +485,7 @@ enter the following:
     <p>I'm running this website on a server configured with Bolt!</p>
   </body>
 </html>
-```                                                                                                           
+```
 
 Your final file structure looks like this:
 
@@ -509,7 +519,7 @@ parameters:
   src:
     type: String
 ...
-```                                                                                      
+```
 
 Now add the following step after the `start_apache` step:
 
@@ -519,7 +529,7 @@ Now add the following step after the `start_apache` step:
   destination: /var/www/html/index.html
   targets: $targets
   description: "Upload homepage"      
-```                                                                                                     
+```
 
 The `upload_homepage` step uploads a file from the path you specify to a
 destination path on the specified targets.
@@ -577,6 +587,7 @@ a Bolt plan that installs Apache on your targets and uploads a customized
 homepage.
 
 **Continue learning about Bolt:**
+
 - For a deeper dive into Bolt, try the [Introduction to
   Bolt](https://learn.puppet.com/course/puppet-orchestration-bolt-and-tasks)
   training course or the [Bolt learning

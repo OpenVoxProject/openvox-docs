@@ -11,10 +11,11 @@ collection of modules that contain useful plans to support common workflows. For
 details, see [Packaged modules](packaged_modules.html).
 
 To execute a plan, run `bolt plan run` and specify:
--   The full name of the plan, formatted as `<MODULE>::<PLAN>`.
--   Any plan parameters, as `<PARAMETER>=<VALUE>`.
--   (If required) The username and password to access the target. Pass these in
-    as `--user` and `--password` command-line options. 
+
+- The full name of the plan, formatted as `<MODULE>::<PLAN>`.
+- Any plan parameters, as `<PARAMETER>=<VALUE>`.
+- (If required) The username and password to access the target. Pass these in
+    as `--user` and `--password` command-line options.
 
 For example, imagine a plan that deploys a load balancer. The plan is located at
 `mymodule/plans/myplan.pp` and accepts a `load_balancer` parameter, which is the
@@ -114,4 +115,4 @@ For example:
   YAML](./writing_yaml_plans.html) or [Writing plans in the Puppet
   language](./writing_plans.html).
 - For more information about the modulepath, see [Modules
-  overview](modules.html#modulepath).   
+  overview](modules.html#modulepath).

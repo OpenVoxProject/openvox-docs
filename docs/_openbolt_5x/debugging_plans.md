@@ -39,13 +39,13 @@ higher.
 You can adjust the log level that Bolt prints at using the `log-level`
 command-line option:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
-$ bolt plan run example --targets example.org --log-level trace
+```console
+bolt plan run example --targets example.org --log-level trace
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 > Invoke-BoltPlan -Name example -Targets example.org -LogLevel trace
@@ -59,13 +59,13 @@ an `info` level message when an action starts and another when it completes. I
 you pass a description to the action, Bolt uses the description in place of the
 generic log message.
 
-_Puppet language plan_
+_Puppet language plan:_
 
 ```puppet
 run_task('my_task', $targets, 'Better description', 'param1' => 'val')
 ```
 
-_YAML plan_
+_YAML plan:_
 
 ```yaml
 steps:
@@ -142,13 +142,13 @@ When you run a plan in verbose mode, Bolt automatically prints the results for
 commands, scripts, tasks, and plans to stdout. To run in verbose mode, specify
 the `verbose` command-line option:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
-$ bolt plan run example --targets example.org --verbose
+```console
+bolt plan run example --targets example.org --verbose
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 > Invoke-BoltPlan -Name example -Targets example.org -Verbose
@@ -169,7 +169,7 @@ string.
 ### Printing values in Puppet language plans
 
 To print values to stdout from a Puppet language plan, use the `out::message`
-or `out::verbose` plan functions. 
+or `out::verbose` plan functions.
 
 To print a message every time the plan is run, use the `out::message` plan
 function. When a message is printed using the `out::message` function, it is

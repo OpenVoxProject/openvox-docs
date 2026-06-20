@@ -19,7 +19,7 @@ or `Invoke-BoltCommand` in order to execute multiline commands.
 For example, the following file `configure-vap` configures two virtual access points on a Fortinet
 device:
 
-```
+```text
 config wireless-controller vap
     edit VAP-STAFF
     set fast-roaming enable
@@ -41,13 +41,13 @@ end
 
 To run multiline commands from a file, run Bolt from the directory where the file exists:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt command run @configure-vap --targets servers
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Invoke-BoltCommand -Command '@configure-vap' -Targets servers
@@ -59,7 +59,7 @@ You can provide the absolute path to the file or the Puppet file path (`<mymodul
 files stored in the `files/` directory of modules on the modulepath) to the `file::read()` plan
 function, and pass that output to the `run_command()` plan function.
 
-```
+```puppet
 run_command(file::read('/path/to/configure-vap'), $target)
 ```
 

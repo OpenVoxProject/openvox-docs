@@ -42,7 +42,7 @@ Next, Bolt resolves the modules and their dependencies and generates a
 Puppetfile. Avoid editing your Puppetfile directly. The Puppetfile for the above
 project would look like this:
 
-```
+```text
 # Puppetfile
 ...
 
@@ -62,7 +62,7 @@ mod 'puppetlabs/concat', '6.2.0'
 Finally, Bolt installs the modules and dependencies to the Bolt-managed module
 directory (moduledir) in your Bolt project directory (`.modules`):
 
-```shell
+```console
 .modules/
 ├── apache/
 ├── concat/
@@ -82,6 +82,7 @@ directory (moduledir) in your Bolt project directory (`.modules`):
 
 The list of directories where Bolt looks for content is called the modulepath.
 Bolt always loads content from:
+
 - The current Bolt project.
 - Any modules in the configurable modules directory. By default this is
   `modules/`.
@@ -108,13 +109,15 @@ from the `modules` directory.
 You can see a list of directories and modules Bolt is
 loading from the current modulepath using the following command:
 
-_*nix shell command_
-```
+_*nix shell command:_
+
+```console
 bolt module show
 ```
 
-_PowerShell cmdlet_
-```
+_PowerShell cmdlet:_
+
+```powershell
 Get-BoltModule
 ```
 
@@ -122,6 +125,7 @@ Get-BoltModule
 
 Bolt 2.30.0 introduced module dependency management. The changes introduced by
 this feature affect:
+
 - Existing Bolt projects that were created before the dependency changes came
   into effect. For information on how to migrate your Bolt project to use
   dependency management, see [Migrate a Bolt
@@ -139,7 +143,7 @@ management feature in an environment in Puppet Enterprise, you must specify
 
 For example:
 
-```
+```text
 # /etc/puppetlabs/code/environments/test/environment.conf
 
 modulepath = site:dist:modules:$basemodulepath:.modules

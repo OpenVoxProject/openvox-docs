@@ -21,10 +21,11 @@ contains a `name` key.
 ## Create a Bolt project
 
 To create a Bolt project:
+
 1. Create a directory for your Bolt project. To avoid having to specify a
    project name in the next step, follow project naming conventions. Project
    names can contain only lowercase letters, numbers, and underscores, and begin
-   with a lowercase letter. 
+   with a lowercase letter.
 2. Run `bolt project init` (or `New-BoltProject` for PowerShell cmdlet).
    Bolt creates a `bolt-project.yaml` file in your project directory.
    At this point, the `bolt-project.yaml` only contains a `name` key with the
@@ -60,7 +61,7 @@ your Bolt project, as well as options to control how Bolt behaves when you run a
 project.
 
 For example, if you want to add a little flair to your Bolt output, use the
-`rainbow` output format: 
+`rainbow` output format:
 
 ```yaml
 # bolt-project.yaml
@@ -74,12 +75,12 @@ For a list of all the available project configuration options, see
 ### Limiting displayed plans and tasks
 
 Projects allow you to limit which plans and tasks a user can see when running
-`bolt plan|task show` and `Get-Bolt(Plan|Task)`. 
+`bolt plan|task show` and `Get-Bolt(Plan|Task)`.
 
 Limiting tasks and plans is useful for the following reasons:
 
 - Bolt is bundled with several plans and tasks that might not be useful in your
-  project. 
+  project.
 - You might have written a task or plan that is only used by another task or
   plan, and you don't want your users to run that task or plan directly.
 - Displaying only specific content in the UI makes it easier for your users to
@@ -157,7 +158,7 @@ The following are common files and directories found in a Bolt project.
 |`hiera.yaml`|Contains the Hiera config to use for target-specific data when using `apply`.|
 |`data/`|The standard path to store static Hiera data files.|
 |`bolt-debug.log`|Contains debug log output for the most recent Bolt command.|
-| `.modules/` |The directory where Bolt installs modules. Avoid committing this directory to source control.| 
+| `.modules/` |The directory where Bolt installs modules. Avoid committing this directory to source control.|
 
 > **Remember:** A directory must have a `bolt-project.yaml` file before Bolt
 > recognizes it as a Bolt project.
@@ -170,7 +171,7 @@ The following are common files and directories found in a Bolt project.
 
 Most of the time, you run Bolt commands from within a Bolt project directory
 that you've created. Running Bolt from inside your project allows Bolt to find
-your inventory and other configuration files. 
+your inventory and other configuration files.
 
 However, Bolt always runs in the context of a project. If you don't run from
 within your own Bolt project, or you don't specify a project, Bolt uses the
@@ -192,7 +193,7 @@ Bolt uses the following methods, in order, to choose a Bolt directory.
    without finding a `Boltdir` directory or `bolt-project.yaml` file, Bolt uses
    `~/.puppetlabs/bolt/` as the project directory.
 
-For information on `Boltdir` directories, see [Embedded project directories](#embedded-project-directories).   
+For information on `Boltdir` directories, see [Embedded project directories](#embedded-project-directories).
 
 ## Embedded project directories
 
@@ -204,7 +205,7 @@ application's directory structure.
 
 To create an embedded project directory, create a subdirectory in your
 application's repo and name it `Boltdir`. Bolt treats a directory containing a
-subdirectory named `Boltdir` as an embedded project directory. 
+subdirectory named `Boltdir` as an embedded project directory.
 
 The contents the `Boltdir` directory follows the same pattern as a local project
 directory. As long as your `bolt-project.yaml` file contains a `name` field,
@@ -289,6 +290,7 @@ allows you to update old Bolt projects so that you can use them with the latest
 Bolt release.
 
 Currently, the `migrate` command:
+
 - Updates inventory files from version 1.
 - Updates projects to use `bolt-project.yaml` and `inventory.yaml` instead of `bolt.yaml`.
 - Updates projects to implement module dependency management. Dependency
@@ -296,13 +298,13 @@ Currently, the `migrate` command:
 
 To migrate a project:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt project migrate
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Update-BoltProject
@@ -318,6 +320,7 @@ Bolt locates the inventory file for the current Bolt project and migrates it
 in place.
 
 The updates change the following keys in your inventory file:
+
 - `nodes` becomes `targets`.
 - The `name` key in a `Target` object becomes a `uri` key.
 
@@ -428,8 +431,10 @@ mod "puppetlabs-puppetserver_gem", "1.1.1"
 If you ran the `migrate` command, and selected the `apache`, `apt`, and `mysql`
 modules as direct dependencies of your Bolt project, Bolt would do the
 following:
+
 - Update your `bolt-project.yaml` file to add the `modules` key, together with
   the `apache`, `apt`, and `mysql` modules:
+
   ```yaml
   ---
   name: myproject
@@ -441,7 +446,9 @@ following:
   - name: puppetlabs-mysql
   version_requirement: "=10.7.1"
   ```
+
 - Resolve your dependencies and generate a new Puppetfile:
+
   ```puppet
   # This Puppetfile is managed by Bolt. Do not edit.
   mod "puppetlabs-apache", "5.5.0"
@@ -453,6 +460,7 @@ following:
   mod "puppetlabs-resource_api", "1.1.0"
   mod "puppetlabs-puppetserver_gem", "1.1.1"
   ```
+
 - Install the modules from the Puppetfile into the `.modules` directory.
 - Remove the old managed modules from the `modules/` directory.
 - Move `mymodule` from `site-modules/` to `modules/`.

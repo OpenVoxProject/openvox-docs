@@ -25,7 +25,7 @@ the `apply_prep` plan function. See [`apply_prep`](#apply_prep).
 
 ## apply_prep
 
-A [Bolt plan function](writing_plans.html) that installs the `puppet-agent` package on targets 
+A [Bolt plan function](writing_plans.html) that installs the `puppet-agent` package on targets
 if needed and collects facts, including any custom facts found in Bolt's module
 path. The `puppet-agent` package and facts are required for an `apply`.
 
@@ -124,7 +124,7 @@ configuration file named `bolt-project.yaml` alongside the inventory file.
 
 ## log
 
-Bolt supports multiple log levels. You can configure the log level from the 
+Bolt supports multiple log levels. You can configure the log level from the
 CLI, or in a project configuration file. Supported logging levels, in order
 from most to least information logged, are `trace`, `debug`, `info`, `warn`,
 `error`, and `fatal`.
@@ -203,8 +203,8 @@ into Bolt and Puppet, or custom functions
 
 ## plugin
 
-Bolt supports the use of plugins to dynamically load information during a Bolt 
-run and change how Bolt executes certain actions. Bolt ships with some plugins, 
+Bolt supports the use of plugins to dynamically load information during a Bolt
+run and change how Bolt executes certain actions. Bolt ships with some plugins,
 but you can also create your own plugins or install plugins created by other users.
 
 There are three types of plugins that you can use with Bolt:
@@ -283,8 +283,8 @@ the task runner executes the task.
 A transport defines the connection method that Bolt uses to connect to a target.
 SSH, WinRM, and local are some of the most commonly used transports.
 
-There is a Docker transport that simplifies connecting to Docker containers, 
-but the SSH transport is useful for gaining a broader understanding of how Bolt 
+There is a Docker transport that simplifies connecting to Docker containers,
+but the SSH transport is useful for gaining a broader understanding of how Bolt
 inventory files work.
 
 📖 **Related information**
@@ -294,12 +294,13 @@ inventory files work.
 
 ## type
 
-The different custom types that can be used in a Bolt plan. 
+The different custom types that can be used in a Bolt plan.
 
 📖 **Related information**
+
 - [Bolt Types](bolt_types_reference.html)
 
-## type alias 
+## type alias
 
 Type aliases provide an alternate name for existing types or lists of types.
 These types can be used within a plan, and have all of the attributes and
