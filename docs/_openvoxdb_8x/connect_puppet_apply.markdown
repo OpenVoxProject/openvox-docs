@@ -86,7 +86,7 @@ Currently, Puppet needs extra Ruby plugins in order to use OpenVoxDB. Unlike cus
   `apt::source` (from the [puppetlabs-apt][apt] module) and [`yumrepo`][yumrepo] types.
 * Next, use Puppet to ensure that the `openvoxdb-termini` package is installed:
 
-```ruby
+```puppet
 package { 'openvoxdb-termini':
   ensure => installed,
 }
@@ -100,7 +100,7 @@ If your Puppet Server isn't running Puppet from a supported package, you will ne
 * Identify the install location of Puppet on your nodes.
 * Create a [file][] resource in your manifest(s) for each of the plugin files, to move them into place on each node.
 
-```ruby
+```puppet
 # <modulepath>/openvoxdb/manifests/terminus.pp
 class openvoxdb::terminus {
   $puppetdir = "${rubysitedir}/puppet"
@@ -124,7 +124,7 @@ All of the config files you need to manage will be in Puppet's config directory 
 
 You can specify the contents of [puppetdb.conf][puppetdb_conf] directly in your manifests. It should contain the OpenVoxDB server's hostname and port:
 
-```text
+```ini
 [main]
 server = openvoxdb.example.com
 port = 8081
@@ -139,7 +139,7 @@ For availability reasons, there is a setting named `soft_write_failure` that wil
 
 If no puppetdb.conf file exists, the following default values will be used:
 
-```text
+```ini
 server = puppetdb
 port = 8081
 soft_write_failure = false
@@ -149,7 +149,7 @@ soft_write_failure = false
 
 You will need to create a template for puppet.conf based on your existing configuration. Then, modify the template by adding the following settings to the `[main]` block:
 
-```text
+```ini
 [main]
   storeconfigs = true
   storeconfigs_backend = puppetdb

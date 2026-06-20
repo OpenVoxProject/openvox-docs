@@ -35,7 +35,7 @@ Using Puppet certificates to secure your PostgreSQL server has the following ben
 
 To begin, configure your PostgreSQL server to use the host's Puppet server certificate and key. The location of these files can be found by using the following commands:
 
-```text
+```console
 # Certificate
 puppet config print hostcert
 # Key
@@ -48,7 +48,7 @@ Make sure that `ssl` is set to `on` in `postgresql.conf`, and then restart Postg
 
 After this is complete, modify the database JDBC connection URL in your OpenVoxDB configuration as follows:
 
-```text
+```ini
 [database]
 subname = //<HOST>:<PORT>/<DATABASE>?ssl=true&sslfactory=org.postgresql.ssl.LibPQFactory&sslmode=verify-full&sslrootcert=/etc/puppetlabs/puppetdb/ssl/ca.pem
 username = <USERNAME>
@@ -101,7 +101,7 @@ puppetdb-puppetdb-read-map HOSTNAME puppetdb_read
 Finally, configure OpenVoxDB's `subname` to include its private key and
 certificate.
 
-```text
+```ini
 subname = //<HOST>:<PORT>/<DATABASE>?ssl=true&sslfactory=org.postgresql.ssl.LibPQFactory&sslmode=verify-full&sslrootcert=/etc/puppetlabs/puppetdb/ssl/ca.pem&sslkey=/tmp/private_key.pk8&sslcert=/etc/puppetlabs/puppetdb/ssl/public.pem
 ```
 
@@ -122,7 +122,7 @@ Because the JDBC PostgreSQL driver utilizes the Java's system KeyStore, and beca
 
 For example:
 
-```text
+```ini
 [database]
 subname = //<HOST>:<PORT>/<DATABASE>?ssl=true&sslmode=verify-full&sslfactory=org.postgresql.ssl.DefaultJavaSSLFactory
 username = <USERNAME>

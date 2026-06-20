@@ -54,13 +54,13 @@ The endpoint's responses contain a JSON object mapping strings to values. The ke
 
 Use `curl` from localhost to request data on MBean memory usage:
 
-```command
+```console
 curl 'http://localhost:8080/metrics/v1/mbeans/java.lang:type=Memory'
 ```
 
 The response should contain a JSON object representing the data:
 
-``` json
+```json
 {
   "ObjectPendingFinalizationCount" : 0,
   "HeapMemoryUsage" : {

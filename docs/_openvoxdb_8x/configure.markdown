@@ -115,7 +115,7 @@ directory.
 
 An example configuration file:
 
-```text
+```ini
 [global]
 vardir = /var/lib/puppetdb
 logging-config = /var/lib/puppetdb/logback.xml
@@ -147,7 +147,7 @@ Create a new class in a new module (something like
 resources as shown below, set the class to refresh the
 `openvoxdb::server` class, and assign it to your OpenVoxDB server.
 
-```ruby
+```puppet
 # Site-specific OpenVoxDB settings. Declare this class on any node that gets the openvoxdb::server class.
 class site::openvoxdb::server::extra {
 
@@ -547,7 +547,7 @@ of the configuration is in addition to the `[database]` settings. If
 To configure OpenVoxDB to use a read-only database from the cluster,
 add the following to the `[read-database]` section:
 
-```text
+```ini
 subname = //<HOST>:<PORT>/<DATABASE>
 username = <USERNAME>
 password = <PASSWORD>
@@ -818,7 +818,7 @@ information about configuring the pattern layout can be found
 
 A configuration file may resemble the following:
 
-```text
+```xml
 <configuration debug="false">
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
     <file>./dev-resources/access.log</file>
@@ -862,7 +862,7 @@ allows you to manipulate the behavior of OpenVoxDB at runtime. This
 should only be done for debugging purposes, and is thus disabled by
 default. An example configuration stanza:
 
-```text
+```ini
 [nrepl]
 type = nrepl
 port = 8082
