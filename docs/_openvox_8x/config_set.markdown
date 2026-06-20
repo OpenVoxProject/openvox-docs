@@ -23,7 +23,9 @@ Puppet loads most of its settings from [the puppet.conf config file.][puppet.con
 
 To assign a new value to a setting, run:
 
-    sudo puppet config set <SETTING NAME> <VALUE> --section <CONFIG SECTION>
+```console
+sudo puppet config set <SETTING NAME> <VALUE> --section <CONFIG SECTION>
+```
 
 This will declaratively set the value of `<SETTING NAME>` to `<VALUE>` (in the specified config section). It will work the same way regardless of whether the setting already had a value.
 
@@ -43,39 +45,45 @@ If modifying the [system config file][confdir_sys], be sure to use `sudo` or run
 
 **Before:**
 
-    # /etc/puppetlabs/puppet/puppet.conf
-    [main]
-    certname = agent01.example.com
-    server = master.example.com
-    vardir = /var/opt/lib/pe-puppet
+```ini
+# /etc/puppetlabs/puppet/puppet.conf
+[main]
+certname = agent01.example.com
+server = master.example.com
+vardir = /var/opt/lib/pe-puppet
 
-    [agent]
-    report = true
-    graph = true
-    pluginsync = true
+[agent]
+report = true
+graph = true
+pluginsync = true
 
-    [server]
-    dns_alt_names = master,master.example.com,puppet,puppet.example.com
+[server]
+dns_alt_names = master,master.example.com,puppet,puppet.example.com
+```
 
 **Commands:**
 
-    sudo puppet config set reports puppetdb --section server
-    sudo puppet config set ordering manifest
+```console
+sudo puppet config set reports puppetdb --section server
+sudo puppet config set ordering manifest
+```
 
 **After:**
 
-    # /etc/puppetlabs/puppet/puppet.conf
-    [main]
-    certname = agent01.example.com
-    server = master.example.com
-    vardir = /var/opt/lib/pe-puppet
-    ordering = manifest
+```ini
+# /etc/puppetlabs/puppet/puppet.conf
+[main]
+certname = agent01.example.com
+server = master.example.com
+vardir = /var/opt/lib/pe-puppet
+ordering = manifest
 
-    [agent]
-    report = true
-    graph = true
-    pluginsync = true
+[agent]
+report = true
+graph = true
+pluginsync = true
 
-    [server]
-    dns_alt_names = master,master.example.com,puppet,puppet.example.com
-    reports = puppetdb
+[server]
+dns_alt_names = master,master.example.com,puppet,puppet.example.com
+reports = puppetdb
+```
