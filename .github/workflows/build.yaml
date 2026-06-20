@@ -35,7 +35,7 @@ jobs:
       tag: '${{ steps.set-params.outputs.tag }}'
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: '${{ inputs.ref }}'
           fetch-depth: 1
@@ -67,7 +67,7 @@ jobs:
       ARCHIVE: '${{ needs.setup.outputs.archive }}'
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: '${{ inputs.ref }}'
           fetch-depth: 1
