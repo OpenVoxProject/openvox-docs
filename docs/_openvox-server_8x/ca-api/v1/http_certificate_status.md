@@ -3,23 +3,20 @@ layout: default
 title: 'OpenVox Server CA API: Certificate Status'
 ---
 
-Certificate Status
-===============
+# Certificate Status
 
 The `certificate status` endpoint allows a client to read or alter the
 status of a certificate or pending certificate request. It is only
 useful on the CA.
 
-Find
-----
+## Find
 
     GET /puppet-ca/v1/certificate_status/:certname
     Accept: application/json, text/pson
 
 Retrieve information about the specified certificate. Similar to `puppetserver ca list --certname <certname>`.
 
-Search
------
+## Search
 
     GET /puppet-ca/v1/certificate_statuses/:any_key?state=:state
     Accept: application/json, text/pson
@@ -30,8 +27,7 @@ Retrieve information about all known certificates. Similar to `puppetserver ca l
 
 * `state` (optional): The certificate state by which to filter search results. Valid states are 'requested', 'signed', and 'revoked'.
 
-Save
-----
+## Save
 
     PUT /puppet-ca/v1/certificate_status/:certname
     Content-Type: text/pson
@@ -40,15 +36,20 @@ Change the status of the specified certificate. The desired state
 is sent in the body of the PUT request as a one-item PSON hash; the two
 allowed complete hashes are:
 
-* `{"desired_state":"signed"}` (for signing a certificate signing request, similar to `puppetserver ca sign`). To set the validity period of the signed certificate, specify the `cert_ttl` key in the body of the request, with an integer value. By default, this key specifies the number of seconds, but you can specify another time unit. See [configuration](/openvox/latest/configuration.html#configuration-settings) for a list of Puppet's accepted time unit markers.
+* `{"desired_state":"signed"}` (for signing a certificate signing request,
+similar to `puppetserver ca sign`). To set the validity period of the signed
+certificate, specify the `cert_ttl` key in the body of the request, with an
+integer value. By default, this key specifies the number of seconds, but you can
+specify another time unit. See
+[configuration](/openvox/latest/configuration.html#configuration-settings) for a
+list of Puppet's accepted time unit markers.
 * `{"desired_state":"revoked"}` (for revoking a certificate, similar to
 `puppetserver ca revoke`).
 
 Note that revoking a certificate does not clean up other info about the
 host --- see the DELETE request for more information.
 
-Delete
------
+## Delete
 
     DELETE /puppet-ca/v1/certificate_status/:hostname
     Accept: application/json, text/pson
@@ -159,8 +160,7 @@ Gets the response:
 
     "Deleted for mycertname: Puppet::SSL::Certificate, Puppet::SSL::Key"
 
-Schema
------
+## Schema
 
 Find and search operations return objects which
 conform to [the host schema.](/openvox/latest/schemas/host.json)

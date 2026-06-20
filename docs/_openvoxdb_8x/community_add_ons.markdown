@@ -18,11 +18,19 @@ canonical: "/openvoxdb/latest/community_add_ons.html"
 
 ## [Jason Hancock --- nagios-puppetdb][nagios]
 
-[A collection of Nagios scripts/plugins for monitoring OpenVoxDB.][nagios] These plugins get data using OpenVoxDB's metrics APIs. Pulling this data into Nagios lets you monitor key metrics over time and receive alerts when they cross certain thresholds. This can partially or completely replace the [built-in performance dashboard][dashboard]. Especially useful for knowing when the heap size or thread count needs tuning.
+[A collection of Nagios scripts/plugins for monitoring OpenVoxDB.][nagios] These plugins
+get data using OpenVoxDB's metrics APIs. Pulling this data into Nagios lets you monitor key
+metrics over time and receive alerts when they cross certain thresholds. This can partially
+or completely replace the [built-in performance dashboard][dashboard]. Especially useful
+for knowing when the heap size or thread count needs tuning.
 
 ## [Erik Dalén --- OpenVoxDB query functions for Puppet][query]
 
-[A Puppet module with functions for querying OpenVoxDB data.][query] By default, [exported resources][exported] are the only way for Puppet manifests to get other nodes' data from OpenVoxDB. These functions let you get other data. In particular, the `pdbnodequery` function can let you search nodes by class or resource, an operation that normally requires multiple OpenVoxDB queries. The functions in this module include:
+[A Puppet module with functions for querying OpenVoxDB data.][query] By default,
+[exported resources][exported] are the only way for Puppet manifests to get other nodes'
+data from OpenVoxDB. These functions let you get other data. In particular, the
+`pdbnodequery` function can let you search nodes by class or resource, an operation that
+normally requires multiple OpenVoxDB queries. The functions in this module include:
 
 * `pdbresourcequery`
 * `pdbnodequery`

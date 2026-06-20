@@ -77,9 +77,11 @@ features until you upgrade the OpenVoxDB-termini.
 **On your OpenVoxDB server:** stop the OpenVoxDB service, upgrade the OpenVoxDB
 package, then restart the OpenVoxDB service.
 
-    $ sudo puppet resource service puppetdb ensure=stopped
-    $ sudo puppet resource package openvoxdb ensure=latest
-    $ sudo puppet resource service puppetdb ensure=running
+```console
+sudo puppet resource service puppetdb ensure=stopped
+sudo puppet resource package openvoxdb ensure=latest
+sudo puppet resource service puppetdb ensure=running
+```
 
 #### On platforms without packages
 
@@ -97,7 +99,9 @@ the source, and
 **On your Puppet Servers:** upgrade the OpenVoxDB-termini package, then
 restart the Puppet Server's web server:
 
-    $ sudo puppet resource package openvoxdb-termini ensure=latest
+```console
+sudo puppet resource package openvoxdb-termini ensure=latest
+```
 
 The command to restart the Puppet Server will vary, depending on which web
 server you are using.
@@ -120,7 +124,9 @@ OpenVoxDB 5 at least long enough for it to upgrade your existing data.
 The upgrade subcommand can help with this.  When specified, OpenVoxDB
 will quit as soon as it has finished all of the necessary work:
 
-    $ puppetdb upgrade -c /path/to/config.ini
+```console
+puppetdb upgrade -c /path/to/config.ini
+```
 
 ## Truncate your reports table
 
@@ -168,7 +174,8 @@ later than or equal to OpenVoxDB 6.8.0 or 6.10.0. If this is the case, you
 should delete your reports manually.
 
 First, stop the OpenVoxDB service where it is running.
-```
+
+```console
 service puppetdb stop
 ```
 
@@ -178,7 +185,8 @@ a file named `/tmp/delete-reports.sql` and then set it to be owned by the postgr
 
 If you are upgrading **from** a OpenVoxDB version less than 6.8.0 that does not
 have the `delete-reports` subommand, your `delete-reports.sql` file is,
-```
+
+```sql
 BEGIN TRANSACTION;
 
 ALTER TABLE certnames DROP CONSTRAINT IF EXISTS certnames_reports_id_fkey;
@@ -194,7 +202,8 @@ COMMIT TRANSACTION;
 
 If you are upgrading **from** a OpenVoxDB version greater than or equal to 6.8.0
 but less than OpenVoxDB 6.10.0, your `delete-reports.sql` file will need to contain
-```
+
+```sql
 BEGIN TRANSACTION;
 
 ALTER TABLE certnames DROP CONSTRAINT IF EXISTS certnames_reports_id_fkey;
@@ -218,6 +227,7 @@ COMMIT TRANSACTION;
 ```
 
 Now that the file exists and is owned by the `postgres` user, run
-```
+
+```console
 su - postgres -s /bin/bash -c "psql -d puppetdb -f /tmp/delete-reports.sql"
 ```

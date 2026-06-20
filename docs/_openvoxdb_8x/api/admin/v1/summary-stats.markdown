@@ -7,7 +7,7 @@ layout: default
 
 > **Experimental Endpoint**: The summary-stats endpoint is designated
 > as experimental. It may be altered or removed in a future release.
-
+>
 > **Warning**: This endpoint will execute a number of relatively expensive SQL
 > commands against your database. It will not meaningfully impede performance
 > of a running PDB instance, but the request may take several minutes to

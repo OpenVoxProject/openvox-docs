@@ -1,4 +1,4 @@
-# Generating and Updating documentation.
+# Generating and Updating documentation
 
 ## Configuration
 

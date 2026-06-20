@@ -24,19 +24,19 @@ Other resources you may also find useful include:
 
 Query nodes with `green` in their name.
 
-``` ruby
+```text
 nodes { certname ~ 'green' }
 ```
 
 or [regexp features][pg-regex]
 
-``` ruby
+```text
 nodes { certname ~ '(?i)green' }
 ```
 
 *Output:*
 
-``` json
+```json
 [
     {
         "cached_catalog_status": "not_used",
@@ -62,13 +62,13 @@ nodes { certname ~ '(?i)green' }
 
 ### Querying for inactive nodes
 
-``` ruby
+```text
 nodes { node_state = "inactive" }
 ```
 
 *Output:*
 
-``` json
+```json
 [
     {
         "cached_catalog_status": "not_used",
@@ -96,13 +96,13 @@ nodes { node_state = "inactive" }
 
 Nodes with operating system name `CentOS`.
 
-``` ruby
+```text
 inventory { facts.os.name = "CentOS" }
 ```
 
 *Output (abbreviated):*
 
-``` json
+```json
 [
     {
         "certname": "centos70.vm",
@@ -147,14 +147,14 @@ inventory { facts.os.name = "CentOS" }
 
 Nodes with `CentOS` operating system, and with a declared `httpd` service resource.
 
-``` ruby
+```text
 inventory[certname] { facts.operatingsystem = "CentOS" and
                       resources { type = "Service" and title = "httpd" } }
 ```
 
 *Output:*
 
-``` json
+```json
 [
     {
         "certname": "greenserver.vm"
@@ -168,7 +168,7 @@ inventory[certname] { facts.operatingsystem = "CentOS" and
 
 `RedHat` boxes in the `PDX` datacenter, that have their `java` package forced to `1.7.0`.
 
-``` ruby
+```text
 inventory[certname] { facts.osfamily = "RedHat" and
                       facts.datacentre = "PDX" and
                       resources { type = "Package" and
@@ -178,7 +178,7 @@ inventory[certname] { facts.osfamily = "RedHat" and
 
 *Output:*
 
-``` json
+```json
 [
     {
         "certname": "greenserver.vm"
@@ -192,7 +192,7 @@ inventory[certname] { facts.osfamily = "RedHat" and
 
 CentOS boxes with the `apache` Puppet class.
 
-``` ruby
+```text
 inventory[certname] { facts.operatingsystem = "CentOS" and
                       resources { type = "Class" and
                                   title = "Apache" } }
@@ -200,7 +200,7 @@ inventory[certname] { facts.operatingsystem = "CentOS" and
 
 *Output:*
 
-``` json
+```json
 [
     {
         "certname": "greenserver.vm"
@@ -214,7 +214,7 @@ inventory[certname] { facts.operatingsystem = "CentOS" and
 
 All windows servers, with service `sqlserver` in a particular feature branch environment.
 
-``` ruby
+```text
 nodes { certname in inventory[certname] { facts.osfamily = "Windows" } and
         resources { type = "Service" and
                     title = "sqlserver" } and
@@ -223,7 +223,7 @@ nodes { certname in inventory[certname] { facts.osfamily = "Windows" } and
 
 *Output:*
 
-``` json
+```json
 [ {
   "deactivated" : null,
   "latest_report_hash" : "4a956674b016d95a7b77c99513ba26e4a744f8d1",
@@ -248,7 +248,7 @@ nodes { certname in inventory[certname] { facts.osfamily = "Windows" } and
 Get only the `certname`, `os.family` and `puppetversion` for all nodes whose most recent
 report indicated a failure.
 
-```
+```text
 inventory[certname, facts.os.family, facts.puppetversion] {
   certname in nodes[certname] { latest_report_status = "failed" }
 }
@@ -270,13 +270,13 @@ Output:
 
 Nodes that haven't checked in for 7 days.
 
-``` ruby
+```text
 nodes { report_timestamp <= "2016-08-03 00:00:00" }
 ```
 
 *Output:*
 
-``` json
+```json
 [
     {
         "cached_catalog_status": "not_used",
@@ -304,13 +304,13 @@ nodes { report_timestamp <= "2016-08-03 00:00:00" }
 
 Show active nodes that have the profile class `Profile::Remote_mgmt` applied to it.
 
-``` ruby
+```text
 nodes { resources { type = "Class" and title = "Profile::Remote_mgmt" } }
 ```
 
 *Output:*
 
-``` json
+```json
 [
     {
         "cached_catalog_status": "not_used",
@@ -338,13 +338,13 @@ nodes { resources { type = "Class" and title = "Profile::Remote_mgmt" } }
 
 Check for nodes that haven't had a catalog applied since a certain time.
 
-``` ruby
+```text
 nodes { catalog_timestamp < "2016-08-15T11:37:00.000Z" }
 ```
 
 *Output:*
 
-``` json
+```json
 [
     {
         "cached_catalog_status": "not_used",
@@ -372,13 +372,13 @@ nodes { catalog_timestamp < "2016-08-15T11:37:00.000Z" }
 
 List all nodes that have had a failure on their last run.
 
-``` ruby
+```text
 nodes { latest_report_status = 'failed' }
 ```
 
 *Output:*
 
-``` json
+```json
 [
     {
         "cached_catalog_status": "not_used",
@@ -406,13 +406,13 @@ nodes { latest_report_status = 'failed' }
 
 Query all latest reports and show the certname and code_id.
 
-``` ruby
+```text
 reports[certname, code_id] { latest_report? = true }
 ```
 
 *Output:*
 
-``` json
+```json
 [
     {
         "certname": "greenserver.vm",
@@ -431,7 +431,7 @@ reports[certname, code_id] { latest_report? = true }
 
 Show reports that have not had a particular code_id applied.
 
-``` ruby
+```text
 reports[certname, receive_time] {
   latest_report? = true and
   ! code_id = 'urn:puppet:code-id:1:519e404a1b6217b010cc543494c2dc50df8a53e3;production'
@@ -440,7 +440,7 @@ reports[certname, receive_time] {
 
 *Output:*
 
-``` json
+```json
 [
     {
         "certname": "whiteserver.vm",
@@ -459,13 +459,13 @@ reports[certname, receive_time] {
 
 Show all exported resources
 
-``` ruby
+```text
 resources[certname, type, title] { exported = true }
 ```
 
 *Output:*
 
-``` json
+```json
 [
     {
         "certname": "purpleserver.vm",

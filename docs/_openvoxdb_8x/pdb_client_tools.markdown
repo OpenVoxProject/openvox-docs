@@ -25,8 +25,8 @@ seconds`.
 `MANPATH` directories respectively. For example,
 >
 > ```bash
-> $ export PATH=/opt/puppetlabs/bin:$PATH
-> $ export MANPATH=/opt/puppetlabs/client-tools/share/man:$MANPATH
+> export PATH=/opt/puppetlabs/bin:$PATH
+> export MANPATH=/opt/puppetlabs/client-tools/share/man:$MANPATH
 > ```
 >
 > The rest of this documentation assumes that these two directories have been
@@ -36,13 +36,17 @@ added to their proper path configurations.
 
 Install the OpenVoxDB CLI from Rubygems:
 
-    $ gem install --bindir /opt/puppetlabs/bin puppetdb_cli
+```console
+gem install --bindir /opt/puppetlabs/bin puppetdb_cli
+```
 
 If you are installing the OpenVoxDB CLI on a machine that does not have Puppet
 installed, such as your own workstation, you can install the executables to Ruby's
 standard bindir by omitting the `--bindir` option.
 
-    $ gem install puppetdb_cli
+```console
+gem install puppetdb_cli
+```
 
 If the node you installed the CLI on is not the same node as your OpenVoxDB
 server, you will need to add the CLI node's certname to the OpenVoxDB
@@ -54,7 +58,9 @@ configuration file at `$HOME/.puppetlabs/client-tools/puppetdb.conf` (or
 `%USERPROFILE%\.puppetlabs\client-tools\puppetdb.conf` for Windows). For more
 details see the installed man page:
 
-    $ man puppetdb_conf
+```console
+man puppetdb_conf
+```
 
 The OpenVoxDB CLI configuration files (the user-specified or global files) can
 take the following settings:
@@ -62,7 +68,7 @@ take the following settings:
 - `server_urls` Either a JSON String (for a single url) or Array (for multiple
   urls) of your OpenVoxDB servers to query or manage via the CLI commands.
 
-  Default value: https://127.0.0.1:8080
+  Default value: <https://127.0.0.1:8080>
 
 - `cacert` The path for the CA cert.
 
@@ -104,7 +110,7 @@ On Windows, escape slashes in paths.
 }
 ```
 
-### Step 3: Enjoy!
+### Step 3: Enjoy
 
 Here are some examples of using the CLI.
 
@@ -112,29 +118,41 @@ Here are some examples of using the CLI.
 
 Query OpenVoxDB using PQL:
 
-    $ puppet query "nodes [ certname ]{ limit 1 }"
+```console
+puppet query "nodes [ certname ]{ limit 1 }"
+```
 
 Or query OpenVoxDB using the AST syntax:
 
-    $ puppet query "['from', 'nodes', ['extract', 'certname'], ['limit', 1]]"
+```console
+puppet query "['from', 'nodes', ['extract', 'certname'], ['limit', 1]]"
+```
 
 For more information on the `query` command:
 
-    $ man puppet-query
+```console
+man puppet-query
+```
 
 #### Using `puppet db`
 
 Handle your OpenVoxDB exports:
 
-    $ puppet db export pdb-archive.tgz --anonymization full
+```console
+puppet db export pdb-archive.tgz --anonymization full
+```
 
 Or handle your OpenVoxDB imports:
 
-    $ puppet db import pdb-archive.tgz
+```console
+puppet db import pdb-archive.tgz
+```
 
 For more information on the `db` command:
 
-    $ man puppet-db
+```console
+man puppet-db
+```
 
 For more information about OpenVoxDB exports, imports, and anonymization
 [see][export].

@@ -5,8 +5,6 @@ canonical: "/openvoxdb/latest/api/query/v4/catalogs.html"
 ---
 # Catalogs endpoint
 
-[catalog]: ../../wire_format/catalog_format_v4.html
-[curl]: ../curl.html#using-curl-from-localhost-non-sslhttp
 [paging]: ./paging.html
 [query]: query.html
 [subqueries]: ./ast.html#subquery-operators

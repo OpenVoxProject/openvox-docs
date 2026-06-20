@@ -8,10 +8,7 @@ canonical: "/openvoxdb/latest/api/query/v4/edges.html"
 [curl]: ../curl.html#using-curl-from-localhost-non-sslhttp
 [paging]: ./paging.html
 [query]: query.html
-[subqueries]: ./ast.html#subquery-operators
 [ast]: ./ast.html
-[catalogs]: ./catalogs.html
-[nodes]: ./nodes.html
 [resources]: ./resources.html
 
 Catalog edges are relationships formed between two [resources][resources].

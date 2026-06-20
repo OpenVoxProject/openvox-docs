@@ -11,11 +11,9 @@ canonical: "/openvoxdb/latest/configure.html"
 [logback]: http://logback.qos.ch/manual/configuration.html
 [dashboard]: ./maintain_and_tune.html#monitor-the-performance-dashboard
 [repl]: ./repl.html
-[pg_trgm]: http://www.postgresql.org/docs/current/static/pgtrgm.html
 [postgres_ssl]: ./postgres_ssl.html
 [migration-coordination]: ./migration_coordination.html
 [module]: ./install_via_module.html
-[puppetdb.conf]: ./connect_puppet_server.html#edit-puppetdbconf
 [admin-cmd]: ./api/admin/v1/cmd.html
 [query-timeout-parameter]: ./api/query/v4/overview.html#url-parameters
 
@@ -39,11 +37,11 @@ Debian/Ubuntu                | `/etc/default/puppetdb`
 
  In this file, you can change the following settings:
 
-- **`JAVA_BIN`**: the location of the Java binary.
-- **`JAVA_ARGS`**: command line options for the Java binary, most notably the `-Xmx` (max heap size) flag.
-- **`USER`**: the user OpenVoxDB should be running as.
-- **`INSTALL_DIR`**: the directory into which OpenVoxDB is installed.
-- **`CONFIG`**: the location of the OpenVoxDB config file, which may be a single file or a directory of .ini files.
+* **`JAVA_BIN`**: the location of the Java binary.
+* **`JAVA_ARGS`**: command line options for the Java binary, most notably the `-Xmx` (max heap size) flag.
+* **`USER`**: the user OpenVoxDB should be running as.
+* **`INSTALL_DIR`**: the directory into which OpenVoxDB is installed.
+* **`CONFIG`**: the location of the OpenVoxDB config file, which may be a single file or a directory of .ini files.
 
 ### Configuring the Java heap size
 
@@ -53,11 +51,15 @@ flag in the `JAVA_ARGS` variable.
 
 For example, to cap OpenVoxDB at 192MB of memory:
 
-    JAVA_ARGS="-Xmx192m"
+```text
+JAVA_ARGS="-Xmx192m"
+```
 
 To use 1GB of memory:
 
-    JAVA_ARGS="-Xmx1g"
+```text
+JAVA_ARGS="-Xmx1g"
+```
 
 ### Configuring JMX access
 
@@ -66,7 +68,7 @@ expose direct JMX access using standard JVM means as documented
 [here](http://docs.oracle.com/javase/6/docs/technotes/guides/management/agent.html).
 This can be done using the `JAVA_ARGS` init script setting, similar to configuring the heap size.
 
-WARNING: DO NOT DO THIS WITH A PRODUCTION OR INTERNET-ACCESSIBLE INSTANCE! 
+WARNING: DO NOT DO THIS WITH A PRODUCTION OR INTERNET-ACCESSIBLE INSTANCE!
 This gives remote access to the JVM internals, including potentially secrets.
 If you absolutely must (you don't), read about using certs with JMX to do it
 securely. You are better off using the metrics API or Grafana metrics
@@ -75,7 +77,9 @@ exporter.
 For example, adding the following JVM options will open
 up a JMX socket on port 1099:
 
-    JAVA_ARGS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099"
+```text
+JAVA_ARGS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099"
+```
 
 
 ## The Logback logging-config file
@@ -111,18 +115,20 @@ directory.
 
 An example configuration file:
 
-    [global]
-    vardir = /var/lib/puppetdb
-    logging-config = /var/lib/puppetdb/logback.xml
+```ini
+[global]
+vardir = /var/lib/puppetdb
+logging-config = /var/lib/puppetdb/logback.xml
 
-    [database]
-    subname = //localhost:5432/puppetdb
+[database]
+subname = //localhost:5432/puppetdb
 
-    [puppetdb]
-    certificate-allowlist = /path/to/file/containing/certnames
+[puppetdb]
+certificate-allowlist = /path/to/file/containing/certnames
 
-    [jetty]
-    port = 8080
+[jetty]
+port = 8080
+```
 
 ### Playing nice with the OpenVoxDB module
 
@@ -141,7 +147,7 @@ Create a new class in a new module (something like
 resources as shown below, set the class to refresh the
 `openvoxdb::server` class, and assign it to your OpenVoxDB server.
 
-~~~ ruby
+```puppet
 # Site-specific OpenVoxDB settings. Declare this class on any node that gets the openvoxdb::server class.
 class site::openvoxdb::server::extra {
 
@@ -165,7 +171,7 @@ class site::openvoxdb::server::extra {
     value   => 'true',
   }
 }
-~~~
+```
 
 ## `[global]` settings
 
@@ -255,6 +261,7 @@ authorization. All HTTPS clients must still supply valid, verifiable
 SSL client certificates.
 
 ### `log-queries`
+
 Optional. Setting this to `true` will enable debug level logging of the internal
 AST and SQL that OpenVoxDB generates for all queries. This can be useful when
 debugging query performance. If unset, the default value is `false`.
@@ -322,11 +329,13 @@ as manually-deactivated nodes.
 
 You may specify the time as a string using any of the following suffixes:
 
-    `d`  - days
-    `h`  - hours
-    `m`  - minutes
-    `s`  - seconds
-    `ms` - milliseconds
+```text
+`d`  - days
+`h`  - hours
+`m`  - minutes
+`s`  - seconds
+`ms` - milliseconds
+```
 
 For example, a value of `30d` would set the time-to-live to 30 days, and a value of
 `48h` would set the time-to-live to 48 hours.
@@ -397,6 +406,7 @@ The database user specified for connections performing normal
 operations (queries, command processing, etc.).
 
 ### `connection-username`
+
 The database user for special cases when the database connection username
 is different from the username reported by the database.
 An example is managed PostgreSQL in Azure, in order to connect we need to specify
@@ -424,6 +434,7 @@ privileges of this user (role), and the [migration coordination
 section][migration-coordination] for an overview of the process.
 
 ### `connection-migrator-username`
+
 The database migrator user for special cases when the database connection username
 is different from the username reported by the database.
 An example is managed PostgreSQL in Azure, in order to connect we need to specify
@@ -498,8 +509,8 @@ literally or as [Java regular expresions][java-patterns].
 The names must be comma-separated in an INI configuration file, or a
 list in a HOCON file:
 
- * INI: `facts-blocklist = fact1, fact2, fact3`
- * HOCON: `facts-blocklist = ["fact1", "fact2", "fact3"]`
+* INI: `facts-blocklist = fact1, fact2, fact3`
+* HOCON: `facts-blocklist = ["fact1", "fact2", "fact3"]`
 
 When matching lterally, the entire fact name (not including the path)
 must completely match one of the `facts-blocklist` entries in order to
@@ -536,9 +547,11 @@ of the configuration is in addition to the `[database]` settings. If
 To configure OpenVoxDB to use a read-only database from the cluster,
 add the following to the `[read-database]` section:
 
-    subname = //<HOST>:<PORT>/<DATABASE>
-    username = <USERNAME>
-    password = <PASSWORD>
+```ini
+subname = //<HOST>:<PORT>/<DATABASE>
+username = <USERNAME>
+password = <PASSWORD>
+```
 
 Replace `<HOST>` with the DB server's hostname. Replace `<PORT>` with
 the port on which PostgreSQL is listening. Replace `<DATABASE>` with
@@ -805,15 +818,17 @@ information about configuring the pattern layout can be found
 
 A configuration file may resemble the following:
 
-    <configuration debug="false">
-      <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>./dev-resources/access.log</file>
-          <encoder>
-            <pattern>%h %l %u %user %date "%r" %s %b</pattern>
-          </encoder>
-        </appender>
-        <appender-ref ref="FILE" />
-    </configuration>
+```xml
+<configuration debug="false">
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>./dev-resources/access.log</file>
+      <encoder>
+        <pattern>%h %l %u %user %date "%r" %s %b</pattern>
+      </encoder>
+    </appender>
+    <appender-ref ref="FILE" />
+</configuration>
+```
 
 This example configures a `FileAppender` that outputs to a file,
 `access.log`, in the `dev-resources` directory. It will log the remote
@@ -847,10 +862,12 @@ allows you to manipulate the behavior of OpenVoxDB at runtime. This
 should only be done for debugging purposes, and is thus disabled by
 default. An example configuration stanza:
 
-    [nrepl]
-    type = nrepl
-    port = 8082
-    host = 127.0.0.1
+```ini
+[nrepl]
+type = nrepl
+port = 8082
+host = 127.0.0.1
+```
 
 ### `enabled`
 
@@ -884,7 +901,7 @@ valued `true` or `false`.
 
 ## Experimental environment variables
 
-> *Note*: these settings are experimental and are likely to be altered
+> _Note_: these settings are experimental and are likely to be altered
 > or removed in a future release.
 
 ### `PDB_COMMAND_SQL_STATEMENT_TIMEOUT_MS`

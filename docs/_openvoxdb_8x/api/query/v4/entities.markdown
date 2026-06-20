@@ -19,7 +19,6 @@ canonical: "/openvoxdb/latest/api/query/v4/entities.html"
 [inventory]: ./inventory.html
 [nodes]: ./nodes.html
 [producers]: producers.html
-[query]: query.html
 [reports]: reports.html
 [resources]: resources.html
 [root]: overview.html

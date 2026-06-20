@@ -95,4 +95,9 @@ The [API commands][commands] documentation contains more concrete information ab
 
 ## Upgrades
 
-OpenVoxDB supports upgrading from prior releases. Upgrading ensures data and configuration information is preserved across releases. Upgrades are only supported from any previous release in the same major version or any release in the prior major version. As an example, it's safe to upgrade from 2.0.0 to 2.2.2, or from 1.6.0 to 2.2.2. We don't support upgrading from 1.6.0 straight to 3.0.0. Users in this situation will want to first upgrade from 1.6.0 to 2.2.2, then from 2.2.2 to 3.0.0.
+OpenVoxDB supports upgrading from prior releases. Upgrading ensures data and configuration
+information is preserved across releases. Upgrades are only supported from any previous
+release in the same major version or any release in the prior major version. As an example,
+it's safe to upgrade from 2.0.0 to 2.2.2, or from 1.6.0 to 2.2.2. We don't support
+upgrading from 1.6.0 straight to 3.0.0. Users in this situation will want to first upgrade
+from 1.6.0 to 2.2.2, then from 2.2.2 to 3.0.0.

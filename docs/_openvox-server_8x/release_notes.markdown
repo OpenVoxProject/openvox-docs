@@ -22,6 +22,7 @@ files that previous versions were able to parse, resulting in errors such as:
 ```console
 java.lang.NoSuchMethodError: 'org.bouncycastle.asn1.ASN1Primitive org.bouncycastle.asn1.sec.ECPrivateKey.getParameters()'
 ```
+
 Not all files are affected, the error seems to be triggered by specific patterns in
 ASN.1 content. See [OpenVoxProject/openvox-server#322][openvox-server-322]
 for more details and subscribe for updates on a fix. Recommended workaround is

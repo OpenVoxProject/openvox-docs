@@ -53,7 +53,11 @@ you're unlikely to ever have more than one Puppet agent checking in with the
 server at exactly the same time, this is totally sufficient.
 
 However, if you specify a value of `1` for this setting, and then you have two
-Puppet agent runs hitting the server at the same time, the requests being made by the second agent will be effectively blocked until the server has finished handling all of the requests from the first agent. In other words, one of Puppet Server's threads will have "borrowed" the single JRuby instance from the pool to handle the requests from the first agent, and only when those requests are completed will it return the JRuby instance
+Puppet agent runs hitting the server at the same time, the requests being made by the
+second agent will be effectively blocked until the server has finished handling all of the
+requests from the first agent. In other words, one of Puppet Server's threads will have
+"borrowed" the single JRuby instance from the pool to handle the requests from the first
+agent, and only when those requests are completed will it return the JRuby instance
 to the pool. At that point, the next thread can "borrow" the JRuby instance to
 use to handle the requests from the second agent.
 
@@ -87,7 +91,11 @@ case of Puppet Server, you'll find this setting in the "defaults" file for Puppe
 Server for your operating system; this will generally be something like
 `/etc/sysconfig/puppetserver` or `/etc/defaults/puppetserver`.)
 
-> **Upgrade note:** If you modified the defaults file in Puppet Server 2.4.x or earlier, then lost those modifications or see `Service ':PoolManagerService' not found` warnings after upgrading to Puppet Server 2.5, be aware that the package might have attempted to overwrite the file during the upgrade. See the [Puppet Server 2.5 release notes](https://docs.puppet.com/puppetserver/2.5/release_notes.html) for details.
+> **Upgrade note:** If you modified the defaults file in Puppet Server 2.4.x or earlier,
+> then lost those modifications or see `Service ':PoolManagerService' not found` warnings
+> after upgrading to Puppet Server 2.5, be aware that the package might have attempted to
+> overwrite the file during the upgrade. See the [Puppet Server 2.5 release
+> notes](https://docs.puppet.com/puppetserver/2.5/release_notes.html) for details.
 
 If your application's memory usage approaches this value, the JVM will try to
 get more aggressive with garbage collection to free up memory. In certain

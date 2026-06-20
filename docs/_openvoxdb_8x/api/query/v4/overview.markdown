@@ -47,7 +47,7 @@ general info about queries, see [our guide to query structure.][query]
   The [query timeout configuration settings][query-timeout-config] are
   also recommended.
 
-* `ast_only`: optional. A boolean value. When true, the query response will be the supplied 
+* `ast_only`: optional. A boolean value. When true, the query response will be the supplied
 `query` in AST, either exactly as supplied or translated from PQL. False by default.
 
 * `origin`: optional. A string describing the source of the query.  It

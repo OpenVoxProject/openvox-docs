@@ -13,8 +13,6 @@ canonical: "/openvoxdb/latest/api/query/v4/fact-contents.html"
 [ast]: ./ast.html
 [environments]: ./environments.html
 [facts]: ./facts.html
-[factsets]: ./factsets.html
-[nodes]: ./nodes.html
 
 The `/fact-contents` endpoint provides selective access to factset
 subtrees via `fact path`s.  Note that the `inventory` endpoint will
@@ -23,6 +21,7 @@ information.
 
 
 ## Paths and Values
+
 Structured facts can be thought of as trees. For example,
 
     "mountpoints": {

@@ -16,7 +16,7 @@ This is **version 3** of the deactivate node command.
 
 ### Encoding
 
-The command is serialized as JSON, which requires strict UTF-8 encoding. 
+The command is serialized as JSON, which requires strict UTF-8 encoding.
 
 ### Upgrade notes
 

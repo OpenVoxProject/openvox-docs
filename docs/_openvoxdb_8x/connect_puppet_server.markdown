@@ -40,7 +40,7 @@ Currently, Puppet Servers need additional Ruby plug-ins in order to use OpenVoxD
 
 [Enable the Puppet Platform package repository][package_repos] and then install the `openvoxdb-termini` package:
 
-    $ sudo puppet resource package openvoxdb-termini ensure=latest
+    sudo puppet resource package openvoxdb-termini ensure=latest
 
 ### On platforms without packages
 
@@ -117,7 +117,7 @@ Create the file, if necessary, and add the following:
 The files created above need to be owned by the `puppet` user. Ensure that
 this ownership is applied by running the following command:
 
-    $ sudo chown -R puppet:puppet `sudo puppet config print confdir`
+    sudo chown -R puppet:puppet `sudo puppet config print confdir`
 
 ## Step 3: Set security policy
 

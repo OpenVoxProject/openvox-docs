@@ -140,7 +140,7 @@ Please take care to not build loops!
 
 For example:
 
-``` ruby
+```ruby
 Facter.add(:my_osfamily) do
   setcode do
     distid = Facter.value(:os)['family']
@@ -168,7 +168,7 @@ However, this should be done cautiously to avoid introducing cyclic dependencies
 
 An example of the confine statement would be something like the following:
 
-``` ruby
+```ruby
 Facter.add(:powerstates) do
   confine :kernel => 'Linux'
   setcode do
@@ -235,7 +235,7 @@ OpenFact moves on to the next resolution (by descending weight) until it gets a 
 By default, the weight of a fact is the number of confines for that resolution, so
 that more specific resolutions take priority over less specific resolutions.
 
-``` ruby
+```ruby
 # Check to see if this server has been marked as a postgres server
 Facter.add(:role) do
   has_weight 100
@@ -285,7 +285,7 @@ Timeout per execute method
 Facter::Core::Execution::execute('<cmd>', options = {:timeout => 5})
 ```
 
-``` ruby
+```ruby
 Facter.add(:sleep) do
   setcode do
     begin
@@ -342,7 +342,7 @@ After all of the chunks have been resolved separately, they're combined into a s
 
 Aggregate resolutions have several key differences compared to simple resolutions, beginning with the fact declaration. To introduce an aggregate resolution, add the `:type => :aggregate` parameter:
 
-``` ruby
+```ruby
 Facter.add(:fact_name, :type => :aggregate) do
     #chunks go here
     #aggregate block goes here
@@ -351,7 +351,7 @@ end
 
 Each step in the resolution then gets its own named `chunk` statement:
 
-``` ruby
+```ruby
 chunk(:one) do
     'Chunk one returns this. '
 end
@@ -364,7 +364,7 @@ end
 Aggregate resolutions *never* have a `setcode` statement. Instead, they have an optional `aggregate` block that combines the chunks.
 Whatever value the `aggregate` block returns is the fact's value. Here's an example that just combines the strings from the two chunks above:
 
-``` ruby
+```ruby
 aggregate do |chunks|
   result = ''
 
@@ -407,8 +407,6 @@ Please consider using [Fiddle] or other Ruby-based libraries for interacting wit
 
 ## Viewing fact values
 
-[OpenVoxDB]: /openvoxdb/latest
-
 If your OpenVox servers are configured to use [OpenVoxDB][OpenVoxDB], you can view and search all of the facts for any node, including custom facts. See [the OpenVoxDB docs][openvoxdb] for more info.
 
 ## External facts
@@ -425,7 +423,7 @@ external fact path. A shebang (`#!`) is always required for executable facts on 
 
 An example external fact written in Python:
 
-``` python
+```python
 #!/usr/bin/env python
 data = {"key1" : "value1", "key2" : "value2" }
 
@@ -543,7 +541,7 @@ Structured data files must use one of the supported data types and must have the
 
 `.yaml`: YAML data, in the following format:
 
-``` yaml
+```yaml
 ---
 key1: val1
 key2: val2
@@ -552,7 +550,7 @@ key3: val3
 
 `.json`: JSON data, in the following format:
 
-``` javascript
+```json
 {
     "key1": "val1",
     "key2": "val2",
@@ -570,7 +568,7 @@ key3=value3
 
 As with executable facts, structured data files can set multiple facts at once.
 
-``` json
+```json
 {
   "datacenter":
   {

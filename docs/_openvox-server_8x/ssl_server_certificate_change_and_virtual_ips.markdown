@@ -20,7 +20,7 @@ For example, if Puppet Server is configured to use a load-balanced group of Pupp
 
 These connection failures may look like this in the `puppetserver.log` file:
 
-~~~
+~~~text
 2014-11-20 22:04:03,392 ERROR [c.p.h.c.SyncHttpClient] Error executing http request
 javax.net.ssl.SSLHandshakeException: server certificate change is restricted during renegotiation
 ~~~

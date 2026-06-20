@@ -62,13 +62,15 @@ to the general ones specified below. The cacert supplied to `localcacert`
 should be the one that signs the SSL proxy cert for OpenVoxDB.
 
 Add this to your `puppetdb.conf`
-```
+
+```ini
 [main]
 verify_client_certificate = false
 ```
 
 Add this to your `puppet.conf`
-```
+
+```ini
 [main]
 localcacert = /etc/path/to/cacert/ca.crt
 certificate_revocation = false
@@ -84,11 +86,11 @@ Currently, Puppet needs extra Ruby plugins in order to use OpenVoxDB. Unlike cus
   `apt::source` (from the [puppetlabs-apt][apt] module) and [`yumrepo`][yumrepo] types.
 * Next, use Puppet to ensure that the `openvoxdb-termini` package is installed:
 
-~~~ ruby
+```puppet
 package { 'openvoxdb-termini':
   ensure => installed,
 }
-~~~
+```
 
 ### On platforms without packages
 
@@ -98,7 +100,7 @@ If your Puppet Server isn't running Puppet from a supported package, you will ne
 * Identify the install location of Puppet on your nodes.
 * Create a [file][] resource in your manifest(s) for each of the plugin files, to move them into place on each node.
 
-~~~ ruby
+```puppet
 # <modulepath>/openvoxdb/manifests/terminus.pp
 class openvoxdb::terminus {
   $puppetdir = "${rubysitedir}/puppet"
@@ -112,7 +114,7 @@ class openvoxdb::terminus {
     mode => 0644,
   }
 }
-~~~
+```
 
 ## Step 3: Manage configuration files on every Puppet node
 
@@ -122,9 +124,11 @@ All of the config files you need to manage will be in Puppet's config directory 
 
 You can specify the contents of [puppetdb.conf][puppetdb_conf] directly in your manifests. It should contain the OpenVoxDB server's hostname and port:
 
-    [main]
-    server = openvoxdb.example.com
-    port = 8081
+```ini
+[main]
+server = openvoxdb.example.com
+port = 8081
+```
 
 OpenVoxDB's port for secure traffic defaults to 8081. Puppet **requires** use of OpenVoxDB's
 secure HTTPS port. You cannot use the unencrypted, plain HTTP port.
@@ -135,20 +139,24 @@ For availability reasons, there is a setting named `soft_write_failure` that wil
 
 If no puppetdb.conf file exists, the following default values will be used:
 
-    server = puppetdb
-    port = 8081
-    soft_write_failure = false
+```ini
+server = puppetdb
+port = 8081
+soft_write_failure = false
+```
 
 ### Manage puppet.conf
 
 You will need to create a template for puppet.conf based on your existing configuration. Then, modify the template by adding the following settings to the `[main]` block:
 
-    [main]
-      storeconfigs = true
-      storeconfigs_backend = puppetdb
-      # Optional settings to submit reports to OpenVoxDB:
-      report = true
-      reports = puppetdb
+```ini
+[main]
+  storeconfigs = true
+  storeconfigs_backend = puppetdb
+  # Optional settings to submit reports to OpenVoxDB:
+  report = true
+  reports = puppetdb
+```
 
 > **Note:** The `thin_storeconfigs` and `async_storeconfigs` settings should be absent or set to `false`.
 
@@ -158,16 +166,18 @@ Typically, you can specify the contents of [routes.yaml][routes_yaml] directly i
 
 Ensure that the following keys are present:
 
-    ---
-    apply:
-      catalog:
-        terminus: compiler
-        cache: puppetdb
-      resource:
-        terminus: ral
-        cache: puppetdb
-      facts:
-        terminus: facter
-        cache: puppetdb_apply
+```yaml
+---
+apply:
+  catalog:
+    terminus: compiler
+    cache: puppetdb
+  resource:
+    terminus: ral
+    cache: puppetdb
+  facts:
+    terminus: facter
+    cache: puppetdb_apply
+```
 
 This is necessary to keep Puppet from using stale facts and to keep the `puppet resource` subcommand from malfunctioning. Note that the `puppetdb_apply` terminus is specifically for `puppet apply` nodes, and differs from the configuration of Puppet Servers using OpenVoxDB.

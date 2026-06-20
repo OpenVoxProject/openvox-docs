@@ -12,17 +12,8 @@ canonical: "/openvoxdb/latest/api/query/v4/nodes.html"
 [paging]: ./paging.html
 [query]: query.html
 [8601]: http://en.wikipedia.org/wiki/ISO_8601
-[subqueries]: ./ast.html#subquery-operators
 [ast]: ./ast.html
-[factsets]: ./factsets.html
-[reports]: ./reports.html
-[catalogs]: ./catalogs.html
 [facts]: ./facts.html
-[fact-contents]: ./fact-contents.html
-[events]: ./events.html
-[edges]: ./edges.html
-[resources]: ./resources.html
-[inventory]: inventory.html
 [expirev1]: ../../wire_format/configure_expiration_format_v1.html
 
 Nodes can be queried by making an HTTP request to the `/nodes` endpoint.
@@ -200,7 +191,6 @@ If a node of that certname doesn't exist, the response will instead be a hash of
 
 ## `/pdb/query/v4/nodes/<NODE>/facts`
 
-[facts]: ./facts.html
 
 This will return the facts for the given node. Facts from deactivated and
 expired nodes aren't included in the response.

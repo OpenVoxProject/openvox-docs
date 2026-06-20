@@ -3,23 +3,20 @@ layout: default
 title: 'OpenVox Server CA API: Certificate Request'
 ---
 
-Certificate Request
-=============
+# Certificate Request
 
 The `certificate_request` endpoint submits a Certificate Signing Request (CSR)
 to the master. The master must be configured to be a CA. The returned
 CSR is always in the `.pem` format.
 
-Find
-----
+## Find
 
 Get a submitted CSR
 
     GET /puppet-ca/v1/certificate_request/:nodename
     Accept: text/plain
 
-Save
-----
+## Save
 
 Submit a CSR
 
@@ -31,8 +28,7 @@ Note: The `:nodename` must match the Common Name on the submitted CSR.
 Note: Although the `Content-Type` is sent as `text/plain` the content is
 specifically a CSR in PEM format.
 
-Search
-----
+## Search
 
 **Note:** The plural `certificate_requests` endpoint is a legacy feature. Puppet
 Server doesn't support it, and we don't plan to add support in the future.
@@ -44,8 +40,7 @@ List submitted CSRs
 
 The `:ignored_pattern` parameter is not used, but must still be provided.
 
-Destroy
-----
+## Destroy
 
 Delete a submitted CSR
 
@@ -164,8 +159,7 @@ None
 
 The CSR PEMs are separated by "\n---\n"
 
-Schema
-------
+## Schema
 
 A `certificate_request` response body is not structured data according to any
 standard scheme such as json/pson/yaml, so no schema is applicable.

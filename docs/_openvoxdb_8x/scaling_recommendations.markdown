@@ -9,10 +9,8 @@ canonical: "/openvoxdb/latest/scaling_recommendations.html"
 [dashboard]: ./maintain_and_tune.html#monitor-the-performance-dashboard
 [heap]: ./maintain_and_tune.html#tune-the-max-heap-size
 [threads]: ./maintain_and_tune.html#tune-the-number-of-threads
-[postgres]: ./configure_postgres.html
 [pg_ha]: http://www.postgresql.org/docs/current/interactive/high-availability.html
 [pg_replication]: http://wiki.postgresql.org/wiki/Replication,_Clustering,_and_Connection_Pooling
-[ram]: #bottleneck-java-heap-size
 [runinterval]: /openvox/latest/configuration.html#runinterval
 
 OpenVoxDB will be a critical component of your Puppet deployment, as agent nodes will be unable to request catalogs if it goes down. Therefore, you should make sure it can handle your site's load and is resilient against failures.
@@ -43,7 +41,13 @@ following links may be helpful:
 
 ## Bottleneck: Java heap size
 
-OpenVoxDB is limited by the amount of memory available to it, which is [set in the init script's config file][configure_heap]. If OpenVoxDB runs out of memory, it will start logging `OutOfMemoryError` exceptions and delaying command processing. Unlike many of the bottlenecks listed here, this one is fairly binary: OpenVoxDB either has enough memory to function under its load, or it doesn't. The exact amount needed will depend on the number of nodes, the similarity of the nodes, the complexity of each node's catalog, and how often the nodes check in.
+OpenVoxDB is limited by the amount of memory available to it, which is [set in the init
+script's config file][configure_heap]. If OpenVoxDB runs out of memory, it will start
+logging `OutOfMemoryError` exceptions and delaying command processing. Unlike many of the
+bottlenecks listed here, this one is fairly binary: OpenVoxDB either has enough memory to
+function under its load, or it doesn't. The exact amount needed will depend on the number
+of nodes, the similarity of the nodes, the complexity of each node's catalog, and how often
+the nodes check in.
 
 ### Initial memory recommendations
 

@@ -3,8 +3,7 @@ layout: default
 title: 'OpenVox Server CA API: Certificate Revocation List'
 ---
 
-Certificate Revocation List
-===========================
+# Certificate Revocation List
 
 The `certificate_revocation_list` endpoint retrieves a Certificate Revocation List (CRL)
 from the master. The master must be configured to be a CA. The returned
@@ -14,8 +13,7 @@ The `:nodename` should always be `ca`, due to the default auth.conf rules for
 WEBrick and Rack Puppet masters. (You can use a different `:nodename` if you
 change the auth rules, but it will have no effect on the response.)
 
-Find
-----
+## Find
 
 Get the submitted CRL
 
@@ -187,8 +185,7 @@ decoding of the CRL PEM file.
 
     No request key specified in /puppet-ca/v1/certificate_revocation_list
 
-Schema
-------
+## Schema
 
 A `certificate_revocation_list` response body is not structured data according to any
 standard scheme such as json/pson/yaml, so no schema is applicable.
