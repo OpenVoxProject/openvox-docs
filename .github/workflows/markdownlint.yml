@@ -15,7 +15,7 @@ jobs:
   markdown-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0  # required to resolve base.sha for PR diff comparison
       - name: Find changed Markdown files

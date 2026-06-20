@@ -24,7 +24,7 @@ There are three types of plugins that you can use with Bolt:
 Reference plugins fetch data from an external source and store it in a static
 data object. You can use reference plugins to dynamically load information into
 a configuration file or inventory file, or to load information for use in a
-plan. 
+plan.
 
 For example, you might use a reference plugin to prompt a user to enter a
 password, or query AWS for a list of targets to populate the inventory with.
@@ -205,6 +205,7 @@ plugin-hooks:
 **NOTE**: If you are configuring plugin hooks in an inventory file, you must use `plugin_hooks`
 instead of `plugin-hooks`. For more information, see the
 [inventory.yaml reference](bolt_inventory_reference.html#plugin_hooks).
+
 ## Configuring plugins
 
 Plugins that accept parameters can be configured in Bolt's configuration files.

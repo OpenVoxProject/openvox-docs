@@ -29,7 +29,7 @@ outputs a greeting.
 To use the Python task helper, include the
 `python_task_helper/files/task_helper.py` file in the task metadata.
 
-**Metadata**
+**Metadata:**
 
 ```json
 {
@@ -46,7 +46,7 @@ To use the Python task helper, include the
 }
 ```
 
-**Task**
+**Task:**
 
 ```python
 #!/usr/bin/env python
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     MyTask().run()
 ```
 
-**Output**
+**Output:**
 
 ```console
 $ bolt task run mymodule::task -n localhost name='Julia'
@@ -83,7 +83,7 @@ outputs a greeting.
 To use the Ruby task helper, include the
 `ruby_task_helper/files/task_helper.rb` file in the task metadata.
 
-**Metadata**
+**Metadata:**
 
 ```json
 {
@@ -100,7 +100,7 @@ To use the Ruby task helper, include the
 }
 ```
 
-**Task**
+**Task:**
 
 ```ruby
 #!/usr/bin/env ruby
@@ -116,7 +116,7 @@ end
 MyTask.run if $PROGRAM_NAME == __FILE__
 ```
 
-**Output**
+**Output:**
 
 ```console
 $ bolt task run mymodule::mytask -n localhost name="Robert'); DROP TABLE Students;--"
@@ -143,7 +143,7 @@ To use the PowerShell task helper, include the
   automatically loads the module by adding your task directory to
   `$env:PSModulePath`.
 
-**Metadata**
+**Metadata:**
 
 ```json
 {
@@ -160,7 +160,7 @@ To use the PowerShell task helper, include the
 }
 ```
 
-**Task**
+**Task:**
 
 ```powershell
 #!/usr/bin/env pwsh
@@ -205,7 +205,7 @@ catch {
 }
 ```
 
-**Output**
+**Output:**
 
 ```console
 $ bolt task run mymodule::mytask -n localhost name="Robert'); DROP TABLE Students;--"
@@ -226,7 +226,7 @@ outputs a greeting.
 To use the Bash task helper, include the
 `bash_task_helper/files/task_helper.sh` file in the task metadata.
 
-**Metadata**
+**Metadata:**
 
 ```json
 {
@@ -243,7 +243,7 @@ To use the Bash task helper, include the
 }
 ```
 
-**Task**
+**Task:**
 
 ```bash
 #!/usr/bin/env bash
@@ -258,7 +258,7 @@ fi
 task-succeed "Hello, my name is $PT_name"
 ```
 
-**Output**
+**Output:**
 
 ```console
 $ bolt task run mymodule::mytask -n localhost name="Adam"

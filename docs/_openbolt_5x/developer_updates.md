@@ -122,7 +122,7 @@ With the release of Facter 4, dotted fact names are automatically converted to
 structured facts. For example, the custom fact `role.name = server` becomes the
 following structured fact:
 
-```
+```puppet
 {
   "role" => {
     "name" => "server"
@@ -200,7 +200,8 @@ compiled a list of expected changes and removals.
 - **New default configuration for the local transport**
 
   In Bolt 2.x, Bolt applied the following settings to targets named `localhost` by default:
-  ```
+
+  ```yaml
   targets:
     - name: localhost
       config:
@@ -211,6 +212,7 @@ compiled a list of expected changes and removals.
       features:
         - puppet-agent
   ```
+
   These settings will now be applied to all targets using the local transport. Settings can be
   overridden at the target level in inventory. They can also be enabled or disabled starting in Bolt
   2.37 using the `bundled-ruby` local transport config option.
@@ -337,13 +339,13 @@ once.
 
 To migrate your project, run the following command in your project directory:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt project migrate
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Update-BoltProject
@@ -372,18 +374,21 @@ the task which collection to download the package from. This defaults to
 `puppet6` to pull in the latest Puppet 6 agent. You can pass this parameter on
 the command line:
 
-_\*nix shell command_
-```
+_\*nix shell command:_
+
+```console
 bolt task run puppet_agent::install -t mytargets collection='puppet6'
 ```
 
-_PowerShell cmdlet_
-```
+_PowerShell cmdlet:_
+
+```powershell
 Invoke-BoltTask -Name puppet_agent::install -Targets mytargets collection='puppet6'
 ```
 
 Or to the `run_task()` plan function:
-```
+
+```puppet
 run_task('puppet_agent::install', $targets, { collection => 'puppet6' })
 ```
 
@@ -392,7 +397,7 @@ instead of Puppet 7, you can configure this by [configuring the puppet_library
 plugin hook](using_plugins.html#puppet-library-plugins) in either
 `bolt-project.yaml` or `bolt-defaults.yaml`:
 
-```
+```yaml
 plugin_hooks:
   puppet_library:
     task: puppet_agent
@@ -412,13 +417,13 @@ If you want to try it out, [create a
 project](bolt_installing_modules.html#create-a-bolt-project-with-pre-installed-modules)
 or migrate an existing project with the following command:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt project migrate
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 Update-BoltProject

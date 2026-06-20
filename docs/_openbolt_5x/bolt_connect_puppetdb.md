@@ -20,7 +20,7 @@ access to all PuppetDB API endpoints and can read all data, push new data, or
 run commands on PuppetDB. To test the certificate you run the following curl
 command.
 
-```
+```console
 curl -X GET $SERVER_URL/pdb/query/v4 --data-urlencode 'query=nodes[certname] {}' --cert $CERT_PATH --key $KEY_PATH --cacert $CACERT_PATH
 ```
 
@@ -29,19 +29,19 @@ curl -X GET $SERVER_URL/pdb/query/v4 --data-urlencode 'query=nodes[certname] {}'
 If you use Puppet Enterprise you can grant more restricted access to PuppetDB
 with a PE role-based access control (RBAC) token.
 
-1.  In PE, verify you are assigned to a role that has the appropriate RBAC
+1. In PE, verify you are assigned to a role that has the appropriate RBAC
     permission. It needs the permission type **Nodes** and the action **View
     node data from PuppetDB**.
 
-2.  From the command line, run `puppet-access login --lifetime <TIME PERIOD>`.
+2. From the command line, run `puppet-access login --lifetime <TIME PERIOD>`.
 
-3.  When prompted, enter the same username and password that you use to log into
+3. When prompted, enter the same username and password that you use to log into
     the PE console. The token is generated and stored in a file for later use.
-    The default location for storing the token is ~/.puppetlabs/token. 
+    The default location for storing the token is ~/.puppetlabs/token.
 
-4.  Verify that authentication is working with the following curl command.
+4. Verify that authentication is working with the following curl command.
 
-```
+```console
 curl -X GET https://$SERVER_URL/pdb/query/v4 --data-urlencode 'query=nodes[certname] {}' -H "X-Authentication: `cat ~/.puppetlabs/token`" --cacert $CACERT_PATH
 ```
 
@@ -57,7 +57,7 @@ config](configuring_bolt.html) with the following values:
 | `connect_timeout` | `Integer` | How long to wait in seconds when establishing connections with PuppetDB. |
 | `headers` | `Hash` | A map of HTTP headers to add to PuppetDB requests. |
 | `read_timeout` | `Integer` | How long to wait in seconds for a response from PuppetDB. |
-| `server_urls` | `Array` | An array of strings containing the PuppetDB host to connect to. Include the protocol `https` and the port, which is usually `8081`. For example, `https://my-puppetdb-server.example.com:8081`. The Bolt PuppetDB client attempts to connect to each host in the list until it makes a successful connection. |
+| `server_urls` | `Array` | An array of PuppetDB hosts to connect to, each including the `https` protocol and port (usually `8081`), for example `https://my-puppetdb-server.example.com:8081`. Bolt tries each host until one connects. |
 
 If you are using certificate authentication also set:
 
@@ -74,7 +74,7 @@ If you are using a PE RBAC token set:
 
 For example, to use certificate authentication:
 
-```
+```yaml
 puppetdb:
   server_urls: ["https://puppet.example.com:8081"]
   cacert: /etc/puppetlabs/puppet/ssl/certs/ca.pem
@@ -84,6 +84,7 @@ puppetdb:
 
 If PE is installed and PuppetDB is not defined in a config file, Bolt uses the
 PuppetDB config defined in either:
+
 - `$HOME/.puppetlabs/client-tools/puppetdb.conf` or
 - `/etc/puppetlabs/client-tools/puppetdb.conf` (Windows:
 `%CSIDL_COMMON_APPDATA%\PuppetLabs\client-tools\puppetdb.conf`).
@@ -93,7 +94,7 @@ that pe-client-tools does.
 
 To use PE RBAC authentication:
 
-```
+```yaml
 puppetdb:
   server_urls: ["https://puppet.example.com:8081"]
   cacert: /etc/puppetlabs/puppet/ssl/certs/ca.pem
@@ -102,7 +103,7 @@ puppetdb:
 
 To use custom headers, such as for OAuth authentication:
 
-```
+```yaml
 puppetdb:
   server_urls: ["https://puppet.example.com:8081"]
   cacert: /etc/puppetlabs/puppet/ssl/certs/ca.pem
@@ -221,13 +222,13 @@ instance whenever a named instance is not specified.
 To specify a named instance as the default instance, use the `puppetdb`
 command-line option:
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
-$ bolt plan run example --puppetdb instance-1
+```console
+bolt plan run example --puppetdb instance-1
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 > Invoke-BoltPlan -Name example -PuppetDB instance-1
@@ -242,7 +243,7 @@ When running the example from above, the first invocation of the
 You can test your configuration with the following plan, which returns a list of
 all nodes in PuppetDB.
 
-```
+```puppet
 plan pdb_test {
   return(puppetdb_query("nodes[certname] {}"))
 }
@@ -254,7 +255,7 @@ In practice, it is common to extract inventory from PuppetDB dynamically to use
 in a plan. The following is an example using the `puppetdb_query()` function
 directly. This method works but requires data munging to be effective.
 
-```
+```puppet
 plan puppetdb_query_targets {
   # query PuppetDB for a list of node certnames
   # this returns an array of objects, each object containing a "certname" parameter:
@@ -278,7 +279,7 @@ Alternatively, the [PuppetDB inventory plugin](using_plugins.html) can be used t
 execute a query and return Targets. This avoids the data munging from the
 previous example:
 
-```
+```puppet
 plan puppetdb_plugin_targets {
   # Resolves "references" from the PuppetDB inventory plugin using the specified PQL query.
   $refs = {

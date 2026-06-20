@@ -13,82 +13,60 @@ deploy applications, or stop and restart services. Bolt can be installed on your
 local workstation and connects directly to remote targets with SSH or WinRM, so
 you are not required to install any agent software.
 
-<img src="bolt-logo-dark.png" width="420" /><br/>
+![Puppet Bolt logo](bolt-logo-dark.png)
 
-<table>
- <thead>
- <tr>
-   <th>Helpful Bolt docs links</th>
-   <th>Other useful places</th>
- </tr>
- </thead>
- <tbody>
- <tr>
-   <td>
-    <p>Install Bolt
-        <ul>
-            <li><a class="xref" href="bolt_installing.html">Installing Bolt</a> - Follow the installation instructions for your operating system: *nix, macOS, or Windows.</li>
-        </ul>
-    </p>
-    <p>Make one-time changes to your remote targets
-        <ul>
-            <li><a class="xref" href="running_bolt_commands.html">Run a command</a></li>
-            <li><a class="xref" href="running_bolt_commands.html">Run a script</a></li>
-            <li><a class="xref" href="running_bolt_commands.html">Upload files</a></li>
-        </ul>
-    </p> 
-    <p>Automate your workflow with existing tasks and plans
-        <ul>
-            <li><a class="xref" href="bolt_running_tasks.html">Running tasks</a></li>
-            <li><a class="xref" href="bolt_running_plans.html">Running plans</a></li>
-        </ul>
-    </p>
-    <p>Create your own tasks and plans
-        <ul>
-            <li><a class="xref" href="writing_tasks.html">Writing tasks</a></li>
-            <li><a class="xref" href="writing_plans.html">Writing plans in Puppet® language</a></li>
-            <li><a class="xref" href="writing_yaml_plans.html">Writing plans in YAML</a></li>
-            <li><a class="xref" href="writing_plans.html">Example plans</a></li>
-            <li><a class="xref" href="applying_manifest_blocks.html">Applying manifest blocks</a></li>
-        </ul> 
-    </p>
-   </td>
-   <td>
-    <p>Learn the basics
-        <ul>
-            <li><a class="xref" href="getting_started_with_bolt.html">Getting started with Bolt</a></li>
-            <li><a class="xref" href="bolt_examples.html">Bolt examples</a> - Guided examples of how Bolt can help you automate common tasks.</li>
-            <li><a href="https://github.com/puppetlabs/bolt-examples">Bolt example repo</a> - A curated repo of common Bolt patterns that you can use to reference syntax and structure.</li>
-        </ul>
-    </p>
-    <p>Watch Bolt development
-        <ul>
-            <li><a class="xref" target="_blank" href="https://github.com/puppetlabs/bolt">Bolt project on GitHub</a></li>
-        </ul>
-    </p>
-    <p>Docs for related Puppet products
-        <ul>
-            <li><a class="xref" target="_blank" href="/openvox/latest/index.html">Open source Puppet</a></li>
-            <li><a class="xref" target="_blank" href="/pdk.html">Puppet Development Kit</a></li>
-        </ul>
-    </p>
-    <p>Why and how people are using Bolt
-        <ul>
-            <li><a class="xref" target="_blank" href="https://puppet.com/resources/webinar/product-spotlight-webinar-puppet-taskstm">Product Spotlight Webinar: Puppet Tasks</a></li>
-            <li><a class="xref" target="_blank" href="https://puppet.com/blog/combining-powershell-bolt-and-puppet-tasks-part-1">Combining PowerShell, Bolt and Puppet Tasks</a></li>
-            <li><a class="xref" target="_blank" href="https://puppet.com/blog/automating-from-zero-to-something/">Automating from zero to something</a></li>
-        </ul>
-    </p>
-    <p>Share and contribute
-        <ul>
-            <li><a class="xref" target="_blank" href="https://slack.puppet.com">Join us on Slack</a> - Join the #bolt channel.</li>
-            <li><a class="xref" target="_blank" href="https://twitter.com/puppetize/">Follow us on Twitter</a></li>
-            <li><a class="xref" target="_blank" href="https://puppet.com/community">Engage with the Puppet community</a> - Share what you know and get help from other users and employees.</li>
-            <li><a class="xref" target="_blank" href="https://forge.puppet.com">Puppet Forge</a> - Find modules you can use, and contribute modules you've made to the community.</li>
-            <li><a class="xref" target="_blank" href="https://github.com/puppetlabs/">Open source projects from Puppet on GitHub</a></li>
-        </ul>
-    </p>        
-   </td>
- </tr>
- </tbody>
-</table>
+## Helpful Bolt docs links
+
+### Install Bolt
+
+- [Installing Bolt](bolt_installing.html) - Follow the installation instructions for your operating system: \*nix, macOS, or Windows.
+
+### Make one-time changes to your remote targets
+
+- [Run a command](running_bolt_commands.html)
+- [Run a script](running_bolt_commands.html)
+- [Upload files](running_bolt_commands.html)
+
+### Automate your workflow with existing tasks and plans
+
+- [Running tasks](bolt_running_tasks.html)
+- [Running plans](bolt_running_plans.html)
+
+### Create your own tasks and plans
+
+- [Writing tasks](writing_tasks.html)
+- [Writing plans in Puppet® language](writing_plans.html)
+- [Writing plans in YAML](writing_yaml_plans.html)
+- [Example plans](writing_plans.html)
+- [Applying manifest blocks](applying_manifest_blocks.html)
+
+## Other useful places
+
+### Learn the basics
+
+- [Getting started with Bolt](getting_started_with_bolt.html)
+- [Bolt examples](bolt_examples.html) - Guided examples of how Bolt can help you automate common tasks.
+- [Bolt example repo](https://github.com/puppetlabs/bolt-examples) - A curated repo of common Bolt patterns that you can use to reference syntax and structure.
+
+### Watch Bolt development
+
+- [Bolt project on GitHub](https://github.com/puppetlabs/bolt)
+
+### Docs for related Puppet products
+
+- [Open source Puppet](/openvox/latest/index.html)
+- [Puppet Development Kit](/pdk.html)
+
+### Why and how people are using Bolt
+
+- [Product Spotlight Webinar: Puppet Tasks](https://puppet.com/resources/webinar/product-spotlight-webinar-puppet-taskstm)
+- [Combining PowerShell, Bolt and Puppet Tasks](https://puppet.com/blog/combining-powershell-bolt-and-puppet-tasks-part-1)
+- [Automating from zero to something](https://puppet.com/blog/automating-from-zero-to-something/)
+
+### Share and contribute
+
+- [Join us on Slack](https://slack.puppet.com) - Join the #bolt channel.
+- [Follow us on Twitter](https://twitter.com/puppetize/)
+- [Engage with the Puppet community](https://puppet.com/community) - Share what you know and get help from other users and employees.
+- [Puppet Forge](https://forge.puppet.com) - Find modules you can use, and contribute modules you've made to the community.
+- [Open source projects from Puppet on GitHub](https://github.com/puppetlabs/)

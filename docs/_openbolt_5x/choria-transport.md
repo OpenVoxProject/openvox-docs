@@ -12,6 +12,7 @@ publishes RPC requests to a NATS message broker, and agents running on target
 nodes pick them up, execute the requested action, and reply.
 
 Key components:
+
 - **NATS broker**: Message middleware that routes requests and replies
 - **Choria Server**: Runs on each managed node, hosts agents
 - **Agents**: Plugins that perform actions (run commands, execute tasks, etc.)
@@ -125,6 +126,7 @@ inventory. All other options use OpenBolt-level defaults and are not affected by
 the Choria config file.
 
 **Timeout hierarchy:** Three levels of timeout control different things:
+
 - `broker-timeout` (30s): How long to wait for the initial TCP
   connection to a Choria broker
 - `rpc-timeout` (30s): How long to wait for replies to each individual RPC
@@ -256,6 +258,7 @@ separate Choria plugin. Version 1.2.1 or later is required. It must be
 installed on target nodes.
 
 With the shell agent:
+
 - `run_command` and `run_script` work
 - `run_task` can use either agent (bolt_tasks by default, or shell with
   `--choria-task-agent shell`)
@@ -361,7 +364,8 @@ sudo puppet module install puppetlabs-python_task_helper
 ```
 
 Without these, you'll see download errors like:
-```
+
+```text
 bolt/choria-task-download-failed: ... ruby_task_helper/files/task_helper.rb: 404
 ```
 

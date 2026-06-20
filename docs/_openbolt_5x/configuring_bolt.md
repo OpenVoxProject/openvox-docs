@@ -38,7 +38,7 @@ Bolt at the project level.
 
 ## Project-level configuration
 
-Most of the time, you'll only need to set configuration at the project level. 
+Most of the time, you'll only need to set configuration at the project level.
 You can set all configurable options in Bolt at the project level, and any options
 you set within a project only apply to that project.
 
@@ -46,7 +46,8 @@ Bolt loads project-level configuration files from the root of your [Bolt project
 directory](projects.html). If it can't find a project directory,
 Bolt uses the default project directory: `~/.puppetlabs/bolt/`.
 
-Set project-level configuration in these files: 
+Set project-level configuration in these files:
+
 - For Bolt configuration, use `bolt-project.yaml`.
 - For inventory configuration, use `inventory.yaml`.
 
@@ -140,14 +141,14 @@ options](bolt_defaults_reference.html).
 Bolt uses the following precedence when interpolating configuration settings,
 from highest precedence to lowest:
 
-  - Configuration specifications from the target's URI. For example, `ssh://user:password@hostname:port`.
-  - [Plan function](plan_functions.html) options that modify configuration, such as `_run_as`.
-  - [Inventory file](inventory_files.html) configuration options.
-  - [Command-line options](bolt_command_reference.html) that modify configuration.
-  - Options from the project-level configuration file, `bolt-project.yaml`. 
-  - Options from the user-level configuration file, `~/.puppetlabs/etc/bolt/bolt-defaults.yaml`.
-  - Options from the system-wide configuration file, `/etc/puppetlabs/bolt/bolt-defaults.yaml`.
-  - SSH configuration file options. For example, `~/.ssh/config`.
+- Configuration specifications from the target's URI. For example, `ssh://user:password@hostname:port`.
+- [Plan function](plan_functions.html) options that modify configuration, such as `_run_as`.
+- [Inventory file](inventory_files.html) configuration options.
+- [Command-line options](bolt_command_reference.html) that modify configuration.
+- Options from the project-level configuration file, `bolt-project.yaml`.
+- Options from the user-level configuration file, `~/.puppetlabs/etc/bolt/bolt-defaults.yaml`.
+- Options from the system-wide configuration file, `/etc/puppetlabs/bolt/bolt-defaults.yaml`.
+- SSH configuration file options. For example, `~/.ssh/config`.
 
 ## Merge strategy
 
@@ -165,7 +166,7 @@ are a few exceptions to this strategy:
 
 ### Transport configuration merge strategy
 
-Transport configuration is deep merged. 
+Transport configuration is deep merged.
 
 For example, given this SSH configuration in an inventory file:
 
@@ -188,6 +189,7 @@ inventory-config:
     password: puppet
     private-key: ~/path/to/key/id_rsa
 ```
+
 The merged Bolt configuration would look like this:
 
 ```yaml

@@ -15,13 +15,13 @@ You can create a new project-level YAML plan in your Bolt project using a Bolt
 command. The command accepts a single argument: the name of the plan.
 Project-level plans must be namespaced to the project.
 
-_\*nix shell command_
+_\*nix shell command:_
 
-```shell
+```console
 bolt plan new <PLAN NAME>
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
 
 ```powershell
 New-BoltPlan -Name <PLAN NAME>
@@ -30,7 +30,7 @@ New-BoltPlan -Name <PLAN NAME>
 For example, running `bolt plan new myproject::myplan` will result in
 a directory structure similar to this:
 
-```shell
+```console
 myproject/
 ├── bolt-project.yaml
 └── plans/
@@ -45,14 +45,14 @@ containing the plan, and the path to the plan within the module.
 Place plan files in your module's `./plans` directory, using these file
 extensions:
 
--   Puppet plans — `.pp`
--   YAML plans — `.yaml`, not `.yml`
+- Puppet plans — `.pp`
+- YAML plans — `.yaml`, not `.yml`
 
 Plan names are composed of two or more name segments, indicating:
 
--   The name of the module the plan is located in.
--   The name of the plan file, without the extension.
--   The path within the module, if the plan is in a subdirectory of `./plans`.
+- The name of the module the plan is located in.
+- The name of the plan file, without the extension.
+- The path within the module, if the plan is in a subdirectory of `./plans`.
 
 For example, given a module called `mymodule` with a plan defined in
 `./mymodule/plans/myplan.pp`, the plan name is `mymodule::myplan`. A plan
@@ -70,13 +70,13 @@ these names makes your code difficult to read.
 
 Each plan name segment must begin with a lowercase letter and:
 
--   Can include lowercase letters.
--   Can include digits.
--   Can include underscores.
--   Must not be a [reserved
+- Can include lowercase letters.
+- Can include digits.
+- Can include underscores.
+- Must not be a [reserved
     word](https://docs.puppet.com/puppet/latest/lang_reserved.html).
--   Must not have the same name as any Puppet data types.
--   Namespace segments must match the following regular expression
+- Must not have the same name as any Puppet data types.
+- Namespace segments must match the following regular expression
     `\A[a-z][a-z0-9_]*\Z`
 
 
@@ -106,7 +106,7 @@ failed.
 
 Use a `message` step to print a message. The step prints a message to standard
 out (stdout) when using the `human` output format, and prints to standard error
-(stderr) when using the `json` output format. 
+(stderr) when using the `json` output format.
 
 Message steps support the following keys:
 
@@ -133,7 +133,7 @@ plans](debugging_plans.html).
 
 Use a `verbose` step to print a message in verbose mode. The step prints a message to standard
 out (stdout) when using the `human` output format, and prints to standard error
-(stderr) when using the `json` output format. 
+(stderr) when using the `json` output format.
 
 Verbose steps support the following keys:
 
@@ -148,8 +148,8 @@ steps:
   - verbose: hello world
 ```
 
-You can pass variables to the verbose step to print them to stdout. If the 
-variable is a [Bolt datatype](bolt_types_reference.html) it will be formatted 
+You can pass variables to the verbose step to print them to stdout. If the
+variable is a [Bolt datatype](bolt_types_reference.html) it will be formatted
 as a Hash. Once the object is formatted, if it's a Hash or Array it is printed
 as JSON, otherwise Bolt prints the object as a string.
 
@@ -321,9 +321,9 @@ File upload steps support the following keys:
 | `targets` | `Array`, `String` | A target or list of targets to upload the file to. | ✓ |
 | `upload` | `String` | The location of the local file to upload. | ✓ |
 
--   `upload`: The location of the local file to be uploaded
--   `destination`: The remote location to upload the file to
--   `targets`: A target or list of targets to upload the file to
+- `upload`: The location of the local file to be uploaded
+- `destination`: The remote location to upload the file to
+- `targets`: A target or list of targets to upload the file to
 
 For example:
 
@@ -374,8 +374,8 @@ the desired state for part of a target. Bolt ensures each resource is in its
 desired state. Like the steps in a `plan`, if any resource in the list fails,
 the rest are skipped.
 
-> **Note:** For each `resources` step, Bolt executes the `apply_prep` plan function against 
-> the targets specified with the `targets` field. For more information about `apply_prep`, see 
+> **Note:** For each `resources` step, Bolt executes the `apply_prep` plan function against
+> the targets specified with the `targets` field. For more information about `apply_prep`, see
 > [Applying manifest blocks](applying_manifest_blocks.html#applying-manifest-blocks-from-a-puppet-plan).
 
 Resources steps support the following keys:
@@ -454,10 +454,10 @@ Parameter values can be referenced from steps as variables.
 
 Parameters use these fields:
 
--   `type`: (Optional) A valid [Puppet data type](/openvox/latest/lang_data.html#puppets-data-types).
+- `type`: (Optional) A valid [Puppet data type](/openvox/latest/lang_data.html#puppets-data-types).
     The value supplied must match the type or the plan fails.
--   `default`: (Optional) Used if no value is given for the parameter
--   `description`: (Optional)
+- `default`: (Optional) Used if no value is given for the parameter
+- `description`: (Optional)
 
 
 For example, this plan accepts a `load_balancer` name as a string, two sets of
@@ -503,7 +503,7 @@ The `private` metadata is cached in your Bolt project. Bolt updates the cache:
 - When you update plans in the current Bolt project.
 - When you update modules in the `<PROJECT DIRECTORY>/modules/` directory.
 - When you install modules using a Bolt command that installs modules.
-- When you generate Puppet types using a `generate` command. 
+- When you generate Puppet types using a `generate` command.
 
 If you manually edit a plan that is located outside of the `<PROJECT DIRECTORY>/plans/` directory or
 `<PROJECT DIRECTORY>/modules/` path, Bolt might not pick up manual edits to metadata. If your plan
@@ -758,7 +758,7 @@ specific resource.
 You can convert a YAML plan to a Puppet language plan with the `bolt plan
 convert` command.
 
-```
+```console
 bolt plan convert path/to/my/plan.yaml
 ```
 
@@ -836,7 +836,7 @@ return: $eval_step
 
 And here is the same plan, converted to the Puppet language:
 
-```
+```puppet
 plan yaml_plans::with_lambda(
   Optional[Integer] $foo = 0
 ) {
@@ -858,7 +858,7 @@ natural or readable as it could be.
 When applying Puppet resources in a `resource` step, variable interpolation
 behaves differently in YAML plans and Puppet language plans. For example:
 
-```pp
+```puppet
 plan yaml_plans::interpolation_pp() {
   apply_prep('localhost')
   $interpolation = apply('localhost') {
@@ -873,7 +873,8 @@ plan yaml_plans::interpolation_pp() {
 }
 ```
 
-This Puppet language plan 
+This Puppet language plan
+
 - Performs `apply_prep` on the target `localhost`.
 - Uses a Puppet `file` resource to write the OS family discovered from the Puppet `$facts` hash
 to a temporary file.

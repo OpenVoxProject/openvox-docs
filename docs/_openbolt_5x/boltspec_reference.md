@@ -830,7 +830,7 @@ The `allow_download` function accepts the following modifiers:
 
 ### `allow_out_message`
 
-The `allow_out_message` function stubs the [`out::message` function](plan_functions.html#outmessage). 
+The `allow_out_message` function stubs the [`out::message` function](plan_functions.html#outmessage).
 It does not accept parameters.
 
 ```ruby
@@ -866,7 +866,7 @@ The `allow_out_message` function accepts the following stub modifiers:
 
 ### `allow_out_verbose`
 
-The `allow_out_verbose` function stubs the [`out::verbose` function](plan_functions.html#outverbose). 
+The `allow_out_verbose` function stubs the [`out::verbose` function](plan_functions.html#outverbose).
 It does not accept parameters.
 
 ```ruby
@@ -1236,7 +1236,7 @@ The `allow_upload` function accepts the following modifiers:
 ## Global stubs
 
 Global stubs allow you to stub all related function invocations. This can be useful in
-larger plans. For example, `allow_any_task` can be used in place of invoking `allow_task` 
+larger plans. For example, `allow_any_task` can be used in place of invoking `allow_task`
 for each individual task. All global stub functions follow the `allow_any_*` naming
 scheme.
 
@@ -1326,7 +1326,7 @@ The `allow_any_command` function accepts the following modifiers:
 
 - `error_with(error)`
 
-  Sets the error hash for each target's `Result` for any command that is run. 
+  Sets the error hash for each target's `Result` for any command that is run.
   Returns a `Bolt::ResultSet` object.
 
   ```ruby
@@ -1425,7 +1425,7 @@ The `allow_any_out_message` function accepts the following modifiers:
 
 - `be_called_times(number)`
 
-  The test fails if `out::message` is run more than _number_ times. 
+  The test fails if `out::message` is run more than _number_ times.
 
   ```ruby
   allow_any_out_message.be_called_times(3)
@@ -1441,7 +1441,7 @@ The `allow_any_out_message` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The parameters that can be passed to the `out::message` function. 
+  The parameters that can be passed to the `out::message` function.
   The test fails if `out::mesage` is called with a different
   set of parameters.
 
@@ -1462,7 +1462,7 @@ The `allow_any_out_verbose` function accepts the following modifiers:
 
 - `be_called_times(number)`
 
-  The test fails if `out::verbose` is run more than _number_ times. 
+  The test fails if `out::verbose` is run more than _number_ times.
 
   ```ruby
   allow_any_out_verbose.be_called_times(3)
@@ -1478,7 +1478,7 @@ The `allow_any_out_verbose` function accepts the following modifiers:
 
 - `with_params(parameters)`
 
-  The parameters that can be passed to the `out::verbose` function. 
+  The parameters that can be passed to the `out::verbose` function.
   The test fails if `out::verbose` is called with a different
   set of parameters.
 
@@ -1499,7 +1499,7 @@ The `allow_any_plan` function accepts the following modifiers:
 
 - `be_called_times(number)`
 
-  The test fails if any plan is run more than _number_ times. 
+  The test fails if any plan is run more than _number_ times.
 
   ```ruby
   allow_any_plan.be_called_times(3)

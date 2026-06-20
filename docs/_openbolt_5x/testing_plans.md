@@ -265,7 +265,7 @@ is a stub or a mock.
 You can stub or mock the following functions. Click on each function to view its
 documentation.
 
-| plan function | Stub function | Global stub function | Mock function
+| plan function | Stub function | Global stub function | Mock function |
 | --- | --- | --- | --- |
 | [`apply`](plan_functions.html#apply) | [`allow_apply`](boltspec_reference.html#allow_apply) | - | - |
 | [`apply_prep`](plan_functions.html#apply_prep) | [`allow_apply_prep`](boltspec_reference.html#allow_apply_prep) | - | - |
@@ -361,7 +361,7 @@ less specific than the function invocation, but not to any stub or mock that is
 more specific than the function invocation. If the function invocation matches
 multiple stubs or mocks, `BoltSpec` uses the last stub or mock that matched.
 
-For a test to pass, `BoltSpec` must find a match for each mock in the test. 
+For a test to pass, `BoltSpec` must find a match for each mock in the test.
 
 For example, the following plan invokes the `run_task` function to run the
 `configure` task on a list of targets:

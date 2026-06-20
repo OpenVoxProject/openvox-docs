@@ -11,6 +11,7 @@ You can run scripts in any language as long as the appropriate interpreter is in
 target's operating system. This includes any scripting language the target can run.
 
 There are a few ways to reference scripts for Bolt to load:
+
 - _Preferred_: Using a [Puppet file
   reference](/openvox/latest/types/file.html#file-attribute-source) of the
   form `<module>/scripts/myscript.sh`. Puppet file references load files from specific directories in
@@ -21,22 +22,25 @@ There are a few ways to reference scripts for Bolt to load:
 - Use an absolute filepath.
 
 Using a Puppet file reference is preferred for a few reasons:
+
 - It works using the [run_script plan function](./plan_functions.html#run_script), which might be shared
   with users on other machines that don't have the same file structure
 - It works in other Bolt runners, like Puppet Enterprise
 - It isn't unique to your current system, which makes documentation and plans shareable
 
 To execute a script you'll want to specify:
+
 - The script file reference (Puppet file reference, relative path, or absolute path)
 - Any arguments the script takes
-- [Bolt CLI options](bolt_command_reference.html) 
+- [Bolt CLI options](bolt_command_reference.html)
 
 For example, the following script is named `update_images.sh` and is in a module named
 `manage_docker`. The script gets an updated image for every Docker container running in a
 `docker-compose` project:
 
 _update\_images.sh_
-```
+
+```bash
 #!/bin/sh
 for c in `docker-compose ps --services |sort`; do
   echo "redoing $c"
@@ -48,12 +52,14 @@ docker-compose up -d --remove-orphans
 
 You can run the script with:
 
-_\*nix shell command_
-```shell
+_\*nix shell command:_
+
+```console
 bolt script run manage_docker/scripts/update_images.sh -t <TARGETS>
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
+
 ```powershell
 Invoke-BoltScript -Script manage_docker/scripts/update_images.sh -Targets <TARGETS>
 ```
@@ -64,7 +70,8 @@ Say the script above is modified to read a `DOCKER_COMPOSE_DIRECTORY` environmen
 change directories (cd) into the value:
 
 _update\_images.sh_
-```
+
+```bash
 #!/bin/sh
 if [ -n $DOCKER_COMPOSE_DIRECTORY ]
   cd $DOCKER_COMPOSE_DIRECTORY
@@ -80,12 +87,14 @@ docker-compose up -d --remove-orphans
 
 You can run the script with:
 
-_\*nix shell command_
-```shell
+_\*nix shell command:_
+
+```console
 bolt script run manage_docker/scripts/update_images.sh -t <TARGETS> --env-var DOCKER_COMPOSE_DIRECTORY=./docker
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
+
 ```powershell
 Invoke-BoltScript -Script manage_docker/scripts/update_images.sh -Targets <TARGETS> -EnvVar DOCKER_COMPOSE_DIRECTORY=.\docker
 ```
@@ -95,7 +104,8 @@ Invoke-BoltScript -Script manage_docker/scripts/update_images.sh -Targets <TARGE
 If your script accepts command-line arguments, like this:
 
 _update\_images.sh_
-```
+
+```bash
 #!/bin/sh
 cd $1
 for c in `docker-compose ps --services |sort`; do
@@ -108,12 +118,14 @@ docker-compose up -d --remove-orphans
 
 You can run the script with:
 
-_\*nix shell command_
-```shell
+_\*nix shell command:_
+
+```console
 bolt script run manage_docker/scripts/update_images.sh ./docker -t <TARGETS>
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
+
 ```powershell
 Invoke-BoltScript -Script manage_docker/scripts/update_images.sh .\docker -Targets <TARGETS>
 ```
@@ -124,8 +136,9 @@ The following script reboots your machine. It takes a `timeout` parameter to spe
 long to wait for the reboot, and a `shutdown_only` parameter to tell the script not to turn the
 machine back on. The script still lives in the `manage_docker` module.
 
-_reboot.ps1_
-```
+_reboot.ps1:_
+
+```powershell
 [CmdletBinding()]
 Param(
   [Int]$timeout = 3,
@@ -156,12 +169,14 @@ If ($shutdown_only) {
 
 You can run the script with:
 
-_\*nix shell command_
-```shell
+_\*nix shell command:_
+
+```console
 bolt script run manage_docker/scripts/reboot.ps1 30 true -t <TARGETS>
 ```
 
-_PowerShell cmdlet_
+_PowerShell cmdlet:_
+
 ```powershell
 Invoke-BoltScript -Script manage_docker/scripts/reboot.ps1 -Targets <TARGETS> -Arguments 30,$true
 ```
@@ -173,4 +188,4 @@ Invoke-BoltScript -Script manage_docker/scripts/reboot.ps1 -Targets <TARGETS> -A
 - For information on Bolt project directories, see [Bolt project
   directories](projects.html).
 - For more information about the modulepath, see [Modules
-  overview](modules.html#modulepath).   
+  overview](modules.html#modulepath).
