@@ -26,9 +26,11 @@ The location of the `confdir` depends on your OS. [See the confdir documentation
 
 ### Example
 
-    [main]
-    server = puppetdb.example.com
-    port = 8081
+```ini
+[main]
+server = puppetdb.example.com
+port = 8081
+```
 
 ### Format
 

@@ -24,10 +24,12 @@ The location of `confdir` depends on your operating system.
 
 The `device.conf` file is an INI-like file, with one section per device:
 
-    [device001.example.com]
-    type cisco
-    url ssh://admin:password@device001.example.com
-    debug
+```ini
+[device001.example.com]
+type cisco
+url ssh://admin:password@device001.example.com
+debug
+```
 
 The section name specifies the `certname` of the device.
 
@@ -39,7 +41,9 @@ and is limited to telnet and ssh transports.
 
 For Cisco devices, the `url` is in the following format:
 
-    scheme://user:password@hostname/query
+```text
+scheme://user:password@hostname/query
+```
 
 with:
 

@@ -44,14 +44,16 @@ The location of the `confdir` depends on your OS. [See the confdir documentation
 
 ## Example
 
-    ---
-    oid_mapping:
-      1.3.6.1.4.1.34380.1.2.1.1:
-        shortname: 'myshortname'
-        longname: 'My Long Name'
-      1.3.6.1.4.1.34380.1.2.1.2:
-        shortname: 'myothershortname'
-        longname: 'My Other Long Name'
+```yaml
+---
+oid_mapping:
+  1.3.6.1.4.1.34380.1.2.1.1:
+    shortname: 'myshortname'
+    longname: 'My Long Name'
+  1.3.6.1.4.1.34380.1.2.1.2:
+    shortname: 'myothershortname'
+    longname: 'My Other Long Name'
+```
 
 ## Format
 

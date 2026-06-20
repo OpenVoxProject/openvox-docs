@@ -20,13 +20,15 @@ For example, if your environments are in the default directory (`$codedir/enviro
 
 ## Example
 
-    # /etc/puppetlabs/code/environments/test/environment.conf
+```ini
+# /etc/puppetlabs/code/environments/test/environment.conf
 
-    # Puppet Enterprise requires $basemodulepath; see note below under "modulepath".
-    modulepath = site:dist:modules:$basemodulepath
+# Puppet Enterprise requires $basemodulepath; see note below under "modulepath".
+modulepath = site:dist:modules:$basemodulepath
 
-    # Use our custom script to get a git commit for the current state of the code:
-    config_version = get_environment_commit.sh
+# Use our custom script to get a git commit for the current state of the code:
+config_version = get_environment_commit.sh
+```
 
 ## Format
 
@@ -60,7 +62,9 @@ The list of directories Puppet will load modules from. See [the reference page o
 
 If this setting isn't set, the modulepath for the environment will be:
 
-    <MODULES DIRECTORY FROM ENVIRONMENT>:$basemodulepath
+```text
+<MODULES DIRECTORY FROM ENVIRONMENT>:$basemodulepath
+```
 
 That is, Puppet will add the environment's `modules` directory to the value of the [`basemodulepath` setting][basemodulepath] from [puppet.conf][], with the environment's modules getting priority. If the `modules` directory is empty or absent, Puppet will only use modules from directories in the `basemodulepath`. A directory environment will never use the global `modulepath` from [puppet.conf][].
 
