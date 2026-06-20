@@ -15,8 +15,7 @@ title: Custom Types
 [inpage_whitespace]: #type-documentation
 [namevar]: lang_resources.html#namenamevar
 
-Custom Types
-============
+# Custom Types
 
 This page describes how to create your own custom resource types to add new resource types to Puppet. It covers the nature of the type/provider split, how to develop the type file, and how types and providers interact; for more complete details on developing providers, see [the Provider Development page](./provider_development.html).
 
@@ -28,16 +27,14 @@ The internals of how types are created have changed over Puppet's lifetime, and 
 >
 > User or package, not file.
 
-Types and Providers
--------------------
+## Types and Providers
 
 When making a new Puppet type, you will create two things:
 
 * The "type" itself, which is a model of the resource type. It defines what parameters are available, handles input validation, and determines what features a provider can (or should) provide.
 * One or more providers for that type, which implements the type by translating its capabilities into specific operations on a system. (For example, the [package][package_type] has `yum` and `apt` providers which implement package resources on Red Hat-like and Debian-like systems, respectively.)
 
-Deploying and Using Types and Providers
---------------
+## Deploying and Using Types and Providers
 
 To use new types and providers, two conditions must be met:
 
@@ -53,8 +50,7 @@ In masterless Puppet using puppet apply, pluginsync is not required, but the mod
 See [the Plugins In Modules page](./plugins_in_modules.html) for more details on distributing custom types and facts via modules.
 
 
-Types
------
+## Types
 
 When defining the resource type, focus on what the resource can do,
 not how it does it.
@@ -451,8 +447,7 @@ As a trivial example, here's a pre-run check that will fail randomly, about one 
 ```
 
 
-Providers
----------
+## Providers
 
 Look at the [Provider Development](./provider_development.html)
 page for intimate detail; this document will only

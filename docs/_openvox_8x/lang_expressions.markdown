@@ -273,8 +273,7 @@ Integer[100, 199] in [1, 2, 125] # resolves to true
 Integer[100, 199] in [1, 2, 25]  # resolves to false
 ```
 
-Boolean Operators
------
+## Boolean Operators
 
 Boolean Operators have the following traits:
 
@@ -342,8 +341,7 @@ Left bitwise shift: shifts the left operand by the number of places specified by
 
 Right bitwise shift: shifts the left operand by the number of places specified by the right operand. This is equivalent to rounding each operand down to the nearest integer and dividing the left operand by 2 to the power of the right operand.
 
-Array Operators
------
+## Array Operators
 
 Array operators take [arrays][] as operands; with the exception of `*` (unary splat), they resolve to array values.
 

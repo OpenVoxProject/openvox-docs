@@ -16,8 +16,7 @@ Puppet settings are highly dynamic, and their values can come from [several diff
 
 To see the actual settings values that a Puppet service will use, it's often best to ask Puppet itself. The `puppet config print` command lets you do this.
 
-General Usage
------
+## General Usage
 
 The `puppet config print` command loads and evaluates settings, and can imitate any of Puppet's other commands and services when doing so. The `--section` and `--environment` options let you control how settings are loaded; for details, see the sections below on imitating different services.
 
@@ -66,8 +65,7 @@ Note that you can only specify environments that already exist.
 This option is generally only useful when looking up settings used by the OpenVox Server service, since it's rare to use environment config sections for Puppet apply and OpenVox agent.
 
 
-Imitating OpenVox Server
------
+## Imitating OpenVox Server
 
 To see the settings the OpenVox Server service would use:
 
@@ -89,8 +87,7 @@ To see whether PuppetDB is configured for exported resources:
     storeconfigs = true
     storeconfigs_backend = puppetdb
 
-Imitating Puppet Agent
------
+## Imitating Puppet Agent
 
 To see the settings the OpenVox agent service would use:
 
@@ -105,8 +102,7 @@ To see whether the agent is configured to use manifest ordering when applying th
     $ sudo puppet config print ordering --section agent
     manifest
 
-Imitating Puppet Apply
------
+## Imitating Puppet Apply
 
 To see the settings the Puppet apply command would use:
 

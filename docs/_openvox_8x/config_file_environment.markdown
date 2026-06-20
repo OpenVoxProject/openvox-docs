@@ -50,8 +50,7 @@ The most useful variables to interpolate into environment.conf settings are:
 * `$environment` --- useful as a command line argument to your `config_version` script. _You can interpolate this variable only in the `config_version` setting._
 * `$codedir` --- useful for locating files.
 
-Allowed Settings
------
+## Allowed Settings
 
 {% include_relative _environment_conf_settings.md %} <!-- markdownlint-disable-line MD037 -->
 
