@@ -15,7 +15,7 @@ title: "Language: Variables"
 [puppet.conf]: ./config_file_main.html
 
 
-<span id="facts"></span><span id="trusted-node-data"></span><span id="agent-set-variables"></span><span id="master-set-variables"></span><span id="parser-set-variables"></span>
+<span id="facts"></span><span id="trusted-node-data"></span><span id="agent-set-variables"></span><span id="master-set-variables"></span><span id="parser-set-variables"></span> <!-- markdownlint-disable-line MD033 -->
 
 Variables store values so they can be accessed later.
 
@@ -48,7 +48,7 @@ You can assign multiple vairiables at once from an array or hash.
 
 When assigning multiple variables from an array, there must be an equal number of variables and values. Nested arrays can also be used.
 
-```
+```puppet
     [$a, $b, $c] = [1,2,3]      # $a = 1, $b = 2, $c = 3
     [$a, [$b, $c]] = [1,[2,3]]  # $a = 1, $b = 2, $c = 3
     [$a, $b] = [1, [2]]         # $a = 1, $b = [2]
@@ -61,13 +61,13 @@ If the number of variables and values do not match, the operation will fail.
 
 When you assign multiple variables with a hash, the variables are listed in an array on the left side of the assignment operator, and the hash is on the right. Hash keys must match their corresponding variable name.
 
-```
+```puppet
     [$a, $b] = {a => 10, b => 20}           # $a = 10, $b = 20
 ```
 
 There can be extra key/value pairs in the hash, but all variables to the left of the operator must have a corresponding key in the hash.
 
-```
+```puppet
     [$a, $c] = {a => 5, b => 10, c => 15, d => 22}   # $a = 5, $c = 15
 ```
 

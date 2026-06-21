@@ -23,7 +23,8 @@ Puppet types and providers must always be written in Ruby. If you're new to Ruby
 
 The internals of how types are created have changed over Puppet's lifetime, and this document will focus on best practices, skipping over all the things you can but probably shouldn't do.
 
-> **Note:** Often the best way to learn types and providers is to read the existing type and providers in Puppet's core codebase. One warning: Don't start with the `file` type; start with `user` or `package` instead. New extension writers often expect that `file` would be a nice easy one to get started with, and it's actually an incredibly complicated morass of special cases that most types just don't have to deal with.
+> **Note:** Often the best way to learn types and providers is to read the existing type and providers in Puppet's core codebase.
+> One warning: Don't start with the `file` type; start with `user` or `package` instead. New extension writers often expect that `file` would be a nice easy one to get started with, and it's actually an incredibly complicated morass of special cases that most types just don't have to deal with.
 >
 > User or package, not file.
 
@@ -101,7 +102,8 @@ Puppet::Type.newtype(:database) do
 end
 ```
 
-In this example, any whitespace would be trimmed from the first line (in this case, it's zero spaces), then the greatest common amount would be trimmed from remaining lines. Three lines have four leading spaces, two lines have six, and two lines have eight, so four leading spaces would be trimmed from each line. This leaves the example code block indented by four spaces, and thus doesn't break the Markdown formatting.
+In this example, any whitespace would be trimmed from the first line (in this case, it's zero spaces), then the greatest common amount would be trimmed from remaining lines.
+Three lines have four leading spaces, two lines have six, and two lines have eight, so four leading spaces would be trimmed from each line. This leaves the example code block indented by four spaces, and thus doesn't break the Markdown formatting.
 
 ### Properties and Parameters
 
@@ -302,13 +304,17 @@ There are three ways to designate a namevar. Every type must have **exactly one*
 >
 > **Puppet 2.7:**
 >
->     $ puppet apply -e "testing { h: }"
->     Error: undefined method `merge' for []:Array
+> ```console
+> $ puppet apply -e "testing { h: }"
+> Error: undefined method `merge' for []:Array
+> ```
 >
 > **Puppet 3:**
 >
->     $ puppet apply -e "testing { h: }"
->     Error: No set of title patterns matched the title "h".
+> ```console
+> $ puppet apply -e "testing { h: }"
+> Error: No set of title patterns matched the title "h".
+> ```
 >
 > The fact that these are not particularly helpful is tracked as [issue 5220](http://projects.puppetlabs.com/issues/5220).
 
@@ -507,4 +513,3 @@ a bunch of class methods on the provider:
 
 Additionally, each feature gets a separate boolean method, so the
 above example would result in a paint? method on the provider.
-

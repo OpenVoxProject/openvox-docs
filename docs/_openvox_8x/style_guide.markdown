@@ -810,13 +810,15 @@ myservice::package_list:
 
 ### Public and private
 
-We recommend that you split your module into public and private classes and defined types where possible. Public classes or defined types should contain the parts of the module meant to be configured or customized by the user, while private classes should contain things you do not expect the user to change via parameters. Separating into public and private classes or defined types helps build reusable and readable code.
+We recommend that you split your module into public and private classes and defined types where possible.
+Public classes or defined types should contain the parts of the module meant to be configured or customized by the user, while private classes should contain things you do not expect the user to change via parameters. Separating into public and private classes or defined types helps build reusable and readable code.
 
 You should help indicate to the user which classes are which by making sure all public classes have complete [comments](#comments) and denoting public and private classes in your documentation. Use the documentation tags "@api private" and "@api public" to make this clear.
 
 ### Chaining arrow syntax
 
-Most of the time, use [relationship metaparameters](./lang_relationships.html#syntax-relationship-metaparameters) rather than [chaining arrows](./lang_relationships.html#syntax-chaining-arrows). When you have many [interdependent or order-specific items](https://github.com/puppetlabs/puppetlabs-mysql/blob/3.1.0/manifests/server.pp#L64-L72), chaining syntax may be used. A chain operator should appear on the same line as its right-hand operand. Chaining arrows must be used left to right.
+Most of the time, use [relationship metaparameters](./lang_relationships.html#syntax-relationship-metaparameters) rather than [chaining arrows](./lang_relationships.html#syntax-chaining-arrows).
+When you have many [interdependent or order-specific items](https://github.com/puppetlabs/puppetlabs-mysql/blob/3.1.0/manifests/server.pp#L64-L72), chaining syntax may be used. A chain operator should appear on the same line as its right-hand operand. Chaining arrows must be used left to right.
 
 **Good:**
 
@@ -1010,7 +1012,8 @@ In addition to scope and organization, there are some additional guidelines for 
 
 Class inheritance should not be used. Use data binding instead of params.pp pattern. Inheritance should be used only for params.pp, which is not recommended.
 
-For maintaining older modules, inheritance can be used, but it must not be used across module namespaces. Cross-module dependencies should be satisfied in a more portable way, such as with include statements or relationship declarations. Class inheritance should only be used for `myclass::params` parameter defaults. Other use cases can be accomplished through the addition of parameters or conditional logic.
+For maintaining older modules, inheritance can be used, but it must not be used across module namespaces. Cross-module dependencies should be satisfied in a more portable way, such as with include statements or relationship declarations.
+Class inheritance should only be used for `myclass::params` parameter defaults. Other use cases can be accomplished through the addition of parameters or conditional logic.
 
 
 **Good:**
@@ -1072,7 +1075,7 @@ $facts['operatingsystem']
 $::operatingsystem
 ```
 
-**Very Bad**
+#### Very Bad
 
 ```puppet
 $operatingsystem
@@ -1231,7 +1234,8 @@ All publicly available modules should include the documentation covered below.
 
 #### README
 
-Your module should have a README in .md (or .markdown) format. READMEs help users of your module get the full benefit of your work. The [Puppet README template](https://raw.githubusercontent.com/OpenVoxProject/openvox-docs/master/docs/_openvox_8x/READMEtemplate.txt) offers a basic format you can use. If you create modules with the `puppet module generate` command, the generated README includes the template. Using the .md/.markdown format allows your README to be parsed and displayed by OpenVox Strings, GitHub, and the Puppet Forge.
+Your module should have a README in .md (or .markdown) format. READMEs help users of your module get the full benefit of your work.
+The [Puppet README template](https://raw.githubusercontent.com/OpenVoxProject/openvox-docs/master/docs/_openvox_8x/READMEtemplate.txt) offers a basic format you can use. If you create modules with the `puppet module generate` command, the generated README includes the template. Using the .md/.markdown format allows your README to be parsed and displayed by OpenVox Strings, GitHub, and the Puppet Forge.
 
 The [module documentation guide](./modules_documentation.html) can help you write a great README, but overall your README should:
 
@@ -1290,7 +1294,7 @@ Your module should have a CHANGELOG in .md (or .markdown) format. Your CHANGELOG
 
 Major use cases for your module should have corresponding example manifests in the module's `/examples` directory.
 
-```
+```text
 modulepath/apache/examples/{usecase}.pp
 ```
 
@@ -1304,4 +1308,3 @@ We recommend several community tools for testing your code and style.
 * [puppet-lint](https://puppet-lint.com/) tests your code for adherence to the style guidelines.
 * [metadata-json-lint](https://github.com/voxpupuli/metadata-json-lint) tests your `metadata.json` for adherence to the style guidelines.
 * For testing your module, we recommend rspec. [rspec-puppet](https://github.com/puppetlabs/rspec-puppet) can help you write rspec tests for Puppet.
-

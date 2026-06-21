@@ -63,7 +63,7 @@ type MyModule::Tree = Array[Variant[Data, Tree]]
 
 This `Tree` type alias is defined as a being built out of Arrays that contain Data, or a Tree:
 
-```
+```puppet
 [1,2 [3], [4, [5, 6], [[[[1,2,3]]]]]]
 ```
 

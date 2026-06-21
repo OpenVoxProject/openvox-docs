@@ -152,7 +152,8 @@ Every instance of a defined type [contains][] all of its unique resources. This 
 
 The declaration of a defined type instance can include any [metaparameter][metaparameters]. If it does:
 
-* Every resource contained in the instance will also have that metaparameter. So if you declare a defined resource with `noop => true`, every resource contained in it will also have `noop => true`, unless they specifically override it. Metaparameters which can take more than one value (like the [relationship][relationships] metaparameters) will merge the values from the container and any specific values from the individual resource.
+* Every resource contained in the instance will also have that metaparameter. So if you declare a defined resource with `noop => true`, every resource contained in it will also have `noop => true`, unless they specifically override it.
+  Metaparameters which can take more than one value (like the [relationship][relationships] metaparameters) will merge the values from the container and any specific values from the individual resource.
 * The value of the metaparameter can be used as a variable in the definition, as though it were a normal parameter. (For example, in an instance declared with `require => Class['ntp']`, the local value of `$require` would be `Class['ntp']`.)
 
 ### Resource defaults
@@ -176,7 +177,7 @@ Definitions should be stored in the `manifests/` directory of a module with one 
 
 A define statement isn't an expression, and can't be used where a value is expected.
 
-> #### Aside: Best practices
+> ### Aside: Best practices
 >
 > You should usually only load defined types from modules. Although the additional options below this aside will work, they are not recommended.
 

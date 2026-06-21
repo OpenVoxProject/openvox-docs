@@ -106,7 +106,7 @@ install_options => [ { 'INSTALLDIR' => ${packagedir} } ]
 
 ### Known issues prior to Puppet 4.1.0
 
-**Hidden Packages Were Not Supported**
+#### Hidden Packages Were Not Supported
 
 Puppet did not manage packages that hide themselves from the list of installed programs. That is, packages that set their `SystemComponent` registry value to 1, like `SQL Server 2008 R2 SP2 Common Files`.
 
@@ -118,9 +118,11 @@ Prior to Puppet 3.4.0 / Puppet Enterprise 3.2, you couldn't specify package vers
 
 To manage MySQL-like packages on older Puppet versions, you can specify the package's PackageCode as the name/title, instead of using the DisplayName. The PackageCode is a GUID that's unique per MSI file. You can use Ruby to find the PackageCode from an MSI:
 
- require 'win32ole'
- installer = WIN32OLE.new('WindowsInstaller.Installer')
- db = installer.OpenDatabase('<PATH>', 0) # where '<PATH>' is the path to the MSI
- puts db.SummaryInformation.Property(9)
+```ruby
+require 'win32ole'
+installer = WIN32OLE.new('WindowsInstaller.Installer')
+db = installer.OpenDatabase('<PATH>', 0) # where '<PATH>' is the path to the MSI
+puts db.SummaryInformation.Property(9)
+```
 
 Alternately, you can use Orca to view the package code.

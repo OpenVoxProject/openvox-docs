@@ -6,8 +6,6 @@ title: "Installing modules"
 [modulepath]: ./dirs_modulepath.html
 [codedir]: ./dirs_codedir.html
 
-
-
 [approved]: https://forge.puppet.com/approved
 [supported]: https://forge.puppet.com/supported
 [score]: https://forge.puppet.com
@@ -18,21 +16,21 @@ Install, upgrade, and uninstall Forge modules from the command line with the `pu
 The `puppet module` command provides an interface for managing modules from the Puppet Forge. Its interface is similar to other common package managers, such as `gem`, `apt-get`, or `yum`. You can install, upgrade, uninstall, list, and search for modules with this command.
 
 > **Important:** If you are using a code-management tool such as r10k, do not use the `puppet module` command. With code management, you install modules with a Puppetfile; code management purges any modules that were installed with the `puppet module` command.
-
+>
 > **Solaris Note:** To use `puppet module` commands on Solaris systems, you must first install gtar.
 
-### Using `puppet module` behind a proxy
+## Using `puppet module` behind a proxy
 
 To use the `puppet module` command behind a proxy, set the following, replacing `<PROXY IP>` and `<PROXY PORT>` with the proxy's IP address and port.
 
-```
+```console
 export http_proxy=http://<PROXY IP>:<PROXY PORT>
 export https_proxy=http://<PROXY IP>:<PROXY PORT>
 ```
 
 For instance, with an HTTP proxy at 192.168.0.10 on port 8080, set:
 
-```
+```console
 export http_proxy=http://192.168.0.10:8080
 export https_proxy=http://192.168.0.10:8080
 ```
@@ -63,7 +61,7 @@ Related topics:
 
 The `puppet module search` command accepts a single search term and returns a list of modules whose names, descriptions, or keywords match the search term.
 
-```
+```console
 $ puppet module search apache
 Searching http://forge.puppetlabs.com ...
 NAME                           DESCRIPTION            AUTHOR          KEYWORDS
@@ -182,7 +180,7 @@ The `puppet module` command manages modules with several actions, including inst
 
 View a full description of each action with `puppet man module` or by viewing the man page online.
 
-#### `install`
+### `install`
 
 Installs a module from either the Forge or a release archive.
 
@@ -233,4 +231,3 @@ Upgrades a Puppet module.
 ```bash
 sudo puppet module upgrade puppetlabs-apache --version 0.0.3
 ```
-

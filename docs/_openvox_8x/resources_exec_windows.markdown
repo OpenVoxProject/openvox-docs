@@ -18,13 +18,15 @@ If a file extension for the `command` is not specified (for example, `ruby` inst
 
 On Windows, **most** exit codes should be integers between 0 and 2147483647.
 
-Larger exit codes on Windows can behave inconsistently across different tools. The Win32 APIs define exit codes as 32-bit unsigned integers, but both the cmd.exe shell and the .NET runtime cast them to signed integers. This means some tools will report negative numbers for exit codes above 2147483647. (For example, cmd.exe reports 4294967295 as -1.) Since Puppet uses the GetExitCodeProcess Win32 API, it will report the very large number instead of the negative number, which might not be what you expect if you got the exit code from a cmd.exe session.
+Larger exit codes on Windows can behave inconsistently across different tools. The Win32 APIs define exit codes as 32-bit unsigned integers, but both the cmd.exe shell and the .NET runtime cast them to signed integers.
+This means some tools will report negative numbers for exit codes above 2147483647. (For example, cmd.exe reports 4294967295 as -1.) Since Puppet uses the GetExitCodeProcess Win32 API, it will report the very large number instead of the negative number, which might not be what you expect if you got the exit code from a cmd.exe session.
 
 Microsoft recommends against using negative/very large exit codes, and you should avoid them when possible. To convert a negative exit code to the positive one Puppet will use, subtract it from 4294967296.
 
 ## Shell built-ins
 
-Puppet does not support a shell provider for Windows, so if you want to execute shell built-ins (e.g. `echo`), you must provide a complete `cmd.exe` invocation as the command. (For example, `command => 'cmd.exe /c echo "foo"'`.) When using `cmd.exe` and specifying a file path in the command line, be sure to use backslashes. (For example, `'cmd.exe /c type c:\path\to\file.txt'`.) If you use forward slashes, `cmd.exe` will error.
+Puppet does not support a shell provider for Windows, so if you want to execute shell built-ins (e.g. `echo`), you must provide a complete `cmd.exe` invocation as the command. (For example, `command => 'cmd.exe /c echo "foo"'`.)
+When using `cmd.exe` and specifying a file path in the command line, be sure to use backslashes. (For example, `'cmd.exe /c type c:\path\to\file.txt'`.) If you use forward slashes, `cmd.exe` will error.
 
 ## The Optional PowerShell Exec Provider
 

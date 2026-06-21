@@ -199,7 +199,7 @@ Some stuff with <%= val %>
 
 If `$values` was set to `['one', 'two']`, this example would produce:
 
-```
+```text
 Some stuff with one
 Some stuff with two
 ```
@@ -228,11 +228,15 @@ You can use [Puppet functions][functions] inside templates with the `scope.call_
 
 For example, to evaluate one template inside another:
 
-    <%= scope.call_function('template', ["my_module/template2.erb"]) %>
+```erb
+<%= scope.call_function('template', ["my_module/template2.erb"]) %>
+```
 
 To log a warning using Puppet's own logging system, so that it will appear in reports:
 
-    <%= scope.call_function('warning', ["Template was missing some data; this config file might be malformed."]) %>
+```erb
+<%= scope.call_function('warning', ["Template was missing some data; this config file might be malformed."]) %>
+```
 
 > **Note:** Previous versions of Puppet handled this by creating a `function_<NAME>` method on the `scope` object for each function; these could be called with an arguments array, like `<%= scope.function_template(["my_module/template2.erb"]) %>`
 >

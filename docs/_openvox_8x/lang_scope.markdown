@@ -57,7 +57,7 @@ class example {
 include example
 ```
 
-```
+```console
 $ puppet apply site.pp
 notice: Message from elsewhere: Hi!
 ```
@@ -81,7 +81,7 @@ node 'puppet.example.com' {
 notify { "Message from top scope: ${variable}": }
 ```
 
-```
+```console
 $ puppet apply site.pp
 notice: Message from here: Hi!
 notice: Top scope: Available!
@@ -114,7 +114,7 @@ node 'puppet.example.com' {
 notify { "Message from top scope: ${variable}": }
 ```
 
-```
+```console
 $ puppet apply site.pp
 notice: Message from here: Hi!
 notice: Node scope: Available! Top scope: Available!
@@ -144,7 +144,7 @@ node 'puppet.example.com' {
 }
 ```
 
-```
+```console
 $ puppet apply site.pp
 notice: Message from here: Hi, I'm local!
 ```
@@ -258,4 +258,5 @@ This version of Puppet uses dynamic scope only for resource defaults.
 ## Messy under-the-hood details
 
 * Node scope only exists if there is at least one node definition in the main manifest. If no node definitions exist, then ENC classes get declared at top scope.
-* Although top scope and node scope are described above as being special scopes, they are actually implemented as part of the chain of parent scopes, with node scope being a child of top scope and the parent of any classes declared inside the node definition. However, since the move to static scoping causes them to behave as little islands of dynamic scoping in a statically scoped world, it's simpler to think of them as special cases.
+* Although top scope and node scope are described above as being special scopes, they are actually implemented as part of the chain of parent scopes, with node scope being a child of top scope and the parent of any classes declared inside the node definition.
+  However, since the move to static scoping causes them to behave as little islands of dynamic scoping in a statically scoped world, it's simpler to think of them as special cases.

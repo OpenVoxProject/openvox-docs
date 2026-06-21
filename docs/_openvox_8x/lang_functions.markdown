@@ -95,7 +95,9 @@ In the examples above, [`template`][template], [`include`][include], and [`each`
 
 The general form of a prefix function call is:
 
-    name(argument, argument, ...) |$parameter, $parameter, ...| { code block }
+```puppet
+name(argument, argument, ...) |$parameter, $parameter, ...| { code block }
+```
 
 * The full name of the function, as an unquoted word.
 * An opening parenthesis (`(`).
@@ -139,7 +141,9 @@ $binaries.each |$binary| {
 
 The general form of a chained function call is:
 
-    argument.name(argument, ...) |$parameter, $parameter, ...| { code block }
+```puppet
+argument.name(argument, ...) |$parameter, $parameter, ...| { code block }
+```
 
 * The **first argument** of the function, which can be any [expression][] that resolves to a value.
 * A period (`.`).

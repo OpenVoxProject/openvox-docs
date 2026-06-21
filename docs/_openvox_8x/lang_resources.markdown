@@ -162,11 +162,14 @@ The OpenVox language includes some constructs that let you describe a resource b
 
 [inpage_namevar]: #namenamevar
 
-Most resource types have an attribute which identifies a resource _on the target system._ This special attribute is called the "namevar," and the attribute itself is often (but not always) just `name`. For example, the `name` of a service or package is the name by which the system's service or package tools will recognize it. On the other hand, the `file` type's namevar is `path`, the file's location on disk.
+Most resource types have an attribute which identifies a resource _on the target system._ This special attribute is called the "namevar," and the attribute itself is often (but not always) just `name`.
+For example, the `name` of a service or package is the name by which the system's service or package tools will recognize it. On the other hand, the `file` type's namevar is `path`, the file's location on disk.
 
-This is different from the **title**, which identifies a resource _to OpenVox's compiler._ However, they often have the same value, since the namevar's value will usually default to the title if it isn't specified. Thus, the `path` of the file example [above][inpage_simplified] is `/etc/passwd`, even though we didn't include the `path` attribute in the resource declaration.
+This is different from the **title**, which identifies a resource _to OpenVox's compiler._ However, they often have the same value, since the namevar's value will usually default to the title if it isn't specified.
+Thus, the `path` of the file example [above][inpage_simplified] is `/etc/passwd`, even though we didn't include the `path` attribute in the resource declaration.
 
-The separation between title and namevar lets you use a consistently-titled resource to manage something whose name differs by platform. For example, the NTP service might be `ntpd` on Red Hat-derived systems, but `ntp` on Debian and Ubuntu; to accommodate that, you could title the service "ntp," but set its name according to the OS. Other resources could then form relationships to it without worrying that its title will change.
+The separation between title and namevar lets you use a consistently-titled resource to manage something whose name differs by platform.
+For example, the NTP service might be `ntpd` on Red Hat-derived systems, but `ntp` on Debian and Ubuntu; to accommodate that, you could title the service "ntp," but set its name according to the OS. Other resources could then form relationships to it without worrying that its title will change.
 
 The [resource type reference][types] lists the namevars for all of the core resource types. For custom resource types, check the documentation for the module that provides that resource type.
 
@@ -199,4 +202,3 @@ Some attributes in OpenVox can be used with every resource type. These are calle
 The most commonly used metaparameters are for specifying [order relationships][relationships] between resources.
 
 You can see the full list of all metaparameters in the [Metaparameter Reference](./metaparameter.html).
-

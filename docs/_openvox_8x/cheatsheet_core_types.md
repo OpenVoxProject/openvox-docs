@@ -166,14 +166,16 @@ Executes an arbitrary command on the agent node. When using execs, you must eith
 
 Manages user accounts; mostly used for system users.
 
-    user { 'jane':
-        ensure     => present,
-        uid        => '507',
-        gid        => 'admin',
-        shell      => '/bin/zsh',
-        home       => '/home/jane',
-        managehome => true,
-    }
+```puppet
+user { 'jane':
+    ensure     => present,
+    uid        => '507',
+    gid        => 'admin',
+    shell      => '/bin/zsh',
+    home       => '/home/jane',
+    managehome => true,
+}
+```
 
 #### Important Attributes
 

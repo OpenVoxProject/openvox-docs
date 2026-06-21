@@ -287,7 +287,8 @@ You can also use the special `*` attribute to amend attributes from a hash. See 
 
 ### Local resource defaults
 
-Since classic [resource default statements][resdefaults] are subject to dynamic scope, they can escape the place where they're declared and affect unpredictable areas of code. Sometimes this is powerful and useful, and other times it's really bad, like when you want to set defaults for your module's file resources, but you're also declaring classes and defined resources from other modules and want to avoid any contagious effect.
+Since classic [resource default statements][resdefaults] are subject to dynamic scope, they can escape the place where they're declared and affect unpredictable areas of code.
+Sometimes this is powerful and useful, and other times it's really bad, like when you want to set defaults for your module's file resources, but you're also declaring classes and defined resources from other modules and want to avoid any contagious effect.
 
 To control those effects, you can define your defaults in a variable and re-use them in multiple places, by combining [per-expression defaults][inpage_defaults] and [setting attributes from a hash][inpage_splat].
 

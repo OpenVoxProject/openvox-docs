@@ -110,7 +110,8 @@ These settings affect the way OpenVox agent acts when running as a long-lived se
 
 ### Useful when running agent from cron
 
-* [`splay`][splay] and [`splaylimit`][splaylimit] --- Together, these allow you to spread out agent runs. When running the agent as a daemon, the services will usually have been started far enough out of sync to make this a non-issue, but it's useful with cron agents. For example, if your agent cron job happens on the hour, you could set `splay = true` and `splaylimit = 60m` to keep the master from getting briefly hammered and then left idle for the next 50 minutes.
+* [`splay`][splay] and [`splaylimit`][splaylimit] --- Together, these allow you to spread out agent runs. When running the agent as a daemon, the services will usually have been started far enough out of sync to make this a non-issue, but it's useful with cron agents.
+  For example, if your agent cron job happens on the hour, you could set `splay = true` and `splaylimit = 60m` to keep the master from getting briefly hammered and then left idle for the next 50 minutes.
 * [`daemonize`][daemonize] --- Whether to daemonize. Set this to false when running the agent from cron.
 * [`onetime`][onetime] --- Whether to exit after finishing the current Puppet run. Set this to true when running the agent from cron.
 
@@ -155,4 +156,3 @@ These features configure add-ons and optional features.
 
 * [`ca_ttl`][ca_ttl] --- How long newly signed certificates should be valid for.
 * [`autosign`][autosign] --- Whether (and how) to autosign certificates. See [the autosigning page][ssl_autosign] for details.
-
