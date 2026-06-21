@@ -61,11 +61,11 @@ You can specify multiple devices in [device.conf][], which is configurable with 
 
 For example:
 
-~~~
+```text
 [device.example.com]
 type f5
 url https://admin:password@device.example.com/
-~~~
+```
 
 You can use `puppet device --target` to specify a device, which will perform a run for only that device.
 
@@ -79,11 +79,11 @@ A common practice is to classify the proxy OpenVox agent for a device with the b
 
 For example:
 
-~~~ puppet
+```puppet
 node 'device-proxy.example.com' {
   class { 'f5': }
 }
-~~~
+```
 
 Apply the classification by running `puppet agent -t` on the proxy OpenVox agent.
 
@@ -95,7 +95,7 @@ Define resources on the device.
 
 For example:
 
-~~~ puppet
+```puppet
 node 'device.example.com' {
   f5_virtualserver { '/Common/puppet_vs':
     nsure                     => 'present',
@@ -110,19 +110,23 @@ node 'device.example.com' {
     ource_address_translation => 'automap',
   }
 }
-~~~
+```
 
 ## Managing devices with Puppet device
 
 To run Puppet device on demand and manage all of the devices specified in [device.conf][]
 
-    puppet device -v --user=root
+```console
+puppet device -v --user=root
+```
 
 Since Puppet device doesn't run as a service, you must manually create a cron job or scheduled task if you want it to run on a regular basis.
 
 On \*nix, you can use the Puppet resource command to set up a cron job. Below is an example that runs Puppet device once an hour; adjust the path to the Puppet command if you are not using Puppet Enterprise.
 
-    sudo puppet resource cron puppet-device ensure=present user=root minute=30 command='/opt/puppetlabs/bin/puppet device --user=root --logdest syslog'
+```console
+sudo puppet resource cron puppet-device ensure=present user=root minute=30 command='/opt/puppetlabs/bin/puppet device --user=root --logdest syslog'
+```
 
 ## Limitations with other Puppet applications
 
@@ -130,14 +134,14 @@ Puppet apply and Puppet resource cannot modify device resources. However, Puppet
 
 For example:
 
-~~~
+```console
 export FACTER_url=https://admin:password@device.example.com/
 puppet resource f5_virtualserver
-~~~
+```
 
 Returns:
 
-~~~
+```puppet
 f5_virtualserver { '/Common/puppet_vs':
   ensure                                 => 'present',
   address_status                         => 'yes',
@@ -196,4 +200,4 @@ f5_virtualserver { '/Common/puppet_vs':
   web_acceleration_profile               => 'none',
   xml_profile                            => 'none',
 }
-~~~
+```
