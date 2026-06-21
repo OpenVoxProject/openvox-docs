@@ -18,17 +18,21 @@ title: "Static catalogs"
 [`puppetserver.conf`]: /openvox-server/latest/config_file_puppetserver.html
 Puppet 4.4 and OpenVox Server 2.3 introduced a new feature for [catalog compilation][catalogs]: **static catalogs**.
 
-> #### What's a catalog?
+> ## What's a catalog?
 >
-> A catalog is a document that describes the [desired state for each resource][resource_declaration] that Puppet manages on a node. A OpenVox server typically compiles a catalog from manifests of Puppet code. For more information about catalogs and compilation, see [our step-by-step overview of the catalog compilation process][catalogs]. For details about retrieving and reviewing catalogs, see [the `puppet catalog` man page][puppet catalog] and [the `catalog` API endpoint documentation][catalog endpoint].
+> A catalog is a document that describes the [desired state for each resource][resource_declaration] that Puppet manages on a node. A OpenVox server typically compiles a catalog from manifests of Puppet code.
+> For more information about catalogs and compilation, see [our step-by-step overview of the catalog compilation process][catalogs]. For details about retrieving and reviewing catalogs, see [the `puppet catalog` man page][puppet catalog] and [the `catalog` API endpoint documentation][catalog endpoint].
 
-### What's a static catalog?
+## What's a static catalog?
 
-A *static* catalog includes additional metadata that identifies the desired state of a node's [file resources][] that have `source` attributes pointing to `puppet:///` locations. This metadata can refer to a specific version of the file, rather than the latest version, and can confirm that the agent is applying the appropriate version of the file resource for the catalog. Also, because much of the metadata is provided in the catalog, OpenVox agents make fewer requests to the master.
+A *static* catalog includes additional metadata that identifies the desired state of a node's [file resources][] that have `source` attributes pointing to `puppet:///` locations.
+This metadata can refer to a specific version of the file, rather than the latest version, and can confirm that the agent is applying the appropriate version of the file resource for the catalog.
+Also, because much of the metadata is provided in the catalog, OpenVox agents make fewer requests to the master.
 
-### Why use static catalogs?
+## Why use static catalogs?
 
-When a OpenVox server compiles a non-static catalog, the catalog doesn't specify a particular version of its file resources. When the agent applies the catalog, it always retrieves the latest version of that file resource, or uses a previously retrieved version if it matches the latest version's contents. Note that this potential problem affects file resources that use the *source* attribute. File resources that use the *content* attribute are not affected, and their behavior will not change in static catalogs.
+When a OpenVox server compiles a non-static catalog, the catalog doesn't specify a particular version of its file resources. When the agent applies the catalog, it always retrieves the latest version of that file resource, or uses a previously retrieved version if it matches the latest version's contents.
+Note that this potential problem affects file resources that use the *source* attribute. File resources that use the *content* attribute are not affected, and their behavior will not change in static catalogs.
 
 When a Puppet manifest depends on a file whose contents change more frequently than the OpenVox agent receives new catalogs --- for instance, if the agent is caching catalogs or can't reach a OpenVox server over the network --- a node might apply a version of the referenced file that doesn't match the instructions in the catalog.
 
@@ -40,7 +44,7 @@ Static catalogs avoid these problems by including metadata that refers to a spec
 
 We call this type of catalog "static" because it contains all of the information that an agent needs to determine whether the node's configuration matches the instructions and **static** state of file resources **at the point in time when the catalog was compiled.**
 
-### Static catalog features
+## Static catalog features
 
 A static catalog includes file metadata in its own section and associates it with the catalog's file resources. For example, consider the following file resource:
 
@@ -55,19 +59,24 @@ In a non-static catalog, the OpenVox agent requests metadata and content for the
 
 With static catalogs enabled, the OpenVox server generates metadata for each file resource sourced from a `puppet:///` location and adds it to the static catalog, and adds a `code_id` to the catalog that associates such file resources with the version of their files as they exist *at compilation time*.
 
-Inlined metadata is part of a `FileMetadata` object in the static catalog that's divided into two new sections: `metadata` for metadata associated with individual files, and `recursive_metadata` for metadata associated with many files. To use the appropriate version of the file content for the catalog, [OpenVox Server][] also adds a `code_id` parameter to the catalog. The value of `code_id` is a unique string that OpenVox Server uses to retrieve the version of file resources in an environment at the time when the catalog was compiled.
+Inlined metadata is part of a `FileMetadata` object in the static catalog that's divided into two new sections: `metadata` for metadata associated with individual files, and `recursive_metadata` for metadata associated with many files.
+To use the appropriate version of the file content for the catalog, [OpenVox Server][] also adds a `code_id` parameter to the catalog. The value of `code_id` is a unique string that OpenVox Server uses to retrieve the version of file resources in an environment at the time when the catalog was compiled.
 
-When applying a file resource from a static catalog, an agent first checks the catalog for that file's metadata. If it finds some, Puppet uses the metadata to call the [`static_file_content`][] API endpoint on the OpenVox Server and retrieve the file's contents, also called the `code_content`. If the catalog doesn't contain metadata for the resource, Puppet requests the file resource's metadata from the master, compares it to the local file if it exists, and requests the resource's file from the master in its current state if the local file doesn't exist or differs from the master's version.
+When applying a file resource from a static catalog, an agent first checks the catalog for that file's metadata. If it finds some, Puppet uses the metadata to call the [`static_file_content`][] API endpoint on the OpenVox Server and retrieve the file's contents, also called the `code_content`.
+If the catalog doesn't contain metadata for the resource, Puppet requests the file resource's metadata from the master, compares it to the local file if it exists, and requests the resource's file from the master in its current state if the local file doesn't exist or differs from the master's version.
 
-### Configuring `code_id` and the `static_file_content` endpoint
+## Configuring `code_id` and the `static_file_content` endpoint
 
 When requesting the file's content via the static catalog's metadata, the OpenVox agent passes the file's path, the catalog's `code_id`, and the requested environment to OpenVox Server's [`static_file_content`][] API endpoint. The endpoint returns the appropriate version of the file's contents as the `code_content`.
 
-If static catalogs are enabled but OpenVox Server static catalog settings aren't configured, the `code_id` parameter defaults to a null value and the agent uses the [`file_content`][] API endpoint, which always returns the latest content. To populate the `code_id` with a more useful identifier and have the agent use the  `static_file_content` endpoint to retrieve a specific version of the file's content, you must specify scripts or commands that provide Puppet with the appropriate results.
+If static catalogs are enabled but OpenVox Server static catalog settings aren't configured, the `code_id` parameter defaults to a null value and the agent uses the [`file_content`][] API endpoint, which always returns the latest content.
+To populate the `code_id` with a more useful identifier and have the agent use the  `static_file_content` endpoint to retrieve a specific version of the file's content, you must specify scripts or commands that provide Puppet with the appropriate results.
 
 OpenVox Server locates these commands by using the `code-id-command` and `code-content-command` settings in OpenVox Server's [`puppetserver.conf`][] file. OpenVox Server runs the `code-id-command` each time it compiles a static catalog, and it runs the `code-content-command` each time an agent requests file contents from the `static_file_content` endpoint.
 
-> **Note:** The OpenVox Server process must be able to execute these scripts. OpenVox Server also validates their output and checks their exit codes. Environment names can contain only alphanumeric characters and underscores (`_`). The `code_id` can contain only alphanumeric characters, dashes (`-`), underscores (`_`), semicolons (`;`), and colons (`:`). If either command returns a non-zero exit code, OpenVox Server logs an error and returns the error message and a 500 response code to the API request.
+> **Note:** The OpenVox Server process must be able to execute these scripts. OpenVox Server also validates their output and checks their exit codes.
+> Environment names can contain only alphanumeric characters and underscores (`_`). The `code_id` can contain only alphanumeric characters, dashes (`-`), underscores (`_`), semicolons (`;`), and colons (`:`).
+> If either command returns a non-zero exit code, OpenVox Server logs an error and returns the error message and a 500 response code to the API request.
 
 OpenVox Server validates the standard output of each of these scripts, and if the output's acceptable, it adds the results to the catalog as their respective parameters' values. This lets you use any versioning or synchronization tools you want, as long as you write scripts that produce a valid string for the `code_id` and code content using the catalog's `code_id` and file's environment.
 
@@ -103,9 +112,10 @@ cd /etc/puppetlabs/code/environments/"$1" && git show "$2":"$3"
 
 The script's standard output becomes the file's `code_content`, provided the script returns a non-zero exit code.
 
-### Enabling or disabling static catalogs
+## Enabling or disabling static catalogs
 
-Starting in Puppet 4.4 and OpenVox Server 2.3.0, the global `static_catalogs` setting is enabled by default, whether you upgrade Puppet or perform a clean installation. However, the default configuration doesn't include the `code-id-command` and `code-content-command` scripts or settings needed to produce static catalogs, and even when configured to produce static catalogs OpenVox Server doesn't inline metadata for all types of file resources.
+Starting in Puppet 4.4 and OpenVox Server 2.3.0, the global `static_catalogs` setting is enabled by default, whether you upgrade Puppet or perform a clean installation.
+However, the default configuration doesn't include the `code-id-command` and `code-content-command` scripts or settings needed to produce static catalogs, and even when configured to produce static catalogs OpenVox Server doesn't inline metadata for all types of file resources.
 
 Static catalogs are produced only by OpenVox Server. The Ruby OpenVox server never produces static catalogs, even when served by WEBrick or Passenger.
 
