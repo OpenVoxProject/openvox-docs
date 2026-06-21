@@ -16,71 +16,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0  # required to resolve base.sha for PR diff comparison
-      - name: Find changed Markdown files
-        id: changed-markdown
+      - name: List tracked Markdown files
+        id: tracked-markdown
         shell: bash
+        # Lint git-tracked files only. This lints the canonical versioned dirs
+        # once and skips the `_latest` symlinks (git stores them as single
+        # symlink entries, so a filesystem glob would double-lint their targets).
+        # It also excludes generated reference docs, which are gitignored.
         run: |
-          case "${GITHUB_EVENT_NAME}" in
-            pull_request)
-              base_sha="${{ github.event.pull_request.base.sha }}"
-              head_sha="${GITHUB_SHA}"
-              ;;
-            push)
-              base_sha="${{ github.event.before }}"
-              head_sha="${GITHUB_SHA}"
-              ;;
-            *)
-              # workflow_dispatch: lints only files changed in the most recent commit, not the full branch
-              # || true handles initial commits with no parent
-              base_sha="$(git rev-parse "${GITHUB_SHA}^" 2>/dev/null || true)"
-              head_sha="${GITHUB_SHA}"
-              ;;
-          esac
-
-          if [[ -z "${base_sha}" || "${base_sha}" =~ ^0+$ ]]; then
-            base_sha="$(git rev-list --max-parents=0 "${head_sha}")"
-          fi
-
-          git diff --name-only --diff-filter=A    "${base_sha}" "${head_sha}" -- '*.md' '*.markdown' > added-markdown-files.txt
-          git diff --name-only --diff-filter=CMRT "${base_sha}" "${head_sha}" -- '*.md' '*.markdown' > modified-markdown-files.txt
-
-          if [[ -s added-markdown-files.txt ]]; then
-            echo "has_added=true" >> "${GITHUB_OUTPUT}"
-            {
-              echo 'added_files<<EOF'
-              cat added-markdown-files.txt
-              echo 'EOF'
-            } >> "${GITHUB_OUTPUT}"
-          else
-            echo "has_added=false" >> "${GITHUB_OUTPUT}"
-          fi
-
-          if [[ -s modified-markdown-files.txt ]]; then
-            echo "has_modified=true" >> "${GITHUB_OUTPUT}"
-            {
-              echo 'modified_files<<EOF'
-              cat modified-markdown-files.txt
-              echo 'EOF'
-            } >> "${GITHUB_OUTPUT}"
-          else
-            echo "has_modified=false" >> "${GITHUB_OUTPUT}"
-          fi
-
-      - name: No changed Markdown files
-        if: steps.changed-markdown.outputs.has_added != 'true' && steps.changed-markdown.outputs.has_modified != 'true'
-        run: echo "No changed Markdown files to lint."
-
-      - name: Lint new Markdown files (enforced)
+          {
+            echo 'files<<EOF'
+            git ls-files '*.md' '*.markdown'
+            echo 'EOF'
+          } >> "${GITHUB_OUTPUT}"
+      - name: Lint tracked Markdown files
         uses: DavidAnson/markdownlint-cli2-action@v23
-        if: steps.changed-markdown.outputs.has_added == 'true'
         with:
-          globs: ${{ steps.changed-markdown.outputs.added_files }}
-
-      - name: Lint modified Markdown files (advisory)
-        uses: DavidAnson/markdownlint-cli2-action@v23
-        if: steps.changed-markdown.outputs.has_modified == 'true'
-        continue-on-error: true
-        with:
-          globs: ${{ steps.changed-markdown.outputs.modified_files }}
+          globs: ${{ steps.tracked-markdown.outputs.files }}
