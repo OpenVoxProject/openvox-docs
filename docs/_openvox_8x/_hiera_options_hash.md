@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD041 -->
 ### The options hash
 
 Hierarchy levels are configured in [hiera.yaml](./hiera_config_yaml_5.html). When calling a backend function, Hiera passes a modified version of that configuration as a hash.
@@ -6,7 +7,7 @@ The options hash contains the following keys:
 
 * `path` --- The absolute path to a file on disk. Only present if the user set one of the `path`, `paths`, `glob`, or `globs` settings. Hiera ensures the file exists before passing it to the function.
 
-  > **Note:** If your backend uses data files, use the context object's [`cached_file_data` method][method_cached_file] to read them.
+  > **Note:** If your backend uses data files, use the context object's [`cached_file_data` method][method_cached_file] to read them. <!-- markdownlint-disable-line MD052 -->
 * `uri` --- A URI that your function can use to locate a data source. Only present if the user set `uri` or `uris`. Hiera doesn't verify the URI before passing it to the function.
 * Every key from the hierarchy level's `options` setting. In your documentation, make sure to list any options your backend requires or accepts. Note that the `path` and `uri` keys are reserved.
 

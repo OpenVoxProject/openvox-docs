@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD041 -->
 [boolean]: ./lang_data_boolean.html
 [undef]: ./lang_data_undef.html
 [string]: ./lang_data_string.html
