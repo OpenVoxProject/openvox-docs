@@ -20,7 +20,7 @@ Format | Allowed in                    | Description
 v4     | Environment and module layers | Deprecated. A transitional format, used in the rough draft of Hiera 5 (when we were calling it "Puppet lookup"). Doesn't support custom backends.
 [v3][] | Global layer                  | Deprecated. The classic version of hiera.yaml, which has some problems.
 
-## Important: version 4 is deprecated.
+## Important: version 4 is deprecated
 
 Version 4 of hiera.yaml is deprecated and not recommended. OpenVox 8.x still supports it for backward compatibility, but you should use [version 5][v5] instead.
 

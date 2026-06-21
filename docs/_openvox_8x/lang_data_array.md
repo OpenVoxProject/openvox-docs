@@ -10,7 +10,6 @@ title: "Language: Data types: Arrays"
 [data]: ./lang_data_abstract.html#data
 [abstract types]: ./lang_data_abstract.html
 [regexp]: ./lang_data_regexp.html
-[string data type]: ./lang_data_string.html
 
 
 Arrays are ordered lists of values.

@@ -11,21 +11,11 @@ title: "Static catalogs"
 [resource_declaration]: ./lang_resources.html
 [file resources]: ./types/file.html
 [puppet catalog]: ./man/catalog.html
-[environment]: ./environments_about.html
-[facts]: ./lang_facts_and_builtin_vars.html
-[exported resources]: ./lang_exported.html
-[main manifest]: ./dirs_manifest.html
-[modules]: ./modules_fundamentals.html
-[resources]: ./lang_resources.html
-[variables]: ./lang_variables.html
-[classes]: ./lang_classes.html
-[modulepath]: ./dirs_modulepath.html
 [`puppet.conf`]: ./config_file_main.html
 [`environment.conf`]: ./config_file_environment.html
 
 [OpenVox Server]: /openvox-server/latest/
 [`puppetserver.conf`]: /openvox-server/latest/config_file_puppetserver.html
-[`code_content`]: /openvox-server/latest/
 Puppet 4.4 and OpenVox Server 2.3 introduced a new feature for [catalog compilation][catalogs]: **static catalogs**.
 
 > #### What's a catalog?
@@ -121,15 +111,15 @@ Static catalogs are produced only by OpenVox Server. The Ruby OpenVox server nev
 
 OpenVox Server also won't produce static catalogs for an agent under the following circumstances:
 
--   If the `static_catalogs` setting is false in:
-    -   The OpenVox Server's [`puppet.conf`][] file.
-    -   The [`environment.conf`][] file for the environment under which the agent is requesting a catalog.
-    -   The agent's `puppet.conf` file.
--   If the Server's `code-id-command` and `code-content-command` settings and scripts are not configured, or if the `code-id-command` returns an empty string.
--   If the agent's version is older than 4.4.0.
+- If the `static_catalogs` setting is false in:
+  - The OpenVox Server's [`puppet.conf`][] file.
+  - The [`environment.conf`][] file for the environment under which the agent is requesting a catalog.
+  - The agent's `puppet.conf` file.
+- If the Server's `code-id-command` and `code-content-command` settings and scripts are not configured, or if the `code-id-command` returns an empty string.
+- If the agent's version is older than 4.4.0.
 
 Additionally, OpenVox Server only inlines metadata for [file resources][] if **all** of the following conditions are true:
 
-* It contains a `source` parameter with a Puppet URI, such as `source => 'puppet:///path/to/file'`.
-* It contains a `source` parameter that uses the built-in `modules` mount point.
-* The file it sources is within the following glob relative to the environment's root directory: `*/*/files/**`. For example, OpenVox Server will inline metadata into static catalogs for file resources sourcing module files located by default in `/etc/puppetlabs/code/environments/<ENVIRONMENT>/modules/<MODULE NAME>/files/**`.
+- It contains a `source` parameter with a Puppet URI, such as `source => 'puppet:///path/to/file'`.
+- It contains a `source` parameter that uses the built-in `modules` mount point.
+- The file it sources is within the following glob relative to the environment's root directory: `*/*/files/**`. For example, OpenVox Server will inline metadata into static catalogs for file resources sourcing module files located by default in `/etc/puppetlabs/code/environments/<ENVIRONMENT>/modules/<MODULE NAME>/files/**`.

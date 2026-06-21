@@ -68,7 +68,7 @@ These mode expressions generally manage three kinds of permission (read, write, 
 * The `Everyone` SID is used to represent users other than the owner and group.
 * Directories on Windows can have the sticky bit, which makes it so users can only delete files if they own the containing directory.
 * The owner of a file can be a group (e.g. `owner => 'Administrators'`) and the group of a file can be a user (e.g. `group => 'Administrator'`).
-    * The owner and group can even be the same, but don't do that. (It can cause problems when the mode gives different permissions to the owner and group, e.g. `0750`.)
+  * The owner and group can even be the same, but don't do that. (It can cause problems when the mode gives different permissions to the owner and group, e.g. `0750`.)
 * The group can't have higher permissions than the owner. Other users can't have higher permissions than the owner or group. (That is, 0640 and 0755 are supported, but 0460 is not.)
 
 ### Extra behavior when managing permissions
@@ -87,7 +87,7 @@ The `source` attribute of a file can be a Puppet URL, a local path, a UNC path, 
 Windows usually uses CRLF line endings instead of \*nix's LF line endings. In most cases, Puppet **will not** automatically convert line endings when managing files on Windows.
 
 * If a file resource uses the `content` or `source` attributes, Puppet will write the file in "binary" mode, using whatever line endings are present in the content.
-    * If the manifest, template, or source file is saved with CRLF line endings, Puppet will use those endings in the destination file.
+  * If the manifest, template, or source file is saved with CRLF line endings, Puppet will use those endings in the destination file.
 * Non-`file` resource types that make partial edits to a system file (most notably the [`host`](https://forge.puppet.com/modules/puppetlabs/host_core/reference#host) resource type, which manages the `%windir%\system32\drivers\etc\hosts` file) manage their files in text mode, and will automatically translate between Windows and \*nix line endings.
 
     > Note: When writing your own resource types, you can get this same behavior by using the `flat` filetype.

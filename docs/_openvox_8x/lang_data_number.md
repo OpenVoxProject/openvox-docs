@@ -18,7 +18,7 @@ Numbers are written without quotation marks, and can consist only of:
 
 * Digits
 * An optional negative sign (`-`; this is actually [the unary negation operator](./lang_expressions.html#subtraction-and-negation) rather than part of the number)
-    * Explicit positive signs (`+`) aren't allowed, since there's no unary `+` operator.
+  * Explicit positive signs (`+`) aren't allowed, since there's no unary `+` operator.
 * An optional decimal point (which results in a floating point value)
 * A prefix, for octal or hexidecimal bases
 * An optional `e` or `E` for scientific notation of floating point values

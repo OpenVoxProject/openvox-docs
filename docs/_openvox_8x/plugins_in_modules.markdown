@@ -3,9 +3,6 @@ layout: default
 title: Plug-ins in Modules
 ---
 
-[modules]: ./modules_fundamentals.html
-[environment]: ./environments_about.html
-[modulepath]: ./dirs_modulepath.html
 [external facts]: /openfact/latest/custom_facts.html#external-facts
 [vardir]: ./dirs_vardir.html
 [custom facts]: /openfact/latest/custom_facts.html
@@ -85,29 +82,29 @@ In all cases, you must name files and additional subdirectories according to the
 
 To illustrate, a module that included every type of plug-in would have a directory structure like this:
 
--   `mymodule` (the module's top-level directory; this module is named `mymodule`.)
-    -   `lib`
-        -   `facter`
-            -   `my_custom_fact.rb`
-        -   `puppet`
-            -   `functions`
-                -   `modern_function.rb`
-            -   `parser`
-                -   `functions`
-                    -   `classic_function.rb`
-            -   `type`
-                -   `mymodule_instance.rb`
-            -   `provider`
-                -   `exec`
-                    -   `powershell.rb`
-        -   `augeas`
-            -   `lenses`
-                -   `custom.lns`
-    -   `functions`
-        -   `convertdata.pp` (contains a function named `mymodule::convertdata`.)
-    -   `facts.d`
-        -   `datacenter.py` (an executable script that returns fact data.)
-    -   `locales`
+* `mymodule` (the module's top-level directory; this module is named `mymodule`.)
+  * `lib`
+    * `facter`
+      * `my_custom_fact.rb`
+    * `puppet`
+      * `functions`
+        * `modern_function.rb`
+      * `parser`
+        * `functions`
+          * `classic_function.rb`
+      * `type`
+        * `mymodule_instance.rb`
+      * `provider`
+        * `exec`
+          * `powershell.rb`
+    * `augeas`
+      * `lenses`
+        * `custom.lns`
+  * `functions`
+    * `convertdata.pp` (contains a function named `mymodule::convertdata`.)
+  * `facts.d`
+    * `datacenter.py` (an executable script that returns fact data.)
+  * `locales`
 
 ## Issues with server-side plug-ins
 

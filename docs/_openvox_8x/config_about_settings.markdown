@@ -5,17 +5,14 @@ title: "Configuration: How Puppet is configured"
 
 [short list]: ./config_important_settings.html
 [conf_ref]: ./configuration.html
-[puppet.conf]: ./config_file_main.html
-[auth.conf]: ./config_file_auth.html
-[puppetdb.conf]: ./config_file_puppetdb.html
 [puppetserver_config]: /openvox-server/latest/configuration.html
 
 Puppet's commands and services can be extensively configured, and its settings can be specified in a variety of places.
 
 See also:
 
--   [Short list of important settings][short list]
--   [The configuration reference][conf_ref]
+- [Short list of important settings][short list]
+- [The configuration reference][conf_ref]
 
 Settings can be set in the main config file. Puppet's main config file is called `puppet.conf`.
 
@@ -25,8 +22,8 @@ When we mention "settings" in the context of Puppet, we usually mean the main se
 
 However, there are also about nine extra configuration files --- things like `auth.conf` and `puppetdb.conf`. These files exist for several reasons:
 
--   The main settings only support a few types of values. Some things just can't be configured without complex data structures, so they needed separate files. (Authorization rules and custom CSR attributes are in this category.)
--   Puppet currently doesn't allow extensions to add new settings to `puppet.conf`. This means some settings that _should_ be main settings (like the PuppetDB server) can't be.
+- The main settings only support a few types of values. Some things just can't be configured without complex data structures, so they needed separate files. (Authorization rules and custom CSR attributes are in this category.)
+- Puppet currently doesn't allow extensions to add new settings to `puppet.conf`. This means some settings that _should_ be main settings (like the PuppetDB server) can't be.
 
 ### Puppet Server configuration
 
@@ -135,8 +132,8 @@ export LC_ALL=''
 
 To set the locale for the OpenVox agent service, you can add these `export` statements to:
 
--   `/etc/sysconfig/puppet` on RHEL and its derivatives
--   `/etc/default/puppet` on Debian, Ubuntu, and their derivatives
+- `/etc/sysconfig/puppet` on RHEL and its derivatives
+- `/etc/default/puppet` on Debian, Ubuntu, and their derivatives
 
 After updating the file, restart the Puppet service to apply the change.
 

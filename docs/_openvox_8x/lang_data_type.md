@@ -31,7 +31,6 @@ title: "Language: Data types: Data type syntax"
 [catalogentry]: ./lang_data_abstract.html#catalogentry
 [any]: ./lang_data_abstract.html#any
 [callable]: ./lang_data_abstract.html#callable
-[stdlib]: https://forge.puppetlabs.com/puppetlabs/stdlib
 
 Each value in the Puppet language has a data type, like "string." There is also a set of values _whose data type is "data type."_
 
@@ -53,9 +52,9 @@ The general form of a data type is:
 
 * An upper-case word matching one of the known data types.
 * Sometimes, a **set of parameters,** which consists of:
-    * An opening square bracket (`[`) after the type's name. (There can't be any space between the name and the bracket.)
-    * A comma-separated list of values or expressions --- arbitrary whitespace is allowed, but you can't have a trailing comma after the final value.
-    * A closing square bracket (`]`).
+  * An opening square bracket (`[`) after the type's name. (There can't be any space between the name and the bracket.)
+  * A comma-separated list of values or expressions --- arbitrary whitespace is allowed, but you can't have a trailing comma after the final value.
+  * A closing square bracket (`]`).
 
 For example:
 
@@ -207,4 +206,4 @@ Position | Parameter        | Data Type | Default Value | Description
 
 ## Related topics
 
--   [Type aliases](./lang_type_aliases.html)
+* [Type aliases](./lang_type_aliases.html)

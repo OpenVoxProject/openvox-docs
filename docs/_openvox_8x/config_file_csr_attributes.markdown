@@ -67,4 +67,4 @@ The private range is available for any information you want to embed into a cert
 
 #### Puppet-specific registered IDs
 
-{% include_relative _registered_oids.md %}
+{% include_relative _registered_oids.md %} <!-- markdownlint-disable-line MD037 -->

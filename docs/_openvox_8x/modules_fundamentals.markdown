@@ -10,12 +10,9 @@ title: "Module fundamentals"
 
 [plugins]: ./plugins_in_modules.html
 
-[external facts]: /openfact/latest/custom_facts.html#external-facts
-[custom facts]: /openfact/latest/custom_facts.html
 [classes]: ./lang_classes.html
 [defined_types]: ./lang_defined_types.html
 [enc]: ./nodes_external.html
-[environment]: ./environments_about.html
 [templates]: ./lang_template.html
 [forge]: http://forge.puppetlabs.com
 [file_function]: ./function.html#file
@@ -44,31 +41,31 @@ Related topics:
 
 ## Module structure
 
-Modules have a specific directory structure that allows Puppet to find and automatically load classes, defined types, facts, custom types and providers, functions, and tasks. 
+Modules have a specific directory structure that allows Puppet to find and automatically load classes, defined types, facts, custom types and providers, functions, and tasks.
 
 Modules must have a [valid name][module-names] and be installed in Puppet's [modulepath][]. You'll install modules with either the `puppet module` command or, if you're using code management, with a Puppetfile. See the related topic about installing modules for details.
 
 Each module subdirectory has a specific function. Not all directories are required, but if used, they should be in the following structure.
 
 * `<MODULE NAME>`
-    * `manifests`
-    * `files`
-    * `templates`
-    * `lib`
-      * `facter`
-      * `puppet`
-        * `functions`
-        * `parser/functions`
-        * `type`
-        * `provider`
-    * `facts.d`
-    * `examples`
-    * `spec`
-    * `functions`
-    * `types`
-    * `tasks`
+  * `manifests`
+  * `files`
+  * `templates`
+  * `lib`
+    * `facter`
+    * `puppet`
+      * `functions`
+      * `parser/functions`
+      * `type`
+      * `provider`
+  * `facts.d`
+  * `examples`
+  * `spec`
+  * `functions`
+  * `types`
+  * `tasks`
 
-Related topics: 
+Related topics:
 
 * [Classes][classes]
 * [Defined types][defined_types]
@@ -79,33 +76,33 @@ Related topics:
 This example module, `my_module`, shows the standard module layout in more detail.
 
 * `my_module`: The main module directory's name matches the name of the module.
-    * `manifests/`: Contains all of the manifests in the module.
-        * `init.pp`: Contains a class definition. The `init.pp` class, if used, is the main class of the module. This class's name must match the module's name.
-        * `other_class.pp`: Contains a class named `my_module::other_class`.
-        * `my_defined_type.pp`: Contains a defined type named `my_module::my_defined_type`.
-        * `implementation/`: This directory's name affects the class names beneath it.
-            * `foo.pp`: Contains a class named `my_module::implementation::foo`.
-            * `bar.pp`: Contains a class named `my_module::implementation::bar`.
-    * `files/`: Contains static files, which managed nodes can download.
-        * `service.conf`: This file's `source =>` URL would be `puppet:///modules/my_module/service.conf`. Its contents can also be accessed with the `file` function: `content => file('my_module/service.conf')`.
-    * `lib/`: Contains plug-ins, such as custom facts and custom resource types. These are used by both the OpenVox Server and the OpenVox agent, and they are synced to all agent nodes in the environment on each Puppet run.
-      * `facter`: Contains custom facts, written in Ruby.
-      * `puppet`
-        * `functions`: Contains functions written in Ruby for the modern `Puppet::Functions` API.
-        * `parser/functions`: Contains functions written in Ruby for the legacy `Puppet::Parser::Functions` API.
-        * `type` : Contains custom resource types written in the Puppet language.
-        * `provider`: Contains custom resource providers written in the Puppet language.
-    * `facts.d/`: Contains external facts, which are an alternative to Ruby-based custom facts. These are synced to all agent nodes, so they can submit values for those facts to the OpenVox Server.
-    * `templates/`: Contains templates, which the module's manifests can use.
-        * `component.erb`: A manifest can render this template with `template('my_module/component.erb')`.
-        * `component.epp`: A manifest can render this template with `epp('my_module/component.epp')`.
-    * `examples/`: Contains examples showing how to declare the module's classes and defined types.
-        * `init.pp`
-        * `other_example.pp`: Major use cases should have an example.
-    * `spec/`: Contains spec tests for any plug-ins in the `lib` directory.
-    * `functions`: Contains custom functions written in the Puppet language.
-    * `types`: Contains resource type aliases.
-    * `tasks`: Contains Puppet tasks, written in any language.
+  * `manifests/`: Contains all of the manifests in the module.
+    * `init.pp`: Contains a class definition. The `init.pp` class, if used, is the main class of the module. This class's name must match the module's name.
+    * `other_class.pp`: Contains a class named `my_module::other_class`.
+    * `my_defined_type.pp`: Contains a defined type named `my_module::my_defined_type`.
+    * `implementation/`: This directory's name affects the class names beneath it.
+      * `foo.pp`: Contains a class named `my_module::implementation::foo`.
+      * `bar.pp`: Contains a class named `my_module::implementation::bar`.
+  * `files/`: Contains static files, which managed nodes can download.
+    * `service.conf`: This file's `source =>` URL would be `puppet:///modules/my_module/service.conf`. Its contents can also be accessed with the `file` function: `content => file('my_module/service.conf')`.
+  * `lib/`: Contains plug-ins, such as custom facts and custom resource types. These are used by both the OpenVox Server and the OpenVox agent, and they are synced to all agent nodes in the environment on each Puppet run.
+    * `facter`: Contains custom facts, written in Ruby.
+    * `puppet`
+      * `functions`: Contains functions written in Ruby for the modern `Puppet::Functions` API.
+      * `parser/functions`: Contains functions written in Ruby for the legacy `Puppet::Parser::Functions` API.
+      * `type` : Contains custom resource types written in the Puppet language.
+      * `provider`: Contains custom resource providers written in the Puppet language.
+  * `facts.d/`: Contains external facts, which are an alternative to Ruby-based custom facts. These are synced to all agent nodes, so they can submit values for those facts to the OpenVox Server.
+  * `templates/`: Contains templates, which the module's manifests can use.
+    * `component.erb`: A manifest can render this template with `template('my_module/component.erb')`.
+    * `component.epp`: A manifest can render this template with `epp('my_module/component.epp')`.
+  * `examples/`: Contains examples showing how to declare the module's classes and defined types.
+    * `init.pp`
+    * `other_example.pp`: Major use cases should have an example.
+  * `spec/`: Contains spec tests for any plug-ins in the `lib` directory.
+  * `functions`: Contains custom functions written in the Puppet language.
+  * `types`: Contains resource type aliases.
+  * `tasks`: Contains Puppet tasks, written in any language.
 
 ### Module names
 
@@ -163,6 +160,7 @@ The `template` and `epp` functions can look up templates identified by shorthand
 
 Template function | (' | Name of module/ | Name of template | ')
 ------------------|----|-----------------|------------------|----
+
     `template`    |`('`|   `my_module/`  | `component.erb`  |`')`
     `epp`         |`('`|   `my_module/`  | `component.epp`  |`')`
 
@@ -176,7 +174,7 @@ Every Puppet user should expect to write at least some of their own modules. Mod
 
 Puppet Development Kit creates a complete module skeleton and includes command line tools for creating classes, defined types, and tasks in your module.
 
-To test your modules, use PDK to run unit tests and to validate your module's metadata, syntax, and style. 
+To test your modules, use PDK to run unit tests and to validate your module's metadata, syntax, and style.
 
 PDK can be downloaded and installed on any development machine; a Puppet installation is not required. See the PDK documentation to get started.
 

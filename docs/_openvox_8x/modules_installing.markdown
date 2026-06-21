@@ -3,23 +3,14 @@ layout: default
 title: "Installing modules"
 ---
 
-[forge]: https://forge.puppet.com
-[module_man]: ./man/module.html
 [modulepath]: ./dirs_modulepath.html
 [codedir]: ./dirs_codedir.html
 
 
-[publishing]: ./modules_publishing.html
-[fundamentals]: ./modules_fundamentals.html
-[plugins]: ./plugins_in_modules.html
-[documentation]: ./modules_documentation.html
-[metadata.json]: ./modules_metadata.html
 
 [approved]: https://forge.puppet.com/approved
 [supported]: https://forge.puppet.com/supported
 [score]: https://forge.puppet.com
-[environment]: ./environments_about.html
-[pdk]: {{pdk}}/pdk.html
 
 
 Install, upgrade, and uninstall Forge modules from the command line with the `puppet module` command.
@@ -88,7 +79,7 @@ When you've identified the module you want, you can then install it.
 
 ## Installing modules from the command line
 
-The `puppet module install` command installs a module and all of its dependencies. You can install modules from the Forge, a module repository, or a release tarball. 
+The `puppet module install` command installs a module and all of its dependencies. You can install modules from the Forge, a module repository, or a release tarball.
 
 By default, this command installs modules into the first directory in the Puppet [modulepath][], `$codedir/environments/production/modules` by default.
 
@@ -242,5 +233,4 @@ Upgrades a Puppet module.
 ``` bash
 sudo puppet module upgrade puppetlabs-apache --version 0.0.3
 ```
-
 

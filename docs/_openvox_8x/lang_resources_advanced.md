@@ -39,7 +39,6 @@ Resource declarations are [expressions][] that describe the desired state for on
 This page describes the full syntax of resource expressions. Please make sure you've read [the main page about resources][resources] before reading any further.
 
 
-
 ## Full syntax
 
 ``` puppet
@@ -64,22 +63,22 @@ This page describes the full syntax of resource expressions. Please make sure yo
 The full, generalized form of a resource declaration expression is:
 
 * The **resource type,** which can be one of:
-    * A lowercase word with no quotes, like `file`.
-    * A [resource type data type][resource_data_type], like `File`, `Resource[File]` or `Resource['file']`. It must have a type but not a title.
+  * A lowercase word with no quotes, like `file`.
+  * A [resource type data type][resource_data_type], like `File`, `Resource[File]` or `Resource['file']`. It must have a type but not a title.
 * An opening curly brace (`{`).
 * One or more **resource bodies**, separated with semicolons (`;`). Each resource body consists of:
-    * A **title,** which can be one of:
-        * A [string][].
-        * An [array][] of strings (declares multiple resources).
-        * [The special value `default`][default] (sets default attribute values for other resource bodies in the same expression).
-    * A colon (`:`).
-    * Optionally, any number of **attribute and value pairs,** separated with commas (`,`). Each attribute/value pair consists of:
-        * An attribute name, which can be one of:
-            * A lowercase word with no quotes.
-            * The special attribute `*` (takes a [hash][] and sets _other_ attributes).
-        * A `=>` (called an arrow, "fat comma," or "hash rocket").
-        * A value, which can have any [data type][datatype].
-    * Optionally, a trailing comma after the last attribute/value pair.
+  * A **title,** which can be one of:
+    * A [string][].
+    * An [array][] of strings (declares multiple resources).
+    * [The special value `default`][default] (sets default attribute values for other resource bodies in the same expression).
+  * A colon (`:`).
+  * Optionally, any number of **attribute and value pairs,** separated with commas (`,`). Each attribute/value pair consists of:
+    * An attribute name, which can be one of:
+      * A lowercase word with no quotes.
+      * The special attribute `*` (takes a [hash][] and sets _other_ attributes).
+    * A `=>` (called an arrow, "fat comma," or "hash rocket").
+    * A value, which can have any [data type][datatype].
+  * Optionally, a trailing comma after the last attribute/value pair.
 * Optionally, a trailing semicolon after the last resource body.
 * A closing curly brace (`}`).
 
@@ -284,7 +283,6 @@ You can also use the special `*` attribute to amend attributes from a hash. See 
 > * Since it ignores class inheritance, you can override the same attribute twice, which results in a evaluation-order dependent race where the final override wins.
 
 
-
 ## Advanced examples
 
 ### Local resource defaults
@@ -322,8 +320,8 @@ The `create_resources` function expects three arguments:
 
 * A resource type.
 * A [hash][], where:
-    * Each key is a resource title.
-    * Each value is a hash of attributes and values for that resource.
+  * Each key is a resource title.
+  * Each value is a hash of attributes and values for that resource.
 * Optionally, a [hash][] of _default_ attributes and values, to be used for any resources that don't specify their own values for those attributes.
 
 If we assume we have those values in variables (`$type`, `$resources`, and `$defaults`):

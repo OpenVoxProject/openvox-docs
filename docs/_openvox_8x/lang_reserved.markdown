@@ -11,7 +11,6 @@ title: "Language: Reserved words and acceptable names"
 [conditional]: ./lang_conditional.html
 [topscope]: ./lang_scope.html#top-scope
 [namespace]: ./lang_namespaces.html
-[scopes]: ./lang_scope.html
 [contains]: ./lang_containment.html
 [resources]: ./lang_resources.html
 [class]: ./lang_classes.html
@@ -113,7 +112,6 @@ The following variable names are reserved. Unless otherwise noted, you can't ass
 * `$title` is reserved for the title of a class or defined type.
 * `$name` is a synonym for `$title`.
 
-[trusted_on]: ./config_important_settings.html#getting-new-features-early
 
 
 ## Acceptable characters in names
@@ -125,7 +123,7 @@ Puppet limits the characters you can use when naming language constructs.
 
 ### Variables
 
-{% include_relative _naming_variables.md %}
+{% include_relative _naming_variables.md %} <!-- markdownlint-disable-line MD037 -->
 
 ### Classes and defined resource types
 

@@ -8,8 +8,6 @@ title: Module cheat sheet
 [fundamentals]: ./modules_fundamentals.html
 [plugins]: ./plugins_in_modules.html
 [publishing]: ./modules_publishing.html
-[template]: ./READMEtemplate.txt
-[forge]: https://forge.puppet.com/
 [documentation]: ./modules_documentation.html
 
 ## Module cheat sheet

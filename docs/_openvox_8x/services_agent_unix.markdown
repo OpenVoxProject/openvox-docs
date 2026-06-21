@@ -71,7 +71,7 @@ On \*nix nodes, there are three main ways to do this:
 * **Make a cron job that runs OpenVox agent.** Requires more manual configuration, but a good choice if you want to reduce the number of persistent processes on your systems.
 * **Only run OpenVox agent on demand.** You can use an orchestration tool such as [Choria][] to trigger runs on demand across many nodes.
 
-Choose whichever one works best for your infrastructure and culture. 
+Choose whichever one works best for your infrastructure and culture.
 
 ### Run OpenVox agent as a service
 
@@ -149,7 +149,6 @@ Whether you're troubleshooting errors, working in a maintenance window, or simpl
 
    * Disable -- `sudo puppet agent --disable "<MESSAGE>"`.
    * Enable -- `sudo puppet agent --enable`.
-
 
 
 ## Configuring OpenVox agent

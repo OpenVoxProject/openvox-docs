@@ -182,10 +182,10 @@ augeas { 'export foo':
 
 This has several advantages.
 
-  * If the entry doesn't exist at all, it will get created.
-  * If the entry already exists and you change any value, it will get updated.
-  * The line won't be added to `/etc/exports` on every single Puppet run.
-  * You don’t need to figure out an “onlyif” attribute to control Augeas because there is no “onlyif” attribute.
+* If the entry doesn't exist at all, it will get created.
+* If the entry already exists and you change any value, it will get updated.
+* The line won't be added to `/etc/exports` on every single Puppet run.
+* You don’t need to figure out an “onlyif” attribute to control Augeas because there is no “onlyif” attribute.
 
 The next section examines this technique in detail.
 

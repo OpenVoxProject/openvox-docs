@@ -9,9 +9,7 @@ title: "Config files: The main config file (puppet.conf)"
 [config]: ./configuration.html#config
 [subcommands]: ./man/overview.html
 [reports]: ./configuration.html#reports
-[modulepath]: ./configuration.html#modulepath
 [ssldir]: ./configuration.html#ssldir
-[dir_environments]: ./environments_about.html
 [environmentpath]: ./configuration.html#environmentpath
 [puppetserver_diff]: /openvox-server/latest/puppet_conf_setting_diffs.html
 
@@ -158,4 +156,3 @@ Not all settings are equally useful; there's no real point in interpolating `$ss
 * `$confdir`
 * `$vardir`
 
-[env_conf_interp]: ./config_file_environment.html#interpolation-in-values

@@ -141,19 +141,19 @@ To write a heredoc, you place a **heredoc tag** somewhere in a line of Puppet co
 The general form of a heredoc string is:
 
 * A **heredoc tag** like `@("END"/n$)`, which can be used anywhere a string value is accepted. This tag consists of:
-    * An at sign and an opening parenthesis (`@(`).
-    * Some [**end text,**][inpage_end] which will also appear in the end marker.
-        * Optionally, you can surround the end text with double quotes (`"`) to [enable interpolation.][inpage_enable_interp]
-    * Optionally, a slash (`/`) followed by zero or more [**escape switches.**][inpage_enable_escape]
-    * A closing parenthesis (`)`).
+  * An at sign and an opening parenthesis (`@(`).
+  * Some [**end text,**][inpage_end] which will also appear in the end marker.
+    * Optionally, you can surround the end text with double quotes (`"`) to [enable interpolation.][inpage_enable_interp]
+  * Optionally, a slash (`/`) followed by zero or more [**escape switches.**][inpage_enable_escape]
+  * A closing parenthesis (`)`).
 * The rest of the line of Puppet code that uses this string value.
 * Starting on the _next_ line: the content of the string, which can run over multiple lines.
-    * The content might be able to interpolate values or use escape sequences, if you enabled that.
-    * The content might have cosmetic indentation or line breaks that will be excluded from the actual string value. (See [Formatting Control][inpage_format] below.)
+  * The content might be able to interpolate values or use escape sequences, if you enabled that.
+  * The content might have cosmetic indentation or line breaks that will be excluded from the actual string value. (See [Formatting Control][inpage_format] below.)
 * An **end marker** like `|-END`, on a line of its own. An end marker consists of:
-    * Optionally, some indentation and a pipe character (`|`) to show how much indentation should be stripped from the string. (See [Formatting Control][inpage_format] below.)
-    * Optionally, a hyphen (`-`) to trim the final line break. (See [Formatting Control][inpage_format] below.) The hyphen can be surrounded by any amount of space.
-    * The exact [**end text**][inpage_end] you specified in the heredoc tag above (without any surrounding quotes). The end text can be surrounded by any amount of space.
+  * Optionally, some indentation and a pipe character (`|`) to show how much indentation should be stripped from the string. (See [Formatting Control][inpage_format] below.)
+  * Optionally, a hyphen (`-`) to trim the final line break. (See [Formatting Control][inpage_format] below.) The hyphen can be surrounded by any amount of space.
+  * The exact [**end text**][inpage_end] you specified in the heredoc tag above (without any surrounding quotes). The end text can be surrounded by any amount of space.
 
 If a line of Puppet code includes more than one heredoc tag, Puppet will read all of those heredocs in order: the first one will begin on the following line and continue until its end marker, the second one will begin on the line immediately after the first end marker, etc. Puppet won't start evaluating additional lines of Puppet code until it reaches the end marker for the final heredoc on that original line.
 
@@ -193,9 +193,9 @@ By default, you can't use the `\$` escape sequence to prevent interpolation, but
 By default, heredocs have _no_ escape sequences and every character is literal (except interpolated expressions, if enabled). You can enable the escapes you want by adding switches to the heredoc tag.
 
 * To enable _individual_ escape sequences, add a slash (`/`) and some switches to the heredoc tag:
-    * `@("EOT"/$n)` would start a heredoc with `\$` and `\n` enabled.
+  * `@("EOT"/$n)` would start a heredoc with `\$` and `\n` enabled.
 * To enable _all_ escape sequences, add a slash (`/`) and _no_ switches:
-    * `@("EOT"/)` would start a heredoc with all escapes enabled.
+  * `@("EOT"/)` would start a heredoc with all escapes enabled.
 
 The following escape sequences are available, and can be enabled with the listed switches:
 
@@ -309,11 +309,10 @@ String                                  | The contents of the string, with any q
 [Undef][]                               | An empty string.
 [Boolean][]                             | The string `'true'` or `'false'`, respectively.
 [Number][]                              | The number in decimal notation (base 10). For floats, the value can vary on different platforms; you can use [the `sprintf` function][sprintf] for more precise formatting.
-[Array][]                               | A pair of square brackets (`[` and `]`) containing the array's elements, separated by `, ` (a comma and a space). Each element is converted to a string using these same rules. There is no trailing comma.
-[Hash][]                                | A pair of curly braces (`{` and `}`) containing a `<KEY> => <VALUE>` string for each key/value pair, separated by `, ` (a comma and a space). Each key and value is converted to a string using these same rules. There is no trailing comma.
+[Array][]                               | A pair of square brackets (`[` and `]`) containing the array's elements, separated by `,` (a comma and a space). Each element is converted to a string using these same rules. There is no trailing comma.
+[Hash][]                                | A pair of curly braces (`{` and `}`) containing a `<KEY> => <VALUE>` string for each key/value pair, separated by `,` (a comma and a space). Each key and value is converted to a string using these same rules. There is no trailing comma.
 [Regular expression][]                  | A stringified regular expression.
 [Resource reference][] or [data type][] | The value as a string.
-
 
 
 ## Line breaks

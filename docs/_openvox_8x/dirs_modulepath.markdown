@@ -5,13 +5,8 @@ title: "Directories: The modulepath (default config)"
 
 [module_fundamentals]: ./modules_fundamentals.html
 [environments]: ./environments_about.html
-[env_modules]: ./environments_creating.html
-[confdir]: ./dirs_confdir.html
 [basemodulepath_setting]: ./configuration.html#basemodulepath
-[modulepath_setting]: ./configuration.html#modulepath
 [config_print]: ./config_print.html
-[enable_dir_envs]: ./environments_creating.html
-[puppet.conf]: ./config_file_main.html
 [environment.conf]: ./config_file_environment.html
 
 The OpenVox Server service and the `puppet apply` command both load most of their content from modules. (See the page on [module structure and behavior][module_fundamentals] for more details.)
@@ -48,6 +43,7 @@ You can view the effective modulepath for any environment by specifying the envi
 sudo puppet config print modulepath --section server --environment test
 /etc/puppetlabs/code/environments/test/modules:/etc/puppetlabs/code/modules:/usr/share/puppet/modules
 ```
+
 ## Configuration
 
 Each environment can set its full modulepath in [environment.conf][] with the `modulepath` setting. The default value is that environment's `modules` directory followed by the **base modulepath.**
@@ -90,7 +86,7 @@ If no modules are present across the entire modulepath, or if modules are presen
 
 If the modulepath contains multiple modules with the same name, Puppet uses the version from the directory that comes _earliest_ in the modulepath. This allows directories earlier in the modulepath to override later directories.
 
-For most content, this earliest-module-wins behavior is on an all-or-nothing, **per-module** basis --- **all** of the manifests, files, and templates in the winning version will be available for use, and **none* of that content from any subsequent versions will be available. This behavior covers:
+For most content, this earliest-module-wins behavior is on an all-or-nothing, **per-module** basis --- **all** of the manifests, files, and templates in the winning version will be available for use, and *_none_ of that content from any subsequent versions will be available. This behavior covers:
 
 - Puppet code (from `manifests`)
 - Files (from `files`)

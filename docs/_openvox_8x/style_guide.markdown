@@ -625,6 +625,7 @@ file {
     owner  => 'root',
 }
 ```
+
 ### Defined resource types
 
 Since defined resource types can have multiple instances, resource names must have a unique variable to avoid duplicate declarations.

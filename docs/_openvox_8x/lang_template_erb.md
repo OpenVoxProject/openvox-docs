@@ -50,12 +50,12 @@ Puppet passes data to templates via special objects and variables, which you can
 ERB has two tags for Ruby code, a tag for comments, and a way to escape tag delimiters.
 
 * `<%= EXPRESSION %>` --- Inserts the value of an expression.
-    * With `-%>` --- Trims the following line break.
+  * With `-%>` --- Trims the following line break.
 * `<% CODE %>` --- Executes code, but does not insert a value.
-    * With `<%-` --- Trims the preceding indentation.
-    * With `-%>` --- Trims the following line break.
+  * With `<%-` --- Trims the preceding indentation.
+  * With `-%>` --- Trims the following line break.
 * `<%# COMMENT %>` --- Removed from the final output.
-    * With `-%>` --- Trims the following line break.
+  * With `-%>` --- Trims the following line break.
 * `<%%` or `%%>` --- A literal `<%` or `%>`, respectively.
 
 Text outside a tag becomes literal text, but it is subject to any tagged Ruby code surrounding it. For example, text surrounded by a tagged `if` statement only appears in the output if the condition is true.
@@ -157,7 +157,7 @@ There is also another way to use the `scope` object: you can call its `lookupvar
 
 Puppet's data types are converted to Ruby classes as follows:
 
-{% include_relative _puppet_types_to_ruby_types.md %}
+{% include_relative _puppet_types_to_ruby_types.md %} <!-- markdownlint-disable-line MD037 -->
 
 ### Testing for undefined variables
 

@@ -4,7 +4,6 @@ title: "Configuration: Short list of important settings"
 ---
 
 [cli_settings]: ./config_about_settings.html#settings-on-the-command-line
-[trusted_and_facts]: ./lang_facts_and_builtin_vars.html
 [config_reference]: ./configuration.html
 [environments]: ./environments_about.html
 [multi_master]: /openvox-server/latest/scaling_puppet_server.html
@@ -13,26 +12,17 @@ title: "Configuration: Short list of important settings"
 [meta_schedule]: ./metaparameter.html#schedule
 [lang_tags]: ./lang_tags.html
 [modulepath_dir]: ./dirs_modulepath.html
-[manifest_dir]: ./dirs_manifest.html
 [report_reference]: ./report.html
 [write_reports]: ./reporting_write_processors.html
 [puppetdb_install]: /openvoxdb/latest/connect_puppet_server.html
 [static_compiler]: ./static_catalogs.html
 [ssl_autosign]: ./ssl_autosign.html
-[structured_facts]: ./lang_facts_and_builtin_vars.html#data-types
 
-[trusted_node_data]: ./configuration.html#trustednodedata
-[immutable_node_data]: ./configuration.html#immutablenodedata
-[strict_variables]: ./configuration.html#strict_variables
-[stringify_facts]: ./configuration.html#stringifyfacts
 [reports]: ./configuration.html#reports
-[parser]: ./configuration.html#parser
 [server]: ./configuration.html#server
 [ca_server]: ./configuration.html#ca_server
 [report_server]: ./configuration.html#report_server
 [certname]: ./configuration.html#certname
-[node_name_fact]: ./configuration.html#node_name_fact
-[node_name_value]: ./configuration.html#node_name_value
 [environment]: ./configuration.html#environment
 [noop]: ./configuration.html#noop
 [priority]: ./configuration.html#priority
@@ -46,7 +36,6 @@ title: "Configuration: Short list of important settings"
 [ignoreschedules]: ./configuration.html#ignoreschedules
 [prerun_command]: ./configuration.html#prerun_command
 [postrun_command]: ./configuration.html#postrun_command
-[pluginsync]: ./configuration.html#pluginsync
 [runinterval]: ./configuration.html#runinterval
 [waitforcert]: ./configuration.html#waitforcert
 [splay]: ./configuration.html#splay
@@ -55,18 +44,14 @@ title: "Configuration: Short list of important settings"
 [onetime]: ./configuration.html#onetime
 [dns_alt_names]: ./configuration.html#dns_alt_names
 [basemodulepath]: ./configuration.html#basemodulepath
-[modulepath]: ./configuration.html#modulepath
-[manifest]: ./configuration.html#manifest
 [node_terminus]: ./configuration.html#node_terminus
 [external_nodes]: ./configuration.html#external_nodes
 [storeconfigs]: ./configuration.html#storeconfigs
 [storeconfigs_backend]: ./configuration.html#storeconfigs_backend
 [catalog_terminus]: ./configuration.html#catalog_terminus
-[config_version]: ./configuration.html#config_version
 [ca_ttl]: ./configuration.html#ca_ttl
 [autosign]: ./configuration.html#autosign
 [environmentpath]: ./configuration.html#environmentpath
-[environment.conf]: ./config_file_environment.html
 [environment_timeout]: ./configuration.html#environment_timeout
 [configuring_timeout]: ./configuration.html#environment_timeout
 [puppetserver_config_files]: /openvox-server/latest/configuration.html
@@ -76,7 +61,6 @@ title: "Configuration: Short list of important settings"
 [jvm_heap_config]: /openvox-server/latest/install_from_packages.html
 [puppetserver_ca]: /openvox-server/latest/puppet_conf_setting_diffs.html
 [service_bootstrap]: /openvox-server/latest/configuration.html#service-bootstrapping
-[trusted_server_facts]: ./lang_facts_and_builtin_vars.html#server_facts-variable
 [sourceaddress]: ./configuration.html#sourceaddress
 
 Puppet has about 200 settings, all of which are listed in the [configuration reference][config_reference]. Most users can ignore about 170 of those.
@@ -95,14 +79,14 @@ Roughly in order of importance. Most of these can go in either `[main]` or `[age
 ### Basics
 
 * [`server`][server] --- The OpenVox Server server to request configurations from. Defaults to `puppet`; change it if that's not your server's name.
-    * [`ca_server`][ca_server] and [`report_server`][report_server] --- If you're using multiple masters, you'll need to centralize the CA; one of the ways to do this is by configuring `ca_server` on all agents. [See the multiple masters guide][multi_master] for more details. The `report_server` setting works about the same way, although whether you need to use it depends on how you're processing reports.
+  * [`ca_server`][ca_server] and [`report_server`][report_server] --- If you're using multiple masters, you'll need to centralize the CA; one of the ways to do this is by configuring `ca_server` on all agents. [See the multiple masters guide][multi_master] for more details. The `report_server` setting works about the same way, although whether you need to use it depends on how you're processing reports.
 * [`certname`][certname] --- The node's certificate name, and the unique identifier it uses when requesting catalogs; defaults to the fully qualified domain name.
-    * For best compatibility, you should limit the value of `certname` to only use letters, numbers, periods, underscores, and dashes. (That is, it should match `/\A[a-z0-9._-]+\Z/`.)
-    * The special value `ca` is reserved, and can't be used as the certname for a normal node.
+  * For best compatibility, you should limit the value of `certname` to only use letters, numbers, periods, underscores, and dashes. (That is, it should match `/\A[a-z0-9._-]+\Z/`.)
+  * The special value `ca` is reserved, and can't be used as the certname for a normal node.
 * [`environment`][environment] --- The [environment][environments] to request when contacting the OpenVox Server. It's only a request, though; the master's [ENC][] can override this if it chooses. Defaults to `production`.
 * [`sourceaddress`][sourceaddress] --- The address on a multihomed host to use for the agent's communication with the master server.
 
-{% include_relative _nodename_certname.md %}
+{% include_relative _nodename_certname.md %} <!-- markdownlint-disable-line MD037 -->
 
 ### Run behavior
 

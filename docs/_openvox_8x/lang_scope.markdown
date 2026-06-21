@@ -10,7 +10,6 @@ title: "Language: Scope"
 [node]: ./lang_node_definitions.html
 [resourcedefaults]: ./lang_defaults.html
 [declare_class]: ./lang_classes.html#declaring-classes
-[lookup]: #scope-lookup-rules
 [enc]: ./nodes_external.html
 [inheritance]: ./lang_classes.html#inheritance
 [variables]: ./lang_variables.html

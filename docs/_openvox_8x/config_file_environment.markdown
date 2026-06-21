@@ -4,7 +4,6 @@ title: "Config files: environment.conf"
 ---
 
 [environment]: ./environments_about.html
-[environmentpath]: ./environments_creating.html#environmentpath
 [modulepath]: configuration.html#modulepath
 [puppet.conf]: ./config_file_main.html
 [basemodulepath]: configuration.html#basemodulepath
@@ -48,13 +47,13 @@ The settings in environment.conf can use the values of other settings as variabl
 The most useful variables to interpolate into environment.conf settings are:
 
 * `$basemodulepath` --- useful for including the default module directories in the `modulepath` setting. Puppet Enterprise users should usually include this in the value of `modulepath`, since PE uses modules in the `basemodulepath` to configure orchestration and other features.
-* `$environment` --- useful as a command line argument to your `config_version` script. *You can interpolate this variable only in the `config_version` setting.*
+* `$environment` --- useful as a command line argument to your `config_version` script. _You can interpolate this variable only in the `config_version` setting._
 * `$codedir` --- useful for locating files.
 
 Allowed Settings
 -----
 
-{% include_relative _environment_conf_settings.md %}
+{% include_relative _environment_conf_settings.md %} <!-- markdownlint-disable-line MD037 -->
 
 ### `modulepath`
 

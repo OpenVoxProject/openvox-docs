@@ -8,9 +8,11 @@ Welcome to the Open Source Puppet Quick Start Guide. Whether you’re setting up
 The following guides present tasks in the order that you would most likely perform them. See the prerequisite sections in each guide to ensure you have the correct setup to perform the steps as they're provided:
 
 ### 1. Perform pre-install tasks
+
 Follow [these instructions](./install_pre.html) to ensure you meet the system requirements for Puppet, to designate servers, to decide on a deployment type, and more.
 
 ### 2. Install Puppet
+
 Next, you'll install and configure your OpenVox Server and agents.
 
  A computer that runs the Puppet Server is called the "master." Follow [these instructions](/openvox-server/latest/install_from_packages.html) to install and configure Puppet Server.
@@ -22,28 +24,31 @@ A computer that runs the OpenVox agent is called a "OpenVox agent" or simply "ag
 To learn how to get your OpenVox Server and agents to communicate with each other and to ensure your OpenVox Server will receive certificates from its agents, follow the instructions in the [Master/Agent Communication Quick Start Guide](./quick_start_master_agent_communication.html).
 
 ### 3. Create a user and group
+
 Learn how to create a Puppet user and group with [these instructions](./quick_start_user_group.html).
 
 Instructions are available for *nix only.
 
-### 4. Hello, world!
+### 4. Hello, world
+
  Modules contain [classes](./lang_classes.html), which are named chunks of Puppet code and are the primary means by which Puppet configures and manages nodes. The instructions in the [Hello World! Quick Start Guide](./quick_start_helloworld.html) lead you through the fundamentals of Puppet module writing. You'll write a very simple module that contains classes to manage your message of the day (motd) and create a Hello, World! notification on the command line.
 
 ### 5. Install a module
+
  Next, learn how to install a Puppet module by following the [Module Installation Quick Start Guide](./quick_start_module_install_nix.html).
 
  The instructions are written specifically for *nix, but the installation process is the same for Windows.
 
 ### 6. Add classes
+
 Follow the [Adding Classes Quick Start Guide](./quick_start_adding_classes_nix.html) to add a class to your module. The class you’ll install is derived from the module you installed in the Module Installation Quick Start Guide.
 
 Instructions are available for *nix only.
 
 
 ### 7. Write modules
+
 Follow the [Writing Modules Quick Start Guide](./quick_writing_nix.html) for exercises in writing modules to help you become more familiar with Puppet modules and module development.
 
 Instructions are available for *nix only.
-
-
 

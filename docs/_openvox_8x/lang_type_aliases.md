@@ -31,10 +31,10 @@ MyModule::MyType $example = 10
 
 By using type aliases, you can:
 
--   Give a type a descriptive name, such as `IPv6Addr`, instead of creating or using a complex pattern-based type.
--   Shorten and move complex type expressions.
--   Improve code quality by reusing existing types instead of inventing new types.
--   Test type definitions separately from manifests.
+- Give a type a descriptive name, such as `IPv6Addr`, instead of creating or using a complex pattern-based type.
+- Shorten and move complex type expressions.
+- Improve code quality by reusing existing types instead of inventing new types.
+- Test type definitions separately from manifests.
 
 ### Type alias transparency
 
@@ -83,5 +83,5 @@ When defining an alias to a resource type, use its short form (such as `File`) i
 
 ## Related topics
 
--   [Data types](./lang_data_type.html)
--   [Resources](./lang_resources.html)
+- [Data types](./lang_data_type.html)
+- [Resources](./lang_resources.html)

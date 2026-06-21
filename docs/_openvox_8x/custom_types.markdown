@@ -386,7 +386,7 @@ you'll have to call super for.
 
 Values are always validated before they're munged.
 
-Lastly, validation and munging *only\** happen when a value is
+Lastly, validation and munging _only\*_ happen when a value is
 assigned. They have no role to play at all during use of a given
 value, only during assignment.
 
@@ -503,11 +503,11 @@ has\_features.
 When you define features on your type, Puppet automatically defines
 a bunch of class methods on the provider:
 
--   feature?: Passed a feature name, will return true if the
+* feature?: Passed a feature name, will return true if the
     feature is available or false otherwise.
--   features: Returns a list of all supported features on the
+* features: Returns a list of all supported features on the
     provider.
--   satisfies?: Passed a list of feature, will return true if they
+* satisfies?: Passed a list of feature, will return true if they
     are all available, false otherwise.
 
 Additionally, each feature gets a separate boolean method, so the

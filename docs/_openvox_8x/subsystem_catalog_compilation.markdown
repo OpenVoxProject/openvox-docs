@@ -19,7 +19,6 @@ title: "Subsystems: Catalog compilation"
 [plain_node]: ./indirection.html#plain-terminus
 [exec_node]: ./indirection.html#exec-terminus
 [ldap_guide]: ./nodes_ldap.html
-[trusted_on]: ./config_important_settings.html#getting-new-features-early
 [facts_builtin]: ./lang_facts_and_builtin_vars.html
 [node definitions]: ./lang_node_definitions.html
 [agent_provided]: #agent-provided-data
@@ -78,12 +77,12 @@ When agents request a catalog, they send four pieces of information to the OpenV
 Puppet can use external data at several stages when compiling, but there are two main kinds to be aware of:
 
 * Data from an [ENC][] or other node terminus, which is available before compilation starts. This data arrives in the form of a **node object,** which can contain any of the following:
-    * **Classes** that should be assigned to the node, and parameters to configure the classes
-    * Extra **top-scope variables** that should be set for the node
-    * An **environment** for the node (which will override its requested environment)
+  * **Classes** that should be assigned to the node, and parameters to configure the classes
+  * Extra **top-scope variables** that should be set for the node
+  * An **environment** for the node (which will override its requested environment)
 * Data from other sources, which is accessed as needed during compilation. It can be invoked by the main manifest or by classes or defined types in modules. This kind of data includes:
-    * [Exported resources][] queried from [PuppetDB][]
-    * The results of [functions][], which can access arbitrary data sources including Hiera or an external CMDB
+  * [Exported resources][] queried from [PuppetDB][]
+  * The results of [functions][], which can access arbitrary data sources including Hiera or an external CMDB
 
 ### Puppet manifests and modules
 
@@ -129,7 +128,7 @@ Puppet now parses the [main manifest][]. The node's [environment][] can specify 
 The main manifest can contain any arbitrary Puppet code. The way it is evaluated is:
 
 * If there are any [node definitions][] in the manifest, Puppet **must** find one that matches the node's **name** (see [agent-provided information][agent_provided], above). See [the page on node definitions][node definitions] for information on how node statements match names.
-    * If at least one node definition is present and Puppet cannot find a match, it will fail compilation now.
+  * If at least one node definition is present and Puppet cannot find a match, it will fail compilation now.
 * Any code **outside** any node definition is evaluated. Any [resources][] are added to the node's catalog. Any [class declarations][] cause classes to be loaded from modules and declared (see Step 3a below).
 * If a matching node definition was found, any code in it is evaluated at [node scope][]. (This means it can [assign variables][variables] that override top-scope variables.) Any resources are added to the catalog, and any class declarations cause classes to be loaded and declared.
 
@@ -150,5 +149,4 @@ Classes can also declare other classes; if they do, Puppet will load and evaluat
 Finally, after Puppet has evaluated the main manifest and any classes it declared (and any classes _they_ declared), it will load from modules and evaluate any classes that were specified by the node object. Resources from those classes will be added to the catalog.
 
 If a matching node definition was found in step 3, these classes are evaluated **at node scope,** which means they can access any node-scope variables set by the main manifest. If no node definitions were present in the main manifest, they will be evaluated at top scope.
-
 

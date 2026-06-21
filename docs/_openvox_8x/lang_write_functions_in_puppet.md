@@ -5,13 +5,8 @@ title: "Writing functions in the Puppet language"
 
 [defined_types]: ./lang_defined_types.html
 [literal_types]: ./lang_data_type.html
-[modules]: ./modules_fundamentals.html
 [naming]: ./lang_reserved.html#classes-and-defined-resource-types
 [namespace]: ./lang_namespaces.html
-[resource]: ./lang_resources.html
-[resource_defaults]: ./lang_defaults.html
-[references_namespaced]: ./lang_data_resource_reference.html
-[function_call]: ./lang_functions.html#choosing-a-call-style
 [classes]: ./lang_classes.html
 [variable]: ./lang_variables.html
 [array]: ./lang_data_array.html
@@ -38,6 +33,7 @@ function apache::bool2http(Variant[String, Boolean] $arg) >> String {
   }
 }
 ```
+
 {% endcapture %}
 
 {{ bool2httpexample }}
@@ -49,16 +45,16 @@ The general form of a function written in Puppet language is:
 * The namespace separator, a double colon (::).
 * The [name][naming] of the function.
 * An optional **parameter list,** which consists of:
-    * An opening parenthesis.
-    * A comma-separated list of **parameters** (for example, `String $myparam = "default value"`). Each parameter consists of:
-        * An optional [data type][literal_types], which will restrict the allowed values for the parameter (defaults to `Any`).
-        * A [variable][] name to represent the parameter, including the `$` prefix.
-        * An optional equals (`=`) sign and **default value** (which must match the data type, if one was specified).
-    * An optional trailing comma after the last parameter.
-    * A closing parenthesis.
+  * An opening parenthesis.
+  * A comma-separated list of **parameters** (for example, `String $myparam = "default value"`). Each parameter consists of:
+    * An optional [data type][literal_types], which will restrict the allowed values for the parameter (defaults to `Any`).
+    * A [variable][] name to represent the parameter, including the `$` prefix.
+    * An optional equals (`=`) sign and **default value** (which must match the data type, if one was specified).
+  * An optional trailing comma after the last parameter.
+  * A closing parenthesis.
 * An optional **return type**, which consists of:
-    * Two greater-than signs (`>>`).
-    * A [data type][literal_types] that matches every value the function could return.
+  * Two greater-than signs (`>>`).
+  * A [data type][literal_types] that matches every value the function could return.
 * An opening curly brace.
 * A block of Puppet code, ending with an expression whose value is returned.
 * A closing curly brace.

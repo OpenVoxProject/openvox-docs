@@ -5,8 +5,6 @@ title: "Language: Variables"
 
 
 [expressions]: ./lang_expressions.html
-[acceptable]: ./lang_reserved.html#variables
-[reserved]: ./lang_reserved.html#reserved-variable-names
 [datatype]: ./lang_data.html
 [double_quote]: ./lang_data_string.html#double-quoted-strings
 [functions]: ./lang_functions.html
@@ -164,8 +162,7 @@ Unlike [resource declarations][resource], variable assignments are evaluation-or
 This is the main way in which the Puppet language fails to be fully declarative.
 
 
-
 ## Naming
 
 
-{% include_relative _naming_variables.md %}
+{% include_relative _naming_variables.md %} <!-- markdownlint-disable-line MD037 -->

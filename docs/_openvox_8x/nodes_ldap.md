@@ -24,20 +24,20 @@ This guide will go through what it takes to modify an existing OpenLDAP setup; p
 
 There are some benefits to storing node data in LDAP instead of using [node definitions](./lang_node_definitions.html) in the main manifest:
 
--   Other applications can easily get access to the same data.
--   All attributes on the LDAP nodes are assigned as variables in the Puppet configuration, just like facts.
--   It is straightforward for other applications to modify LDAP data to configure nodes (for example, as part of a deployment process), which is easier to support than generating Puppet code.
+- Other applications can easily get access to the same data.
+- All attributes on the LDAP nodes are assigned as variables in the Puppet configuration, just like facts.
+- It is straightforward for other applications to modify LDAP data to configure nodes (for example, as part of a deployment process), which is easier to support than generating Puppet code.
 
 **However.** This LDAP integration was written for a very different world, before Puppet had [class parameters][] or [data lookup with Hiera][hiera], and before modern best practices like the roles and profiles method were developed. Dinosaurs walked the earth, and you configured your Puppet classes by setting top-scope variables in the node definition.
 
 You can probably still use this effectively, but please consider the following:
 
-* With an antique interface like this, the roles and profiles method is even more of a best practice than it is elsewhere. Since LDAP attributes can't configure class parameters, they're not suited for building full configurations out of component modules, so you should be hiding most of your complexity with wrapper classes, doing data lookup via Hiera, and only using LDAP to assign role classes.
-* Depending on where that LDAP data is coming from, it might make more sense to go right to the source and write a [custom Hiera backend][] that can access your business's configuration data. In fact, writing an LDAP-based Hiera backend might make more sense than using this rigid 0.2x-era interface.
+- With an antique interface like this, the roles and profiles method is even more of a best practice than it is elsewhere. Since LDAP attributes can't configure class parameters, they're not suited for building full configurations out of component modules, so you should be hiding most of your complexity with wrapper classes, doing data lookup via Hiera, and only using LDAP to assign role classes.
+- Depending on where that LDAP data is coming from, it might make more sense to go right to the source and write a [custom Hiera backend][] that can access your business's configuration data. In fact, writing an LDAP-based Hiera backend might make more sense than using this rigid 0.2x-era interface.
 
 ## Prerequisites
 
--   [ruby-ldap](http://ruby-ldap.sourceforge.net)
+- [ruby-ldap](http://ruby-ldap.sourceforge.net)
 
 ## Pre-Puppet Ruby/LDAP Validation
 
@@ -55,9 +55,9 @@ These are basically doing the same thing, so they should either both succeed or 
 
 As with an ENC, an LDAP node object can set three kinds of information for a node:
 
-* A list of classes to assign to that node.
-* The [environment][] to use for that node.
-* A list of top-scope variables to set for that node.
+- A list of classes to assign to that node.
+- The [environment][] to use for that node.
+- A list of top-scope variables to set for that node.
 
 To allow a basic defaults-with-overrides pattern, LDAP nodes also allow you to specify the name of a parent node, whose data is merged with the main node. We think you can create arbitrarily long chains of grandparent nodes, but we don't know anyone who's tried this since the '00s.
 
@@ -81,12 +81,12 @@ OK: We're very sorry about this, but documentation for how variables work with L
 
 As far as we can tell from cross-referencing the code with the original version of this guide:
 
-* Puppet sets a top-scope variable for every attribute from an LDAP node object, so `puppetClass` is available as `$puppetClass` (or `$puppetclass`; we're not sure).
-    * If an attribute was used multiple times in a node, its variable value is an array.
-    * We think LDAP booleans become real Puppet booleans (instead of "true"), but we aren't positive.
-    * No hashes allowed.
-* Variables from a child node always override values inherited from a parent node.
-    * EXCEPT: There seems to be a really janky method for doing something similar to a Hiera unique merge across a whole chain of parent nodes, so that you'll get the combined values from the entire hierarchy as an array. If you set the `puppetVar` attribute to a `<VARIABLE>=<VALUE>` string (like `puppetVar: config_exim=true`), Puppet sets a variable named `<VARIABLE>` (`config_exim`) whose value is an array of all similar values from child/parent/grandparent nodes (`[true, false, true]`).
+- Puppet sets a top-scope variable for every attribute from an LDAP node object, so `puppetClass` is available as `$puppetClass` (or `$puppetclass`; we're not sure).
+  - If an attribute was used multiple times in a node, its variable value is an array.
+  - We think LDAP booleans become real Puppet booleans (instead of "true"), but we aren't positive.
+  - No hashes allowed.
+- Variables from a child node always override values inherited from a parent node.
+  - EXCEPT: There seems to be a really janky method for doing something similar to a Hiera unique merge across a whole chain of parent nodes, so that you'll get the combined values from the entire hierarchy as an array. If you set the `puppetVar` attribute to a `<VARIABLE>=<VALUE>` string (like `puppetVar: config_exim=true`), Puppet sets a variable named `<VARIABLE>` (`config_exim`) whose value is an array of all similar values from child/parent/grandparent nodes (`[true, false, true]`).
 
 We're very unsure about this, but that's what the code seems to imply. Have we mentioned that you should look into [Hiera][]?
 
@@ -163,8 +163,8 @@ The DN for the host follows a model that should also work well if you decide to 
 
 Once you have your data in LDAP, you just need to configure Puppet to look there.
 
-* If you are using agent/master Puppet, the master will be the one accessing LDAP. Put the configuration in the `[server]` block of its puppet.conf file.
-* If you are using standalone puppet apply nodes, each one will need to access it. Put the configuration in the `[main]` block of their puppet.conf files.
+- If you are using agent/master Puppet, the master will be the one accessing LDAP. Put the configuration in the `[server]` block of its puppet.conf file.
+- If you are using standalone puppet apply nodes, each one will need to access it. Put the configuration in the `[main]` block of their puppet.conf files.
 
 To configure LDAP nodes, set the `node_terminus` to `ldap`:
 
@@ -177,27 +177,27 @@ The only other required setting is `ldapbase`, which specifies where to search f
 
 However, you'll probably also want to specify several other settings, including where to find the server, how to authenticate to it, and more. The following is a full list of settings related to LDAP nodes; click any of them for descriptions in the configuration reference.
 
-* [`ldapattrs`](./configuration.html#ldapattrs)
-* [`ldapbase`](./configuration.html#ldapbase)
-* [`ldapclassattrs`](./configuration.html#ldapclassattrs)
-* [`ldapparentattr`](./configuration.html#ldapparentattr)
-* [`ldappassword`](./configuration.html#ldappassword)
-* [`ldapport`](./configuration.html#ldapport)
-* [`ldapserver`](./configuration.html#ldapserver)
-* [`ldapssl`](./configuration.html#ldapssl)
-* [`ldapstackedattrs`](./configuration.html#ldapstackedattrs)
-* [`ldapstring`](./configuration.html#ldapstring)
-* [`ldaptls`](./configuration.html#ldaptls)
-* [`ldapuser`](./configuration.html#ldapuser)
+- [`ldapattrs`](./configuration.html#ldapattrs)
+- [`ldapbase`](./configuration.html#ldapbase)
+- [`ldapclassattrs`](./configuration.html#ldapclassattrs)
+- [`ldapparentattr`](./configuration.html#ldapparentattr)
+- [`ldappassword`](./configuration.html#ldappassword)
+- [`ldapport`](./configuration.html#ldapport)
+- [`ldapserver`](./configuration.html#ldapserver)
+- [`ldapssl`](./configuration.html#ldapssl)
+- [`ldapstackedattrs`](./configuration.html#ldapstackedattrs)
+- [`ldapstring`](./configuration.html#ldapstring)
+- [`ldaptls`](./configuration.html#ldaptls)
+- [`ldapuser`](./configuration.html#ldapuser)
 
 
 ## Default nodes and short names
 
 The LDAP node terminus tries to emulate the way Puppet [node definitions][] work, so when trying to find a given node name, it tries the following:
 
-* The full node name.
-* If the node name included at least one period (`.`), the segment of the name _before_ the first period. (So `magpie` for `magpie.example.com`.)
-* The literal string `default`.
+- The full node name.
+- If the node name included at least one period (`.`), the segment of the name _before_ the first period. (So `magpie` for `magpie.example.com`.)
+- The literal string `default`.
 
 So you can create a node object whose `cn=default` and it will act as a default node for any nodes that don't have specific data.
 

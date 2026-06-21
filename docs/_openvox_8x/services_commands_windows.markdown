@@ -49,8 +49,8 @@ You usually want to run Puppet's commands with administrator privileges.
 
 Puppet has two privilege modes:
 
-* Run with limited privileges, only manage certain resource types, and use a user-specific [confdir][] and [codedir][].
-* Run with administrator privileges, manage the whole system, and use the system [confdir][] and [codedir][].
+- Run with limited privileges, only manage certain resource types, and use a user-specific [confdir][] and [codedir][].
+- Run with administrator privileges, manage the whole system, and use the system [confdir][] and [codedir][].
 
 On \*nix systems, Puppet defaults to running with limited privileges (when not run by `root`) but can have its privileges raised with the standard `sudo` command.
 
@@ -106,13 +106,13 @@ Note that this shortcut **does not** automatically request UAC elevation; just l
 
 Take note of the following when running Puppet commands on Windows:
 
-* Configuration settings can be viewed or modified from the command line
-* The location of `puppet.conf` depends on whether the process is running as an Administrator or not
-* The `puppet.conf` configuration file supports Windows and *nix line endings, (CR-LF) and (LF), respectively, and does not support Byte Order Mark (BOM). The file encoding must either be UTF-8 or the current Windows encoding, for example, Windows-1252 code page. 
-* Specifying file owner, group, or mode for file-based settings is not supported on Windows
-* The `puppet.conf` file is allowed to use Windows-CRLF line endings as well as *nix-style LF line endings.
-  * You can get configuration settings by running: `puppet agent --configprint SETTING`
-  * You can set configuration settings by running: `puppet config set SETTING VALUE --section SECTION`
-* Common configuration settings are: `certname`, `server`, and `runinterval`
-* You must restart the Puppet Agent service after making any changes to Puppet’s `runinterval` config file.
+- Configuration settings can be viewed or modified from the command line
+- The location of `puppet.conf` depends on whether the process is running as an Administrator or not
+- The `puppet.conf` configuration file supports Windows and *nix line endings, (CR-LF) and (LF), respectively, and does not support Byte Order Mark (BOM). The file encoding must either be UTF-8 or the current Windows encoding, for example, Windows-1252 code page.
+- Specifying file owner, group, or mode for file-based settings is not supported on Windows
+- The `puppet.conf` file is allowed to use Windows-CRLF line endings as well as *nix-style LF line endings.
+  - You can get configuration settings by running: `puppet agent --configprint SETTING`
+  - You can set configuration settings by running: `puppet config set SETTING VALUE --section SECTION`
+- Common configuration settings are: `certname`, `server`, and `runinterval`
+- You must restart the Puppet Agent service after making any changes to Puppet’s `runinterval` config file.
 

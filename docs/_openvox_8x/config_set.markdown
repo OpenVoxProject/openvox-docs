@@ -5,7 +5,6 @@ title: "Configuration: Editing settings on the command line"
 
 [config_sections]: ./config_file_main.html#config-sections
 [puppet.conf]: ./config_file_main.html
-[environments]: ./environments_about.html
 [confdir_sys]: ./dirs_confdir.html#location
 
 Puppet loads most of its settings from [the puppet.conf config file.][puppet.conf] You can edit this file directly, or you can change individual settings with the `puppet config set` command.
@@ -25,7 +24,7 @@ Puppet loads most of its settings from [the puppet.conf config file.][puppet.con
 
 To assign a new value to a setting, run:
 
-    $ sudo puppet config set <SETTING NAME> <VALUE> --section <CONFIG SECTION>
+    sudo puppet config set <SETTING NAME> <VALUE> --section <CONFIG SECTION>
 
 This will declaratively set the value of `<SETTING NAME>` to `<VALUE>` (in the specified config section). It will work the same way regardless of whether the setting already had a value.
 
@@ -61,8 +60,8 @@ If modifying the [system config file][confdir_sys], be sure to use `sudo` or run
 
 **Commands:**
 
-    $ sudo puppet config set reports puppetdb --section server
-    $ sudo puppet config set ordering manifest
+    sudo puppet config set reports puppetdb --section server
+    sudo puppet config set ordering manifest
 
 **After:**
 

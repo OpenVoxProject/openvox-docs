@@ -17,10 +17,8 @@ title: "Language: Facts and built-in variables"
 [certname]: ./configuration.html#certname
 [puppetdb_facts]: /openvoxdb/latest/api/overview.html
 [localscope]: ./lang_scope.html#local-scopes
-[trusted_on]: ./config_important_settings.html#getting-new-features-early
 [scope]: ./lang_scope.html
 [extensions]: ./ssl_attributes_extensions.html
-[structured_facts_on]: ./config_important_settings.html#getting-new-features-early
 [strings]: ./lang_data_string.html
 [datatypes]: ./lang_data.html
 [qualified_var_names]: ./lang_variables.html#accessing-out-of-scope-variables
@@ -145,17 +143,17 @@ Normal facts are self-reported by the node, and nothing guarantees their accurac
 The available keys in the `$trusted` hash are:
 
 * `authenticated` --- an indication of whether the catalog request was authenticated, as well as how it was authenticated. The value will be one of:
-    * `remote` for authenticated remote requests (as with agent/master Puppet configurations)
-    * `local` for all local requests (as with standalone Puppet apply nodes)
-    * `false` for unauthenticated remote requests (generally only possible if you've configured auth.conf to allow unauthenticated catalog requests)
+  * `remote` for authenticated remote requests (as with agent/master Puppet configurations)
+  * `local` for all local requests (as with standalone Puppet apply nodes)
+  * `false` for unauthenticated remote requests (generally only possible if you've configured auth.conf to allow unauthenticated catalog requests)
 * `certname` --- the node's subject CN, as listed in its certificate. (When first requesting its certificate, the node requests a subject CN matching the value of its `certname` setting.)
-    * If `authenticated` is `remote`, this is the subject CN extracted from the node's certificate.
-    * If `authenticated` is `local`, this is read directly from the `certname` setting.
-    * If `authenticated` is `false`, the value of this key will be an empty string.
+  * If `authenticated` is `remote`, this is the subject CN extracted from the node's certificate.
+  * If `authenticated` is `local`, this is read directly from the `certname` setting.
+  * If `authenticated` is `false`, the value of this key will be an empty string.
 * `domain` --- the node's domain, as derived from its validated certificate name. The value can be empty if the certificate name doesn't contain a fully qualified domain name.
 * `extensions` --- a hash containing any [custom extensions][extensions] present in the node's certificate.
-    * The keys of the hash will be the [extension OIDs](./ssl_attributes_extensions.html#recommended-oids-for-extensions) --- any OIDs in the ppRegCertExt range will appear using their short names, and other OIDs will appear as plain dotted numbers.
-    * If no extensions are present or `authenticated` is `local` or `false`, this will be an empty hash.
+  * The keys of the hash will be the [extension OIDs](./ssl_attributes_extensions.html#recommended-oids-for-extensions) --- any OIDs in the ppRegCertExt range will appear using their short names, and other OIDs will appear as plain dotted numbers.
+  * If no extensions are present or `authenticated` is `local` or `false`, this will be an empty hash.
 * `hostname` --- the node's hostname, as derived from its validated certificate name.
 
 #### Examples

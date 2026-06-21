@@ -163,7 +163,7 @@ Your module package should be a compiled `tar.gz` package of 10MB or less.
 
 2. Click **Publish** in the upper right hand corner of the screen.
 
-4. On the upload page, click **Choose File** and use the file browser to locate and select the release tarball. Then click **Upload Release**.
+3. On the upload page, click **Choose File** and use the file browser to locate and select the release tarball. Then click **Upload Release**.
 
 After a successful upload, your browser should load the new release page of your module, with any errors popping up on the same screen.
 Your module's README, Changelog,and License files are displayed on your module's Forge page.

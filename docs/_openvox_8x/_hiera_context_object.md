@@ -138,4 +138,3 @@ This is meant for complex lookups where a function tries several different thing
 
 Feel free to not worry about performance when constructing your message; Hiera never executes the explain block unless debugging is enabled.
 
-

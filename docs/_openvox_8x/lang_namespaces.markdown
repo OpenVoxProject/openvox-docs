@@ -5,15 +5,8 @@ title: "Language: Namespaces and autoloading"
 
 [classes]: ./lang_classes.html
 [define]: ./lang_defined_types.html
-[variables]: ./lang_variables.html
 [modulepath]: ./dirs_modulepath.html
 [module]: ./modules_fundamentals.html
-[scopes]: ./lang_scope.html
-[include]: ./lang_classes.html#using-include
-[PUP-121]: https://tickets.puppetlabs.com/browse/PUP-121
-[inherits]: ./lang_classes.html#inheritance
-[allowed]: ./lang_reserved.html#classes-and-defined-types
-[relative_below]: #aside-historical-context
 
 
 [Class][classes] and [defined type][define] names can be broken up into segments called **namespaces.** Namespaces tell the autoloader how to find the class or defined type in your [modules][module].

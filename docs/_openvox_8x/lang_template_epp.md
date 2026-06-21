@@ -7,7 +7,6 @@ title: "Language: Embedded Puppet (EPP) template syntax"
 [epp]: /openvox/latest/function.html#epp
 [inline_epp]: /openvox/latest/function.html#inline_epp
 [ntp]: https://forge.puppet.com/puppetlabs/ntp
-[functions]: ./lang_functions.html
 [hash]: ./lang_data_hash.html
 [local scope]: ./lang_scope.html
 [node definition]: ./lang_node_definitions.html
@@ -58,15 +57,15 @@ An EPP template looks like a plain-text document interspersed with tags containi
 EPP has two tags for Puppet code, optional tags for parameters and comments, and a way to escape tag delimiters.
 
 * `<%= EXPRESSION %>` --- Inserts the value of a single expression.
-    * With `-%>` --- Trims any trailing spaces and up to one following line break.
+  * With `-%>` --- Trims any trailing spaces and up to one following line break.
 * `<% EXPRESSION %>` --- Executes any expressions, but does not insert a value.
-    * With `<%-` --- Trims the preceding indentation.
-    * With `-%>` --- Trims any trailing spaces and up to one following line break.
+  * With `<%-` --- Trims the preceding indentation.
+  * With `-%>` --- Trims any trailing spaces and up to one following line break.
 * `<% | PARAMETERS | %>` --- Declares the template's parameters.
-    * With `<%-` --- Trims the preceding indentation.
-    * With `-%>` --- Trims any trailing spaces and up to one following line break.
+  * With `<%-` --- Trims the preceding indentation.
+  * With `-%>` --- Trims any trailing spaces and up to one following line break.
 * `<%# COMMENT %>` --- Removed from the final output.
-    * With `-%>` --- Trims any trailing spaces and up to one following line break.
+  * With `-%>` --- Trims any trailing spaces and up to one following line break.
 * `<%%` or `%%>` --- A literal `<%` or `%>`, respectively.
 
 Text outside a tag becomes literal text, but it is subject to any tagged Puppet code surrounding it. For example, text surrounded by a tagged `if` statement only appears in the output if the condition is true.

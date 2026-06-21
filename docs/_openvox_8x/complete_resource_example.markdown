@@ -5,7 +5,7 @@ title: Complete Resource Example
 
 ## Resource Creation
 
-Nearly every resource needs to be able to be created and destroyed, and resources have to have names, so we'll start with those two features. Puppet's property support has a helper method called `ensurable` that handles modeling creation and destruction; it creates an `ensure` property and adds `absent` and `present` values for it, which in turn require three methods on the provider, `create`, `destroy`, and `exists?`. Here's the first start to the resource.  We're going to create one called 'file' --- this is an example of how to create a resource for something Puppet already has. 
+Nearly every resource needs to be able to be created and destroyed, and resources have to have names, so we'll start with those two features. Puppet's property support has a helper method called `ensurable` that handles modeling creation and destruction; it creates an `ensure` property and adds `absent` and `present` values for it, which in turn require three methods on the provider, `create`, `destroy`, and `exists?`. Here's the first start to the resource.  We're going to create one called 'file' --- this is an example of how to create a resource for something Puppet already has.
 
 
     Puppet::Type.newtype(:file) do
@@ -51,7 +51,7 @@ Let's enhance our resource somewhat by adding the ability to manage the file mod
         defaultto "640"
     end
 
-Notice that we're specifying a default value, and that it is a string instead of an integer (file modes are in octal, and most of us are used to specifying integers in decimal). You can pass a lambda to `defaultto` instead of a value, if you don't have a simple value. 
+Notice that we're specifying a default value, and that it is a string instead of an integer (file modes are in octal, and most of us are used to specifying integers in decimal). You can pass a lambda to `defaultto` instead of a value, if you don't have a simple value.
 
 Add this code to the provider to understand modes:
 
@@ -103,6 +103,4 @@ You can see how the `absent` and `present` values are defined by looking in the 
     end
 
 There are a lot of other options in creating properties, parameters, and providers, but this should provide a decent starting point.
-
-
 
