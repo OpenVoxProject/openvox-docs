@@ -61,6 +61,23 @@ Released on March 4, 2026
 
 Please check the [GitHub OpenBolt release page](https://github.com/OpenVoxProject/openbolt/releases/tag/5.4.0) for details on new features or bug fixes.
 
+### Security Issues Resolved in 5.4.0
+
+| Identifier                                                        | CVSS 3.1 Score | Resolved By                         |
+| :---------------------------------------------------------------- | :------------: | :---------------------------------- |
+| [CVE-2026-25765](https://nvd.nist.gov/vuln/detail/CVE-2026-25765) |       5.8      | `pkg:gem/faraday@2.14.1`            |
+| [CVE-2025-24294](https://nvd.nist.gov/vuln/detail/CVE-2025-24294) |       7.5      | `pkg:gem/resolv@0.2.3`              |
+| [CVE-2025-58767](https://nvd.nist.gov/vuln/detail/CVE-2025-58767) |       5.3      | `pkg:gem/rexml@3.4.4`               |
+| [CVE-2025-61594](https://nvd.nist.gov/vuln/detail/CVE-2025-61594) |       7.5      | `pkg:gem/uri@0.12.5`                |
+| [CVE-2025-15467](https://nvd.nist.gov/vuln/detail/CVE-2025-15467) |       8.8      | `pkg:github/openssl/openssl@3.0.19` |
+| [CVE-2025-69421](https://nvd.nist.gov/vuln/detail/CVE-2025-69421) |       7.5      | `pkg:github/openssl/openssl@3.0.19` |
+| [CVE-2025-69420](https://nvd.nist.gov/vuln/detail/CVE-2025-69420) |       7.5      | `pkg:github/openssl/openssl@3.0.19` |
+| [CVE-2025-69419](https://nvd.nist.gov/vuln/detail/CVE-2025-69419) |       7.4      | `pkg:github/openssl/openssl@3.0.19` |
+| [CVE-2026-22795](https://nvd.nist.gov/vuln/detail/CVE-2026-22795) |       5.5      | `pkg:github/openssl/openssl@3.0.19` |
+| [CVE-2026-22796](https://nvd.nist.gov/vuln/detail/CVE-2026-22796) |       5.3      | `pkg:github/openssl/openssl@3.0.19` |
+| [CVE-2025-68160](https://nvd.nist.gov/vuln/detail/CVE-2025-68160) |       4.7      | `pkg:github/openssl/openssl@3.0.19` |
+| [CVE-2025-69418](https://nvd.nist.gov/vuln/detail/CVE-2025-69418) |       4.0      | `pkg:github/openssl/openssl@3.0.19` |
+
 ## OpenBolt 5.3.0
 
 Released on December 16, 2025
