@@ -61,6 +61,19 @@ See the [home layout reference][home-layout] for details.
 
 [home-layout]: https://jekyll-vitepress.dev/frontmatter-reference/#home-layout-keys
 
+### LLM-friendly documentation files
+
+The build produces two machine-readable files at the site root for use with
+large language models, generated from Liquid templates (`llms.txt` and
+`llms-full.txt`) the same way `search.json` is — no manual step is required:
+
+- `llms.txt` — a curated, link-based index of the docs, grouped by project,
+  following the [llms.txt convention](https://llmstxt.org/).
+- `llms-full.txt` — the full text of the docs concatenated as plain text.
+
+Both iterate the site's `_latest` collections at build time, so new pages and
+projects are included automatically.
+
 ### Modifying theme settings
 
 This project uses the [Jekyll VitePress theme][jekyll-vitepress], by

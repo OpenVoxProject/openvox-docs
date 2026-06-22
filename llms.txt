@@ -1,0 +1,26 @@
+---
+layout: null
+permalink: /llms.txt
+---
+{%- assign site_url = "https://docs.openvoxproject.org" -%}
+# {{ site.title }}
+
+> {{ site.description }}
+
+This is an LLM-friendly index of the OpenVox documentation. Each link points to
+an HTML page on the documentation site; append nothing to fetch the rendered
+page. For the full documentation concatenated as plain text in a single file,
+see [{{ site_url }}/llms-full.txt]({{ site_url }}/llms-full.txt).
+
+Only the current stable ("latest") version of each project is listed below.
+{% assign latest_collections = site.collections | where_exp: "c", "c.label contains '_latest'" | sort: "label" %}
+{%- for collection in latest_collections -%}
+{%- assign project = collection.label | remove: "_latest" -%}
+{%- assign docs = collection.docs | where_exp: "d", "d.title" | sort: "url" %}
+{% if docs.size > 0 %}
+## {{ project }}
+{% for doc in docs %}
+- [{{ doc.title | strip_html | strip }}]({{ site_url }}{{ doc.url }})
+{%- endfor %}
+{% endif %}
+{%- endfor %}

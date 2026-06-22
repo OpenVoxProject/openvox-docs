@@ -1,0 +1,33 @@
+---
+layout: null
+permalink: /llms-full.txt
+---
+{%- assign site_url = "https://docs.openvoxproject.org" -%}
+# {{ site.title }}
+
+> {{ site.description }}
+
+This file contains the full text of the OpenVox documentation (current stable
+version of each project) concatenated as plain text for use with large language
+models. Each document is preceded by its title and canonical URL.
+{% assign latest_collections = site.collections | where_exp: "c", "c.label contains '_latest'" | sort: "label" %}
+{%- for collection in latest_collections -%}
+{%- assign project = collection.label | remove: "_latest" -%}
+{%- assign docs = collection.docs | where_exp: "d", "d.title" | sort: "url" -%}
+{%- if docs.size > 0 %}
+
+{% raw %}# ====================================================================={% endraw %}
+# Project: {{ project }}
+{% raw %}# ====================================================================={% endraw %}
+{% for doc in docs %}
+
+---
+
+## {{ doc.title | strip_html | strip }}
+
+Source: {{ site_url }}{{ doc.url }}
+
+{{ doc.content | strip_html | replace: '&lt;', '<' | replace: '&gt;', '>' | replace: '&quot;', '"' | replace: '&#39;', "'" | replace: '&amp;', '&' | strip }}
+{% endfor %}
+{%- endif -%}
+{%- endfor %}
