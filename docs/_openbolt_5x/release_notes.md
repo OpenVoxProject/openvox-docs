@@ -41,6 +41,20 @@ Released on April 30, 2026
 
 Please check the [GitHub OpenBolt release page](https://github.com/OpenVoxProject/openbolt/releases/tag/5.5.0) for details on new features or bug fixes.
 
+### Security Issues Resolved in 5.5.0
+
+| Identifier                                                        | CVSS 3.1 Score | Resolved By                         |
+| :---------------------------------------------------------------- | :------------: | :---------------------------------- |
+| [CVE-2026-35611](https://nvd.nist.gov/vuln/detail/CVE-2026-35611) |       7.5      | `pkg:gem/addressable@2.9.0`         |
+| [CVE-2026-41493](https://nvd.nist.gov/vuln/detail/CVE-2026-41493) |       7.5      | `pkg:gem/yard@0.9.43`               |
+| [CVE-2026-27820](https://nvd.nist.gov/vuln/detail/CVE-2026-27820) |       9.8      | `pkg:gem/zlib@3.0.1`                |
+| [CVE-2026-31789](https://nvd.nist.gov/vuln/detail/CVE-2026-31789) |       9.8      | `pkg:github/openssl/openssl@3.0.20` |
+| [CVE-2026-28387](https://nvd.nist.gov/vuln/detail/CVE-2026-28387) |       8.1      | `pkg:github/openssl/openssl@3.0.20` |
+| [CVE-2026-31790](https://nvd.nist.gov/vuln/detail/CVE-2026-31790) |       7.5      | `pkg:github/openssl/openssl@3.0.20` |
+| [CVE-2026-28388](https://nvd.nist.gov/vuln/detail/CVE-2026-28388) |       7.5      | `pkg:github/openssl/openssl@3.0.20` |
+| [CVE-2026-28389](https://nvd.nist.gov/vuln/detail/CVE-2026-28389) |       7.5      | `pkg:github/openssl/openssl@3.0.20` |
+| [CVE-2026-28390](https://nvd.nist.gov/vuln/detail/CVE-2026-28390) |       7.5      | `pkg:github/openssl/openssl@3.0.20` |
+
 ## OpenBolt 5.4.0
 
 Released on March 4, 2026
