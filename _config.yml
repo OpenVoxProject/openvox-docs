@@ -173,6 +173,7 @@ exclude:
   - Rakefile
   - README_WRITING.markdown
   - README.markdown
+  - tools
   - util
   - vendor
   - WORKFLOW.md
