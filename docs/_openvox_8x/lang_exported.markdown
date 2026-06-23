@@ -38,7 +38,7 @@ Using exported resources requires two steps: declaring and collecting. In the fo
 node with the `ssh` class exports its own SSH host key and then collects the SSH host key of every node
 (including its own). This causes every node in the site to trust SSH connections from every other node.
 
-``` puppet
+```puppet
 class ssh {
   # Declare:
   @@sshkey { $::hostname:
@@ -55,7 +55,7 @@ class ssh {
 To declare an exported resource, prepend `@@` (a double "at" sign) to the **resource type** of a standard
 [resource declaration][resources]:
 
-``` puppet
+```puppet
 @@nagios_service { "check_zfs${::hostname}":
   use                 => 'generic-service',
   host_name           => $::fqdn,
@@ -70,7 +70,7 @@ To declare an exported resource, prepend `@@` (a double "at" sign) to the **reso
 
 To collect exported resources use an [exported resource collector][exported_collector]:
 
-``` puppet
+```puppet
 Nagios_service <<| |>>  # Collect all exported nagios_service resources
 
 # Collect exported file fragments for building a config file:
@@ -131,7 +131,7 @@ The following example uses Puppet native types for managing Nagios configuration
 very powerful when exported and collected. Here a class adds service definitions on a Nagios host,
 automatically monitoring an Apache web server:
 
-``` puppet
+```puppet
 # /etc/puppetlabs/puppet/modules/nagios/manifests/target/apache.pp
 class nagios::target::apache {
   @@nagios_host { $::fqdn:

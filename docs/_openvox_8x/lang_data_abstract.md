@@ -36,7 +36,9 @@ It takes one mandatory parameter.
 
 The full signature for `Optional` is:
 
-    Optional[<DATA TYPE>]
+```puppet
+Optional[<DATA TYPE>]
+```
 
 Position | Parameter        | Data Type | Default Value | Description
 ---------| -----------------|-----------|---------------|------------
@@ -63,7 +65,9 @@ It accepts one optional parameter.
 
 The full signature for `NotUndef` is:
 
-    NotUndef[<DATA TYPE>]
+```puppet
+NotUndef[<DATA TYPE>]
+```
 
 Position | Parameter        | Data Type | Default Value | Description
 ---------| -----------------|-----------|---------------|------------
@@ -81,7 +85,9 @@ It takes any number of parameters, and requires at least one.
 
 The full signature for `Variant` is:
 
-    Variant[ <DATA TYPE>, (<DATA TYPE, ...) ]
+```puppet
+Variant[ <DATA TYPE>, (<DATA TYPE, ...) ]
+```
 
 Position | Parameter        | Data Type | Default Value | Description
 ---------| -----------------|-----------|---------------|------------
@@ -103,7 +109,9 @@ It takes any number of parameters, and requires at least one.
 
 The full signature for `Pattern` is:
 
-    Pattern[ <REGULAR EXPRESSION>, (<REGULAR EXPRESSION>, ...) ]
+```puppet
+Pattern[ <REGULAR EXPRESSION>, (<REGULAR EXPRESSION>, ...) ]
+```
 
 Position | Parameter        | Data Type | Default Value | Description
 ---------| -----------------|-----------|---------------|------------
@@ -128,7 +136,9 @@ It takes any number of parameters, and requires at least one.
 
 The full signature for `Enum` is:
 
-    Enum[ <OPTION>, (<OPTION>, ...) ]
+```puppet
+Enum[ <OPTION>, (<OPTION>, ...) ]
+```
 
 Position | Parameter        | Data Type | Default Value | Description
 ---------| -----------------|-----------|---------------|------------
@@ -151,7 +161,9 @@ It takes any number of parameters, and requires at least one.
 
 The full signature for `Tuple` is:
 
-    Tuple[ <CONTENT TYPE>, (<CONTENT TYPE>, ..., <MIN SIZE>, <MAX SIZE>) ]
+```puppet
+Tuple[ <CONTENT TYPE>, (<CONTENT TYPE>, ..., <MIN SIZE>, <MAX SIZE>) ]
+```
 
 Position | Parameter        | Data Type | Default Value | Description
 ---------| -----------------|-----------|---------------|------------
@@ -182,7 +194,9 @@ It takes one mandatory parameter.
 
 The full signature for `Struct` is:
 
-    Struct[<SCHEMA HASH>]
+```puppet
+Struct[<SCHEMA HASH>]
+```
 
 Position | Parameter        | Data Type | Default Value | Description
 ---------| -----------------|-----------|---------------|------------
@@ -201,21 +215,21 @@ Note that this doesn't distinguish between an explicit value of `undef` and an a
 
 #### Examples
 
-``` puppet
+```puppet
 Struct[{mode => Enum[read, write, update],
         path => String[1]}]
 ```
 
 This data type would match hashes like `{mode => 'read', path => '/etc/fstab'}`. Both the `mode` and `path` keys are mandatory; `mode`'s value must be one of `'read', 'write',` or `'update'`, and `path` must be a string of at least one character.
 
-``` puppet
+```puppet
 Struct[{mode => Enum[read, write, update],
         path => Optional[String[1]]}]
 ```
 
 This data type would match the same values as the previous example, but the `path` key is optional. If present, `path` must match `String[1]` or Undef.
 
-``` puppet
+```puppet
 Struct[{mode            => Enum[read, write, update],
         path            => Optional[String[1]],
         Optional[owner] => String[1]}]
@@ -223,7 +237,7 @@ Struct[{mode            => Enum[read, write, update],
 
 In this data type, the `owner` key can be absent, but if it's present, it _must_ be a string; a value of `undef` isn't allowed.
 
-``` puppet
+```puppet
 Struct[{mode            => Enum[read, write, update],
         path            => Optional[String[1]],
         NotUndef[owner] => Optional[String[1]]}]
@@ -296,7 +310,9 @@ There is no way to interact with `Callable` values in the Puppet language, but R
 
 The full signature for `Callable` is:
 
-    Callable[ (<DATA TYPE>, ...,) <MIN COUNT>, <MAX COUNT>, <BLOCK TYPE> ]
+```puppet
+Callable[ (<DATA TYPE>, ...,) <MIN COUNT>, <MAX COUNT>, <BLOCK TYPE> ]
+```
 
 All of these parameters are optional.
 
@@ -315,27 +331,29 @@ The `Init` data type matches values that can be used as the initialization/typec
 
 The signature for `Init` is:
 
-    Init[ <DATA TYPE> ]
+```puppet
+Init[ <DATA TYPE> ]
+```
 
 #### Examples
 
 Check if a string value can be converted to a `SemVer`:
 
-``` puppet
+```puppet
 "1.2.3" =~ Init[SemVer]    # result is true
 "latest" =~ Init[SemVer]   # result is false
 ```
 
 Check if a value can be converted to an `Integer`:
 
-```
+```puppet
 "10" =~ Init[Integer]    # result is true
 "blue" =~ Init[Integer]  # result is false
 ```
 
 Accept a parameter value that is either an `Integer` or a value convertible to one:
 
-``` puppet
+```puppet
 function example(Variant[Integer, Init[Integer]] $x) {
    $int_value = Integer($x)  # Safe conversion
 }

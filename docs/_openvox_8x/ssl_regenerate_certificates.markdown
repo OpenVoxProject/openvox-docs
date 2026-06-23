@@ -37,16 +37,22 @@ Regenerating all certs involves the following steps:
 
 2. Stop the OpenVox agent service:
 
-       sudo puppet resource service puppet ensure=stopped
+   ```console
+   sudo puppet resource service puppet ensure=stopped
+   ```
 
 3. Stop the Puppet Server service:
 
-       sudo puppet resource service puppetserver ensure=stopped
+   ```console
+   sudo puppet resource service puppetserver ensure=stopped
+   ```
 
 4. Clear the Puppet Server's SSL state:
 
-       sudo puppet ssl clean --localca
-       sudo rm -rf /etc/puppetlabs/puppetserver/ca
+   ```console
+   sudo puppet ssl clean --localca
+   sudo rm -rf /etc/puppetlabs/puppetserver/ca
+   ```
 
    `puppet ssl clean --localca` removes the server's certificate, private key, and its local copy
    of the CA certificate. The Puppet Server CA directory must be removed with `rm` as there is no
@@ -54,22 +60,30 @@ Regenerating all certs involves the following steps:
 
 5. Regenerate the CA and Puppet Server certificate:
 
-       sudo puppetserver ca setup
+   ```console
+   sudo puppetserver ca setup
+   ```
 
    You should see: `Generation succeeded. Find your files in /etc/puppetlabs/puppetserver/ca`
 
 6. Start the Puppet Server service:
 
-       sudo puppet resource service puppetserver ensure=running
+   ```console
+   sudo puppet resource service puppetserver ensure=running
+   ```
 
    Wait for Puppet Server to finish initializing before proceeding. You can poll the status
    endpoint:
 
-       until curl -sk https://puppet:8140/status/v1/simple > /dev/null 2>&1; do sleep 5; done
+   ```console
+   until curl -sk https://puppet:8140/status/v1/simple > /dev/null 2>&1; do sleep 5; done
+   ```
 
 7. Start the OpenVox agent service:
 
-       sudo puppet resource service puppet ensure=running
+   ```console
+   sudo puppet resource service puppet ensure=running
+   ```
 
 > At this point:
 >
@@ -93,9 +107,11 @@ Puppet's. This directory holds its own copies of the CA certificate and the Open
 certificate and key that OpenVoxDB uses to authenticate with Puppet Server. After CA regeneration,
 refresh it using the `puppetdb ssl-setup` tool, then restart the service:
 
-    sudo puppetdb ssl-setup -f
-    sudo puppet resource service puppetdb ensure=stopped
-    sudo puppet resource service puppetdb ensure=running
+```console
+sudo puppetdb ssl-setup -f
+sudo puppet resource service puppetdb ensure=stopped
+sudo puppet resource service puppetdb ensure=running
+```
 
 > **Note:** Running `puppetdb ssl-setup` without `-f` detects the cert mismatch but will not
 > overwrite the files. The `-f` flag is required to update them. The service must be restarted
@@ -109,7 +125,9 @@ To replace certificates on agent nodes, log into each agent and do the following
 
    On \*nix nodes:
 
-       sudo puppet resource service puppet ensure=stopped
+   ```console
+   sudo puppet resource service puppet ensure=stopped
+   ```
 
    On Windows nodes, run the same command without `sudo` with Administrator privileges.
 
@@ -117,7 +135,9 @@ To replace certificates on agent nodes, log into each agent and do the following
 
    On \*nix nodes:
 
-       sudo puppet ssl clean --localca
+   ```console
+   sudo puppet ssl clean --localca
+   ```
 
    On Windows nodes, run the same command without `sudo` with Administrator privileges.
 
@@ -129,7 +149,9 @@ To replace certificates on agent nodes, log into each agent and do the following
 
    On \*nix nodes:
 
-       sudo puppet resource service puppet ensure=running
+   ```console
+   sudo puppet resource service puppet ensure=running
+   ```
 
    On Windows nodes, run the same command without `sudo` with Administrator privileges.
 
@@ -138,8 +160,10 @@ To replace certificates on agent nodes, log into each agent and do the following
 
 4. If you are not using autosigning, sign each agent's certificate request from the Puppet Server:
 
-       sudo puppetserver ca list
-       sudo puppetserver ca sign --certname <NAME>
+   ```console
+   sudo puppetserver ca list
+   sudo puppetserver ca sign --certname <NAME>
+   ```
 
 Once an agent's new certificate is signed, it fetches it automatically and begins a Puppet run.
 

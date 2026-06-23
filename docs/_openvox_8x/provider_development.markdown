@@ -46,10 +46,12 @@ A provider can inherit from a base provider, which is never used alone and only 
 For example, all package providers have a common
 parent class:
 
-    Puppet::Type.type(:package).provide(:dpkg, :parent => Puppet::Provider::Package) do
-      desc "..."
-      ...
-    end
+```ruby
+Puppet::Type.type(:package).provide(:dpkg, :parent => Puppet::Provider::Package) do
+  desc "..."
+  ...
+end
+```
 
 Note the call to the `desc` method; this sets the documentation for this
 provider, and should include everything necessary for someone to
@@ -59,9 +61,11 @@ use this provider.
 
 Providers can also specify another provider as their parent. If it's a provider for the same resource type, you can use the name of that provider as a symbol.
 
-    Puppet::Type.type(:package).provide(:apt, :parent => :dpkg, :source => :dpkg) do
-        ...
-    end
+```ruby
+Puppet::Type.type(:package).provide(:apt, :parent => :dpkg, :source => :dpkg) do
+    ...
+end
+```
 
 Note that we're also specifying that this provider uses the dpkg
 `source`; this tells Puppet to deduplicate packages from dpkg and
@@ -76,7 +80,7 @@ Providers can also specify a provider of any resource type as their parent. Use 
 
 For example, the `ini_setting` type's `ruby` provider (from the [puppetlabs/inifile](https://forge.puppetlabs.com/puppetlabs/inifile) module) can be re-used to implement new resource types that act like INI settings:
 
-``` ruby
+```ruby
     # my_module/lib/puppet/provider/glance_api_config/ini_setting.rb
     Puppet::Type.type(:glance_api_config).provide(
       :ini_setting,
@@ -121,9 +125,11 @@ the binary in the shell path and use that. If the binary cannot be
 found, then the provider is considered unsuitable. For example,
 here is the header for the dpkg provider (as of 0.23.0):
 
-    commands :dpkg => "/usr/bin/dpkg"
-    commands :dpkg_deb => "/usr/bin/dpkg-deb"
-    commands :dpkgquery => "/usr/bin/dpkg-query"
+```ruby
+commands :dpkg => "/usr/bin/dpkg"
+commands :dpkg_deb => "/usr/bin/dpkg-deb"
+commands :dpkgquery => "/usr/bin/dpkg-query"
+```
 
 In addition to looking for binaries, Puppet can compare Facter
 facts, test for the existence of a file, check for a "feature"
@@ -132,14 +138,18 @@ For file existence, truth, or false, just
 call the confine class method with exists, true, or false as the
 name of the test and your test as the value:
 
-    confine :exists => "/etc/debian_release"
-    confine :true => /^10\.[0-4]/.match(product_version)
-    confine :false => (Puppet[:ldapuser] == "")
+```ruby
+confine :exists => "/etc/debian_release"
+confine :true => /^10\.[0-4]/.match(product_version)
+confine :false => (Puppet[:ldapuser] == "")
+```
 
 To test Facter values, just use the name of the fact:
 
-    confine :operatingsystem => [:debian, :solaris]
-    confine :puppetversion => "0.23.0"
+```ruby
+confine :operatingsystem => [:debian, :solaris]
+confine :puppetversion => "0.23.0"
+```
 
 Note that case doesn't matter in the tests, nor does it matter
 whether the values are strings or symbols. It also doesn't matter
@@ -153,8 +163,10 @@ expression is only evaluated once. As of 2.7.20, Puppet will enable
 the provider if the feature becomes available during a run (i.e. a
 package is installed).
 
-    confine :feature => :posix
-    confine :feature => :rrd
+```ruby
+confine :feature => :posix
+confine :feature => :rrd
+```
 
 You can also create your own custom feature. They live in
 `lib/puppet/feature/*.rb` and an example can be found
@@ -178,14 +190,18 @@ This is generally done by a single provider declaring that it is
 the default for a given set of facts, using the defaultfor class
 method. For instance, this is the apt provider's declaration:
 
-    defaultfor :operatingsystem => :debian
+```ruby
+defaultfor :operatingsystem => :debian
+```
 
 The same fact matching functionality as confinement is used, with one addition.
 As of Puppet 5.4.0, it is also acceptable to supply a regex value to match
 against a fact value. This is useful, for example, in the case of providers
 that should only be default for a specific range of operating system versions:
 
-    defaultfor :operatingsystemmajrelease => /^[5-7]$/
+```ruby
+defaultfor :operatingsystemmajrelease => /^[5-7]$/
+```
 
 ## Provider/resource API
 

@@ -35,21 +35,21 @@ Floating point numbers ("floats") are numbers that include a fractional value af
 
 If an expression includes both integer and float values, the result will be a float.
 
-``` puppet
+```puppet
 $some_number = 8 * -7.992           # evaluates to -63.936
 $another_number = $some_number / 4  # evaluates to -15.984
 ```
 
 Floating point numbers between -1 and 1 cannot start with a bare decimal point; they must have a zero before the decimal point.
 
-``` puppet
+```puppet
 $product = 8 * .12 # syntax error
 $product = 8 * 0.12 # OK
 ```
 
 You can express floating point numbers in scientific notation: append `e` or `E` plus an exponent, and the preceding number will be multiplied by 10 to the power of that exponent. Numbers in scientific notation are always floats.
 
-``` puppet
+```puppet
 $product = 8 * 3e5  # evaluates to 240000.0
 ```
 
@@ -63,7 +63,7 @@ Integer values can be expressed in decimal notation (base 10), octal notation (b
 
 Floats can't be expressed in octal or hex.
 
-``` puppet
+```puppet
 # octal
 $value = 0777   # evaluates to decimal 511
 $value = 0789   # Error, invalid octal
@@ -105,7 +105,9 @@ You can use parameters to restrict which values `Integer` will match.
 
 The full signature for `Integer` is:
 
-    Integer[<MIN VALUE>, <MAX VALUE>]
+```puppet
+Integer[<MIN VALUE>, <MAX VALUE>]
+```
 
 All of these parameters are optional. They must be listed in order; if you need to specify a later parameter, you must specify values for any prior ones.
 
@@ -136,7 +138,9 @@ You can use parameters to restrict which values `Float` will match.
 
 The full signature for `Float` is:
 
-    Float[<MIN VALUE>, <MAX VALUE>]
+```puppet
+Float[<MIN VALUE>, <MAX VALUE>]
+```
 
 All of these parameters are optional. They must be listed in order; if you need to specify a later parameter, you must specify values for any prior ones.
 

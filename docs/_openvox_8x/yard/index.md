@@ -19,38 +19,38 @@ To generate YARD content, you must have a local copy of the OpenVox code reposit
 
 1. Clone the OpenVox code repository to your local workstation using git.
 
-    ```
+    ```console
     git clone https://github.com/puppetlabs/puppet
     ```
 
     This creates a directory named "puppet" in your current working directory.
 2. Enter the directory.
 
-    ```
+    ```console
     cd puppet
     ```
 
 3. Install the `bundler` gem if it isn't already installed.
 
-    ```
+    ```console
     gem install bundler
     ```
 
 4. Have `bundler` install this project's prerequisites.
 
-    ```
+    ```console
     bundle install
     ```
 
     If you want to only generate YARD content and aren't interested in developing Ruby extensions using this copy of the OpenVox code, you can speed up this process by adding the `--without development extra` option:
 
-    ```
+    ```console
     bundle install --without development extra
     ```
 
 5. Run the YARD tool, which should have been installed by `bundler` automatically.
 
-    ```
+    ```console
     yard doc
     ```
 

@@ -34,9 +34,9 @@ This directory holds the module's Puppet code.
 * Filenames and class/defined type names are related; see the examples below.
 * Within a module, the special `$module_name` variable always contains the module's name.
 
-**apache/manifests/init.pp**
+#### apache/manifests/init.pp
 
-``` puppet
+```puppet
 class apache {
   ...
 }
@@ -44,9 +44,9 @@ class apache {
 
 `init.pp` is special; it should contain a class (or defined type) with the same name as the module.
 
-**apache/manifests/vhost.pp**
+#### apache/manifests/vhost.pp
 
-``` puppet
+```puppet
 define apache::vhost(
   $port,
   $docroot,
@@ -59,9 +59,9 @@ Other classes (and defined types) should be named
 `modulename::filename` (without the .pp extension).
 
 
-**apache/manifests/config/ssl.pp**
+#### apache/manifests/config/ssl.pp
 
-``` puppet
+```puppet
 class apache::config::ssl {
   ...
 }
@@ -79,22 +79,22 @@ Nodes can download any files in this directory from Puppet's built-in file serve
 filename`.
 
 
-**apache/files/httpd.conf**
+#### apache/files/httpd.conf
 
 To fetch this file:
 
-``` puppet
+```puppet
 file { '/etc/apache2/httpd.conf':
   ensure => file,
   source => 'puppet:///modules/apache/httpd.conf',
 }
 ```
 
-**apache/files/extra/ssl**
+#### apache/files/extra/ssl
 
 Puppet's file server can navigate any subdirectories:
 
-``` puppet
+```puppet
 file { '/etc/apache2/httpd-ssl.conf':
   ensure => file,
   source => 'puppet:///modules/apache/extra/ssl',
@@ -122,11 +122,11 @@ This directory holds ERB templates.
 * Use the content attribute to fill file contents with a string.
 * Template files are referenced as modulename/filename.erb.
 
-**apache/templates/vhost.erb**
+#### apache/templates/vhost.erb
 
 To use this template:
 
-``` puppet
+```puppet
 file     {'/etc/apache2/sites-enabled/wordpress.conf':
   ensure => file,
   content => template('apache/vhost.erb'),

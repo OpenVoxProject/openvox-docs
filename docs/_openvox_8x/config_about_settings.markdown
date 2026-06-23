@@ -85,7 +85,7 @@ For help setting your operating system's locale or adding new locales, consult i
 
 To check your current locale settings, run the `locale` command. This outputs the settings used by your current shell.
 
-```
+```console
 $ locale
 LANG="en_US.UTF-8"
 LC_COLLATE="en_US.UTF-8"
@@ -101,7 +101,7 @@ To see which locales are supported by your system, run `locale -a`, which output
 
 To check the current status of environment variables that might conflict with or override your locale settings, use the `set` command. For example, this command lists the set environment variables and searches for those containing `LANG` or `LC_`:
 
-```
+```console
 sudo set | egrep 'LANG|LC_'
 ```
 
@@ -109,7 +109,7 @@ sudo set | egrep 'LANG|LC_'
 
 To check your current locale setting, run the `Get-WinSystemLocale` command from PowerShell.
 
-```
+```powershell
 PS C:\> Get-WinSystemLocale
 LCID             Name             DisplayName
 ----             ----             -----------
@@ -124,7 +124,7 @@ You can use environment variables to set your locale for processes started on th
 
 For example, to set the locale to Japanese for a terminal session on SLES:
 
-```
+```console
 export LANG=ja_JP.UTF-8
 export LANGUAGE=''
 export LC_ALL=''
@@ -156,12 +156,13 @@ On Windows, Puppet uses the `LANG` environment variable if it is set. If not, it
 
 On Windows 10, you can use PowerShell to set the system locale:
 
-```
+```powershell
 Set-WinSystemLocale en-US
 ```
 
 ### Disabling internationalized strings
 
-Puppet 5.3.2 added the optional Boolean `disable_i18n` setting, which you can configure in `puppet.conf`. If set to `true`, Puppet disables localized strings in log messages, reports, and parts of the command-line interface. This can improve performance when using Puppet modules, especially if [environment caching](./configuration.html#environment_timeout) is disabled, and even if you don't need localized strings or the modules aren't localized. This setting is `false` by default in open source Puppet.
+Puppet 5.3.2 added the optional Boolean `disable_i18n` setting, which you can configure in `puppet.conf`. If set to `true`, Puppet disables localized strings in log messages, reports, and parts of the command-line interface.
+This can improve performance when using Puppet modules, especially if [environment caching](./configuration.html#environment_timeout) is disabled, and even if you don't need localized strings or the modules aren't localized. This setting is `false` by default in open source Puppet.
 
 If you're experiencing performance issues, configure this setting in the `[server]` section of the OpenVox Server's `puppet.conf` file. To force unlocalized messages, which are in English by default, configure this section in a node's `[main]` or `[user]` sections of `puppet.conf`.

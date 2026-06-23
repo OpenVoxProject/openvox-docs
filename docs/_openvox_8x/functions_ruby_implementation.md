@@ -32,7 +32,7 @@ The only method you should call on the scope object is `#[](varname)`, which ret
 
 Example:
 
-``` ruby
+```ruby
 Puppet::Functions.create_function(:'mymodule::fqdn_rand') do
   dispatch :fqdn do
     # no arguments
@@ -72,7 +72,7 @@ If you need to introspect a provided lambda, or pass it on to some other method,
 
 Once you've captured the block, you can execute it with `#call` instead of `yield`. You can also use any other Proc instance methods to examine it.
 
-``` ruby
+```ruby
 def implementation(arg1, arg2, *splat_arg, &block)
   # Now the `block` variable has the provided lambda, as a Proc.
   block.call(arg1, arg2, splat_arg)
@@ -83,7 +83,7 @@ end
 
 If you want to call another Puppet function (like `include`) from inside a function, use the special `call_function(name, *args, &block)` method.
 
-``` ruby
+```ruby
 # Flatten an array of arrays of strings, then pass it to include:
 def include_nested(array_of_arrays)
   call_function('include', *array_of_arrays.flatten)
@@ -94,7 +94,7 @@ end
 * The next arguments can be any data type that the called function accepts. They will be passed as arguments to the called function.
 * The last argument may be a Ruby Proc, or a Puppet [lambda][lambdas] previously captured as a Proc (see above). You can also provide a block of Ruby code using the normal block syntax.
 
-``` ruby
+```ruby
 def my_function1(a, b, &block)
   # passing given Proc
   call_function('my_other_function', a, b, &block)

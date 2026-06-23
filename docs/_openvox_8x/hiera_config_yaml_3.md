@@ -57,7 +57,7 @@ Each top-level key in the hash **must be a Ruby symbol with a colon (`:`) prefix
 
 [example]: #example-config-file
 
-``` yaml
+```yaml
 ---
 :backends:
   - yaml
@@ -76,7 +76,7 @@ Each top-level key in the hash **must be a Ruby symbol with a colon (`:`) prefix
 
 If the config file exists but has no data, Hiera uses the following default settings:
 
-``` yaml
+```yaml
 ---
 :backends: yaml
 :yaml:
@@ -148,7 +148,7 @@ A hash of deep merging options for `hiera_hash`, if `:merge_behavior` is set to 
 
 For example:
 
-``` yaml
+```yaml
 :merge_behavior: deeper
 :deep_merge_options:
   :knockout_prefix: '--'

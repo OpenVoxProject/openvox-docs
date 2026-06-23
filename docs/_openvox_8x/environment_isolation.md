@@ -30,13 +30,13 @@ resource type implementations.
 1. On the command line, run `puppet generate types --environment <ENV_NAME>` for each of your environments.
    For example, to generate metadata for your production environment, run:
 
-   ``` bash
+   ```bash
    puppet generate types --environment production
    ```
 
 2. Whenever you deploy a new version of OpenVox, overwrite previously generated metadata by running:
 
-   ``` bash
+   ```bash
    puppet generate types --environment <ENV_NAME> --force
    ```
 

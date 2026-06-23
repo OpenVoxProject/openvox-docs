@@ -37,7 +37,7 @@ Each of these have slightly different behavior around syntax, interpolation feat
 
 ## Bare words
 
-``` puppet
+```puppet
 service { 'ntp':
   ensure => running, # bare word string
 }
@@ -56,7 +56,7 @@ Bare word strings can't interpolate values and can't use escape sequences.
 
 ## Single-quoted strings
 
-``` puppet
+```puppet
 if $autoupdate {
   notice('autoupdate parameter has been deprecated and replaced with package_ensure.  Set this to latest for the same behavior as autoupdate => true.')
 }
@@ -107,7 +107,7 @@ Sequence | Result
 
 ## Heredocs
 
-``` puppet
+```puppet
 $gitconfig = @("GITCONFIG"/L)
     [user]
         name = ${displayname}
@@ -155,7 +155,8 @@ The general form of a heredoc string is:
   * Optionally, a hyphen (`-`) to trim the final line break. (See [Formatting Control][inpage_format] below.) The hyphen can be surrounded by any amount of space.
   * The exact [**end text**][inpage_end] you specified in the heredoc tag above (without any surrounding quotes). The end text can be surrounded by any amount of space.
 
-If a line of Puppet code includes more than one heredoc tag, Puppet will read all of those heredocs in order: the first one will begin on the following line and continue until its end marker, the second one will begin on the line immediately after the first end marker, etc. Puppet won't start evaluating additional lines of Puppet code until it reaches the end marker for the final heredoc on that original line.
+If a line of Puppet code includes more than one heredoc tag, Puppet will read all of those heredocs in order: the first one will begin on the following line and continue until its end marker, the second one will begin on the line immediately after the first end marker, etc.
+Puppet won't start evaluating additional lines of Puppet code until it reaches the end marker for the final heredoc on that original line.
 
 ### End text
 
@@ -227,7 +228,7 @@ To make your files easier to read, you can indent the content of a heredoc to se
 
 To strip this indentation from the final string, put the same amount of indentation in front of the end marker and use a pipe character (`|`) to indicate the position of the first "real" character on each line.
 
-```
+```puppet
 $mytext = @(EOT)
     This block of text is
     visibly separated from
@@ -246,7 +247,7 @@ If you enable the `L` escape switch, you can end a line with a backslash (`\`) t
 
 For example, Puppet would read this as a single line:
 
-```
+```text
 lg = "log --pretty=format:'%C(yellow)%h%C(reset) %s \
 %C(cyan)%cr%C(reset) %C(blue)%an%C(reset) %C(green)%d%C(reset)' --graph"
 ```
@@ -258,7 +259,7 @@ By default, heredocs end with a trailing line break, but you can exclude this li
 
 For example, Puppet would read this as a string with no line breaks:
 
-```
+```puppet
 $mytext = @("EOT")
     This's too inconvenient for ${double} or ${single} quotes, but needs to be one line.
     |-EOT
@@ -296,7 +297,8 @@ The most common thing to interpolate into a string is the value of a [variable][
     This means you can't use this style of interpolation when a value must run up against some other word-like text. And even in some cases where you _can_ use this style, the following style can sometimes be clearer.
 * `${myvariable}` --- A dollar sign followed by a variable name in curly braces will be replaced with that variable's value. This also works with qualified variable names like `${myclass::myvariable}`.
 
-    With this syntax, you can also follow a variable name with any combination of [chained function calls][function_chain] and/or [hash access][] / [array access][] / [substring access][inpage_substring] expressions. For example: `"Using interface ${::interfaces.split(',')[3]} for broadcast"`. However, this doesn't work if the variable's name overlaps with a language keyword. For example, if you had a variable called `$inherits`, you would have to use normal-style interpolation, like `"Inheriting ${$inherits.upcase}."`.
+    With this syntax, you can also follow a variable name with any combination of [chained function calls][function_chain] and/or [hash access][] / [array access][] / [substring access][inpage_substring] expressions. For example: `"Using interface ${::interfaces.split(',')[3]} for broadcast"`.
+    However, this doesn't work if the variable's name overlaps with a language keyword. For example, if you had a variable called `$inherits`, you would have to use normal-style interpolation, like `"Inheriting ${$inherits.upcase}."`.
 
 
 ### Conversion of interpolated values
@@ -350,7 +352,7 @@ If the second number is omitted, it defaults to `1` (a single character).
 
 Examples:
 
-``` puppet
+```puppet
 $foo = 'abcdef'
 notice( $foo[0] )    # resolves to 'a'
 notice( $foo[0,2] )  # resolves to 'ab'
@@ -361,7 +363,7 @@ notice( $foo[-3,2] ) # resolves to 'de'
 
 Text outside the actual range of the string is treated as an infinite amount of empty string.
 
-``` puppet
+```puppet
 $foo = 'abcdef'
 notice( $foo[10] )    # resolves to ''
 notice( $foo[3,10] )  # resolves to 'def'
@@ -381,7 +383,9 @@ You can use parameters to restrict which values `String` will match.
 
 The full signature for `String` is:
 
-    String[<MIN LENGTH>, <MAX LENGTH>]
+```puppet
+String[<MIN LENGTH>, <MAX LENGTH>]
+```
 
 All of these parameters are optional. They must be listed in order; if you need to specify a later parameter, you must specify values for any prior ones.
 

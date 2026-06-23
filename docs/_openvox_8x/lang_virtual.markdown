@@ -44,7 +44,7 @@ Virtual resources are used in two steps: declaring and realizing. In the followi
 class declares a virtual resource, and both the `wordpress` and `freight` classes realize it. The resource
 is managed on any node that has the `wordpress` and/or `freight` classes applied to it.
 
-``` puppet
+```puppet
 # modules/apache/manifests/init.pp
 # Declare:
 @a2mod { 'rewrite':
@@ -65,7 +65,7 @@ realize A2mod['rewrite']
 To declare a virtual resource, prepend `@` (the "at" sign) to the **resource type** of a normal
 [resource declaration][resources]:
 
-``` puppet
+```puppet
 @user { 'deploy':
   uid     => 2004,
   comment => 'Deployment User',
@@ -80,7 +80,7 @@ To declare a virtual resource, prepend `@` (the "at" sign) to the **resource typ
 To realize one or more virtual resources **by title,** use the [`realize`][realize_function] function,
 which accepts one or more [resource references][references]:
 
-``` puppet
+```puppet
 realize(User['deploy'], User['zleslie'])
 ```
 
@@ -92,7 +92,7 @@ managed once.
 A [resource collector][collectors] realizes any virtual resources that match its
 [search expression][search_expression]:
 
-``` puppet
+```puppet
 User <| tag == web |>
 ```
 
@@ -130,7 +130,7 @@ If a virtual resource is contained in a class, it cannot be realized unless the 
 point during the compilation. A common pattern is to declare a class full of virtual resources and then
 use a collector to choose the set of resources you need:
 
-``` puppet
+```puppet
 include virtual::users
 User <| groups == admin or group == wheel |>
 ```

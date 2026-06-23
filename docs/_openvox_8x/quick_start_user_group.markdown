@@ -7,7 +7,7 @@ subtitle: "Users and groups quick start guide"
 ## Before you begin
 
 > **Prerequisites**: This guide assumes you've already [installed Puppet](/openvox-server/latest/install_from_packages.html), and have installed at least one [*nix agent](./install_linux.html).
-
+>
 > For this  walk-through, log in as root or administrator on your nodes.
 
 ## Create a user and group
@@ -24,12 +24,14 @@ Puppet uses some defaults for unspecified user and group attributes, so all you'
 
 1. From the command line on your OpenVox Server, run `puppet resource -e group web`. This opens a file in your text editor with the following content:
 
+   ```puppet
    group { 'web':
        ensure => 'present',
        gid    => '502',
    }
+   ```
 
- >**Note**: Your gid (the group ID) might be a different number than the example shown in this guide.
+   >**Note**: Your gid (the group ID) might be a different number than the example shown in this guide.
 
 2. Copy the lines of code, and save and exit the file.
 
@@ -47,6 +49,7 @@ Puppet uses some defaults for unspecified user and group attributes, so all you'
 
 1. From the command line on your OpenVox Server, run `puppet resource -e user jargyle`. This opens a file in your text editor with the following content:
 
+   ```puppet
    user { 'jargyle':
       ensure           => 'present',
      gid              => '501',
@@ -57,22 +60,28 @@ Puppet uses some defaults for unspecified user and group attributes, so all you'
      shell            => '/bin/bash',
      uid              => '501',
    }
+   ```
 
- >**Note**: Your uid (the user ID), or gid (the group ID) might be different numbers than the examples shown in this guide.
+   >**Note**: Your uid (the user ID), or gid (the group ID) might be different numbers than the examples shown in this guide.
 
 2. Add the following Puppet code to the file:
 
+   ```puppet
    comment           => 'Judy Argyle',
    groups            => 'web',
+   ```
 
 3. **Delete** the following Puppet code from the file:
 
-     gid              => '501',
+   ```puppet
+   gid              => '501',
+   ```
 
 4. Copy all of the code, and save and exit the file.
 
 5. Paste the code from Step 1 into your default node in `site.pp`. It should look like this:
 
+   ```puppet
    user { 'jargyle':
       ensure           => 'present',
      gid              => '501',
@@ -85,6 +94,7 @@ Puppet uses some defaults for unspecified user and group attributes, so all you'
      shell            => '/bin/bash',
      uid              => '501',
    }
+   ```
 
 6. From the command line on your OpenVox Server, run `puppet parser validate site.pp` to ensure that there are no errors. The parser will return nothing if there are no errors.
 

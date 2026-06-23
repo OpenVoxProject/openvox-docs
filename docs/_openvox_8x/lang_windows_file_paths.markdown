@@ -66,7 +66,9 @@ When using backslashes in a double-quoted string, **you must always use two back
 
 Example:
 
-    "C:\\Program Files\\PuppetLabs"
+```puppet
+"C:\\Program Files\\PuppetLabs"
+```
 
 ### Using backslashes in single-quoted strings
 
@@ -96,7 +98,8 @@ If you are running a 32-bit Puppet package on a 64-bit version of Windows, Windo
 
 As of Puppet 3.7, file system redirection is not an issue, **as long as you are running the architecture-appropriate Puppet version on a recent version of Windows.** (That is: Windows Server 2008 and higher, or Windows Vista and higher.)
 
-However, if you are **running a 32-bit version of Puppet on a 64-bit version of Windows,** the <a href="http://msdn.microsoft.com/en-us/library/aa384187(v=vs.85).aspx">File System Redirector</a> will silently redirect all file system access of the `%windir%\system32` directory to `%windir%\SysWOW64` instead. This can be an issue when trying to manage files in the system directory, such as IIS configuration files.
+However, if you are **running a 32-bit version of Puppet on a 64-bit version of Windows,** the [File System Redirector](http://msdn.microsoft.com/en-us/library/aa384187\(v=vs.85\).aspx) will silently redirect all file system access of the `%windir%\system32` directory to `%windir%\SysWOW64` instead.
+This can be an issue when trying to manage files in the system directory, such as IIS configuration files.
 
 Additionally, the `ProgramFiles` environment variable resolves to `C:\Program Files\` in a 64-bit native application, and `C:\Program Files (x86)\` in a 32-bit process running on a 64-bit version of Windows.
 
@@ -109,7 +112,8 @@ There are two cases where you might be dealing with mixed Puppet/Windows archite
 
 In Puppet code, the easy way to access `system32` is to use [the `$system32` fact,](/openfact/latest/core_facts.html#system32) available in **Puppet 3.7.3 and later.** It automatically compensates for file system redirection wherever necessary.
 
-Prior to 3.7.3, you can manually compensate. On systems affected by file system redirection, you can use the `sysnative` alias in place of `system32` whenever you need to access files in the system directory. (For example: `C:\Windows\sysnative\inetsrv\config\application Host.config` will point to `C:\Windows\system32\inetsrv\config\application Host.config`, not `C:\Windows\SysWOW64\inetsrv\config\application Host.config`.)
+Prior to 3.7.3, you can manually compensate. On systems affected by file system redirection, you can use the `sysnative` alias in place of `system32` whenever you need to access files in the system directory.
+(For example: `C:\Windows\sysnative\inetsrv\config\application Host.config` will point to `C:\Windows\system32\inetsrv\config\application Host.config`, not `C:\Windows\SysWOW64\inetsrv\config\application Host.config`.)
 
 **However,** note that `sysnative` is **only** a valid path when used within a 32-bit process running on a 64-bit Windows version. It **does not exist** when running an architecture-appropriate Puppet package. This means you can't simply use `sysnative` everywhere to access the correct files; you'll need to use different file paths depending on Puppet's run environment.
 
@@ -117,7 +121,7 @@ Prior to 3.7.3, there's no easy way for Puppet manifests to detect whether `sysn
 
 One consideration for `exec` when you can't use `$system32` is to use `path =>` and set it appropriately, the first search path item first followed by others in the order you want them searched in. For instance, if you want to always use the 64-bit version of `cmd.exe` you can use:
 
-``` puppet
+```puppet
 exec { '64_bit_cmd':
   path    => "c:\\windows\\sysnative;c:\\windows\\system32;${path}",
   command => 'cmd.exe /c echo process is %PROCESSOR_ARCHITECTURE%',
@@ -126,7 +130,7 @@ exec { '64_bit_cmd':
 
 If you always instead would rather always get a 32-bit process if it is available, you should set path more like the following:
 
-``` puppet
+```puppet
 exec { '32_bit_cmd':
   path    => "c:\\windows\\sysWOW64;c:\\windows\\system32;${path}",
   command => 'cmd.exe /c echo process is %PROCESSOR_ARCHITECTURE%',
@@ -135,7 +139,7 @@ exec { '32_bit_cmd':
 
 Finally, it's possible to automatically detect which directory to use in Ruby plugin code. Do something like [this example from the puppetlabs/powershell module](https://github.com/puppetlabs/puppetlabs-powershell/blob/master/lib/puppet/provider/exec/powershell.rb#L6-L13):
 
-``` ruby
+```ruby
 commands :powershell =>
   if File.exists?("#{ENV['SYSTEMROOT']}\\sysnative\\WindowsPowershell\\v1.0\\powershell.exe")
   "#{ENV['SYSTEMROOT']}\\sysnative\\WindowsPowershell\\v1.0\\powershell.exe"

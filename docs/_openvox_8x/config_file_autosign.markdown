@@ -29,7 +29,7 @@ The default `confdir` path depends on your operating system. [See the confdir do
 
 The `autosign.conf` file is a line-separated list of certnames or domain name globs. Each line represents a node name or group of node names for which the CA OpenVox Server will automatically sign certificate requests.
 
-```
+```text
 rebuilt.example.com
 *.scratch.example.com
 *.local
@@ -37,6 +37,7 @@ rebuilt.example.com
 
 Domain name globs do not function as normal globs: an asterisk can only represent one or more subdomains at the front of a certname that resembles a fully qualified domain name (FQDN). If your certnames don't look like FQDNs, the `autosign.conf` whitelist might not be effective.
 
-> **Note:** The `autosign.conf` file can safely be an empty file or not-existent, even if the `autosign` setting is enabled. An empty or non-existent `autosign.conf` file is an empty whitelist, meaning that Puppet does not autosign any requests. If you create `autosign.conf` as a non-executable file and add certnames to it, Puppet then automatically uses the file to whitelist incoming requests without needing to modify `puppet.conf`.
+> **Note:** The `autosign.conf` file can safely be an empty file or not-existent, even if the `autosign` setting is enabled. An empty or non-existent `autosign.conf` file is an empty whitelist, meaning that Puppet does not autosign any requests.
+> If you create `autosign.conf` as a non-executable file and add certnames to it, Puppet then automatically uses the file to whitelist incoming requests without needing to modify `puppet.conf`.
 >
 > To _explicitly_ disable autosigning, set `autosign = false` in the `[server]` section of the CA OpenVox Server's `puppet.conf`, which disables CA autosigning even if `autosign.conf` or a custom policy executable exists.

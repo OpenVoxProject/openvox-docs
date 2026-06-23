@@ -23,7 +23,7 @@ This page covers how to write ERB templates. See [Templates](./lang_template.htm
 
 ## ERB structure and syntax
 
-``` erb
+```erb
 <%# Non-printing tag ↓ -%>
 <% if @keys_enable -%>
 <%# Expression-printing tag ↓ -%>
@@ -68,7 +68,7 @@ An expression-printing tag inserts values into the output. It starts with an ope
 
 For example, to insert the value of the `$fqdn` and `$hostname` facts in an Apache config file, you could do something like:
 
-``` erb
+```erb
 ServerName <%= @fqdn %>
 ServerAlias <%= @hostname %>
 ```
@@ -89,7 +89,7 @@ Non-printing tags that contain iterative or conditional expressions can affect t
 
 For example, to insert text only if a certain variable was set, you could do something like:
 
-``` erb
+```erb
     <% if @broadcastclient == true -%>
     broadcastclient
     <% end -%>
@@ -97,7 +97,7 @@ For example, to insert text only if a certain variable was set, you could do som
 
 Non-printing code doesn't have to resolve to a value or be a complete statement, but the tag must close at a place where it would be legal to write another statement. For example, you couldn't write:
 
-``` erb
+```erb
 <%# Syntax error: %>
 <% @servers.each -%>
 # some server
@@ -171,13 +171,13 @@ To manipulate and print data in ERB templates, you'll need to know a small amoun
 
 Ruby's `if ... end` statement lets you write conditional text. You'll want to put the control statements in non-printing tags, and the conditional text between the tags. (Like `<% if <CONDITION> %> text goes here <% end %>`.)
 
-``` erb
+```erb
 <% if @broadcast != "NONE" %>broadcast <%= @broadcast %><% end %>
 ```
 
 The general format of an `if` statement is:
 
-``` puppet
+```puppet
 if <CONDITION>
   ... code ...
 elsif <CONDITION>
@@ -191,7 +191,7 @@ Ruby lets you iterate over arrays and hashes with the `each` method. This method
 
 To write a block of code in Ruby, use either `do |arguments| ... end` or `{|arguments| ... }`. Note that this is different from [Puppet's lambdas][lambdas] ---  but they work similarly.
 
-``` erb
+```erb
 <% @values.each do |val| -%>
 Some stuff with <%= val %>
 <% end -%>
@@ -199,7 +199,7 @@ Some stuff with <%= val %>
 
 If `$values` was set to `['one', 'two']`, this example would produce:
 
-```
+```text
 Some stuff with one
 Some stuff with two
 ```
@@ -228,11 +228,15 @@ You can use [Puppet functions][functions] inside templates with the `scope.call_
 
 For example, to evaluate one template inside another:
 
-    <%= scope.call_function('template', ["my_module/template2.erb"]) %>
+```erb
+<%= scope.call_function('template', ["my_module/template2.erb"]) %>
+```
 
 To log a warning using Puppet's own logging system, so that it will appear in reports:
 
-    <%= scope.call_function('warning', ["Template was missing some data; this config file might be malformed."]) %>
+```erb
+<%= scope.call_function('warning', ["Template was missing some data; this config file might be malformed."]) %>
+```
 
 > **Note:** Previous versions of Puppet handled this by creating a `function_<NAME>` method on the `scope` object for each function; these could be called with an arguments array, like `<%= scope.function_template(["my_module/template2.erb"]) %>`
 >
@@ -244,7 +248,7 @@ To log a warning using Puppet's own logging system, so that it will appear in re
 
 This example template is taken from [the puppetlabs/ntp][ntp] module.
 
-``` erb
+```erb
 # ntp.conf: Managed by puppet.
 #
 <% if @tinker == true and (@panic or @stepout) -%>

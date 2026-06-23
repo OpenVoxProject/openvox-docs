@@ -49,15 +49,15 @@ Out of the core resource types listed in the [resource type reference][], only a
 
 Resource type | Exception
 --------------|-----------
-`augeas`      |
+`augeas`      | None.
 `cron`        | Only non-root cron jobs can be viewed or set.
 `exec`        | Cannot run as another user or group.
 `file`        | Only if the non-root user has read/write privileges.
-`notify`      |
-`schedule`    |
+`notify`      | None.
+`schedule`    | None.
 `service`     | For services that don't require root. You can also use the `start`, `stop`, and `status` attributes to specify how non-root users should control the service.
-`ssh_authorized_key` |
-`ssh_key`     |
+`ssh_authorized_key` | None.
+`ssh_key`     | None.
 
 ## Manage systems with OpenVox agent
 
@@ -87,13 +87,13 @@ The OpenVox agent command can start a long-lived daemon process, which does conf
 
    In open source Puppet, you can enable the service with:
 
-   ``` bash
+   ```bash
    sudo puppet resource service puppet ensure=running enable=true
    ```
 
    Alternately, you can run `sudo puppet agent` on the command line with no additional options; this will cause OpenVox agent to start running and daemonize, but you won't have an easy interface for restarting or stopping it. To stop the daemon, use the process ID from the agent's [`pidfile`][pidfile]:
 
-   ``` bash
+   ```bash
    sudo kill $(puppet config print pidfile --section agent)
    ```
 
@@ -101,7 +101,7 @@ The OpenVox agent command can start a long-lived daemon process, which does conf
 
    The OpenVox agent service defaults to doing a configuration run every 30 minutes. You can configure this with [the `runinterval` setting][runinterval] in [puppet.conf][]:
 
-   ```
+   ```ini
    # /etc/puppetlabs/puppet/puppet.conf
    [agent]
      runinterval = 2h
@@ -121,7 +121,7 @@ This behavior is good for building a cron job that does configuration runs. You 
 
    This example runs Puppet once an hour:
 
-   ``` bash
+   ```bash
    sudo puppet resource cron puppet-agent ensure=present user=root minute=30 command='/opt/puppetlabs/bin/puppet agent --onetime --no-daemonize --splay --splaylimit 60'
    ```
 
@@ -133,7 +133,7 @@ OpenVox agent runs can be started while logged in to the target system, or remot
 
 1. Run OpenVox agent on one machine, using ssh:
 
-   ``` bash
+   ```bash
    ssh ops@magpie.example.com sudo puppet agent --test
    ```
 

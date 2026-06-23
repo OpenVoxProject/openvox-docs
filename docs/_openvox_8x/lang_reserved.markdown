@@ -113,7 +113,6 @@ The following variable names are reserved. Unless otherwise noted, you can't ass
 * `$name` is a synonym for `$title`.
 
 
-
 ## Acceptable characters in names
 
 
@@ -136,7 +135,9 @@ The names of classes and defined resource types can consist of one or more [name
 
 Namespace segments should match the following regular expression:
 
-    \A[a-z][a-z0-9_]*\Z
+```text
+\A[a-z][a-z0-9_]*\Z
+```
 
 The one exception is the top namespace, whose name is the empty string.
 
@@ -144,7 +145,9 @@ Multiple namespace segments can be joined together in a class or defined type na
 
 Class names with multiple namespaces should match the following regular expression:
 
-    \A([a-z][a-z0-9_]*)?(::[a-z][a-z0-9_]*)*\Z
+```text
+\A([a-z][a-z0-9_]*)?(::[a-z][a-z0-9_]*)*\Z
+```
 
 Note that [some class names are reserved](#reserved-class-names), and [reserved words](#reserved-words) cannot be used as class or defined type names.
 
@@ -161,7 +164,9 @@ Module names obey the same rules as individual namespace segments (like in a cla
 
 Module names should match the following regular expression:
 
-    \A[a-z][a-z0-9_]*\Z
+```text
+\A[a-z][a-z0-9_]*\Z
+```
 
 Note that [reserved words](#reserved-words) and [reserved class names](#reserved-class-names) cannot be used as module names.
 
@@ -176,7 +181,9 @@ Class and defined type parameters begin with a `$` (dollar sign), and their firs
 
 Parameter names should match the following regular expression:
 
-    \A\$[a-z][a-z0-9_]*\Z
+```text
+\A\$[a-z][a-z0-9_]*\Z
+```
 
 ### Tags
 
@@ -192,7 +199,9 @@ Parameter names should match the following regular expression:
 
 Tag names should match the following regular expression:
 
-    \A[[:alnum:]_][[:alnum:]_:.-]*\Z
+```text
+\A[[:alnum:]_][[:alnum:]_:.-]*\Z
+```
 
 ### Resources
 
@@ -208,4 +217,6 @@ Resource names (or namevars) might be limited by the underlying system being man
 
 [Environment][] names can contain lowercase letters, numbers, and underscores. That is, they must match the following regular expression:
 
-    \A[a-z0-9_]+\Z
+```text
+\A[a-z0-9_]+\Z
+```

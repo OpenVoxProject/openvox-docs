@@ -15,8 +15,7 @@ title: Custom Types
 [inpage_whitespace]: #type-documentation
 [namevar]: lang_resources.html#namenamevar
 
-Custom Types
-============
+# Custom Types
 
 This page describes how to create your own custom resource types to add new resource types to Puppet. It covers the nature of the type/provider split, how to develop the type file, and how types and providers interact; for more complete details on developing providers, see [the Provider Development page](./provider_development.html).
 
@@ -24,20 +23,19 @@ Puppet types and providers must always be written in Ruby. If you're new to Ruby
 
 The internals of how types are created have changed over Puppet's lifetime, and this document will focus on best practices, skipping over all the things you can but probably shouldn't do.
 
-> **Note:** Often the best way to learn types and providers is to read the existing type and providers in Puppet's core codebase. One warning: Don't start with the `file` type; start with `user` or `package` instead. New extension writers often expect that `file` would be a nice easy one to get started with, and it's actually an incredibly complicated morass of special cases that most types just don't have to deal with.
+> **Note:** Often the best way to learn types and providers is to read the existing type and providers in Puppet's core codebase.
+> One warning: Don't start with the `file` type; start with `user` or `package` instead. New extension writers often expect that `file` would be a nice easy one to get started with, and it's actually an incredibly complicated morass of special cases that most types just don't have to deal with.
 >
 > User or package, not file.
 
-Types and Providers
--------------------
+## Types and Providers
 
 When making a new Puppet type, you will create two things:
 
 * The "type" itself, which is a model of the resource type. It defines what parameters are available, handles input validation, and determines what features a provider can (or should) provide.
 * One or more providers for that type, which implements the type by translating its capabilities into specific operations on a system. (For example, the [package][package_type] has `yum` and `apt` providers which implement package resources on Red Hat-like and Debian-like systems, respectively.)
 
-Deploying and Using Types and Providers
---------------
+## Deploying and Using Types and Providers
 
 To use new types and providers, two conditions must be met:
 
@@ -53,8 +51,7 @@ In masterless Puppet using puppet apply, pluginsync is not required, but the mod
 See [the Plugins In Modules page](./plugins_in_modules.html) for more details on distributing custom types and facts via modules.
 
 
-Types
------
+## Types
 
 When defining the resource type, focus on what the resource can do,
 not how it does it.
@@ -63,7 +60,7 @@ not how it does it.
 
 Types are created by calling the `newtype` method on the `Puppet::Type` class:
 
-``` ruby
+```ruby
     # lib/puppet/type/database.rb
     Puppet::Type.newtype(:database) do
       @doc = "Create a new database."
@@ -89,7 +86,7 @@ You can and should write a string describing the resource type and assign it to 
 
 The string should be in [Markdown][] format (avoiding dialect-specific features that aren't universally supported). When the Puppet tools extract the string, they will strip the greatest common amount of leading whitespace from the front of each line, excluding the first line. For example:
 
-``` ruby
+```ruby
 Puppet::Type.newtype(:database) do
   @doc = %q{Creates a new database. Depending
     on the provider, this might create relational
@@ -105,7 +102,8 @@ Puppet::Type.newtype(:database) do
 end
 ```
 
-In this example, any whitespace would be trimmed from the first line (in this case, it's zero spaces), then the greatest common amount would be trimmed from remaining lines. Three lines have four leading spaces, two lines have six, and two lines have eight, so four leading spaces would be trimmed from each line. This leaves the example code block indented by four spaces, and thus doesn't break the Markdown formatting.
+In this example, any whitespace would be trimmed from the first line (in this case, it's zero spaces), then the greatest common amount would be trimmed from remaining lines.
+Three lines have four leading spaces, two lines have six, and two lines have eight, so four leading spaces would be trimmed from each line. This leaves the example code block indented by four spaces, and thus doesn't break the Markdown formatting.
 
 ### Properties and Parameters
 
@@ -137,7 +135,7 @@ special because it's used to create and destroy resources. You can
 set this property up on your resource type just by calling the
 ensurable method in your type definition:
 
-``` ruby
+```ruby
     Puppet::Type.newtype(:database) do
       ensurable
       ...
@@ -158,7 +156,7 @@ The rest of the properties are defined a lot like you define the
 types, with the newproperty method, which should be called on the
 type:
 
-``` ruby
+```ruby
     Puppet::Type.newtype(:database) do
       ensurable
       newproperty(:owner) do
@@ -180,7 +178,7 @@ and it will automatically handle accepting either strings or
 symbols. In most cases, you only define allowed values for ensure,
 but it works for other properties, too:
 
-``` ruby
+```ruby
     newproperty(:enable) do
       newvalue(:true)
       newvalue(:false)
@@ -194,7 +192,7 @@ unnecessary.
 For most properties, though, it is sufficient to set up
 validation:
 
-``` ruby
+```ruby
     newproperty(:owner) do
       validate do |value|
         unless value =~ /^\w+/
@@ -220,7 +218,7 @@ If, instead, the property should only be in sync if _all_
 values match the current value (e.g., a list of times in a cron
 job), you can declare this:
 
-``` ruby
+```ruby
     newproperty(:minute, :array_matching => :all) do # :array_matching defaults to :first
       ...
     end
@@ -242,14 +240,14 @@ those values directly by calling should on your resource (although
 note that when `:array_matching` is set to `:first` you get the first
 value in the array, otherwise you get the whole array):
 
-``` ruby
+```ruby
     myval = should(:color)
 ```
 
 When you're not sure (or don't care) whether you're dealing with a
 property or parameter, it's best to use value:
 
-``` ruby
+```ruby
     myvalue = value(:color)
 ```
 
@@ -261,7 +259,7 @@ methods being called on providers.
 
 To define a new parameter, call the `newparam` method. This method takes the name of the parameter (as a symbol) as its argument, as well as a block of code. You can and should provide documentation for each parameter by calling the `desc` method inside its block. Leading whitespace is trimmed from multiline strings [as described above][inpage_whitespace].
 
-``` ruby
+```ruby
     newparam(:name) do
       desc "The name of the database."
     end
@@ -277,7 +275,7 @@ There are three ways to designate a namevar. Every type must have **exactly one*
 
 **Option 1:** Create a parameter whose name is `:name`. Since most types just use `:name` as the namevar, it gets special treatment and will automatically become the namevar.
 
-``` ruby
+```ruby
     newparam(:name) do
       desc "The name of the database."
     end
@@ -285,7 +283,7 @@ There are three ways to designate a namevar. Every type must have **exactly one*
 
 **Option 2:** Provide the `:namevar => true` option as an additional argument to the `newparam` call. This allows you to use a namevar with a different, more descriptive name (such as the `file` type's `path` parameter).
 
-``` ruby
+```ruby
     newparam(:path, :namevar => true) do
       ...
     end
@@ -293,7 +291,7 @@ There are three ways to designate a namevar. Every type must have **exactly one*
 
 **Option 3:** Call the `isnamevar` method (which takes no arguments) inside the parameter's code block. This allows you to use a namevar with a different, more descriptive name. There is no practical difference between this and option 2.
 
-``` ruby
+```ruby
     newparam(:path) do
       isnamevar
       ...
@@ -306,13 +304,17 @@ There are three ways to designate a namevar. Every type must have **exactly one*
 >
 > **Puppet 2.7:**
 >
->     $ puppet apply -e "testing { h: }"
->     Error: undefined method `merge' for []:Array
+> ```console
+> $ puppet apply -e "testing { h: }"
+> Error: undefined method `merge' for []:Array
+> ```
 >
 > **Puppet 3:**
 >
->     $ puppet apply -e "testing { h: }"
->     Error: No set of title patterns matched the title "h".
+> ```console
+> $ puppet apply -e "testing { h: }"
+> Error: No set of title patterns matched the title "h".
+> ```
 >
 > The fact that these are not particularly helpful is tracked as [issue 5220](http://projects.puppetlabs.com/issues/5220).
 
@@ -321,7 +323,7 @@ There are three ways to designate a namevar. Every type must have **exactly one*
 If your parameter has a fixed list of valid values, you can declare
 them all at once:
 
-``` ruby
+```ruby
     newparam(:color) do
       newvalues(:red, :green, :blue, :purple)
     end
@@ -332,7 +334,7 @@ against regexes always happen after equality comparisons against
 literal values, and those matches are not converted to symbols. For
 instance, given the following definition:
 
-``` ruby
+```ruby
     newparam(:color) do
       desc "Your color, and stuff."
 
@@ -350,7 +352,7 @@ If your parameter does not have a defined list of values, or you
 need to convert the values in some way, you can use the validate
 and munge hooks:
 
-``` ruby
+```ruby
     newparam(:color) do
       desc "Your color, and stuff."
 
@@ -394,7 +396,7 @@ value, only during assignment.
 
 Boolean parameters are common.  To avoid repetition, some utilities are available:
 
-``` ruby
+```ruby
     require 'puppet/parameter/boolean'
     # ...
     newparam(:force, :boolean => true, :parent => Puppet::Parameter::Boolean)
@@ -414,7 +416,7 @@ autosubscribe, which all require a resource type as an argument,
 and your code should return a list of resource names that your
 resource could be related to.
 
-``` ruby
+```ruby
   autorequire(:user) do
       self[:user]
   end
@@ -438,7 +440,7 @@ If a `pre_run_check` method is present in the type, OpenVox agent and Puppet app
 
 As a trivial example, here's a pre-run check that will fail randomly, about one time out of six:
 
-``` ruby
+```ruby
     Puppet::Type.newtype(:thing) do
       newparam :name, :namevar => true
 
@@ -451,8 +453,7 @@ As a trivial example, here's a pre-run check that will fail randomly, about one 
 ```
 
 
-Providers
----------
+## Providers
 
 Look at the [Provider Development](./provider_development.html)
 page for intimate detail; this document will only
@@ -472,7 +473,7 @@ properties and parameters in the type can declare that they require
 one or more specific features, and Puppet will throw an error if
 those parameters are used with providers missing those features:
 
-``` ruby
+```ruby
     newtype(:coloring) do
       feature :paint, "The ability to paint.", :methods => [:paint]
       feature :draw, "The ability to draw."
@@ -491,7 +492,7 @@ more methods that must be defined on the provider. If no methods
 are specified, then the provider needs to specifically declare that
 it has that feature:
 
-``` ruby
+```ruby
     Puppet::Type.type(:coloring).provide(:drawer) do
       has_feature :draw
     end
@@ -512,4 +513,3 @@ a bunch of class methods on the provider:
 
 Additionally, each feature gets a separate boolean method, so the
 above example would result in a paint? method on the provider.
-

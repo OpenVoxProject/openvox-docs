@@ -58,9 +58,11 @@ The OpenVox agent service defaults to doing a configuration run every 30 minutes
 
 You can configure this with [the `runinterval` setting][runinterval] in [puppet.conf][]:
 
-    # C:\ProgramData\PuppetLabs\puppet\etc\puppet.conf
-    [agent]
-      runinterval = 2h
+```ini
+# C:\ProgramData\PuppetLabs\puppet\etc\puppet.conf
+[agent]
+  runinterval = 2h
+```
 
 Once the run interval has been changed, the service sticks to the prior schedule for the next run and then switches to the new run interval for subsequent runs.
 
@@ -74,19 +76,25 @@ You can also configure this after installation with the Service Control Manager 
 
 You can also configure agent service with the `sc.exe` command. To prevent the service from starting on boot:
 
-    C:\>sc config puppet start= demand
-    [SC] ChangeServiceConfig SUCCESS
+```console
+C:\>sc config puppet start= demand
+[SC] ChangeServiceConfig SUCCESS
+```
 
 >**Important:** The space after `start=` is mandatory! Also note that this must be run in cmd.exe; this command won't work from PowerShell.
 
 To restart the service:
 
-    C:\>sc stop puppet
-    C:\>sc start puppet
+```console
+C:\>sc stop puppet
+C:\>sc start puppet
+```
 
 To change the arguments used when triggering an OpenVox agent run (this example changes the level of detail that gets written to the Event Log):
 
-    C:\>sc start puppet --debug --logdest eventlog
+```console
+C:\>sc start puppet --debug --logdest eventlog
+```
 
 
 ### Running OpenVox agent on demand
@@ -141,11 +149,15 @@ When running as a service, OpenVox agent logs messages to the Windows Event Log.
 
 By default, Puppet logs to the `Application` event log, but optionally, Puppet may be configured to log to a separate `Puppet` log instead. To enable the `Puppet` log, create the requisite registry key with the `reg.exe` tool:
 
-    C:\> reg add HKLM\System\CurrentControlSet\Services\EventLog\Puppet\Puppet /v EventMessageFile /t REG_EXPAND_SZ /d "C:\Program Files\Puppet Labs\Puppet\bin\puppetres.dll"
+```console
+C:\> reg add HKLM\System\CurrentControlSet\Services\EventLog\Puppet\Puppet /v EventMessageFile /t REG_EXPAND_SZ /d "C:\Program Files\Puppet Labs\Puppet\bin\puppetres.dll"
+```
 
 Alternatively, the PowerShell cmdlet `New-EventLog` will do the same thing:
 
-    PS C:\> New-EventLog -Source Puppet -LogName Puppet -MessageResource "C:\Program Files\Puppet Labs\Puppet\bin\puppetres.dll"
+```powershell
+PS C:\> New-EventLog -Source Puppet -LogName Puppet -MessageResource "C:\Program Files\Puppet Labs\Puppet\bin\puppetres.dll"
+```
 
 For existing agents, these commands can be placed in an `exec` resource to configure agents going forward. Note that any previously recorded event log messages will not be moved; only new messages will be recorded in the newly created `Puppet` log.
 

@@ -99,14 +99,14 @@ flag for `puppetserver ca sign`.
 You can check for custom attributes by using OpenSSL to dump a PEM-format CSR to text format.
 Do this by running:
 
-``` bash
+```bash
 openssl req -noout -text -in <name>.pem
 ```
 
 In the output, look for a section called "Attributes," which generally appears below the
 "Subject Public Key Info" block:
 
-``` text
+```text
 Attributes:
     challengePassword        :342thbjkt82094y0uthhor289jnqthpc2290
 ```
@@ -173,14 +173,14 @@ use them when deciding whether to sign the certificate.
 You can check for extension requests in a CSR by using OpenSSL to dump a PEM-format CSR to text
 format. Do this by running:
 
-``` bash
+```bash
 openssl req -noout -text -in <name>.pem
 ```
 
 In the output, look for a section called "Requested Extensions," which generally appears below
 the "Subject Public Key Info" and "Attributes" blocks:
 
-``` text
+```text
 Requested Extensions:
     pp_uuid:
     .$ED803750-E3C7-44F5-BB08-41A04433FE2E
@@ -200,7 +200,7 @@ You can check for extensions in a signed certificate by running `puppet ssl show
 node that holds the certificate. In the output, look for the "X509v3 extensions" section. Any
 of the Puppet-specific registered OIDs (see below) appear as their descriptive names:
 
-``` text
+```text
 X509v3 extensions:
     Netscape Comment:
         Puppet Ruby/OpenSSL Internal Certificate
@@ -262,7 +262,7 @@ As an example, you can enter the following script into the
 "Configure Instance Details —> Advanced Details" section when provisioning a new node from the
 AWS EC2 dashboard:
 
-``` bash
+```bash
 #!/bin/sh
 if [ ! -d /etc/puppetlabs/puppet ]; then
    mkdir /etc/puppetlabs/puppet

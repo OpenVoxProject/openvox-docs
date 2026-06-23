@@ -11,7 +11,7 @@ Type aliases allow you to create reusable and descriptive data and resource type
 
 Type aliases are written as:
 
-``` puppet
+```puppet
 type <MODULE NAME>::<ALIAS NAME> = <TYPE DEFINITION>
 ```
 
@@ -19,13 +19,13 @@ The `<MODULE NAME>` must be named after the module that contains the type alias,
 
 For example, you can create a type alias named `MyType` that is equivalent to the `Integer` data type:
 
-``` puppet
+```puppet
 type MyModule::MyType = Integer
 ```
 
 You can then declare a parameter using the alias as though it were a unique data type:
 
-``` puppet
+```puppet
 MyModule::MyType $example = 10
 ```
 
@@ -40,7 +40,7 @@ By using type aliases, you can:
 
 Type aliases are transparent, which means they are fully equivalent to the types of which they are aliases. For instance, this example's `notice` returns `true` because `MyType` is an alias of the `Integer` type:
 
-``` puppet
+```puppet
 type MyModule::MyType = Integer
 notice MyModule::MyType == Integer
 ```
@@ -57,13 +57,13 @@ Store type aliases as `.pp` files in your module's `types` directory, which is a
 
 You can create recursive types:
 
-``` puppet
+```puppet
 type MyModule::Tree = Array[Variant[Data, Tree]]
 ```
 
 This `Tree` type alias is defined as a being built out of Arrays that contain Data, or a Tree:
 
-```
+```puppet
 [1,2 [3], [4, [5, 6], [[[[1,2,3]]]]]]
 ```
 
@@ -75,7 +75,7 @@ This powerful mechanism allows you to define complex, descriptive type definitio
 
 You can also create aliases to resource types.
 
-``` puppet
+```puppet
 type MyModule::MyFile = File
 ```
 

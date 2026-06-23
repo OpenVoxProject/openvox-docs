@@ -12,17 +12,21 @@ and write the file back.
 
 For example, the "PermitRootLogin" setting in `sshd_config` can be referenced like this:
 
-    $ augtool print /files/etc/ssh/sshd_config/PermitRootLogin
-    /files/etc/ssh/sshd_config/PermitRootLogin = "yes"
+```console
+$ augtool print /files/etc/ssh/sshd_config/PermitRootLogin
+/files/etc/ssh/sshd_config/PermitRootLogin = "yes"
+```
 
 And it can be modified:
 
-    $ augtool
-    augtool> set /files/etc/ssh/sshd_config/PermitRootLogin no
-    augtool> save
-    Saved 1 file
-    $ grep PermitRootLogin /etc/ssh/sshd_config
-    PermitRootLogin no
+```console
+$ augtool
+augtool> set /files/etc/ssh/sshd_config/PermitRootLogin no
+augtool> save
+Saved 1 file
+$ grep PermitRootLogin /etc/ssh/sshd_config
+PermitRootLogin no
+```
 
 This is basically the solution to the problem of dealing with
 upstream configuration changes combined with local modifications:
@@ -55,15 +59,17 @@ file doesn't exist, you don't have permission to read the file,
 or it could imply a failure in the lens itself.  To find the
 reasons, run `augtool print /augeas//error`:
 
-    $ augtool print /augeas//error
-    /augeas/files/etc/ssh/sshd_config/error = "read_failed"
-    /augeas/files/etc/ssh/sshd_config/error/message = "Permission denied"
-    /augeas/files/etc/hosts.allow/error = "parse_failed"
-    /augeas/files/etc/hosts.allow/error/pos = "371"
-    /augeas/files/etc/hosts.allow/error/line = "12"
-    /augeas/files/etc/hosts.allow/error/char = "0"
-    /augeas/files/etc/hosts.allow/error/lens = "/usr/share/augeas/lenses/dist/hosts_access.aug:93.10-.46:"
-    /augeas/files/etc/hosts.allow/error/message = "Iterated lens matched less than it should"
+```console
+$ augtool print /augeas//error
+/augeas/files/etc/ssh/sshd_config/error = "read_failed"
+/augeas/files/etc/ssh/sshd_config/error/message = "Permission denied"
+/augeas/files/etc/hosts.allow/error = "parse_failed"
+/augeas/files/etc/hosts.allow/error/pos = "371"
+/augeas/files/etc/hosts.allow/error/line = "12"
+/augeas/files/etc/hosts.allow/error/char = "0"
+/augeas/files/etc/hosts.allow/error/lens = "/usr/share/augeas/lenses/dist/hosts_access.aug:93.10-.46:"
+/augeas/files/etc/hosts.allow/error/message = "Iterated lens matched less than it should"
+```
 
 The first is a permissions error, the second is a parse error.  See the Augeas wiki page on [tracking down errors](https://github.com/hercules-team/augeas/wiki/Tracking-down-errors) for more information.
 
@@ -71,49 +77,61 @@ The easiest way to understand how Augeas handles a particular file is to examine
 
 Here's an example of how to determine the tree structure of a file, in this case `/etc/exports`. This is based on examples from from the bottom of `man 5 exports`:
 
-    $ augtool
-    augtool> ls /files/etc/exports/
-    comment[1] = /etc/exports: the access control list for filesystems which may be exported
-    comment[2] = to NFS clients.  See exports(5).
-    comment[3] = sample /etc/exports file
-    dir[1]/ = /
-    dir[2]/ = /projects
-    dir[3]/ = /usr
-    dir[4]/ = /home/joe
+```console
+$ augtool
+augtool> ls /files/etc/exports/
+comment[1] = /etc/exports: the access control list for filesystems which may be exported
+comment[2] = to NFS clients.  See exports(5).
+comment[3] = sample /etc/exports file
+dir[1]/ = /
+dir[2]/ = /projects
+dir[3]/ = /usr
+dir[4]/ = /home/joe
+```
 
 From here you can investigate the structure, like so:
 
-    augtool> ls /files/etc/exports/dir[1]
-    client[1]/ = master
-    client[2]/ = trusty
+```console
+augtool> ls /files/etc/exports/dir[1]
+client[1]/ = master
+client[2]/ = trusty
+```
 
 The corresponding line in the file is:
 
-    /   master(rw) trusty(rw,no_root_squash)
+```text
+/   master(rw) trusty(rw,no_root_squash)
+```
 
 Digging further:
 
-    augtool> ls /files/etc/exports/dir[1]/client[1]
-    option = rw
+```console
+augtool> ls /files/etc/exports/dir[1]/client[1]
+option = rw
+```
 
 So, to add a new entry, you'd do something like this:
 
-    augtool> set /files/etc/exports/dir[last()+1] /foo
-    augtool> set /files/etc/exports/dir[last()]/client weeble
-    augtool> set /files/etc/exports/dir[last()]/client/option[1] ro
-    augtool> set /files/etc/exports/dir[last()]/client/option[2] all_squash
-    augtool> save
-    Saved 1 file
+```console
+augtool> set /files/etc/exports/dir[last()+1] /foo
+augtool> set /files/etc/exports/dir[last()]/client weeble
+augtool> set /files/etc/exports/dir[last()]/client/option[1] ro
+augtool> set /files/etc/exports/dir[last()]/client/option[2] all_squash
+augtool> save
+Saved 1 file
+```
 
 Which creates the line:
 
-    /foo weeble(ro,all_squash)
+```text
+/foo weeble(ro,all_squash)
+```
 
 Now that we've seen some examples in `augtool`, let's make the same changes using Puppet.
 
 Here's the `sshd_config` example:
 
-``` puppet
+```puppet
 augeas { 'sshd_config':
   changes => [
     'set /files/etc/ssh/sshd_config/PermitRootLogin no',
@@ -123,7 +141,7 @@ augeas { 'sshd_config':
 
 The Augeas resource in Puppet has a useful attribute called "context" which allows you to specify a root for all of your changes. This is especially nice when making many changes to the same file. The above could also be written like this:
 
-``` puppet
+```puppet
 augeas { 'sshd_config':
   context => '/files/etc/ssh/sshd_config',
   changes => [
@@ -134,11 +152,13 @@ augeas { 'sshd_config':
 
 Note that values containing whitespace need to be quoted. In this example, we use single-quotes since the `set` statement itself is already enclosed in double-quotes. You could also do the opposite.
 
-    "set kernel.sem '500 512000 64 1024'",
+```text
+"set kernel.sem '500 512000 64 1024'",
+```
 
 Here's the `/etc/exports` example:
 
-``` puppet
+```puppet
 augeas{ 'export foo':
   context => '/files/etc/exports',
   changes => [
@@ -150,17 +170,21 @@ augeas{ 'export foo':
 }
 ```
 
-This adds the line as described above. In fact, it works too well. **It will add the line every time Puppet runs.** This is one of the biggest gotchas to using Augeas in Puppet. It's very easy to create resources that repeat changes on every run. (Technically, it will stop when you run out of space on that filesystem.) In almost every case, if you use a path containing `last()`, you will also need to use the Augeas resource's "onlyif" attribute to keep it under control.
+This adds the line as described above. In fact, it works too well. **It will add the line every time Puppet runs.**
+This is one of the biggest gotchas to using Augeas in Puppet. It's very easy to create resources that repeat changes on every run. (Technically, it will stop when you run out of space on that filesystem.)
+In almost every case, if you use a path containing `last()`, you will also need to use the Augeas resource's "onlyif" attribute to keep it under control.
 
 In the above example, you could add something like this:
 
-``` puppet
+```puppet
 onlyif => 'match dir[. = '/foo'] size == 0',
 ```
 
-Which essentially says "only add it if it's not already there". The problem with this approach is that it only considers one thing (the name of the export in this case). If you were to change something else like "client" later, it would never get applied because an entry named "/foo" is found. You can combine multiple tests into the "onlyif" attribute to look for changes in all the various components, but then you are practically defining the entire resource twice. There's a better way.
+Which essentially says "only add it if it's not already there". The problem with this approach is that it only considers one thing (the name of the export in this case).
+If you were to change something else like "client" later, it would never get applied because an entry named "/foo" is found.
+You can combine multiple tests into the "onlyif" attribute to look for changes in all the various components, but then you are practically defining the entire resource twice. There's a better way.
 
-### A Better Way
+## A Better Way
 
 In many cases, if you set a value for a non-existent path, Augeas will create the path for you. By using a more dynamic path to refer to things, you can make sure changes to any part of the tree will get applied, and you can do it without a messy "onlyif".
 
@@ -168,7 +192,7 @@ Since the share name is unique in `/etc/exports` you can use that to refer to a 
 
 Here's an improved version of the example above:
 
-``` puppet
+```puppet
 augeas { 'export foo':
   context => '/files/etc/exports',
   changes => [
@@ -199,57 +223,71 @@ There are three ways things might get numbered. We'll show a working example for
 
 1. The items themselves are numbers
 
-        # augtool ls /files/etc/hosts
-        1/ = (none)
-        2/ = (none)
+    ```console
+    # augtool ls /files/etc/hosts
+    1/ = (none)
+    2/ = (none)
+    ```
 
 2. A simple array of items with the same name
 
-        # augtool ls /files/etc/sudoers
-        spec[1]/ = (none)
-        spec[2]/ = (none)
+    ```console
+    # augtool ls /files/etc/sudoers
+    spec[1]/ = (none)
+    spec[2]/ = (none)
+    ```
 
 3. An array of items with a value assigned
 
-        # augtool ls /files/etc/exports
-        dir[1]/ = /foo
-        dir[2]/ = /bar
+    ```console
+    # augtool ls /files/etc/exports
+    dir[1]/ = /foo
+    dir[2]/ = /bar
+    ```
 
 Starting with `/etc/hosts`, say you want to make sure the "localhost" entry also contains the system's current hostname and FQDN.
 
-    augtool> ls /files/etc/hosts
-    #comment[1] = Do not remove the following line, or various programs
-    #comment[2] = that require network functionality will fail.
-    1/ = (none)
-    2/ = (none)
-    3/ = (none)
-    4/ = (none)
+```console
+augtool> ls /files/etc/hosts
+#comment[1] = Do not remove the following line, or various programs
+#comment[2] = that require network functionality will fail.
+1/ = (none)
+2/ = (none)
+3/ = (none)
+4/ = (none)
+```
 
 Which one of these is the line we want? It's most likely `/files/etc/hosts/1`, but you can't be sure. Fortunately, Augeas lets us identify a unique path using components of the item at that path. Here's the complete entry we want to change, referenced by number:
 
-    augtool> print /files/etc/hosts/1
-    /files/etc/hosts/1
-    /files/etc/hosts/1/ipaddr = "127.0.0.1"
-    /files/etc/hosts/1/canonical = "localhost"
-    /files/etc/hosts/1/alias[1] = "webserver1"
-    /files/etc/hosts/1/alias[2] = "webserver1.domain.com"
+```console
+augtool> print /files/etc/hosts/1
+/files/etc/hosts/1
+/files/etc/hosts/1/ipaddr = "127.0.0.1"
+/files/etc/hosts/1/canonical = "localhost"
+/files/etc/hosts/1/alias[1] = "webserver1"
+/files/etc/hosts/1/alias[2] = "webserver1.domain.com"
+```
 
 Here's the same entry, picked out by matching the "ipaddr" component:
 
-    augtool> print /files/etc/hosts/*[ipaddr = '127.0.0.1']
-    /files/etc/hosts/1
-    /files/etc/hosts/1/ipaddr = "127.0.0.1"
-    /files/etc/hosts/1/canonical = "localhost"
-    /files/etc/hosts/1/alias[1] = "webserver1"
-    /files/etc/hosts/1/alias[2] = "webserver1.domain.com"
+```console
+augtool> print /files/etc/hosts/*[ipaddr = '127.0.0.1']
+/files/etc/hosts/1
+/files/etc/hosts/1/ipaddr = "127.0.0.1"
+/files/etc/hosts/1/canonical = "localhost"
+/files/etc/hosts/1/alias[1] = "webserver1"
+/files/etc/hosts/1/alias[2] = "webserver1.domain.com"
+```
 
 This not only works for listing and printing, but for changing values as well.
 
-    augtool> set /files/etc/hosts/*[ipaddr = '127.0.0.1']/alias[1] webserver2
+```console
+augtool> set /files/etc/hosts/*[ipaddr = '127.0.0.1']/alias[1] webserver2
+```
 
 So our Puppet manifest could maintain our desired "localhost" entry without knowing the order of the lines in the file:
 
-``` puppet
+```puppet
 augeas { 'localhost':
   context => '/files/etc/hosts',
   changes => [
@@ -264,7 +302,7 @@ Note that the above example assumes a line for "127.0.0.1" is already defined.
 
 With `sudoers`, you could add a simple entry by matching on the value for "user".
 
-``` puppet
+```puppet
 augeas { 'sudojoe':
   context => '/files/etc/sudoers',
   changes => [
@@ -280,7 +318,9 @@ It might seem strange to set the value for "user" by matching "user", but it wor
 
 We've already seen how to handle an array of items with values, like `/etc/exports`, but just to be clear, when the item itself has a value, you can match it using ".".
 
-    augtool> print /files/etc/exports/dir[. = '/foo']
+```console
+augtool> print /files/etc/exports/dir[. = '/foo']
+```
 
 Wherever possible, try to find a unique path that can be used to define entries and avoid "onlyif". If you get stuck, refer to the [Path Expressions][pe] section of the Augeas Wiki.
 
@@ -288,26 +328,30 @@ Wherever possible, try to find a unique path that can be used to define entries 
 
 In some cases, (`/etc/sudoers`, `/etc/services`) there may not be a single item that makes an entry unique, but you can combine them to ensure you're targeting the right one. For most things in `/etc/services`, there are two lines (for TCP and UDP) with the same name and port.
 
-    augtool> print /files/etc/services/service-name[. = 'ssh']
-    /files/etc/services/service-name[23] = "ssh"
-    /files/etc/services/service-name[23]/port = "22"
-    /files/etc/services/service-name[23]/protocol = "tcp"
-    /files/etc/services/service-name[23]/#comment = "SSH Remote Login Protocol"
-    /files/etc/services/service-name[24] = "ssh"
-    /files/etc/services/service-name[24]/port = "22"
-    /files/etc/services/service-name[24]/protocol = "udp"
-    /files/etc/services/service-name[24]/#comment = "SSH Remote Login Protocol"
+```console
+augtool> print /files/etc/services/service-name[. = 'ssh']
+/files/etc/services/service-name[23] = "ssh"
+/files/etc/services/service-name[23]/port = "22"
+/files/etc/services/service-name[23]/protocol = "tcp"
+/files/etc/services/service-name[23]/#comment = "SSH Remote Login Protocol"
+/files/etc/services/service-name[24] = "ssh"
+/files/etc/services/service-name[24]/port = "22"
+/files/etc/services/service-name[24]/protocol = "udp"
+/files/etc/services/service-name[24]/#comment = "SSH Remote Login Protocol"
 
-    augtool> print /files/etc/services/service-name[port = '22']
-    (same output as above)
+augtool> print /files/etc/services/service-name[port = '22']
+(same output as above)
+```
 
 But we can target just one line by using multiple components:
 
-    augtool> print /files/etc/services/service-name[port = '22'][protocol = 'tcp']
-    /files/etc/services/service-name[23] = "ssh"
-    /files/etc/services/service-name[23]/port = "22"
-    /files/etc/services/service-name[23]/protocol = "tcp"
-    /files/etc/services/service-name[23]/#comment = "SSH Remote Login Protocol"
+```console
+augtool> print /files/etc/services/service-name[port = '22'][protocol = 'tcp']
+/files/etc/services/service-name[23] = "ssh"
+/files/etc/services/service-name[23]/port = "22"
+/files/etc/services/service-name[23]/protocol = "tcp"
+/files/etc/services/service-name[23]/#comment = "SSH Remote Login Protocol"
+```
 
 You can use complicated paths like this to modify existing values, but unfortunately, they can't be used to create new entries. Remember, with `sudoers` we had to set "user" first in order to match on it in subsequent lines. To match on two values they both need to be set, and you can't set them at the same time, which is why this only works for things that already exist.
 
@@ -321,7 +365,7 @@ Augeas lenses have a list of files that are "autoloaded" when Augeas is initiali
 
 To load a sudoers file stored instead at `/foo/sudoers`, the `incl` parameter is set to the file path and `lens` is set to the name of the lens itself.  This is usually in the form `Sudoers.lns`, where Sudoers is the "module name" (inside sudoers.aug, it says `module Sudoers`) and by convention, `lns` is the lens that parses the entire file (see the `transform` line in sudoers.aug).
 
-``` puppet
+```puppet
 augeas { 'sudoers':
   lens    => 'Sudoers.lns',
   incl    => '/foo/sudoers',
@@ -350,11 +394,13 @@ Also look at the lenses available in your installed copy of Augeas, or the list 
 
 You can test a manifest containing an Augeas resource like this:
 
-    sudo puppet apply --verbose --debug --trace --summarize test.pp
+```console
+sudo puppet apply --verbose --debug --trace --summarize test.pp
+```
 
 ### /etc/sysctl.conf
 
-``` puppet
+```puppet
 # /etc/puppetlabs/code/environments/production/modules/sysctl/manifests/conf.pp
 define sysctl::conf ( $value ) {
 
@@ -394,7 +440,7 @@ class sysctl {
 
 use case:
 
-``` puppet
+```puppet
 include sysctl
 
 sysctl::conf {
@@ -409,7 +455,7 @@ sysctl::conf {
 
 ### /etc/security/limits.conf
 
-``` puppet
+```puppet
 # /etc/puppetlabs/code/environments/production/modules/limits/manifests/conf.pp
 define limits::conf (
   $domain = 'root',
@@ -446,7 +492,7 @@ define limits::conf (
 
 use case:
 
-``` puppet
+```puppet
 limits::conf {
   # maximum number of open files/sockets for root
   'root-soft':
@@ -468,7 +514,7 @@ limits::conf {
 
 Configure `sshd`:
 
-``` puppet
+```puppet
 augeas { 'sshd_config':
   context => '/files/etc/ssh/sshd_config',
   changes => [
@@ -495,7 +541,7 @@ service { 'sshd':
 
 Set the default runlevel to 3:
 
-``` puppet
+```puppet
 augeas { 'runlevel':
   context => '/files/etc/inittab',
   changes => [
@@ -508,7 +554,7 @@ augeas { 'runlevel':
 
 Suppose a vendor (like VMWare) has some recommended kernel parameters that you want to apply. Assuming you have a class that only applied to VMWare guests, you could do the following.
 
-``` puppet
+```puppet
 # improve time keeping for VMs
 case $hardwareisa {
   'i386': {
@@ -531,7 +577,7 @@ case $hardwareisa {
 
 The following snippet will add a `password --md5 $1$...` entry into menu.lst to password protect the GRUB menu from changes.  It's split into two parts to both create and change existing passwords if already set.
 
-``` puppet
+```puppet
 $grub_password = '$1$....'
 augeas { 'grub-create-password':
   context => '/files/boot/grub/menu.lst',
@@ -554,7 +600,7 @@ augeas { 'grub-set-password':
 
 Augeas needs a unique identifier when using set. So the trick to adding a service that uses both TCP and UDP is to use child nodes of the service.  For example, to add zabbix-agent you can use this (note the `[2]` for the second zabbix-agent):
 
-``` puppet
+```puppet
 augeas { 'zabbix-agent':
    context =>  '/files/etc/services',
    changes => [
@@ -575,7 +621,7 @@ augeas { 'zabbix-agent':
 
 Setting BONDING_OPTS in an /etc/sysconfig/network-scripts/ifcfg-bond* file requires an extra set of quotes due to the spaces in the values.  Augeas can't automatically add the required quotes in.
 
-``` puppet
+```puppet
 augeas { 'bond0':
   context => '/files/etc/sysconfig/network-scripts/ifcfg-bond0',
   changes => "set BONDING_OPTS '\"mode=active-backup miimon=100\"'",
@@ -590,7 +636,7 @@ The list of commands in the changes parameter can get complex quickly, particula
 
 Here's an example to set up /etc/resolv.conf with nameservers and domains.  First the define and an instance of the resource:
 
-``` puppet
+```puppet
 # /etc/puppetlabs/code/environments/production/modules/resolv/manifests/conf.pp
 define resolv::conf(
   $nameserver,
@@ -619,7 +665,7 @@ resolv::conf { 'resolvconf':
 
 This template is stored at `modules/resolv/templates/resolvconf.erb` following the standard [module layout](./modules_fundamentals.html):
 
-``` erb
+```erb
 <% if domain and not domain.empty? -%>
   set domain <%= domain %>
 <% end -%>
@@ -643,28 +689,35 @@ Because this template is evaluated during catalog compilation, you unfortunately
 
 Here is another example that uses [Puppet ERB templating](./lang_template.html) to populate an Augeas node's numbered children. Quoting from [https://github.com/hercules-team/augeas/wiki/Adding-nodes-to-the-tree](https://github.com/hercules-team/augeas/wiki/Adding-nodes-to-the-tree):
 
-> For nodes whose children are numbered sequentially (like the children of `/files/etc/hosts`), you need to invent a new label for the new child. You can either try to find out how many children `/files/etc/hosts` actually has, and then use the next number in the sequence. A much simpler way to generate a new unique numbered label is to use numbers that start with 0; since Augeas treats labels as strings, 01 and 1 are different, and since it will never use such a label, it's guaranteed to be unique:
+> For nodes whose children are numbered sequentially (like the children of `/files/etc/hosts`), you need to invent a new label for the new child.
+> You can either try to find out how many children `/files/etc/hosts` actually has, and then use the next number in the sequence.
+> A much simpler way to generate a new unique numbered label is to use numbers that start with 0; since Augeas treats labels as strings, 01 and 1 are different, and since it will never use such a label, it's guaranteed to be unique:
 
 Consider the *sasl_allowed_username_list* node in `libvirt.conf` which holds a whitelist of SASL usernames that are allowed to connect via `qemu+tcp` to the Libvirt daemon:
 
-    augtool> print /files/etc/libvirt/libvirtd.conf/sasl_allowed_username_list
-    /files/etc/libvirt/libvirtd.conf/sasl_allowed_username_list/1 = "foo"
-    /files/etc/libvirt/libvirtd.conf/sasl_allowed_username_list/2 = "bar"
-    /files/etc/libvirt/libvirtd.conf/sasl_allowed_username_list/3 = "baz"
+```console
+augtool> print /files/etc/libvirt/libvirtd.conf/sasl_allowed_username_list
+/files/etc/libvirt/libvirtd.conf/sasl_allowed_username_list/1 = "foo"
+/files/etc/libvirt/libvirtd.conf/sasl_allowed_username_list/2 = "bar"
+/files/etc/libvirt/libvirtd.conf/sasl_allowed_username_list/3 = "baz"
+```
 
 In `libvirtd.conf` this looks like this:
 
-    sasl_allowed_username_list = ["foo", "bar", "baz"]
+```text
+sasl_allowed_username_list = ["foo", "bar", "baz"]
+```
 
 The *sasl_allowed_username_list* children are numbered, so adding a new child is usually as simple as doing `set /files/etc/libvirt/libvirtd.conf/sasl_allowed_username_list/4 quux`. However, if we don't know in advance the exact number of children (i.e. allowed usernames) the whitelist should contain things are not as simple.
 
-How would we dynamically set this whitelist based on a supplied array of usernames? The quote above suggests finding out how many children the node has a use the next number in the sequence, but this is not supported in Augeas directly (we can't use `last()` or `position()` for numbered children). In this case we need to dynamically create the children labels by counting up and using the above quote's second suggestion, creating labels as strings like *001*, *002* and so on. We use a clever Puppet template to achieve the desired results.
+How would we dynamically set this whitelist based on a supplied array of usernames? The quote above suggests finding out how many children the node has a use the next number in the sequence, but this is not supported in Augeas directly (we can't use `last()` or `position()` for numbered children).
+In this case we need to dynamically create the children labels by counting up and using the above quote's second suggestion, creating labels as strings like *001*, *002* and so on. We use a clever Puppet template to achieve the desired results.
 
 Consider the following snippets of a parameterized Libvirt Puppet module:
 
 In `nodes.pp`:
 
-``` puppet
+```puppet
 node 'kvmhost01.example.com' {
   class { 'libvirt::daemon':
     ...
@@ -676,7 +729,7 @@ node 'kvmhost01.example.com' {
 
 The parameterized class `libvirt::daemon`:
 
-```
+```puppet
 class libvirt::daemon (
   ...
   $sasl_allowed_usernames = [],
@@ -693,7 +746,7 @@ class libvirt::daemon (
 
 And the template in `/etc/puppetlabs/code/environments/production/modules/libvirt/daemon/sasl_allowed_username_list.erb`:
 
-``` erb
+```erb
 rm sasl_allowed_username_list
 <% if sasl_allowed_usernames and not sasl_allowed_usernames.empty? -%>
   <% i = 0 -%>
@@ -714,7 +767,7 @@ By default the `$sasl_allowed_usernames` array is empty. When the class is appli
 
 The full set of changes Augeas should apply eventually looks like this:
 
-```
+```text
 set sasl_allowed_username_list/001 userX
 set sasl_allowed_username_list/002 userY
 set sasl_allowed_username_list/003 userZ

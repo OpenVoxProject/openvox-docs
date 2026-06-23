@@ -43,11 +43,15 @@ You can probably still use this effectively, but please consider the following:
 
 You can run the following tests to make sure that the Ruby-LDAP Library and your LDAP software are configured properly:
 
-    ruby -rldap -e 'puts :installed'
+```console
+ruby -rldap -e 'puts :installed'
+```
 
 If this returns installed then you can try:
 
-    ruby -rpuppet -e 'p Puppet.features.ldap?'
+```console
+ruby -rpuppet -e 'p Puppet.features.ldap?'
+```
 
 These are basically doing the same thing, so they should either both succeed or both fail, and if they both succeed, then LDAP nodes should work.
 
@@ -86,7 +90,8 @@ As far as we can tell from cross-referencing the code with the original version 
   - We think LDAP booleans become real Puppet booleans (instead of "true"), but we aren't positive.
   - No hashes allowed.
 - Variables from a child node always override values inherited from a parent node.
-  - EXCEPT: There seems to be a really janky method for doing something similar to a Hiera unique merge across a whole chain of parent nodes, so that you'll get the combined values from the entire hierarchy as an array. If you set the `puppetVar` attribute to a `<VARIABLE>=<VALUE>` string (like `puppetVar: config_exim=true`), Puppet sets a variable named `<VARIABLE>` (`config_exim`) whose value is an array of all similar values from child/parent/grandparent nodes (`[true, false, true]`).
+  - EXCEPT: There seems to be a really janky method for doing something similar to a Hiera unique merge across a whole chain of parent nodes, so that you'll get the combined values from the entire hierarchy as an array.
+    If you set the `puppetVar` attribute to a `<VARIABLE>=<VALUE>` string (like `puppetVar: config_exim=true`), Puppet sets a variable named `<VARIABLE>` (`config_exim`) whose value is an array of all similar values from child/parent/grandparent nodes (`[true, false, true]`).
 
 We're very unsure about this, but that's what the code seems to imply. Have we mentioned that you should look into [Hiera][]?
 
@@ -94,32 +99,36 @@ We're very unsure about this, but that's what the code seems to imply. Have we m
 
 Here's some example node data. We suspect whoever wrote the original wiki page was just kickin' it from their head, so this might not be the most realistic example.
 
-    dn: cn=basenode,ou=Hosts,dc=madstop,dc=com
-    objectClass: device
-    objectClass: ipHost
-    objectClass: puppetClient
-    objectClass: top
-    cn: basenode
-    environment: production
-    ipHostNumber: 192.168.0.1
-    description: The base node
-    puppetClass: baseclass
-    puppetVar: config_exim=true
-    puppetVar: config_exim_trusted_users=lludwig,lak,joe
+```text
+dn: cn=basenode,ou=Hosts,dc=madstop,dc=com
+objectClass: device
+objectClass: ipHost
+objectClass: puppetClient
+objectClass: top
+cn: basenode
+environment: production
+ipHostNumber: 192.168.0.1
+description: The base node
+puppetClass: baseclass
+puppetVar: config_exim=true
+puppetVar: config_exim_trusted_users=lludwig,lak,joe
+```
 
 
-    dn: cn=testserver,ou=Hosts,dc=madstop,dc=com
-    objectClass: device
-    objectClass: ipHost
-    objectClass: puppetClient
-    objectClass: top
-    cn: testserver
-    environment: testing
-    ipHostNumber: 192.168.0.50
-    description: My test server
-    l: dc1
-    puppetClass: testing
-    puppetClass: solaris
+```text
+dn: cn=testserver,ou=Hosts,dc=madstop,dc=com
+objectClass: device
+objectClass: ipHost
+objectClass: puppetClient
+objectClass: top
+cn: testserver
+environment: testing
+ipHostNumber: 192.168.0.50
+description: My test server
+l: dc1
+puppetClass: testing
+puppetClass: solaris
+```
 
 The `testserver` node's classes would be `baseclass`, `testing`, and `solaris`. The environment would be `testing`, and the variables would be all over the place (see above re: uncertainty about that behavior). Notably, we don't think there would be a `$puppetVar` variable; instead, there would be `$config_exim` and `$config_exim_trusted_users` variables.
 
@@ -129,12 +138,14 @@ You first have to provide the Puppet schema to your LDAP server. You can find th
 
 With the schema file in place, modify your slapd.conf to load this schema by adding it to the list of schema files loaded:
 
-    include         /etc/ldap/schema/core.schema
-    include         /etc/ldap/schema/cosine.schema
-    include         /etc/ldap/schema/nis.schema
-    include         /etc/ldap/schema/inetorgperson.schema
-    include         /etc/ldap/schema/puppet.schema
-    ...
+```text
+include         /etc/ldap/schema/core.schema
+include         /etc/ldap/schema/cosine.schema
+include         /etc/ldap/schema/nis.schema
+include         /etc/ldap/schema/inetorgperson.schema
+include         /etc/ldap/schema/puppet.schema
+...
+```
 
 Restart your server, making sure it comes back up, and you're all set.
 
@@ -144,18 +155,20 @@ Loading data into LDAP is up to you; presumably, if you're deciding to use this 
 
 However you decide to load the data, you need to create host entries (usually device entries, probably with ipHost as an auxiliary class) and then add the Puppet data. This is what an example workstation definition looks like in LDAP:
 
-    dn: cn=culain,ou=Hosts,dc=madstop,dc=com
-    objectClass: device
-    objectClass: ipHost
-    objectClass: puppetClient
-    objectClass: top
-    cn: culain
-    environment: production
-    ipHostNumber: 192.168.0.3
-    puppetClass: webserver
-    puppetClass: puppetserver
-    puppetClass: mailserver
-    parentNode: basenode
+```text
+dn: cn=culain,ou=Hosts,dc=madstop,dc=com
+objectClass: device
+objectClass: ipHost
+objectClass: puppetClient
+objectClass: top
+cn: culain
+environment: production
+ipHostNumber: 192.168.0.3
+puppetClass: webserver
+puppetClass: puppetserver
+puppetClass: mailserver
+parentNode: basenode
+```
 
 The DN for the host follows a model that should also work well if you decide to start using LDAP as an nsswitch source. It doesn't really matter to Puppet, though; it just does a query against the search base you specify and doesn't try to guess your DN.
 
@@ -168,10 +181,12 @@ Once you have your data in LDAP, you just need to configure Puppet to look there
 
 To configure LDAP nodes, set the `node_terminus` to `ldap`:
 
-    [server]
-    node_terminus = ldap
-    ldapserver = ldapserver.yourdomain.com
-    ldapbase = dc=puppet
+```ini
+[server]
+node_terminus = ldap
+ldapserver = ldapserver.yourdomain.com
+ldapbase = dc=puppet
+```
 
 The only other required setting is `ldapbase`, which specifies where to search for LDAP nodes. Specify the Hosts tree as your search base, such as `ldapbase = ou=Hosts,dc=madstop,dc=com`.
 

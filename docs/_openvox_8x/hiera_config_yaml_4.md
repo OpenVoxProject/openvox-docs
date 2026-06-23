@@ -28,7 +28,7 @@ More importantly, version 4 can't use some of Hiera 5's best new features, like 
 
 ## `hiera.yaml` (Version 4) in a nutshell
 
-``` yaml
+```yaml
 # /etc/puppetlabs/code/environments/production/hiera.yaml
 ---
 version: 4

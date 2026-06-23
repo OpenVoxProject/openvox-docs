@@ -35,7 +35,7 @@ The location of the `confdir` depends on your OS. [See the confdir documentation
 
 ### Example agent config
 
-```
+```ini
 [main]
 certname = agent01.example.com
 server = puppet
@@ -45,7 +45,7 @@ runinterval = 1h
 
 ### Example master config
 
-```
+```ini
 [main]
 certname = puppetmaster01.example.com
 server = puppet
@@ -69,8 +69,10 @@ The file can also include **comment lines** at any point.
 
 ### Config sections
 
-    [main]
-        certname = puppetmaster01.example.com
+```ini
+[main]
+    certname = puppetmaster01.example.com
+```
 
 A config section is a group of settings. It consists of:
 
@@ -95,7 +97,9 @@ If you're using Puppet Server, you should note that it honors almost all setting
 
 ### Comment lines
 
-    # This is a comment.
+```ini
+# This is a comment.
+```
 
 Comment lines start with a hash sign (`#`). They can be indented with any amount of leading space.
 
@@ -103,7 +107,9 @@ Partial-line comments (e.g. `report = true # this enables reporting`) are not al
 
 ### Setting lines
 
-    certname = puppetmaster01.example.com
+```ini
+certname = puppetmaster01.example.com
+```
 
 A setting line consists of:
 
@@ -124,10 +130,12 @@ Some settings (like [`reports`][reports]) can accept multiple values, which shou
 
 Some settings (like [`environmentpath`][environmentpath]) take a list of directories. The directories should be separated by the system path separator character, which is colon (`:`) on \*nix platforms and semicolon (`;`) on Windows.
 
-    # *nix version:
-    environmentpath = $codedir/special_environments:$codedir/environments
-    # Windows version:
-    environmentpath = $codedir/environments;C:\ProgramData\PuppetLabs\code\environment
+```ini
+# *nix version:
+environmentpath = $codedir/special_environments:$codedir/environments
+# Windows version:
+environmentpath = $codedir/environments;C:\ProgramData\PuppetLabs\code\environment
+```
 
 Path lists are ordered; Puppet will always check the first directory first, then move on to the others if it doesn't find what it needs.
 
@@ -137,7 +145,9 @@ Settings that take a single file or directory (like [`ssldir`][ssldir]) can acce
 
 You generally shouldn't do this, as the defaults are good for most users. However, if you need to, you can specify permissions by putting a hash like this after the path:
 
-    ssldir = $vardir/ssl {owner = service, mode = 0771}
+```ini
+ssldir = $vardir/ssl {owner = service, mode = 0771}
+```
 
 The allowed keys in the hash are `owner`, `group`, and `mode`. There are only two valid values for the `owner` and `group` keys:
 
@@ -148,7 +158,9 @@ The allowed keys in the hash are `owner`, `group`, and `mode`. There are only tw
 
 The values of settings are available as variables within puppet.conf, and you can insert them into the values of other settings. To reference a setting as a variable, prefix its name with a dollar sign (`$`):
 
-    ssldir = $vardir/ssl
+```ini
+ssldir = $vardir/ssl
+```
 
 Not all settings are equally useful; there's no real point in interpolating `$ssldir` into `basemodulepath`, for example. We recommend that you use only the following variables:
 

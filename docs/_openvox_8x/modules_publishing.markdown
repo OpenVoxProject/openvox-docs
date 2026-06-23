@@ -177,7 +177,7 @@ To let your module users know that you are no longer maintaining your module and
 
    * The full name of the module to be deprecated, such as `puppetlabs-apache`.
    * Optionally, the reason for the deprecation. The reason will be publicly displayed on the Forge.
-    * Optionally, a recommended alternative module or workaround.
+   * Optionally, a recommended alternative module or workaround.
 
 ## Delete a module release from the Forge
 

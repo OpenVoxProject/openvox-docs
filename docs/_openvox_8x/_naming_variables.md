@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD041 -->
 [qualified_var]: ./lang_variables.html#accessing-out-of-scope-variables
 
 Variable names begin with a `$` (dollar sign) and are case-sensitive.
