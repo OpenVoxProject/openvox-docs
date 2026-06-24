@@ -1,21 +1,21 @@
 ---
 - release: 5.6.0
-  openvox: "~> 8.0"
+  openvox: 8.28.0
   ruby: 3.2.11
   openssl: 3.0.21
   r10k: 5.0.3
 - release: 5.5.0
-  openvox: "~> 8.0"
+  openvox: 8.26.2
   ruby: 3.2.11
   openssl: 3.0.20
   r10k: 5.0.3
 - release: 5.4.0
-  openvox: "~> 8.0"
+  openvox: 8.25.0
   ruby: 3.2.10
   openssl: 3.0.19
   r10k: 5.0.2
 - release: 5.3.0
-  openvox: "~> 8.0"
+  openvox: 8.24.2
   ruby: 3.2.9
   openssl: 3.0.18
   r10k: 5.0.2
