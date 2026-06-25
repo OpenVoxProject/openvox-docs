@@ -6,6 +6,15 @@ canonical: "/openvoxdb/latest/release_notes.html"
 
 # OpenVoxDB 8 Release Notes
 
+## OpenVoxDB 8.14.1
+
+Released June 25, 2026.
+
+This is a bug-fix release of OpenVoxDB.
+
+All bug fixes, new features and other changes are provided on the
+[project's GitHub release page](https://github.com/OpenVoxProject/openvoxdb/releases/tag/8.14.1).
+
 ## OpenVoxDB 8.14.0
 
 {% include alert.html type="note" title="Unreleased" content="Packages for version 8.14.0 were not released due to broken APIs for monitoring service status and performance." %}
