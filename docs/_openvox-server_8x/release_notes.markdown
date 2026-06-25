@@ -50,11 +50,7 @@ java.lang.NoSuchMethodError: 'org.bouncycastle.asn1.ASN1Primitive org.bouncycast
 ```
 
 Not all files are affected, the error seems to be triggered by specific patterns in
-ASN.1 content. See [OpenVoxProject/openvox-server#322][openvox-server-322]
-for more details and subscribe for updates on a fix. Recommended workaround is
-to downgrade the `openvox-server` package to version 8.12.1.
-
-[openvox-server-322]: https://github.com/OpenVoxProject/openvox-server/issues/322
+ASN.1 content. This issue is fixed in version 8.14.1.
 
 ## OpenVox Server 8.12.1
 
