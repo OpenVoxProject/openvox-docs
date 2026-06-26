@@ -15,6 +15,37 @@ This is a bug-fix release of OpenVoxDB.
 All bug fixes, new features and other changes are provided on the
 [project's GitHub release page](https://github.com/OpenVoxProject/openvoxdb/releases/tag/8.14.1).
 
+### Known Issues in 8.14.1
+
+#### `puppetdb` service can fail to start after upgrade to OpenVoxDB 8.14.1
+
+The 8.14.1 release contains a major update to the Jetty component, moving from version 10 to 12. This is accompanied by a change in the `/etc/puppetlabs/puppetdb/bootstrap.cfg` file that instructs the `puppetdb` service to load `jetty-service` instead of the older `jetty10-service`.
+
+The `bootstrap.cfg` file is marked as a "configuration file", which means package managers will skip updating it with new content  if the file has been modified. If the update is skipped, the old configuration specifying `jetty10-service` is retained and the `puppetdb` service fails to start or restart after the upgrade.
+
+When this occurs, the following warning is printed to `/var/log/puppetlabs/puppetdb/puppetdb.log`:
+
+```console
+2026-06-26T16:41:56.598Z WARN  [p.t.bootstrap] Unable to load service 'puppetlabs.trapperkeeper.services.webserver.jetty10-service/jetty10-service' from /etc/puppetlabs/puppetdb/bootstrap.cfg:7
+```
+
+The service start failure can be fixed by editing `bootstrap.cfg` and replacing `jetty10-service` with `jetty-service`:
+
+```diff
+# diff -u /etc/puppetlabs/puppetdb/bootstrap.cfg*
+--- /etc/puppetlabs/puppetdb/bootstrap.cfg      2026-06-26 16:38:50.416748668 +0000
++++ /etc/puppetlabs/puppetdb/bootstrap.cfg.rpmnew       2026-06-24 21:10:12.000000000 +0000
+@@ -4,7 +4,7 @@
+ #  https://github.com/puppetlabs/trapperkeeper/wiki/Bootstrapping
+
+ # Web Server
+-puppetlabs.trapperkeeper.services.webserver.jetty10-service/jetty10-service
++puppetlabs.trapperkeeper.services.webserver.jetty-service/jetty-service
+
+ # Webrouting
+ puppetlabs.trapperkeeper.services.webrouting.webrouting-service/webrouting-service
+```
+
 ## OpenVoxDB 8.14.0
 
 {% include alert.html type="note" title="Unreleased" content="Packages for version 8.14.0 were not released due to broken APIs for monitoring service status and performance." %}
