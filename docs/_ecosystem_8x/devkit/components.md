@@ -20,6 +20,10 @@ tools without installing anything but a container runtime like Docker or Podman.
 * [OnceOver](https://github.com/voxpupuli/onceover) is used for basic validation of your control repository.
   It can sometimes be insurmountable to get proper unit testing for every single module you use, especially when most of them are maintained by others.
   OnceOver will do basic `it_compiles` spec tests for each of your profile classes, giving you some confidence in them.
+* [Beaker](https://github.com/voxpupuli/beaker) is the acceptance test framework.
+  Where unit tests inspect a compiled catalog, Beaker spins up real nodes (using Docker by default), applies your manifests for real, and asserts on the actual results.
+  You'll usually drive it through [`voxpupuli-acceptance`](https://github.com/voxpupuli/voxpupuli-acceptance), which wires Beaker into the standard Vox Pupuli test suite.
+  See [Acceptance Testing with Beaker](acceptance_testing.html) for setup and usage.
 * [Catalog Diff](https://github.com/voxpupuli/puppet-catalog_diff) and [Viewer](https://github.com/voxpupuli/puppet-catalog-diff-viewer) show you differences between two catalogs.
   This can be used for impact analysis of upcoming code changes or infrastructure updates.
   You can see a [quick demo of the graphical interface](http://voxpupuli.org/puppet-catalog-diff-viewer) by choosing the "Demo 1" report.
