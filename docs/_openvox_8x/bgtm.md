@@ -27,7 +27,9 @@ To help plan your module appropriately, consider:
 
 It is standard practice for Puppet users to have 200 or more modules in an environment. Simple is better. Each module in your environment should contain related resources that enable it to accomplish a task. Create multiple modules for more complex needs. The practice of having many small, focused modules promotes code reuse and turns modules into building blocks.
 
-As an example, let's take a look at the [`puppetlabs-puppetdb`](https://forge.puppet.com/puppetlabs/puppetdb) module. This module deals solely with the the setup, configuration, and management of PuppetDB. However, PuppetDB stores its data in a PostgreSQL database. Rather than having the module manage PostgreSQL, the author included the [`puppetlabs-postgresql`](https://forge.puppet.com/puppetlabs/postgresql) module as a dependency, leveraging the postgresql module's classes and resources to build out the right configuration for PuppetDB. Similarly, the `puppetdb-module` needs to manipulate the `puppet.conf` file in order to operate PuppetDB. Instead of having the `puppetdb-module` handle `puppet.conf` changes internally, the author used the [`puppetlabs-inifile`](https://forge.puppet.com/puppetlabs/inifile) module to enable `puppetlabs-puppetdb` to make only the required edits to `puppet.conf`.
+As an example, let's take a look at the [`puppetlabs-puppetdb`](https://forge.puppet.com/puppetlabs/puppetdb) module. This module deals solely with the the setup, configuration, and management of PuppetDB. However, PuppetDB stores its data in a PostgreSQL database.
+Rather than having the module manage PostgreSQL, the author included the [`puppetlabs-postgresql`](https://forge.puppet.com/puppetlabs/postgresql) module as a dependency, leveraging the postgresql module's classes and resources to build out the right configuration for PuppetDB.
+Similarly, the `puppetdb-module` needs to manipulate the `puppet.conf` file in order to operate PuppetDB. Instead of having the `puppetdb-module` handle `puppet.conf` changes internally, the author used the [`puppetlabs-inifile`](https://forge.puppet.com/puppetlabs/inifile) module to enable `puppetlabs-puppetdb` to make only the required edits to `puppet.conf`.
 
 ## Structuring your module
 
@@ -54,7 +56,8 @@ In terms of class structure we recommend the following (more detail below):
 
 #### `module`
 
-The main class of any module must share the name of the module and be located in the `init.pp` file. The name and location of the main module class is extremely important, as it guides the [autoloader](./lang_namespaces.html#autoloader-behavior) behavior. The main class of a module is its interface point and ought to be the only parameterized class if possible. Limiting the parameterized classes to just the main class allows you to control usage of the entire module with the inclusion of a single class. This class should provide sensible defaults so that a user can get going with `include module`.
+The main class of any module must share the name of the module and be located in the `init.pp` file. The name and location of the main module class is extremely important, as it guides the [autoloader](./lang_namespaces.html#autoloader-behavior) behavior.
+The main class of a module is its interface point and ought to be the only parameterized class if possible. Limiting the parameterized classes to just the main class allows you to control usage of the entire module with the inclusion of a single class. This class should provide sensible defaults so that a user can get going with `include module`.
 
 For instance, the main `ntp` class in the `ntp` module looks like this:
 
@@ -199,7 +202,8 @@ To maximize the usability of your module, make it flexible by adding parameters.
 
 You must not hardcode data in your modules, and having more parameters is the best alternative. Hardcoding data in your module makes it inflexible, and means your module requires manifest changes to be used in even slightly different circumstances.
 
-Avoid adding parameters that allow you to override templates. When your parameters allow  template overrides, users can override your template with a custom template that contains additional hardcoded parameters. Hardcoded parameters in templates inhibits flexibility over time. It is far better to create more parameters and then modify the original template, or have a parameter which accepts an arbitrary chunk of text added to the template, than it is to override the template with a customized one.
+Avoid adding parameters that allow you to override templates. When your parameters allow  template overrides, users can override your template with a custom template that contains additional hardcoded parameters.
+Hardcoded parameters in templates inhibits flexibility over time. It is far better to create more parameters and then modify the original template, or have a parameter which accepts an arbitrary chunk of text added to the template, than it is to override the template with a customized one.
 
 For an example of a module that capitalizes on offering many parameters, please see [puppetlabs-apache](https://forge.puppet.com/puppetlabs/apache).
 
@@ -313,7 +317,8 @@ We encourage you to publish your modules on the [Puppet Forge](https://forge.pup
 
 Sharing your modules allows other users to write improvements to the modules you make available and contribute them back to you, effectively giving you free improvements to your modules.
 
-Additionally, publishing your modules to the Forge helps foster community among Puppet users, and allows other Puppet community members to download and use your module. If the Puppet community routinely releases and iterates on modules on the Forge, the quality of available modules increases dramatically and gives you access to more modules to download and modify for your own purposes. Details on how to publish modules to the Forge can be found in the [module publishing guide](./modules_publishing.html).
+Additionally, publishing your modules to the Forge helps foster community among Puppet users, and allows other Puppet community members to download and use your module.
+If the Puppet community routinely releases and iterates on modules on the Forge, the quality of available modules increases dramatically and gives you access to more modules to download and modify for your own purposes. Details on how to publish modules to the Forge can be found in the [module publishing guide](./modules_publishing.html).
 
 ## Community Resources
 

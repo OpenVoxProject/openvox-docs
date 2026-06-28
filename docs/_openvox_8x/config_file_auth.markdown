@@ -41,7 +41,7 @@ The location of the `confdir` depends on your OS. [See the confdir documentation
 
 ## Example
 
-```
+```text
 path /puppet/v3/environments
 method find
 allow *
@@ -134,7 +134,7 @@ The file can also include comments, which are lines starting with `#`. Comments 
 ## ACL syntax
 
 
-```
+```text
 path ~ ^/puppet/v3/report/([^/]+)$
 method save
 allow $1
@@ -166,13 +166,17 @@ Which URLs the ACL applies to. **Required.** Must be the first directive in the 
 
 #### URL prefix
 
-    path /puppet/v3/report
+```text
+path /puppet/v3/report
+```
 
 If the value of `path` is just an absolute path, OpenVox Server interprets it as a prefix. The ACL will match any URL that _begins_ with that string.
 
 #### Regular expression
 
-    path ~ ^/puppet/v3/report/([^/]+)$
+```text
+path ~ ^/puppet/v3/report/([^/]+)$
+```
 
 If the value of `path` is a tilde (`~`), a space, and then a regular expression, the ACL will match any URL that matches the regular expression. Regexps in paths should NOT be delimited with slashes.
 

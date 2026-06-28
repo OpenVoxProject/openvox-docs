@@ -98,7 +98,7 @@ Environments are turned on by default. Create an environment by adding a new dir
    global `modulepath` setting from `puppet.conf` will not be used by the environment.
 2. Check the `modulepath` by specifying the environment when requesting the setting value:
 
-   ``` bash
+   ```bash
    sudo puppet config print modulepath --section server --environment test
    ```
 

@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD041 -->
 The "ppRegCertExt" OID range contains the following OIDs:
 
 Numeric ID              | Short Name         | Descriptive Name

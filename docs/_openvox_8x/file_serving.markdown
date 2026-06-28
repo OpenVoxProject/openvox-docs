@@ -42,7 +42,7 @@ Puppet URIs are constructed like this:
 
 `fileserver.conf` uses an INI-like syntax. [The `fileserver.conf` page][fileserver.conf] has a complete description, but all you need to know is:
 
-```
+```ini
 [<NAME OF MOUNT POINT>]
     path <PATH TO DIRECTORY>
     allow *
@@ -83,7 +83,7 @@ Your new auth rule must meet the following requirements:
 
 For example:
 
-```
+```text
 {
     # Allow limited access to files in /etc/puppetlabs/puppet/installer_files:
     match-request: {
@@ -111,11 +111,10 @@ Your new auth rule must meet the following requirements:
 
 For example:
 
-```
+```text
 # Allow limited access to files in /etc/puppetlabs/puppet/installer_files:
 path ~ ^/file_(metadata|content)s?/installer_files/
 auth yes
 allow *.dev.example.com
 allow_ip 192.168.100.0/24
 ```
-

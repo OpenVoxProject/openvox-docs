@@ -68,7 +68,7 @@ Start with the module name as a Level 1 heading at the top of the module, follow
 heading. Under the table of contents heading, include a numbered list of top-level sections, with any necessary subsections
 in a bulleted list below the section heading. Link each section to its corresponding heading in the README.
 
-``` markdown
+```markdown
 
     # modulename
 
@@ -92,7 +92,7 @@ This should be a fairly short description helps the user decide if your module i
 use cases for your module? Does your module just install software? Does it install and configure it? Give your user
 information about what to expect from the module.
 
-``` markdown
+```markdown
 ## Module description
 
 The `cat` module installs, configures, and maintains your cat in both apartment and residential house settings.
@@ -118,7 +118,7 @@ Module installation instructions are covered both on the module's Forge page and
 
   For example:
 
-  ``` markdown
+  ```markdown
   ## Setup
 
   ### What cat affects
@@ -136,7 +136,7 @@ Module installation instructions are covered both on the module's Forge page and
   You can use basic Proof of Concept use cases here; it doesn't have to be something you would run in production. For simple
   modules, "Declare the main `::cat` class" may be enough.
 
-  ``` markdown
+  ```markdown
   ### Beginning with cat
 
   Declare the main `::cat` class.
@@ -151,7 +151,7 @@ with your module. Show users how to accomplish more complex tasks that involve d
 working in tandem. For example, the Usage section for the `puppetlabs-apache` module includes an example that shows users
 how to set up a virtual host with SSL, which involves several classes.
 
-``` markdown
+```markdown
 ## Usage
 
 You can manage all interaction with your cat through the main `cat` class. With the default options, the module installs a basic cat with no optimizations.
@@ -179,7 +179,7 @@ In the **Limitations** section, warn your users of issues, and the **Development
 
 In the Limitations section, list any incompatibilities, known issues, or other warnings.
 
-``` markdown
+```markdown
 ## Limitations
 
 This module cannot be used with the smallchild module.
@@ -260,7 +260,7 @@ For each parameter, list:
   you don't need to list true and false as valid values.
 * The default value.
 
-``` markdown
+```markdown
 ### Class: cat
 
 Installs and configures a cat in your environment.

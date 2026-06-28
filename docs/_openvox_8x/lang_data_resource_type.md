@@ -13,7 +13,8 @@ title: "Language: Data types: resource types"
 
 Resource types are a special family of [data types][data type] that behave kind of weirdly. They are all subtypes of the fairly abstract `Resource` data type. [Resource references][resource reference] are a more useful subset of this data type family.
 
-In the Puppet language, there are **literally never** any actual values whose data type is one of these data types. That is, you can never create an expression where `$my_value =~ Resource` evaluates to true. (For example, a [resource declaration][] --- an expression whose value you might expect would be a resource --- executes a side effect and then produces a [resource reference][] as its value. A resource reference is a data type in this family of data types, rather than a value _that has_ one of those data types.)
+In the Puppet language, there are **literally never** any actual values whose data type is one of these data types. That is, you can never create an expression where `$my_value =~ Resource` evaluates to true.
+(For example, a [resource declaration][] --- an expression whose value you might expect would be a resource --- executes a side effect and then produces a [resource reference][] as its value. A resource reference is a data type in this family of data types, rather than a value _that has_ one of those data types.)
 
 In almost all situations, if one of these resource type data types is involved, it makes more sense to treat it as a special language keyword than to treat it as part of a hierarchy of data types. It does have a place in that hierarchy; it's just complicated, and you don't need to know it to get nearly anything done in the Puppet language.
 
@@ -38,7 +39,7 @@ A resource data type can be used in the following places:
 
 For example:
 
-``` puppet
+```puppet
 # A resource declaration using a resource data type:
 File { '/etc/ntp.conf':
   mode  => '0644',
@@ -77,7 +78,9 @@ You can use parameters to restrict which values `Mytype` will match, but it will
 
 The full signature for a resource-type-corresponding data type `Mytype` is:
 
-    Mytype[<RESOURCE TITLE>]
+```puppet
+Mytype[<RESOURCE TITLE>]
+```
 
 All of these parameters are optional. They must be listed in order; if you need to specify a later parameter, you must specify values for any prior ones.
 
@@ -113,7 +116,9 @@ We will take this chance to say, yet again, that most users won't need to deal w
 
 The full signature for `Resource` is:
 
-    Resource[<RESOURCE TYPE>, <RESOURCE TITLE>...]
+```puppet
+Resource[<RESOURCE TYPE>, <RESOURCE TITLE>...]
+```
 
 All of these parameters are optional. They must be listed in order; if you need to specify a later parameter, you must specify values for any prior ones.
 
@@ -148,7 +153,9 @@ You can use parameters to restrict which values `Class` will match, but it will 
 
 The full signature for `Class` is:
 
-    Class[<CLASS NAME>]
+```puppet
+Class[<CLASS NAME>]
+```
 
 All of these parameters are optional. They must be listed in order; if you need to specify a later parameter, you must specify values for any prior ones.
 

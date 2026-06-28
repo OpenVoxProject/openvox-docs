@@ -38,7 +38,7 @@ If your function only needs one signature, and you're willing to skip the API's 
 * Do not write a `dispatch` block.
 * Define one implementation method whose name _matches the final namespace segment_ of the function's name.
 
-``` ruby
+```ruby
 Puppet::Functions.create_function(:'stdlib::camelcase') do
   def camelcase(str)
     str.split('_').map{|e| e.capitalize}.join
@@ -62,7 +62,7 @@ If your function might be used by anyone other than yourself, you should support
 
 To write a signature, use the `dispatch` method.
 
-``` ruby
+```ruby
   # A signature that takes a single string argument
   dispatch :camelcase do
     param 'String', :input_string
@@ -129,7 +129,7 @@ Most notably, this means:
 
   For example:
 
-  ``` ruby
+  ```ruby
   dispatch :epp do
     required_param 'String', :template_file
     optional_param 'Hash', :parameters_hash
@@ -144,7 +144,7 @@ Most notably, this means:
 
   For example:
 
-  ``` ruby
+  ```ruby
   dispatch :average do
     required_repeated_param 'Numeric', :values_to_average
   end
@@ -159,7 +159,7 @@ Most notably, this means:
 After specifying a signature's arguments, you can use the `return_type` method to specify the data type of its return value.
 This method takes one argument: a [Puppet data type][data type], specified as a string.
 
-``` ruby
+```ruby
 dispatch :camelcase do
   param 'String', :input_string
   return_type 'String'
@@ -189,7 +189,7 @@ To specify aliases, use the `local_types` method.
 
 Example:
 
-``` ruby
+```ruby
 local_types do
   type 'PartColor = Enum[blue, red, green, mauve, teal, white, pine]'
   type 'Part = Enum[cubicle_wall, chair, wall, desk, carpet]'

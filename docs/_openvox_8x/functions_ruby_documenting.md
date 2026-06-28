@@ -17,7 +17,7 @@ documentation pages for functions. This page describes the proper formatting to 
 Full content for this page is coming soon. In the meantime, the following examples show how to format comments in two situations:
 a function with two explicit signatures, and a function with an automatic signature.
 
-``` ruby
+```ruby
 # Subtracts two things.
 Puppet::Functions.create_function(:subtract) do
   # Subtracts two integers.
@@ -52,7 +52,7 @@ Puppet::Functions.create_function(:subtract) do
 end
 ```
 
-``` ruby
+```ruby
 # Says goodbye (in the master's output).
 Puppet::Functions.create_function(:goodbye) do
   # @param [String] name The name of the person to say goodbye to.

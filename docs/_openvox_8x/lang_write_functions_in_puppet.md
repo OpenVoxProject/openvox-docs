@@ -15,7 +15,7 @@ You can write your own functions in the Puppet language to transform data and co
 
 ## Syntax
 
-``` puppet
+```puppet
 function <MODULE NAME>::<NAME>(<PARAMETER LIST>) >> <RETURN TYPE> {
   ... body of function ...
   final expression, which will be the returned value of the function
@@ -24,7 +24,7 @@ function <MODULE NAME>::<NAME>(<PARAMETER LIST>) >> <RETURN TYPE> {
 
 {% capture bool2httpexample %}
 
-``` puppet
+```puppet
 function apache::bool2http(Variant[String, Boolean] $arg) >> String {
   case $arg {
     false, undef, /(?i:false)/ : { 'Off' }
@@ -73,7 +73,8 @@ However, since parameters are passed by position, _optional parameters must be l
 
 #### Variables in Default Parameter Values
 
-If you reference a variable in a default value for a parameter, Puppet will always start looking for that variable at top scope. So if you use `$fqdn`, but then you call the function from a class that overrides the variable `$fqdn`, the parameter's default value will be the value from top scope, not the value from the class. You can reference qualified variable names in a function default value, but compilation will fail if that class wasn't declared by the time the function gets called.
+If you reference a variable in a default value for a parameter, Puppet will always start looking for that variable at top scope. So if you use `$fqdn`, but then you call the function from a class that overrides the variable `$fqdn`, the parameter's default value will be the value from top scope, not the value from the class.
+You can reference qualified variable names in a function default value, but compilation will fail if that class wasn't declared by the time the function gets called.
 
 #### The extra arguments parameter
 
@@ -100,7 +101,7 @@ Between the parameter list and the function body, you can use `>>` and a [data t
 
 For example, this function is guaranteed to only return strings:
 
-``` puppet
+```puppet
 function apache::bool2http(Variant[String, Boolean] $arg) >> String {
   ...
 }
@@ -146,15 +147,17 @@ It's helpful to name your function appropriately based on what it does. For exam
 
 When you're ready to call your function, it acts like a normal call to any built-in Puppet function, and resolves to the function's returned value.
 
-Once a function is written and available (in a module where the autoloader can find it), you can call that function in any Puppet manifest that lists the containing module as a dependency and from your [main manifest](./dirs_manifest.html). The arguments you pass to the function map to the parameters defined in the function's definition. You must pass arguments for the mandatory parameters, and can choose whether to pass in arguments for the optional ones.
+Once a function is written and available (in a module where the autoloader can find it), you can call that function in any Puppet manifest that lists the containing module as a dependency and from your [main manifest](./dirs_manifest.html).
+The arguments you pass to the function map to the parameters defined in the function's definition. You must pass arguments for the mandatory parameters, and can choose whether to pass in arguments for the optional ones.
 
 >**Note:** Functions are autoloaded and available to other modules unless those modules have specified dependencies. If a module has a list of dependencies in its [metadata.json](./modules_metadata.html) file, only custom functions from those specific dependencies are loaded.
 
 ## Complex function example
 
-The below code is a re-written version of a Ruby function from the [`postgresql`](https://forge.puppetlabs.com/puppetlabs/postgresql) module into Puppet code. This function translates the IPv4 and IPv6 ACLs format into a resource suitable for `create_resources`. The writer of this function also left helpful inline comments for other people who use the it, or in case it needs to be altered in the future. In this case the filename would be `acls_to_resource_hash.pp`, and it would be saved in a folder named `functions` in the top-level directory of the `postgresql` module.
+The below code is a re-written version of a Ruby function from the [`postgresql`](https://forge.puppetlabs.com/puppetlabs/postgresql) module into Puppet code. This function translates the IPv4 and IPv6 ACLs format into a resource suitable for `create_resources`.
+The writer of this function also left helpful inline comments for other people who use the it, or in case it needs to be altered in the future. In this case the filename would be `acls_to_resource_hash.pp`, and it would be saved in a folder named `functions` in the top-level directory of the `postgresql` module.
 
-``` puppet
+```puppet
 function postgresql::acls_to_resource_hash(Array $acls, String $id, Integer $offset) {
 
   $func_name = "postgresql::acls_to_resources_hash()"

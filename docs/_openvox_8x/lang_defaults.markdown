@@ -10,7 +10,7 @@ declaration within the area of effect that omits those attributes will inherit t
 
 ## Syntax
 
-``` puppet
+```puppet
 Exec {
   path        => '/usr/bin:/bin:/usr/sbin:/sbin',
   environment => 'RUBYLIB=/opt/puppetlabs/puppet/lib/ruby/site_ruby/2.1.0/',

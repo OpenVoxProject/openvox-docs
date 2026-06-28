@@ -27,7 +27,7 @@ the function as a symbol to `newfunction`, and the code to be run as
 a block. So a trivial function to write a string to a file in /tmp
 might look like this:
 
-~~~ ruby
+```ruby
     module Puppet::Parser::Functions
       newfunction(:write_line_to_file) do |args|
         filename = args[0]
@@ -35,13 +35,13 @@ might look like this:
         File.open(filename, 'a') {|fd| fd.puts str }
       end
     end
-~~~
+```
 
 To use this function, it's as simple as using it in your manifest:
 
-~~~ ruby
+```ruby
     write_line_to_file('/tmp/some_file', "Hello world!")
-~~~
+```
 
 (Note that this is not a useful function by any stretch of the imagination.)
 
@@ -61,13 +61,13 @@ requires a value, such as an `if` statement, a `case` statement, or a
 variable or attribute assignment. You could implement a `rand`
 function like this:
 
-~~~ ruby
+```ruby
     module Puppet::Parser::Functions
       newfunction(:rand, :type => :rvalue) do |args|
         rand(args.empty? ? 0 : args[0])
       end
     end
-~~~
+```
 
 This function works identically to the Ruby built-in rand function.
 Randomising things isn't quite as useful as you might think,
@@ -76,12 +76,12 @@ probably to vary the minute of a cron job. For instance, to stop
 all your machines from running a job at the same time, you might do
 something like:
 
-~~~ ruby
+```ruby
     cron { run_some_job_at_a_random_time:
       command => "/usr/local/sbin/some_job",
       minute => rand(60)
     }
-~~~
+```
 
 But the problem here is quite simple: every time the Puppet client
 runs, the rand function gets re-evaluated, and your cron job moves
@@ -107,7 +107,7 @@ functions.
 
 ### Example 1
 
-~~~ ruby
+```ruby
     require 'ipaddr'
 
     module Puppet::Parser::Functions
@@ -115,11 +115,11 @@ functions.
         IPAddr.new(lookupvar('ipaddress')).to_i % 60
       end
     end
-~~~
+```
 
 ### Example 2
 
-~~~ ruby
+```ruby
     require 'md5'
 
     module Puppet::Parser::Functions
@@ -127,17 +127,17 @@ functions.
         MD5.new(lookupvar('fqdn')).to_s.hex % 24
       end
     end
-~~~
+```
 
 ### Example 3
 
-~~~ ruby
+```ruby
     module Puppet::Parser::Functions
       newfunction(:has_fact, :type => :rvalue) do |arg|
         lookupvar(arg[0]) != nil
       end
     end
-~~~
+```
 
 Basically, to get a fact's or variable's value, you just call
 `lookupvar('FACT NAME')`.
@@ -149,34 +149,36 @@ prepending `function_` to the name of the function you are trying to call. This 
 
 Also keep in mind that when calling a puppet function from the puppet DSL, arguments are all passed in as an anonymous array.  This is not the case when calling the function from within Ruby.  To work around this, you must create the anonymous array yourself by putting the arguments (even if there is only one argument) inside square brackets like this:
 
-~~~ ruby
+```ruby
     [ arg1, arg1, arg3 ]
-~~~
+```
 
 ### Example
 
-~~~ ruby
+```ruby
     module Puppet::Parser::Functions
       newfunction(:myfunc2, :type => :rvalue) do |args|
         function_myfunc1( [ arg1, arg2, ... ] )
       end
     end
-~~~
+```
 
 ## Handling Errors
 
 To throw a parse/compile error in your function, in a similar
 manner to the `fail()` function:
 
-~~~ ruby
+```ruby
     raise Puppet::ParseError, "my error"
-~~~
+```
 
 ## Referencing Custom Functions In Templates
 
 To call a custom function within a [Puppet Template](./lang_template.html), you can do:
 
-    <%= scope.function_namegoeshere(["one","two"]) %>
+```erb
+<%= scope.function_namegoeshere(["one","two"]) %>
+```
 
 Replace "namegoeshere" with the function name, and even if there is only one argument, still
 include the array brackets.
@@ -196,7 +198,7 @@ If you find yourself needing to write custom functions for older versions of Pup
 
 Until Puppet 0.25.0, safe file access was achieved by adding `self.interp.newfile($filename)` to the function. E.g., to accept a file name and return the last line of that file:
 
-~~~ ruby
+```ruby
     module Puppet::Parser::Functions
       newfunction(:file_last_line, :type => :rvalue) do |args|
         self.interp.newfile(args[0])
@@ -204,20 +206,20 @@ Until Puppet 0.25.0, safe file access was achieved by adding `self.interp.newfil
         lines[lines.length - 1]
       end
     end
-~~~
+```
 
 #### Accessing Files in Puppet 0.25.x
 
 In release 0.25.0, the necessary code changed to:
 
-~~~ ruby
+```ruby
     parser = Puppet::Parser::Parser.new(environment)
     parser.watch_file($filename)
-~~~
+```
 
 This new code was used identically to the older code:
 
-~~~ ruby
+```ruby
     module Puppet::Parser::Functions
       newfunction(:file_last_line, :type => :rvalue) do |args|
         parser = Puppet::Parser::Parser.new(environment)
@@ -226,5 +228,4 @@ This new code was used identically to the older code:
         lines[lines.length - 1]
       end
     end
-~~~
-
+```

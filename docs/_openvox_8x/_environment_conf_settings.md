@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD041 -->
 In this version of Puppet, the environment.conf file is only allowed to override five settings:
 
 - `modulepath`

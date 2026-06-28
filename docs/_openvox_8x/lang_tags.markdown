@@ -58,7 +58,7 @@ defined resources), a resource will receive tags from all of its containers.
 
 You can use [the `tag` metaparameter][tagmeta] in a resource declaration to add any number of tags:
 
-``` puppet
+```puppet
 apache::vhost { 'docs.example.com':
   port => 80,
   tag  => ['us_mirror1', 'us_mirror2'],
@@ -74,7 +74,7 @@ already has. Since [containment][] applies to tags, the example above would assi
 You can use [the `tag` function][tagfunction] inside a class definition or defined type to assign tags to
 the surrounding container and all of the resources it contains:
 
-``` puppet
+```puppet
 class role::public_web {
   tag 'us_mirror1', 'us_mirror2'
 
@@ -105,7 +105,7 @@ a test node.
 The `tags` setting can be set in `puppet.conf` (to permanently restrict the catalog) or on the command
 line (to temporarily restrict it):
 
-``` bash
+```bash
 sudo puppet agent --test --tags apache,us_mirror1
 ```
 

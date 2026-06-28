@@ -43,7 +43,7 @@ Related topics:
 
 Modules have a specific directory structure that allows Puppet to find and automatically load classes, defined types, facts, custom types and providers, functions, and tasks.
 
-Modules must have a [valid name][module-names] and be installed in Puppet's [modulepath][]. You'll install modules with either the `puppet module` command or, if you're using code management, with a Puppetfile. See the related topic about installing modules for details.
+Modules must have a [valid name](#module-names) and be installed in Puppet's [modulepath][]. You'll install modules with either the `puppet module` command or, if you're using code management, with a Puppetfile. See the related topic about installing modules for details.
 
 Each module subdirectory has a specific function. Not all directories are required, but if used, they should be in the following structure.
 
@@ -189,4 +189,3 @@ Related topics:
 * [Puppet Language Style Guide](./style_guide.html)
 * [Publishing modules][publishing]
 * [Documenting modules][documentation]
-

@@ -46,7 +46,7 @@ In the diagram above:
 
 Code that is _outside_ any class definition, type definition, or node definition exists at **top scope.** Variables and defaults declared at top scope are available **everywhere.**
 
-``` puppet
+```puppet
 # site.pp
 $variable = "Hi!"
 
@@ -57,7 +57,7 @@ class example {
 include example
 ```
 
-```
+```console
 $ puppet apply site.pp
 notice: Message from elsewhere: Hi!
 ```
@@ -70,7 +70,7 @@ Variables and defaults declared at node scope are available **everywhere except 
 
 > **Note:** Classes and resources declared at top scope **bypass node scope entirely,** and so cannot access variables or defaults from node scope.
 
-``` puppet
+```puppet
 # site.pp
 $top_variable = "Available!"
 node 'puppet.example.com' {
@@ -81,7 +81,7 @@ node 'puppet.example.com' {
 notify { "Message from top scope: ${variable}": }
 ```
 
-```
+```console
 $ puppet apply site.pp
 notice: Message from here: Hi!
 notice: Top scope: Available!
@@ -96,7 +96,7 @@ Code inside a [class definition][class], [defined type][definedtype], or [lambda
 
 Variables and defaults declared in a local scope are only available in **that scope and its children.** There are two different sets of rules for when scopes are considered related; see "[scope lookup rules](#scope-lookup-rules)" below.
 
-``` puppet
+```puppet
 # /etc/puppetlabs/code/modules/scope_example/manifests/init.pp
 class scope_example {
   $variable = "Hi!"
@@ -114,7 +114,7 @@ node 'puppet.example.com' {
 notify { "Message from top scope: ${variable}": }
 ```
 
-```
+```console
 $ puppet apply site.pp
 notice: Message from here: Hi!
 notice: Node scope: Available! Top scope: Available!
@@ -128,7 +128,7 @@ In this example, a local scope can see "out" into node and top scope, but outer 
 
 Variables and defaults declared at node scope can override those received from top scope. Those declared at local scope can override those received from node and top scope, as well as any parent scopes. That is: if multiple variables with the same name are available, **Puppet will use the "most local" one.**
 
-``` puppet
+```puppet
 # /etc/puppetlabs/code/modules/scope_example/manifests/init.pp
 class scope_example {
   $variable = "Hi, I'm local!"
@@ -144,14 +144,14 @@ node 'puppet.example.com' {
 }
 ```
 
-```
+```console
 $ puppet apply site.pp
 notice: Message from here: Hi, I'm local!
 ```
 
 Resource defaults are processed **by attribute** rather than as a block. Thus, defaults that declare different attributes will be merged, and only the attributes that conflict will be overridden.
 
-``` puppet
+```puppet
 # /etc/puppetlabs/code/modules/scope_example/manifests/init.pp
 class scope_example {
   File { ensure => directory, }
@@ -195,7 +195,7 @@ Qualified variable names are formatted as follows, using the double-colon [names
 
 `$<NAME OF SCOPE>::<NAME OF VARIABLE>`
 
-``` puppet
+```puppet
 include apache::params
 $local_copy = $apache::params::confdir
 ```
@@ -258,4 +258,5 @@ This version of Puppet uses dynamic scope only for resource defaults.
 ## Messy under-the-hood details
 
 * Node scope only exists if there is at least one node definition in the main manifest. If no node definitions exist, then ENC classes get declared at top scope.
-* Although top scope and node scope are described above as being special scopes, they are actually implemented as part of the chain of parent scopes, with node scope being a child of top scope and the parent of any classes declared inside the node definition. However, since the move to static scoping causes them to behave as little islands of dynamic scoping in a statically scoped world, it's simpler to think of them as special cases.
+* Although top scope and node scope are described above as being special scopes, they are actually implemented as part of the chain of parent scopes, with node scope being a child of top scope and the parent of any classes declared inside the node definition.
+  However, since the move to static scoping causes them to behave as little islands of dynamic scoping in a statically scoped world, it's simpler to think of them as special cases.

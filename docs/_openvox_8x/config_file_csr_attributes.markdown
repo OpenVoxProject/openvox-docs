@@ -24,13 +24,15 @@ The location of the `confdir` depends on your OS. [See the confdir documentation
 
 ## Example
 
-    ---
-    custom_attributes:
-      1.2.840.113549.1.9.7: 342thbjkt82094y0uthhor289jnqthpc2290
-    extension_requests:
-      pp_uuid: ED803750-E3C7-44F5-BB08-41A04433FE2E
-      pp_image_name: my_ami_image
-      pp_preshared_key: 342thbjkt82094y0uthhor289jnqthpc2290
+```yaml
+---
+custom_attributes:
+  1.2.840.113549.1.9.7: 342thbjkt82094y0uthhor289jnqthpc2290
+extension_requests:
+  pp_uuid: ED803750-E3C7-44F5-BB08-41A04433FE2E
+  pp_image_name: my_ami_image
+  pp_preshared_key: 342thbjkt82094y0uthhor289jnqthpc2290
+```
 
 ## Format
 

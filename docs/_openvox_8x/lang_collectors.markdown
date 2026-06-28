@@ -27,7 +27,7 @@ Collectors have an irregular syntax that lets them function as both a statement 
 
 ## Syntax
 
-``` puppet
+```puppet
 User <| title == 'luke' |>           # collect a single user resource whose title is 'luke'
 User <| groups == 'admin' |>         # collect any user whose supplemental groups includes 'admin'
 Yumrepo['custom_packages'] -> Package <| tag == 'custom' |>  # order relationship with several packages
@@ -125,7 +125,7 @@ An **exported resource collector** uses a modified syntax that realizes [exporte
 
 Exported resource collectors are identical to collectors, except that their angle brackets are doubled:
 
-``` puppet
+```puppet
 Nagios_service <<| |>>  # realize all exported nagios_service resources
 ```
 

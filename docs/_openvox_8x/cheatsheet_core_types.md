@@ -19,7 +19,7 @@ Related topics:
 
 Package/file/service: Learn it, live it, love it. Even if this is the only Puppet you know, you can still get a whole lot done.
 
-``` puppet
+```puppet
 package { 'openssh-server':
   ensure => installed,
 }
@@ -130,7 +130,7 @@ If a service has a bad init script, you can work around it and manage almost any
 
 Logs an arbitrary message, at the `notice` log level. This appears in the POSIX syslog or Windows Event Log on the OpenVox agent node and is also logged in reports.
 
-``` puppet
+```puppet
 notify { 'This message is getting logged on the agent node.': }
 ```
 
@@ -166,14 +166,16 @@ Executes an arbitrary command on the agent node. When using execs, you must eith
 
 Manages user accounts; mostly used for system users.
 
-    user { 'jane':
-        ensure     => present,
-        uid        => '507',
-        gid        => 'admin',
-        shell      => '/bin/zsh',
-        home       => '/home/jane',
-        managehome => true,
-    }
+```puppet
+user { 'jane':
+    ensure     => present,
+    uid        => '507',
+    gid        => 'admin',
+    shell      => '/bin/zsh',
+    home       => '/home/jane',
+    managehome => true,
+}
+```
 
 #### Important Attributes
 

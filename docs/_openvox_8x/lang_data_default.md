@@ -30,7 +30,7 @@ You can use `default` as the title in a [resource declaration][] to invoke speci
 
 Instead of creating a resource and adding it to the catalog, the special `default` resource sets fallback attributes that can be used by any other resource in the same resource expression. That is:
 
-``` puppet
+```puppet
 file {
   default:
     ensure => file,
@@ -63,7 +63,8 @@ These parameters often let you provide a value of `default` to say you want the 
 
 You can also use the value `default` anywhere you aren't prohibited from using it. In these cases, it generally won't have any special meaning.
 
-There are a few reasons you might want to do this. The main one would be if you were writing a class or defined resource type and wanted to give users the option to specifically request a parameter's default value. Some people have used `undef` to do this, but that's tricky when dealing with parameters where `undef` would, itself, be a meaningful value. Others have used some gibberish value, like the string `"UNSET"`, but this can be messy.
+There are a few reasons you might want to do this. The main one would be if you were writing a class or defined resource type and wanted to give users the option to specifically request a parameter's default value.
+Some people have used `undef` to do this, but that's tricky when dealing with parameters where `undef` would, itself, be a meaningful value. Others have used some gibberish value, like the string `"UNSET"`, but this can be messy.
 
 In other words, using `default` would let you distinguish between:
 
@@ -82,4 +83,3 @@ It matches only the value `default`, and takes no parameters.
 ### Example
 
 * `Variant[String, Default, Undef]` --- matches `undef`, `default`, or any string.
-

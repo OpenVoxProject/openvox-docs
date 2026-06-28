@@ -28,7 +28,7 @@ The location of the `confdir` depends on your OS. [See the confdir documentation
 
 ## Example
 
-```
+```ini
 # Files in the /path/to/files directory will be served
 # at puppet:///extra_files/.
 [extra_files]

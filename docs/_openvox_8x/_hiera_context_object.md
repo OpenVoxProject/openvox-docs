@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD041 -->
 ## The `Puppet::LookupContext` object
 
 To support caching and other needs, Hiera provides backends a special `Puppet::LookupContext` object, which has several methods you can call for various effects.
@@ -24,7 +25,7 @@ The following methods are available:
 
 ### `not_found()`
 
-[method_not]: #notfound
+[method_not]: #not_found
 
 Tells Hiera to move on to the next data source. Call this method when your function can't find a value for a given lookup. **This method does not return.**
 
@@ -44,13 +45,13 @@ In `lookup_key` and `data_dig` backends, you **must** call this method if you wa
 
 ### `environment_name()`
 
-[method_env]: #environmentname
+[method_env]: #environment_name
 
 Returns the name of the environment whose hiera.yaml called the function. Returns `undef` (in Puppet) or `nil` (in Ruby) if the function was called by the global or module layer.
 
 ### `module_name()`
 
-[method_module]: #modulename
+[method_module]: #module_name
 
 Returns the name of the module whose hiera.yaml called the function. Returns `undef` (in Puppet) or `nil` (in Ruby) if the function was called by the global or environment layer.
 
@@ -62,7 +63,9 @@ Caches a value, in a per-data-source private cache; also returns the cached valu
 
 On future lookups in this data source, you can retrieve values with `cached_value(key)`. Cached values are immutable, but you can replace the value for an existing key. Cache keys can be anything valid as a key for a Ruby hash. (Notably, this means you can use `nil` as a key.)
 
-For example, on its first invocation for a given YAML file, the built-in `eyaml_lookup_key` backend reads the whole file and caches it, and then decrypts only the specific value that was requested. On subsequent lookups into that file, it gets the encrypted value from the cache instead of reading the file from disk again. It also caches decrypted values, so that it won't have to decrypt again if the same key is looked up repeatedly.
+For example, on its first invocation for a given YAML file, the built-in `eyaml_lookup_key` backend reads the whole file and caches it, and then decrypts only the specific value that was requested.
+On subsequent lookups into that file, it gets the encrypted value from the cache instead of reading the file from disk again.
+It also caches decrypted values, so that it won't have to decrypt again if the same key is looked up repeatedly.
 
 The cache is also useful for storing session keys or connection objects for backends that access a network service.
 
@@ -77,31 +80,31 @@ If any inputs to a function change (for example, a path interpolates a local var
 
 ### `cache_all(hash)`
 
-[method_cache_all]: #cacheallhash
+[method_cache_all]: #cache_allhash
 
 Caches all the key/value pairs from a given hash; returns `undef` (in Puppet) or `nil` (in Ruby).
 
 ### `cached_value(key)`
 
-[method_cached]: #cachedvaluekey
+[method_cached]: #cached_valuekey
 
 Returns a previously cached value from the per-data-source private cache. Returns `nil` or `undef` if no value with this name has been cached. See [`cache(key, value)`][method_cache] above for more info about how the cache works.
 
 ### `cache_has_key(key)`
 
-[method_haskey]: #cachehaskeykey
+[method_haskey]: #cache_has_keykey
 
 Checks whether the cache has a value for a given key yet. Returns `true` or `false`.
 
 ### `cached_entries()`
 
-[method_allcached]: #cachedentries
+[method_allcached]: #cached_entries
 
 Returns everything in the per-data-source cache, as an iterable object. Note that this iterable object isn't a hash; if you want a hash, you can use `Hash($context.all_cached())` (in the Puppet language) or `Hash[context.all_cached()]` (in Ruby).
 
 ### `cached_file_data(path) {|content| ...}`
 
-[method_cached_file]: #cachedfiledatapath-content-
+[method_cached_file]: #cached_file_datapath-content-
 
 > **Note:** The header above uses Ruby's block syntax. To call this method in the Puppet language, you would use `cached_file_data(path) |content| { ... }`.
 
@@ -109,7 +112,7 @@ For best performance, use this method to read files in Hiera backends.
 
 Returns the content of the specified file, as a string. If an optional block is provided, it passes the content to the block and returns the block's return value. For example, the built-in JSON backend uses a block to parse JSON and return a hash:
 
-``` ruby
+```ruby
     context.cached_file_data(path) do |content|
       begin
         JSON.parse(content)

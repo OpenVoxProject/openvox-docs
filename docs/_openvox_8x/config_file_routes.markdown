@@ -21,11 +21,13 @@ The location of the `confdir` depends on your OS. [See the confdir documentation
 
 ## Example
 
-    ---
-    master:
-      facts:
-        terminus: puppetdb
-        cache: yaml
+```yaml
+---
+master:
+  facts:
+    terminus: puppetdb
+    cache: yaml
+```
 
 ## Format
 

@@ -53,7 +53,7 @@ If you're writing code that might be used with pre-4.0 versions of Puppet, you'l
 
 To handle this, you can use the `str2bool` function (from [puppetlabs/stdlib](https://forge.puppetlabs.com/puppetlabs/stdlib)) to prevent fake true values:
 
-``` puppet
+```puppet
 if str2bool($is_virtual) {
   ...
 }
@@ -74,7 +74,7 @@ All facts appear in Puppet as [top-scope variables][topscope]. They can be acces
 
 Example, with the osfamily fact:
 
-``` puppet
+```puppet
 if $osfamily == 'RedHat' {
   # ...
 }
@@ -105,7 +105,7 @@ Facts also appear in a `$facts` hash. They can be accessed in manifests as `$fac
 
 Example, with the `os.family` fact:
 
-``` puppet
+```puppet
 if $facts['os']['family'] == 'RedHat' {
   # ...
 }
@@ -160,7 +160,7 @@ The available keys in the `$trusted` hash are:
 
 The `$trusted` hash generally looks something like this:
 
-``` puppet
+```puppet
 {
   'authenticated' => 'remote',
   'certname'      => 'web01.example.com',
@@ -176,7 +176,7 @@ The `$trusted` hash generally looks something like this:
 
 Here's a snippet of example Puppet code using a [certificate extension][extensions]:
 
-``` puppet
+```puppet
 if $trusted['extensions']['pp_image_name'] == 'storefront_production' {
   include private::storefront::private_keys
 }
@@ -184,7 +184,7 @@ if $trusted['extensions']['pp_image_name'] == 'storefront_production' {
 
 And an example [hiera.yaml file](./hiera_config_yaml_5.html) using certificate extensions in a hierarchy:
 
-``` yaml
+```yaml
 ---
 version: 5
 hierarchy:
@@ -202,7 +202,8 @@ hierarchy:
 
 The `$server_facts` variable provides a hash of server-side facts that cannot be overwritten by client side facts. This is important because it enables you to get trusted server facts that could otherwise be overwritten by client-side facts.
 
-For example, the OpenVox Server sets the global `$::environment` variable to contain the name of the node's environment. However, if a node provides a fact with the name `environment`, that fact's value overrides the server-set `environment` fact. The same happens with other server-set global variables, like `$::servername` and `$::serverip`. As a result, modules couldn't reliably use these variables for whatever their intended purpose was.
+For example, the OpenVox Server sets the global `$::environment` variable to contain the name of the node's environment. However, if a node provides a fact with the name `environment`, that fact's value overrides the server-set `environment` fact.
+The same happens with other server-set global variables, like `$::servername` and `$::serverip`. As a result, modules couldn't reliably use these variables for whatever their intended purpose was.
 
 The `$server_facts` variable is opt-in. Its `trusted_server_facts` setting is set to false by default. If you set `trusted_server_facts` to `true`, the `$server_facts` variable will be populated, and will ensure that you get trusted server facts.
 
@@ -212,7 +213,7 @@ In addition, a warning will be issued any time a node parameter is overwritten.
 
 The following is an example `$server_facts` hash.
 
-``` puppet
+```puppet
 {
   serverversion => "4.1.0",
   servername    => "v85ix8blah.delivery.puppetlabs.net",
@@ -243,7 +244,8 @@ These are **not** available in the `$facts` hash.
 * `$servername` --- the OpenVox Server's fully-qualified domain name. (Note that this information is gathered from the OpenVox Server by Facter, rather than read from the config files; even if the master's certname is set to something other than its fully-qualified domain name, this variable will still contain the server's fqdn.)
 * `$serverip` --- the OpenVox Server's IP address.
 * `$serverversion` --- the current version of Puppet on the OpenVox Server.
-* `$settings::<name of setting>` (also available to `puppet apply`) --- the value of any of the master's [settings](./config_about_settings.html). This is implemented as a special namespace and these variables must be referred to by their qualified names. Note that, other than `$environment` and `$clientnoop`, the agent node's settings are **not** available in manifests. If you wish to expose them to the master in this version of Puppet, you will have to create a custom fact.
+* `$settings::<name of setting>` (also available to `puppet apply`) --- the value of any of the master's [settings](./config_about_settings.html). This is implemented as a special namespace and these variables must be referred to by their qualified names.
+  Note that, other than `$environment` and `$clientnoop`, the agent node's settings are **not** available in manifests. If you wish to expose them to the master in this version of Puppet, you will have to create a custom fact.
 * `$settings::all_local` --- contains all variables in the `$settings` namespace as a Hash of `<SETTING-NAME> => <SETTING-VALUE>`. This helps you reference settings that might be missing, because a direct reference to such a missing setting raises an error when `--strict_variables` is enabled.
 
 ### Compiler variables

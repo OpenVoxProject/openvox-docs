@@ -67,7 +67,7 @@ Parameter information should appear in the following order:
 
 For example:
 
-```
+```puppet
 # @param noselect_servers
 #   Specifies one or more peers to not sync with. Puppet appends 'noselect' to each matching item in the `servers` array.
 ```
@@ -75,7 +75,7 @@ For example:
 
 #### Example class
 
-```
+```puppet
 # @summary configures the Apache PHP module
 #
 # @example Basic usage
@@ -121,7 +121,7 @@ class apache::mod::php (
 
 #### Example defined type
 
-```
+```puppet
 # @summary
 #   Create and configure a MySQL database.
 #
@@ -179,7 +179,7 @@ Put documentation comments for functions immediately before the function definit
 
 This example function has one potential return type.
 
-```
+```ruby
 # An example 4.x function.
 Puppet::Functions.create_function(:example) do
   # @param first The first parameter.
@@ -198,7 +198,7 @@ end
 
 If the function has more than one potential return type, specify a `@return` tag for each. Begin each tag string with ‘if’ to differentiate between cases.
 
-```
+```ruby
 # An example 4.x function.
 Puppet::Functions.create_function(:example) do
   # @param first The first parameter.
@@ -218,7 +218,7 @@ end
 
 #### Puppet function example
 
-```
+```puppet
 # @param name the name to say hello to.
 # @return [String] Returns a string.
 # @example Calling the function.
@@ -250,7 +250,7 @@ Document the resource type description in the following order:
 
 #### Example resource type
 
-```
+```ruby
 # @!puppet.type.param [value1, value2, value3] my_param Documentation for a dynamic parameter.
 # @!puppet.type.property [foo, bar, baz] my_prop Documentation for a dynamic property.
 Puppet::Type.newtype(:database) do
@@ -281,7 +281,7 @@ The heredoc and documentation strings that Strings uses are called out in commen
 
 #### Resource API example
 
-```
+```ruby
 Puppet::ResourceApi.register_type(
   name: 'apt_key',
   # HEREDOC BEGINS BELOW

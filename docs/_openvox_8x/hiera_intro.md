@@ -53,7 +53,8 @@ Most levels of a hierarchy interpolate variables into their configuration:
 
 ### Hiera searches the hierarchy in order
 
-Once Hiera replaces the variables to make a list of concrete data sources, it checks those data sources in the order they were written. Generally, if a data source doesn't exist, or doesn't specify a value for the current key, Hiera skips it and moves on to the next source, until it finds one that exists - then it uses it. Note that this is the default merge strategy, but does not always apply, for example, Hiera can use data from all data sources and merge the result.
+Once Hiera replaces the variables to make a list of concrete data sources, it checks those data sources in the order they were written.
+Generally, if a data source doesn't exist, or doesn't specify a value for the current key, Hiera skips it and moves on to the next source, until it finds one that exists - then it uses it. Note that this is the default merge strategy, but does not always apply, for example, Hiera can use data from all data sources and merge the result.
 
 Earlier data sources have priority over later ones. In the example above, the node-specific data has the highest priority, and can override data from any other level. Business group data is separated into local and global sources, with the local one overriding the global one. Common data used by all nodes always goes last.
 

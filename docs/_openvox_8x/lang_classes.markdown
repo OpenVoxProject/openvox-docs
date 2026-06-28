@@ -50,7 +50,7 @@ Defining a class makes it available for later use. It doesn't yet add any resour
 
 ### Syntax
 
-``` puppet
+```puppet
 # A class with no parameters
 class base::linux {
   file { '/etc/passwd':
@@ -66,7 +66,7 @@ class base::linux {
 }
 ```
 
-``` puppet
+```puppet
 # A class with parameters
 class apache (String $version = 'latest') {
   package { 'httpd':
@@ -176,7 +176,7 @@ Inheritance causes three things to happen:
 
 The attributes of any resource in the base class can be overridden with a [reference][resource_reference] to the resource you wish to override, followed by a set of curly braces containing attribute => value pairs:
 
-``` puppet
+```puppet
 class base::freebsd inherits base::unix {
   File['/etc/passwd'] {
     group => 'wheel'
@@ -191,7 +191,7 @@ This is identical to the syntax for [adding attributes to an existing resource][
 
 You can remove an attribute's previous value without setting a new one by overriding it with the special value [`undef`][undef]:
 
-``` puppet
+```puppet
 class base::freebsd inherits base::unix {
   File['/etc/passwd'] {
     group => undef,
@@ -207,7 +207,7 @@ This causes the attribute to be unmanaged by Puppet.
 
 Some resource attributes, such as the [relationship metaparameters][relationships], can accept multiple values in an array. When overriding attributes in a derived class, you can add to the existing values instead of replacing them by using the `+>` ("plusignment") keyword instead of the standard `=>` hash rocket:
 
-``` puppet
+```puppet
 class apache {
   service { 'apache':
     require => Package['httpd'],
@@ -269,7 +269,7 @@ Resource-like class declarations require that you **only declare a given class o
 
 The `include` [function][] is the standard way to declare classes.
 
-``` puppet
+```puppet
 include base::linux
 include base::linux # no additional effect; the class is only declared once
 
@@ -291,7 +291,7 @@ The `include` function uses [include-like behavior][include-like]. (Multiple dec
 
 The `require` function (not to be confused with the [`require` metaparameter][relationships]) declares one or more classes, then causes them to become a [dependency][relationships] of the surrounding container.
 
-``` puppet
+```puppet
 define apache::vhost (Integer $port, String $docroot, String $servername, String $vhost_name) {
   require apache
   ...
@@ -310,7 +310,7 @@ The `require` function uses [include-like behavior][include-like]. (Multiple dec
 
 The `contain` function is meant to be used _inside another class definition._ It declares one or more classes, then causes them to become [contained][contains] by the surrounding class. For details, [see the "Containing Classes" section of the Containment page.][contain_classes]
 
-``` puppet
+```puppet
 class ntp {
   file { '/etc/ntp.conf':
     ...
@@ -336,7 +336,7 @@ The `contain` function uses [include-like behavior][include-like]. (Multiple dec
 
 The `hiera_include` function requests a list of class names from [Hiera][], then declares all of them. Since it uses the [array lookup type][array_search], it will get a combined list that includes classes from **every level** of the [hierarchy][hiera_hierarchy]. This allows you to abandon [node definitions][node] and use Hiera like a lightweight ENC.
 
-``` yaml
+```yaml
 # /etc/puppetlabs/puppet/hiera.yaml
 ...
 hierarchy:
@@ -356,7 +356,7 @@ classes:
   - base::linux
 ```
 
-``` puppet
+```puppet
 # /etc/puppetlabs/code/environments/production/manifests/site.pp
 hiera_include(classes)
 ```
@@ -369,7 +369,7 @@ The `hiera_include` function uses [include-like behavior][include-like]. (Multip
 
 Resource-like declarations look like [normal resource declarations][resource_declaration], using the special `class` pseudo-resource type.
 
-``` puppet
+```puppet
 # Specifying the "version" parameter:
 class { 'apache':
   version => '2.2.21',
@@ -382,7 +382,7 @@ Resource-like declarations use [resource-like behavior][resource-like]. (Multipl
 
 In addition to class-specific parameters, you can also specify a value for any [metaparameter][metaparameters]. In such cases, every resource contained in the class will also have that metaparameter:
 
-``` puppet
+```puppet
 # Cause the entire class to be noop:
 class { 'apache':
   noop => true,
@@ -402,7 +402,7 @@ Classes can also be assigned to nodes by [external node classifiers][enc] and [L
 
 This design pattern can make for significantly cleaner code while enabling some really sophisticated behavior around default values.
 
-``` puppet
+```puppet
 # /etc/puppetlabs/code/modules/webserver/manifests/params.pp
 
 class webserver::params {
@@ -439,7 +439,7 @@ To summarize what's happening here: When a class inherits from another class, it
 
 This is functionally equivalent to doing the following:
 
-``` puppet
+```puppet
 # /etc/puppetlabs/code/modules/webserver/manifests/init.pp
 
 class webserver(String $packages = 'UNSET', String $vhost_dir = 'UNSET' ) {

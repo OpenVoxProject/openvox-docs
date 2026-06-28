@@ -32,7 +32,7 @@ Additional stages are declared as normal resources. Each additional stage must h
 [order relationship][ordering] with another stage, such as `Stage['main']`. As with normal resources,
 these relationships can be specified with metaparameters or with chaining arrows.
 
-``` puppet
+```puppet
 stage { 'first':
   before => Stage['main'],
 }
@@ -48,7 +48,7 @@ In the above example, all classes assigned to the `first` stage will be applied 
 Once stages have been declared, a [class][] can be assigned to a custom stage with the `stage`
 metaparameter.
 
-``` puppet
+```puppet
 class { 'apt-keys':
   stage => first,
 }

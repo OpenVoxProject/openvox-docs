@@ -4,6 +4,32 @@ title: "OpenVox Server: Release Notes"
 canonical: "/openvox-server/latest/release_notes.html"
 ---
 
+## OpenVox Server 8.14.1
+
+Released 2026-06-24.
+
+This is a bug-fix release of OpenVox Server.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvox-server/releases/tag/8.14.1).
+
+## OpenVox Server 8.14.0
+
+{% include alert.html type="note" title="Unreleased" content="Packages for version 8.14.0 were not released due to broken APIs for monitoring service status and performance." %}
+
+This is an enhancement, bug-fix, and security release of OpenVox Server.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvox-server/releases/tag/8.14.0).
+
+### Security Issues Resolved in 8.14.0
+
+| Identifier                                                        | CVSS 3.1 Score | Resolved By                                           |
+| :---------------------------------------------------------------- | :------------: | :---------------------------------------------------- |
+| [CVE-2026-2332](https://nvd.nist.gov/vuln/detail/CVE-2026-2332)   |       9.1      | `pkg:maven/org.eclipse.jetty/jetty-http@12.1.9`       |
+| [CVE-2025-11143](https://nvd.nist.gov/vuln/detail/CVE-2025-11143) |       6.5      | `pkg:maven/org.eclipse.jetty/jetty-http@12.1.9`       |
+| [CVE-2024-6763](https://nvd.nist.gov/vuln/detail/CVE-2024-6763)   |       5.3      | `pkg:maven/org.eclipse.jetty/jetty-http@12.1.9`       |
+| [CVE-2026-54515](https://nvd.nist.gov/vuln/detail/CVE-2026-54515) |       5.3      | `pkg:maven/tools.jackson.core/jackson-databind@3.0.1` |
+| [CVE-2026-1225](https://nvd.nist.gov/vuln/detail/CVE-2026-1225)   |       N/A      | `pkg:maven/ch.qos.logback/logback-core@1.5.32`        |
+
 ## OpenVox Server 8.13.0
 
 Released 2026-05-04.
@@ -24,11 +50,7 @@ java.lang.NoSuchMethodError: 'org.bouncycastle.asn1.ASN1Primitive org.bouncycast
 ```
 
 Not all files are affected, the error seems to be triggered by specific patterns in
-ASN.1 content. See [OpenVoxProject/openvox-server#322][openvox-server-322]
-for more details and subscribe for updates on a fix. Recommended workaround is
-to downgrade the `openvox-server` package to version 8.12.1.
-
-[openvox-server-322]: https://github.com/OpenVoxProject/openvox-server/issues/322
+ASN.1 content. This issue is fixed in version 8.14.1.
 
 ## OpenVox Server 8.12.1
 

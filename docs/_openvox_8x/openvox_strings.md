@@ -53,7 +53,7 @@ To generate HTML documentation for a Puppet module, run Strings from that module
    1. To generate the documentation for specific files or directories in a module, run the `puppet strings generate` subcommand and specify the files or directories as a space-separated list.
       For example:
 
-      ```
+      ```console
       puppet strings generate first.pp second.pp
 
       $ puppet strings generate 'modules/foo/lib/**/*.rb' 'modules/foo/manifests/**/*.pp' 'modules/foo/functions/**/*.pp' ...
@@ -76,7 +76,7 @@ Strings generates Markdown output as a `REFERENCE.md` file in the main module di
 
    To specify a different file, use the `--out` option and specify the path and filename:
 
-   ```
+   ```console
    puppet strings generate --format markdown --out docs/INFO.md
    ```
 
@@ -93,7 +93,7 @@ By default, Strings prints JSON output to `STDOUT`.
 
    To generate JSON documentation to a file instead, use the `--out` option and specify a filename:
 
-   ```
+   ```console
    puppet strings generate --format json --out documentation.json
    ```
 
@@ -156,11 +156,11 @@ Usage: `puppet strings generate [--format <FORMAT>][--out <DESTINATION>] [<ARGUM
 
 For example:
 
-```
+```console
 puppet strings generate --format markdown --out docs/info.md
 ```
 
-```
+```console
 puppet strings generate manifest1.pp manifest2.pp
 ```
 
@@ -180,11 +180,11 @@ Usage: `puppet strings server [--markup <FORMAT>][[module_name]...][--modulepath
 
 For example:
 
-```
+```console
 puppet strings server --modulepath path/to/modules
 ```
 
-```
+```console
 puppet strings server concat
 ```
 
@@ -207,7 +207,7 @@ Option   | Description   | Values      | Default
 * `@option`: With a `@param` tag, defines what optional parameters the user can pass in an options hash to the method.
   For example:
 
-  ```
+  ```ruby
   # @param [Hash] opts
   #      List of options
   # @option opts [String] :option1
@@ -220,7 +220,7 @@ Option   | Description   | Values      | Default
 * `@return`: Describes the return value (and type or types) of a method. You can list multiple return tags for a method if the method has distinct return cases. In this case, begin each case with `if`.
    For example:
 
-   ```
+   ```ruby
    # An example 4.x function.
    Puppet::Functions.create_function(:example) do
      # @param first The first parameter.

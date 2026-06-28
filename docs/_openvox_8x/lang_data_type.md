@@ -58,7 +58,7 @@ The general form of a data type is:
 
 For example:
 
-``` puppet
+```puppet
 Variant[Boolean, Enum['true', 'false', 'running', 'stopped']]
 ```
 
@@ -80,7 +80,7 @@ Generally, your code expects each parameter to be a specific kind of data. You c
 
 For example:
 
-``` puppet
+```puppet
 class ntp (
   Boolean $service_manage = true,
   Boolean $autoupdate     = false,
@@ -95,7 +95,7 @@ If you tried to set `$autoupdate` to a string like `"true"`, Puppet would raise 
 
 Abstract data types can let you write more sophisticated and flexible restrictions. For example, this `$puppetdb_service_status` parameter would accept values of `true`, `false`, `"true"`, `"false"`, `"running"`, and `"stopped"`, and raise an error for any other value:
 
-``` puppet
+```puppet
 class puppetdb::server (
   Variant[Boolean, Enum['true', 'false', 'running', 'stopped']]
     $puppetdb_service_status = $puppetdb::params::puppetdb_service_status,
@@ -109,7 +109,7 @@ class puppetdb::server (
 
 [Case statements][] and [selector expressions][] both allow data types as their _cases._ Puppet will choose a data type case if the control expression resolves to a value of that data type. For example:
 
-``` puppet
+```puppet
 $enable_real = $enable ? {
   Boolean => $enable,
   String  => str2bool($enable),
@@ -190,7 +190,9 @@ You can use parameters to restrict which values `Type` will match.
 
 The full signature for `Type` is:
 
-    Type[<ANY DATA TYPE>]
+```puppet
+Type[<ANY DATA TYPE>]
+```
 
 All of these parameters are optional. They must be listed in order; if you need to specify a later parameter, you must specify values for any prior ones.
 

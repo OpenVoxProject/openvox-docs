@@ -62,7 +62,7 @@ Functions must always be called with their full names; you can't shorten a quali
 
 You can call a function by writing its name and providing a list of arguments in parentheses.
 
-``` puppet
+```puppet
 file { '/etc/ntp.conf':
   ensure  => file,
   content => template('ntp/ntp.conf.erb'), # function call; resolves to a string
@@ -95,7 +95,9 @@ In the examples above, [`template`][template], [`include`][include], and [`each`
 
 The general form of a prefix function call is:
 
-    name(argument, argument, ...) |$parameter, $parameter, ...| { code block }
+```puppet
+name(argument, argument, ...) |$parameter, $parameter, ...| { code block }
+```
 
 * The full name of the function, as an unquoted word.
 * An opening parenthesis (`(`).
@@ -110,7 +112,7 @@ The general form of a prefix function call is:
 
 You can also call a function by writing its first argument, a period, and the name of the function.
 
-``` puppet
+```puppet
 file { '/etc/ntp.conf':
   ensure  => file,
   content => 'ntp/ntp.conf.erb'.template, # function call; resolves to a string
@@ -139,7 +141,9 @@ $binaries.each |$binary| {
 
 The general form of a chained function call is:
 
-    argument.name(argument, ...) |$parameter, $parameter, ...| { code block }
+```puppet
+argument.name(argument, ...) |$parameter, $parameter, ...| { code block }
+```
 
 * The **first argument** of the function, which can be any [expression][] that resolves to a value.
 * A period (`.`).

@@ -33,9 +33,11 @@ If Puppet is managing a local [`group`][group], you can list the [`members`][mem
 
 When managing a `user`, Puppet will make sure the user belongs to all of the `groups` listed in the manifest. If the user belongs to a group not specified in the manifest, Puppet will not remove the user from the group.
 
-If you want to ensure a `user` belongs to only the `groups` listed in the manifest, and no more, you can specify the [`auth_membership`][auth_membership_user] attribute for the `user`. If set to `inclusive`, Puppet will remove the user from any group not listed in the manifest.
+If you want to ensure a `user` belongs to only the `groups` listed in the manifest, and no more, you can specify the [`auth_membership`][auth_membership_user] attribute for the `user`.
+If set to `inclusive`, Puppet will remove the user from any group not listed in the manifest.
 
-Similarly, when managing a `group`, Puppet will make sure all of the `members` listed in the manifest are added to the group. Existing members of the group not listed in the manifest will be ignored. If you want to ensure a `group` contains only the `members` listed in the manifest, and no more, you can specify the [`auth_membership`][auth_membership_group] attribute for the `group`. If set to `true`, Puppet will remove existing members of the group that are not listed in the manifest.
+Similarly, when managing a `group`, Puppet will make sure all of the `members` listed in the manifest are added to the group. Existing members of the group not listed in the manifest will be ignored.
+If you want to ensure a `group` contains only the `members` listed in the manifest, and no more, you can specify the [`auth_membership`][auth_membership_group] attribute for the `group`. If set to `true`, Puppet will remove existing members of the group that are not listed in the manifest.
 
 ### Allowed attributes
 
@@ -65,7 +67,8 @@ Additionally, the `gid` attribute is available as a read-only property when insp
 
 On Windows, user and group account names can take multiple forms, e.g. `Administrators`, `<host>\Administrators`, `BUILTIN\Administrators`, `S-1-5-32-544` --- the last is called a security identifier (SID). Puppet treats all these forms as equivalent: when comparing two account names, it first transforms account names into their canonical SID form and compares the SIDs instead.
 
-If you need to refer to a user or group in multiple places in a manifest (e.g. when creating [relationships between resources][relationships]), be consistent with the case of the name. Names are case-sensitive in Puppet manifests, but case-insensitive on Windows. It's important that the cases match, however, because autorequire will attempt to match users with fully qualified names (`User[BUILTIN\Administrators]`) in addition to SIDs (`User[S-1-5-32-544]`). It might not match in cases where domain accounts and local accounts have the same name, such as `Domain\Bob` versus `LOCAL\Bob`.
+If you need to refer to a user or group in multiple places in a manifest (e.g. when creating [relationships between resources][relationships]), be consistent with the case of the name. Names are case-sensitive in Puppet manifests, but case-insensitive on Windows.
+It's important that the cases match, however, because autorequire will attempt to match users with fully qualified names (`User[BUILTIN\Administrators]`) in addition to SIDs (`User[S-1-5-32-544]`). It might not match in cases where domain accounts and local accounts have the same name, such as `Domain\Bob` versus `LOCAL\Bob`.
 
 >**Note**: For reporting and for `puppet resource`, groups always come back in fully qualified form when describing a user, so it looks like `BUILTIN\Administrators`. In other words, it doesn’t always look the same as in the manifest.
 

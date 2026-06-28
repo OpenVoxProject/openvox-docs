@@ -35,6 +35,7 @@ Any Puppet Server certificate must contain the DNS name at which agent nodes wil
 
 When Puppet uses its internal CA, it defaults to a single CA configuration. A single externally issued CA can also be used in a similar manner.
 
+```text
                    +------------------------+
                    |                        |
                    |  Root self-signed CA   |
@@ -49,6 +50,7 @@ When Puppet uses its internal CA, it defaults to a single CA configuration. A si
       | Server SSL Cert |                | Agent SSL Cert |
       |                 |                |                |
       +-----------------+                +----------------+
+```
 
 This configuration is all-or-nothing rather than mix-and-match. When using an external CA, the built-in Puppet CA service **must** be disabled and cannot be used to issue SSL certificates.
 
@@ -64,7 +66,7 @@ Configure Puppet Server in three steps:
 
 1. Edit Puppet Server's `/etc/puppetlabs/puppetserver/services.d/ca.cfg` file to disable the internal CA. Comment out the line following "To enable the CA service..." and uncomment the line following "To disable the CA service...", as follows:
 
-   ```
+   ```text
    # To enable the CA service, leave the following line uncommented
    # puppetlabs.services.ca.certificate-authority-service/certificate-authority-service
    # To disable the CA service, comment out the above line and uncomment the line below
@@ -73,7 +75,7 @@ Configure Puppet Server in three steps:
 
 2. Set a static value for the `certname` setting in [`puppet.conf`][conf]:
 
-   ```
+   ```ini
    [server]
    certname = puppetserver.example.com
    ```
