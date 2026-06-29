@@ -38,6 +38,12 @@ This is an enhancement and bug-fix release of OpenVox Server.
 
 All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvox-server/releases/tag/8.13.0).
 
+### Security Issues Resolved in 8.13.0
+
+| Identifier                                                               | CVSS 3.1 Score | Resolved By                                                |
+| :----------------------------------------------------------------------- | :------------: | :--------------------------------------------------------- |
+| [GHSA-72hv-8253-57qq](https://github.com/advisories/GHSA-72hv-8253-57qq) |       N/A      | `pkg:maven/com.fasterxml.jackson.core/jackson-core@2.21.3` |
+
 ### Known Issues
 
 #### `jruby-openssl` 0.15.4 Fails to Parse EC Keys
