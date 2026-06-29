@@ -72,7 +72,7 @@ This is an enhancement release of OpenVoxDB.
 All bug fixes, new features and other changes are provided on the
 [project's GitHub release page](https://github.com/OpenVoxProject/openvoxdb/releases/tag/8.13.0).
 
-### Security Issues Resolved in 8.14.0
+### Security Issues Resolved in 8.13.0
 
 | Identifier                                                               | CVSS 3.1 Score | Resolved By                                                |
 | :----------------------------------------------------------------------- | :------------: | :--------------------------------------------------------- |
