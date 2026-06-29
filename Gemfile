@@ -21,7 +21,7 @@ group(:generate_references) do
   gem 'pandoc-ruby'
   gem 'pragmatic_segmenter', '~> 0.3'
   gem 'punkt-segmenter', '~> 0.9'
-  gem 'rdoc', '~> 7.1'
+  gem 'rdoc', '~> 8.0'
   gem 'rgen', '~> 0.8'
   gem 'yard', '~> 0.9'
 end
