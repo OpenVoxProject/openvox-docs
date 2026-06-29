@@ -147,6 +147,14 @@ namespace :references do
   desc 'Generate all component-version data files (agent, server, openvoxdb, openbolt)'
   task component_versions: %i[agent_versions server_versions openvoxdb_versions openbolt_versions]
 
+  desc 'Generate _data/supported_platforms.yml from the shared-actions platforms.json'
+  task :supported_platforms do
+    require 'puppet_references/supported_platforms'
+    path = ENV.fetch('SUPPORTED_PLATFORMS_DATA', '_data/supported_platforms.yml')
+    data = PuppetReferences::SupportedPlatforms.write_data_file(path:)
+    puts "Wrote #{data.values.sum(&:size)} platform rows across #{data.size} series to #{path}"
+  end
+
   task :check do
     puts 'No VERSION given to build references for - using latest tag' unless ENV['VERSION']
     puts "Building into collection #{ENV.fetch('COLLECTION')}" if ENV['COLLECTION']

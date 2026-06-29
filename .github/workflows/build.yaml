@@ -92,6 +92,9 @@ jobs:
           bundle exec rake references:server_versions || echo 'server_versions refresh failed; using committed _data'
           bundle exec rake references:openvoxdb_versions || echo 'openvoxdb_versions refresh failed; using committed _data'
           bundle exec rake references:openbolt_versions || echo 'openbolt_versions refresh failed; using committed _data'
+          # Refresh the supported-platforms table from the shared-actions
+          # platforms.json, falling back to the committed _data file if unreachable.
+          bundle exec rake references:supported_platforms || echo 'supported_platforms refresh failed; using committed _data'
           bundle exec jekyll build
       - name: Archive website
         run: |
