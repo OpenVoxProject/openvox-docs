@@ -135,8 +135,10 @@ namespace :references do
     # its own OPENBOLT_SERIES / OPENBOLT_MIN_RELEASE rather than the generic
     # SERIES / MIN_RELEASE. That keeps an OpenVox 9.x regeneration (SERIES=9.) from
     # leaking into OpenBolt, where it would resolve no 9.x releases and abort.
+    # The floor is 5.3.0 because OpenBolt SBOMs begin there; 5.1.0/5.2.0 predate the
+    # SBOMs and would only be skipped.
     series = ENV.fetch('OPENBOLT_SERIES', '5.')
-    min_version = ENV.fetch('OPENBOLT_MIN_RELEASE', '5.1.0')
+    min_version = ENV.fetch('OPENBOLT_MIN_RELEASE', '5.3.0')
     path = ENV.fetch('OPENBOLT_VERSIONS_DATA', '_data/openbolt_release_contents.yml')
     rows = PuppetReferences::OpenboltReleaseTable.write_data_file(series:, min_version:, path:)
     puts "Wrote #{rows.size} releases to #{path}"
