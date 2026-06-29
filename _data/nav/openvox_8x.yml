@@ -11,6 +11,8 @@
     link: "about_agent.html"
   - text: Component versions in recent releases
     link: "component_versions.html"
+  - text: Supported platforms
+    link: "supported_platforms.html"
 - text: Getting started
   items:
   - text: Getting started with OpenVox
