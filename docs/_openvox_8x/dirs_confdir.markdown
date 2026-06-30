@@ -21,8 +21,6 @@ The system confdir is what you usually want to use, since you will usually run P
 services as root or `puppet`. (Note that admin commands like `puppetserver ca` must be run with `sudo`
 to use the same confdir as OpenVox agent or OpenVox Server.)
 
-> **Note:** When OpenVox Server is running as a Rack application, the `config.ru` file must explicitly set `--confdir` to the system confdir. The example `config.ru` file provided with the Puppet source does this.
-
 ### Configuration
 
 Puppet's confdir can be specified on the command line with the `--confdir` option, but it can't be set
