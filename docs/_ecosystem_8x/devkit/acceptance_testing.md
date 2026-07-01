@@ -27,7 +27,9 @@ First, you need a hypervisor.
 Beaker defaults to Docker, which is the easiest way to get started, so install it and make sure your user can run containers.
 [Podman](https://podman.io/), [Vagrant](https://www.vagrantup.com/), and [libvirt](https://libvirt.org/) are also supported if you prefer them.
 
-If you're running locally on macOS, two extra wrinkles come up. Neither affects Linux CI runners, which already provide the standard socket and architecture.
+<!-- markdownlint-disable MD033 -->
+<details markdown="1">
+<summary>Running locally on macOS? Two extra wrinkles apply — the Docker socket and the CPU architecture. (Neither affects Linux CI runners, which already provide the standard socket and architecture.)</summary>
 
 **The Docker socket.**
 Docker Desktop puts its socket at `~/.docker/run/docker.sock`, but Beaker looks for `/var/run/docker.sock`.
@@ -38,8 +40,12 @@ Apple Silicon Macs are arm64, but many Vox Pupuli Docker setfile images are curr
 Docker Desktop can run the mismatched images under emulation, but emulated acceptance runs are slower and can be more fragile than a native run such as Linux CI.
 If Docker reports an image platform mismatch, export `DOCKER_DEFAULT_PLATFORM=linux/amd64`, pull the base image once with that platform selected, and retry.
 
+</details>
+<!-- markdownlint-enable MD033 -->
+
 Second, you need a current Ruby.
 The Ruby that ships with macOS and some Linux distributions is too old, and using it makes `bundle install` fail with a confusing dependency error rather than a clear "your Ruby is too old" message.
+Apple has also [deprecated the system Ruby](https://developer.apple.com/documentation/macos-release-notes/macos-catalina-10_15-release-notes#Scripting-Language-Runtimes) and warns that a future macOS won't ship one at all, so you'll want your own Ruby regardless.
 Most people install and select Ruby with a version manager such as [rbenv](https://github.com/rbenv/rbenv), [rvm](https://rvm.io/), or [mise](https://mise.jdx.dev/).
 Install a 3.x Ruby, then run `ruby --version` in the module directory and confirm it reports 3.x before you go further; the [DevKit setup guide](setup.html) covers this in more detail.
 
@@ -100,6 +106,8 @@ That second run is the heart of acceptance testing, because it proves _idempoten
 A manifest is idempotent when applying it more than once is safe: the first run brings the system to the desired state, and every run after that makes no changes because the system already matches.
 Idempotency is a core property of well-written Puppet code, and a manifest that keeps making changes on every run is a bug.
 Catching that here is one of the most valuable things an acceptance test does.
+
+{% include alert.html type="note" content="A few modules genuinely need two runs to converge, usually because the first run installs a tool that produces a new fact the second run then acts on. That's the rare exception, not a license to ignore a manifest that never settles; when you hit a real case, relax the second-run check for that one test." %}
 
 Once the manifest is applied, you assert against the real node using the [`serverspec`](https://serverspec.org/) matchers such as `package`, `service`, and `port`.
 A typical test for a `chrony` class looks like this:
