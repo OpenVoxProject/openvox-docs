@@ -26,11 +26,10 @@ on its own 5.x line). There is no single "OpenVox platform version" that pins al
 of them at once, so each component is shown in its own table, keyed by that
 component's release.
 
-The bundled-component columns are **generated** from upstream release metadata (the
-per-release SBOMs published by [openvox-sbom-tools][sbom_tools] for the agent and
-OpenBolt, and component pins for the server), so they don't drift. Columns that
-aren't bundled or pinned anywhere (Java and PostgreSQL) are supported-version
-requirements maintained by hand; see the note under each table.
+The bundled-component columns are **generated** from the per-release SBOMs published
+by [openvox-sbom-tools][sbom_tools] for every component, so they don't drift. Columns
+that aren't bundled anywhere (Java and PostgreSQL) are supported-version requirements
+maintained by hand; see the note under each table.
 
 <!-- markdownlint-disable MD055 MD056 -->
 
@@ -48,8 +47,8 @@ changes; this page is only a pointer.
 
 ## Server components
 
-These ship with the `openvox-server` package. JRuby is the bundled version,
-resolved from the server's pinned `jruby-utils`/`jruby-deps`.
+These ship with the `openvox-server` package. JRuby is the bundled version, read
+from the server's per-release SBOM.
 
 | OpenVox Server release | JRuby | Java |
 | --- | --- | --- |
@@ -67,15 +66,19 @@ OpenVoxDB ships in the `openvoxdb` package on its own release line. The
 agents talk to OpenVoxDB) is released in lockstep at the **same version** as
 `openvoxdb`, so it is not listed separately.
 
-| OpenVoxDB release | PostgreSQL |
-| --- | --- |
-{% for r in site.data.openvoxdb_release_contents[nav_key] %}| {{ r.release }} | 11+ (14+ recommended) |
+Jetty is the bundled HTTP server, read from the OpenVoxDB SBOM.
+
+| OpenVoxDB release | Jetty | Java | PostgreSQL |
+| --- | --- | --- | --- |
+{% for r in site.data.openvoxdb_release_contents[nav_key] %}| {{ r.release }} | {{ r.jetty }} | 11, 17 | 11+ (14+ recommended) |
 {% endfor %}
 
-> **PostgreSQL is not bundled.** OpenVoxDB connects to a PostgreSQL server you
-> install separately (the `puppet-openvoxdb` module can install it for you). The
-> PostgreSQL column shows the supported minimum (PostgreSQL 11; version 14 or newer
-> recommended), not a per-release pin; see [Configuring PostgreSQL][openvoxdb_postgres].
+> **Java and PostgreSQL are not bundled.** OpenVoxDB runs on a JVM and connects to a
+> PostgreSQL server you install separately (the `puppet-openvoxdb` module can install
+> PostgreSQL for you). The Java column shows the currently supported major versions,
+> and the PostgreSQL column the supported minimum (PostgreSQL 11; version 14 or newer
+> recommended) — neither is a per-release pin. See
+> [Configuring PostgreSQL][openvoxdb_postgres].
 
 ## OpenBolt
 
