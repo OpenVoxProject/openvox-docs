@@ -45,8 +45,9 @@
   - text: Wrapping a script in a plan
     link: creating_a_script_plan.html
 - text: Plans
-  link: plans.html
   items:
+  - text: Overview
+    link: plans.html
   - text: Inspecting plans
     link: inspecting_plans.html
   - text: Running plans
@@ -60,8 +61,9 @@
   - text: Testing plans
     link: testing_plans.html
 - text: Tasks
-  link: tasks.html
   items:
+  - text: Overview
+    link: tasks.html
   - text: Inspecting tasks
     link: inspecting_tasks.html
   - text: Running tasks
@@ -97,8 +99,9 @@
   - text: Connecting Bolt to PuppetDB
     link: bolt_connect_puppetdb.html
 - text: Bolt Examples
-  link: bolt_examples.html
   items:
+  - text: Overview
+    link: bolt_examples.html
   - text: Automating Windows targets
     link: automating_windows_targets.html
   - text: Deploy a TIG stack with Bolt

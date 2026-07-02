@@ -19,3 +19,6 @@ blog](https://puppet.com/search/?query=bolt&page=1&configure%5BhitsPerPage%5D=20
 
 > **Note:** Do you have a real-world use case for Bolt that you'd like to share? Reach out to us in the #bolt
   channel on [Slack](https://slack.puppet.com).
+
+- [Automating Windows targets](automating_windows_targets.html) — Use Bolt to manage a fleet of Windows machines.
+- [Deploy a TIG stack with Bolt](tig_stack.html) — Provision and configure a Telegraf, InfluxDB, and Grafana stack.
