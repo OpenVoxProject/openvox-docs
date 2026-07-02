@@ -12,9 +12,8 @@ module PuppetReferences
   # drive the table and resolves one row per stable release from authoritative,
   # structured metadata, so the tables are never hand-maintained. The shared
   # GitHub releases/contents plumbing lives here so the per-table classes stay
-  # small. Agent and OpenBolt rows come from openvox-sbom-tools SBOMs (see
-  # SbomReleaseTable); server and OpenVoxDB rows are still resolved from upstream
-  # pins until their SBOMs land.
+  # small. Every table now sources its bundled-component columns from
+  # openvox-sbom-tools SBOMs (see SbomReleaseTable).
   #
   # Authenticates with ENV GITHUB_TOKEN/GH_TOKEN, falling back to `gh auth token`
   # for local runs. A release whose components can't be resolved (e.g. a tag that
@@ -210,52 +209,45 @@ module PuppetReferences
     end
   end
 
-  # openvox-server: bundled JRuby, resolved through the server's pinned
-  # jruby-utils -> jruby-deps "9.4.12.1-3" (the trailing "-N" packaging suffix is
-  # stripped). Java is a supported requirement, not a pin, so it is hand-maintained
-  # on the docs page rather than resolved here. Stays on the upstream-pin scraper
-  # until an openvox-server SBOM is published.
-  class ServerReleaseTable < ReleaseTable
-    SERVER_REPO = 'OpenVoxProject/openvox-server'
-    JRUBY_UTILS_REPO = 'OpenVoxProject/jruby-utils'
+  # openvox-server: bundled JRuby, read from the openvox-server SBOM's `jruby-base`
+  # component (the resolved JRuby version). This replaces the previous resolution
+  # through the server's pinned jruby-utils -> jruby-deps in project.clj, which
+  # required stripping a "-N" packaging suffix; `jruby-base` is already clean. Java
+  # is a supported requirement, not a pin, so it is hand-maintained on the docs
+  # page rather than resolved here.
+  class ServerReleaseTable < SbomReleaseTable
+    REPO = 'OpenVoxProject/openvox-server'
 
     def repo
-      SERVER_REPO
+      REPO
     end
 
-    def row_for(tag, cache)
-      jruby_utils = pin_in_project_clj(SERVER_REPO, tag, 'jruby-utils')
-      { 'release' => tag, 'jruby' => (cache[jruby_utils] ||= jruby_from_utils(jruby_utils)) }
+    def sbom_package
+      'openvox-server'
     end
 
-    private
-
-    def jruby_from_utils(jruby_utils_ver)
-      deps = pin_in_project_clj(JRUBY_UTILS_REPO, jruby_utils_ver, 'jruby-deps')
-      deps.sub(/-\d+\z/, '')
-    end
-
-    # Version of an org.openvoxproject/<name> dependency pinned in a repo's project.clj.
-    def pin_in_project_clj(repo, ref, name)
-      clj = raw(repo, 'project.clj', ref)
-      version = clj[%r{org\.openvoxproject/#{Regexp.escape(name)}\s+"([^"]+)"}, 1]
-      raise NotFound, "#{name} pin in #{repo}@#{ref}" unless version
-
-      version
+    def columns
+      { 'jruby' => 'jruby-base' }
     end
   end
 
-  # OpenVoxDB ships on its own independent version line; the table is just its
-  # stable release tags. PostgreSQL is a supported requirement (the openvoxdb
-  # module only declares a postgresql dependency range, not a bundled version),
-  # so it is hand-maintained on the docs page.
-  class OpenvoxdbReleaseTable < ReleaseTable
+  # OpenVoxDB ships on its own independent version line. It is a Clojure/JVM
+  # service (no bundled JRuby), so the one bundled component worth surfacing is the
+  # embedded Jetty HTTP server, read from its per-release SBOM. Java and PostgreSQL
+  # are supported requirements (the openvoxdb module only declares a postgresql
+  # dependency range, not a bundled version), so those columns stay hand-maintained
+  # on the docs page.
+  class OpenvoxdbReleaseTable < SbomReleaseTable
     def repo
       'OpenVoxProject/openvoxdb'
     end
 
-    def row_for(tag, _cache)
-      { 'release' => tag }
+    def sbom_package
+      'openvoxdb'
+    end
+
+    def columns
+      { 'jetty' => 'jetty-server' }
     end
   end
 end

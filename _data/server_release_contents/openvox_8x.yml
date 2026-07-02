@@ -1,4 +1,6 @@
 ---
+- release: 8.14.1
+  jruby: 9.4.12.1
 - release: 8.14.0
   jruby: 9.4.12.1
 - release: 8.13.0
