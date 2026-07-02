@@ -34,7 +34,6 @@ title: "Language: Classes"
 [declare]: #declaring-classes
 [setting_parameters]: #include-like-vs-resource-like
 [override]: #using-resource-like-declarations
-[ldap_nodes]: ./nodes_ldap.html
 [hiera]: /openvox/latest/hiera_intro.html
 [external_data]: /openvox/latest/hiera_automatic.html
 [array_search]: /openvox/latest/hiera_merging.html
@@ -396,7 +395,7 @@ However, note that:
 
 ## Assigning classes from an ENC
 
-Classes can also be assigned to nodes by [external node classifiers][enc] and [LDAP node data][ldap_nodes]. Note that most ENCs assign classes with include-like behavior, and some ENCs assign them with resource-like behavior. See the [documentation of the ENC interface][enc] or the documentation of your specific ENC for complete details.
+Classes can also be assigned to nodes by [external node classifiers][enc]. Note that most ENCs assign classes with include-like behavior, and some ENCs assign them with resource-like behavior. See the [documentation of the ENC interface][enc] or the documentation of your specific ENC for complete details.
 
 ## Appendix: Smart parameter defaults
 

@@ -18,7 +18,6 @@ title: "Subsystems: Catalog compilation"
 [node terminus]: ./configuration.html#node_terminus
 [plain_node]: ./indirection.html#plain-terminus
 [exec_node]: ./indirection.html#exec-terminus
-[ldap_guide]: ./nodes_ldap.html
 [facts_builtin]: ./lang_facts_and_builtin_vars.html
 [node definitions]: ./lang_node_definitions.html
 [agent_provided]: #agent-provided-data
@@ -107,8 +106,6 @@ Once the OpenVox Server has the agent-provided information for this request, it 
 By default, OpenVox Server uses the [`plain` node terminus][plain_node], which just returns a blank node object. This results in only manifests and agent-provided info being used in compilation.
 
 The next most common node terminus is the [`exec` node terminus][exec_node], which will request data from an [external node classifier (ENC)][enc]. This can return classes, variables, an environment, or some combination of the three, depending on how the ENC is designed.
-
-Less commonly, some people use the `ldap` node terminus, which will fetch ENC-like information from an LDAP database. See the page on [LDAP nodes][ldap_guide] for more information.
 
 Finally, it's possible to write a custom node terminus that retrieves classes, variables, and environments from any kind of external system.
 

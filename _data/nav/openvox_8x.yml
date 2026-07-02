@@ -341,8 +341,6 @@
   items:
   - text: External node classifiers
     link: "nodes_external.html"
-  - text: The LDAP node classifier
-    link: "nodes_ldap.html"
 - text: Misc. references
   items:
   - text: Settings (configuration reference)
