@@ -28,6 +28,7 @@ Work is expressed at several levels:
 ### Install OpenBolt
 
 - [Installing OpenBolt](bolt_installing.html) - Follow the installation instructions for your operating system: \*nix, macOS, or Windows.
+
 ### Make one-time changes to your remote targets
 
 - [Run a command](running_bolt_commands.html#run-a-command)
@@ -40,6 +41,7 @@ Work is expressed at several levels:
 - [Running plans](bolt_running_plans.html)
 
 ### Create your own tasks and plans
+
 - [Installing OpenBolt](bolt_installing.html)
 - [Getting started with Bolt](getting_started_with_bolt.html)
 - [Writing tasks](writing_tasks.html)
@@ -70,7 +72,7 @@ Work is expressed at several levels:
 
 - [Join us on Slack](https://voxpupuli.slack.com/) - Join the #bolt channel.
 - Follow us on [Bluesky](https://bsky.app/profile/voxpupuli.bsky.social/) or [Mastodon](https://fosstodon.org/@voxpupuli/)
-- [Connect with the OpenVox/VoxPupuli Community](https://voxpupuli.org/connect/) 
+- [Connect with the OpenVox/VoxPupuli Community](https://voxpupuli.org/connect/)
 - [OpenVox on GitHub](https://github.com/openvox/)
 - [Open source projects from VoxPupuli on GitHub](https://github.com/voxpupuli/)
 - [Puppet Forge](https://forge.puppet.com) - Find modules you can use, and contribute modules you've made to the community.
