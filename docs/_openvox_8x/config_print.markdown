@@ -78,7 +78,7 @@ To see the settings the OpenVox Server service would use:
 * Specify `--section server`.
 * Use the `--environment` option to specify the environment you want settings for, or let it default to `production`.
 * Remember to use `sudo`.
-* If your OpenVox Server is managed as a rack application (e.g. with Passenger), check the `config.ru` file to make sure it's using the [confdir][] and [vardir][] that you expect. If it's using non-standard ones, you will need to specify them on the command line with the `--confdir` and `--vardir` options; otherwise you might not see the correct values for settings.
+* If your OpenVox Server uses a non-standard [confdir][] or [vardir][], specify them on the command line with the `--confdir` and `--vardir` options; otherwise you might not see the correct values for settings.
 
 ### Examples
 

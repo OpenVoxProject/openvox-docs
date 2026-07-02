@@ -125,7 +125,7 @@ These settings should usually go in `[server]`. However, if you're using Puppet 
 ### Basics
 
 * [`dns_alt_names`][dns_alt_names] --- A list of hostnames the server is allowed to use when acting as an OpenVox Server. The hostname your agents use in their `server` setting **must** be included in either this setting or the master's `certname` setting. Note that this setting is only used when initially generating the OpenVox Server's certificate --- if you need to change the DNS names, you must:
-    1. Turn off the Puppet server service (or your Rack server).
+    1. Turn off the Puppet server service.
     2. Run `sudo puppetserver ca clean --certname <SERVER'S CERTNAME>`.
     3. Run `sudo puppetserver ca generate --certname <SERVER'S CERTNAME> --subject-alt-names <ALT NAME 1>,<ALT NAME 2>,...`.
     4. Re-start the Puppet server service.

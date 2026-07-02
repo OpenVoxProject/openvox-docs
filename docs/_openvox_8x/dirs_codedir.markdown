@@ -20,8 +20,6 @@ When Puppet is running as either root, a Windows user with administrator privile
 
 The system codedir is what you usually want to use, since you will usually run Puppet's commands and services as root or `puppet`. (Note that admin commands like `puppet module` must be run with `sudo` to use the same codedir as OpenVox agent or OpenVox Server.)
 
-> **Note:** When OpenVox Server is running as a Rack application, the `config.ru` file must explicitly set `--codedir` to the system codedir. The example `config.ru` file provided with the Puppet source does this.
-
 ### Configuration
 
 The location of the codedir can be configured in puppet.conf with [the `codedir` setting][codedir], but note that Puppet Server doesn't use that setting; it has its own `jruby-puppet.master-code-dir` setting [in puppetserver.conf][puppetserver_conf]. If you're using a non-default codedir, _you must change both settings._

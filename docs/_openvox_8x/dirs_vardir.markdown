@@ -24,8 +24,6 @@ The system cache directory is what you usually want to use, since you will usual
 and services as root or `puppet`. (Note that admin commands like `puppetserver ca` must be run with
 `sudo` to use the same directories as OpenVox agent or OpenVox Server.)
 
-> **Note:** When OpenVox Server is running as a Rack application, the `config.ru` file must explicitly set `--vardir` to the system cache directory. The example `config.ru` file provided with the Puppet source does this.
-
 ### Configuring the location of the cache directory
 
 You can specify Puppet's cache directory on the command line by using the `--vardir` option, but you can't set it in `puppet.conf`. If `--vardir` isn't specified when a Puppet application is started, it will always use the default cache directory location.
