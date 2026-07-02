@@ -105,7 +105,6 @@ have installed:
   ```
 
 
-
 ### Upgrade OpenBolt
 
 To upgrade OpenBolt to the latest version, run the following command:
@@ -135,7 +134,7 @@ Use the Apple Disk Image (DMG) to install OpenBolt on macOS:
 
 1. Download the OpenBolt installer package for your macOS version.
 
-   - https://downloads.voxpupuli.org/mac/openvox8/openbolt-5.6.0-1.macos.all.x86_64.dmg
+   - <https://downloads.voxpupuli.org/mac/openvox8/openbolt-5.6.0-1.macos.all.x86_64.dmg>
 
 1. Double-click the `openbolt-[version].macos.all.x86_64.dmg` file to mount the installer and
    then double-click `openbolt-[version]-installer.pkg` to run the installer.
