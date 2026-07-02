@@ -16,18 +16,22 @@ If you get an error about a command not being available, you probably just need 
 
 {% include alert.html type="tip" content="There are a few exceptions to this pattern. For example, Jig is an installed package and VoxBox is a Docker container." %}
 
-| You used to type... | Now you type...  |
-|---------------------|------------------|
-| `pdk new module`    | `jig new module` |
-| `pdk new class`     | `jig new class`  |
-| `pdk build`         | `jig build`      |
-| `pdk release`       | `jig release`    |
-| `pdk convert`       | _not needed_     |
-| `pdk update`        | `jig update`     |
-| `pdk validate`      | `jig validate`   |
-| `pdk test unit`     | `jig test unit`  |
+Jig also contains thin wrappers around the `bundle exec` commands, so in many cases you can use the CLI patterns you're used to typing.
+Because Jig does not attempt to hide the Bundler environment from you, it will still need the module's gems installed (`bundle install`) and ModuleSync configured properly.
 
-`jig update`, `jig validate`, and `jig test unit` are thin wrappers around `bundle exec msync update`, `bundle exec rake validate lint`, and `bundle exec rake spec` respectively, so they still need the module's gems installed (`bundle install`).
-You can keep running the underlying `bundle exec` commands directly if you prefer.
+{% include alert.html type="tip" title="Choosing command forms" content="If you want quick and familiar commands to run locally, then use the Jig wrapper commands. If you're running tests and such in CI or if you need to pass custom options then invoke the tools directly." %}
+
+| You used to type... | Now you type...  | Or run tools directly...         |
+|---------------------|------------------|----------------------------------|
+| `pdk new module`    | `jig new module` |                                  |
+| `pdk new class`     | `jig new class`  |                                  |
+| `pdk build`         | `jig build`      |                                  |
+| `pdk release`       | `jig release`    |                                  |
+| `pdk convert`       | _not needed_     |                                  |
+| `pdk update`        | `jig update`*    | `bundle exec msync update`*      |
+| `pdk validate`      | `jig validate`   | `bundle exec rake validate lint` |
+| `pdk test unit`     | `jig test unit`  | `bundle exec rake spec`          |
+
+{% include alert.html type="note" title="*NOTE" content="`pdk update` operates in context of a single module. In contrast, the replacement ModuleSync commands (`jig update` and `bundle exec msync update`) should be run in the template repository to push updates to all your modules at once. [Read more](modulesync.html)." %}
 
 Browse through the individual subpages of this Developer Tooling section to learn more about each component.
