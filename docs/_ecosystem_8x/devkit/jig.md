@@ -166,3 +166,4 @@ Jig is the only scaffolding tool we have currently tested.
 If you'd like to experiment, there are other options available.
 
 * [Regent](https://github.com/ffquintella/regent) is a high-performance, modern implementation of PDK features in Rust. It uses the embedded Artichoke Ruby runtime for all Ruby execution.
+* [PCT](https://github.com/jay7x/pct) is an experimental pluggable content templating system. It's designed so that rather than a single set of templates, each component is a separate template. This means that you could choose to use one author's _module_ template, but a different author's _class_ template, and yet another author's template for adding GitLab CI pipelines.
