@@ -164,22 +164,6 @@ sudo rm -rf /opt/puppetlabs/bolt /opt/puppetlabs/bin/bolt
 
 Use one of the supported Windows installation methods to install OpenBolt.
 
-#### Upgrade OpenBolt
-
-To upgrade OpenBolt to the latest version, run the following command:
-
-```powershell
-choco upgrade openbolt
-```
-
-#### Uninstall OpenBolt
-
-To uninstall OpenBolt, run the following command:
-
-```powershell
-choco uninstall openbolt
-```
-
 ### Windows installer (MSI)
 
 #### Install OpenBolt
