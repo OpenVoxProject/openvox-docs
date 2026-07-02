@@ -72,6 +72,14 @@ This is an enhancement release of OpenVoxDB.
 All bug fixes, new features and other changes are provided on the
 [project's GitHub release page](https://github.com/OpenVoxProject/openvoxdb/releases/tag/8.13.0).
 
+### Security Issues Resolved in 8.13.0
+
+| Identifier                                                               | CVSS 3.1 Score | Resolved By                                                |
+| :----------------------------------------------------------------------- | :------------: | :--------------------------------------------------------- |
+| [GHSA-72hv-8253-57qq](https://github.com/advisories/GHSA-72hv-8253-57qq) |       N/A      | `pkg:maven/com.fasterxml.jackson.core/jackson-core@2.21.3` |
+| [CVE-2025-67721](https://nvd.nist.gov/vuln/detail/CVE-2025-67721)        |       7.5      | `pkg:maven/io.airlift/aircompressor@2.0.3`                 |
+| [CVE-2026-42198](https://nvd.nist.gov/vuln/detail/CVE-2026-42198)        |       7.5      | `pkg:maven/org.postgresql/postgresql@42.7.11`              |
+
 ## OpenVoxDB 8.12.1
 
 Released January 23, 2026.

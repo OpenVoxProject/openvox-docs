@@ -10,17 +10,19 @@ module PuppetReferences
   # Base for the component "release contents" tables rendered on the OpenVox
   # component-versions page. Each subclass names the upstream repo whose releases
   # drive the table and resolves one row per stable release from authoritative,
-  # structured component pins, so the tables are never hand-maintained. The shared
-  # GitHub releases/contents plumbing lives here so the per-table classes stay small.
+  # structured metadata, so the tables are never hand-maintained. The shared
+  # GitHub releases/contents plumbing lives here so the per-table classes stay
+  # small. Agent and OpenBolt rows come from openvox-sbom-tools SBOMs (see
+  # SbomReleaseTable); server and OpenVoxDB rows are still resolved from upstream
+  # pins until their SBOMs land.
   #
   # Authenticates with ENV GITHUB_TOKEN/GH_TOKEN, falling back to `gh auth token`
-  # for local runs. A release whose component layout can't be resolved (e.g. very
-  # old tags that predate these pins) is skipped with a warning; transient API
+  # for local runs. A release whose components can't be resolved (e.g. a tag that
+  # predates the data this table reads) is skipped with a warning; transient API
   # failures raise so a bad run never overwrites the committed data file.
   class ReleaseTable
     API_ROOT = 'https://api.github.com'
     USER_AGENT = 'openvox-docs-release-table'
-    RUNTIME_REPO = 'OpenVoxProject/puppet-runtime'
 
     # A resolved component value must look like a dotted version. This screens out
     # boundary releases that pin a component by git SHA or whose layout yields a
@@ -96,35 +98,12 @@ module PuppetReferences
           .reverse
     end
 
-    # Files under puppet-runtime's configs/components at a given runtime version.
-    def runtime_files(runtime_ver)
-      list_dir(RUNTIME_REPO, 'configs/components', runtime_ver)
-    end
-
-    # Component version from puppet-runtime's <name>.json (.version) or the vanagon
-    # <name>.rb DSL. Recent components pin in JSON; older ones use the .rb DSL.
-    def component_version(pattern, runtime_ver, files)
-      if (json = files.find { |n| n.match?(/\A#{pattern}\.json\z/) })
-        return json_at(RUNTIME_REPO, "configs/components/#{json}", runtime_ver)['version']
-      end
-
-      rb = files.find { |n| n.match?(/\A#{pattern}\.rb\z/) }
-      raise NotFound, "component /#{pattern}/ in runtime #{runtime_ver}" unless rb
-
-      raw(RUNTIME_REPO, "configs/components/#{rb}", runtime_ver)[/pkg\.version\s+['"]([^'"]+)['"]/, 1]
-    end
-
     def json_at(repo, path, ref)
       JSON.parse(raw(repo, path, ref))
     end
 
     def raw(repo, path, ref)
       api_get("/repos/#{repo}/contents/#{path}?ref=#{ref}", accept: 'application/vnd.github.raw')
-    end
-
-    def list_dir(repo, path, ref)
-      body = api_get("/repos/#{repo}/contents/#{path}?ref=#{ref}", accept: 'application/vnd.github+json')
-      JSON.parse(body).map { |entry| entry['name'] }
     end
 
     def api_get(path, accept:)
@@ -147,42 +126,95 @@ module PuppetReferences
     end
   end
 
-  # openvox-agent: bundled OpenFact plus Ruby/OpenSSL/curl from the agent runtime.
-  #
-  # Only components actually bundled by the agent runtime project (agent-runtime-8.x)
-  # are reported. r10k is intentionally absent: its pin exists in puppet-runtime, but
-  # it is bundled by openbolt-runtime, not the agent, so it does not ship in
-  # openvox-agent (see OpenboltReleaseTable).
-  class AgentReleaseTable < ReleaseTable
+  # Base for tables sourced from openvox-sbom-tools CycloneDX SBOMs rather than
+  # scraping upstream pkg-DSL. Each release ships an SBOM committed at
+  # lib/openvox/sbom-tools/sbom/<package>_<version>.cdx.json whose `.components[]`
+  # carry already-resolved `{name, version}` pairs; a subclass maps the component
+  # names it cares about to the table's columns. A release whose SBOM has not been
+  # committed yet is skipped (NotFound), so the table tracks SBOM availability:
+  # a newly tagged release appears once its SBOM lands upstream.
+  class SbomReleaseTable < ReleaseTable
+    SBOM_REPO = 'OpenVoxProject/openvox-sbom-tools'
+    SBOM_DIR = 'lib/openvox/sbom-tools/sbom'
+
+    # SBOM package name; the file for a release is "<package>_<tag>.cdx.json".
+    def sbom_package
+      raise NotImplementedError, "#{self.class} must define #sbom_package"
+    end
+
+    # Ordered { column => component-name } map pulled from each release's SBOM.
+    # Insertion order sets the column order of the generated row.
+    def columns
+      raise NotImplementedError, "#{self.class} must define #columns"
+    end
+
+    def row_for(tag, _cache)
+      resolved = sbom_components(tag)
+      row = { 'release' => tag }
+      columns.each do |column, name|
+        version = resolved[name]
+        raise NotFound, "component #{name.inspect} in #{sbom_package} #{tag} SBOM" unless version
+
+        row[column] = version
+      end
+      row
+    end
+
+    private
+
+    # { component-name => version } for every component in a release's SBOM. The
+    # underlying GitHub contents fetch raises NotFound when the SBOM file is absent
+    # (a release without a committed SBOM), which skips the release.
+    def sbom_components(tag)
+      sbom = json_at(SBOM_REPO, "#{SBOM_DIR}/#{sbom_package}_#{tag}.cdx.json", 'main')
+      sbom.fetch('components').to_h { |component| [component['name'], component['version']] }
+    end
+  end
+
+  # openvox-agent: bundled OpenFact plus Ruby/OpenSSL/curl from the agent runtime,
+  # read from the openvox-agent SBOM. The SBOM lists both `openssl` and
+  # `openssl-fips`; we report the `openssl` runtime version to match the column.
+  class AgentReleaseTable < SbomReleaseTable
     REPO = 'OpenVoxProject/openvox'
 
     def repo
       REPO
     end
 
-    def row_for(tag, cache)
-      openfact = json_at(REPO, 'packaging/configs/components/openfact.json', tag)['ref'].delete_prefix('refs/tags/')
-      runtime = json_at(REPO, 'packaging/configs/components/puppet-runtime.json', tag)['version']
-      rt = (cache[runtime] ||= runtime_versions(runtime))
-      { 'release' => tag, 'openfact' => openfact, 'ruby' => rt[:ruby], 'openssl' => rt[:openssl], 'curl' => rt[:curl] }
+    def sbom_package
+      'openvox-agent'
     end
 
-    private
+    def columns
+      { 'openfact' => 'openfact', 'ruby' => 'ruby', 'openssl' => 'openssl', 'curl' => 'curl' }
+    end
+  end
 
-    def runtime_versions(runtime_ver)
-      files = runtime_files(runtime_ver)
-      {
-        ruby: component_version('ruby-\d+\.\d+', runtime_ver, files),
-        openssl: component_version('openssl-\d+\.\d+', runtime_ver, files),
-        curl: component_version('curl', runtime_ver, files),
-      }
+  # OpenBolt ships on its own 5.x line and bundles its own runtime (Ruby/OpenSSL
+  # plus r10k) along with OpenVox itself (for `bolt apply`). The SBOM reports the
+  # exact bundled OpenVox version resolved at build time, so the `openvox` column
+  # is the resolved version rather than the gemspec requirement range.
+  class OpenboltReleaseTable < SbomReleaseTable
+    REPO = 'OpenVoxProject/openbolt'
+
+    def repo
+      REPO
+    end
+
+    def sbom_package
+      'openbolt'
+    end
+
+    def columns
+      { 'openvox' => 'openvox', 'ruby' => 'ruby', 'openssl' => 'openssl', 'r10k' => 'r10k' }
     end
   end
 
   # openvox-server: bundled JRuby, resolved through the server's pinned
   # jruby-utils -> jruby-deps "9.4.12.1-3" (the trailing "-N" packaging suffix is
   # stripped). Java is a supported requirement, not a pin, so it is hand-maintained
-  # on the docs page rather than resolved here.
+  # on the docs page rather than resolved here. Stays on the upstream-pin scraper
+  # until an openvox-server SBOM is published.
   class ServerReleaseTable < ReleaseTable
     SERVER_REPO = 'OpenVoxProject/openvox-server'
     JRUBY_UTILS_REPO = 'OpenVoxProject/jruby-utils'
@@ -224,54 +256,6 @@ module PuppetReferences
 
     def row_for(tag, _cache)
       { 'release' => tag }
-    end
-  end
-
-  # OpenBolt ships on its own 5.x line, independent of the OpenVox major, and
-  # bundles its own runtime (Ruby/OpenSSL plus r10k). r10k is bundled here, not by
-  # the agent, which is why it appears on the OpenBolt table. OpenBolt also bundles
-  # OpenVox itself (for `bolt apply`); its gemspec declares the requirement as a
-  # range (e.g. "~> 8.0") and the exact version is resolved at build time, so the
-  # table shows the declared requirement rather than a resolved version.
-  class OpenboltReleaseTable < ReleaseTable
-    REPO = 'OpenVoxProject/openbolt'
-
-    def repo
-      REPO
-    end
-
-    def row_for(tag, cache)
-      runtime = json_at(REPO, 'packaging/configs/components/puppet-runtime.json', tag)['version']
-      rt = (cache[runtime] ||= runtime_versions(runtime))
-      {
-        'release' => tag, 'openvox' => openvox_requirement(tag),
-        'ruby' => rt[:ruby], 'openssl' => rt[:openssl], 'r10k' => rt[:r10k],
-      }
-    end
-
-    private
-
-    # "openvox" is a dependency requirement (e.g. "~> 8.0"), not a resolved version.
-    def freeform_fields
-      %w[openvox]
-    end
-
-    # OpenBolt's bundled-OpenVox requirement, from its gemspec.
-    def openvox_requirement(tag)
-      gemspec = raw(REPO, 'openbolt.gemspec', tag)
-      req = gemspec[/add_dependency\s+["']openvox["']\s*,\s*["']([^"']+)["']/, 1]
-      raise NotFound, "openvox dependency in openbolt.gemspec@#{tag}" unless req
-
-      req
-    end
-
-    def runtime_versions(runtime_ver)
-      files = runtime_files(runtime_ver)
-      {
-        ruby: component_version('ruby-\d+\.\d+', runtime_ver, files),
-        openssl: component_version('openssl-\d+\.\d+', runtime_ver, files),
-        r10k: component_version('rubygem-r10k', runtime_ver, files),
-      }
     end
   end
 end

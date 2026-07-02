@@ -1,0 +1,250 @@
+---
+main:
+- os: Enterprise Linux 8
+  family: el
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: true
+- os: Enterprise Linux 9
+  family: el
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: true
+- os: Enterprise Linux 10
+  family: el
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Amazon Linux 2023
+  family: amazon
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Fedora 43
+  family: fedora
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Fedora 44
+  family: fedora
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: SLES 15
+  family: sles
+  agent_bolt:
+  - x86-64
+  server_db: true
+  fips: false
+- os: SLES 16
+  family: sles
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Debian 12
+  family: debian
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: false
+  fips: false
+- os: Debian 13
+  family: debian
+  agent_bolt:
+  - x86-64
+  - Arm64
+  - armhf
+  server_db: true
+  fips: false
+- os: Ubuntu 22.04
+  family: ubuntu
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Ubuntu 24.04
+  family: ubuntu
+  agent_bolt:
+  - x86-64
+  - Arm64
+  - armhf
+  server_db: true
+  fips: false
+- os: Ubuntu 26.04
+  family: ubuntu
+  agent_bolt:
+  - x86-64
+  - Arm64
+  - armhf
+  server_db: true
+  fips: false
+- os: macOS
+  family: macos
+  agent_bolt:
+  - Intel
+  - Apple Silicon
+  server_db: false
+  fips: false
+- os: Windows
+  family: windows
+  agent_bolt:
+  - x86-64
+  server_db: false
+  fips: false
+8.x:
+- os: Enterprise Linux 7
+  family: el
+  agent_bolt:
+  - x86-64
+  server_db: false
+  fips: false
+- os: Enterprise Linux 8
+  family: el
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: true
+- os: Enterprise Linux 9
+  family: el
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: true
+- os: Enterprise Linux 10
+  family: el
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Amazon Linux 2
+  family: amazon
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Amazon Linux 2023
+  family: amazon
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Fedora 42
+  family: fedora
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Fedora 43
+  family: fedora
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Fedora 44
+  family: fedora
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: SLES 15
+  family: sles
+  agent_bolt:
+  - x86-64
+  server_db: true
+  fips: false
+- os: SLES 16
+  family: sles
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Debian 11
+  family: debian
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Debian 12
+  family: debian
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Debian 13
+  family: debian
+  agent_bolt:
+  - x86-64
+  - Arm64
+  - armhf
+  server_db: true
+  fips: false
+- os: Ubuntu 22.04
+  family: ubuntu
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: true
+  fips: false
+- os: Ubuntu 24.04
+  family: ubuntu
+  agent_bolt:
+  - x86-64
+  - Arm64
+  - armhf
+  server_db: true
+  fips: false
+- os: Ubuntu 25.04
+  family: ubuntu
+  agent_bolt:
+  - x86-64
+  - Arm64
+  - armhf
+  server_db: true
+  fips: false
+- os: Ubuntu 26.04
+  family: ubuntu
+  agent_bolt:
+  - x86-64
+  - Arm64
+  - armhf
+  server_db: true
+  fips: false
+- os: macOS
+  family: macos
+  agent_bolt:
+  - Intel
+  - Apple Silicon
+  server_db: false
+  fips: false
+- os: Windows
+  family: windows
+  agent_bolt:
+  - x86-64
+  server_db: false
+  fips: false

@@ -9,6 +9,7 @@ title: "Component versions in recent OpenVox releases"
 [openbolt_apply]: /openbolt/latest/applying_manifest_blocks.html
 [server_install_pre]: /openvox-server/latest/install_pre.html
 [openvoxdb_postgres]: /openvoxdb/latest/configure_postgres.html
+[sbom_tools]: https://github.com/OpenVoxProject/openvox-sbom-tools
 
 {% assign nav_key = page.nav %}
 
@@ -25,10 +26,11 @@ on its own 5.x line). There is no single "OpenVox platform version" that pins al
 of them at once, so each component is shown in its own table, keyed by that
 component's release.
 
-The bundled-component columns are **generated** from upstream component pins, so
-they don't drift. Columns that aren't bundled or pinned anywhere (Java and
-PostgreSQL) are supported-version requirements maintained by hand; see the note
-under each table.
+The bundled-component columns are **generated** from upstream release metadata (the
+per-release SBOMs published by [openvox-sbom-tools][sbom_tools] for the agent and
+OpenBolt, and component pins for the server), so they don't drift. Columns that
+aren't bundled or pinned anywhere (Java and PostgreSQL) are supported-version
+requirements maintained by hand; see the note under each table.
 
 <!-- markdownlint-disable MD055 MD056 -->
 
@@ -92,12 +94,12 @@ separately, for example with the `puppet/r10k` module or a `gem install`.
 {% for r in site.data.openbolt_release_contents %}| {{ r.release }} | {{ r.openvox }} | {{ r.ruby }} | {{ r.openssl }} | {{ r.r10k }} |
 {% endfor %}
 
-> **The OpenVox column is a requirement, not a pinned version.** OpenBolt bundles
-> OpenVox for [`bolt apply`][openbolt_apply], declared in its gemspec as a range
-> (`~> 8.0`); the exact version is resolved at build time (for example, OpenBolt
-> 5.6.0 bundles OpenVox 8.28.0). For `bolt apply`, OpenBolt compiles the catalog
-> with this bundled OpenVox and installs the `openvox-agent` package on targets via
-> `apply_prep` — so you don't install OpenVox separately to use it.
+> **The OpenVox column is the bundled version, not something you install.** OpenBolt
+> bundles OpenVox for [`bolt apply`][openbolt_apply]; its gemspec declares a range
+> (`~> 8.0`) and the version shown here is the exact one resolved into the package at
+> build time. For `bolt apply`, OpenBolt compiles the catalog with this bundled
+> OpenVox and installs the `openvox-agent` package on targets via `apply_prep`, so
+> you don't install OpenVox separately to use it.
 
 <!-- markdownlint-enable MD055 MD056 -->
 
