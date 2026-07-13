@@ -8,8 +8,9 @@ timezone: UTC
 
 theme: jekyll-vitepress-theme
 plugins:
-  - jekyll-vitepress-theme
+  - jekyll-seo-tag
   - jekyll-tabs
+  - jekyll-vitepress-theme
 
 markdown: kramdown
 kramdown:
@@ -83,6 +84,10 @@ collections:
     permalink: '/openvox-containers/latest/:path:output_ext'
 
 defaults:
+  - scope:
+      path: ''
+    values:
+      image: /assets/images/HexagonSticker.png
   - scope:
       path: ''
       type: ecosystem_latest
