@@ -75,4 +75,5 @@ Writing the actual tests is out of scope of this guide, but you'll find it very 
 You'll find guides to follow on the [RSpec homepage](https://rspec.info), just remember that you don't have to set up the framework with the `rspec --init` command -- it's already done for you!
 
 
-{% include alert.html type="tip" content="The test suite includes a task that will run the linter, syntax checker, and unit tests all at once: `bundle exec rake test`." %}
+The test suite includes a task that will run the linter, syntax checker, and unit tests all at once: `bundle exec rake test`.
+{: .tip }

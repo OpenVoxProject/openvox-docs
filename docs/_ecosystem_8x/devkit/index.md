@@ -13,8 +13,9 @@ This style of operation allows your local testing to run exactly the same as it 
 
 This does expose you more directly to the Ruby ecosystem than you might be used to, but we've done our best to make that as painless as possible.
 
-{% include alert.html type="tip" content="If you're already familiar with maintaining Puppet content and testing and you just want to know how to migrate away from the PDK, you can
-[skip directly to that guide](migrating.html)." %}
+If you're already familiar with maintaining Puppet content and testing and you just want to know how to migrate away from the PDK, you can
+[skip directly to that guide](migrating.html).
+{: .tip }
 
 ## Who Is This For?
 

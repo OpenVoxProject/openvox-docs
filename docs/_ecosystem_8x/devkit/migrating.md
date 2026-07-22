@@ -14,7 +14,8 @@ This means that you'll maintain your own Ruby and Bundler installs, but most oth
 Before running commands in a new module repository, you'll need to run `bundle install`.
 If you get an error about a command not being available, you probably just need to run `bundle install`.
 
-{% include alert.html type="tip" content="There are a few exceptions to this pattern. For example, Jig is an installed package and VoxBox is a Docker container." %}
+There are a few exceptions to this pattern. For example, Jig is an installed package and VoxBox is a Docker container.
+{: .tip }
 
 Jig also contains thin wrappers around the `bundle exec` commands, so in many cases you can use the CLI patterns you're used to typing.
 Because Jig does not attempt to hide the Bundler environment from you, it will still need the module's gems installed (`bundle install`) and ModuleSync configured properly.

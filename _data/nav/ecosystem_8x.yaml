@@ -47,7 +47,7 @@
     link: "devkit/onceover.html"
   - text: Impact Analysis
     link: "devkit/impact_analysis.html"
-  - text: Acceptance Testing
+  - text: Acceptance Testing with Beaker
     link: "devkit/acceptance_testing.html"
   - text: Migrating From the PDK
     link: "devkit/migrating.html"

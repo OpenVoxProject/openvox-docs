@@ -8,8 +8,9 @@ In the Puppet world, this generally means ensuring that manifests are written to
 but other more specific checks have been added over the years.
 For example, recently [a check was added](https://github.com/voxpupuli/puppet-lint-exec_idempotency-check) to warn if an `exec` resource was written in a way that would never be idempotent.
 
-{% include alert.html type="info" content="It's worth knowing that while linters often indicate problems in the code, they're not always guaranteed to catch all syntax errors.
-Make sure to read about the `puppet_syntax` task." %}
+It's worth knowing that while linters often indicate problems in the code, they're not always guaranteed to catch all syntax errors.
+Make sure to read about the `puppet_syntax` task.
+{: .tip }
 
 The linters included in the Vox Pupuli test suite will validate Puppet manifests, `.erb` and `.epp` template files, module metadata, and Ruby code.
 Some checks can automatically fix the offending bit of code.

@@ -11,6 +11,7 @@ A **Puppet Standards Steering Committee** now guides language and feature evolut
 The result: a fully open, community-governed continuation of the platform, with the same DSL, the same Forge, and the same operational patterns you already know.
 Think of OpenVox as Puppet's cooler, community-owned sibling who actually shows up to the family reunion.
 
-{% include alert.html type="tip" title="Key takeaway" content="If you're running open-source Puppet today, OpenVox is a seamless replacement.
+If you're running open-source Puppet today, OpenVox is a seamless replacement.
 Your manifests, modules, Hiera data, and `puppet.conf` don't need to change.
-Swap the packages and you're running OpenVox." %}
+Swap the packages and you're running OpenVox.
+{: .info }

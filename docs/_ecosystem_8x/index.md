@@ -16,7 +16,8 @@ Use the same desired state description to manage all your systems, whether they'
 It's complemented with OpenBolt, which lets you orchestrate complex operations across multiple nodes, perform ad-hoc tasks, and trigger immediate actions.
 Many people use both systems together in their infrastructures.
 
-{% include alert.html type="tip" content="Let the computer do the tedious part while you focus on the interesting bits and multiply your own expertise." %}
+Let the computer do the tedious part while you focus on the interesting bits and multiply your own expertise.
+{: .tip }
 
 
 ## Who Is This For?

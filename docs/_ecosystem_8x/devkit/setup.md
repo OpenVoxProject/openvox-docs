@@ -20,8 +20,9 @@ sudo gem install bundler
 
 Once you have a working Ruby environment you're ready to start using the Vox Pupuli testing suite!
 
-{% include alert.html type="tip" content="If you'd prefer to run the testing tools via a container runtime like Docker or Podman,
-then check out [Using VoxBox in CI](voxbox.html)." %}
+If you'd prefer to run the testing tools via a container runtime like Docker or Podman,
+then check out [Using VoxBox in CI](voxbox.html).
+{: .tip }
 
 
 ## Installing a devkit component
@@ -184,7 +185,8 @@ If you'd like to explore the possibility, here is a non-exhaustive list of some 
 
 ## 🧩 [advanced] Overriding dependencies
 
-{% include alert.html type="warning" content="This section describes an ecosystem mitigation that is sometimes required, but never recommended if you can avoid it." %}
+This section describes an ecosystem mitigation that is sometimes required, but never recommended if you can avoid it.
+{: .warning }
 
 The Rubygems environment will manage dependencies for you and recursively install all the gems needed by the gems you specify.
 This is very convenient, but it does rely on _all module and gem authors_ to have properly maintained their dependencies.

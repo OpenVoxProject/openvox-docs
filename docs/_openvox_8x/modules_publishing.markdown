@@ -49,8 +49,9 @@ However, your module directory on disk must use the short name, without the user
 Module directory names cannot contain dashes or periods; only letters, numbers, and underscores.
 As long as you have the correct long name in your `metadata.json` file, the `puppet module build` command uses the correct names in the correct places.
 
-{% include alert.html type="note" content="Although the  Forge expects to receive modules named `username-module`, its web interface presents them as `username/module`.
-Always use the `username-module` style in your metadata files and when issuing commands." %}
+Although the  Forge expects to receive modules named `username-module`, its web interface presents them as `username/module`.
+Always use the `username-module` style in your metadata files and when issuing commands.
+{: .note }
 
 
 Related topics:
@@ -73,8 +74,9 @@ Before you build your module package for publishing, you'll need to make sure it
 
 To do this, you'll exclude unnecessary files from your package or repository, remove or ignore any symlinks your module contains, and make sure your `metadata.json` contains the correct information.
 
-{% include alert.html type="note" content="In order to successfully publish your module to the Puppet Forge and ensure that everything is rendered correctly, your `README`, license file, changelog, and `metadata.json` must be UTF-8 encoded.
-If you used modern tooling to create your module, these files are already UTF-8 encoded." %}
+In order to successfully publish your module to the Puppet Forge and ensure that everything is rendered correctly, your `README`, license file, changelog, and `metadata.json` must be UTF-8 encoded.
+If you used modern tooling to create your module, these files are already UTF-8 encoded.
+{: .note }
 
 
 ### Excluding files from the package
@@ -114,8 +116,9 @@ If you have both a `.pdkignore` and a `.gitignore` file, the `jig build` command
 Symlinks in modules are unsupported.
 If your module contains symlinks, either remove them or ignore them before you build your module.
 
-{% include alert.html type="warning" content="If you try to build a module package that contains symlinks, you will receive an warning informing you to remove them.
-They will not be included in the module package." %}
+If you try to build a module package that contains symlinks, you will receive an warning informing you to remove them.
+They will not be included in the module package.
+{: .warning }
 
 
 ### Adding module metadata in `metadata.json`
@@ -128,10 +131,11 @@ Check it and make any necessary edits.
 If you assembled your module manually, you must make sure that you have a `metadata.json` file in your module's main directory.
 For details on writing or editing the `metadata.json` file, see the related topic about module metadata.
 
-{% include alert.html type="warning" content="If you maintain very old modules, you might find the metadata stored in a `Modulefile`.
+If you maintain very old modules, you might find the metadata stored in a `Modulefile`.
 Move any metadata contained in the `Modulefile` to `metadata.json`.
 Modulefiles were deprecated in Puppet 3 and removed in Puppet 4.
-They are now treated like any other text file in the root directory of the module." %}
+They are now treated like any other text file in the root directory of the module.
+{: .warning }
 
 Related topics:
 

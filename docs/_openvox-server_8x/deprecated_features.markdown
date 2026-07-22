@@ -249,8 +249,9 @@ The `master.allow-header-cert-info` setting will be ignored completely. Whether 
 Look for `allow-header-cert-info` in the `master` section of your `puppetserver.conf` file. Set `allow-header-cert-info` in the `authorization` section of your `trapperkeeper-authorization` "auth.conf" file to
 the same value, then remove the setting from the `master` section.
 
-{% include alert.html type="warning" content="Only enable `allow-header-cert-info` when OpenVox Server is behind a trusted TLS-terminating proxy that sets these headers.
-If it is enabled when requests can reach OpenVox Server directly, clients can spoof their identity through the headers." %}
+Only enable `allow-header-cert-info` when OpenVox Server is behind a trusted TLS-terminating proxy that sets these headers.
+If it is enabled when requests can reach OpenVox Server directly, clients can spoof their identity through the headers.
+{: .warning }
 
 ### Context
 

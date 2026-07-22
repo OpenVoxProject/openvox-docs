@@ -23,7 +23,8 @@ Before we dive in, you'll need:
 * Internet connectivity (to reach the package repos)
 * A healthy sense of adventure
 
-{% include alert.html type="tip" title="Pro tip" content="The OpenVox server currently supports only Linux platforms rather than everything that the agent runs on." %}
+The OpenVox server currently supports only Linux platforms rather than everything that the agent runs on.
+{: .tip }
 
 ## Server Installation
 
@@ -116,10 +117,11 @@ Info: Applying configuration version 'openvox-production-719ab13e0a1'
 Notice: Applied catalog in 2.55 seconds
 ```
 
-{% include alert.html type="tip" title="Pro tip" content="The `-t` flag (short for `--test`) runs the agent in test mode with verbose output and detailed reporting.
+The `-t` flag (short for `--test`) runs the agent in test mode with verbose output and detailed reporting.
 For production runs, the agent daemon (managed by systemd) runs automatically every 30 minutes.
 Use `puppet agent -t --noop` for a dry-run that shows what *would* change without actually changing anything.
-This is invaluable for CI/CD pipelines and change reviews." %}
+This is invaluable for CI/CD pipelines and change reviews.
+{: .tip }
 
 This time it should successfully connect, download its (empty) catalog, and apply it.
 You're in business!
@@ -183,9 +185,11 @@ Info: /Stage[main]/Main/Service[puppet]: Unscheduling refresh on Service[puppet]
 Notice: Applied catalog in 2.27 seconds
 ```
 
-{% include alert.html type="tip" title="Pro tip" content="The `-t` or `--test` flag is named this way because in regular use you won't *push* configuration to your agent nodes.
+The `-t` or `--test` flag is named this way because in regular use you won't *push* configuration to your agent nodes.
 You'll just let them retrieve and enforce configuration on their regular schedule.
-The `test` mode lets you interactively observe the results of new configuration you've written." %}
+The `test` mode lets you interactively observe the results of new configuration you've written.
+{: .tip
+}
 
 ## Next Steps
 

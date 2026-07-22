@@ -32,7 +32,8 @@ puppet module install puppet-chrony
 
 OpenVox downloads the module into your environment's module path, `/etc/puppetlabs/code/environments/production/modules`.
 
-{% include alert.html type="tip" title="Pro tip" content="`puppet module install` resolves and installs a module's dependencies automatically. Run `puppet module list` to see everything that's installed." %}
+`puppet module install` resolves and installs a module's dependencies automatically. Run `puppet module list` to see everything that's installed.
+{: .tip }
 
 ## Step 2: Declare the class
 

@@ -161,9 +161,10 @@ Yumrepo <| tag == 'internal' |> -> Package <| tag == 'internal' |>
 
 This example applies all internal yum repository resources before applying any internal package resources, which protects any packages that rely on custom repositories.
 
-{% include alert.html type="warning" content="Do not use unbounded resource collectors without search expressions to limit which resources match.
+Do not use unbounded resource collectors without search expressions to limit which resources match.
 They have a side effect of _realizing_ any matching virtual resources whether declared in your own code or in third party modules.
-Using unbounded collectors may result in many unexpected resources being managed and may have unforeseeable consequences like undesired configuration changes." %}
+Using unbounded collectors may result in many unexpected resources being managed and may have unforeseeable consequences like undesired configuration changes.
+{: .warning }
 
 ### Capturing resource references for generated resources
 

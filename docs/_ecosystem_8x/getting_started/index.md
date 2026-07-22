@@ -27,8 +27,9 @@ Before we dive in, you'll need:
 * Internet connectivity (to reach the package repos)
 * A healthy sense of adventure
 
-{% include alert.html type="tip" title="Pro tip" content="OpenVox supports macOS, Windows, SLES, Amazon Linux, and other platforms.
-This guide focuses on the RHEL/Debian families because that's where most of the action is." %}
+OpenVox supports macOS, Windows, SLES, Amazon Linux, and other platforms.
+This guide focuses on the RHEL/Debian families because that's where most of the action is.
+{: .tip }
 
 
 ## Installation
@@ -41,11 +42,12 @@ The official [Installing OpenVox](https://voxpupuli.org/openvox/install/) guide 
 For this part of the guide, you'll only need to install the OpenVox Agent, but for other use cases you might want other packages.
 See the [platform docs](/openvox/latest/openvox_platform.html) for more information.
 
-{% include alert.html type="tip" title="Pro tip" content="The OpenVox agent installs into `/opt/puppetlabs/`.
+The OpenVox agent installs into `/opt/puppetlabs/`.
 The binary lives at `/opt/puppetlabs/bin/puppet`.
 The installer adds `/opt/puppetlabs/bin` to your `PATH`.
 If you're in a weird shell, source your profile or use the full path.
-For convenience, you can also add `/opt/puppetlabs/puppet/bin` to `PATH` in `/etc/profile.d/puppet.sh` so internal tools like `gem`, `bundle`, and `r10k` are available." %}
+For convenience, you can also add `/opt/puppetlabs/puppet/bin` to `PATH` in `/etc/profile.d/puppet.sh` so internal tools like `gem`, `bundle`, and `r10k` are available."
+{: .tip }
 
 
 ## Your First Manifest
@@ -88,9 +90,10 @@ Notice: OpenVox is now managing this system. Resistance is futile (but also unne
 Notice: Applied catalog in 2.55 seconds
 ```
 
-{% include alert.html type="tip" title="Pro tip" content="Always use `sudo puppet apply` when running manifests that affect system state.
+Always use `sudo puppet apply` when running manifests that affect system state.
 Running as `root` (or via sudo) ensures Puppet can manage all resources, including system packages, services, and protected files.
-For development and testing, you can run as a non-privileged user, but many resource types will fail or behave unexpectedly." %}
+For development and testing, you can run as a non-privileged user, but many resource types will fail or behave unexpectedly.
+{: .tip }
 
 
 ### Verify It Worked

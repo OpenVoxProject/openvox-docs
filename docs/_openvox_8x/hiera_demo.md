@@ -110,9 +110,10 @@ Notice the resolved path of each layer for the different platforms.
 
 {% endtabs %}
 
-{% include alert.html type="tip" content="Notice that the only layer changing and affecting the resolved values is `os/%{facts.os.family}.yaml`.
+Notice that the only layer changing and affecting the resolved values is `os/%{facts.os.family}.yaml`.
 This is because the only *fact* we are changing is `os.family`.
-Also note that Ubuntu and Debian resolve exactly the same; because they're both `debian` family, they both resolve to the exact same file." %}
+Also note that Ubuntu and Debian resolve exactly the same; because they're both `debian` family, they both resolve to the exact same file.
+{: .tip }
 
 
 ### [Demo] Understand how simultaneous changes in multiple facts change the resolution
@@ -152,5 +153,6 @@ This means that multiple layers are being resolved to a different path as you sw
 
 {% endtabs %}
 
-{% include alert.html type="tip" content="Notice that only the most specific value for each key is resolved.
-Hiera has other more complex ways of defining layers and hierarchies, but they all follow this pattern." %}
+Notice that only the most specific value for each key is resolved.
+Hiera has other more complex ways of defining layers and hierarchies, but they all follow this pattern.
+{: .tip }

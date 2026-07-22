@@ -124,7 +124,8 @@ For this we use the [Catalog Diff Viewer](https://github.com/voxpupuli/puppet-ca
 
 ![Catalog Diff Viewer screenshot](diff_viewer.png)
 
-{% include alert.html type="tip" content="You can experiment with the [online demo](http://voxpupuli.org/puppet-catalog-diff-viewer) by selecting the `Demo 1` report from the dropdown menu." %}
+You can experiment with the [online demo](http://voxpupuli.org/puppet-catalog-diff-viewer) by selecting the `Demo 1` report from the dropdown menu.
+{: .tip }
 
 It's shipped as a container, which means that when you have some report files saved into `data/`, then you can simply run the container and then browse the viewer at [http://localhost:8080/](http://localhost:8080/).
 

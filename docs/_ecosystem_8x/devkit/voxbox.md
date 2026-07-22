@@ -80,10 +80,11 @@ lint:puppet:
 Note the Rakefile path: on current images the bundled Rakefile lives at `/opt/voxbox/Rakefile`.
 On older images it lived at `/Rakefile`, so pin to a recent image and use the `/opt/voxbox/Rakefile` path.
 
-{% include alert.html type="warning" content="These examples use the `:latest` tag for brevity, but for reproducible CI you should pin
+These examples use the `:latest` tag for brevity, but for reproducible CI you should pin
 to a specific released version rather than tracking `:latest`, which can change underneath you.
 Just confirm the tag you pin uses the `/opt/voxbox/Rakefile` layout: older images keep the Rakefile at `/Rakefile`.
-Run the container with no arguments (`rake -T`) to list its tasks and check." %}
+Run the container with no arguments (`rake -T`) to list its tasks and check.
+{: .warning }
 
 GitLab can also ingest VoxBox output as native reports.
 For a [code quality report](https://docs.gitlab.com/ci/testing/code_quality/):
