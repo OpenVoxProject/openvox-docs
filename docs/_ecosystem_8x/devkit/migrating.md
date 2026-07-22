@@ -11,7 +11,7 @@ When migrating away from the PDK, the biggest change you'll notice that instead 
 Most are shipped as gems that you'll add to a module's `Gemfile`.
 This means that you'll maintain your own Ruby and Bundler installs, but most other tooling will be accessed via `bundle exec` commands in individual module repositories.
 
-For simplification a convert command was added to jig starting with version 1.5.0. This allows you to automatically update your modules `Gemfile`, `Rakefile` and `spec/spec_helper.rb` to OpenVox and VoxBox compatible versions.
+For simplicity, a convert command was added to Jig starting with version 1.5.0. This allows you to automatically update your module's `Gemfile`, `Rakefile`, and `spec/spec_helper.rb` to OpenVox- and VoxBox-compatible versions.
 
 Before running commands in a new module repository, you'll need to run `bundle install`.
 If you get an error about a command not being available, you probably just need to run `bundle install`.
