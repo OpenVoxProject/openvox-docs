@@ -11,6 +11,8 @@ When migrating away from the PDK, the biggest change you'll notice that instead 
 Most are shipped as gems that you'll add to a module's `Gemfile`.
 This means that you'll maintain your own Ruby and Bundler installs, but most other tooling will be accessed via `bundle exec` commands in individual module repositories.
 
+For simplification a convert command was added to jig starting with version 1.5.0. This allows you to automatically update your modules `Gemfile`, `Rakefile` and `spec/spec_helper.rb` to OpenVox and VoxBox compatible versions.
+
 Before running commands in a new module repository, you'll need to run `bundle install`.
 If you get an error about a command not being available, you probably just need to run `bundle install`.
 
@@ -23,12 +25,12 @@ Because Jig does not attempt to hide the Bundler environment from you, it will s
 {% include alert.html type="tip" title="Choosing command forms" content="If you want quick and familiar commands to run locally, then use the Jig wrapper commands. If you're running tests and such in CI or if you need to pass custom options then invoke the tools directly." %}
 
 | You used to type... | Now you type...  | Or run tools directly...         |
-|---------------------|------------------|----------------------------------|
+| ---------------------| ------------------| ----------------------------------|
 | `pdk new module`    | `jig new module` |                                  |
 | `pdk new class`     | `jig new class`  |                                  |
 | `pdk build`         | `jig build`      |                                  |
 | `pdk release`       | `jig release`    |                                  |
-| `pdk convert`       | _not needed_     |                                  |
+| `pdk convert`       | `jig convert`    |                                  |
 | `pdk update`        | `jig update`*    | `bundle exec msync update`*      |
 | `pdk validate`      | `jig validate`   | `bundle exec rake validate lint` |
 | `pdk test unit`     | `jig test unit`  | `bundle exec rake spec`          |
