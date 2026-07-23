@@ -25,7 +25,7 @@ Converting never changes the original value. It produces a new value, leaving th
 alone.
 
 Two things do convert without being asked: arithmetic on a string that looks like a number, and string
-interpolation. Both are covered in [automatic coercion](#automatic-coercion-in-arithmetic) below.
+interpolation. Both are covered in [automatic coercion](#automatic-coercion) below.
 
 ## Calling a data type as a constructor
 
@@ -281,7 +281,7 @@ input that might not contain a number at all:
 notice(scanf('no digits', '%d')) # []
 ```
 
-## Automatic coercion in arithmetic
+## Automatic coercion
 
 Arithmetic operators can coerce a string to a number, but by default OpenVox treats doing so as an error:
 
