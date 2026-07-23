@@ -215,6 +215,8 @@
     link: "lang_data_type.html"
   - text: Abstract data types
     link: "lang_data_abstract.html"
+  - text: Typecasting
+    link: "lang_typecasting.html"
   - text: Using templates
     link: "lang_template.html"
   - text: Embedded Puppet (EPP) template syntax

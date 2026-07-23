@@ -49,3 +49,8 @@ For special abstract data types, which you can use to do more sophisticated or p
 
 * [Abstract Data Types](./lang_data_abstract.html)
 
+Converting a value from one data type to another is something you ask for explicitly. To turn a value of one
+type into a value of another, such as a string holding a number into an actual number, see:
+
+* [Typecasting](./lang_typecasting.html)
+
