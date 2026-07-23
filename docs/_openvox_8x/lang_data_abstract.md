@@ -12,6 +12,13 @@ title: "Language: Data types: Abstract data types"
 [hashes]: ./lang_data_hash.html
 [hash_missing_key_access]: ./lang_data_hash.html#accessing-values
 [numbers]: ./lang_data_number.html
+[semver]: ./lang_data_semver.html
+[uri]: ./lang_data_uri.html
+[time]: ./lang_data_time.html
+[binary]: ./lang_data_binary.html
+[error]: ./lang_data_error.html
+[sensitive]: ./lang_data_sensitive.html
+[typecasting]: ./lang_typecasting.html
 
 As described in [the Data Type Syntax][types] page, each of Puppet's main [data types][] has a corresponding value that _represents_ that data type, which can be used to match values of that type in several contexts. (For example, `String` or `Array`.)
 
@@ -257,26 +264,66 @@ The `Scalar` data type matches _all_ values of the following concrete data types
 * [Strings][]
 * [Booleans][]
 * [Regular expressions][]
+* [`SemVer` and `SemVerRange`][semver]
+* [`Timestamp` and `Timespan`][time]
 
 Note that it doesn't match `undef`, `default`, resource references, arrays, or hashes.
 
 It takes no parameters.
 
-`Scalar` is equivalent to `Variant[Integer, Float, String, Boolean, Regexp]`.
+### `ScalarData`
+
+The `ScalarData` data type matches the subset of `Scalar` that can be represented directly in JSON:
+
+* [Numbers][] (both integers and floats)
+* [Strings][]
+* [Booleans][]
+
+It doesn't match regular expressions, `SemVer`, `SemVerRange`, `Timestamp`, or `Timespan`, all of which
+`Scalar` does match. Like `Scalar`, it doesn't match `undef` or `default`.
+
+It takes no parameters.
+
+`ScalarData` is to `Scalar` what `Data` is to `RichData`: the JSON-compatible subset.
 
 ### `Data`
 
-The `Data` data type matches any value that would match `Scalar`, but it also matches:
+The `Data` data type matches any value that would match `ScalarData`, but it also matches:
 
 * `undef`
 * [Arrays][] that only contain values that would also match `Data`
-* [Hashes][] whose keys would match `Scalar` and whose values would also match `Data`
+* [Hashes][] whose keys are [strings][] and whose values would also match `Data`
 
-Note that it doesn't match `default` or resource references.
+Note that it is built on `ScalarData` rather than `Scalar`, so the members of `Scalar` that have no JSON
+equivalent are excluded: a regular expression matches `Scalar` but not `Data`. It also doesn't match
+`default` or resource references.
 
 It takes no parameters.
 
 `Data` is especially useful because it represents the subset of types that can be directly represented in almost all serialization formats (e.g. JSON).
+
+### `RichData`
+
+The `RichData` data type matches any value that would match `Data`, and also matches the types that have no
+direct JSON equivalent:
+
+* [Regular expressions][]
+* [`URI`][uri]
+* [`Binary`][binary]
+* [`Timestamp` and `Timespan`][time]
+* [`SemVer` and `SemVerRange`][semver]
+* [`Error`][error]
+* [`Sensitive`][sensitive]
+* Data types themselves, such as `Integer`
+* Resource and class references
+* `default`
+* [Arrays][] and [hashes][] containing any of the above
+
+It takes no parameters.
+
+`RichData` is what a parameter or function should accept when it needs to handle any ordinary Puppet value.
+Use `Data` instead when the value has to survive being serialized to JSON, and note that this is the
+distinction that makes `Error('boom') =~ Data` false while `Error('boom') =~ RichData` is true.
 
 ### `Collection`
 
@@ -285,6 +332,40 @@ The `Collection` type matches _any_ array or hash, regardless of what kinds of v
 Note that this means it only partially overlaps with `Data` --- there are values (like an array of resource references) that match `Collection` but will not match `Data`.
 
 `Collection` is equivalent to `Variant[Array[Any], Hash[Any, Any]]`.
+
+### `Iterable`
+
+The `Iterable` data type matches any value that an iterative function such as `each` or `map` can walk over.
+That includes arrays, hashes, strings, integers, and the `Iterator` values described below:
+
+```puppet
+notice([1, 2] =~ Iterable)  # true
+notice({'a' => 1} =~ Iterable) # true
+notice('abc' =~ Iterable)   # true
+notice(5 =~ Iterable)       # true
+notice(undef =~ Iterable)   # false
+```
+
+An optional parameter constrains what the value iterates over, so `Iterable[Integer]` matches only things
+that yield integers:
+
+```puppet
+notice(5 =~ Iterable[Integer]) # true
+```
+
+### `Iterator`
+
+The `Iterator` data type matches the lazy sequences produced by the chained forms of some iterative
+functions, such as `reverse_each` and `step` called without a block. Every `Iterator` is also `Iterable`,
+but ordinary arrays and hashes are not `Iterator`:
+
+```puppet
+notice([1, 2].reverse_each =~ Iterator) # true
+notice([1, 2] =~ Iterator)              # false
+```
+
+Like `Iterable`, it accepts an optional parameter for the type it yields. You rarely write `Iterator`
+yourself; it matters mainly when a function returns one and you want to constrain what it produces.
 
 ### `Catalogentry`
 
@@ -358,3 +439,46 @@ function example(Variant[Integer, Init[Integer]] $x) {
    $int_value = Integer($x)  # Safe conversion
 }
 ```
+
+See [typecasting][] for the conversions `Init` tests against.
+
+### `Runtime`
+
+The `Runtime` data type matches values that belong to the implementation language underneath Puppet rather
+than to the Puppet language itself. It takes the runtime name and the type name within it:
+
+```puppet
+Runtime['ruby', 'Symbol']
+```
+
+You cannot create such a value in a manifest. The type exists so that Ruby functions and types can describe
+arguments that are Ruby objects with no Puppet equivalent, and so those arguments can be type-checked.
+
+### `Object`
+
+The `Object` data type is the parent of types created with the Pcore object model, which is how modules
+define types that have named attributes and their own methods. An object type is declared by passing a hash
+that names it and lists its attributes:
+
+```puppet
+$greeter = Object[{name => 'Greeter', attributes => {greeting => String}}]
+$g = $greeter.new('hello')
+
+notice($g.greeting)    # hello
+notice($g =~ $greeter) # true
+```
+
+In practice you rarely write this form inline. Modules declare object types in their `types` directory, one
+type per file.
+
+### `TypeSet`
+
+The `TypeSet` data type groups several object types together under one name and version, so a module can
+publish a related family of types rather than a loose collection. A type set records a name, a version, and
+the types it contains.
+
+A module publishes one by declaring it in `types/init_typeset.pp`, which OpenVox loads as the type set named
+after the module. Type sets are not written inline in a manifest.
+
+The type parser accepts any capitalization, so `Typeset` also works, but `TypeSet` is the spelling OpenVox
+itself uses when it renders the type.

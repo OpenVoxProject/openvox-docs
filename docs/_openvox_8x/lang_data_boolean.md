@@ -33,8 +33,26 @@ If you want to convert other values to booleans with more permissive rules (`0` 
 
 The [data type][] of boolean values is `Boolean`.
 
-It matches only the values `true` or `false`, and accepts no parameters.
+On its own it matches only the values `true` or `false`.
 
+### Parameters
+
+`Boolean` takes an optional parameter that narrows it to one of the two values:
+
+```puppet
+notice(true =~ Boolean[true])   # true
+notice(false =~ Boolean[true])  # false
+notice(false =~ Boolean[false]) # true
+```
+
+This is useful when a parameter must be one specific value rather than either, such as a flag that may only
+ever be switched on:
+
+```puppet
+class example (
+  Boolean[true] $must_be_enabled = true,
+) { }
+```
 
 ### Related data types
 
