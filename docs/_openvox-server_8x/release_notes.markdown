@@ -12,6 +12,12 @@ This is a bug-fix release of OpenVox Server.
 
 All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvox-server/releases/tag/8.15.1).
 
+### Known Issues in 8.15.1
+
+#### `resolv` times out when `/etc/resolv.conf` contains multiple IPv6 nameservers
+
+See [8.15.0 known issues](#known-issues-in-8150) for details.
+
 ## OpenVox Server 8.15.0
 
 {% include alert.html type="note" title="Unreleased" content="Packages for version 8.15.0 were not released due to broken FIPS builds." %}
