@@ -12,6 +12,14 @@ This is a bug-fix release of OpenVox Server.
 
 All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvox-server/releases/tag/8.15.1).
 
+### Known Issues in 8.15.1
+
+#### Carried over from previous release
+
+The issue with `resolv` timeouts when using multiple IPv6 nameservers is also present
+in this release. See [OpenVox Server 8.15.0 Known Issues](#known-issues-in-8150)
+for details and a workaround.
+
 ## OpenVox Server 8.15.0
 
 {% include alert.html type="note" title="Unreleased" content="Packages for version 8.15.0 were not released due to broken FIPS builds." %}
@@ -39,7 +47,7 @@ All bug fixes, new features and other changes are provided on the [project's Git
 #### `resolv` times out when `/etc/resolv.conf` contains multiple IPv6 nameservers
 
 The JRuby 9.4.15.0 upgrade included in this release updated the Ruby `resolv`
-library to a newer version. This newer `resolv` version introduced a mis-match
+library to a newer version. This newer `resolv` version introduced a mismatch
 where queries to IPv6 DNS servers are sent using compressed addresses (e.g.
 `2001:db8::1`), while responses arrive from un-compressed addresses (e.g.
 `2001:db8:0:0:0:0:0:1`). This mis-match means that queries to IPv6 servers
