@@ -107,10 +107,13 @@ notice(Integer(true))  # 1
 notice(Integer(false)) # 0
 ```
 
-A third argument of `true` makes the result absolute:
+A third argument of `true` makes the result absolute. The radix comes first positionally, so you must
+still supply it to reach that third argument, even for an input where it doesn't apply. Pass `default`
+to keep the automatic detection:
 
 ```puppet
-notice(Integer(-38, 10, true)) # 38
+notice(Integer('-0x26', 16, true))  # 38
+notice(Integer(-38, default, true)) # 38
 ```
 
 ### Float and Numeric
