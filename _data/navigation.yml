@@ -3,7 +3,7 @@
   collections: [openfact_latest, openfact_5x]
 - title: OpenVox
   url: /openvox/latest/
-  collections: [openvox_latest, openvox_8x]
+  collections: [openvox_latest, openvox_8x, openvox_9x]
 - title: OpenVox Server
   url: /openvox-server/latest/
   collections: [openvox-server_latest, openvox-server_8x]

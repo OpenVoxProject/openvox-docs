@@ -36,6 +36,11 @@ openvox:
   latest: 8x
   references: references:openvox
   versions:
+    - id: 9x
+      label: "9.x"
+      collection: _openvox_9x
+      base: /openvox/9.x/
+      ref: "9.0.0-beta1"
     - id: 8x
       label: "8.x"
       collection: _openvox_8x
