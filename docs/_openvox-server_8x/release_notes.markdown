@@ -4,6 +4,14 @@ title: "OpenVox Server: Release Notes"
 canonical: "/openvox-server/latest/release_notes.html"
 ---
 
+## OpenVox Server 8.15.2
+
+Released July 27, 2026.
+
+This is a bug-fix release of OpenVox Server.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvox-server/releases/tag/8.15.2).
+
 ## OpenVox Server 8.15.1
 
 Released July 22, 2026.
@@ -17,8 +25,9 @@ All bug fixes, new features and other changes are provided on the [project's Git
 #### Carried over from previous release
 
 The issue with `resolv` timeouts when using multiple IPv6 nameservers is also present
-in this release. See [OpenVox Server 8.15.0 Known Issues](#known-issues-in-8150)
-for details and a workaround.
+in this release.
+
+{% include alert.html type="note" title="Fixed" content="This issue is fixed in 8.15.2." %}
 
 ## OpenVox Server 8.15.0
 
@@ -92,11 +101,7 @@ Timeout::Error: execution expired
    <main> at -e:1
 ```
 
-See [OpenVoxProject/openvox-server#535][openvox-server-535] for more details
-and subscribe for updates on a fix. Recommended workaround is to downgrade the
-`openvox-server` package to version 8.14.1.
-
-[openvox-server-535]: https://github.com/OpenVoxProject/openvox-server/issues/535
+{% include alert.html type="note" title="Fixed" content="This issue is fixed in 8.15.2." %}
 
 ## OpenVox Server 8.14.1
 
@@ -150,7 +155,9 @@ java.lang.NoSuchMethodError: 'org.bouncycastle.asn1.ASN1Primitive org.bouncycast
 ```
 
 Not all files are affected, the error seems to be triggered by specific patterns in
-ASN.1 content. This issue is fixed in version 8.14.1.
+ASN.1 content.
+
+{% include alert.html type="note" title="Fixed" content="This issue is fixed in version 8.14.1." %}
 
 ## OpenVox Server 8.12.1
 
