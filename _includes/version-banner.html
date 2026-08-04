@@ -1,0 +1,33 @@
+{%- comment -%}
+  Viewport-pinned notice shown on every page of a frozen (non-latest) doc
+  version, so readers landing on old bookmarks or search results always see
+  a way to the current docs (#320).
+
+  One banner is emitted per numbered version that is NOT what the product's
+  `latest` alias points at, so coverage is automatic: the moment
+  _data/products.yml gains a new version and `latest` moves, every page of
+  the older collections shows the banner with no per-page front matter.
+  Today every numbered version is its product's latest, so this include
+  renders nothing.
+
+  Like the version picker, the banners live outside the Turbo content frame
+  and persist across navigation: Liquid sets the initial visibility from
+  page.collection, and the layout-end script re-syncs on every frame load.
+  The link targets the product's /latest/ root rather than the same page
+  under /latest/ — there is no redirect mechanism, so a same-page link 404s
+  whenever the page was renamed or removed in the newer version. Revisit
+  once the 404 page can search for the missing page.
+{%- endcomment -%}
+{%- for product_entry in site.data.products -%}
+  {%- assign product_id = product_entry[0] -%}
+  {%- assign product = product_entry[1] -%}
+  {%- if product.single_version == true -%}{%- continue -%}{%- endif -%}
+  {%- for version in product.versions -%}
+    {%- if version.id == product.latest -%}{%- continue -%}{%- endif -%}
+    {%- assign version_collection = version.collection | remove_first: '_' -%}
+    <div class="VPOutdatedBanner" role="region" aria-label="Outdated documentation notice" data-collection="{{ version_collection }}"{% if version_collection != page.collection %} hidden{% endif %}>
+      This documentation is for {{ product.label }} {{ version.label }}, which is no longer actively updated.
+      <a href="/{{ product_id }}/latest/">Switch to the latest {{ product.label }} documentation</a>.
+    </div>
+  {%- endfor -%}
+{%- endfor -%}
