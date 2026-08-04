@@ -215,4 +215,36 @@ namespace :test do
       checks: ['Links'],
     ).run
   end
+
+  desc 'Validate _data/products.yml: `latest` must name a real version, and ' \
+       '`versions` must be ordered newest-first (both are relied on by ' \
+       '_includes/version-banner.html and the version selector)'
+  task :products_data do
+    products = YAML.load_file('_data/products.yml')
+    errors = []
+
+    products.each do |product_id, product|
+      next if product['single_version']
+
+      ids = (product['versions'] || []).map { |v| v['id'] }
+
+      errors << "#{product_id}: duplicate version ids (#{ids.join(', ')})" if ids.uniq.length != ids.length
+
+      errors << "#{product_id}: latest '#{product['latest']}' is not one of its versions (#{ids.join(', ')})" unless ids.include?(product['latest'])
+
+      majors = ids.map { |id| id[/\A\d+/] }
+      if majors.any?(&:nil?)
+        errors << "#{product_id}: version id(s) don't start with a number (#{ids.join(', ')}), can't check ordering"
+      elsif majors.map(&:to_i) != majors.map(&:to_i).sort.reverse
+        errors << "#{product_id}: versions must be newest-first by id (got #{ids.join(', ')})"
+      end
+    end
+
+    if errors.any?
+      warn "_data/products.yml failed validation:\n  - #{errors.join("\n  - ")}"
+      exit 1
+    end
+
+    puts '_data/products.yml: latest references and version ordering OK'
+  end
 end
