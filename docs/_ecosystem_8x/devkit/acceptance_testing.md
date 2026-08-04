@@ -116,6 +116,17 @@ Make `fixtures:prep` a prerequisite in your `Rakefile` so both local runs and CI
 task beaker: 'fixtures:prep'
 ```
 
+`fixtures:prep` has a matching `fixtures:clean` task, but nothing runs it for you.
+To clean up automatically after a successful run, enhance the `beaker` task with a post-action:
+
+```ruby
+Rake::Task[:beaker].enhance do
+  Rake::Task['fixtures:clean'].invoke
+end
+```
+
+If the acceptance tests fail, the exception aborts the task before this runs, so the fixtures are left in place for you to inspect.
+
 See the [`voxpupuli-acceptance` README](https://github.com/voxpupuli/voxpupuli-acceptance#fixtures) for more on the fixtures installation path.
 
 ## Anatomy of an acceptance test
