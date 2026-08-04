@@ -92,6 +92,32 @@ require 'voxpupuli/acceptance/rake'
 That's it.
 The `configure_beaker` call handles installing OpenVox, installing your module and its dependencies, and preparing each node before your tests run.
 
+By default it installs your module and its dependencies by resolving `metadata.json`, which assumes every dependency is published to the Forge.
+If a dependency only lives in a git repo, resolving `metadata.json` won't find it.
+In that case, point `.fixtures.yml` at the git repo instead:
+
+```yaml
+fixtures:
+  repositories:
+    my_dependency:
+      repo: "https://github.com/example/my_dependency.git"
+      ref: "main"
+```
+
+And set `configure_beaker(modules: :fixtures)`, which installs from the [fixtures](unit_testing.html) already checked out under `spec/fixtures/modules` rather than resolving against the Forge.
+`configure_beaker(modules: nil)` hands you full control if you need something more custom still.
+
+`modules: :fixtures` only installs modules that are _already_ checked out; it doesn't check them out itself.
+That's a separate step, the `fixtures:prep` rake task (from the `puppet_fixtures` gem, pulled in by `require 'voxpupuli/acceptance/rake'`), and the `beaker` task has no dependency on it.
+Running `bundle exec rake beaker` on its own leaves `spec/fixtures/modules` empty and the run fails.
+Make `fixtures:prep` a prerequisite in your `Rakefile` so both local runs and CI pick up fixtures automatically:
+
+```ruby
+task beaker: 'fixtures:prep'
+```
+
+See the [`voxpupuli-acceptance` README](https://github.com/voxpupuli/voxpupuli-acceptance#fixtures) for more on the fixtures installation path.
+
 ## Anatomy of an acceptance test
 
 Acceptance tests live in `spec/acceptance/` and read very much like the [`rspec-puppet`](https://rspec-puppet.com/) tests you already know.
@@ -257,9 +283,6 @@ configure_beaker do |host|
   end
 end
 ```
-
-By default the framework installs your module and its dependencies by resolving `metadata.json`.
-If you'd rather supply them yourself, `configure_beaker(modules: :fixtures)` uses the [fixtures](unit_testing.html) already checked out under `spec/fixtures/modules`, and `configure_beaker(modules: nil)` hands you full control.
 
 Acceptance tests are slow and resource-hungry compared to unit tests, so keep them for behavior you genuinely can't verify in a unit test.
 Reach for them when an OS difference, a real service, or an end-to-end interaction is the thing under test.
