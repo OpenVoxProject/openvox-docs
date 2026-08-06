@@ -22,6 +22,20 @@ Puppet Open Source is no longer actively developed.
 
 You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade through OpenVox 8 to OpenVox 9, or you can upgrade to Puppet 8 and then migrate to OpenVox 8 and then to OpenVox 9.
 
+## OpenVox 9.0.0-beta2
+
+Released August 6, 2026.
+
+This is a **prerelease** of OpenVox 9 and is not yet the stable release. It includes breaking changes; see the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/9.0.0-beta2) for the full list of changes.
+
+Notable breaking changes in this build:
+
+- The default for the [`reports` setting](configuration.html#reports) changed from `store` to `none`, so report processing is now opt-in.
+- OpenFact 6.x is now required.
+- The deprecated `hiera` indirector and the data-binding settings have been removed.
+- The `zone_core` vendored module has been removed.
+- Java keystores have been removed from the runtime.
+
 ## OpenVox 9.0.0-beta1
 
 Released July 15, 2026.

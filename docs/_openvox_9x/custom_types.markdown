@@ -7,7 +7,6 @@ title: Custom Types
 [module]: modules_fundamentals.html
 [custom_functions]: lang_write_functions_in_puppet.html
 [custom_facts]: /openfact/latest/custom_facts.html
-[pluginsync]: configuration.html#pluginsync
 [symbol]: http://www.ruby-doc.org/core/Symbol.html
 [ruby_block]: http://www.robertsosinski.com/2008/12/21/understanding-ruby-blocks-procs-and-lambdas/
 [markdown]: http://commonmark.org/
@@ -42,11 +41,9 @@ To use new types and providers, two conditions must be met:
 1. The type and providers must be present in a [module][] on the OpenVox Server server. Like other types of plugin (such as [custom functions][custom_functions] and [custom facts][custom_facts]), they should go in the module's `lib` directory:
     * Type files should be located at `lib/puppet/type/<TYPE NAME>.rb`.
     * Provider files should be located at `lib/puppet/provider/<TYPE NAME>/<PROVIDER NAME>.rb`.
-2. If you are using an agent/master Puppet deployment, each agent node must have its [`pluginsync` setting][pluginsync] in puppet.conf set to `true`.
-    * Starting in Puppet 3.0, this setting defaults to true.
-    * In Puppet 2.x, it defaults to false and must be explicitly enabled.
+2. In an agent/server deployment, agent nodes automatically sync plugins (including custom types and providers) from the server's modules at the start of each run, so no configuration is needed. (The old `pluginsync` setting that controlled this was removed in OpenVox 9.)
 
-In masterless Puppet using puppet apply, pluginsync is not required, but the module containing the type and providers must be present on each node.
+When running without a server using puppet apply, plugin sync is not involved, but the module containing the type and providers must be present on each node.
 
 See [the Plugins In Modules page](./plugins_in_modules.html) for more details on distributing custom types and facts via modules.
 
