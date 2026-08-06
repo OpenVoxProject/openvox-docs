@@ -37,7 +37,7 @@ This guide focuses on the RHEL/Debian families because that's where most of the 
 Linux is the platform for OpenVox **servers**, but agents run on plenty of other platforms.
 Windows and macOS installers are distributed as manually installable MSI/PKG files.
 
-The official [Installing OpenVox](https://voxpupuli.org/openvox/install/) guide has step-by-step instructions for each platform.
+The official [Installing OpenVox](/openvox/latest/install_pre.html) guide has step-by-step instructions for each platform.
 
 For this part of the guide, you'll only need to install the OpenVox Agent, but for other use cases you might want other packages.
 See the [platform docs](/openvox/latest/openvox_platform.html) for more information.
