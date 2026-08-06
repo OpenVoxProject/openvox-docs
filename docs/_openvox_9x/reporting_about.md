@@ -28,8 +28,8 @@ That external service can then provide a way to view the processed report.
 
 An OpenVox agent sends reports by default. You can turn off reporting by changing the [`report`][report] setting in an agent's [`puppet.conf`][puppet.conf].
 
-On OpenVox Server servers (and nodes running Puppet apply), you can configure enabled report processors as a comma-separated list in the [`reports`][reports] setting. The default `reports` value is 'store',
-which stores them in the configured [`reportdir`][reportdir]. You can also turn off reports entirely by setting `reports` to 'none'.
+On OpenVox Server servers (and nodes running Puppet apply), you can configure enabled report processors as a comma-separated list in the [`reports`][reports] setting. Starting in OpenVox 9, the default `reports` value is 'none', which means received reports are discarded without processing. To process reports, set `reports` to one or more processors — for example, 'store'
+saves each report to the configured [`reportdir`][reportdir].
 
 ## Practical reporting for beginners
 

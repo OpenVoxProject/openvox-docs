@@ -111,7 +111,7 @@ Take note of the following when running Puppet commands on Windows:
 - The `puppet.conf` configuration file supports Windows and *nix line endings, (CR-LF) and (LF), respectively, and does not support Byte Order Mark (BOM). The file encoding must either be UTF-8 or the current Windows encoding, for example, Windows-1252 code page.
 - Specifying file owner, group, or mode for file-based settings is not supported on Windows
 - The `puppet.conf` file is allowed to use Windows-CRLF line endings as well as *nix-style LF line endings.
-  - You can get configuration settings by running: `puppet agent --configprint SETTING`
+  - You can get configuration settings by running: `puppet config print SETTING`
   - You can set configuration settings by running: `puppet config set SETTING VALUE --section SECTION`
 - Common configuration settings are: `certname`, `server`, and `runinterval`
 - You must restart the Puppet Agent service after making any changes to Puppet’s `runinterval` config file.

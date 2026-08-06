@@ -55,10 +55,10 @@ Use Hiera for default data in modules. | Simplify your modules with an elegant a
   If an updated version of the backend is coming out soon, wait. If you're using an off-the-shelf custom backend, check its website or contact its developer.
   If you developed your backend in-house, read the [documentation about writing Hiera 5 backends][backends].
 
-- **Custom `data_binding_terminus` users** — Upgrade now, and replace it with a Hiera 5 backend as soon as possible.
-  There's a deprecated `data_binding_terminus` setting in `puppet.conf` which changes the behavior of automatic class parameter lookup.
-  It can be set to `hiera` (normal), `none` (deprecated; disables auto-lookup), or the name of a custom plugin.
-  Once you have a Hiera 5 backend, integrate it into your hierarchies and delete the `data_binding_terminus` setting.
+- **Custom `data_binding_terminus` users** — Replace it with a Hiera 5 backend before upgrading.
+  Older versions had a deprecated `data_binding_terminus` setting in `puppet.conf` which changed the behavior of automatic class parameter lookup; it could be set to `hiera` (normal), `none` (disables auto-lookup), or the name of a custom plugin.
+  That setting (and the custom-plugin mechanism behind it) was removed in OpenVox 9.
+  Move the custom backend's data into a Hiera 5 backend, integrate it into your hierarchies, and delete the `data_binding_terminus` setting before you upgrade.
 
 Related topics: [environment data layer][layers], [hiera.yaml (v5) eyaml usage][eyaml_v5], [writing Hiera 5 backends][backends], [puppet.conf][puppet_conf], [automatic class parameter lookup][automatic].
 

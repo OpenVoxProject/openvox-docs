@@ -42,9 +42,9 @@ Before installing OpenVox:
 5. Check DNS, certificates, and networking.
 
    In agent-server deployments, agents must be able to reach the server on port
-   `8140`. Forward and reverse DNS should be correct for every node. If you want
-   agents to use the default server name, make sure `puppet` resolves correctly;
-   otherwise set the [`server` setting][server_setting] explicitly.
+   `8140`. Forward and reverse DNS should be correct for every node. Set the
+   [`server` setting][server_setting] explicitly on every agent: starting in
+   OpenVox 9, agents no longer fall back to the hostname `puppet` by default.
 
 6. Verify time synchronization on the certificate authority.
 
