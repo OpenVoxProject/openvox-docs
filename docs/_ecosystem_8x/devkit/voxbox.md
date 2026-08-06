@@ -68,7 +68,7 @@ variables:
 
 default:
   image:
-    name: ghcr.io/voxpupuli/voxbox:latest
+    name: ghcr.io/voxpupuli/voxbox:10.0.0-openvox8.28.1
     entrypoint: [""]
 
 lint:puppet:
@@ -78,12 +78,21 @@ lint:puppet:
 ```
 
 Note the Rakefile path: on current images the bundled Rakefile lives at `/opt/voxbox/Rakefile`.
-On older images it lived at `/Rakefile`, so pin to a recent image and use the `/opt/voxbox/Rakefile` path.
+On older images it lived at `/Rakefile`. All versioned `10.x` release tags use the `/opt/voxbox/Rakefile` layout,
+so pinning one (as these examples do) also settles the path question.
 
-These examples use the `:latest` tag for brevity, but for reproducible CI you should pin
-to a specific released version rather than tracking `:latest`, which can change underneath you.
-Just confirm the tag you pin uses the `/opt/voxbox/Rakefile` layout: older images keep the Rakefile at `/Rakefile`.
-Run the container with no arguments (`rake -T`) to list its tasks and check.
+Since [VoxBox 10.0.0](https://github.com/voxpupuli/container-voxbox/releases/tag/v10.0.0), the container is
+versioned independently of the OpenVox it bundles, and release tags name both components:
+`10.0.0-openvox8.28.1` pins exact VoxBox and OpenVox versions, and the shorter `10.0.0-openvox8` pins the same
+VoxBox release for the OpenVox 8 flavor. The moving `latest` tag points to the highest published VoxBox release,
+so it doesn't tell you which OpenVox major you're testing against and can jump majors underneath you.
+Legacy tags such as `8`, `8-latest`, and `8.28.1-latest` remain available but are frozen and will no longer be
+updated. See the upstream [version schema](https://github.com/voxpupuli/container-voxbox#version-schema) for
+the full scheme.
+
+The local examples above use `:latest` for brevity, which is fine for interactive use.
+For reproducible CI, pin a versioned release tag or an immutable `sha-<git-sha>` tag, as the GitLab examples on
+this page do. If your modules target a specific OpenVox major, pick a tag with a matching `-openvox<major>` suffix.
 {: .warning }
 
 GitLab can also ingest VoxBox output as native reports.
@@ -92,7 +101,7 @@ For a [code quality report](https://docs.gitlab.com/ci/testing/code_quality/):
 ```yaml
 code-quality:
   image:
-    name: ghcr.io/voxpupuli/voxbox:latest
+    name: ghcr.io/voxpupuli/voxbox:10.0.0-openvox8.28.1
     entrypoint: [""]
   stage: lint
   script:
@@ -118,7 +127,7 @@ Then add the job:
 ```yaml
 rspec:
   image:
-    name: ghcr.io/voxpupuli/voxbox:latest
+    name: ghcr.io/voxpupuli/voxbox:10.0.0-openvox8.28.1
     entrypoint: [""]
   stage: test
   script:
@@ -147,7 +156,7 @@ Fix it by blanking the entrypoint in your job's `image:` block:
 
 ```yaml
 image:
-  name: ghcr.io/voxpupuli/voxbox:latest
+  name: ghcr.io/voxpupuli/voxbox:10.0.0-openvox8.28.1
   entrypoint: [""]
 ```
 
