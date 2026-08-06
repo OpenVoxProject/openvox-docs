@@ -75,6 +75,35 @@ table.resolution > tbody > tr:last-child > td:first-child {
   color: var(--vp-c-white);
 }
 
+/* Viewport-pinned notice on pages of frozen (non-latest) doc versions.
+   The soft danger color is layered over the opaque page background so the
+   fixed banner doesn't show content scrolling through behind it. */
+.VPOutdatedBanner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--vp-z-index-nav);
+  padding: 0.6rem 1.5rem;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vp-c-danger-1);
+  background-color: var(--vp-c-bg);
+  background-image: linear-gradient(var(--vp-c-danger-soft), var(--vp-c-danger-soft));
+  border-top: 1px solid var(--vp-c-danger-2);
+}
+
+.VPOutdatedBanner a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.VPOutdatedBanner a:hover {
+  color: var(--vp-c-danger-2);
+}
+
 /* Highlight the active page more visibly */
 .VPSidebarItem.level-0.is-active > .item .link > .text,
 .VPSidebarItem.level-1.is-active > .item .link > .text,

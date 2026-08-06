@@ -1,3 +1,4 @@
+{% include version-banner.html %}
 <script>
   (function () {
     function syncSidebarNavGroups() {
@@ -37,10 +38,21 @@
         });
       });
     }
+    // Show the outdated-version banner matching the current collection, if any.
+    // Banners exist only for frozen (non-latest) versions; see version-banner.html.
+    function syncOutdatedBanner() {
+      var frameState = document.getElementById('vp-page-state');
+      if (!frameState) return;
+      var currentCollection = frameState.getAttribute('data-collection') || '';
+      document.querySelectorAll('.VPOutdatedBanner').forEach(function (banner) {
+        banner.hidden = banner.getAttribute('data-collection') !== currentCollection;
+      });
+    }
     document.addEventListener('turbo:frame-load', function (event) {
       if (!event.target || event.target.id !== 'vp-content-frame') return;
       syncSidebarNavGroups();
       syncVersionPicker();
+      syncOutdatedBanner();
     });
   })();
 
