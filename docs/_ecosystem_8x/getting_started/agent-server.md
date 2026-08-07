@@ -160,7 +160,7 @@ node 'agent1.example.com' {
 
 node default {
   notify { 'welcome_message':
-    message => This node is managed by an OpenVox server, but has no configuration defined.',
+    message => 'This node is managed by an OpenVox server, but has no configuration defined.',
   }
 }
 ```
