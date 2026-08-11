@@ -54,6 +54,8 @@ Install `openvox-agent` on each node you want to manage, then connect it to the 
    sudo /opt/puppetlabs/bin/puppetserver ca sign --certname <AGENT_CERTNAME>
    ```
 
+> **Tip:** Certificates issued this way are valid for 5 years and expire silently. Consider [turning on automatic renewal](/openvox-server/latest/certificate_renewal.html#turn-on-automatic-renewal) on the server now, so agent certificates renew themselves instead of expiring.
+
 ---
 
 ## Step 3: Set up a control repository
