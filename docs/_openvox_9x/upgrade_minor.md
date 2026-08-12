@@ -7,8 +7,9 @@ Use this page for routine OpenVox 9 upgrades and for in-place migrations from th
 legacy Puppet packages to OpenVox packages.
 
 > **OpenVox 9 is a major version** and includes breaking changes relative to OpenVox
-> 8 — see the [release notes](./release_notes.html) before upgrading a production
-> host. The steps below cover the mechanics of the upgrade itself.
+> 8 — see [Upgrading from OpenVox 8 to 9](upgrade_major.html) and the
+> [release notes](./release_notes.html) before upgrading a production host. The
+> steps below cover the mechanics of the upgrade itself.
 
 The main migration rule is that a host cannot have both Puppet and OpenVox packages
 installed at the same time. Back up `/etc/puppetlabs/` before you start.
