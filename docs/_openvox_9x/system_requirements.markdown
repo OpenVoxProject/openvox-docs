@@ -59,7 +59,7 @@ OpenVox and its prerequisites are known to run on the following platforms, but w
 
 If you install OpenVox via the official packages, you don't need to worry about prerequisites; your system's package manager handles all of them. These are only listed for those running Puppet from source or on unsupported systems.
 
-* **Ruby:** We currently only test and package with 3.2.x versions of Ruby, therefore you should only use this version. Other interpreters and versions of Ruby are not covered by our tests.
+* **Ruby:** OpenVox 9 packages bundle and test with Ruby 4.0.x, so you should use this version. The `openvox` gem requires at least Ruby 3.2. Other interpreters and versions of Ruby are not covered by our tests.
 
 * Mandatory libraries:
 
