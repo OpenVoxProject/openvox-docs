@@ -6,8 +6,8 @@ title: "OpenVox repositories and packages"
 [downloads_page]: https://voxpupuli.org/openvox/install/
 [apt_repo]: https://apt.voxpupuli.org
 [yum_repo]: https://yum.voxpupuli.org
-[windows_downloads]: https://downloads.voxpupuli.org/windows
-[mac_downloads]: https://downloads.voxpupuli.org/mac
+[windows_downloads]: https://downloads.voxpupuli.org/windows/openvox9/
+[mac_downloads]: https://downloads.voxpupuli.org/mac/openvox9/
 
 Use the OpenVox repositories to install the package set that matches your platform.
 The public install guide on Vox Pupuli is the best source for current repository

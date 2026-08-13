@@ -10,7 +10,7 @@ These instructions cover installing `openvox-agent` on macOS systems.
 1. Before installing `openvox-agent`, read the [pre-install tasks](./install_pre.html).
 
 2. Download the current macOS package from
-   <https://downloads.voxpupuli.org/mac>.
+   <https://downloads.voxpupuli.org/mac/openvox9/>.
 
    The macOS package bundles the runtime it needs, so you do not need to install
    Ruby or other OpenVox dependencies separately.
