@@ -27,9 +27,9 @@ On branch main
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
   (use "git restore <file>..." to discard changes in working directory)
-	modified:   Gemfile
-	modified:   Rakefile
-	modified:   spec/spec_helper.rb
+    modified:   Gemfile
+    modified:   Rakefile
+    modified:   spec/spec_helper.rb
 
 no changes added to commit (use "git add" and/or "git commit -a")
  ~/demo git:(main) ✗
