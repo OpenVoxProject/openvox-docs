@@ -46,7 +46,7 @@ Because Jig does not attempt to hide the Bundler environment from you, it will s
 {% include alert.html type="tip" title="Choosing command forms" content="If you want quick and familiar commands to run locally, then use the Jig wrapper commands. If you're running tests and such in CI or if you need to pass custom options then invoke the tools directly." %}
 
 | You used to type... | Now you type...  | Or run tools directly...         |
-| ---------------------| ------------------| ----------------------------------|
+|---------------------| ------------------| ----------------------------------|
 | `pdk new module`    | `jig new module` |                                  |
 | `pdk new class`     | `jig new class`  |                                  |
 | `pdk build`         | `jig build`      |                                  |
