@@ -11,7 +11,28 @@ When migrating away from the PDK, the biggest change you'll notice that instead 
 Most are shipped as gems that you'll add to a module's `Gemfile`.
 This means that you'll maintain your own Ruby and Bundler installs, but most other tooling will be accessed via `bundle exec` commands in individual module repositories.
 
-For simplicity, a convert command was added to Jig starting with version 1.5.0. This allows you to automatically update your module's `Gemfile`, `Rakefile`, and `spec/spec_helper.rb` to OpenVox- and VoxBox-compatible versions.
+For simplicity, the `jig convert` convert command was added to Jig starting with version 1.5.0. This allows you to automatically update your module's `Gemfile`, `Rakefile`, and `spec/spec_helper.rb` to OpenVox- and VoxBox-compatible versions.
+
+```console
+ ~/demo git:(main)  git status 
+On branch main
+nothing to commit, working tree clean
+
+ ~/demo git:(main)  jig convert
+convert successful: Gemfile, Rakefile, spec/spec_helper.rb
+
+ ~/demo git:(main) ✗  git status
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   Gemfile
+	modified:   Rakefile
+	modified:   spec/spec_helper.rb
+
+no changes added to commit (use "git add" and/or "git commit -a")
+ ~/demo git:(main) ✗
+ ```
 
 Before running commands in a new module repository, you'll need to run `bundle install`.
 If you get an error about a command not being available, you probably just need to run `bundle install`.
@@ -34,6 +55,9 @@ Because Jig does not attempt to hide the Bundler environment from you, it will s
 | `pdk update`        | `jig update`*    | `bundle exec msync update`*      |
 | `pdk validate`      | `jig validate`   | `bundle exec rake validate lint` |
 | `pdk test unit`     | `jig test unit`  | `bundle exec rake spec`          |
+
+`jig convert` was added in Jig 1.5.0
+{: .info }
 
 {% include alert.html type="note" title="*NOTE" content="`pdk update` operates in context of a single module. In contrast, the replacement ModuleSync commands (`jig update` and `bundle exec msync update`) should be run in the template repository to push updates to all your modules at once. [Read more](modulesync.html)." %}
 

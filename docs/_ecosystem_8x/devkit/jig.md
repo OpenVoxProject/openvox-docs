@@ -160,6 +160,12 @@ To tell Jig where your templates live, use either of the following:
 
 -----
 
+## Migrate an existing module to Jig
+
+Jig offers the possibility to make any PDK based module compatible with the OpenVox DevKit.
+
+Please follow the instructions mentioned in the [migration page](migration.html)
+
 ## Alternative scaffolding solutions
 
 Jig is the only scaffolding tool we have currently tested.
