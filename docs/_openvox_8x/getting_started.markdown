@@ -66,9 +66,9 @@ r10k reads this repository and deploys branches to `/etc/puppetlabs/code/environ
 
 ### Create the repository
 
-Start from the
-[OpenVoxProject/control-repo-template](https://github.com/OpenVoxProject/control-repo-template)
-template, which provides a well-structured starting point built for OpenVox.
+Start from
+[OpenVoxProject/control-repo-template](https://github.com/OpenVoxProject/control-repo-template),
+which provides a well-structured starting point built for OpenVox.
 
 If your repository will live on GitHub, open the template and click
 **Use this template** to create a copy under your own account or organization
