@@ -15,7 +15,6 @@ layout: default
 [module]: https://forge.puppet.com/modules/puppet/openvoxdb
 [postgres_ssl]: ./postgres_ssl.html
 [package_repos]: /openvox/latest/openvox_platform.html
-[known-issues]: ./known_issues.html
 
 This page describes how to manually install and configure OpenVoxDB from the official packages. Users are encouraged to install OpenVoxDB via the [OpenVoxDB module][module] instead of installing the packages
 directly. Using the module for setting up OpenVoxDB is much easier and less error prone. See [Installing OpenVoxDB via Puppet module][install_module] for more info.
@@ -29,17 +28,6 @@ Additionally, these instructions may be useful for understanding OpenVoxDB's var
 > - These instructions are for [platforms with official OpenVoxDB packages][requirements]. To install on other systems, follow [our instructions for installing from source](./install_from_source.html).
 > - If this is a production deployment, [review the scaling recommendations](./scaling_recommendations.html) before installing. You should ensure that your OpenVoxDB server will be able to comfortably handle
 >   your site's load.
-
-## Platform specific install notes
-
-### Ubuntu 18.04
-
-- Enable the [universe repository](https://help.ubuntu.com/community/Repositories/Ubuntu), which contains packages necessary for OpenVoxDB
-- Ensure Java 8 is installed
-
-### RHEL 8
-
-- RedHat's openjdk 11 package's dependency on tzdata-java was broken, see OpenVoxDB's [known issues][known-issues] for more more information and a workaround.
 
 ## Step 1: Install and configure Puppet
 
