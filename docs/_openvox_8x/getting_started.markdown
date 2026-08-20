@@ -66,24 +66,27 @@ r10k reads this repository and deploys branches to `/etc/puppetlabs/code/environ
 
 ### Create the repository
 
-Start by cloning the [puppetlabs/control-repo](https://github.com/puppetlabs/control-repo)
-template, which provides a well-structured starting point:
+Start from
+[OpenVoxProject/control-repo-template](https://github.com/OpenVoxProject/control-repo-template),
+which provides a well-structured starting point built for OpenVox.
+
+If your repository will live on GitHub, open the template and click
+**Use this template** to create a copy under your own account or organization
+(see [GitHub's documentation](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)).
+
+For any other Git host (GitLab, Gitea, or any host your server can reach), create a
+new empty repository, then clone the template and push it there:
 
 ```bash
-git clone https://github.com/puppetlabs/control-repo.git
+git clone https://github.com/OpenVoxProject/control-repo-template.git control-repo
 cd control-repo
-```
-
-Create a new empty repository on your Git host (GitHub, GitLab, Gitea, or any host your
-server can reach), then point the clone at it. Note that OpenVox uses `production` as
-the default environment — make sure your repository's default branch is named
-`production`, not `main`:
-
-```bash
 git remote remove origin
 git remote add origin <YOUR_REPO_URL>
 git push -u origin production
 ```
+
+The template's default branch is already named `production`, matching the default
+environment that agents request — no branch renaming is needed.
 
 The template's key files are:
 
