@@ -50,9 +50,67 @@ For convenience, you can also add `/opt/puppetlabs/puppet/bin` to `PATH` in `/et
 {: .tip }
 
 
+## Explore the resources on your system
+
+Now that you have OpenVox installed, explore around and take a look at how it sees your system.
+This command will show you how OpenVox represents the current state of a specific kind of resource,
+in this case the `user` resources.
+The output will be your first view of the Puppet DSL (domain specific language).
+
+```console
+# puppet resource user
+```
+
+Oof, that was a lot of output!
+Pick the name of one of your user resources and run again.
+This shows the same output, but scoped to a single user.
+
+```console
+# puppet resource user binford2k
+user { 'binford2k':
+  ensure   => 'present',
+  comment  => 'Ben Ford',
+  gid      => 20,
+  groups   => ['_appserveradm', '_appserverusr', '_lpadmin', 'admin'],
+  home     => '/Users/binford2k',
+  password => '*',
+  provider => 'directoryservice',
+  shell    => '/bin/zsh',
+  uid      => 502,
+}
+```
+
+Try a similar command with the `file` resource and the name of a file on your computer, maybe `/etc/hosts`.
+
+```console
+# puppet resource file /etc/hosts
+file { '/etc/hosts':
+  ensure   => 'file',
+  content  => '{sha256}a6091419f554c020b7d0382f461954c0a4e8574f0a4694d78410d4058f2f2606',
+  ctime    => '2026-07-31 10:44:00 -0700',
+  group    => 0,
+  mode     => '0644',
+  mtime    => '2024-12-19 19:11:03 -0800',
+  owner    => 0,
+  provider => 'posix',
+  type     => 'file',
+}
+```
+
+Now you see how OpenVox sees resources as the *type* and *title* of the resource and then a list of *attributes* of that resource.
+
+Just for fun, try using `puppet resource` to list all the `file` resources.
+This doesn't work because unlike users which are easily *enumerable*, all the files on a modern computer are not computationally feasible to enumerate.
+
 ## Your First Manifest
 
-Let's write some infrastructure-as-code! A **manifest** is a file (ending in `.pp`) that describes the desired state of your system using the Puppet language.
+You’ll notice that the output of the puppet resource commands is extremely thorough.
+That’s because it’s exhaustively describing all the state known about every resource.
+Generally speaking, you don’t really care about all the details.
+When you write with the Puppet language, you only need to describe the things you do care about.
+
+Let's write some infrastructure-as-code!
+A **manifest** is a file (ending in `.pp`) that describes the desired state of your system using the Puppet language.
 
 ### Hello, OpenVox
 
