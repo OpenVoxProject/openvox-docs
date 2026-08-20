@@ -55,7 +55,7 @@ More detailed instructions follow.
 Use your system's package tools to ensure that the following prerequisites are installed:
 
 - Java 17 or 21
-- [Leiningen 2.9.1 or later](http://leiningen.org/)
+- [Leiningen 2.12.0 or later](http://leiningen.org/)
 - Git (for checking out the source code)
 - Ruby 3.1 or later -- only needed to run a Puppet Agent from source on the host (the source agent is run through Bundler, which isolates it from any Puppet gems in your Ruby). You can skip this if you
   [run the agent in a Docker container](#running-the-agent-inside-a-docker-container) instead.
