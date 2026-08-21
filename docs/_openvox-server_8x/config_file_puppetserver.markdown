@@ -81,8 +81,9 @@ The `puppetserver.conf` file contains settings for OpenVox Server software. For 
 
         For more information, see the [`environment_classes` API documentation][].
 
-  - `compile-mode`: The default value depends on JRuby versions, for 1.7 it is `off`, for 9k it is `jit`. Used to control JRuby's "CompileMode", which may improve performance. A value of `jit` enables JRuby's
+  - `compile-mode`: Used to control JRuby's "CompileMode", which may improve performance. A value of `jit` enables JRuby's
     "just-in-time" compilation of Ruby code. A value of `force` causes JRuby to attempt to pre-compile all Ruby code.
+    Can also be set to `off`. `jit` is the default.
 
   - `profiling-mode`: Optional. Used to enable JRuby's profiler for service startup and set it to one of the supported modes. The default value is `off`, but it can be set to one of `api`, `flat`, `graph`,
     `html`, `json`, `off`, and `service`. See [ruby-prof](https://ruby-prof.github.io/reports/) for details on what the various modes do.
