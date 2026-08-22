@@ -11,12 +11,14 @@
 # self-canonical: once `latest` moves on, their content is unique and the
 # same page may not exist under /latest/.
 #
-# The origin is hardcoded, matching llms.txt, because site.url is unset.
+# The production origin is the fallback for builds where `url` is unset
+# (e.g. `jekyll serve` overrides it to localhost in development).
 module OpenvoxDocs
   module CanonicalLatest
     ORIGIN = 'https://docs.openvoxproject.org'
 
     def self.apply(site)
+      origin = site.config['url'].to_s.empty? ? ORIGIN : site.config['url']
       (site.data['products'] || {}).each do |product_id, product|
         version = Array(product['versions']).find { |v| v['id'] == product['latest'] }
         next unless version
@@ -24,15 +26,15 @@ module OpenvoxDocs
         collection = site.collections[version['collection'].delete_prefix('_')]
         next if collection.nil? || collection.label.end_with?('_latest')
 
-        canonicalize(collection, version['base'], "/#{product_id}/latest/")
+        canonicalize(collection, origin, version['base'], "/#{product_id}/latest/")
       end
     end
 
-    def self.canonicalize(collection, base, latest_base)
+    def self.canonicalize(collection, origin, base, latest_base)
       collection.docs.each do |doc|
         next unless doc.url.start_with?(base)
 
-        doc.data['canonical_url'] = "#{ORIGIN}#{latest_base}#{doc.url.delete_prefix(base)}"
+        doc.data['canonical_url'] = "#{origin}#{latest_base}#{doc.url.delete_prefix(base)}"
       end
     end
   end
