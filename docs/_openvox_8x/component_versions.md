@@ -40,20 +40,40 @@ The OpenFact column is the **bundled** OpenFact version and links to the
 [OpenFact documentation][openfact], which is the authoritative source for OpenFact
 changes; this page is only a pointer.
 
+{% if site.data.agent_release_contents[nav_key] %}
+
 | OpenVox release | OpenFact | Ruby | OpenSSL | curl |
 | --- | --- | --- | --- | --- |
 {% for r in site.data.agent_release_contents[nav_key] %}| {{ r.release }} | [{{ r.openfact }}][openfact] | {{ r.ruby }} | {{ r.openssl }} | {{ r.curl }} |
 {% endfor %}
+
+{% else %}
+
+> **No stable releases yet.** This table is generated from the GA release
+> metadata for this OpenVox series; prereleases (alphas and betas) are excluded.
+> It populates once the first stable release in the series is tagged.
+
+{% endif %}
 
 ## Server components
 
 These ship with the `openvox-server` package. JRuby is the bundled version, read
 from the server's per-release SBOM.
 
+{% if site.data.server_release_contents[nav_key] %}
+
 | OpenVox Server release | JRuby | Java |
 | --- | --- | --- |
 {% for r in site.data.server_release_contents[nav_key] %}| {{ r.release }} | {{ r.jruby }} | 17, 21 |
 {% endfor %}
+
+{% else %}
+
+> **No stable releases yet.** This table is generated from the GA release
+> metadata for this OpenVox series; prereleases (alphas and betas) are excluded.
+> It populates once the first stable release in the series is tagged.
+
+{% endif %}
 
 > **Java is not bundled.** OpenVox Server requires a supported JDK to be installed
 > separately. The Java column shows the currently supported major versions, not a
@@ -68,10 +88,20 @@ agents talk to OpenVoxDB) is released in lockstep at the **same version** as
 
 Jetty is the bundled HTTP server, read from the OpenVoxDB SBOM.
 
+{% if site.data.openvoxdb_release_contents[nav_key] %}
+
 | OpenVoxDB release | Jetty | Java | PostgreSQL |
 | --- | --- | --- | --- |
 {% for r in site.data.openvoxdb_release_contents[nav_key] %}| {{ r.release }} | {{ r.jetty }} | 11, 17 | 11+ (14+ recommended) |
 {% endfor %}
+
+{% else %}
+
+> **No stable releases yet.** This table is generated from the GA release
+> metadata for this OpenVox series; prereleases (alphas and betas) are excluded.
+> It populates once the first stable release in the series is tagged.
+
+{% endif %}
 
 > **Java and PostgreSQL are not bundled.** OpenVoxDB runs on a JVM and connects to a
 > PostgreSQL server you install separately (the `puppet-openvoxdb` module can install
@@ -123,6 +153,11 @@ file named for the collection's nav_key, so the page renders its own series via
 `_data/openvoxdb_release_contents/openvox_8x.yml`. OpenBolt is independent of the
 OpenVox major and is shared across series in `_data/openbolt_release_contents.yml`.
 
-When a 9.x collection is added, run the per-series tasks again with `SERIES=9.`
-(and an appropriate `MIN_RELEASE`); they write `…/openvox_9x.yml` files, and the
-copied 9.x page reads them automatically through its own `page.nav`.
+For another series, run the per-series tasks again with `SERIES=9.` (and an
+appropriate `MIN_RELEASE`); they write `…/openvox_9x.yml` files, and that series'
+page reads them automatically through its own `page.nav`.
+
+The generator only reads stable releases: alphas and betas are skipped, and it
+refuses to write a data file when a series has no stable releases yet (for example
+`SERIES=9.` before 9.0.0 ships). Until then the affected tables render a "no
+stable releases yet" note instead of rows.
