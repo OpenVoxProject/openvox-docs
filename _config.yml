@@ -1,6 +1,7 @@
 ---
 title: OpenVox Documentation
 description: Documentation for various OpenVox Projects.
+url: https://docs.openvoxproject.org
 
 logo: /assets/images/HexagonSticker.png
 
@@ -24,6 +25,14 @@ jekyll_vitepress:
     logo:
       default: 'https://github.com/voxpupuli/logos/blob/master/images/OpenVox/Sticker/HexagonSticker.svg?raw=true'
       alt: OpenVox Automation Framework
+  # Social-card image for Open Graph / Twitter tags. Falls back to `logo`
+  # without this, but width/height are only emitted when set here.
+  seo:
+    image:
+      path: /assets/images/HexagonSticker.png
+      alt: OpenVox Documentation
+      width: 1200
+      height: 630
   # Disabled as it adds extra size to generated HTML pages.
   copy_page:
     enabled: false
