@@ -22,6 +22,10 @@
   collections: openvoxdb_latest|openvoxdb_8x
   base: /openvoxdb/latest/
 
+- nav_key: openvoxdb_9x
+  collections: openvoxdb_9x
+  base: /openvoxdb/9.x/
+
 - nav_key: openbolt_5x
   collections: openbolt_latest|openbolt_5x
   base: /openbolt/latest/

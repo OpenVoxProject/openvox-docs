@@ -82,6 +82,10 @@ openvoxdb:
   label: OpenVoxDB
   latest: 8x
   versions:
+    - id: 9x
+      label: "9.x"
+      collection: _openvoxdb_9x
+      base: /openvoxdb/9.x/
     - id: 8x
       label: "8.x"
       collection: _openvoxdb_8x
