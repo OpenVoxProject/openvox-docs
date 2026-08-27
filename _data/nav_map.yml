@@ -10,6 +10,10 @@
   collections: openvox_latest|openvox_8x
   base: /openvox/latest/
 
+- nav_key: openvox_9x
+  collections: openvox_9x
+  base: /openvox/9.x/
+
 - nav_key: openvox-server_8x
   collections: openvox-server_latest|openvox-server_8x
   base: /openvox-server/latest/

@@ -153,13 +153,36 @@ and publishes.
 
 Do this when the new major becomes the stable release.
 
-1. **Repoint the `latest` symlink:**
+1. **Port content drift from the old version.** The Phase 1 copy is frozen at the
+   moment it was made: edits merged to the old collection afterward are absent from
+   the new one, and nothing surfaces them — they merge without conflict and the new
+   collection's pages are simply older. Find the copy point (the commit that added
+   the new collection) and list every old-collection change since:
+
+   ```console
+   git log $(git log --diff-filter=A --format=%H -1 -- docs/_openvox_9x/index.md)..master \
+     -- docs/_openvox_8x _data/nav/openvox_8x.yml
+   ```
+
+   Port each relevant change onto the new collection — a path-rewritten apply
+   usually works as-is:
+
+   ```console
+   git show <commit> -- docs/_openvox_8x | sed 's|_openvox_8x|_openvox_9x|g' | git apply
+   ```
+
+   Review ported content for version-specific prose, same as the Phase 1 sweep.
+   Re-run this check immediately before merging the promotion PR; if a docs freeze
+   is ever warranted, it only needs to cover the window between that final check
+   and the merge.
+
+2. **Repoint the `latest` symlink:**
 
    ```console
    ln -sfn _openvox_9x docs/_openvox_latest
    ```
 
-2. **Point the `latest` collection's navigation at the new version.** The
+3. **Point the `latest` collection's navigation at the new version.** The
    `/<product>/latest/` pages belong to the `openvox_latest` collection, so their nav
    has to move from 8.x to 9.x:
    - In `_config.yml`, change the `openvox_latest` defaults scope from
@@ -177,17 +200,17 @@ Do this when the new major becomes the stable release.
        base: /openvox/latest/
      ```
 
-3. **In `_data/products.yml`:** set the OpenVox `latest:` to `9x` (a targeted
+4. **In `_data/products.yml`:** set the OpenVox `latest:` to `9x` (a targeted
    per-product edit — don't sweep every product's `latest:`), and **freeze 8.x** by
    pinning its `ref:` to its final 8.x tag (so the frozen collection stays
    reproducible).
 
-4. **No-redirect check:** the site has no redirect mechanism. Once `latest` points at
+5. **No-redirect check:** the site has no redirect mechanism. Once `latest` points at
    9.x, any page **removed or renamed** in 9.x will 404 at `/openvox/latest/<page>`
    for `latest` bookmarks (the content still lives at `/openvox/8.x/<page>`). Diff the
    8.x vs 9.x page sets and decide how to handle removed pages before promoting.
 
-5. Rebuild and verify: `/openvox/latest/` now serves the 9.x content, `/openvox/8.x/`
+6. Rebuild and verify: `/openvox/latest/` now serves the 9.x content, `/openvox/8.x/`
    stays frozen, and the version selector marks 9.x as `latest`.
 
 ### Rollback
