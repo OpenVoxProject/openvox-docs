@@ -78,6 +78,9 @@ collections:
   openvox-server_8x:
     output: true
     permalink: '/openvox-server/8.x/:path:output_ext'
+  openvox-server_9x:
+    output: true
+    permalink: '/openvox-server/9.x/:path:output_ext'
 
   openvoxdb_latest:
     output: true
@@ -146,6 +149,11 @@ defaults:
       type: openvox-server_8x
     values:
       nav: openvox-server_8x
+  - scope:
+      path: ''
+      type: openvox-server_9x
+    values:
+      nav: openvox-server_9x
 
   - scope:
       path: ''

@@ -6,7 +6,7 @@
   collections: [openvox_latest, openvox_8x, openvox_9x]
 - title: OpenVox Server
   url: /openvox-server/latest/
-  collections: [openvox-server_latest, openvox-server_8x]
+  collections: [openvox-server_latest, openvox-server_8x, openvox-server_9x]
 - title: OpenVoxDB
   url: /openvoxdb/latest/
   collections: [openvoxdb_latest, openvoxdb_8x]
