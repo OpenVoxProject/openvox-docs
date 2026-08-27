@@ -61,6 +61,9 @@ collections:
   openfact_5x:
     output: true
     permalink: '/openfact/5.x/:path:output_ext'
+  openfact_6x:
+    output: true
+    permalink: '/openfact/6.x/:path:output_ext'
 
   openvox_latest:
     output: true
@@ -119,6 +122,11 @@ defaults:
       type: openfact_5x
     values:
       nav: openfact_5x
+  - scope:
+      path: ''
+      type: openfact_6x
+    values:
+      nav: openfact_6x
 
   - scope:
       path: ''
