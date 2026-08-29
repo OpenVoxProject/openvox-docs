@@ -266,3 +266,4 @@ Think of it as a blueprint: Puppet reads the blueprint, looks at the building, a
 
 * Using `puppet apply` is great for standalone work, but the real power of OpenVox comes from managing an entire infrastructure just as easily. [Learn about setting up an OpenVox Server](agent-server.html).
 * Maybe you'd rather learn more about the language first. Check out the [Puppet Language Intro](language.html).
+* Ready to turn `hello.pp` into a module you can lint, test, and share? The [Developer Tooling guide](../devkit/index.html) walks through scaffolding, style checks, unit tests, and [running it all in CI](../devkit/ci.html).

@@ -35,6 +35,8 @@
     link: "devkit/jig.html"
   - text: Consistent Style
     link: "devkit/linting.html"
+  - text: GitHub Actions CI
+    link: "devkit/ci.html"
   - text: Using VoxBox in CI
     link: "devkit/voxbox.html"
   - text: Unit Testing
