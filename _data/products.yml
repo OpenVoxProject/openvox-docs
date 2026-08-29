@@ -23,13 +23,20 @@
 #       - label:      display label for the UI (e.g. "8.x").
 #       - collection: the Jekyll collection directory (e.g. `_openvox_8x`).
 #       - base:       the published URL base (e.g. `/openvox/8.x/`).
-#       - ref:        (products with a `references:` task only) the exact upstream
-#                     git tag to build the reference pages from. Pinning to a tag —
-#                     rather than a branch or "newest" — keeps a docs commit
-#                     reproducible and avoids a moving target ("newest stable" is
-#                     global, so it jumps majors once a new major ships, and `main`
-#                     rolls into the next major over time). Bump it to reflect a
-#                     newer release; a frozen older major keeps its final tag.
+#       - ref:        (products with a `references:` task only) what to build the
+#                     reference pages from. Either:
+#                       - a series, e.g. "8.x": resolved at build time to the
+#                         newest stable (non-prerelease) tag in that series, so
+#                         the current stable version picks up point releases with
+#                         no docs change. The series bound is what makes this
+#                         safe: an unbounded "newest stable" is global and would
+#                         jump majors once a new major ships. Use this for the
+#                         current stable version of a product.
+#                       - an exact tag, e.g. "9.0.0-beta2" or "8.28.1": built
+#                         verbatim. Use this for prereleases (a series never
+#                         resolves to one) and for a frozen older major, which
+#                         keeps its final tag so the collection stays
+#                         reproducible.
 
 openvox:
   label: OpenVox
@@ -45,7 +52,7 @@ openvox:
       label: "8.x"
       collection: _openvox_8x
       base: /openvox/8.x/
-      ref: "8.28.0"
+      ref: "8.x"
 
 openfact:
   label: OpenFact
@@ -56,7 +63,7 @@ openfact:
       label: "5.x"
       collection: _openfact_5x
       base: /openfact/5.x/
-      ref: "5.6.1"
+      ref: "5.x"
 
 openbolt:
   label: OpenBolt
@@ -67,7 +74,7 @@ openbolt:
       label: "5.x"
       collection: _openbolt_5x
       base: /openbolt/5.x/
-      ref: "5.6.0"
+      ref: "5.x"
 
 openvox-server:
   label: OpenVox Server

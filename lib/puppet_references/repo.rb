@@ -45,10 +45,17 @@ module PuppetReferences
       @repo.tags
     end
 
-    def newest_release
-      @repo.tags.map { |t| Gem::Version.new(t.name) rescue Gem::Version.new(0) } # rubocop:disable Style/RescueModifier
-                .reject(&:prerelease?)
-                .max.version                                                     # rubocop:disable Layout/MultilineMethodCallIndentation
+    # The newest stable (non-prerelease) tag, optionally restricted to a release
+    # series given as its leading version segments (e.g. [8] for 8.*, [9, 0] for
+    # 9.0.*). Raises rather than returning nil so a typo'd series or a repo with
+    # no such tags fails the build instead of silently checking out nothing.
+    def newest_release(series: nil)
+      versions = @repo.tags.map { |t| Gem::Version.new(t.name) rescue Gem::Version.new(0) } # rubocop:disable Style/RescueModifier
+                           .reject(&:prerelease?)
+      versions = versions.select { |v| v.segments.first(series.size) == series } if series
+      raise "#{@name}: no stable release tag matching #{series ? series.join('.') + '.x' : 'any series'}" if versions.empty?
+
+      versions.max.version
     end
 
     def update_bundle

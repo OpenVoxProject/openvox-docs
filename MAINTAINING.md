@@ -25,14 +25,16 @@ as needed.
 - **`_data/products.yml`** — the version registry. Per product: a `label`, which
   version `latest` aliases, and (for products with generated references) the
   `references:` rake task. Per version: `id`, `label`, `collection`, `base` URL, and
-  — for generated products — the exact upstream `ref:` tag to build from.
+  — for generated products — the upstream `ref:` to build from: a series (`"8.x"`,
+  resolved at build time to the newest stable tag in that series) for the current
+  stable version, or an exact tag for a prerelease or a frozen older major.
 - **Navigation** — `_data/nav/<key>.yml` (sidebar trees), `_data/nav_map.yml`
   (which collections map to a nav key), `_data/navigation.yml` (top product bar).
 - **Version selector** — reads `products.yml`; it appears automatically once a
   product has 2+ versions (so it stays hidden until the first cutover).
-- **Reference docs** — generated (not committed) by `rake references:all` from the
-  pinned tags. The new version builds from its pin; the old version stays frozen at
-  its pin.
+- **Reference docs** — generated (not committed) by `rake references:all` from each
+  version's `ref:`. The new version builds from its prerelease pin; the old version
+  keeps tracking its series until it is frozen at GA.
 
 > `_config.yml` collections can't be generated from `products.yml` (Jekyll reads the
 > config before `_data`), so they are hand-maintained — keep the two in sync.
@@ -115,7 +117,9 @@ is **not yet** the stable release. `latest` stays on the current major.
    ```
 
 5. **Add the version to `_data/products.yml`** (newest first), keeping `latest: 8x`
-   for now:
+   for now. The new version pins an exact prerelease tag (a series never resolves
+   to a prerelease); the old version keeps its `"8.x"` series ref so it still picks
+   up 8.x point releases:
 
    ```yaml
    openvox:
@@ -132,7 +136,7 @@ is **not yet** the stable release. `latest` stays on the current major.
          label: "8.x"
          collection: _openvox_8x
          base: /openvox/8.x/
-         ref: "8.28.0"
+         ref: "8.x"
    ```
 
 6. **Generate references and build locally to verify:**
@@ -146,8 +150,8 @@ is **not yet** the stable release. `latest` stays on the current major.
    Confirm `/openvox/8.x/`, `/openvox/9.x/`, and `/openvox/latest/` all render, and
    that the version selector now shows both `9.x` and `8.x (latest)`.
 
-Open a PR with these changes. On merge, CI regenerates both versions from their pins
-and publishes.
+Open a PR with these changes. On merge, CI regenerates both versions from their
+`ref:`s and publishes.
 
 ### Phase 2 — promote the new version to `latest` (GA)
 
@@ -201,9 +205,10 @@ Do this when the new major becomes the stable release.
      ```
 
 4. **In `_data/products.yml`:** set the OpenVox `latest:` to `9x` (a targeted
-   per-product edit — don't sweep every product's `latest:`), and **freeze 8.x** by
-   pinning its `ref:` to its final 8.x tag (so the frozen collection stays
-   reproducible).
+   per-product edit — don't sweep every product's `latest:`), switch 9.x from its
+   prerelease pin to the `"9.x"` series ref so it tracks 9.x point releases, and
+   **freeze 8.x** by replacing its `"8.x"` series ref with its final 8.x tag (so the
+   frozen collection stays reproducible).
 
 5. **No-redirect check:** the site has no redirect mechanism. Once `latest` points at
    9.x, any page **removed or renamed** in 9.x will 404 at `/openvox/latest/<page>`
