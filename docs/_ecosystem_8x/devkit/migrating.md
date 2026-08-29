@@ -11,8 +11,10 @@ When migrating away from the PDK, the biggest change you'll notice that instead 
 Most are shipped as gems that you'll add to a module's `Gemfile`.
 This means that you'll maintain your own Ruby and Bundler installs, but most other tooling will be accessed via `bundle exec` commands in individual module repositories.
 
-Jig 1.5.0 and later includes a `jig convert` command that migrates a PDK-based module for you.
-It rewrites the module's `Gemfile`, `Rakefile`, and `spec/spec_helper.rb` to OpenVox- and VoxBox-compatible versions.
+The `jig convert` command migrates a PDK-based module for you.
+Run it from the module's root directory and it rewrites the module's `Gemfile`, `Rakefile`, and `spec/spec_helper.rb` to OpenVox- and VoxBox-compatible versions.
+Nothing about it is specific to the PDK: it works on any module, so it's also the quickest way to bring a hand-maintained module onto the DevKit toolchain.
+If the module has no `metadata.json`, or has one that's missing required keys, `jig convert` creates or repairs it first; see [the Jig page](jig.html#migrate-an-existing-module-to-jig) for the details.
 
 ```console
  ~/demo git:(main)  git status 
@@ -53,13 +55,16 @@ Because Jig does not attempt to hide the Bundler environment from you, it will s
 | `pdk build`         | `jig build`      |                                  |
 | `pdk release`       | `jig release`    |                                  |
 | `pdk convert`       | `jig convert`    |                                  |
-| `pdk update`        | `jig update`*    | `bundle exec msync update`*      |
-| `pdk validate`      | `jig validate`   | `bundle exec rake validate lint` |
+| `pdk update`        | `jig msync update`* | `bundle exec msync update`*           |
+| `pdk validate`      | `jig validate`   | `bundle exec rake validate lint rubocop` |
 | `pdk test unit`     | `jig test unit`  | `bundle exec rake spec`          |
 
-`jig convert` was added in Jig 1.5.0
-{: .info }
+`jig validate` runs all three checks and stops at the first failure.
+Pass `-s`, `-l`, or `-r` to run only the syntax, lint, or rubocop check; for example, `jig validate -sl` skips rubocop.
 
-{% include alert.html type="note" title="*NOTE" content="`pdk update` operates in context of a single module. In contrast, the replacement ModuleSync commands (`jig update` and `bundle exec msync update`) should be run in the template repository to push updates to all your modules at once. [Read more](modulesync.html)." %}
+{% include alert.html type="note" title="*NOTE" content="`pdk update` operates in context of a single module. In contrast, the replacement ModuleSync commands (`jig msync update` and `bundle exec msync update`) should be run in the template repository to push updates to all your modules at once. [Read more](modulesync.html)." %}
+
+If you used `jig update` with Jig 1.x, it was renamed to `jig msync update` in Jig 2.0 to make clear that it runs ModuleSync rather than anything Jig-native.
+For Jig's own template-driven refresh of a single module, see [`jig renew`](jig.html#refreshing-a-module-from-its-templates).
 
 Browse through the individual subpages of this Developer Tooling section to learn more about each component.

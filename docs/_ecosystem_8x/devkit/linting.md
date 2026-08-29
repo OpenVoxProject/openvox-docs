@@ -32,7 +32,8 @@ manifests/init.pp:10:manifest_whitespace_double_newline_end_of_file:ERROR:there 
 Try running the `lint_fix` task instead and you'll see most or all of the offenses marked as `FIXED` instead of `ERROR` or `WARNING` indicating that it has fixed the source files for you.
 Some offenses cannot be fixed automatically and you may have to update them yourself.
 
-If you use Jig, `jig validate` runs the `validate` and `lint` tasks together (equivalent to `bundle exec rake validate lint`).
+If you use Jig, `jig validate` runs the `validate`, `lint`, and `rubocop` tasks in turn (equivalent to `bundle exec rake validate lint rubocop`), stopping at the first failure.
+Pass `-sl` to run only the syntax and lint checks and skip Rubocop.
 It doesn't run `lint_fix`, so run the `lint_fix` task directly when you want automatic fixes.
 
 ### Configuring the Puppet linter
