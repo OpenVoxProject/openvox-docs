@@ -36,7 +36,7 @@ task :references do
   puts 'bundle exec rake references:openvox [VERSION=<GIT TAG OR COMMIT> COLLECTION=<DIR> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
   puts 'bundle exec rake references:openfact [VERSION=<GIT TAG OR COMMIT> COLLECTION=<DIR> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
   puts 'bundle exec rake references:openbolt [VERSION=<GIT TAG OR COMMIT> COLLECTION=<DIR> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
-  puts '  VERSION can be omitted, uses latest non-prerelease tag; an explicit VERSION builds that exact ref (e.g. a 9.x prerelease)'
+  puts '  VERSION can be omitted, uses latest non-prerelease tag; a series like 8.x uses the latest non-prerelease tag in that series; anything else builds that exact ref (e.g. a 9.x prerelease)'
   puts '  COLLECTION can be omitted, defaults to the current stable dir per product (e.g. _openvox_latest); set it to build a frozen version (e.g. _openvox_9x)'
   puts '  INSTALLPATH can be omitted, defaults to references_output/'
   puts 'bundle exec rake references:all [INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
