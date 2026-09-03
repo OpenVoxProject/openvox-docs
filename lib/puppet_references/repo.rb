@@ -46,9 +46,20 @@ module PuppetReferences
     end
 
     def newest_release
-      @repo.tags.map { |t| Gem::Version.new(t.name) rescue Gem::Version.new(0) } # rubocop:disable Style/RescueModifier
-                .reject(&:prerelease?)
-                .max.version                                                     # rubocop:disable Layout/MultilineMethodCallIndentation
+      versions = tag_names.filter_map { |name| Gem::Version.new(name) rescue nil } # rubocop:disable Style/RescueModifier
+                          .reject(&:prerelease?)
+      raise "#{@name}: no stable release tag found" if versions.empty?
+
+      versions.max.version
+    end
+
+    # Tag names straight from `git tag --list`. The git gem's tag enumeration
+    # (Git::Base#tags) re-resolves every name and, since git 5.x, raises on the
+    # literal `tags/2.6.0rc*` tags that exist in the openvox repository, so
+    # list the names without validating them; non-version names are discarded
+    # by the caller anyway.
+    def tag_names
+      Dir.chdir(@directory) { `git tag --list`.split("\n") }
     end
 
     def update_bundle
