@@ -3,7 +3,7 @@
 source 'https://rubygems.org/'
 gemspec name: 'puppet_docs'
 
-gem 'git', '~> 4.0'
+gem 'git', '~> 5.2'
 gem 'json', '~> 2.5'
 gem 'rack', '>= 2.2.14'
 gem 'rake', '~> 13.0', '>= 13.0.1'
