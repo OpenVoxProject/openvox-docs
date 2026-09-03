@@ -85,6 +85,9 @@ collections:
   openvoxdb_8x:
     output: true
     permalink: '/openvoxdb/8.x/:path:output_ext'
+  openvoxdb_9x:
+    output: true
+    permalink: '/openvoxdb/9.x/:path:output_ext'
 
   openbolt_latest:
     output: true
@@ -157,6 +160,11 @@ defaults:
       type: openvoxdb_8x
     values:
       nav: openvoxdb_8x
+  - scope:
+      path: ''
+      type: openvoxdb_9x
+    values:
+      nav: openvoxdb_9x
 
   - scope:
       path: ''

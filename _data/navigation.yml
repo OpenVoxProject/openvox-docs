@@ -9,7 +9,7 @@
   collections: [openvox-server_latest, openvox-server_8x]
 - title: OpenVoxDB
   url: /openvoxdb/latest/
-  collections: [openvoxdb_latest, openvoxdb_8x]
+  collections: [openvoxdb_latest, openvoxdb_8x, openvoxdb_9x]
 - title: OpenBolt
   url: /openbolt/latest/
   collections: [openbolt_latest, openbolt_5x]
