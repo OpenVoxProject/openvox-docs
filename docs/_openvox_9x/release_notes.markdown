@@ -4,7 +4,7 @@ toc_levels: 1234
 title: "OpenVox 9 Release Notes"
 ---
 
-> **OpenVox 9 is in prerelease.** This page tracks the alpha and beta builds ahead of
+> **OpenVox 9 is in prerelease.** This page tracks the alpha, beta, and release candidate builds ahead of
 > the stable 9.0.0 release. Expect breaking changes between prereleases; see
 > [known issues](known_issues.html) for anything discovered so far.
 
@@ -21,6 +21,33 @@ OpenVox's version numbers follows the [Semantic Versioning](https://semver.org/)
 Puppet Open Source is no longer actively developed.
 
 You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade through OpenVox 8 to OpenVox 9, or you can upgrade to Puppet 8 and then migrate to OpenVox 8 and then to OpenVox 9.
+
+## OpenVox 9.0.0-rc1
+
+Released September 4, 2026.
+
+This is the first release candidate for OpenVox 9. It is still a **prerelease** and not yet the stable release. It includes breaking changes; see the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/9.0.0-rc1) for the full list of changes.
+
+Notable breaking changes in this build:
+
+- Running as root without a [`server` setting](configuration.html#server) is now an error instead of a deprecation warning. OpenVox 9 does not default to `server=puppet`, so set the server explicitly in `puppet.conf`.
+- The systemd service provider no longer falls back to `invoke-rc.d` and init script inspection on Debian to decide whether a service is enabled.
+- The `openvox` gem now ships platform-specific builds for `universal-darwin` and `x64-mingw-ucrt` alongside the generic gem. The legacy `x64-mingw32` and 32-bit `x86-mingw32` gem platforms have been dropped.
+
+### Security Issues Resolved in 9.0.0-rc1
+
+| Identifier                                                        | CVSS 3.1 Score | Resolved By                        |
+| :---------------------------------------------------------------- | :------------: | :--------------------------------- |
+| [CVE-2026-63073](https://nvd.nist.gov/vuln/detail/CVE-2026-63073) |       9.8      | `pkg:github/openssl/openssl@3.5.8` |
+| [CVE-2026-75803](https://nvd.nist.gov/vuln/detail/CVE-2026-75803) |       9.1      | `pkg:github/openssl/openssl@3.5.8` |
+| [CVE-2026-14456](https://nvd.nist.gov/vuln/detail/CVE-2026-14456) |       7.5      | `pkg:github/openssl/openssl@3.5.8` |
+| [CVE-2026-14457](https://nvd.nist.gov/vuln/detail/CVE-2026-14457) |       7.5      | `pkg:github/openssl/openssl@3.5.8` |
+| [CVE-2026-18798](https://nvd.nist.gov/vuln/detail/CVE-2026-18798) |       7.5      | `pkg:github/openssl/openssl@3.5.8` |
+| [CVE-2026-54874](https://nvd.nist.gov/vuln/detail/CVE-2026-54874) |       7.5      | `pkg:github/openssl/openssl@3.5.8` |
+| [CVE-2026-63072](https://nvd.nist.gov/vuln/detail/CVE-2026-63072) |       7.5      | `pkg:github/openssl/openssl@3.5.8` |
+| [CVE-2026-63075](https://nvd.nist.gov/vuln/detail/CVE-2026-63075) |       7.5      | `pkg:github/openssl/openssl@3.5.8` |
+| [CVE-2026-63076](https://nvd.nist.gov/vuln/detail/CVE-2026-63076) |       7.5      | `pkg:github/openssl/openssl@3.5.8` |
+| [CVE-2026-63074](https://nvd.nist.gov/vuln/detail/CVE-2026-63074) |       5.9      | `pkg:github/openssl/openssl@3.5.8` |
 
 ## OpenVox 9.0.0-beta2
 
