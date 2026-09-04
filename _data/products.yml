@@ -45,7 +45,7 @@ openvox:
       label: "8.x"
       collection: _openvox_8x
       base: /openvox/8.x/
-      ref: "8.28.0"
+      ref: "8.29.0"
 
 openfact:
   label: OpenFact
