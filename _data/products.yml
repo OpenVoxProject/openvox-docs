@@ -52,6 +52,11 @@ openfact:
   latest: 5x
   references: references:openfact
   versions:
+    - id: 6x
+      label: "6.x"
+      collection: _openfact_6x
+      base: /openfact/6.x/
+      ref: "6.0.0"
     - id: 5x
       label: "5.x"
       collection: _openfact_5x

@@ -1,6 +1,6 @@
 - title: OpenFact
   url: /openfact/latest/
-  collections: [openfact_latest, openfact_5x]
+  collections: [openfact_latest, openfact_5x, openfact_6x]
 - title: OpenVox
   url: /openvox/latest/
   collections: [openvox_latest, openvox_8x, openvox_9x]
