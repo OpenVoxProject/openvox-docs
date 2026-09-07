@@ -168,7 +168,11 @@ is what matters when no ENC sets one.
 On each run, the agent decides which environment to use before it requests a catalog. It uses the first of
 the following that applies:
 
-1. The `--environment` option on the command line. The agent uses this environment and skips the node request.
+1. The `--environment` option on the command line. The agent uses this environment for that run, and skips
+   both the last-run file and the node request. That makes it different from setting `environment` in
+   `puppet.conf`, which is only a starting point that the later steps can override. The option isn't listed
+   in `puppet agent --help`, because any setting that is valid in `puppet.conf` is also accepted as a
+   command-line argument.
 2. The `environment` setting from `puppet.conf`, if `strict_environment_mode` is `true`. The agent skips the
    node request and rejects any catalog compiled for a different environment.
 3. The environment recorded by the previous run, if `use_last_environment` is `true`, which is the default,
