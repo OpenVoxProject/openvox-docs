@@ -226,6 +226,10 @@ logs `Not using catalog because its environment '<OTHER_ENV>' does not match age
 '<ENV_NAME>' and strict_environment_mode is set` and the run fails. In both cases the agent stays in its
 configured environment, and the server, including any ENC, can no longer reassign it.
 
+Strict mode also skips the node request and the last-run file, so it keeps the same optimization that
+`use_last_environment` provides. Prefer it over turning `use_last_environment` off when you want the agent to
+stay in its configured environment permanently.
+
 ### Reset an agent that is stuck in the wrong environment
 
 Once the environment exists on the server again, do one of the following:
@@ -243,7 +247,11 @@ Once the environment exists on the server again, do one of the following:
   file, so the agent sends the node request and starts from its configured environment.
 * Set `use_last_environment` to `false` in the `agent` section. The agent then sends the node request on
   every run and ignores the previous run's environment. This doesn't prevent the switch to `production`
-  while the environment is missing, but the agent recovers as soon as the environment exists again.
+  while the environment is missing, but the agent recovers as soon as the environment exists again. Treat
+  this as a temporary measure. The extra node request on every run is cheap by itself, but with an ENC it
+  runs the ENC twice per agent run, and if the ENC assigns a different environment than `puppet.conf` the
+  agent also syncs plugins twice. Across a large fleet that adds up, which is why the setting defaults to
+  `true`. For a permanent fix, use `strict_environment_mode` instead.
 
 Related topics: [`environment`][environment_setting], [`strict_environment_mode`][strict_environment_mode],
 [`use_last_environment`][use_last_environment], [`last_run_summary.yaml`][lastrunfile].
