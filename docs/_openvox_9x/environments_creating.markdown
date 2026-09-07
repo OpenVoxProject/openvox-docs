@@ -10,6 +10,10 @@ title: "Creating Environments"
 [default_manifest]: ./configuration.html#default_manifest
 [puppet.conf]: ./config_file_main.html
 [writingenc]: ./nodes_external.html
+[environment_setting]: ./configuration.html#environment
+[strict_environment_mode]: ./configuration.html#strict_environment_mode
+[use_last_environment]: ./configuration.html#use_last_environment
+[lastrunfile]: ./configuration.html#lastrunfile
 
 ## Environment structure
 
@@ -140,13 +144,109 @@ are assigned to a default environment named `production`.
 2. Find the `environment` setting in either the `agent` or `main` section.
 3. Set the value of the `environment` setting to the name of the desired environment.
 
+Alternatively, set it from the command line:
+
+```console
+sudo puppet config set environment <ENV_NAME> --section agent
+```
+
 When that node requests a catalog from the OpenVox server, it will request that environment. If you are
 using an ENC and it specifies an environment for that node, the ENC value will override the config file.
 
-> **Note:** Nodes can't be assigned to unconfigured environments. If a node is assigned to an environment
-> that doesn't exist, the OpenVox server will fail to compile its catalog. The one exception is if the
-> default `production` environment doesn't exist — in that case, the agent will successfully retrieve an
-> empty catalog.
+> **Note:** The environment must exist on the OpenVox server. If it doesn't, the server compiles the node's
+> catalog in the server's default environment instead, and the agent keeps using that environment on later
+> runs. See [How the agent chooses its environment](#how-the-agent-chooses-its-environment).
+
+## How the agent chooses its environment
+
+If an ENC assigns an environment to a node, that assignment is what the agent ends up applying. The server
+compiles the catalog in the ENC's environment no matter which one the agent asked for, and the agent switches
+to match the catalog. The only way to stop that switch is `strict_environment_mode`, which fails the run
+instead. The rest of this section describes how the agent decides which environment to ask for first, which
+is what matters when no ENC sets one.
+
+On each run, the agent decides which environment to use before it requests a catalog. It uses the first of
+the following that applies:
+
+1. The `--environment` option on the command line. The agent uses this environment and skips the node request.
+2. The `environment` setting from `puppet.conf`, if `strict_environment_mode` is `true`. The agent skips the
+   node request and rejects any catalog compiled for a different environment.
+3. The environment recorded by the previous run, if `use_last_environment` is `true`, which is the default,
+   and `last_run_summary.yaml` exists. The agent records the environment it started with
+   (`initial_environment`) and the one it finished with (`converged_environment`) in that file. If the two
+   differ, the agent starts in the converged environment. If they match, it starts in its configured
+   environment. Either way, it skips the node request.
+4. The environment the server assigns in its response to the node request. The agent sends this request only
+   when it has no last-run file, for example on its first run, or when `use_last_environment` is `false`. The
+   answer is the ENC's value if an ENC sets one. Otherwise, the server confirms the environment the agent
+   requested. If the answer differs from the agent's setting, the agent logs `Local environment: '<ENV_NAME>'
+   doesn't match server specified node environment '<OTHER_ENV>', switching agent to '<OTHER_ENV>'`.
+5. The `environment` setting from `puppet.conf`, or `production` if it isn't set.
+
+The agent then requests a catalog for that environment. If the catalog comes back for a different environment,
+the agent switches to it, collects facts again, and requests a new catalog. If the environment doesn't settle
+after a few retries, the run fails. Because the node request is skipped whenever a last-run file exists, this
+catalog check is how the server's choice reaches the agent on most runs.
+
+### When the requested environment doesn't exist on the server
+
+If the environment the agent requests has no directory on the server, the run doesn't fail. Instead:
+
+1. Before syncing plugins, the agent checks that the environment exists on the server. It doesn't, so the
+   agent logs `Environment '<ENV_NAME>' not found on server, skipping initial pluginsync.` and carries on
+   with its configured environment. On a first run, or when `use_last_environment` is `false`, the node
+   request fails first, and the agent also logs `Unable to fetch my node definition, but the agent run will
+   continue` followed by `Could not find environment '<ENV_NAME>'`.
+2. The catalog request doesn't require the environment to exist. The server compiles the catalog in its
+   default environment, which is `production` unless the server's `puppet.conf` sets a different value, or in
+   the environment an ENC assigns.
+3. The agent logs `Local environment: '<ENV_NAME>' doesn't match server specified environment 'production',
+   restarting agent run with environment 'production'` and applies the `production` catalog.
+4. The agent writes `<ENV_NAME>` as the initial environment and `production` as the converged environment to
+   `last_run_summary.yaml`.
+
+On every later run, the agent starts in `production` and skips the node request, because
+`use_last_environment` tells it to reuse the converged environment from the previous run. It stays in
+`production` even after you create the missing environment on the server, until you reset it.
+
+### Make the agent's environment authoritative
+
+To make the agent fail its run instead of switching to a different environment, set `strict_environment_mode`
+in the `agent` section:
+
+```console
+sudo puppet config set strict_environment_mode true --section agent
+```
+
+With this setting, the agent ignores the last-run file and requests a catalog for its configured
+environment. If the environment doesn't exist on the server, the agent logs `Environment '<ENV_NAME>' not
+found on server, aborting run.` and the run fails before it requests a catalog. If the environment exists but
+the server returns a catalog for a different environment, for example because an ENC assigns one, the agent
+logs `Not using catalog because its environment '<OTHER_ENV>' does not match agent specified environment
+'<ENV_NAME>' and strict_environment_mode is set` and the run fails. In both cases the agent stays in its
+configured environment, and the server, including any ENC, can no longer reassign it.
+
+### Reset an agent that is stuck in the wrong environment
+
+Once the environment exists on the server again, do one of the following:
+
+* Run the agent once with the environment on the command line:
+
+  ```console
+  sudo puppet agent -t --environment <ENV_NAME>
+  ```
+
+  A successful run records matching initial and converged environments, so later runs start in the
+  configured environment again.
+* Delete `last_run_summary.yaml` from the agent's public directory: `/opt/puppetlabs/puppet/public` on
+  Linux and macOS, or `C:\ProgramData\PuppetLabs\puppet\public` on Windows. The next run has no last-run
+  file, so the agent sends the node request and starts from its configured environment.
+* Set `use_last_environment` to `false` in the `agent` section. The agent then sends the node request on
+  every run and ignores the previous run's environment. This doesn't prevent the switch to `production`
+  while the environment is missing, but the agent recovers as soon as the environment exists again.
+
+Related topics: [`environment`][environment_setting], [`strict_environment_mode`][strict_environment_mode],
+[`use_last_environment`][use_last_environment], [`last_run_summary.yaml`][lastrunfile].
 
 ## Global settings for configuring environments
 
