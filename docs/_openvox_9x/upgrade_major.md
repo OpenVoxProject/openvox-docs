@@ -43,6 +43,26 @@ OpenVox Server 9 bundles JRuby 10.1, which targets the same Ruby 4.0 language le
 
 If you install OpenVox as a gem rather than from packages, the `openvox` gem now requires at least Ruby 3.2.
 
+## Reinstall gems added to the agent's Ruby
+
+Gems are installed into a directory named after the Ruby minor version, so gems you added to the agent's Ruby on OpenVox 8 live under `/opt/puppetlabs/puppet/lib/ruby/gems/3.2.0/`. OpenVox 9's Ruby 4.0 looks in `/opt/puppetlabs/puppet/lib/ruby/gems/4.0.0/` and does not see them. The upgrade neither migrates nor removes the old directory, and the gems' command wrappers in `/opt/puppetlabs/puppet/bin/` stay behind, so a tool such as `r10k` installed with `puppet gem install` still appears to exist but fails:
+
+```console
+$ /opt/puppetlabs/puppet/bin/r10k version
+.../rubygems.rb:265:in 'Gem.find_spec_for_exe': can't find gem r10k (>= 0.a) with executable r10k (Gem::GemNotFoundException)
+```
+
+Before upgrading, list what you added so you can put it back afterwards:
+
+```console
+/opt/puppetlabs/puppet/bin/gem list --local
+ls /opt/puppetlabs/puppet/lib/ruby/gems/*/gems
+```
+
+After upgrading, reinstall each gem with `puppet gem install <NAME>`. Gems that Puppet manages with the `puppet_gem` package provider are reinstalled by the first agent run on OpenVox 9, because the provider no longer finds them; gems installed by hand are not. Once nothing depends on it, the old `3.2.0` gem directory can be deleted.
+
+Gems installed into OpenVox Server with `puppetserver gem` are not affected: their directory, `/opt/puppetlabs/server/data/puppetserver/jruby-gems`, is not tied to a Ruby version, so they carry over the JRuby 9.4 to 10.1 upgrade. Review them for Ruby 4.0 compatibility as described above.
+
 ## Review custom facts for OpenFact 6
 
 `openvox-agent` 9 bundles and requires OpenFact 6, a major version bump from the 5.x series bundled with OpenVox 8. Test your custom and external facts against OpenFact 6. The changes most likely to affect fact code:
@@ -74,7 +94,13 @@ Report submission from agents is unchanged; only the server-side default for pro
 
 ## Agents must have an explicit server setting
 
-OpenVox 8 agents fell back to contacting a host named `puppet` when no server was configured. OpenVox 9 deprecates this fallback: root agents still use it but log a deprecation warning, and `puppet` commands run as a non-privileged user fail instead of falling back. If any nodes still rely on the fallback, set the [`server` setting](configuration.html#server) explicitly before upgrading them:
+OpenVox 8 agents fell back to contacting a host named `puppet` when no server was configured. OpenVox 9 removes this fallback. As of 9.0.0-rc1 an agent run with no `server` setting fails, whether it runs as root or not:
+
+```
+Error: OpenVox does not default to `server=puppet` as of version 9.0. Please update your configuration appropriately by providing a specific server of your choice.
+```
+
+(The 9.0.0 beta releases only logged a deprecation warning for root.) If any nodes still rely on the fallback, set the [`server` setting](configuration.html#server) explicitly before upgrading them:
 
 ```console
 puppet config set server openvox.example.com --section main
