@@ -104,6 +104,7 @@ These settings are gone in OpenVox 9. Remove them from `puppet.conf` and from an
   For OpenVoxDB, if you upgrade from 8.14.0 or earlier and have modified `/etc/puppetlabs/puppetdb/bootstrap.cfg`, the package manager keeps your copy and the service fails to start because it still loads `jetty10-service`; the [OpenVoxDB 9 release notes](/openvoxdb/9.x/release_notes.html) have the fix.
 - **PostgreSQL:** OpenVoxDB 9 requires PostgreSQL 14 or later, the same minimum as the last 8.x releases.
 - **Packaging:** the `openvox-server` 9 package requires `openvox-agent` 9 on the same host, so the server host's agent upgrades along with it.
+- **Service management:** OpenVox Server 9 removes the `puppetserver start` and `puppetserver stop` subcommands; systemd starts the JVM directly from the unit file. Replace any scripts that call them with `systemctl start puppetserver` and `systemctl stop puppetserver`. `systemctl reload puppetserver` still works on every platform.
 
 ## Test, then upgrade
 
