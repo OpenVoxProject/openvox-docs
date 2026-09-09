@@ -45,7 +45,8 @@ If you install OpenVox as a gem rather than from packages, the `openvox` gem now
 
 ## Reinstall gems added to the agent's Ruby
 
-Gems are installed into a directory named after the Ruby minor version, so gems you added to the agent's Ruby on OpenVox 8 live under `/opt/puppetlabs/puppet/lib/ruby/gems/3.2.0/`. OpenVox 9's Ruby 4.0 looks in `/opt/puppetlabs/puppet/lib/ruby/gems/4.0.0/` and does not see them. The upgrade neither migrates nor removes the old directory, and the gems' command wrappers in `/opt/puppetlabs/puppet/bin/` stay behind, so a tool such as `r10k` installed with `puppet gem install` still appears to exist but fails:
+Gems are installed into a directory named after the Ruby minor version, so gems you added to the agent's Ruby on OpenVox 8 live under `/opt/puppetlabs/puppet/lib/ruby/gems/3.2.0/`. OpenVox 9's Ruby 4.0 looks in `/opt/puppetlabs/puppet/lib/ruby/gems/4.0.0/` and does not see them.
+The upgrade neither migrates nor removes the old directory, and the gems' command wrappers in `/opt/puppetlabs/puppet/bin/` stay behind, so a tool such as `r10k` installed with `puppet gem install` still appears to exist but fails:
 
 ```console
 $ /opt/puppetlabs/puppet/bin/r10k version
@@ -96,7 +97,7 @@ Report submission from agents is unchanged; only the server-side default for pro
 
 OpenVox 8 agents fell back to contacting a host named `puppet` when no server was configured. OpenVox 9 removes this fallback. As of 9.0.0-rc1 an agent run with no `server` setting fails, whether it runs as root or not:
 
-```
+```text
 Error: OpenVox does not default to `server=puppet` as of version 9.0. Please update your configuration appropriately by providing a specific server of your choice.
 ```
 
