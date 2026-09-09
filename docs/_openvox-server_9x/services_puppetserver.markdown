@@ -36,6 +36,9 @@ systemctl enable puppetserver   # start automatically on boot
 
 On older SysV-style init systems, use `service puppetserver start|stop|restart|status` instead.
 
+The `puppetserver` command has no `start` or `stop` actions in OpenVox Server 9; systemd runs the JVM directly from the unit file.
+To run the server in the foreground for debugging, use `puppetserver foreground` (see [Subcommands](./subcommands.html)).
+
 ## OpenVox Server's Run Environment
 
 OpenVox Server consists of several related services that share state and route requests among themselves. These services run inside a single JVM process using the Trapperkeeper service framework.

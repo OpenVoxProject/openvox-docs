@@ -3,13 +3,43 @@ layout: default
 title: "OpenVox Server: Release Notes"
 ---
 
-> **OpenVox Server 9 is in prerelease.** This page tracks the beta builds ahead of the
-> stable 9.0.0 release. Expect breaking changes between prereleases; see
+> **OpenVox Server 9 is in prerelease.** This page tracks the beta and release-candidate
+> builds ahead of the stable 9.0.0 release. Expect breaking changes between prereleases; see
 > [known issues](known_issues.html) for anything discovered so far.
 
 OpenVox Server 9 pairs with OpenVox 9 (the agent): the `openvox-server` 9.x package
 depends on `openvox-agent` 9.x on the same host. For the changes on the agent side,
 see the [OpenVox 9 release notes](/openvox/9.x/release_notes.html).
+
+## OpenVox Server 9.0.0-rc1
+
+Released September 9, 2026.
+
+This is the first **release candidate** of OpenVox Server 9 and is not yet the stable
+release. See the
+[project's GitHub release page](https://github.com/OpenVoxProject/openvox-server/releases/tag/9.0.0-rc1)
+for the full list of changes.
+
+Notable breaking changes in this build:
+
+- Packages are now built with EZbake 4.1.0. The systemd unit starts the JVM directly
+  instead of going through a wrapper script, and the `puppetserver start` and
+  `puppetserver stop` subcommands are removed. Use `systemctl start puppetserver` and
+  `systemctl stop puppetserver` instead. `systemctl reload puppetserver` keeps working on
+  every platform: on systemd 253 or newer the unit uses `Type=notify-reload`, while EL 8,
+  EL 9, Amazon Linux 2023, SLES 15, and Ubuntu 22.04 keep the `puppetserver reload`
+  subcommand behind it.
+- The package now requires `openvox-agent` 9.0.0-rc1 or later.
+
+Other notable changes:
+
+- The default Java arguments add `--enable-native-access=ALL-UNNAMED` on Java 21 and
+  later, which removes the restricted-method warnings from the service log and from
+  `puppetserver gem list`.
+- `puppetserver gem`, `puppetserver ruby`, and `puppetserver irb` no longer print JRuby
+  debug logging; they use JRuby's standard error logger again.
+- The service-readiness notification to Trapperkeeper introduced in 9.0.0-beta1 is
+  reverted.
 
 ## OpenVox Server 9.0.0-beta5
 
