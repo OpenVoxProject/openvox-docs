@@ -6,6 +6,19 @@ canonical: "/openvoxdb/latest/release_notes.html"
 
 # OpenVoxDB 8 Release Notes
 
+## OpenVoxDB 8.16.0
+
+Released September 8, 2026.
+
+This is a bug-fix release of OpenVoxDB.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvoxdb/releases/tag/8.16.0).
+
+Notable changes in this release:
+
+- Fixed a `500` error from the query API for PQL queries that project `certname` from `nodes` while filtering on `report_environment`, such as `nodes[certname] { report_environment = "production" }` ([#500](https://github.com/OpenVoxProject/openvoxdb/issues/500)).
+- Bundled components are updated, including Jetty 12.1.12, Jolokia 2.6.1, Logback 1.6.3, Nippy 3.9.0, and Trapperkeeper 5.0.6.
+
 ## OpenVoxDB 8.15.0
 
 Released July 22, 2026.
@@ -150,7 +163,7 @@ All bug fixes, new features and other changes are provided on the
 
 ## OpenVoxDB 8.9.1
 
-* Added `Obsoletes`, `Replaces`, and `Conflicts` package metadata for
+- Added `Obsoletes`, `Replaces`, and `Conflicts` package metadata for
   `puppetdb` and `puppetdb-termini` to the `openvoxdb` and
   `openvoxdb-termini` packages to support clean upgrades.
 

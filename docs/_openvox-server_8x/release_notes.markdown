@@ -4,6 +4,20 @@ title: "OpenVox Server: Release Notes"
 canonical: "/openvox-server/latest/release_notes.html"
 ---
 
+## OpenVox Server 8.16.0
+
+Released September 8, 2026.
+
+This is an enhancement and bug-fix release of OpenVox Server.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvox-server/releases/tag/8.16.0).
+
+Notable changes in this release:
+
+- The `openvox-server` package now requires `openvox-agent` 8.29.0 or later, so upgrading the server also upgrades the agent on the same host.
+- The service-readiness notification to Trapperkeeper introduced in 8.15.0 is reverted.
+- Bundled components are updated, including Jetty 12.1.12, Jolokia 2.6.1, Logback 1.6.3, and Trapperkeeper 5.0.6.
+
 ## OpenVox Server 8.15.2
 
 Released July 27, 2026.
