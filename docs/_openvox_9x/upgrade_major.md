@@ -71,7 +71,7 @@ Gems installed into OpenVox Server with `puppetserver gem` are not affected: the
 - OpenFact 6 requires Ruby 3.0 or later, which the agent's Ruby 4.0 satisfies; fact code that also runs elsewhere needs the same floor.
 - `Facter::Core::Execution.exec`, `Facter::Util::Resolution.exec`, and `Facter::Util::Resolution.which` now log a deprecation warning ahead of removal. Use `Facter::Core::Execution.execute` and `Facter::Core::Execution.which`.
 - The `time_limit` and `limit` option keys for `execute` are deprecated aliases; use `timeout`.
-- The deprecated `ldapname` fact option is removed.
+- The deprecated `ldapname` fact option is removed. A resolution that still passes it does not raise: OpenFact logs `Unable to add resolve nil for fact '<NAME>': Invalid resolution options [:ldapname]` at `ERROR` level and the fact resolves to nothing, so check the log for facts that have gone missing rather than waiting for a failure.
 - When a fact calls a bare command name, OpenFact now also searches `/opt/puppetlabs/bin`, so facts that call `puppet`, `puppetserver`, or `puppetdb` resolve when the agent runs as a service.
 
 See the [OpenFact 6 release notes](/openfact/6.x/release_notes.html) for the full list.
@@ -101,6 +101,12 @@ OpenVox 8 agents fell back to contacting a host named `puppet` when no server wa
 Error: OpenVox does not default to `server=puppet` as of version 9.0. Please update your configuration appropriately by providing a specific server of your choice.
 ```
 
+A non-root run fails the same way but with different text: a warning that OpenVox no longer defaults to `server=puppet` when running as a non-privileged user, followed by:
+
+```text
+Error: Neither `server` nor `ca_server` is specified.
+```
+
 (The 9.0.0 beta releases only logged a deprecation warning for root.) If any nodes still rely on the fallback, set the [`server` setting](configuration.html#server) explicitly before upgrading them:
 
 ```console
@@ -109,11 +115,13 @@ puppet config set server openvox.example.com --section main
 
 ## Removed settings
 
-These settings are gone in OpenVox 9. Remove them from `puppet.conf` and from any scripts or tooling that reference them before you upgrade:
+These settings are gone in OpenVox 9. Remove them from `puppet.conf` and from any scripts or tooling that reference them before you upgrade. OpenVox 8 warned about each of them; OpenVox 9 ignores a leftover setting without any message, so nothing after the upgrade tells you it is still there.
 
 - `configprint`: use `puppet config print <SETTING>` instead of `puppet agent --configprint <SETTING>`.
 - `pluginsync`: plugins always sync; the setting had been deprecated since Puppet 6.
-- `data_binding_terminus` and `environment_data_provider`: the classic `hiera` indirector and pluggable data bindings are removed. Automatic class parameter lookup always uses the modern lookup system. If you still maintain a Hiera 3 `hiera.yaml`, see [Migrating your Hiera configuration](hiera_migrate.html); Hiera 3 backends keep working through a version 5 `hiera.yaml`.
+- `data_binding_terminus` and `environment_data_provider`: the classic `hiera` indirector and pluggable data bindings are removed. Automatic class parameter lookup always uses the modern lookup system.
+  A version 3 `hiera.yaml` named by `hiera_config` still loads on OpenVox 9, with a deprecation warning that it should be converted to version 5, so that migration does not have to happen before the upgrade.
+  When you do it, see [Migrating your Hiera configuration](hiera_migrate.html); Hiera 3 backends keep working through a version 5 `hiera.yaml`.
 
 ## Other removals
 
