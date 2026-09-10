@@ -50,6 +50,7 @@ end
 This uses [`facterdb`](https://github.com/voxpupuli/facterdb) and [`rspec-puppet-facts`](https://github.com/voxpupuli/rspec-puppet-facts) to run your the test on all supported platforms from the module's `metadata.json`.
 
 To run your unit tests, use `jig test unit`, which wraps `bundle exec rake spec`.
+Add `--parallel` to run `rake parallel_spec` instead, which spreads the examples across CPU cores.
 Either form needs the module's gems installed, so run `bundle install` first.
 
 If you'd like to constrain a test run to only a specific OS or OS release, you can do so with environment variables:
