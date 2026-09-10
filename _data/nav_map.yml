@@ -6,6 +6,10 @@
   collections: openfact_latest|openfact_5x
   base: /openfact/latest/
 
+- nav_key: openfact_6x
+  collections: openfact_6x
+  base: /openfact/6.x/
+
 - nav_key: openvox_8x
   collections: openvox_latest|openvox_8x
   base: /openvox/latest/
