@@ -311,16 +311,20 @@ It works on PDK-generated and hand-maintained modules alike, including modules o
 Before it touches the three files above, it looks at the module's `metadata.json`:
 
 * **Missing.** Jig creates it, and writes a `jig.toml` as well if the module doesn't have one.
-  If a Puppet 3-era `Modulefile` is present, its `name`, `version`, `author`, `license`, `summary`, `source`, and `dependency` lines pre-fill the new file, and the `Modulefile` is left in place with a warning that you can delete it.
+  If a Puppet 3-era `Modulefile` is present, its `name`, `version`, `author`, `license`, `summary`, `source`, `project_page`, and `dependency` lines pre-fill the new file, and the `Modulefile` is left in place with a warning that you can delete it.
   Otherwise Jig runs the same interview as `jig new module`, taking the module name from the directory name (`puppet-nftables` gives `nftables`).
   Pass `--skip-interview` (`-i`) together with the `-u`, `-a`, `-l`, `-s`, and `-S` flags to answer non-interactively; a flag wins over the `Modulefile`, which wins over the defaults in your config file.
 * **Present but not valid JSON.** Jig prints the parse error and stops without changing anything.
 * **Present but incomplete.** Jig fills in a default `version` (`0.1.0`) and empty `dependencies`, `requirements`, `operatingsystem_support`, and `tags` lists where they're missing, warns about anything else that fails validation (a missing `author` or `source`, say), and never overwrites a value that's already there.
+  Keys Jig doesn't know about, such as a PDK-era `pdk-version`, are kept, and an `operatingsystem_support` written as a bare list of OS names (the pre-2014 format) is rewritten in the current object form.
   Running it a second time changes nothing.
 * **Present and valid.** Left alone.
 
-Add `--dry-run` to see what would be created or overwritten without writing anything.
-Older Jig releases refuse to run without a `metadata.json`; if you see `metadata.json not found`, upgrade Jig.
+After writing the three files, Jig removes a `Gemfile.lock` if one is present, because it locks the dependency set of the `Gemfile` that was just replaced and would make the next `bundle install` fail.
+Other PDK-era files (`.sync.yml`, `.pdkignore`, `.rubocop.yml`, `.puppet-lint.rc`, `.fixtures.yml`, `.vscode/`) are left in place, since they might hold customizations you want to keep, but Jig warns about each one it finds; nothing in Jig or VoxBox reads them.
+
+Add `--dry-run` to see what would be created, overwritten, or removed without writing anything.
+The `metadata.json` handling and the lock file cleanup need Jig 2.4.0 or later; earlier releases stop with `metadata.json not found` on a module that lacks the file.
 
 Unlike `jig renew`, it always uses Jig's embedded templates, ignoring `--template-dir` and the module's `jig.toml`, and it needs no allowlist.
 

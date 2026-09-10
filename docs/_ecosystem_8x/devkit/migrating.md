@@ -22,6 +22,9 @@ On branch main
 nothing to commit, working tree clean
 
  ~/demo git:(main)  jig convert
+created /home/user/demo/jig.toml
+removed /home/user/demo/Gemfile.lock
+warning: PDK-era files no longer used by jig/voxbox, safe to remove: .sync.yml, .pdkignore
 convert successful: Gemfile, Rakefile, spec/spec_helper.rb
 
  ~/demo git:(main) ✗  git status
@@ -32,6 +35,10 @@ Changes not staged for commit:
     modified:   Gemfile
     modified:   Rakefile
     modified:   spec/spec_helper.rb
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+    jig.toml
 
 no changes added to commit (use "git add" and/or "git commit -a")
  ~/demo git:(main) ✗
