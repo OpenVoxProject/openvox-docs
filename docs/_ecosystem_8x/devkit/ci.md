@@ -4,7 +4,7 @@ title: "Module CI with GitHub Actions"
 ---
 
 This page assumes your module already has the Vox Pupuli test suite wired in, so that `bundle exec rake validate lint` works locally.
-If it doesn't yet, either [set up `voxpupuli-test`](setup.html#setting-up-the-vox-pupuli-test-suite) by hand, or let Jig do it: `jig new module` for a new module, or [`jig convert`](https://github.com/voxpupuli/jig/blob/main/docs/commands/convert.md) from the root of an existing one, which overwrites `Gemfile`, `Rakefile`, and `spec/spec_helper.rb` with the same templates `jig new module` uses.
+If it doesn't yet, either [set up `voxpupuli-test`](setup.html#setting-up-the-vox-pupuli-test-suite) by hand, or let Jig do it: `jig new module` for a new module, or [`jig convert`](jig.html#migrate-an-existing-module-to-jig) from the root of an existing one, which overwrites `Gemfile`, `Rakefile`, and `spec/spec_helper.rb` with the same templates `jig new module` uses.
 
 With that in place, the next step is to run the same tasks on every push and pull request.
 Vox Pupuli publishes a set of [reusable GitHub Actions workflows](https://github.com/voxpupuli/gha-puppet) (`gha-puppet`) that do exactly that.
@@ -67,8 +67,9 @@ That means your module needs the same three files that the rest of the DevKit re
    See the [module metadata reference](/openvox/latest/modules_metadata.html) for the full format.
 
 If you scaffolded your module with [`jig new module`](jig.html#creating-a-new-module), you already have all three.
-If you ran `jig convert` on an existing module, you have the first two.
-It works on PDK-generated and hand-maintained modules alike, but it insists on `metadata.json` already existing; if your module predates `metadata.json` and still carries a `Modulefile` (support for which was removed in Puppet 4), write `metadata.json` first, then run `jig convert`.
+If you ran `jig convert` (jig 2.4.0 or later) on an existing module, you have all three as well.
+It works on PDK-generated and hand-maintained modules alike: when `metadata.json` is missing, `convert` creates it with an `openvox` requirements entry, pre-filled from a `Modulefile` if your module still carries one and completed from a short interview otherwise, and when the file exists but fails validation, `convert` repairs it.
+Pass `--dry-run` to see what it would change first.
 
 ## Adding the workflow
 
@@ -211,4 +212,4 @@ Open that job's log and fix the first error you see.
 ### `metadata2gha` fails or produces an empty matrix
 
 `metadata.json` is missing, isn't valid JSON, or has no `requirements` entry for `openvox` or `puppet`.
-Run `bundle exec rake metadata_lint` locally to see the specific complaint.
+Run `bundle exec rake metadata_lint` locally to see the specific complaint, or run `jig convert`, which creates a missing `metadata.json` and repairs one that fails validation.
