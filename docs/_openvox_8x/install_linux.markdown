@@ -33,6 +33,9 @@ and reachable.
    For other distributions and versions, see the full list of release packages on
    the respective repository pages or the [Installing OpenVox](https://voxpupuli.org/openvox/install/) page.
 
+   If downloads from `voxpupuli.org` are slow in your region, you can install from a
+   public mirror instead. See [Repositories and mirrors](mirrors.html).
+
 2. Install the package.
 
    On apt-based systems:
