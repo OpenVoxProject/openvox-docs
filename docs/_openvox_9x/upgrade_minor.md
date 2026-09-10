@@ -27,6 +27,11 @@ This keeps the central services ahead of the agents they serve.
 
 ## Upgrading Linux packages
 
+If the host still has the `openvox8-release` package, it is subscribed to the 8.x
+repository and the commands below leave it on 8.x. Install `openvox9-release` first;
+the [upgrade guide](upgrade_major.html#test-then-upgrade) has the commands for each
+platform.
+
 On apt-based systems:
 
 ```bash
