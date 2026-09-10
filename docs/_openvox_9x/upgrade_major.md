@@ -46,7 +46,7 @@ If you install OpenVox as a gem rather than from packages, the `openvox` gem now
 ## Reinstall gems added to the agent's Ruby
 
 Gems are installed into a directory named after the Ruby minor version, so gems you added to the agent's Ruby on OpenVox 8 live under `/opt/puppetlabs/puppet/lib/ruby/gems/3.2.0/`. OpenVox 9's Ruby 4.0 looks in `/opt/puppetlabs/puppet/lib/ruby/gems/4.0.0/` and does not see them.
-The upgrade neither migrates nor removes the old directory, and the gems' command wrappers in `/opt/puppetlabs/puppet/bin/` stay behind, so a tool such as `r10k` installed with `puppet gem install` still appears to exist but fails:
+The upgrade neither migrates nor removes the old directory, and the gems' command wrappers in `/opt/puppetlabs/puppet/bin/` stay behind, so a tool such as `r10k` installed with `/opt/puppetlabs/puppet/bin/gem install` still appears to exist but fails:
 
 ```console
 $ /opt/puppetlabs/puppet/bin/r10k version
@@ -60,7 +60,7 @@ Before upgrading, list what you added so you can put it back afterwards:
 ls /opt/puppetlabs/puppet/lib/ruby/gems/*/gems
 ```
 
-After upgrading, reinstall each gem with `puppet gem install <NAME>`. Gems that Puppet manages with the `puppet_gem` package provider are reinstalled by the first agent run on OpenVox 9, because the provider no longer finds them; gems installed by hand are not. Once nothing depends on it, the old `3.2.0` gem directory can be deleted.
+After upgrading, reinstall each gem with `sudo /opt/puppetlabs/puppet/bin/gem install <NAME>`. Gems that Puppet manages with the `puppet_gem` package provider are reinstalled by the first agent run on OpenVox 9, because the provider no longer finds them; gems installed by hand are not. Once nothing depends on it, the old `3.2.0` gem directory can be deleted.
 
 Gems installed into OpenVox Server with `puppetserver gem` are not affected: their directory, `/opt/puppetlabs/server/data/puppetserver/jruby-gems`, is not tied to a Ruby version, so they carry over the JRuby 9.4 to 10.1 upgrade. Review them for Ruby 4.0 compatibility as described above.
 
@@ -130,7 +130,7 @@ These settings are gone in OpenVox 9. Remove them from `puppet.conf` and from an
 - **Jetty 12:** both OpenVox Server 9 and OpenVoxDB 9 move to Jetty 12. If you customized `webserver` settings beyond host and port, review them after the upgrade.
   For OpenVoxDB, if you upgrade from 8.14.0 or earlier and have modified `/etc/puppetlabs/puppetdb/bootstrap.cfg`, the package manager keeps your copy and the service fails to start because it still loads `jetty10-service`; the [OpenVoxDB 9 release notes](/openvoxdb/9.x/release_notes.html) have the fix.
 - **PostgreSQL:** OpenVoxDB 9 requires PostgreSQL 14 or later, the same minimum as the last 8.x releases.
-- **Packaging:** the `openvox-server` 9, `openvoxdb` 9, and `openvoxdb-termini` 9 packages require `openvox-agent` 9 on the same host, so the agent on those hosts upgrades along with them.
+- **Packaging:** the `openvox-server` 9 and `openvoxdb` 9 packages require `openvox-agent` 9 on the same host, so the agent on those hosts upgrades along with them. The `openvoxdb-termini` 9 package depends on `openvox-agent` without a version, so a host that has only the termini, such as a `puppet apply` node that writes to OpenVoxDB, keeps its OpenVox 8 agent until you upgrade it.
 - **Service management:** OpenVox Server 9 removes the `puppetserver start` and `puppetserver stop` subcommands; systemd starts the JVM directly from the unit file. Replace any scripts that call them with `systemctl start puppetserver` and `systemctl stop puppetserver`. `systemctl reload puppetserver` still works on every platform.
   OpenVoxDB 9 packages use the same systemd setup: the unit runs the Java binary chosen at build time, so `JAVA_BIN` in `/etc/sysconfig/puppetdb` or `/etc/default/puppetdb` is ignored. `JAVA_ARGS` still applies on both services.
 
@@ -139,4 +139,21 @@ These settings are gone in OpenVox 9. Remove them from `puppet.conf` and from an
 1. Run your module unit tests on Ruby 4.0 and fix any failures.
 2. Validate your manifests with `puppet parser validate`.
 3. Stand up an OpenVox 9 server in a test environment, point test agents at it, and compare `puppet agent --test --noop` output against OpenVox 8 for unexpected changes.
-4. Upgrade production in the usual order: `openvox-server`, then `openvoxdb` and `openvoxdb-termini`, then agents. OpenVox 8 agents can keep checking in to an upgraded OpenVox 9 server while you roll out agent upgrades. [Upgrading OpenVox 9](upgrade_minor.html) has the package commands.
+4. Switch each host to the OpenVox 9 repository. The `openvox8-release` package configures only the 8.x repository, so a host still using it stays on 8.x no matter what you upgrade. Install the `openvox9-release` package for the platform from [apt.voxpupuli.org](https://apt.voxpupuli.org) or [yum.voxpupuli.org](https://yum.voxpupuli.org).
+   On Debian and Ubuntu, remove `openvox8-release` first: both packages ship `/etc/apt/preferences.d/openvox-release.pref`, and `dpkg` refuses to install the second one over it.
+
+   ```bash
+   sudo apt remove openvox8-release
+   wget https://apt.voxpupuli.org/openvox9-release-ubuntu24.04.deb
+   sudo dpkg -i openvox9-release-ubuntu24.04.deb
+   sudo apt update
+   ```
+
+   On EL, the two release packages can be installed side by side and the package manager prefers the 9.x packages; remove `openvox8-release` once the host is upgraded.
+
+   ```bash
+   sudo rpm -Uvh https://yum.voxpupuli.org/openvox9-release-el-9.noarch.rpm
+   ```
+
+   If you wrote the repository definition yourself, for example to use a mirror, change `openvox8` to `openvox9` in it instead.
+5. Upgrade production in the usual order: `openvox-server`, then `openvoxdb` and `openvoxdb-termini`, then agents. OpenVox 8 agents can keep checking in to an upgraded OpenVox 9 server while you roll out agent upgrades. [Upgrading OpenVox 9](upgrade_minor.html) has the package commands.
