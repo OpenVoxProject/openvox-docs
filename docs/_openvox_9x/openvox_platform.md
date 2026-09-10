@@ -22,8 +22,12 @@ OpenVox publishes packages through these channels:
 - Windows downloads: [downloads.voxpupuli.org/windows][windows_downloads]
 - macOS downloads: [downloads.voxpupuli.org/mac][mac_downloads]
 
-On Linux systems, install the appropriate `openvox8-release` package for your
+On Linux systems, install the appropriate `openvox9-release` package for your
 distribution first. That package configures the repository and its signing keys.
+
+All of these locations are served from a single server in Germany. If downloads are
+slow in your region, see [Repositories and mirrors](mirrors.html) for the list of
+public mirrors and how to install from one.
 
 ## Package names
 
