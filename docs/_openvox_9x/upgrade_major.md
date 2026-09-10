@@ -20,8 +20,11 @@ The major version bump comes from the underlying components:
 | OpenFact (bundled with `openvox-agent`) | 5.x | 6.x |
 | JRuby (bundled with `openvox-server`) | 9.4 | 10.1 |
 | Java (required by `openvox-server` and `openvoxdb`) | 17 or 21 | 21 or 25 |
+| curl (bundled with `openvox-agent`) | 8.x | Not bundled |
 
 See [Component versions in recent releases](component_versions.html) for the exact versions in each release.
+
+OpenVox 9 no longer ships its own curl. Scripts that call `/opt/puppetlabs/puppet/bin/curl`, or that put `/opt/puppetlabs/puppet/bin` ahead of the system directories in `PATH` to pick it up, need the system `curl` instead.
 
 ## Before you upgrade
 
@@ -160,7 +163,7 @@ These settings are gone in OpenVox 9. Remove them from `puppet.conf` and from an
    On EL, the two release packages can be installed side by side and the package manager prefers the 9.x packages; remove `openvox8-release` once the host is upgraded.
 
    ```bash
-   sudo rpm -Uvh https://yum.voxpupuli.org/openvox9-release-el-9.noarch.rpm
+   sudo dnf install https://yum.voxpupuli.org/openvox9-release-el-9.noarch.rpm
    ```
 
    If you wrote the repository definition yourself, for example to use a mirror, change `openvox8` to `openvox9` in it instead.
