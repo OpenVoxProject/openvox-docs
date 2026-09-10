@@ -118,3 +118,35 @@ If the configured number of machines cannot be reached, Puppet runs will fail.
 The default value is one, which should be appropriate for most single- or dual-OpenVoxDB deployments.
 
 Setting this above the default of one requires `command_broadcast` to be set to `true`.
+
+### `fact_names_blocklist`
+
+This setting prevents selected facts from being sent to OpenVoxDB. It accepts a
+comma-separated list of exact fact paths. Top-level fact names can be listed
+directly, while keys in structured facts use dot notation:
+
+    fact_names_blocklist = secret, networking.interfaces.eth0.mac
+
+The example removes the complete `secret` fact and only the `mac` key below the
+`eth0` interface. Other keys in the `networking` structured fact are preserved.
+Array indexes are part of a structured path, so a path such as
+`disks.0.serial` identifies the `serial` key in the first `disks` element.
+
+The default value is an empty list, which sends all facts.
+
+Unlike the server-side [`facts-blocklist`](./configure.html#facts-blocklist) setting, this filtering happens in the
+termini before submission and can remove single keys from structured facts.
+
+### `fact_names_blocklist_regex`
+
+This setting accepts a comma-separated list of Ruby regular expressions. Each
+expression is matched against the complete dot-separated path of every fact key.
+For example, the following removes a `password` key at any nesting level,
+including from hashes contained in arrays:
+
+    fact_names_blocklist_regex = (^|\.)password$
+
+Regular expressions are validated when `puppetdb.conf` is loaded. Because commas
+separate entries in this setting, an expression cannot contain a comma.
+
+The default value is an empty list, which does not block any facts by pattern.

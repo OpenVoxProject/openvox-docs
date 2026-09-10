@@ -37,11 +37,11 @@ Debian/Ubuntu                | `/etc/default/puppetdb`
 
  In this file, you can change the following settings:
 
-* **`JAVA_BIN`**: the location of the Java binary.
 * **`JAVA_ARGS`**: command line options for the Java binary, most notably the `-Xmx` (max heap size) flag.
-* **`USER`**: the user OpenVoxDB should be running as.
 * **`INSTALL_DIR`**: the directory into which OpenVoxDB is installed.
 * **`CONFIG`**: the location of the OpenVoxDB config file, which may be a single file or a directory of .ini files.
+
+The file may also contain `JAVA_BIN` and `USER` from earlier releases. OpenVoxDB 9 packages ignore both: the systemd unit runs the Java binary chosen when the package was built and sets the service user itself.
 
 ### Configuring the Java heap size
 

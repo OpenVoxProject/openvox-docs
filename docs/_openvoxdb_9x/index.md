@@ -114,7 +114,7 @@ Your site's OpenVox Server must be running OpenVox Server 8.0.0 or later.
 If you wish to use OpenVoxDB with
 [standalone nodes that are running puppet apply][apply], every node
 must be running 8.0.0 or later. The `openvoxdb-termini` 9.x package depends on
-`openvox-agent` 8.26.2 or later on the host where it is installed.
+`openvox-agent` 9.0.0-beta1 or later on the host where it is installed.
 
 ### PostgreSQL 14
 
