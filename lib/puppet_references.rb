@@ -43,6 +43,23 @@ module PuppetReferences
     "/#{product}/#{label}"
   end
 
+  # A series pattern: one or more numeric segments followed by ".x", e.g. "8.x"
+  # or "9.0.x". Resolved at build time to the newest stable tag in that series.
+  SERIES_PATTERN = /\A(\d+(?:\.\d+)*)\.x\z/
+
+  # Turn the requested VERSION into a concrete tag or commit to check out:
+  #   nil          -> the repo's newest stable tag across all series
+  #   "8.x"        -> the newest stable tag in the 8.* series (tracks new releases)
+  #   anything else -> used verbatim (an exact tag, prerelease, branch, or SHA)
+  def self.resolve_version(commit, repo)
+    return repo.newest_release if commit.nil? || commit.empty?
+
+    match = SERIES_PATTERN.match(commit)
+    return commit unless match
+
+    repo.newest_release(series: match[1].split('.').map(&:to_i))
+  end
+
   def self.build_puppet_references(commit, collection: '_openvox_latest')
     references = [
       PuppetReferences::Puppet::Man,
@@ -53,7 +70,7 @@ module PuppetReferences
     ]
     config = PuppetReferences::Config.read
     repo = PuppetReferences::Repo.new('openvox', PUPPET_DIR, nil, config['puppet']['repo'])
-    @version_commit = commit || repo.newest_release
+    @version_commit = resolve_version(commit, repo)
     puts "Using tag #{@version_commit} -> #{collection}"
     real_commit = repo.checkout(@version_commit)
     repo.update_bundle
@@ -64,7 +81,7 @@ module PuppetReferences
     config = PuppetReferences::Config.read
     bolt_config = config.fetch('openbolt', {})
     repo = PuppetReferences::Repo.new('openbolt', BOLT_DIR, nil, bolt_config.fetch('repo', {}))
-    @version_commit = commit || repo.newest_release
+    @version_commit = resolve_version(commit, repo)
     puts "Using tag #{@version_commit} -> #{collection}"
     real_commit = repo.checkout(@version_commit)
     repo.update_bundle
@@ -84,7 +101,7 @@ module PuppetReferences
     # we need the CLI docs for 3.y. We can remove this when we stop building 3.y.
     version4 = Gem::Version.create('4.0.0')
     repo = PuppetReferences::Repo.new('openfact', FACTER_DIR)
-    @version_commit = commit || repo.newest_release
+    @version_commit = resolve_version(commit, repo)
     puts "Using tag #{@version_commit} -> #{collection}"
     real_commit = repo.checkout(@version_commit)
     repo.update_bundle
