@@ -17,11 +17,55 @@ The tool we recommend for this today is [Jig](https://github.com/voxpupuli/jig).
 
 ## Installing Jig
 
-Download the latest release for your platform from the [releases page](https://github.com/voxpupuli/jig/releases).
-Uncompress it and move the `jig` binary to a path like `/usr/local/bin`.
+Jig is a single static binary with no runtime dependencies.
+Each [release](https://github.com/voxpupuli/jig/releases) ships:
 
-{% include alert.html type="tip" title="macOS Security Alert" content="The packages are unsigned, so macOS won't open them by default. Run it once and cancel the warning dialog that tells you to trash it.
+* `.deb` and `.rpm` packages for Linux (amd64 and arm64)
+* `.tar.gz` archives for Linux and macOS (amd64 and arm64)
+* a `.zip` archive for Windows (amd64)
+* `sha256sums.txt` with the checksums of every file above
+
+### Linux packages
+
+Install the `.deb` or `.rpm` straight from the release on GitHub.
+Set `VERSION` to the current release and replace `amd64` with `arm64` if needed.
+The package places the `jig` binary in `/usr/bin`.
+
+On Debian and Ubuntu, `apt` needs a local file, so download it first:
+
+```console
+VERSION=2.4.0
+BASE=https://github.com/voxpupuli/jig/releases/download/v${VERSION}
+curl -LO ${BASE}/jig_${VERSION}_linux_amd64.deb
+sudo apt install ./jig_${VERSION}_linux_amd64.deb
+```
+
+On Red Hat family systems, `dnf` accepts the URL directly:
+
+```console
+VERSION=2.4.0
+BASE=https://github.com/voxpupuli/jig/releases/download/v${VERSION}
+sudo dnf install ${BASE}/jig_${VERSION}_linux_amd64.rpm
+```
+
+The packages are standalone files attached to each release; there is no apt or dnf repository to subscribe to.
+To upgrade, install the package from the next release the same way.
+
+### Archives
+
+Download the archive for your platform, uncompress it, and move the `jig` binary to a directory on your `PATH`, such as `/usr/local/bin`.
+To check the download before unpacking it, put `sha256sums.txt` from the same release next to the archive and run:
+
+```console
+shasum -a 256 -c --ignore-missing sha256sums.txt
+```
+
+On Linux, `sha256sum` takes the same options.
+
+{% include alert.html type="tip" title="macOS Security Alert" content="The macOS binaries are unsigned, so macOS won't open them by default. Run it once and cancel the warning dialog that tells you to trash it.
 Then go to `System Settings -> Privacy & Security` and scroll to the bottom of the pane. You'll see the option to allow `jig` to run." %}
+
+### Go
 
 Jig is one of the few tools in the Vox Pupuli ecosystem implemented in Go.
 If you have [Go installed](https://go.dev/doc/install), then you can choose to install via the Go package manager instead.
@@ -29,8 +73,11 @@ This will place the compiled binary into `$GOPATH/bin`, which is likely to be `~
 Ensure that location is in your `$PATH`.
 
 ```console
-go install github.com/voxpupuli/jig@latest
+go install github.com/voxpupuli/jig/v2@latest
 ```
+
+The `/v2` in the module path is required.
+Without it, `go install` resolves `@latest` against the old module path and installs the last 1.x release.
 
 ## Creating a new module
 
