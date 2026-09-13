@@ -23,6 +23,35 @@ built /Users/ben.ford/Projects/demo/pkg/binford2k-demo-0.1.0.tar.gz
 Now browse to the [Forge upload page](https://forge.puppet.com/upload), choose the generated file and upload it.
 This will create the module listing if required and add a module release to it.
 
+### What gets packaged
+
+Jig validates `metadata.json` before building; errors abort the build and warnings are printed.
+
+By default the package contains only the files the [Puppet module specification](https://github.com/puppetlabs/puppet-specifications/pull/157) allows in a published module: `manifests/`, `lib/`, `data/`, `metadata.json`, and so on.
+Development files like `Gemfile`, `spec/`, and dotfiles stay out with no configuration at all.
+
+Jig does not read `.pdkignore` or `.pmtignore`.
+If you migrated from the PDK, `jig build` will warn about any leftover ignore file and suggest removing it; for most modules that's all you need to do, since the allowlist already excludes what those files used to exclude.
+`.gitignore` is left alone because it belongs to git, not the build.
+
+To ship a file the specification doesn't know about, or to get the old "everything except" behavior back, add a `[build]` section to the module's `jig.toml`:
+
+```toml
+# Extend the allowlist with extra files (recommended)
+[build]
+action     = "deny"
+exceptions = ["/mycustomfile.txt"]
+```
+
+```toml
+# Or package everything except the listed paths, the way .pdkignore used to
+[build]
+action     = "allow"
+exceptions = ["/spec/**", "/Gemfile"]
+```
+
+In both modes `pkg/`, `.git/`, `jig.toml` itself, and `.gitkeep` markers are never packaged.
+
 ## Pushing a release from the command line
 
 If you'd like to streamline your workflow, you can push a release directly using Jig.
@@ -43,7 +72,9 @@ Now that it's configured, you can publish a new version of your module.
 jig release --version x.y.z
 ```
 
-This will update the `metadata.json`, build the package, and then publish it.
+This validates the metadata, writes the new version into `metadata.json`, builds the package, and then publishes it.
+The version must be plain semver (`MAJOR.MINOR.PATCH`).
+Pass `--token` to supply the Forge token on the command line instead of from the config file, and `--skip-validation`, `--skip-build`, or `--skip-publish` to leave out a step; with `--skip-build`, Jig expects the archive to already exist under `pkg/`.
 
 ## Scripting a release
 

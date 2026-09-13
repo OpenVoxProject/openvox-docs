@@ -45,6 +45,10 @@ podman run -it --rm -v "$PWD:/repo:Z" ghcr.io/voxpupuli/voxbox:latest
 
 Common tasks include `spec`, `lint`, `validate`, `rubocop`, and the same `voxpupuli-test` tasks described elsewhere in this guide.
 
+If you use Jig, you don't need to type these container commands yourself.
+Set `type = "voxbox"` in the `[runner]` section of your Jig config and `jig validate`, `jig test unit`, and `jig msync` run inside this image automatically.
+See [Running the Ruby-backed commands](jig.html#running-the-ruby-backed-commands).
+
 If you run VoxBox locally a lot, the bundled [EasyVoxBox (`evb`)](https://github.com/voxpupuli/container-voxbox#easyvoxbox-evb)
 helper script shortens these commands and lets you pass options in any order, which is handy for shell aliases.
 Use `evb --noop <task>` to print the full command it would run without executing it.
