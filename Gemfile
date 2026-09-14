@@ -10,6 +10,7 @@ gem 'rake', '~> 13.0', '>= 13.0.1'
 
 group(:build_site) do
   gem 'jekyll', '~> 4.4'
+  gem 'jekyll-seo-tag', '~> 2.8'
   gem 'jekyll-tabs', '~> 1.2'
   gem 'jekyll-vitepress-theme', '~> 1.4'
 end
