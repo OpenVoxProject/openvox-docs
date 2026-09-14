@@ -1,260 +1,193 @@
 ---
 layout: default
-title: Installing Bolt
+title: Installing OpenBolt
 ---
 
-# Installing Bolt
+# Installing OpenBolt
 
-Packaged versions of Bolt are available for several Linux distributions, macOS,
+Packaged versions of OpenBolt are available for several Linux distributions, macOS,
 and Microsoft Windows.
 
-| Operating system          | Versions            |
-| ------------------------- | ------------------- |
-| Debian                    | 10, 11              |
-| Fedora                    | 36                  |
-| macOS                     | 11, 12              |
-| Microsoft Windows*        | 10 Enterprise       |
-| Microsoft Windows Server* | 2012R2, 2019        |
-| RHEL                      | 6, 7, 8, 9          |
-| SLES                      | 12, 15              |
-| Ubuntu                    | 18.04, 20.04, 22.04 |
+| Operating system          | Versions                         |
+| ------------------------- | -------------------------------- |
+| AmazonLinux               | 2, 2023                          |
+| Debian                    | 11, 12, 13                       |
+| Fedora                    | 42, 43, 44                       |
+| macOS                     | 11, 12                           |
+| Microsoft Windows*        | 10 Enterprise, 11                |
+| Microsoft Windows Server* | 2012R2, 2019                     |
+| RHEL                      | 8, 9, 10                         |
+| RHEL (FIPS-mode enabled)  | 9, 10                            |
+| SLES                      | 15, 16                           |
+| Ubuntu                    | 20.04, 22.04, 24.04, 25.04 26.04 |
 
 > **Note:** Windows packages are automatically tested on the versions listed
 > above, but might be installable on other versions.
 
-## Install Bolt on Debian
+## Install OpenBolt on Debian
 
-### Install Bolt
+### Install OpenBolt
 
-To install Bolt, run the appropriate command for the version of Debian you
+To install OpenBolt, run the appropriate command for the version of Debian you
 have installed:
 
-- _Debian 10_
+- _Debian 13_
 
   ```console
-  wget https://apt.puppet.com/puppet-tools-release-buster.deb
-  sudo dpkg -i puppet-tools-release-buster.deb
+  wget https://apt.voxpupuli.org/openvox8-release-debian13.deb
+  sudo dpkg -i openvox8-release-debian13.deb
   sudo apt-get update
-  sudo apt-get install puppet-bolt
+  sudo apt-get install openbolt
+  ```
+
+- _Debian 12_
+
+  ```console
+  wget https://apt.voxpupuli.org/openvox8-release-debian12.deb
+  sudo dpkg -i openvox8-release-debian12.deb
+  sudo apt-get update
+  sudo apt-get install openbolt
   ```
 
 - _Debian 11_
 
   ```console
-  wget https://apt.puppet.com/puppet-tools-release-bullseye.deb
-  sudo dpkg -i puppet-tools-release-bullseye.deb
+  wget https://apt.voxpupuli.org/openvox8-release-debian11.deb
+  sudo dpkg -i openvox8-release-debian11.deb
   sudo apt-get update
-  sudo apt-get install puppet-bolt
+  sudo apt-get install openbolt
   ```
 
-### Upgrade Bolt
 
-To upgrade Bolt to the latest version, run the following command:
+### Upgrade OpenBolt
+
+To upgrade OpenBolt to the latest version, run the following command:
 
 ```console
 sudo apt-get update
-sudo apt install puppet-bolt
+sudo apt install openbolt
 ```
 
-### Uninstall Bolt
+### Uninstall OpenBolt
 
-To uninstall Bolt, run the following command:
+To uninstall OpenBolt, run the following command:
 
 ```console
-sudo apt remove puppet-bolt
+sudo apt remove openbolt
 ```
 
-## Install Bolt on Fedora
+## Install OpenBolt on Fedora
 
-### Install Bolt
+### Install OpenBolt
 
-To install Bolt, run the appropriate command for the version of Fedora you
+To install OpenBolt, run the appropriate command for the version of Fedora you
 have installed:
 
-- _Fedora 36_
+- _Fedora 44_
 
   ```console
-  sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-fedora-36.noarch.rpm
-  sudo dnf install puppet-bolt
+  sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-fedora-44.noarch.rpm
+  sudo dnf install openbolt
   ```
 
-### Upgrade Bolt
+- _Fedora 43_
 
-To upgrade Bolt to the latest version, run the following command:
+  ```console
+  sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-fedora-43.noarch.rpm
+  sudo dnf install openbolt
+  ```
 
-```console
-sudo dnf upgrade puppet-bolt
-```
+- _Fedora 42_
 
-### Uninstall Bolt
+  ```console
+  sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-fedora-42.noarch.rpm
+  sudo dnf install openbolt
+  ```
 
-To uninstall Bolt, run the following command:
 
-```console
-sudo dnf remove puppet-bolt
-```
+### Upgrade OpenBolt
 
-## Install Bolt on macOS
-
-You can install Bolt packages for macOS using either Homebrew or the
-macOS installer.
-
-### Homebrew
-
-#### Install Bolt
-
-To install Bolt with Homebrew, you must have the [Homebrew package
-manager](https://brew.sh/) installed.
-
-1. Tap the Puppet formula repository:
-
-   ```console
-   brew tap puppetlabs/puppet
-   ```
-
-1. Install Bolt:
-
-   ```console
-   brew install --cask puppet-bolt
-   ```
-
-#### Upgrade Bolt
-
-To upgrade Bolt to the latest version, run the following command:
+To upgrade OpenBolt to the latest version, run the following command:
 
 ```console
-brew upgrade --cask puppet-bolt
+sudo dnf upgrade openbolt
 ```
 
-#### Uninstall Bolt
+### Uninstall OpenBolt
 
-To uninstall Bolt, run the following command:
+To uninstall OpenBolt, run the following command:
 
 ```console
-brew uninstall --cask puppet-bolt
+sudo dnf remove openbolt
 ```
+
+## Install OpenBolt on macOS
+
+You can install OpenBolt packages for macOS using the macOS installer.
+
 
 ### macOS installer (DMG)
 
-#### Install Bolt
+#### Install OpenBolt
 
-Use the Apple Disk Image (DMG) to install Bolt on macOS:
+Use the Apple Disk Image (DMG) to install OpenBolt on macOS:
 
-1. Download the Bolt installer package for your macOS version.
+1. Download the OpenBolt installer package for your macOS version.
 
-   - [11 (Big Sur)](https://downloads.puppet.com/mac/puppet-tools/11/x86_64/puppet-bolt-latest.dmg)
-   - [12 (Monterey)](https://downloads.puppet.com/mac/puppet-tools/12/x86_64/puppet-bolt-latest.dmg)
+   - <https://downloads.voxpupuli.org/mac/openvox8/openbolt-5.6.0-1.macos.all.x86_64.dmg>
 
-1. Double-click the `puppet-bolt-latest.dmg` file to mount the installer and
-   then double-click `puppet-bolt-[version]-installer.pkg` to run the installer.
+1. Double-click the `openbolt-[version].macos.all.x86_64.dmg` file to mount the installer and
+   then double-click `openbolt-[version]-installer.pkg` to run the installer.
 
 If you get a message that the installer "can't be opened because Apple cannot check it for malicious software:"
 
 1. Click **** > **System Preferences** > **Security & Privacy**.
 1. From the **General** tab, click the lock icon to allow changes to your security settings and enter your macOS password.
-1. Look for a message that says the Bolt installer "was blocked from use because it is not from an identified developer" and click "Open Anyway".
+1. Look for a message that says the OpenBolt installer "was blocked from use because it is not from an identified developer" and click "Open Anyway".
 1. Click the lock icon again to lock your security settings.
 
-#### Upgrade Bolt
+#### Upgrade OpenBolt
 
-To upgrade Bolt to the latest version, download the DMG again and repeat the
+To upgrade OpenBolt to the latest version, download the DMG again and repeat the
 installation steps.
 
-#### Uninstall Bolt
+#### Uninstall OpenBolt
 
-To uninstall Bolt, remove Bolt's files and executable:
+To uninstall OpenBolt, remove Bolt's files and executable:
 
 ```console
 sudo rm -rf /opt/puppetlabs/bolt /opt/puppetlabs/bin/bolt
 ```
 
-## Install Bolt on Microsoft Windows
+## Install OpenBolt on Microsoft Windows
 
-Use one of the supported Windows installation methods to install Bolt.
-
-### Chocolatey
-
-#### Install Bolt
-
-To install Bolt with Chocolatey, you must have the [Chocolatey package
-manager](https://chocolatey.org/docs/installation) installed.
-
-1. Download and install the bolt package:
-
-    ```powershell
-    choco install puppet-bolt
-    ```
-
-1. Refresh the environment:
-
-    ```powershell
-    refreshenv
-    ```
-
-1. Install the [PuppetBolt PowerShell module](#puppetbolt-powershell-module).
-
-1. Run a [Bolt cmdlet](bolt_cmdlet_reference.html). If you see an error message
-   instead of the expected output, you might need to [add the Bolt module to
-   PowerShell](troubleshooting.html#powershell-does-not-recognize-bolt-cmdlets) or
-   [change execution policy
-   restrictions](troubleshooting.html#powershell-could-not-load-the-bolt-powershell-module).
-
-#### Upgrade Bolt
-
-To upgrade Bolt to the latest version, run the following command:
-
-```powershell
-choco upgrade puppet-bolt
-```
-
-#### Uninstall Bolt
-
-To uninstall Bolt, run the following command:
-
-```powershell
-choco uninstall puppet-bolt
-```
+Use one of the supported Windows installation methods to install OpenBolt.
 
 ### Windows installer (MSI)
 
-#### Install Bolt
+#### Install OpenBolt
 
-Use the Windows installer (MSI) package to install Bolt on Windows:
+Use the Windows installer (MSI) package to install OpenBolt on Windows:
 
-1. Download the [Bolt installer
-    package](https://downloads.puppet.com/windows/puppet-tools/puppet-bolt-x64-latest.msi).
+1. Download the [OpenBolt installer
+    package](https://downloads.voxpupuli.org/windows/openvox8/openbolt-5.6.0-x64.msi).
 
 1. Double-click the MSI file and run the installer.
 
-1. Install the [PuppetBolt PowerShell module](#puppetbolt-powershell-module).
 
-1. Open a new PowerShell window and run a [Bolt cmdlet](bolt_cmdlet_reference.html).
-    If you see an error message instead of the expected output, you might need to
-    [add the Bolt module to
-    PowerShell](troubleshooting.html#powershell-does-not-recognize-bolt-cmdlets) or [change
-    execution policy
-    restrictions](troubleshooting.html#powershell-could-not-load-the-bolt-powershell-module).
+#### Upgrade OpenBolt
 
-#### Upgrade Bolt
-
-To upgrade Bolt to the latest version, download the MSI again and repeat the
+To upgrade OpenBolt to the latest version, download the MSI again and repeat the
 installation steps.
 
-#### Uninstall Bolt
+#### Uninstall OpenBolt
 
-You can uninstall Bolt from Windows **Apps & Features**:
+You can uninstall OpenBolt from Windows **Apps & Features**:
 
 1. Press **Windows** + **X** + **F** to open **Apps & Features**.
 
-1. Search for **Puppet Bolt**, select it, and click **Uninstall**.
+1. Search for **Puppet OpenBolt**, select it, and click **Uninstall**.
 
-### PuppetBolt PowerShell module
-
-The PuppetBolt PowerShell module is available on the [PowerShell
-Gallery](https://www.powershellgallery.com/packages/PuppetBolt) and includes
-help documents and [PowerShell cmdlets](bolt_cmdlet_reference.html) for running
-each of Bolt's commands. New versions of the PuppetBolt module are shipped at the
-same time as a new Bolt release.
 
 #### Install PuppetBolt
 
@@ -283,173 +216,224 @@ PowerShell:
 Remove-Module PuppetBolt
 ```
 
-## Install Bolt on RHEL
+## Install OpenBolt on RHEL
 
-### Install Bolt
+### Install OpenBolt
 
-To install Bolt, run the appropriate command for the version of RHEL you
+To install OpenBolt, run the appropriate command for the version of RHEL you
 have installed:
 
-- _RHEL 6_
+- _RHEL 10, RockyLinux 10, AlmaLinux 10, and clones
 
   ```console
-  sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-el-6.noarch.rpm
-  sudo yum install puppet-bolt 
+  sudo rpm -Uvh https://yum.voxpupuli.org/openvox10-release-el-10.noarch.rpm
+  sudo dnf install openbolt
   ```
 
-- _RHEL 7_
+- _RHEL 9, RockyLinux 9, AlmaLinux 9, and clones
 
   ```console
-  sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-el-7.noarch.rpm
-  sudo yum install puppet-bolt
+  sudo rpm -Uvh https://yum.voxpupuli.org/openvox9-release-el-9.noarch.rpm
+  sudo dnf install openbolt
   ```
 
-- _RHEL 8_
+- _RHEL 8, RockyLinux 8, AlmaLinux 8, and clones
 
   ```console
-  sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-el-8.noarch.rpm
-  sudo yum install puppet-bolt
+  sudo rpm -Uvh https://yum.voxpupuli.org/openvox8-release-el-8.noarch.rpm
+  sudo dnf install openbolt
   ```
 
-- _RHEL 9_
 
-  ```console
-  sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-el-9.noarch.rpm
-  sudo yum install puppet-bolt
-  ```
+### Upgrade OpenBolt
 
-### Upgrade Bolt
-
-To upgrade Bolt to the latest version, run the following command:
+To upgrade OpenBolt to the latest version, run the following command:
 
 ```console
-sudo yum update puppet-bolt
+sudo dnf update openbolt
 ```
 
-### Uninstall Bolt
+### Uninstall OpenBolt
 
-To uninstall Bolt, run the following command:
+To uninstall OpenBolt, run the following command:
 
 ```console
-sudo yum remove puppet-bolt
+sudo dnf remove openbolt
 ```
 
-## Install Bolt on SLES
+## Install OpenBolt on SLES
 
-### Install Bolt
+### Install OpenBolt
 
-To install Bolt, run the appropriate command for the version of SLES you
+To install OpenBolt, run the appropriate command for the version of SLES you
 have installed:
 
-- _SLES 12_
+- _SLES 16_
 
   ```console
-  sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-sles-12.noarch.rpm
-  sudo zypper install puppet-bolt
+  sudo rpm -Uvh https://yum.voxpupuli.org/openvox8-release-sles-16.noarch.rpm
+  sudo zypper install openbolt
   ```
 
 - _SLES 15_
 
   ```console
-  sudo rpm -Uvh https://yum.puppet.com/puppet-tools-release-sles-15.noarch.rpm
-  sudo zypper install puppet-bolt
+  sudo rpm -Uvh https://yum.voxpupuli.org/openvox8-release-sles-15.noarch.rpm
+  sudo zypper install openbolt
   ```
 
-### Upgrade Bolt
 
-To upgrade Bolt to the latest version, run the following command:
+### Upgrade OpenBolt
 
-```console
-sudo zypper update puppet-bolt
-```
-
-### Uninstall Bolt
-
-To uninstall Bolt, run the following command:
+To upgrade OpenBolt to the latest version, run the following command:
 
 ```console
-sudo zypper remove puppet-bolt
+sudo zypper update openbolt
 ```
 
-## Install Bolt on Ubuntu
+### Uninstall OpenBolt
 
-### Install Bolt
+To uninstall OpenBolt, run the following command:
 
-To install Bolt, run the appropriate command for the version of Ubuntu you
+```console
+sudo zypper remove openbolt
+```
+
+## Install OpenBolt on AmazonLinux
+
+### Install OpenBolt
+
+To install OpenBolt, run the appropriate command for the version of AmazonLinux you
 have installed:
 
-- _Ubuntu 18.04_
+- _AmazonLinux 2023
 
   ```console
-  wget https://apt.puppet.com/puppet-tools-release-bionic.deb
-  sudo dpkg -i puppet-tools-release-bionic.deb
-  sudo apt-get update 
-  sudo apt-get install puppet-bolt
+  sudo rpm -Uvh https://yum.voxpupuli.org/openvox8-release-amazon-2023.noarch.rpm
+  sudo dnf install openbolt
   ```
 
-- _Ubuntu 20.04_
+- _AmazonLinux 2
 
   ```console
-  wget https://apt.puppet.com/puppet-tools-release-focal.deb
-  sudo dpkg -i puppet-tools-release-focal.deb
-  sudo apt-get update 
-  sudo apt-get install puppet-bolt
+  sudo rpm -Uvh https://yum.voxpupuli.org/openvox8-release-amazon-2.noarch.rpm
+  sudo dnf install openbolt
+  ```
+
+### Upgrade OpenBolt
+
+To upgrade OpenBolt to the latest version, run the following command:
+
+```console
+sudo dnf update openbolt
+```
+
+### Uninstall OpenBolt
+
+To uninstall OpenBolt, run the following command:
+
+```console
+sudo dnf remove openbolt
+```
+
+## Install OpenBolt on Ubuntu
+
+### Install OpenBolt
+
+To install OpenBolt, run the appropriate command for the version of Ubuntu you
+have installed:
+
+- _Ubuntu 26.04_
+
+  ```console
+  wget https://apt.voxpupuli.org/openvox8-release-ubuntu26.04.deb
+  sudo dpkg -i openvox8-release-ubuntu26.04.deb
+  sudo apt-get update
+  sudo apt-get install openbolt
+  ```
+
+- _Ubuntu 25.04_
+
+  ```console
+  wget https://apt.voxpupuli.org/openvox8-release-ubuntu25.04.deb
+  sudo dpkg -i openvox8-release-ubuntu25.04.deb
+  sudo apt-get update
+  sudo apt-get install openbolt
+  ```
+
+- _Ubuntu 24.04_
+
+  ```console
+  wget https://apt.voxpupuli.org/openvox8-release-ubuntu24.04.deb
+  sudo dpkg -i openvox8-release-ubuntu24.04.deb
+  sudo apt-get update
+  sudo apt-get install openbolt
   ```
 
 - _Ubuntu 22.04_
 
   ```console
-  wget https://apt.puppet.com/puppet-tools-release-jammy.deb
-  sudo dpkg -i puppet-tools-release-jammy.deb
-  sudo apt-get update 
-  sudo apt-get install puppet-bolt
+  wget https://apt.voxpupuli.org/openvox8-release-ubuntu22.04.deb
+  sudo dpkg -i openvox8-release-ubuntu22.04.deb
+  sudo apt-get update
+  sudo apt-get install openbolt
   ```
 
-### Upgrade Bolt
+- _Ubuntu 20.04_
 
-To upgrade Bolt to the latest version, run the following command:
+  ```console
+  wget https://apt.voxpupuli.org/openvox8-release-ubuntu20.04.deb
+  sudo dpkg -i openvox8-release-ubuntu20.04.deb
+  sudo apt-get update
+  sudo apt-get install openbolt
+  ```
+
+
+### Upgrade OpenBolt
+
+To upgrade OpenBolt to the latest version, run the following command:
 
 ```console
 sudo apt-get update
-sudo apt install puppet-bolt
+sudo apt install openbolt
 ```
 
-### Uninstall Bolt
+### Uninstall OpenBolt
 
-To uninstall Bolt, run the following command:
+To uninstall OpenBolt, run the following command:
 
 ```console
-sudo apt remove puppet-bolt
+sudo apt remove openbolt
 ```
 
-## Install Bolt as a gem
+## Install OpenBolt as a gem
 
-To install Bolt reliably and with all dependencies, use one of the Bolt
+To install OpenBolt reliably and with all dependencies, use one of the Bolt
 installation packages instead of a gem. Gem installations do not include core
-modules which are required for common Bolt actions.
+modules which are required for common OpenBolt actions.
 
-To install Bolt as a gem:
+To install OpenBolt as a gem:
 
 ```console
-gem install bolt
+gem install openbolt
 ```
 
-## Install gems in Bolt's Ruby environment
+## Install gems in OpenBolt's Ruby environment
 
-Bolt packages include their own copy of Ruby.
+OpenBolt packages include their own copy of Ruby.
 
-When you install gems for use with Bolt, use the `--user-install` command-line
+When you install gems for use with OpenBolt, use the `--user-install` command-line
 option to avoid requiring privileged access for installation. This option also
 enables sharing gem content with Puppet installations — such as when running
 `apply` on `localhost` — that use the same Ruby version.
 
-To install a gem for use with Bolt, use the command appropriate to your
+To install a gem for use with OpenBolt, use the command appropriate to your
 operating system:
 
 - On Windows with the default install location:
 
     ```powershell
-    "C:/Program Files/Puppet Labs/Bolt/bin/gem.bat" install --user-install <GEM>
+    "C:/Program Files/Puppet Labs/OpenBolt/bin/gem.bat" install --user-install <GEM>
     ```
 
 - On other platforms:
