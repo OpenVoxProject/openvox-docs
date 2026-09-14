@@ -1,0 +1,92 @@
+{%- comment -%}
+  child_topics.html — auto-generates an overview page's "on this page" list of
+  sub-topics from the site nav list, so parent-with-link sections don't need a
+  hand-maintained list of their sub-topics in the page body.
+
+  Renders a `<ul>` of child topic links for an overview page whose nav entry
+  has both `link:` and `items:` (e.g., OpenBolt's "Plans").
+
+  For each child: title as a link + first paragraph of the child's rendered
+  content as a short description. Children that don't resolve to a doc in the
+  current collection (e.g., missing rake-generated reference pages) render as
+  a bare link with no description.
+
+  Data source: the entry for this page in `_data/nav/<page.nav>.yml`. The
+  matching `nav_base` (URL prefix) is looked up in `_data/nav_map.yml`.
+{%- endcomment -%}
+
+{%- assign nav_base = nil -%}
+{%- for entry in site.data.nav_map -%}
+  {%- if entry.nav_key == page.nav -%}
+    {%- assign nav_base = entry.base -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign page_subpath = page.url | remove_first: nav_base -%}
+
+{%- comment -%}
+  Find the nav entry for the current page. Only matches entries with `items:`,
+  so pages whose nav entry has `link:` but no children (leaf pages) render
+  nothing here.
+{%- endcomment -%}
+{%- assign current_section = nil -%}
+{%- for item in site.data.nav[page.nav] -%}
+  {%- if item.link == page_subpath and item.items -%}
+    {%- assign current_section = item -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if current_section -%}
+<ul>
+  {%- for child in current_section.items -%}
+    {%- assign child_link_first_char = child.link | slice: 0 -%}
+    {%- if child_link_first_char == '/' -%}
+      {%- assign child_url = child.link -%}
+    {%- else -%}
+      {%- assign child_url = child.link | prepend: nav_base -%}
+    {%- endif -%}
+
+    {%- assign child_doc = nil -%}
+    {%- for doc in site[page.collection] -%}
+      {%- if doc.url == child_url -%}
+        {%- assign child_doc = doc -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- comment -%}
+      Extract the child's first intro paragraph for the description.
+
+      Every child page begins with `# Heading` then a plain intro paragraph,
+      so splitting the rendered HTML on `<p>` skips the `<h1>` and lands on the
+      first real paragraph.
+
+      `child_doc.content` is piped through `markdownify` first because Jekyll
+      only guarantees it holds rendered HTML for docs that happen to be built
+      before this page; docs built afterward still hold raw Markdown. Running
+      `markdownify` normalizes both cases to HTML so the `<p>` split is
+      deterministic regardless of build order.
+    {%- endcomment -%}
+    {%- assign first_para = nil -%}
+    {%- if child_doc -%}
+      {%- assign child_html = child_doc.content | markdownify -%}
+      {%- assign after_first_p = child_html | split: '<p>' -%}
+      {%- if after_first_p.size > 1 -%}
+        {%- assign first_para = after_first_p[1] | split: '</p>' | first -%}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- comment -%}
+      Title and description share one `<p>` (separated by a `<br>`) so the theme's
+      `.vp-doc p { margin: 16px 0 }` doesn't stack two paragraph margins between
+      them, which would push the description well below the link.
+    {%- endcomment -%}
+  <li>
+    <p><a href="{{ child_url }}">{{ child.text }}</a>{% if first_para %}<br>
+    {{ first_para }}{% endif %}</p>
+  </li>
+  {%- endfor -%}
+</ul>
+{%- endif -%}
