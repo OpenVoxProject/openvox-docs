@@ -175,10 +175,16 @@ Invoke-BoltCommand -Command 'pwd' -Targets '@targets.txt'
 
 > **Note:** In PowerShell, always wrap the file name in single quotes.
 
+The file can also contain a JSON array of target names or a Bolt result
+object with an `items` array where each item has a `target` key.
+
 ### Read targets from stdin
 
 To read a list of targets from stdin, pipe the results from another command to
-Bolt and pass a single dash (`-`) to the `targets` option.
+Bolt and pass a single dash (`-`) to the `targets` option. Stdin accepts
+plain text target lists as well as JSON input. JSON input can be a JSON array
+of target names or a Bolt result object with an `items` array where each item
+has a `target` key.
 
 _\*nix shell command:_
 
@@ -186,7 +192,15 @@ _\*nix shell command:_
 cat targets.txt | bolt command run 'pwd' --targets -
 ```
 
-Reading from stdin is not supported by the PowerShell module.
+Pipe JSON output from a Bolt plan to run a command on the resulting targets:
+
+_\*nix shell command:_
+
+```console
+bolt plan run myplan --format=json | bolt command run 'pwd' -t-
+```
+
+> **Note:** Reading from stdin is not supported by the PowerShell module.
 
 ### Specify targets from the previous command
 
