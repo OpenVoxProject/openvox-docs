@@ -26,18 +26,27 @@ In general we try, to support OpenVox agent for the operating system's life cycl
 
 ## Platforms with packages
 
-We publish and test official `openvox-agent` packages for these platforms. Less common and sometimes brand new platforms might not be automatically tested, but packages are still available for them.
+We publish and test official `openvox-agent` packages for these platforms.
+Less common and sometimes brand new platforms might not be automatically tested, but packages are still available for them.
 
 | Operating system | Tested versions |
 | ---------------- | --------------- |
-| Red Hat Enterprise Linux (and derivatives) | 7, 8, 9,10 |
+| Red Hat Enterprise Linux (and derivatives) | 7, 8, 9, 10 |
 | SUSE Linux Enterprise Server | 15, 16 |
-| Debian | Wheezy (10), Jessie (11), Stretch (12), (13) |
-| Ubuntu | 18.04, 20.04, 22.04, 24.04, 25.04, 26.04 |
-| Fedora | 36, 40,41,42,43 |
-| Microsoft Windows (Server OS) | 2008R2, 2012R2, 2016 |
-| Microsoft Windows (Consumer OS) | 10 Enterprise |
-| macOS | 10.12 Sierra, 10.13 High Sierra |
+| Debian | Bullseye (11), Bookworm (12), Trixie (13) |
+| Ubuntu | 22.04, 24.04, 25.04, 26.04 |
+| Fedora | 41, 42, 43, 44 |
+| Microsoft Windows | All 64bit versions |
+| macOS | macOS 13+ (ARM & X86) |
+
+To make a OS migration easier, we also have OpenVox 8 packages for the following platforms (we do not publish new packages anymore):
+
+| Operating system | Versions |
+| Debian | Buster (10) |
+| Ubuntu | 18.04, 20.04 |
+| Fedora | 36, 40, 41 |
+
+The authoritative list is in [our pipeline repo](https://github.com/OpenVoxProject/shared-actions/blob/main/platforms.json) (check for "8.x vanagon").
 
 ## Platforms without packages
 
