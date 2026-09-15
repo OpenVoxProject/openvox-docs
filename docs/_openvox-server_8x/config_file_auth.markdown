@@ -172,6 +172,28 @@ request.
 
 > Also, in the HOCON OpenVox Server authentication method, there is no directly equivalent behavior to the [deprecated][] `auth` parameter's `on` value.
 
+The default `auth.conf` uses an `extensions` match to authorize the `puppetserver ca` command line tool. Each CA administrative endpoint has a rule like this one, which allows any certificate carrying the `pp_cli_auth` extension instead of naming the server's certname:
+
+```hocon
+{
+    # Allow the CA CLI to access the certificate_status endpoint
+    match-request: {
+        path: "/puppet-ca/v1/certificate_status"
+        type: path
+        method: [get, put, delete]
+    }
+    allow: {
+        extensions: {
+            pp_cli_auth: "true"
+        }
+    }
+    sort-order: 500
+    name: "puppetlabs cert status"
+}
+```
+
+See [CA CLI authorization](./subcommands.html#ca-cli-authorization) for how the server's own certificate gets that extension and how to issue it to another host.
+
 #### `sort-order`
 
 After each rule's `match-request` section, the required `sort-order` parameter sets the order in which OpenVox Server evaluates the rule by prioritizing it on a numeric value between 1 and 399 (to be evaluated
