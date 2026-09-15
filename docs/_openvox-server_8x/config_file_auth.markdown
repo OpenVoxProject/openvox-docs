@@ -192,7 +192,7 @@ The default `auth.conf` uses an `extensions` match to authorize the `puppetserve
 }
 ```
 
-See [CA CLI authorization](./subcommands.html#ca-cli-authorization) for how the server's own certificate gets that extension and how to issue it to another host.
+See [CA CLI authorization](./subcommands.html#ca-cli-authorization) for how a certificate gets that extension. The server's own certificate has it, and so can any number of others, for example for services that call the CA API.
 
 #### `sort-order`
 
