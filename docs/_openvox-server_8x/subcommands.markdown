@@ -67,7 +67,7 @@ Two consequences follow from this:
 
 - If the server's host certificate is replaced by any other route, for example by cleaning it and letting the agent request an ordinary certificate, the new certificate lacks the extension and every `ca` action except `setup` and `import` is refused with `403 Forbidden`.
   `puppetserver ca generate` refuses to overwrite an existing certificate or key, so follow [Regenerate the primary server's certificate](./certificate_renewal.html#regenerate-the-primary-servers-certificate), which removes the old files first and shows how to carry the subject alternative names over.
-- To run `puppetserver ca` from another host, generate that host's certificate the same way: stop the server, run `puppetserver ca generate --certname <host> --ca-client` on the CA, then copy the resulting key and certificate to the host.
+- To give another host or service the same access, whether to run `puppetserver ca` there or to call the CA API directly, generate its certificate the same way: stop the server, run `puppetserver ca generate --certname <host> --ca-client` on the CA, then copy the resulting key and certificate to the host.
   A certificate with `pp_cli_auth` can list, sign, revoke, and clean any certificate the CA manages, so treat it as an administrative credential and never issue it to ordinary agents.
 
 `--ca-client` signs the certificate offline, without the running CA service, so use it only while OpenVox Server is stopped. This offline path is the only way to put the extension in a certificate. The CA refuses any CSR that requests `pp_cli_auth`, even when `allow-authorization-extensions` is enabled, so it cannot be obtained through `csr_attributes.yaml` and a normal signing.
