@@ -28,8 +28,15 @@ Numeric ID              | Short Name         | Descriptive Name
 1.3.6.1.4.1.34380.1.1.23 | `pp_cloudplatform` | Puppet Node Cloud Platform Name
 1.3.6.1.4.1.34380.1.1.24 | `pp_apptier`      | Puppet Node Application Tier
 1.3.6.1.4.1.34380.1.1.25 | `pp_hostname`     | Puppet Node Hostname
+1.3.6.1.4.1.34380.1.1.26 | `pp_owner`        | Puppet Node Owner
 
 The "ppAuthCertExt" OID range contains the following OIDs:
 
-1.3.6.1.4.1.34380.1.3.1  | `pp_authorization` | Certificate Extension Authorization
-1.3.6.1.4.1.34380.1.3.13 | `pp_auth_role` | Puppet Node Role Name for Authorization
+Numeric ID               | Short Name            | Descriptive Name
+-------------------------|-----------------------|-----------------------------------------
+1.3.6.1.4.1.34380.1.3.1  | `pp_authorization`    | Certificate Extension Authorization
+1.3.6.1.4.1.34380.1.3.2  | `pp_auth_auto_renew`  | Auto-Renew Certificate Attribute
+1.3.6.1.4.1.34380.1.3.13 | `pp_auth_role`        | Puppet Node Role Name for Authorization
+1.3.6.1.4.1.34380.1.3.39 | `pp_cli_auth`         | Puppetserver CA CLI Authorization
+
+OpenVox Server's own certificate carries `pp_cli_auth` with the value `true`. OpenVox Server, `puppetserver ca setup`, and `puppetserver ca import` all add it when they generate that certificate, and the default `auth.conf` uses it to authorize the `puppetserver ca` command line tool. See [CA CLI authorization](/openvox-server/9.x/subcommands.html#ca-cli-authorization).

@@ -49,25 +49,28 @@ Because these commands utilize Puppet Server’s API, all except `setup` and `im
 Because these commands are shipped as a gem alongside Puppet Server, it can be updated out-of-band to pick up improvements and bug fixes. To upgrade it, run this command:
 `/opt/puppetlabs/puppet/bin/gem install -i /opt/puppetlabs/puppet/lib/ruby/vendor_gems puppetserver-ca`
 
-**Note:** These commands are available in Puppet 5, but in order to use them, you must update Puppet Server’s `auth.conf` to include a rule allowing the master’s certname to access the `certificate_status` and
-`certificate_statuses` endpoints. The same applies to upgrading in open source Puppet: if you're upgrading from Puppet 5 to Puppet 6 and are not regenerating your CA, you must whitelist the master’s certname.
-See [Puppet Server Configuration Files: auth.conf](/openvox-server/latest/config_file_auth.html) for details on how to use `auth.conf`.
+### CA CLI authorization
 
-Example:
+Every `ca` action except `setup` and `import` talks to the CA over its HTTP API, so the certificate the command presents must be allowed by [`auth.conf`](./config_file_auth.html).
 
-```text
-{
-    # Allow the CA CLI to access the certificate_status endpoint
-    match-request: {
-        path: "/puppet-ca/v1/certificate_status"
-        type: path
-        method: [get, put, delete]
-    }
-    allow: master.example.com
-    sort-order: 500
-    name: "puppetlabs cert status"
-},
+The default `auth.conf` does not name the server's certname. Instead, each CA administrative rule (`certificate_status`, `certificate_statuses`, `sign`, `sign/all`, `clean`, and `PUT` on `certificate_revocation_list`) allows any client certificate that carries the `pp_cli_auth` extension (OID `1.3.6.1.4.1.34380.1.3.39`) with the value `true`.
+
+`puppetserver ca setup` and `puppetserver ca import` add that extension to the server's own host certificate when they generate it, and OpenVox Server does the same when it creates that certificate itself on first start. That is why the CLI works on a fresh server with no configuration. To confirm a certificate has it, run:
+
+```sh
+openssl x509 -text -noout -in "$(puppet config print hostcert)"
 ```
+
+In the `X509v3 extensions` section, look for `1.3.6.1.4.1.34380.1.3.39` with the value `true`, next to the `Puppet Server Internal Certificate` comment. OpenSSL prints the numeric OID because it does not know the short name.
+
+Two consequences follow from this:
+
+- If the server's host certificate is replaced by any other route, for example by cleaning it and letting the agent request an ordinary certificate, the new certificate lacks the extension and every `ca` action except `setup` and `import` is refused with `403 Forbidden`.
+  `puppetserver ca generate` refuses to overwrite an existing certificate or key, so follow [Regenerate the primary server's certificate](./certificate_renewal.html#regenerate-the-primary-servers-certificate), which removes the old files first and shows how to carry the subject alternative names over.
+- To run `puppetserver ca` from another host, generate that host's certificate the same way: stop the server, run `puppetserver ca generate --certname <host> --ca-client` on the CA, then copy the resulting key and certificate to the host.
+  A certificate with `pp_cli_auth` can list, sign, revoke, and clean any certificate the CA manages, so treat it as an administrative credential and never issue it to ordinary agents.
+
+`--ca-client` signs the certificate offline, without the running CA service, so use it only while OpenVox Server is stopped. This offline path is the only way to put the extension in a certificate. The CA refuses any CSR that requests `pp_cli_auth`, even when `allow-authorization-extensions` is enabled, so it cannot be obtained through `csr_attributes.yaml` and a normal signing.
 
 ### Signing certs with SANs or auth extensions
 
