@@ -36,7 +36,7 @@ None (certnames are provided in the request body)
 ### Access
 
 Requires a client certificate with the `pp_cli_auth: "true"` certificate extension. Access is controlled by
-OpenVox Server's `ca.conf` authorization configuration.
+OpenVox Server's [`auth.conf`](../../config_file_auth.html).
 
 ### Example
 
@@ -112,7 +112,7 @@ None
 ### Access
 
 Requires a client certificate with the `pp_cli_auth: "true"` certificate extension. Access is controlled by
-OpenVox Server's `ca.conf` authorization configuration.
+OpenVox Server's [`auth.conf`](../../config_file_auth.html).
 
 ### Example
 
