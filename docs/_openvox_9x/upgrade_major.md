@@ -1,0 +1,170 @@
+---
+layout: default
+title: "Upgrading from OpenVox 8 to OpenVox 9"
+---
+
+OpenVox 9 is a major release, but it does not change the Puppet language. Its focus is updating the platform underneath OpenVox: newer Ruby, OpenSSL, JRuby, and Java, plus the removal of settings and behaviors deprecated in OpenVox 8. Most Puppet code that runs cleanly on OpenVox 8 runs unchanged on OpenVox 9, but review the component upgrades and removals below before upgrading a production deployment.
+
+This page covers what to check and change before the upgrade. For the package mechanics of the upgrade itself, see [Upgrading OpenVox 9](upgrade_minor.html).
+
+> **OpenVox 9 is in prerelease.** Details on this page can still change before the stable 9.0.0 release. See the [release notes](release_notes.html) and [known issues](known_issues.html) for the current state of the prerelease builds.
+
+## What changes in OpenVox 9
+
+The major version bump comes from the underlying components:
+
+| Component | OpenVox 8 | OpenVox 9 |
+| --------- | --------- | --------- |
+| Ruby (bundled with `openvox-agent`) | 3.2 | 4.0 |
+| OpenSSL (bundled with `openvox-agent`) | 3.0 | 3.5 |
+| OpenFact (bundled with `openvox-agent`) | 5.x | 6.x |
+| JRuby (bundled with `openvox-server`) | 9.4 | 10.1 |
+| Java (required by `openvox-server` and `openvoxdb`) | 17 or 21 | 21 or 25 |
+| curl (bundled with `openvox-agent`) | 8.x | Not bundled |
+
+See [Component versions in recent releases](component_versions.html) for the exact versions in each release.
+
+OpenVox 9 no longer ships its own curl. Scripts that call `/opt/puppetlabs/puppet/bin/curl`, or that put `/opt/puppetlabs/puppet/bin` ahead of the system directories in `PATH` to pick it up, need the system `curl` instead.
+
+## Before you upgrade
+
+1. Upgrade your deployment to the latest OpenVox 8 release first and resolve any deprecation warnings in agent and server logs. Most of what OpenVox 9 removes was already deprecated in the 8.x series.
+2. Read the release notes for each component: [OpenVox 9](release_notes.html), [OpenVox Server 9](/openvox-server/9.x/release_notes.html), [OpenVoxDB 9](/openvoxdb/9.x/release_notes.html), and [OpenFact 6](/openfact/6.x/release_notes.html). Each links to the GitHub release page with the full list of changes.
+3. Check that packages exist for your platforms on the [supported platforms](supported_platforms.html) page. OpenVox Server 9 and OpenVoxDB 9 no longer publish packages for Debian 11 and 12, which only provide Java 17, and OpenVox Server 9 also drops Amazon Linux 2.
+4. Back up `/etc/puppetlabs/` on your servers and take a database backup of OpenVoxDB with `pg_dump` before starting.
+
+## Review Ruby code for Ruby 4.0
+
+The agent's bundled Ruby moves from 3.2 to 4.0. Everything that runs inside the agent's Ruby must be compatible with Ruby 4.0:
+
+- Custom facts, functions, types, and providers in your modules
+- Gems you install into the agent with `puppet_gem` or `/opt/puppetlabs/puppet/bin/gem`
+
+Ruby 4.0 removes APIs that were deprecated during the Ruby 3.x series. A common one in older facts and providers is spawning a subprocess with `Kernel#open` and a pipe argument (`open("|command")`), which no longer works; use `IO.popen` or, better, OpenFact's `Facter::Core::Execution.execute` for fact code. Run your module unit tests on Ruby 4.0 to find problems before the upgrade.
+
+OpenVox Server 9 bundles JRuby 10.1, which targets the same Ruby 4.0 language level. Ruby code that runs on the server, such as report processors, custom indirector termini, and gems installed with `puppetserver gem`, needs the same review.
+
+If you install OpenVox as a gem rather than from packages, the `openvox` gem now requires at least Ruby 3.2.
+
+## Reinstall gems added to the agent's Ruby
+
+Gems are installed into a directory named after the Ruby minor version, so gems you added to the agent's Ruby on OpenVox 8 live under `/opt/puppetlabs/puppet/lib/ruby/gems/3.2.0/`. OpenVox 9's Ruby 4.0 looks in `/opt/puppetlabs/puppet/lib/ruby/gems/4.0.0/` and does not see them.
+The upgrade neither migrates nor removes the old directory, and the gems' command wrappers in `/opt/puppetlabs/puppet/bin/` stay behind, so a tool such as `r10k` installed with `/opt/puppetlabs/puppet/bin/gem install` still appears to exist but fails:
+
+```console
+$ /opt/puppetlabs/puppet/bin/r10k version
+.../rubygems.rb:265:in 'Gem.find_spec_for_exe': can't find gem r10k (>= 0.a) with executable r10k (Gem::GemNotFoundException)
+```
+
+Before upgrading, list what you added so you can put it back afterwards:
+
+```console
+/opt/puppetlabs/puppet/bin/gem list --local
+ls /opt/puppetlabs/puppet/lib/ruby/gems/*/gems
+```
+
+After upgrading, reinstall each gem with `sudo /opt/puppetlabs/puppet/bin/gem install <NAME>`. Gems that Puppet manages with the `puppet_gem` package provider are reinstalled by the first agent run on OpenVox 9, because the provider no longer finds them; gems installed by hand are not. Once nothing depends on it, the old `3.2.0` gem directory can be deleted.
+
+Gems installed into OpenVox Server with `puppetserver gem` are not affected: their directory, `/opt/puppetlabs/server/data/puppetserver/jruby-gems`, is not tied to a Ruby version, so they carry over the JRuby 9.4 to 10.1 upgrade. Review them for Ruby 4.0 compatibility as described above.
+
+## Review custom facts for OpenFact 6
+
+`openvox-agent` 9 bundles and requires OpenFact 6, a major version bump from the 5.x series bundled with OpenVox 8. Test your custom and external facts against OpenFact 6. The changes most likely to affect fact code:
+
+- OpenFact 6 requires Ruby 3.0 or later, which the agent's Ruby 4.0 satisfies; fact code that also runs elsewhere needs the same floor.
+- `Facter::Core::Execution.exec`, `Facter::Util::Resolution.exec`, and `Facter::Util::Resolution.which` now log a deprecation warning ahead of removal. Use `Facter::Core::Execution.execute` and `Facter::Core::Execution.which`.
+- The `time_limit` and `limit` option keys for `execute` are deprecated aliases; use `timeout`.
+- The deprecated `ldapname` fact option is removed. A resolution that still passes it does not raise: OpenFact logs `Unable to add resolve nil for fact '<NAME>': Invalid resolution options [:ldapname]` at `ERROR` level and the fact resolves to nothing, so check the log for facts that have gone missing rather than waiting for a failure.
+- When a fact calls a bare command name, OpenFact now also searches `/opt/puppetlabs/bin`, so facts that call `puppet`, `puppetserver`, or `puppetdb` resolve when the agent runs as a service.
+
+See the [OpenFact 6 release notes](/openfact/6.x/release_notes.html) for the full list.
+
+## Deferred functions are preprocessed again by default
+
+OpenVox 8 evaluated deferred functions (functions called through the `Deferred` data type) lazily, at the moment the catalog applied the resource that used them. OpenVox 9 returns to the older behavior of resolving all deferred functions up front, before catalog application starts.
+
+This matters if a deferred function depends on something the same run puts in place, for example a package or library installed earlier in the catalog. Under preprocessing, the function runs before that prerequisite exists and the run fails. If you depend on lazy evaluation, set `preprocess_deferred = false` in the agent's `puppet.conf` to keep the OpenVox 8 behavior.
+
+## Report storage is now opt-in
+
+The default for the [`reports` setting](configuration.html#reports) changed from `store` to `none`, so an upgraded server stops writing YAML report files to the reports directory. If you rely on stored reports, or on tooling that reads them, set the value explicitly on the server:
+
+```ini
+[server]
+reports = store
+```
+
+Report submission from agents is unchanged; only the server-side default for processing them changed.
+
+## Agents must have an explicit server setting
+
+OpenVox 8 agents fell back to contacting a host named `puppet` when no server was configured. OpenVox 9 removes this fallback. As of 9.0.0-rc1 an agent run with no `server` setting fails, whether it runs as root or not:
+
+```text
+Error: OpenVox does not default to `server=puppet` as of version 9.0. Please update your configuration appropriately by providing a specific server of your choice.
+```
+
+A non-root run fails the same way but with different text: a warning that OpenVox no longer defaults to `server=puppet` when running as a non-privileged user, followed by:
+
+```text
+Error: Neither `server` nor `ca_server` is specified.
+```
+
+(The 9.0.0 beta releases only logged a deprecation warning for root.) If any nodes still rely on the fallback, set the [`server` setting](configuration.html#server) explicitly before upgrading them:
+
+```console
+puppet config set server openvox.example.com --section main
+```
+
+## Removed settings
+
+These settings are gone in OpenVox 9. Remove them from `puppet.conf` and from any scripts or tooling that reference them before you upgrade. OpenVox 8 warned about each of them; OpenVox 9 ignores a leftover setting without any message, so nothing after the upgrade tells you it is still there.
+
+- `configprint`: use `puppet config print <SETTING>` instead of `puppet agent --configprint <SETTING>`.
+- `pluginsync`: plugins always sync; the setting had been deprecated since Puppet 6.
+- `data_binding_terminus` and `environment_data_provider`: the classic `hiera` indirector and pluggable data bindings are removed. Automatic class parameter lookup always uses the modern lookup system.
+  A version 3 `hiera.yaml` named by `hiera_config` still loads on OpenVox 9, with a deprecation warning that it should be converted to version 5, so that migration does not have to happen before the upgrade.
+  When you do it, see [Migrating your Hiera configuration](hiera_migrate.html); Hiera 3 backends keep working through a version 5 `hiera.yaml`.
+
+## Other removals
+
+- The `regsubst` function no longer accepts its deprecated encoding argument.
+- The `pe_serverversion` fact is removed.
+- The `zone_core` module for Solaris zones is no longer vendored with the agent. Install [`puppetlabs-zone_core`](https://forge.puppet.com/modules/puppetlabs/zone_core) from the Forge if you manage `zone` resources.
+- The agent runtime no longer ships Java keystore files, and legacy PAL script-evaluation APIs are removed. See the [release notes](release_notes.html) if you depend on either.
+
+## Server and OpenVoxDB changes
+
+- **Java:** OpenVox Server 9 and OpenVoxDB 9 drop support for Java 17. Install Java 21 or 25 before upgrading the server packages.
+- **Filebucket reads need an administrative certificate:** the default `auth.conf` in OpenVox Server 9 lets agents store filebucket content (`HEAD` and `PUT`) but restricts reading it back (`GET` and `POST`) to client certificates with the `pp_cli_auth: "true"` extension.
+  If you restore or diff filebucket content remotely with an ordinary agent certificate, add an `auth.conf` rule for that certname before upgrading. See [auth.conf](/openvox-server/9.x/config_file_auth.html).
+- **Jetty 12:** both OpenVox Server 9 and OpenVoxDB 9 move to Jetty 12. If you customized `webserver` settings beyond host and port, review them after the upgrade.
+  For OpenVoxDB, if you upgrade from 8.14.0 or earlier and have modified `/etc/puppetlabs/puppetdb/bootstrap.cfg`, the package manager keeps your copy and the service fails to start because it still loads `jetty10-service`; the [OpenVoxDB 9 release notes](/openvoxdb/9.x/release_notes.html) have the fix.
+- **PostgreSQL:** OpenVoxDB 9 requires PostgreSQL 14 or later, the same minimum as the last 8.x releases.
+- **Packaging:** the `openvox-server` 9 and `openvoxdb` 9 packages require `openvox-agent` 9 on the same host, so the agent on those hosts upgrades along with them. The `openvoxdb-termini` 9 package depends on `openvox-agent` without a version, so a host that has only the termini, such as a `puppet apply` node that writes to OpenVoxDB, keeps its OpenVox 8 agent until you upgrade it.
+- **Service management:** OpenVox Server 9 removes the `puppetserver start` and `puppetserver stop` subcommands; systemd starts the JVM directly from the unit file. Replace any scripts that call them with `systemctl start puppetserver` and `systemctl stop puppetserver`. `systemctl reload puppetserver` still works on every platform.
+  OpenVoxDB 9 packages use the same systemd setup: the unit runs the Java binary chosen at build time, so `JAVA_BIN` in `/etc/sysconfig/puppetdb` or `/etc/default/puppetdb` is ignored. `JAVA_ARGS` still applies on both services.
+
+## Test, then upgrade
+
+1. Run your module unit tests on Ruby 4.0 and fix any failures.
+2. Validate your manifests with `puppet parser validate`.
+3. Stand up an OpenVox 9 server in a test environment, point test agents at it, and compare `puppet agent --test --noop` output against OpenVox 8 for unexpected changes.
+4. Switch each host to the OpenVox 9 repository. The `openvox8-release` package configures only the 8.x repository, so a host still using it stays on 8.x no matter what you upgrade. Install the `openvox9-release` package for the platform from [apt.voxpupuli.org](https://apt.voxpupuli.org) or [yum.voxpupuli.org](https://yum.voxpupuli.org).
+   On Debian and Ubuntu, remove `openvox8-release` first: both packages ship `/etc/apt/preferences.d/openvox-release.pref`, and `dpkg` refuses to install the second one over it.
+
+   ```bash
+   sudo apt remove openvox8-release
+   wget https://apt.voxpupuli.org/openvox9-release-ubuntu24.04.deb
+   sudo dpkg -i openvox9-release-ubuntu24.04.deb
+   sudo apt update
+   ```
+
+   On EL, the two release packages can be installed side by side and the package manager prefers the 9.x packages; remove `openvox8-release` once the host is upgraded.
+
+   ```bash
+   sudo dnf install https://yum.voxpupuli.org/openvox9-release-el-9.noarch.rpm
+   ```
+
+   If you wrote the repository definition yourself, for example to use a mirror, change `openvox8` to `openvox9` in it instead.
+5. Upgrade production in the usual order: `openvox-server`, then `openvoxdb` and `openvoxdb-termini`, then agents. OpenVox 8 agents can keep checking in to an upgraded OpenVox 9 server while you roll out agent upgrades. [Upgrading OpenVox 9](upgrade_minor.html) has the package commands.
