@@ -25,6 +25,10 @@ If you skip both commands and start OpenVox Server directly, the server will gen
 non-intermediate CA for backward compatibility. This configuration is not recommended for
 new deployments.
 
+If the host is already managed as an agent of another OpenVox server while you set up its CA,
+OpenVox Server replaces the agent's CRL with the new CA's CRL each time it starts, and agent runs fail. See
+[When the agent on the server host trusts a different CA](puppet_conf_setting_diffs.html#when-the-agent-on-the-server-host-trusts-a-different-ca).
+
 ## Where to set CA configuration
 
 All CA configuration takes place in OpenVox’s config file. See the [OpenVox Configuration Reference](/openvox/latest/configuration.html) for details.

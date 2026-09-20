@@ -20,11 +20,18 @@ using the CA to sign client certificates. This is true regardless of the configu
 If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, or `ssl-crl-path` in [webserver.conf](./config_file_webserver.html), OpenVox Server uses the file at `ssl-crl-path` as the CRL for authenticating
 clients via SSL. If at least one of the `ssl-` settings in webserver.conf is set but `ssl-crl-path` is not set, OpenVox Server will _not_ use a CRL to validate clients via SSL.
 
-If none of the `ssl-` settings in webserver.conf are set, OpenVox Server uses the CRL file defined for the `hostcrl` setting---and not the file defined for the `cacrl` setting--in puppet.conf. At start time,
-OpenVox Server copies the file for the `cacrl` setting, if one exists, over to the location in the `hostcrl` setting.
+If none of the `ssl-` settings in webserver.conf are set, OpenVox Server uses the CRL file defined for the `hostcrl` setting in puppet.conf, and not the file defined for the `cacrl` setting.
+
+OpenVox Server keeps the `hostcrl` file in sync with the CA's CRL. When the server starts, and again each time the `cacrl` file changes (for example, when a certificate is revoked), it copies the file
+for the `cacrl` setting, if one exists, over the file at the `hostcrl` location, replacing whatever is there. The web server reads the `hostcrl` file and not the `cacrl` file, so this copy is how a
+revocation takes effect for client connections. The copy happens regardless of the `ssl-` settings in webserver.conf. It is skipped when `cacrl` and `hostcrl` point to the same file, and on servers
+where the CA service is disabled, such as compilers. By contrast, the server copies the CA certificate to the `localcacert` location only when no file exists there.
 
 Any CRL file updates from the OpenVox Server certificate authority---such as revocations performed via the `certificate_status` HTTP endpoint---use the `cacrl` setting in puppet.conf to determine the location
 of the CRL. This is true regardless of the `ssl-` settings in webserver.conf.
+
+Because the agent on the server host uses the same `hostcrl` file by default, this copy can break an agent that trusts a different CA. See
+[When the agent on the server host trusts a different CA](#when-the-agent-on-the-server-host-trusts-a-different-ca).
 
 ## `hostcert`
 
@@ -42,11 +49,51 @@ to determine the location of the server host certificate to generate.
 If you define `ssl-cert`, `ssl-key`, `ssl-ca-cert`, or `ssl-crl-path` in [webserver.conf](./config_file_webserver.html), OpenVox Server uses the file at `ssl-crl-path` as the CRL for authenticating
 clients via SSL. If at least one of the `ssl-` settings in webserver.conf is set but `ssl-crl-path` is not set, OpenVox Server will _not_ use a CRL to validate clients via SSL.
 
-If none of the `ssl-` settings in webserver.conf are set, OpenVox Server uses the CRL file defined for the `hostcrl` setting---and not the file defined for the `cacrl` setting--in puppet.conf. At start time,
-OpenVox Server copies the file for the `cacrl` setting, if one exists, over to the location in the `hostcrl` setting.
+If none of the `ssl-` settings in webserver.conf are set, OpenVox Server uses the CRL file defined for the `hostcrl` setting in puppet.conf, and not the file defined for the `cacrl` setting.
+
+OpenVox Server keeps the `hostcrl` file in sync with the CA's CRL. When the server starts, and again each time the `cacrl` file changes (for example, when a certificate is revoked), it copies the file
+for the `cacrl` setting, if one exists, over the file at the `hostcrl` location, replacing whatever is there. The web server reads the `hostcrl` file and not the `cacrl` file, so this copy is how a
+revocation takes effect for client connections. The copy happens regardless of the `ssl-` settings in webserver.conf. It is skipped when `cacrl` and `hostcrl` point to the same file, and on servers
+where the CA service is disabled, such as compilers. By contrast, the server copies the CA certificate to the `localcacert` location only when no file exists there.
 
 Any CRL file updates from the OpenVox Server certificate authority---such as revocations performed via the `certificate_status` HTTP endpoint---use the `cacrl` setting in puppet.conf to determine the location
 of the CRL. This is true regardless of the `ssl-` settings in webserver.conf.
+
+### When the agent on the server host trusts a different CA
+
+By default, the agent and the server on the same host share one `hostcrl` file, `$ssldir/crl.pem`. That works when the agent's certificate was issued by the CA that runs on that server. It fails when the
+agent belongs to a different CA, for example while you [set up a new CA server](intermediate_ca.html) that is still managed as an agent of an existing OpenVox server.
+
+In that case, every server start and every change to the new CA's CRL replaces the agent's CRL with one issued by the new CA, while the agent's certificate and `localcacert` file still belong to the old
+CA. Agent runs, and other clients that use the same `ssldir` such as `puppetserver ca`, then fail with an error like this:
+
+```text
+certificate verify failed (unable to get certificate CRL)
+```
+
+Deleting the CRL file only helps until the next overwrite. The agent downloads a missing CRL on its next run, but otherwise refreshes it only after `crl_refresh_interval` has passed, so the problem does
+not fix itself.
+
+To stop the overwrites, give the server its own CRL location in the `[server]` section of puppet.conf, and restart OpenVox Server:
+
+```ini
+[server]
+hostcrl = /etc/puppetlabs/puppetserver/ca/host_crl.pem
+```
+
+The server then copies the CA's CRL to that file, the web server reads it from there, and the agent keeps its own CRL at the default location. If you set any `ssl-` settings in webserver.conf, the web server
+uses `ssl-crl-path` and not this file, as described above.
+
+This change only prevents future overwrites. The CRL that the server already wrote is still at the agent's location, so agent runs keep failing until you replace it. After the restart, delete the agent's
+CRL and run the agent, which downloads the correct CRL from its own CA:
+
+```console
+rm "$(puppet config print hostcrl --section agent)"
+puppet agent --test
+```
+
+This separates only the CRL. The agent and the server on the same host still share the host certificate, private key, and CA certificate, and OpenVox Server assumes that all of them come from the same CA.
+Treat a host whose agent and server belong to different CAs as a temporary state, for example during a migration, and not as a long-term configuration.
 
 ## `hostprivkey`
 
