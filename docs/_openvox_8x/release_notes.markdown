@@ -18,6 +18,8 @@ Puppet Open Source is no longer actively developed.
 
 You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade to OpenVox 8, or you can upgrade to Puppet 8 and then migrate to OpenVox 8.
 
+See [Upgrading from Puppet 7 to OpenVox 8](upgrade_major.html) for the changes to review before you move from 7 to 8.
+
 ## OpenVox 8.30.0
 
 Released October 7, 2026.

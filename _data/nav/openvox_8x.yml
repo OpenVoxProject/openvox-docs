@@ -37,6 +37,8 @@
     link: "install_osx.html"
   - text: What gets installed and where (agent)
     link: "install_what_and_where.html"
+  - text: Upgrading from Puppet 7 to OpenVox 8
+    link: "upgrade_major.html"
   - text: Upgrading OpenVox 8
     link: "upgrade_minor.html"
 - text: Configuration

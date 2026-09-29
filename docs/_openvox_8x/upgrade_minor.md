@@ -10,6 +10,10 @@ OpenVox 8 is functionally equivalent to modern Puppet in day-to-day operation. T
 main migration rule is that a host cannot have both Puppet and OpenVox packages
 installed at the same time. Back up `/etc/puppetlabs/` before you start.
 
+If you are coming from Puppet 7 or OpenVox 7, read
+[Upgrading from Puppet 7 to OpenVox 8](upgrade_major.html) first. OpenVox 8 changes
+defaults that can break code that works on 7.
+
 ## Recommended order
 
 Upgrade in this order:
