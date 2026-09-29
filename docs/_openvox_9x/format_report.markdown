@@ -14,7 +14,7 @@ happened during the run: the status of every resource, the events Puppet applied
 produced, and metrics about the run as a whole. That object is what [report processors][report processors]
 receive, and it is what OpenVox serializes when it sends a report to a server or writes one to disk.
 
-This page describes **report format 12**, which OpenVox 8 produces. Use it when you write a
+This page describes **report format 12**, which OpenVox 8 and later produce. Use it when you write a
 [custom report processor][custom report processor] or consume reports from another tool. For an
 introduction to how reporting works, see [About reporting][about reporting].
 
@@ -73,7 +73,7 @@ run:
 | `time`                  | String           | When the run started, in ISO 8601 format with a nine-digit second fraction. |
 | `configuration_version` | Integer or String | The configuration version of the catalog. An integer of seconds since the epoch unless you set your own versioning scheme. |
 | `transaction_uuid`      | String           | A UUID identifying the transaction. The agent sends the same UUID when it requests the catalog, which lets you connect a catalog to its report. |
-| `report_format`         | Integer          | The report format version. `12` in OpenVox 8. |
+| `report_format`         | Integer          | The report format version. `12` in OpenVox 8 and later. |
 | `puppet_version`        | String           | The version of OpenVox that produced the report. |
 | `status`                | String           | The outcome of the run: `failed`, `changed`, or `unchanged`. |
 | `transaction_completed` | Boolean          | Whether the transaction finished evaluating without an unhandled exception. |
