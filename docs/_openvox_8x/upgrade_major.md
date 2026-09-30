@@ -70,7 +70,14 @@ strict = warning
 strict_variables = false
 ```
 
-Set both. Changing only one of them still fails on an undefined variable.
+Set both. Changing only one of them still fails on an undefined variable. `puppet config set` writes the same settings without editing the file:
+
+```console
+puppet config set strict warning --section server
+puppet config set strict_variables false --section server
+```
+
+To change a setting on many nodes at once, the [`puppet_conf`](https://forge.puppet.com/modules/puppetlabs/puppet_conf) task runs the same command through OpenBolt.
 
 ## Legacy facts are no longer sent
 
@@ -121,7 +128,7 @@ The check has limits:
 - It does not check `.eyaml` files, ERB or EPP templates, or Ruby code.
 - It finds `$::osfamily` and `$facts['osfamily']`, but not `$osfamily` without the leading `::`. Strict mode catches that form, because it fails compilation.
 - It can't rewrite 11 of the legacy facts. See [Facts you change by hand](#facts-you-change-by-hand).
-- The `lint` Rake task in a module checks manifests only. Run `puppet-lint` directly to check YAML files.
+- The `lint` and `lint_fix` Rake tasks in a module cover manifests only. Run `puppet-lint` directly to check YAML files.
 
 [rowlf](https://gitlab.wikimedia.org/repos/sre/rowlf) is a newer tool from Wikimedia's SRE team that rewrites legacy facts in manifests, EPP and ERB templates, Hiera YAML, and Ruby functions, including most of the facts puppet-lint can't. It also updates some stdlib calls, such as `has_key` to the `in` operator.
 It is built from source with Go. Run it with `-d` and review the diff before you use `-i` to edit files in place.
@@ -159,6 +166,8 @@ If you can't update everything before the upgrade, turn legacy facts back on. Se
 [agent]
 include_legacy_facts = true
 ```
+
+Or run `puppet config set include_legacy_facts true --section agent`.
 
 ## Hiera 3 is no longer included
 
@@ -231,7 +240,7 @@ resolution='<anonymous>': undefined method `untaint' for
 
 Run `puppet facts show` on a test node after the upgrade and check its output for errors.
 
-OpenVox Server 8 bundles JRuby 9.4, which moves the server's Ruby from the 2.6 language level to 3.1. Review Ruby code that runs on the server the same way: functions, report processors, and custom Hiera backends.
+OpenVox Server 8 bundles JRuby 9.4, which moves the server's Ruby from the 2.6 language level to 3.1. Review Ruby code that runs on the server the same way: functions, report processors, and custom Hiera backends. Keep that code at Ruby 3.1 syntax. If rubocop targets 3.2 and rewrites a server-side function to newer syntax, the server can't load it.
 
 ## Reinstall gems added to the agent's Ruby
 
@@ -310,6 +319,8 @@ On the agents:
 include_legacy_facts = false
 ```
 
+With `puppet config set`, that is `puppet config set strict error --section server`, `puppet config set strict_variables true --section server`, and `puppet config set include_legacy_facts false --section agent`.
+
 Compilation failures show you the code that needs to change. They don't show you the references that resolve to nothing, so compare catalogs as well.
 
 ### Compare catalogs
@@ -342,6 +353,8 @@ Compile catalogs for the same nodes with the old and new settings and compare th
    Remove any version pins or holds on the Puppet packages as well: `apt-mark unhold` and pin files in `/etc/apt/preferences.d/` on Debian and Ubuntu, and the `versionlock` list on EL. A pinned `puppet-agent` or `puppetserver` blocks the replacement.
 6. Upgrade production in this order: `openvox-server` first, then `openvoxdb` and `openvoxdb-termini`, then the agents. [Upgrading OpenVox 8](upgrade_minor.html) has the package commands. Installing `openvox-agent` replaces the `puppet-agent` package and keeps `puppet.conf` and the certificates in `/etc/puppetlabs/puppet/ssl`.
    After the server packages install, restart the service with `systemctl restart puppetserver`. A reload is not enough, because the agent package under the server changed too.
+
+   If you manage agents with the [theforeman/puppet](https://forge.puppet.com/modules/theforeman/puppet) module, its `version` parameter upgrades the agent package on the next run. Switch the release repository first; the module doesn't manage it.
 7. If you manage OpenVoxDB with `puppetlabs/puppetdb`, switch to [`puppet/openvoxdb`](https://forge.puppet.com/modules/puppet/openvoxdb) after OpenVoxDB is on 8. The module requires OpenVox 8.19 or later and does not support upgrading from PuppetDB versions below 8.
    Rename the `puppetdb` classes to `openvoxdb` and the `puppetdb::` Hiera keys to `openvoxdb::`. The parameters keep their names but are type checked, so a value of the wrong type that the old module accepted now fails.
    Replace the module rather than adding it alongside. The two ship the same plugin files, and agents that receive both report checksum mismatches during pluginsync.
