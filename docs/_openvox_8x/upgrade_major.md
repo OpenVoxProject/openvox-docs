@@ -78,6 +78,7 @@ puppet config set strict_variables false --section server
 ```
 
 To change a setting on many nodes at once, the [`puppet_conf`](https://forge.puppet.com/modules/puppetlabs/puppet_conf) task runs the same command through OpenBolt.
+The [`openvox_bootstrap::configure`](https://github.com/voxpupuli/puppet-openvox_bootstrap#openvox_bootstrapconfigure) task does the same from a hash of sections and settings. It also starts and enables the agent service unless you set `puppet_service_running` and `puppet_service_enabled` to `false`.
 
 ## Legacy facts are no longer sent
 
