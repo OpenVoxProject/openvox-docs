@@ -5,6 +5,10 @@ title: "OpenVox Server: Known Issues"
 
 For a list of all known issues, visit the [OpenVox Server issue tracker](https://github.com/OpenVoxProject/openvox-server/issues).
 
+## FIPS packages ship older Bouncy Castle jars
+
+The FIPS builds of `openvox-server` 9.0.1 ship an older set of Bouncy Castle FIPS 1.x jars. The latest Bouncy Castle FIPS 1.x release has a small issue that could cause problems in a very constrained, non-default configuration, so the project is not updating to it. OpenVox Server 9.1 will move to the Bouncy Castle FIPS 2.x line, which is the one fully certified for FIPS on Java 21.
+
 ## Potential JAVA ARGS settings
 
 If you're working outside of lab environment, increase `ReservedCodeCache` to `512m` under normal load. If you're working with 6-12 JRuby instances (or a `max-requests-per-instance` value significantly less

@@ -3,9 +3,6 @@ layout: default
 title: "OpenVox Server 9"
 ---
 
-> **OpenVox Server 9 is in prerelease.** See the [release notes](release_notes.html) for
-> the current build and expect breaking changes before the stable 9.0.0 release.
-
 OpenVox Server is the primary server component in an OpenVox agent/server deployment.
 It compiles configuration catalogs for managed nodes, serves files, manages certificates,
 and receives reports from agents.

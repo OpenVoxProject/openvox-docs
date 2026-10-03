@@ -7,6 +7,24 @@ This page documents the history of the OpenFact 6 series. OpenFact 6 is bundled 
 `openvox-agent` 9.x; for the series bundled with the 8.x agent, see the
 [OpenFact 5 release notes](/openfact/5.x/release_notes.html).
 
+## OpenFact 6.2.1
+
+Released on September 29, 2026. This is the version bundled with `openvox-agent` 9.0.0.
+
+A failed EC2 root metadata request is treated as no metadata. See the [GitHub OpenFact release page](https://github.com/OpenVoxProject/openfact/releases/tag/6.2.1).
+
+## OpenFact 6.2.0
+
+Released on September 23, 2026.
+
+The FQDN lookup in the hostname resolvers is bounded, so a slow or unresponsive resolver no longer stalls fact collection indefinitely. See the [GitHub OpenFact release page](https://github.com/OpenVoxProject/openfact/releases/tag/6.2.0).
+
+## OpenFact 6.1.0
+
+Released on September 11, 2026.
+
+Partial EC2 metadata results are rejected, log timestamp formatting is fixed, and the documentation and comments use the OpenVox and OpenFact names. See the [GitHub OpenFact release page](https://github.com/OpenVoxProject/openfact/releases/tag/6.1.0).
+
 ## OpenFact 6.0.0
 
 Released on July 31, 2026

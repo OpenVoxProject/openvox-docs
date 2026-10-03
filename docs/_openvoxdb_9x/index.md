@@ -5,9 +5,6 @@ layout: default
 
 # Overview and requirements
 
-> **OpenVoxDB 9 is in prerelease.** See the [release notes](./release_notes.html) for
-> the current build and expect breaking changes before the stable 9.0.0 release.
-
 [exported]: /openvox/latest/lang_exported.html
 [connect]: ./connect_puppet_server.html
 [apply]: ./connect_puppet_apply.html
@@ -114,7 +111,7 @@ Your site's OpenVox Server must be running OpenVox Server 8.0.0 or later.
 If you wish to use OpenVoxDB with
 [standalone nodes that are running puppet apply][apply], every node
 must be running 8.0.0 or later. The `openvoxdb-termini` 9.x package depends on
-`openvox-agent` 9.0.0-beta1 or later on the host where it is installed.
+`openvox-agent` on the host where it is installed, with no minimum version.
 
 ### PostgreSQL 14
 
