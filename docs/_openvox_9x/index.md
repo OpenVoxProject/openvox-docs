@@ -3,9 +3,6 @@ layout: default
 title: "OpenVox 9"
 ---
 
-> **OpenVox 9 is in prerelease.** See the [release notes](release_notes.html) for the
-> current build and expect breaking changes before the stable 9.0.0 release.
-
 OpenVox is a community-maintained implementation of Puppet — a configuration management system for Linux, Unix, and Windows. It manages system state through a declarative language, compiling node-specific catalogs and enforcing them on each managed host.
 
 When Perforce discontinued public distribution of Puppet Open Source in late 2024, Overlook InfraTech stepped in with community packaging, and the project was subsequently adopted under [Vox Pupuli](https://voxpupuli.org/) stewardship as OpenVox. A Puppet Standards Steering Committee guides language and feature evolution going forward.

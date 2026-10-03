@@ -47,7 +47,7 @@ openvox:
       label: "9.x"
       collection: _openvox_9x
       base: /openvox/9.x/
-      ref: "9.0.0-rc1"
+      ref: "9.x"
     - id: 8x
       label: "8.x"
       collection: _openvox_8x
@@ -63,7 +63,7 @@ openfact:
       label: "6.x"
       collection: _openfact_6x
       base: /openfact/6.x/
-      ref: "6.0.0"
+      ref: "6.x"
     - id: 5x
       label: "5.x"
       collection: _openfact_5x

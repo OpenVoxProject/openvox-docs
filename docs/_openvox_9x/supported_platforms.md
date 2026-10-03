@@ -30,9 +30,11 @@ x86-64 only.
 
 ## OpenVox 9.x
 
-> **In development.** OpenVox 9 is in prerelease, and `shared-actions` has not yet
-> frozen a dedicated `9.x` platform list — this table reflects the current
-> development target and can change before the stable 9.0.0 release.
+OpenVox 9 is built from the `main` platform list in `shared-actions`. Compared with
+OpenVox 8, packages are no longer built for Enterprise Linux 7, Amazon Linux 2,
+Fedora 42, Debian 11, or Ubuntu 25.04, and Debian 12 gets `openvox-agent` only
+(OpenVox Server and OpenVoxDB 9 need Java 21 or 25, which Debian 12 does not
+provide).
 
 {% assign rows = site.data.supported_platforms["main"] %}
 

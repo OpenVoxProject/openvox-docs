@@ -11,6 +11,14 @@ canonical: "/openvoxdb/latest/known_issues.html"
 
 OpenVoxDB's bugs and feature requests are managed in [OpenVoxDB's issue tracker][tracker]. Search this database if you're having problems and please report any new issues to us!
 
+## FIPS packages ship older Bouncy Castle jars
+
+The FIPS builds of `openvoxdb` 9.0.0 ship an older set of Bouncy Castle FIPS 1.x jars.
+The latest Bouncy Castle FIPS 1.x release has a small issue that could cause problems in
+a very constrained, non-default configuration, so the project is not updating to it.
+OpenVoxDB 9.1 will move to the Bouncy Castle FIPS 2.x line, which is the one fully
+certified for FIPS on Java 21.
+
 ## Hash projection has character limit of 63
 
 Support was added for using dot notation for projections.

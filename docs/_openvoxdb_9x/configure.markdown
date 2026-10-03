@@ -41,7 +41,9 @@ Debian/Ubuntu                | `/etc/default/puppetdb`
 * **`INSTALL_DIR`**: the directory into which OpenVoxDB is installed.
 * **`CONFIG`**: the location of the OpenVoxDB config file, which may be a single file or a directory of .ini files.
 
-The file may also contain `JAVA_BIN` and `USER` from earlier releases. OpenVoxDB 9 packages ignore both: the systemd unit runs the Java binary chosen when the package was built and sets the service user itself.
+The file may also contain `JAVA_BIN` and `USER` from earlier releases. OpenVoxDB 9 packages set the service user in the systemd unit and ignore `USER`.
+`JAVA_BIN` is optional: the unit starts the JVM through `/opt/puppetlabs/server/apps/puppetdb/bin/java`, a launcher that runs the first installed Java from the versions the package supports (25, then 21; the FIPS packages support Java 21 only).
+A leftover `JAVA_BIN="/usr/bin/java"` line from an 8.x install is ignored. Any other value is used as is without validation, so it must point at Java 21 or 25, or at Java 21 for a FIPS package.
 
 ### Configuring the Java heap size
 
