@@ -37,6 +37,8 @@
     link: "install_osx.html"
   - text: What gets installed and where (agent)
     link: "install_what_and_where.html"
+  - text: Upgrading from OpenVox 8 to 9
+    link: "upgrade_major.html"
   - text: Upgrading OpenVox 9
     link: "upgrade_minor.html"
 - text: Configuration
