@@ -150,14 +150,12 @@ file named for the collection's nav_key, so the page renders its own series via
 `site.data.<table>[page.nav]`. With the 8.x defaults this writes
 `_data/agent_release_contents/openvox_8x.yml`,
 `_data/server_release_contents/openvox_8x.yml`, and
-`_data/openvoxdb_release_contents/openvox_8x.yml`. OpenBolt is independent of the
-OpenVox major and is shared across series in `_data/openbolt_release_contents.yml`.
+`_data/openvoxdb_release_contents/openvox_8x.yml`; with `SERIES=9.` it writes the
+`…/openvox_9x.yml` files that the 9.x page reads. The site build runs the tasks for
+both series. OpenBolt is independent of the OpenVox major and is shared across
+series in `_data/openbolt_release_contents.yml`.
 
-For another series, run the per-series tasks again with `SERIES=9.` (and an
-appropriate `MIN_RELEASE`); they write `…/openvox_9x.yml` files, and that series'
-page reads them automatically through its own `page.nav`.
-
-The generator only reads stable releases: alphas and betas are skipped, and it
-refuses to write a data file when a series has no stable releases yet (for example
-`SERIES=9.` before 9.0.0 ships). Until then the affected tables render a "no
-stable releases yet" note instead of rows.
+The generator only reads stable releases: alphas, betas, and release candidates are
+skipped, and it refuses to write a data file when a series has no stable releases
+yet. Until then the affected tables render a "no stable releases yet" note instead
+of rows.

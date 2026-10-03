@@ -1,0 +1,5 @@
+---
+- release: 9.0.0
+  openfact: 6.2.1
+  ruby: 4.0.7
+  openssl: 3.5.9

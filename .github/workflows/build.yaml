@@ -86,11 +86,15 @@ jobs:
           # _data/products.yml into its collection (see `rake references:all`).
           bundle exec rake references:all INSTALLPATH=docs
           # Refresh the component-version tables (agent, server, openvoxdb) from
-          # upstream pins. Each falls back to its committed _data file if the
-          # GitHub API is unreachable, so a transient failure never breaks the build.
-          bundle exec rake references:agent_versions || echo 'agent_versions refresh failed; using committed _data'
-          bundle exec rake references:server_versions || echo 'server_versions refresh failed; using committed _data'
-          bundle exec rake references:openvoxdb_versions || echo 'openvoxdb_versions refresh failed; using committed _data'
+          # upstream pins, once per OpenVox series: each run writes the data file
+          # for its series (_data/<table>/openvox_<N>x.yml). Each falls back to its
+          # committed _data file if the GitHub API is unreachable, so a transient
+          # failure never breaks the build.
+          for series in 8. 9.; do
+            SERIES=$series bundle exec rake references:agent_versions || echo "agent_versions refresh failed for ${series}x; using committed _data"
+            SERIES=$series bundle exec rake references:server_versions || echo "server_versions refresh failed for ${series}x; using committed _data"
+            SERIES=$series bundle exec rake references:openvoxdb_versions || echo "openvoxdb_versions refresh failed for ${series}x; using committed _data"
+          done
           bundle exec rake references:openbolt_versions || echo 'openbolt_versions refresh failed; using committed _data'
           # Refresh the supported-platforms table from the shared-actions
           # platforms.json, falling back to the committed _data file if unreachable.

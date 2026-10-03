@@ -38,13 +38,14 @@ maintained by hand; see the note under each table.
 These ship inside the `openvox-agent` package (see [About openvox-agent][about_agent]).
 The OpenFact column is the **bundled** OpenFact version and links to the
 [OpenFact documentation][openfact], which is the authoritative source for OpenFact
-changes; this page is only a pointer.
+changes; this page is only a pointer. OpenVox 9 agents no longer bundle curl, so
+there is no curl column for this series.
 
 {% if site.data.agent_release_contents[nav_key] %}
 
-| OpenVox release | OpenFact | Ruby | OpenSSL | curl |
-| --- | --- | --- | --- | --- |
-{% for r in site.data.agent_release_contents[nav_key] %}| {{ r.release }} | [{{ r.openfact }}][openfact] | {{ r.ruby }} | {{ r.openssl }} | {{ r.curl }} |
+| OpenVox release | OpenFact | Ruby | OpenSSL |
+| --- | --- | --- | --- |
+{% for r in site.data.agent_release_contents[nav_key] %}| {{ r.release }} | [{{ r.openfact }}][openfact] | {{ r.ruby }} | {{ r.openssl }} |
 {% endfor %}
 
 {% else %}
@@ -64,7 +65,7 @@ from the server's per-release SBOM.
 
 | OpenVox Server release | JRuby | Java |
 | --- | --- | --- |
-{% for r in site.data.server_release_contents[nav_key] %}| {{ r.release }} | {{ r.jruby }} | 17, 21 |
+{% for r in site.data.server_release_contents[nav_key] %}| {{ r.release }} | {{ r.jruby }} | 21, 25 |
 {% endfor %}
 
 {% else %}
@@ -76,8 +77,9 @@ from the server's per-release SBOM.
 {% endif %}
 
 > **Java is not bundled.** OpenVox Server requires a supported JDK to be installed
-> separately. The Java column shows the currently supported major versions, not a
-> per-release pin; see [Before you install OpenVox Server][server_install_pre].
+> separately. The Java column shows the currently supported major versions (the FIPS
+> packages run on Java 21 only), not a per-release pin; see
+> [Before you install OpenVox Server][server_install_pre].
 
 ## Data components
 
@@ -92,7 +94,7 @@ Jetty is the bundled HTTP server, read from the OpenVoxDB SBOM.
 
 | OpenVoxDB release | Jetty | Java | PostgreSQL |
 | --- | --- | --- | --- |
-{% for r in site.data.openvoxdb_release_contents[nav_key] %}| {{ r.release }} | {{ r.jetty }} | 11, 17 | 11+ (14+ recommended) |
+{% for r in site.data.openvoxdb_release_contents[nav_key] %}| {{ r.release }} | {{ r.jetty }} | 21, 25 | 14+ |
 {% endfor %}
 
 {% else %}
@@ -105,9 +107,9 @@ Jetty is the bundled HTTP server, read from the OpenVoxDB SBOM.
 
 > **Java and PostgreSQL are not bundled.** OpenVoxDB runs on a JVM and connects to a
 > PostgreSQL server you install separately (the `puppet-openvoxdb` module can install
-> PostgreSQL for you). The Java column shows the currently supported major versions,
-> and the PostgreSQL column the supported minimum (PostgreSQL 11; version 14 or newer
-> recommended) — neither is a per-release pin. See
+> PostgreSQL for you). The Java column shows the currently supported major versions
+> (the FIPS packages run on Java 21 only), and the PostgreSQL column the supported
+> minimum — neither is a per-release pin. See
 > [Configuring PostgreSQL][openvoxdb_postgres].
 
 ## OpenBolt
@@ -150,14 +152,12 @@ file named for the collection's nav_key, so the page renders its own series via
 `site.data.<table>[page.nav]`. With the 8.x defaults this writes
 `_data/agent_release_contents/openvox_8x.yml`,
 `_data/server_release_contents/openvox_8x.yml`, and
-`_data/openvoxdb_release_contents/openvox_8x.yml`. OpenBolt is independent of the
-OpenVox major and is shared across series in `_data/openbolt_release_contents.yml`.
+`_data/openvoxdb_release_contents/openvox_8x.yml`; with `SERIES=9.` it writes the
+`…/openvox_9x.yml` files that the 9.x page reads. The site build runs the tasks for
+both series. OpenBolt is independent of the OpenVox major and is shared across
+series in `_data/openbolt_release_contents.yml`.
 
-For another series, run the per-series tasks again with `SERIES=9.` (and an
-appropriate `MIN_RELEASE`); they write `…/openvox_9x.yml` files, and that series'
-page reads them automatically through its own `page.nav`.
-
-The generator only reads stable releases: alphas and betas are skipped, and it
-refuses to write a data file when a series has no stable releases yet (for example
-`SERIES=9.` before 9.0.0 ships). Until then the affected tables render a "no
-stable releases yet" note instead of rows.
+The generator only reads stable releases: alphas, betas, and release candidates are
+skipped, and it refuses to write a data file when a series has no stable releases
+yet. Until then the affected tables render a "no stable releases yet" note instead
+of rows.
