@@ -84,6 +84,10 @@ The [`openvox_bootstrap::configure`](https://github.com/voxpupuli/puppet-openvox
 
 OpenVox 8 agents don't send legacy facts such as `osfamily`, `fqdn`, and `ipaddress_eth0`. Use the structured facts instead, for example `$facts['os']['family']`. [Core facts](/openfact/latest/core_facts.html#legacy-facts) lists the legacy facts.
 
+The legacy facts still exist on the node, and asking for one by name always resolves it: `facter osfamily` and `puppet facts show osfamily` print a value on an OpenVox 8 agent with `include_legacy_facts = false`.
+Only full fact sets leave them out. `facter` and `puppet facts show` omit them unless you add `--show-legacy`, and the facts the agent sends to the server for catalog compilation omit them unless `include_legacy_facts` is `true`.
+A legacy fact that resolves on the command line says nothing about what the server sees. Compile a catalog, or check the node's facts in OpenVoxDB, which stores what the agent sent.
+
 How a leftover reference behaves depends on how it is written. Some forms fail the run. Others resolve to nothing without any message, and the catalog changes.
 
 | Where | Reference | On 8 |
@@ -131,7 +135,7 @@ The check has limits:
 - It can't rewrite 11 of the legacy facts. See [Facts you change by hand](#facts-you-change-by-hand).
 - The `lint` and `lint_fix` Rake tasks in a module cover manifests only. Run `puppet-lint` directly to check YAML files.
 
-[rowlf](https://gitlab.wikimedia.org/repos/sre/rowlf) is a newer tool from Wikimedia's SRE team that rewrites legacy facts in manifests, EPP and ERB templates, Hiera YAML, and Ruby functions, including most of the facts puppet-lint can't. It also updates some stdlib calls, such as `has_key` to the `in` operator.
+[rowlf](https://gitlab.wikimedia.org/repos/sre/rowlf) is a newer tool from Wikimedia's SRE team that rewrites legacy facts in manifests, EPP and ERB templates, Hiera YAML, and Ruby functions, including every fact puppet-lint can't except `zones`. It also updates some stdlib calls, such as `has_key` to the `in` operator.
 With `-u` it also rewrites `$osfamily` without the leading `::`, the form puppet-lint skips, and it leaves alone any variable your code declares with the same name as a fact.
 It is built from source with Go. Run it with `-d` and review the diff before you use `-i` to edit files in place.
 
@@ -146,6 +150,7 @@ grep -rnE "(@|::|%\{|facts[.[]'?)($FACTS)" \
 ### Facts you change by hand
 
 The check can't rewrite these legacy facts, because no structured fact holds the same value. The list is `UNCONVERTIBLE_FACTS` in the [source of the check](https://github.com/puppetlabs/puppet-lint/blob/v5.1.1/lib/puppet-lint/plugins/legacy_facts/legacy_facts.rb#L14-L17).
+rowlf rewrites all of these except `zones`, from its 2026-10-02 commits on. The table is for the ones you fix by hand after puppet-lint, or for checking rowlf's output.
 
 | Legacy fact | Value | Build it from |
 | ----------- | ----- | ------------- |
