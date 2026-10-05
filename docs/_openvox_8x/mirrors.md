@@ -72,6 +72,7 @@ The following organizations mirror the OpenVox repositories:
 | [www.mirrorservice.org/sites/](https://www.mirrorservice.org/sites/) | University of Kent, UK | http, https, rsync | Four times daily |
 | [openvox.repo.nfrance.com/](https://openvox.repo.nfrance.com/) | NFrance, Toulouse, France | http, https | Not published |
 | [openvox.mirror.liquidtelecom.com/](https://openvox.mirror.liquidtelecom.com/) | Liquid Intelligent Technologies, Nairobi, Kenya | http, https, rsync | Every 6 hours |
+| [linuxsoft.cern.ch/voxpupuli/](https://linuxsoft.cern.ch/voxpupuli/) | CERN, Geneva, Switzerland | http, https, rsync | Twice daily |
 
 Most mirrors carry the full `rsync.voxpupuli.org` tree with the same layout. The
 exceptions:
@@ -84,6 +85,8 @@ exceptions:
   `sites/downloads.voxpupuli.org/`, and `sites/artifacts.voxpupuli.org/`. Its
   rsync service is `rsync.mirrorservice.org`.
 - NFrance serves `apt/` and `yum/` only.
+- CERN serves `apt/`, `yum/`, and `downloads/`, but not `artifacts/`. Its rsync
+  service is `rsync-linuxsoft.cern.ch::voxpupuli`.
 
 Choose the mirror closest to your nodes. Rackspace answers DNS queries from the
 nearest of its six sites, which makes it a reasonable choice for nodes spread
