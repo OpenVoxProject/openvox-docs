@@ -7,8 +7,13 @@
   product's `latest` alias points at, so coverage is automatic: the moment
   _data/products.yml gains a new version and `latest` moves, every page of
   the older collections shows the banner with no per-page front matter.
-  Today every numbered version is its product's latest, so this include
-  renders nothing.
+  While every numbered version is its product's latest (before the first
+  major-version cutover), this include renders nothing.
+
+  The wording says "no longer the current release" rather than "no longer
+  updated": an older major keeps receiving security releases and release
+  notes for a while after the next major ships (see #503 for the lifecycle
+  page that will spell out how long).
 
   "Older" is positional, not just "not latest": `versions` is documented in
   _data/products.yml as newest-first, and a Phase 1 major-version cutover
@@ -16,7 +21,7 @@
   while `latest` deliberately stays on the prior version until GA (e.g.
   OpenVox 9.x sitting ahead of the 8x `latest` entry during its beta). A
   version listed ahead of `latest` is a preview that hasn't been promoted
-  yet, not something "no longer actively updated" — it must not get this
+  yet, not something "no longer the current release" — it must not get this
   banner. So the loop below tracks whether `latest` has been passed yet and
   only emits banners after that point.
 
@@ -41,7 +46,7 @@
     {%- unless passed_latest -%}{%- continue -%}{%- endunless -%}
     {%- assign version_collection = version.collection | remove_first: '_' -%}
     <div class="VPOutdatedBanner" role="region" aria-label="Outdated documentation notice" data-collection="{{ version_collection }}"{% if version_collection != page.collection %} hidden{% endif %}>
-      This documentation is for {{ product.label }} {{ version.label }}, which is no longer actively updated.
+      This documentation is for {{ product.label }} {{ version.label }}, which is no longer the current release.
       <a href="/{{ product_id }}/latest/">Switch to the latest {{ product.label }} documentation</a>.
     </div>
   {%- endfor -%}
