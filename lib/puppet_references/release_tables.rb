@@ -147,12 +147,23 @@ module PuppetReferences
       raise NotImplementedError, "#{self.class} must define #columns"
     end
 
+    # Columns whose component may be absent from a release's SBOM. A missing
+    # optional component leaves the column out of that row instead of skipping
+    # the release, so a series that stopped bundling something still gets rows.
+    def optional_columns
+      []
+    end
+
     def row_for(tag, _cache)
       resolved = sbom_components(tag)
       row = { 'release' => tag }
       columns.each do |column, name|
         version = resolved[name]
-        raise NotFound, "component #{name.inspect} in #{sbom_package} #{tag} SBOM" unless version
+        if version.nil?
+          next if optional_columns.include?(column)
+
+          raise NotFound, "component #{name.inspect} in #{sbom_package} #{tag} SBOM"
+        end
 
         row[column] = version
       end
@@ -173,6 +184,8 @@ module PuppetReferences
   # openvox-agent: bundled OpenFact plus Ruby/OpenSSL/curl from the agent runtime,
   # read from the openvox-agent SBOM. The SBOM lists both `openssl` and
   # `openssl-fips`; we report the `openssl` runtime version to match the column.
+  # curl is optional because the 9.x agent no longer bundles it: 9.x SBOMs have no
+  # curl component, and the 9.x docs page has no curl column.
   class AgentReleaseTable < SbomReleaseTable
     REPO = 'OpenVoxProject/openvox'
 
@@ -186,6 +199,10 @@ module PuppetReferences
 
     def columns
       { 'openfact' => 'openfact', 'ruby' => 'ruby', 'openssl' => 'openssl', 'curl' => 'curl' }
+    end
+
+    def optional_columns
+      ['curl']
     end
   end
 
