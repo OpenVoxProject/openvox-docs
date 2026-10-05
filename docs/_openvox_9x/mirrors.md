@@ -107,6 +107,13 @@ yourself instead of installing the release package. The examples below use
 `mirror.rackspace.com`; replace the base URL with the mirror you chose, and adjust
 the OS name and version to match your platform.
 
+The UK Mirror Service is the one mirror where the base URL differs between apt
+and yum, because it keeps one directory per hostname. Use
+`https://www.mirrorservice.org/sites/apt.voxpupuli.org` where the examples have
+`https://mirror.rackspace.com/openvox/apt`, and
+`https://www.mirrorservice.org/sites/yum.voxpupuli.org` where they have
+`https://mirror.rackspace.com/openvox/yum`.
+
 ### yum and dnf
 
 Create `/etc/yum.repos.d/openvox9.repo`. This example is for EL 9:
@@ -166,6 +173,9 @@ resources produce the same configuration as the files above. Set `$mirror` to
 the base of the mirror tree, that is, the directory that contains `apt/` and
 `yum/`. To use the canonical repositories instead of a mirror, set it to
 `https://rsync.voxpupuli.org`.
+For the UK Mirror Service, which has no such directory, replace `"${mirror}/apt"`
+with `'https://www.mirrorservice.org/sites/apt.voxpupuli.org'` and
+`"${mirror}/yum"` with `'https://www.mirrorservice.org/sites/yum.voxpupuli.org'`.
 
 On the Red Hat family, use the built-in [`yumrepo`][yumrepo_type] type:
 
