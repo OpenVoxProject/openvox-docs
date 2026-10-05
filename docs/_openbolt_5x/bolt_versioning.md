@@ -1,23 +1,23 @@
 ---
 layout: default
-title: Bolt versioning
+title: OpenBolt versioning
 ---
 
-# Bolt versioning
+# OpenBolt versioning
 
-Bolt follows [semantic versioning](https://semver.org/) guidelines.
+OpenBolt follows [semantic versioning](https://semver.org/) guidelines.
 
 This system uses an "x.y.z" pattern, where "x" is the number of a major release,
 "y" indicates a minor release that introduces new features but does not include
 breaking changes, and "z" reflects a bug fix release.
 
 
-## Bolt API
+## OpenBolt API
 
-The 2.0 series of Bolt is stable and will be free of breaking changes to its
+The 5.0 series of OpenBolt is stable and will be free of breaking changes to its
 public API. In general this means that plans, inventory and config tested with
-any 2.y series release of Bolt will continue to work when used with a later 2.y
-series release. You can expect the following types of changes in the 2.0 series:
+any 5.y series release of OpenBolt will continue to work when used with a later 5.y
+series release. You can expect the following types of changes in the 5.0 series:
 
 - New keys in JSON format output.
 - Differences in log output and human format output.
@@ -27,8 +27,8 @@ series release. You can expect the following types of changes in the 2.0 series:
 - Versions of bundled modules will be updated and might include breaking
     changes.
 
-## Bolt releases
+## OpenBolt releases
 
-For the 2.y series of Bolt we do not plan to backport bug fixes to any
+For the 5.y series of OpenBolt we do not plan to backport bug fixes to any
 previously released version. You are encouraged to upgrade frequently and use
 the latest release.

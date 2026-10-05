@@ -12,3 +12,5 @@ You can write tasks in any programming language that can run on the targets,
 such as Bash, Python, or Ruby. Tasks are packaged within modules, so you can
 reuse, download, and share tasks on the Forge. Task metadata describes the task,
 validates input, and controls how the task runner executes the task.
+
+{% include child_topics.html %}
