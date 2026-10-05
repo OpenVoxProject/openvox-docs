@@ -132,6 +132,7 @@ The check has limits:
 - The `lint` and `lint_fix` Rake tasks in a module cover manifests only. Run `puppet-lint` directly to check YAML files.
 
 [rowlf](https://gitlab.wikimedia.org/repos/sre/rowlf) is a newer tool from Wikimedia's SRE team that rewrites legacy facts in manifests, EPP and ERB templates, Hiera YAML, and Ruby functions, including most of the facts puppet-lint can't. It also updates some stdlib calls, such as `has_key` to the `in` operator.
+With `-u` it also rewrites `$osfamily` without the leading `::`, the form puppet-lint skips, and it leaves alone any variable your code declares with the same name as a fact.
 It is built from source with Go. Run it with `-d` and review the diff before you use `-i` to edit files in place.
 
 Neither tool checks `.eyaml` files, and neither reads every form a template can use. Search those yourself. This finds the common forms of the facts you name in `FACTS`:
