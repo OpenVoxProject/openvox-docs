@@ -205,10 +205,12 @@ Do this when the new major becomes the stable release.
      ```
 
 4. **In `_data/products.yml`:** set the OpenVox `latest:` to `9x` (a targeted
-   per-product edit — don't sweep every product's `latest:`), switch 9.x from its
-   prerelease pin to the `"9.x"` series ref so it tracks 9.x point releases, and
-   **freeze 8.x** by replacing its `"8.x"` series ref with its final 8.x tag (so the
-   frozen collection stays reproducible).
+   per-product edit — don't sweep every product's `latest:`) and switch 9.x from its
+   prerelease pin to the `"9.x"` series ref so it tracks 9.x point releases. Leave
+   the 8.x `"8.x"` series ref in place while 8.x still receives maintenance releases,
+   so its generated reference pages keep tracking them. **Freeze 8.x** by replacing
+   the series ref with its final 8.x tag once the last 8.x release has shipped (so
+   the frozen collection stays reproducible).
 
 5. **No-redirect check:** the site has no redirect mechanism. Once `latest` points at
    9.x, any page **removed or renamed** in 9.x will 404 at `/openvox/latest/<page>`
