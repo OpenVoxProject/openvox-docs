@@ -67,7 +67,6 @@ The following organizations mirror the OpenVox repositories:
 | --- | --- | --- | --- |
 | [mirror.rackspace.com/openvox/](https://mirror.rackspace.com/openvox/) | Rackspace, six sites worldwide | http, https | Daily |
 | [mirror.grid.uchicago.edu/pub/openvox/](https://mirror.grid.uchicago.edu/pub/openvox/) | University of Chicago, US | http, https, rsync | Every 6 hours |
-| [linorg.usp.br/voxpopuli/](https://linorg.usp.br/voxpopuli/) | University of São Paulo, Brazil | http, https, rsync | Daily |
 | [ftp.gwdg.de/pub/linux/openvox/](https://ftp.gwdg.de/pub/linux/openvox/) | GWDG, Germany | http, https, rsync, ftp | Every 12 hours |
 | [www.mirrorservice.org/sites/](https://www.mirrorservice.org/sites/) | University of Kent, UK | http, https, rsync | Four times daily |
 | [openvox.repo.nfrance.com/](https://openvox.repo.nfrance.com/) | NFrance, Toulouse, France | http, https | Not published |
@@ -92,7 +91,7 @@ Choose the mirror closest to your nodes. Rackspace answers DNS queries from the
 nearest of its six sites, which makes it a reasonable choice for nodes spread
 across several regions.
 
-> **Note:** This table was last checked on 2026-09-10. The OpenVox project does
+> **Note:** This table was last checked on 2026-10-05. The OpenVox project does
 > not operate or monitor these mirrors, and a mirror can fall behind or go
 > offline without notice. Before you depend on a mirror, compare the newest
 > package in a repository directory against the same directory on
