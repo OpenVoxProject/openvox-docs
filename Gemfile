@@ -16,7 +16,7 @@ end
 
 group(:generate_references) do
   gem 'nokogiri', '>= 1.18.9'
-  gem 'openvox', '~> 8'
+  gem 'openvox', '~> 9'
   gem 'openvox-strings'
   gem 'pandoc-ruby'
   gem 'pragmatic_segmenter', '~> 0.3'
