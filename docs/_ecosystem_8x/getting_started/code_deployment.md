@@ -315,9 +315,9 @@ class { 'r10k':
 After the next deploy, the server's access log under `/var/log/puppetlabs/puppetserver/` shows a `DELETE /puppet-admin-api/v1/environment-cache` answered with `204`.
 
 Whether the server accepts that request depends on its version.
-OpenVox Server 9 ships an `auth.conf` rule that allows it for any certificate carrying the `pp_cli_auth` extension, which the server stamps on its own certificate, so it works as is.
-OpenVox Server 8 has no rule for the endpoint: the request gets a `403`, and `puppetserver.log` says `denied by rule 'puppetlabs deny all'`.
-Add the 9.x rule to the `rules` list in `/etc/puppetlabs/puppetserver/conf.d/auth.conf` and restart the server:
+OpenVox Server 9, and 8.x releases after 8.16.0, ship an `auth.conf` rule that allows it for any certificate carrying the `pp_cli_auth` extension, which the server stamps on its own certificate, so it works as is.
+OpenVox Server 8.16.0 and earlier have no rule for the endpoint: the request gets a `403`, and `puppetserver.log` says `denied by rule 'puppetlabs deny all'`.
+Add the rule to the `rules` list in `/etc/puppetlabs/puppetserver/conf.d/auth.conf` and restart the server:
 
 ```hocon
 {
