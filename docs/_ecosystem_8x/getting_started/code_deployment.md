@@ -13,6 +13,7 @@ That job belongs to [r10k](https://github.com/voxpupuli/r10k): it reads the `Pup
 * [Giving r10k read access with a deploy key](#give-r10k-access-to-your-repository)
 * [Running your first deploy](#deploy-by-hand)
 * [Deploying automatically with a timer or a webhook](#deploy-automatically)
+* [Keeping the server's environment cache fresh](#flush-the-environment-cache-after-each-deploy)
 * [Configuring GitHub or GitLab to call the webhook](#configure-your-git-server)
 
 ## Prerequisites
@@ -40,11 +41,14 @@ Install the module and its dependencies into a scratch directory so they don't e
 sudo puppet module install puppet-r10k --modulepath /tmp/r10k-bootstrap
 ```
 
-Then apply the `r10k` class, with `remote` set to the SSH clone URL of your control repository:
+Then apply the `r10k` class, with `remote` set to the SSH clone URL of your control repository.
+Everything on this page runs r10k as the `puppet` user, the account OpenVox Server itself runs as, so point `cachedir` at the server's data directory, which that user owns:
 
 ```console
-sudo puppet apply --modulepath /tmp/r10k-bootstrap \
-  -e "class { 'r10k': remote => 'git@gitlab.example.com:puppet/control-repo.git' }"
+sudo puppet apply --modulepath /tmp/r10k-bootstrap -e "class { 'r10k':
+  remote   => 'git@gitlab.example.com:puppet/control-repo.git',
+  cachedir => '/opt/puppetlabs/server/data/puppetserver/r10k',
+}"
 ```
 
 This installs the `r10k` gem as `/opt/puppetlabs/puppet/bin/r10k`, links it from `/usr/bin/r10k` so it's on your `PATH`, and writes `/etc/puppetlabs/r10k/r10k.yaml`:
@@ -55,7 +59,7 @@ pool_size: 4
 deploy:
   generate_types: true
   exclude_spec: true
-cachedir: "/opt/puppetlabs/puppet/cache/r10k"
+cachedir: "/opt/puppetlabs/server/data/puppetserver/r10k"
 sources:
   puppet:
     basedir: "/etc/puppetlabs/code/environments"
@@ -72,14 +76,22 @@ The deploy still works, including from a webhook, but the warning never goes awa
 
 ## Give r10k access to your repository
 
-r10k shells out to `git`, so it uses whatever SSH configuration the user running it has.
-The webhook service and cron both run r10k as `root`, so create a key for `root` and register its public half as a read-only deploy key on the control repository.
+r10k shells out to `git`, so it uses the SSH configuration of the user running it.
+Run it as the `puppet` user rather than `root`: that is the account OpenVox Server runs as, it already owns the server's certificate, which the [cache flush](#flush-the-environment-cache-after-each-deploy) below needs, and nothing that deploys code then runs as `root`.
+Puppet Enterprise does the same with its `pe-puppet` user.
+
+The `puppet` user has no login shell, so run commands as it with `sudo -u puppet`.
+Hand it the environments directory, which the server package creates as `root`, then create its key and register the public half as a read-only deploy key on the control repository:
 
 ```console
-sudo ssh-keygen -t ed25519 -N '' -C "r10k@$(hostname -f)" \
-  -f /root/.ssh/id_ed25519
-sudo cat /root/.ssh/id_ed25519.pub
+sudo chown -R puppet:puppet /etc/puppetlabs/code/environments
+sudo install -d -m 0700 -o puppet -g puppet ~puppet/.ssh
+sudo -u puppet ssh-keygen -t ed25519 -N '' -C "r10k@$(hostname -f)" \
+  -f ~puppet/.ssh/id_ed25519
+sudo cat ~puppet/.ssh/id_ed25519.pub
 ```
+
+`~puppet` is the server's data directory, `/opt/puppetlabs/server/data/puppetserver`.
 
 Add the public key to the repository:
 
@@ -89,8 +101,8 @@ Add the public key to the repository:
 Then add the git server's host key so the first clone doesn't stop at an interactive prompt, and confirm that the key works:
 
 ```console
-sudo sh -c 'ssh-keyscan gitlab.example.com >> /root/.ssh/known_hosts'
-sudo ssh -T git@gitlab.example.com
+sudo -u puppet sh -c 'ssh-keyscan gitlab.example.com >> ~/.ssh/known_hosts'
+sudo -u puppet ssh -T git@gitlab.example.com
 ```
 
 GitHub answers with a line that names the repository the key is attached to, and GitLab with `Welcome to GitLab`.
@@ -104,7 +116,7 @@ On GitHub, a deploy key is tied to one repository; use a [machine user](https://
 Run a full deploy once, so you can see it work before you automate it:
 
 ```console
-sudo /opt/puppetlabs/puppet/bin/r10k deploy environment --modules --verbose
+sudo -u puppet /opt/puppetlabs/puppet/bin/r10k deploy environment --modules --verbose
 ```
 
 r10k clones the control repository, creates one directory per branch under `/etc/puppetlabs/code/environments/`, and installs every module from the `Puppetfile` into each one.
@@ -149,7 +161,8 @@ Then classify the server with the `r10k` class, for example from `manifests/site
 ```puppet
 node 'openvox.example.com' {
   class { 'r10k':
-    remote => 'git@gitlab.example.com:puppet/control-repo.git',
+    remote   => 'git@gitlab.example.com:puppet/control-repo.git',
+    cachedir => '/opt/puppetlabs/server/data/puppetserver/r10k',
   }
 }
 ```
@@ -166,13 +179,48 @@ Push-triggered deploys are immediate, which matters as soon as you have more tha
 
 ### On a schedule
 
-A cron entry that deploys every fifteen minutes is enough for many sites:
+A systemd timer that deploys every fifteen minutes is enough for many sites, and `systemctl status` then shows you the last run and whether it failed.
+Create a one-shot service that runs as `puppet`, and a timer that starts it:
 
-```text
-*/15 * * * * root /opt/puppetlabs/puppet/bin/r10k deploy environment --modules
+```ini
+# /etc/systemd/system/r10k-deploy.service
+[Unit]
+Description=Deploy every environment with r10k
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=puppet
+ExecStart=/opt/puppetlabs/puppet/bin/r10k deploy environment --modules
 ```
 
-Save it as `/etc/cron.d/r10k`, or manage it with a `cron` resource from your control repository.
+```ini
+# /etc/systemd/system/r10k-deploy.timer
+[Unit]
+Description=Run r10k deploy every 15 minutes
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=15min
+RandomizedDelaySec=1min
+
+[Install]
+WantedBy=timers.target
+```
+
+Enable the timer, then start the service once by hand to see it work:
+
+```console
+sudo systemctl daemon-reload
+sudo systemctl enable --now r10k-deploy.timer
+sudo systemctl start r10k-deploy.service
+sudo systemctl status r10k-deploy.service
+```
+
+`systemctl list-timers r10k-deploy.timer` shows the next run.
+r10k exits non-zero when any environment fails to deploy, so a stale module reference in a side branch shows up here as a failed service rather than going unnoticed.
+From your control repository, the [`puppet/systemd`](https://forge.puppet.com/modules/puppet/systemd) module's `systemd::timer` manages the same pair of units.
 
 ### On push, with webhook-go
 
@@ -180,16 +228,19 @@ Save it as `/etc/cron.d/r10k`, or manage it with a `cron` resource from your con
 It understands the webhook payloads sent by GitHub, GitLab, Gitea, Bitbucket Cloud, Bitbucket Server, and Azure DevOps, and tells them apart by their request headers.
 
 The `r10k::webhook` class installs it from the package on the webhook-go releases page, writes `/etc/voxpupuli/webhook.yml`, and runs it as a systemd service named `webhook-go`.
+Set `service_user` so that the deploys it triggers run as `puppet` like everything else; the class adds a systemd drop-in for it and restarts the service.
 Add the class next to `r10k` in your control repository:
 
 ```puppet
 node 'openvox.example.com' {
   class { 'r10k':
-    remote => 'git@gitlab.example.com:puppet/control-repo.git',
+    remote   => 'git@gitlab.example.com:puppet/control-repo.git',
+    cachedir => '/opt/puppetlabs/server/data/puppetserver/r10k',
   }
 
   class { 'r10k::webhook':
-    server => {
+    service_user => 'puppet',
+    server       => {
       protected => true,
       user      => 'deploy',
       password  => 'change-me',
@@ -237,6 +288,56 @@ Watch it with `sudo journalctl -u webhook-go -f`.
 
 webhook-go lowercases the branch name before handing it to r10k, and passes it through otherwise unchanged.
 If your branches use uppercase letters on purpose, set `allow_uppercase` to `true` in the `r10k` section of the class.
+{: .tip }
+
+### Flush the environment cache after each deploy
+
+By default the server reads each environment from disk on every request, so a deploy is live as soon as r10k finishes.
+If you set [`environment_timeout`](/openvox/latest/configuration.html#environment_timeout) to `unlimited` for performance, the server keeps serving the cached code until something flushes the cache.
+webhook-go has no option for this.
+The place to do it is r10k's own `postrun` setting, which runs a command after every deploy, whether the timer, the webhook, or you started it.
+Point it at the server's [environment cache endpoint](/openvox-server/latest/admin-api/v1/environment-cache.html), using the server's own certificate, which the `puppet` user can read:
+
+```puppet
+class { 'r10k':
+  remote   => 'git@gitlab.example.com:puppet/control-repo.git',
+  cachedir => '/opt/puppetlabs/server/data/puppetserver/r10k',
+  postrun  => [
+    '/usr/bin/curl', '-sS', '-X', 'DELETE',
+    '--cert',   '/etc/puppetlabs/puppet/ssl/certs/openvox.example.com.pem',
+    '--key',    '/etc/puppetlabs/puppet/ssl/private_keys/openvox.example.com.pem',
+    '--cacert', '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
+    'https://openvox.example.com:8140/puppet-admin-api/v1/environment-cache',
+  ],
+}
+```
+
+After the next deploy, the server's access log under `/var/log/puppetlabs/puppetserver/` shows a `DELETE /puppet-admin-api/v1/environment-cache` answered with `204`.
+
+Whether the server accepts that request depends on its version.
+OpenVox Server 9 ships an `auth.conf` rule that allows it for any certificate carrying the `pp_cli_auth` extension, which the server stamps on its own certificate, so it works as is.
+OpenVox Server 8 has no rule for the endpoint: the request gets a `403`, and `puppetserver.log` says `denied by rule 'puppetlabs deny all'`.
+Add the 9.x rule to the `rules` list in `/etc/puppetlabs/puppetserver/conf.d/auth.conf` and restart the server:
+
+```hocon
+{
+    match-request: {
+        path: "/puppet-admin-api/v1/environment-cache"
+        type: path
+        method: delete
+    }
+    allow: {
+        extensions: {
+            pp_cli_auth: "true"
+        }
+    }
+    sort-order: 500
+    name: "primary can clean cache after code deploy"
+},
+```
+
+Don't confuse `postrun` with the module's `r10k::postrun_command` class.
+That class sets `postrun_command` in the agent section of `puppet.conf`, so that r10k runs after the server's own agent run; it has nothing to do with what r10k does after a deploy.
 {: .tip }
 
 ## Configure your git server
@@ -309,10 +410,9 @@ On GitHub, a classic token needs the `write:repo_hook` scope (or `repo`), and a 
 
 * **The git server shows a failed delivery with status `401`.** The user and password in the hook URL don't match `server.user` and `server.password` in `/etc/voxpupuli/webhook.yml`.
 * **Status `500` with `Error Parsing Webhook`.** The request didn't carry a header webhook-go recognizes, or wasn't a push event. GitHub's initial `ping` does this; so does a plain `curl` without an `X-Gitlab-Event` or `X-Github-Event` header.
-* **Status `500` with r10k output in the body.** r10k itself failed. Run the same `r10k deploy environment` command by hand as `root` to see the full error, which is usually a missing deploy key or an unresolvable module.
+* **Status `500` with r10k output in the body.** r10k itself failed. Run the same `r10k deploy environment` command by hand with `sudo -u puppet` to see the full error, which is usually a missing deploy key or an unresolvable module.
 * **The delivery timed out.** Enable the queue in `r10k::webhook` so the service answers before r10k finishes. With the queue on, `GET /api/v1/queue` (with the same basic auth) lists recent jobs and their r10k output.
-* **The push deployed, but agents still get old code.** By default the server reads environments fresh on every request. If you set [`environment_timeout`](/openvox/latest/configuration.html#environment_timeout) to `unlimited` for performance, the server keeps serving the cached code until something flushes it.
-  r10k's `postrun` setting can call the [environment cache endpoint](/openvox-server/latest/admin-api/v1/environment-cache.html) after each deploy.
+* **The push deployed, but agents still get old code.** Your `environment_timeout` is not `0` and nothing flushes the cache after a deploy. See [Flush the environment cache after each deploy](#flush-the-environment-cache-after-each-deploy).
 
 ## Next Steps
 
