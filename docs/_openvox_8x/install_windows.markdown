@@ -3,7 +3,7 @@ layout: default
 title: "Installing OpenVox agent: Microsoft Windows"
 ---
 
-[downloads]: https://downloads.voxpupuli.org/windows
+[downloads]: https://downloads.voxpupuli.org/windows/openvox8/
 
 Install `openvox-agent` on Microsoft Windows nodes.
 

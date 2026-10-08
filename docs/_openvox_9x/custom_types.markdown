@@ -41,7 +41,7 @@ To use new types and providers, two conditions must be met:
 1. The type and providers must be present in a [module][] on the OpenVox Server server. Like other types of plugin (such as [custom functions][custom_functions] and [custom facts][custom_facts]), they should go in the module's `lib` directory:
     * Type files should be located at `lib/puppet/type/<TYPE NAME>.rb`.
     * Provider files should be located at `lib/puppet/provider/<TYPE NAME>/<PROVIDER NAME>.rb`.
-2. In an agent/server deployment, agent nodes automatically sync plugins (including custom types and providers) from the server's modules at the start of each run, so no configuration is needed. (The old `pluginsync` setting that controlled this was removed in OpenVox 9.)
+2. In an agent/server deployment, agent nodes automatically sync plugins (including custom types and providers) from the server's modules at the start of each run, so no configuration is needed. (The old `pluginsync` setting that once controlled this no longer exists in OpenVox.)
 
 When running without a server using puppet apply, plugin sync is not involved, but the module containing the type and providers must be present on each node.
 
