@@ -81,7 +81,7 @@ If this setting is `true`, OpenVox Server ignores any presented certificate and 
 
 You cannot rename any of the `X-Client` headers when this setting is enabled, and you must specify identity through the `X-Client-Verify`, `X-Client-DN`, and `X-Client-Cert` headers.
 
-For more information, see [External SSL Termination](./external_ssl_termination.html#disable-https-for-puppet-server) in the OpenVox Server documentation and
+For more information, see [External SSL Termination](./external_ssl_termination.html#disable-https-for-openvox-server) in the OpenVox Server documentation and
 [Configuring the Authorization Service](https://github.com/openvoxproject/trapperkeeper-authorization/blob/master/doc/authorization-config.md#allow-header-cert-info) in the `trapperkeeper-authorization`
 documentation.
 
