@@ -18,6 +18,34 @@ Puppet Open Source is no longer actively developed.
 
 You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade to OpenVox 8, or you can upgrade to Puppet 8 and then migrate to OpenVox 8.
 
+## OpenVox 8.30.0
+
+Released October 7, 2026.
+
+This is a bug-fix and security release of OpenVox.
+
+All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/8.30.0).
+
+Notable changes in this release:
+
+- The agent daemon waits for its certificate in the forked child instead of in the daemon process, and kills a forked run that outlives `runtimeout` instead of blocking until the service is restarted ([#485](https://github.com/OpenVoxProject/openvox/issues/485)).
+- Resolving a `Deferred` value that calls a Puppet-language function no longer fails for lack of a global scope.
+- The `Loading facts` message is printed once per run instead of once for every directory searched for facts.
+- Bundled components are updated, including [OpenFact 5.7.2](/openfact/5.x/release_notes.html) and libxml2 2.15.4.
+
+### Security Issues Resolved in 8.30.0
+
+| Identifier                                                        | CVSS 3.1 Score | Resolved By                        |
+| :---------------------------------------------------------------- | :------------: | :--------------------------------- |
+| [CVE-2026-86138](https://nvd.nist.gov/vuln/detail/CVE-2026-86138) |       7.8      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86139](https://nvd.nist.gov/vuln/detail/CVE-2026-86139) |       7.8      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86140](https://nvd.nist.gov/vuln/detail/CVE-2026-86140) |       7.8      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86142](https://nvd.nist.gov/vuln/detail/CVE-2026-86142) |       7.8      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86144](https://nvd.nist.gov/vuln/detail/CVE-2026-86144) |       7.8      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86143](https://nvd.nist.gov/vuln/detail/CVE-2026-86143) |       7.3      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86137](https://nvd.nist.gov/vuln/detail/CVE-2026-86137) |       6.1      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86141](https://nvd.nist.gov/vuln/detail/CVE-2026-86141) |       3.3      | `pkg:github/gnome/libxml2@2.15.4`  |
+
 ## OpenVox 8.29.0
 
 Released September 4, 2026.
