@@ -36,11 +36,13 @@
 #                         verbatim. Use this for prereleases (a series never
 #                         resolves to one) and for a frozen older major, which
 #                         keeps its final tag so the collection stays
-#                         reproducible.
+#                         reproducible. An older major that still receives
+#                         maintenance releases keeps its series ref until its
+#                         last release has shipped; freeze it then.
 
 openvox:
   label: OpenVox
-  latest: 8x
+  latest: 9x
   references: references:openvox
   versions:
     - id: 9x
@@ -56,7 +58,7 @@ openvox:
 
 openfact:
   label: OpenFact
-  latest: 5x
+  latest: 6x
   references: references:openfact
   versions:
     - id: 6x
@@ -83,7 +85,7 @@ openbolt:
 
 openvox-server:
   label: OpenVox Server
-  latest: 8x
+  latest: 9x
   versions:
     - id: 9x
       label: "9.x"
@@ -96,7 +98,7 @@ openvox-server:
 
 openvoxdb:
   label: OpenVoxDB
-  latest: 8x
+  latest: 9x
   versions:
     - id: 9x
       label: "9.x"
