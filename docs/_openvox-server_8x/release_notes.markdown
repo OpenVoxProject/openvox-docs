@@ -4,6 +4,28 @@ title: "OpenVox Server: Release Notes"
 canonical: "/openvox-server/latest/release_notes.html"
 ---
 
+## OpenVox Server 8.17.0
+
+Released October 7, 2026.
+
+This is an enhancement and security release of OpenVox Server.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvox-server/releases/tag/8.17.0).
+
+Notable changes in this release:
+
+- The default `auth.conf` allows a certificate carrying the `pp_cli_auth` extension, which the server stamps on its own certificate, to call `DELETE` on the [environment cache endpoint](admin-api/v1/environment-cache.html). A post-deploy hook on the primary can flush the environment cache after r10k or g10k deploys code without adding a rule by hand.
+- Bundled components are updated, including Jackson 2.21.7, Jolokia 2.6.2, Logback 1.6.5, SLF4J 2.0.20, jruby-utils 5.5.1, and trapperkeeper-metrics 2.3.3.
+
+### Security Issues Resolved in 8.17.0
+
+| Identifier                                                        | CVSS 3.1 Score | Resolved By                                                    |
+| :---------------------------------------------------------------- | :------------: | :------------------------------------------------------------- |
+| [CVE-2026-89425](https://nvd.nist.gov/vuln/detail/CVE-2026-89425) |       7.5      | `pkg:maven/com.fasterxml.jackson.core/jackson-core@2.21.7`     |
+| [CVE-2026-89407](https://nvd.nist.gov/vuln/detail/CVE-2026-89407) |       7.5      | `pkg:maven/com.fasterxml.jackson.core/jackson-core@2.21.7`     |
+| [CVE-2026-91777](https://nvd.nist.gov/vuln/detail/CVE-2026-91777) |       7.5      | `pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.21.7` |
+| [CVE-2026-91776](https://nvd.nist.gov/vuln/detail/CVE-2026-91776) |       7.5      | `pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.21.7` |
+
 ## OpenVox Server 8.16.0
 
 Released September 8, 2026.
