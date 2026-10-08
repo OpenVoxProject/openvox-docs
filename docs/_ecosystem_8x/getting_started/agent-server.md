@@ -193,5 +193,6 @@ The `test` mode lets you interactively observe the results of new configuration 
 
 ## Next Steps
 
+* Get your control repository onto the server by [deploying code with r10k](code_deployment.html).
 * Dive a little deeper into how the whole [OpenVox infrastructure is architected](architecture.html).
 * Learn a bit more about the [Puppet Language](language.html) and classifying nodes.

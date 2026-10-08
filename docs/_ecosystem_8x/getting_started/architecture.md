@@ -115,6 +115,7 @@ This means you can set defaults in `common.yaml` and override them per-node, per
 R10k is the codebase deploying robot.
 It will read the `Puppetfile` from your git *control repo* and use that to build the Puppet codebase on your OpenVox server.
 This drastically reduces the amount of maintenance churn you need to do to just maintaining a list of the modules you want installed.
+See [Deploying Code with r10k](code_deployment.html) for setting it up.
 
 {% include alert.html type="tip" title="Fun fact" content="Robot9000 was an IRC moderation script designed to reduce certain kinds of trolling in the *xkcd* chat rooms. R10k was 'one better'." %}
 
