@@ -25,6 +25,10 @@ OpenVox publishes packages through these channels:
 On Linux systems, install the appropriate `openvox8-release` package for your
 distribution first. That package configures the repository and its signing keys.
 
+All of these locations are served from a single server in Germany. If downloads are
+slow in your region, see [Repositories and mirrors](mirrors.html) for the list of
+public mirrors and how to install from one.
+
 ## Package names
 
 The primary OpenVox packages are:

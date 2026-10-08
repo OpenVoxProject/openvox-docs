@@ -18,8 +18,8 @@ and reachable.
    [apt.voxpupuli.org](https://apt.voxpupuli.org). For example, on Ubuntu 22.04:
 
    ```bash
-   wget https://apt.voxpupuli.org/openvox8-release-ubuntu22.04.deb
-   sudo dpkg -i openvox8-release-ubuntu22.04.deb
+   wget https://apt.voxpupuli.org/openvox9-release-ubuntu22.04.deb
+   sudo dpkg -i openvox9-release-ubuntu22.04.deb
    sudo apt update
    ```
 
@@ -27,11 +27,14 @@ and reachable.
    [yum.voxpupuli.org](https://yum.voxpupuli.org). For example, on EL 9:
 
    ```bash
-   sudo rpm -Uvh https://yum.voxpupuli.org/openvox8-release-el-9.noarch.rpm
+   sudo rpm -Uvh https://yum.voxpupuli.org/openvox9-release-el-9.noarch.rpm
    ```
 
    For other distributions and versions, see the full list of release packages on
    the respective repository pages or the [Installing OpenVox](https://voxpupuli.org/openvox/install/) page.
+
+   If downloads from `voxpupuli.org` are slow in your region, you can install from a
+   public mirror instead. See [Repositories and mirrors](mirrors.html).
 
 2. Install the package.
 

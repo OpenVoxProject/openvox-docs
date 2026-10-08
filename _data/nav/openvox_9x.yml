@@ -29,6 +29,8 @@
     link: "install_pre.html"
   - text: OpenVox repositories and packages
     link: "openvox_platform.html"
+  - text: Repositories and mirrors
+    link: "mirrors.html"
   - text: 'Install agent: Linux'
     link: "install_linux.html"
   - text: 'Install agent: Windows'
