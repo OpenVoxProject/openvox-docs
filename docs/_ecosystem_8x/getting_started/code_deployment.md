@@ -26,8 +26,7 @@ Before you start, you'll need:
 
 All commands on this page run on the OpenVox server node.
 
-The `puppet-r10k` release used here declares support for OpenVox 8 only.
-On an OpenVox 9 server, check the [module's dependencies](https://forge.puppet.com/modules/puppet/r10k/dependencies) for a release that lists OpenVox 9 before relying on it.
+The `puppet-r10k` release used here, 15.3.0, supports OpenVox 8.19.0 and later, including OpenVox 9.
 {: .tip }
 
 ## Install r10k
@@ -146,7 +145,7 @@ Now that the server deploys from your control repository, let the control reposi
 Add the module and its dependencies to your `Puppetfile`:
 
 ```ruby
-mod 'puppet/r10k',          '15.2.0'
+mod 'puppet/r10k',          '15.3.0'
 mod 'puppet/systemd',       '9.4.0'
 mod 'puppetlabs/stdlib',    '9.7.0'
 mod 'puppetlabs/inifile',   '6.5.0'
