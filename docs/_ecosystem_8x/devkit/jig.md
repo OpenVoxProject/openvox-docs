@@ -34,7 +34,7 @@ The package places the `jig` binary in `/usr/bin`.
 On Debian and Ubuntu, `apt` needs a local file, so download it first:
 
 ```console
-VERSION=2.4.0
+VERSION=2.5.0
 BASE=https://github.com/voxpupuli/jig/releases/download/v${VERSION}
 curl -LO ${BASE}/jig_${VERSION}_linux_amd64.deb
 sudo apt install ./jig_${VERSION}_linux_amd64.deb
@@ -43,7 +43,7 @@ sudo apt install ./jig_${VERSION}_linux_amd64.deb
 On Red Hat family systems, `dnf` accepts the URL directly:
 
 ```console
-VERSION=2.4.0
+VERSION=2.5.0
 BASE=https://github.com/voxpupuli/jig/releases/download/v${VERSION}
 sudo dnf install ${BASE}/jig_${VERSION}_linux_amd64.rpm
 ```
