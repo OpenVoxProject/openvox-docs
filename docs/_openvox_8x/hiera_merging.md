@@ -11,6 +11,8 @@ title: "Creating and editing data"
 [trusted]: ./lang_facts_and_builtin_vars.html#trusted-facts
 [server_facts]: ./lang_facts_and_builtin_vars.html#server_facts-variable
 [environment]: ./environments_about.html
+[new_function]: ./function.html#new
+[sensitive]: ./lang_data_sensitive.html
 
 ## Setting the merge behavior for a lookup
 
@@ -170,6 +172,62 @@ Hiera uses the configured merge behaviors for these keys.
 
 > Note: the `hiera_*` functions always override configured merge behavior.
 
+## Type casting
+
+YAML and JSON can't express every Puppet data type. A quoted port number arrives as a `String`, and a secret from an encrypted backend arrives as a plain `String` rather than a `Sensitive` value.
+Use the `convert_to` lookup option to have Hiera convert a key's value to a specific data type before returning it.
+
+`convert_to` takes either a type name as a string, or an array of a type name followed by extra constructor arguments.
+Hiera applies the conversion to the final result of the lookup, after any merge, by calling the type's [`new` function][new_function] with the value and the extra arguments.
+It works for both the `lookup` function and automatic class parameter lookup, and follows the same key naming and module namespace rules as `merge`.
+
+For example:
+
+```yaml
+# <ENVIRONMENT>/data/common.yaml
+lookup_options:
+  myapp::port:
+    convert_to: "Integer"        # "8080" becomes 8080
+  myapp::mode:
+    convert_to: ["Integer", 10]  # "0644" becomes 644 (see below)
+  myapp::servers:
+    convert_to: ["Array", true]  # a lone string becomes a one-element array
+  "^myapp::.*password$":
+    convert_to: "Sensitive"      # matching keys are wrapped in Sensitive
+  myapp::ssh_keys:
+    merge: unique                # merge first, then convert the merged array
+    convert_to: "Sensitive"
+
+myapp::port: "8080"
+myapp::mode: "0644"
+myapp::servers: "ntp.example.com"
+myapp::db_password: "hunter2"
+```
+
+The second argument to `Integer` is the radix. Without it, the leading zero in `"0644"` makes Hiera read the value as octal and return 420.
+
+Check the result with the `puppet lookup` command:
+
+```console
+$ puppet lookup myapp::mode --environment production --render-as s
+644
+$ puppet lookup myapp::db_password --environment production --render-as s
+Sensitive [value redacted]
+```
+
+Add `--explain` to see the conversion step, reported as `Applying convert_to lookup_option with arguments [Integer]`.
+
+> Note: `puppet lookup` redacts a `Sensitive` result only with `--render-as s` or `--render-as json`. The default YAML output and the `--explain` trace both print the wrapped value in clear.
+
+Wrapping secrets in [`Sensitive`][sensitive] is the most common use. The value is redacted in logs and reports, and the class that receives it can declare its parameter as `Sensitive[String]` without every data source having to produce that type.
+
+The conversion also acts as a type check. If a value can't be converted, the lookup fails instead of returning the unconverted value:
+
+```text
+Error: The convert_to lookup_option for key 'myapp::port' raised error:
+  'new' The string 'abc' cannot be converted to Integer
+```
+
 ## `lookup_options` format
 
 The value of `lookup_options` is a hash with the following format:
@@ -178,21 +236,30 @@ The value of `lookup_options` is a hash with the following format:
 lookup_options:
   <NAME or REGEXP>:
     merge: <MERGE BEHAVIOR>
+    convert_to: <TYPE NAME or [TYPE NAME, ARGS...]>
 ```
 
 Each key is either the full name of a lookup key (like `ntp::servers`) or a regular expression (like `'^profile::(.*)::users$'`).
 In a module's data, you can configure lookup keys only within that module's namespace: the `ntp` module can set options for `ntp::servers`, but the `apache` module can't.
 
-Each value is a hash with a `merge` key. A merge behavior can be a string or a hash.
+Each value is a hash of options for that lookup key. Two options are available:
+
+* `merge` — a [merge behavior](#merge-behaviors), as a string or a hash.
+* `convert_to` — a [type casting](#type-casting) rule, as a type name or an array of a type name and its constructor arguments.
+
+You can set either option or both.
 
 `lookup_options` is a reserved key — you can't put other kinds of data in it, and you can't look it up directly. This is the only reserved key in Hiera.
 
-### Overriding merge behavior
+### Overriding lookup options
 
 Any data source overrides individual `lookup_options` from a lower priority source.
-As Hiera uses a hash merge on the `lookup_options` values, module authors can configure a default merge behavior for a given key and end users can override it.
+As Hiera uses a hash merge on the `lookup_options` values, module authors can configure default options for a given key and end users can override them.
 
-When you specify a merge behavior as an argument to the `lookup` function, it overrides the configured merge behavior.
+The hash merge replaces a key's entire options hash, not individual options within it.
+If a module sets `convert_to` for a key and your environment data sets only `merge` for the same key, the module's `convert_to` no longer applies. Repeat any options you want to keep.
+
+When you specify a merge behavior as an argument to the `lookup` function, it overrides the configured merge behavior. There is no equivalent argument for `convert_to`.
 
 ## Use a regular expression in `lookup_options`
 
