@@ -71,9 +71,13 @@ Otherwise it returns
 
 ### Supported HTTP Methods
 
-This endpoint is disabled in the default configuration. It is
-recommended to be careful with this endpoint, as it can allow control
-over the certificates used by the puppet master.
+In the default `auth.conf`, these endpoints accept only requests made with a client
+certificate that carries the `pp_cli_auth: "true"` extension. The server's own
+certificate has that extension when the server, `puppetserver ca setup`, or
+`puppetserver ca import` generated it, which is how the `puppetserver ca` commands reach these endpoints. See
+[CA CLI authorization](../../subcommands.html#ca-cli-authorization). Be careful when
+widening that rule, as these endpoints allow control over every certificate the CA
+manages.
 
 GET, PUT, DELETE
 
