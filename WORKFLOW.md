@@ -8,8 +8,8 @@ Here we set the different sources for documentation.
 
 e.g.
 
-- Puppet documentatoin is in this repo
-- PuppetDB documentatoin is in puppetdb repo (external source)
+- Puppet documentation is in this repo
+- PuppetDB documentation is in puppetdb repo (external source)
 
 ## File Structure
 
