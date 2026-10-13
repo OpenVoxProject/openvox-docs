@@ -3,36 +3,36 @@
   base: /ecosystem/latest/
 
 - nav_key: openfact_5x
-  collections: openfact_latest|openfact_5x
-  base: /openfact/latest/
+  collections: openfact_5x
+  base: /openfact/5.x/
 
 - nav_key: openfact_6x
-  collections: openfact_6x
-  base: /openfact/6.x/
+  collections: openfact_6x|openfact_latest
+  base: /openfact/latest/
 
 - nav_key: openvox_8x
-  collections: openvox_latest|openvox_8x
-  base: /openvox/latest/
+  collections: openvox_8x
+  base: /openvox/8.x/
 
 - nav_key: openvox_9x
-  collections: openvox_9x
-  base: /openvox/9.x/
+  collections: openvox_9x|openvox_latest
+  base: /openvox/latest/
 
 - nav_key: openvox-server_8x
-  collections: openvox-server_latest|openvox-server_8x
-  base: /openvox-server/latest/
+  collections: openvox-server_8x
+  base: /openvox-server/8.x/
 
 - nav_key: openvox-server_9x
-  collections: openvox-server_9x
-  base: /openvox-server/9.x/
+  collections: openvox-server_9x|openvox-server_latest
+  base: /openvox-server/latest/
 
 - nav_key: openvoxdb_8x
-  collections: openvoxdb_latest|openvoxdb_8x
-  base: /openvoxdb/latest/
+  collections: openvoxdb_8x
+  base: /openvoxdb/8.x/
 
 - nav_key: openvoxdb_9x
-  collections: openvoxdb_9x
-  base: /openvoxdb/9.x/
+  collections: openvoxdb_9x|openvoxdb_latest
+  base: /openvoxdb/latest/
 
 - nav_key: openbolt_5x
   collections: openbolt_latest|openbolt_5x
