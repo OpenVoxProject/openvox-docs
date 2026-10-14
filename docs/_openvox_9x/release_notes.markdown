@@ -18,6 +18,30 @@ Puppet Open Source is no longer actively developed.
 
 You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade through OpenVox 8 to OpenVox 9, or you can upgrade to Puppet 8 and then migrate to OpenVox 8 and then to OpenVox 9.
 
+## OpenVox 9.1.0
+
+Released October 13, 2026.
+
+This is a bug-fix and security release of OpenVox.
+
+All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/9.1.0).
+
+Notable changes in this release:
+
+- The agent works with version 3 of the `json` gem ([#706](https://github.com/OpenVoxProject/openvox/pull/706)).
+  An agent installed from the `openvox` gem or from a distribution package, on a Ruby that has json 3 installed (Debian testing and unstable ship it), failed every request to the server with `Failed to deserialize ... from json: wrong number of arguments (given 2, expected 1)`, and `puppet facts show` failed with `uninitialized constant JSON::PRETTY_STATE_PROTOTYPE`.
+  The `openvox-agent` packages bundle json 2 and were not affected.
+  On json 3, a JSON document with a duplicated key, such as a module's `metadata.json`, is rejected instead of silently keeping the last value.
+- Packages are built for the FIPS variant of Enterprise Linux 10 (`redhatfips-10-x86_64`).
+- The generated [configuration reference](configuration.html#reports) now documents the `reports` default as `none`, which it has been since 9.0.0.
+- Bundled components are updated, including Augeas 1.15.0. It is the first Augeas release since 2023 and adds an `Aptsources822` lens for Deb822-style apt `.sources` files, `leapseclist` in the Chrony lens, `/usr/share/iproute2` in the IPRoute2 lens, and `/etc/nginx/snippets` in the Nginx lens, among other lens changes listed in the [Augeas release notes](https://github.com/hercules-team/augeas/releases/tag/release-1.15.0).
+
+### Security Issues Resolved in 9.1.0
+
+| Identifier                                                      | CVSS 3.1 Score | Resolved By                               |
+| :-------------------------------------------------------------- | :------------: | :---------------------------------------- |
+| [CVE-2025-2588](https://nvd.nist.gov/vuln/detail/CVE-2025-2588) |       3.3      | `pkg:github/hercules-team/augeas@1.15.0`  |
+
 ## OpenVox 9.0.0
 
 Released October 2, 2026.
