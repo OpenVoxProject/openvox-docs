@@ -22,7 +22,7 @@ You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade
 
 Released October 13, 2026.
 
-This is a bug-fix and security release of OpenVox.
+This is a bug-fix release of OpenVox.
 
 All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/9.1.0).
 
@@ -35,12 +35,7 @@ Notable changes in this release:
 - Packages are built for the FIPS variant of Enterprise Linux 10 (`redhatfips-10-x86_64`).
 - The generated [configuration reference](configuration.html#reports) now documents the `reports` default as `none`, which it has been since 9.0.0.
 - Bundled components are updated, including Augeas 1.15.0. It is the first Augeas release since 2023 and adds an `Aptsources822` lens for Deb822-style apt `.sources` files, `leapseclist` in the Chrony lens, `/usr/share/iproute2` in the IPRoute2 lens, and `/etc/nginx/snippets` in the Nginx lens, among other lens changes listed in the [Augeas release notes](https://github.com/hercules-team/augeas/releases/tag/release-1.15.0).
-
-### Security Issues Resolved in 9.1.0
-
-| Identifier                                                      | CVSS 3.1 Score | Resolved By                               |
-| :-------------------------------------------------------------- | :------------: | :---------------------------------------- |
-| [CVE-2025-2588](https://nvd.nist.gov/vuln/detail/CVE-2025-2588) |       3.3      | `pkg:github/hercules-team/augeas@1.15.0`  |
+  Augeas 1.15.0 also carries the upstream fix for [CVE-2025-2588](https://nvd.nist.gov/vuln/detail/CVE-2025-2588), which OpenVox agents have had as a patch to Augeas 1.14.1 since 8.23.0, so this release resolves no new security issues.
 
 ## OpenVox 9.0.0
 
