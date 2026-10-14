@@ -24,7 +24,7 @@ See [Upgrading from Puppet 7 to OpenVox 8](upgrade_major.html) for the changes t
 
 Released October 13, 2026.
 
-This is a bug-fix and security release of OpenVox.
+This is a feature release of OpenVox. It adds support for version 3 of the `json` gem and updates bundled components.
 
 All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/8.31.0).
 
@@ -35,12 +35,7 @@ Notable changes in this release:
   The `openvox-agent` packages bundle json 2 and were not affected.
   On json 3, a JSON document with a duplicated key, such as a module's `metadata.json`, is rejected instead of silently keeping the last value.
 - Bundled components are updated, including Augeas 1.15.0. It is the first Augeas release since 2023 and adds an `Aptsources822` lens for Deb822-style apt `.sources` files, `leapseclist` in the Chrony lens, `/usr/share/iproute2` in the IPRoute2 lens, and `/etc/nginx/snippets` in the Nginx lens, among other lens changes listed in the [Augeas release notes](https://github.com/hercules-team/augeas/releases/tag/release-1.15.0).
-
-### Security Issues Resolved in 8.31.0
-
-| Identifier                                                      | CVSS 3.1 Score | Resolved By                               |
-| :-------------------------------------------------------------- | :------------: | :---------------------------------------- |
-| [CVE-2025-2588](https://nvd.nist.gov/vuln/detail/CVE-2025-2588) |       3.3      | `pkg:github/hercules-team/augeas@1.15.0`  |
+  Augeas 1.15.0 also carries the upstream fix for [CVE-2025-2588](https://nvd.nist.gov/vuln/detail/CVE-2025-2588), which OpenVox agents have had as a patch to Augeas 1.14.1 since 8.23.0, so this release resolves no new security issues.
 
 ## OpenVox 8.30.0
 
