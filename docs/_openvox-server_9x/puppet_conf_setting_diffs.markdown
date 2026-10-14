@@ -25,7 +25,7 @@ If none of the `ssl-` settings in webserver.conf are set, OpenVox Server uses th
 OpenVox Server keeps the `hostcrl` file in sync with the CA's CRL. When the server starts, and again each time the `cacrl` file changes (for example, when a certificate is revoked), it copies the file
 for the `cacrl` setting, if one exists, over the file at the `hostcrl` location, replacing whatever is there. The web server reads the `hostcrl` file and not the `cacrl` file, so this copy is how a
 revocation takes effect for client connections. The copy happens regardless of the `ssl-` settings in webserver.conf. It is skipped when `cacrl` and `hostcrl` point to the same file, and on servers
-where the CA service is disabled, such as compilers. By contrast, the server copies the CA certificate to the `localcacert` location only when no file exists there.
+where the CA service is disabled, such as compilers. There is no setting that turns the copy off. By contrast, the server copies the CA certificate to the `localcacert` location only when no file exists there.
 
 Any CRL file updates from the OpenVox Server certificate authority---such as revocations performed via the `certificate_status` HTTP endpoint---use the `cacrl` setting in puppet.conf to determine the location
 of the CRL. This is true regardless of the `ssl-` settings in webserver.conf.
@@ -54,7 +54,7 @@ If none of the `ssl-` settings in webserver.conf are set, OpenVox Server uses th
 OpenVox Server keeps the `hostcrl` file in sync with the CA's CRL. When the server starts, and again each time the `cacrl` file changes (for example, when a certificate is revoked), it copies the file
 for the `cacrl` setting, if one exists, over the file at the `hostcrl` location, replacing whatever is there. The web server reads the `hostcrl` file and not the `cacrl` file, so this copy is how a
 revocation takes effect for client connections. The copy happens regardless of the `ssl-` settings in webserver.conf. It is skipped when `cacrl` and `hostcrl` point to the same file, and on servers
-where the CA service is disabled, such as compilers. By contrast, the server copies the CA certificate to the `localcacert` location only when no file exists there.
+where the CA service is disabled, such as compilers. There is no setting that turns the copy off. By contrast, the server copies the CA certificate to the `localcacert` location only when no file exists there.
 
 Any CRL file updates from the OpenVox Server certificate authority---such as revocations performed via the `certificate_status` HTTP endpoint---use the `cacrl` setting in puppet.conf to determine the location
 of the CRL. This is true regardless of the `ssl-` settings in webserver.conf.
