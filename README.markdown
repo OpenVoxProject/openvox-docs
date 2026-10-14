@@ -4,7 +4,7 @@ Source for the OpenVox documentation site, along with an issue tracker for
 reporting problems with the published docs.
 
 The generated OpenVox documentation site may be found at:
-[https://github.com/OpenVoxProject/openvox-docs](https://github.com/OpenVoxProject/openvox-docs)
+[https://docs.openvoxproject.org/](https://docs.openvoxproject.org/)
 
 The site is built at each merged PR.
 
