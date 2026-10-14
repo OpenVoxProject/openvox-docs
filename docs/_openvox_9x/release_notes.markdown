@@ -22,7 +22,7 @@ You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade
 
 Released October 13, 2026.
 
-This is a bug-fix release of OpenVox.
+This is a feature release of OpenVox. It adds support for version 3 of the `json` gem and updates bundled components.
 
 All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/9.1.0).
 
