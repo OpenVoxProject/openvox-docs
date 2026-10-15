@@ -11,7 +11,8 @@ gem 'rake', '~> 13.0', '>= 13.0.1'
 group(:build_site) do
   gem 'jekyll', '~> 4.4'
   gem 'jekyll-tabs', '~> 1.2'
-  gem 'jekyll-vitepress-theme', '~> 1.4'
+  # 1.10.1 dates "Last updated" from git history instead of file mtime
+  gem 'jekyll-vitepress-theme', '~> 1.10', '>= 1.10.1'
 end
 
 group(:generate_references) do
