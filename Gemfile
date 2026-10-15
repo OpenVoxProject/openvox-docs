@@ -11,7 +11,9 @@ gem 'rake', '~> 13.0', '>= 13.0.1'
 group(:build_site) do
   gem 'jekyll', '~> 4.4'
   gem 'jekyll-tabs', '~> 1.2'
-  gem 'jekyll-vitepress-theme', '~> 1.4'
+  # Pinned so theme upgrades arrive as Dependabot PRs that can be tested,
+  # not on the next deploy (Gemfile.lock is gitignored).
+  gem 'jekyll-vitepress-theme', '1.10.1'
 end
 
 group(:generate_references) do
