@@ -7,6 +7,20 @@ OpenVox Server 9 pairs with OpenVox 9 (the agent): the `openvox-server` 9.x pack
 depends on `openvox-agent` 9.x on the same host. For the changes on the agent side,
 see the [OpenVox 9 release notes](/openvox/9.x/release_notes.html).
 
+## OpenVox Server 9.1.0
+
+Released October 15, 2026.
+
+This is an enhancement release of OpenVox Server.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvox-server/releases/tag/9.1.0).
+
+Notable changes in this release:
+
+- The FIPS builds now bundle a 2.1 release of the BouncyCastle FIPS libraries instead of a 1.0 release. The 2.1 release series is certified for use with Java 21 whereas the 1.0 release series is only certified up to Java 17.
+- A FIPS build is now provided for RedHat 10.
+- DNS lookups using the ruby `resolv` library no longer raise errors.
+
 ## OpenVox Server 9.0.1
 
 Released October 2, 2026.
