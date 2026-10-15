@@ -9,6 +9,19 @@ OpenVoxDB 9 is released alongside OpenVox 9 and OpenVox Server 9. For the change
 those components, see the [OpenVox 9 release notes](/openvox/9.x/release_notes.html)
 and the [OpenVox Server 9 release notes](/openvox-server/9.x/release_notes.html).
 
+## OpenVoxDB 9.1.0
+
+Released October 15, 2026.
+
+This is an enhancement release of OpenVoxDB.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvoxdb/releases/tag/9.1.0).
+
+Notable changes in this release:
+
+- The FIPS builds now bundle a 2.1 release of the BouncyCastle FIPS libraries instead of a 1.0 release. The 2.1 release series is certified for use with Java 21 whereas the 1.0 release series is only certified up to Java 17.
+- A FIPS build is now provided for RedHat 10.
+
 ## OpenVoxDB 9.0.0
 
 Released October 2, 2026.
