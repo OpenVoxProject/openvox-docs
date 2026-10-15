@@ -320,4 +320,4 @@ err: Could not apply complete catalog: Found 1 dependency cycle:
 Try the '--graph' option and opening the resulting '.dot' file in OmniGraffle or GraphViz
 ```
 
-To locate the directory containing the graph files, run `puppet agent --configprint graphdir`.
+To locate the directory containing the graph files, run `puppet config print graphdir`.
