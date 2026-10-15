@@ -8,11 +8,10 @@ require 'json'
 # `puppet strings generate` runs once per output collection rather than once per
 # Strings instance. Keyed by path so building more than one collection in a
 # single process generates each rather than reusing the first.
-# rubocop:disable Style/ClassVars
 module PuppetReferences
   module Puppet
     class Strings < Hash
-      @@generated_files = []
+      @@generated_files = [] # rubocop:disable Style/ClassVars
 
       def initialize(collection = '_openvox_latest', force_cached: false)
         super()
@@ -34,4 +33,3 @@ module PuppetReferences
     end
   end
 end
-# rubocop:enable Style/ClassVars
