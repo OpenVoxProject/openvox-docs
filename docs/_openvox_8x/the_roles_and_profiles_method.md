@@ -11,15 +11,15 @@ significant complexity, and making sure your data behaves predictably.
 
 ## Building configurations without roles and profiles
 
-Without roles and profiles, people typically build system configurations in their node classifier or main manifest, using Hiera to handle tricky inheritance
-problems. A standard approach is to create a group of similar nodes and assign classes to it, then create child groups with extra classes for nodes that have
+Without roles and profiles, people typically build system configurations in their main manifest, in Hiera data, or in an external node classifier (ENC), using Hiera to handle tricky inheritance
+problems. A standard approach is to assign a set of classes to every similar node, then add extra classes for the nodes that have
 additional needs. Another common pattern is to put everything in Hiera, using a very large hierarchy that reflects every variation in the infrastructure.
 
 If this works for you, then it works! You might not need roles and profiles. But most people find direct building gets difficult to understand and maintain over time.
 
 ## Configuring roles and profiles
 
-Roles and profiles are *two extra layers of indirection* between your node classifier and your component modules.
+Roles and profiles are *two extra layers of indirection* between node classification and your component modules.
 
 The roles and profiles method separates your code into three levels:
 
@@ -31,11 +31,11 @@ These extra layers of indirection might seem like they add complexity, but they 
 configuration you care most about. A better interface makes hierarchical data easier to use, makes system configurations easier to read, and makes refactoring
 easier.
 
-![Diagram showing roles, profiles, and component modules as layers between the node classifier and managed resources](./images/roles_and_profiles_overview.png)
+![Diagram showing roles, profiles, and component modules as layers between node classification and managed resources](./images/roles_and_profiles_overview.png)
 
 In short, from top to bottom:
 
-- Your node classifier assigns one role class to a group of nodes. The role manages a whole system configuration, so no other classes are needed. The node classifier does not configure the role in any way.
+- Node classification assigns exactly one role class to each node. You can do this with Hiera data, with an external node classifier (ENC), or in the main manifest; see [Assign the role to nodes](roles_and_profiles_example.html#assign-the-role-to-nodes). The role manages a whole system configuration, so no other classes are needed, and the classification layer does not configure the role in any way.
 - That role class declares some profile classes with `include`, and does nothing else. For example:
 
   ```puppet
@@ -92,7 +92,7 @@ In this profile, we use automatic class parameter lookup to request data. But we
 
 ```puppet
 class profile::jenkins {
-  $jenkins_port = lookup('profile::jenkins::jenkins_port', {value_type => String, default_value => '9091'})
+  $jenkins_port = lookup('profile::jenkins::jenkins_port', {value_type => Integer, default_value => 9091})
   $java_dist    = lookup('profile::jenkins::java_dist',    {value_type => String, default_value => 'jdk'})
   $java_version = lookup('profile::jenkins::java_version', {value_type => String, default_value => 'latest'})
   # ...
