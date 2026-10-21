@@ -106,7 +106,7 @@ sudo apt remove openbolt
    `fedora`, `amazon`, or `sles`. For example, on Enterprise Linux 9:
 
    ```console
-   sudo rpm -Uvh https://yum.voxpupuli.org/openvox8-release-el-9.noarch.rpm
+   sudo dnf install -y https://yum.voxpupuli.org/openvox8-release-el-9.noarch.rpm
    ```
 
 2. Install OpenBolt. On Enterprise Linux, Fedora, and Amazon Linux 2023:
