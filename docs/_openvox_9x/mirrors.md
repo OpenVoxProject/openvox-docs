@@ -74,21 +74,18 @@ The following organizations mirror the OpenVox repositories:
 | [linuxsoft.cern.ch/voxpupuli/](https://linuxsoft.cern.ch/voxpupuli/) | CERN, Geneva, Switzerland | http, https, rsync | Twice daily |
 | [openvox.mirrors.ovh.net/](https://openvox.mirrors.ovh.net/) | OVHcloud, Australia, Canada, France, India, Italy, and Singapore | http, https | Daily |
 
-Most mirrors carry the full `rsync.voxpupuli.org` tree with the same layout. The
-exceptions:
+Most mirrors carry `apt/`, `yum/`, and `downloads/` with the same layout as
+`rsync.voxpupuli.org`. The exceptions and other details:
 
-- Rackspace serves `apt/`, `yum/`, and `downloads/`, but not `artifacts/`. Its
-  six sites (three in the US, UK, Hong Kong, Australia) share one hostname, and
-  geographic DNS answers from the nearest one.
+- Rackspace's six sites (three in the US, UK, Hong Kong, Australia) share one
+  hostname, and geographic DNS answers from the nearest one.
 - The UK Mirror Service uses one directory per hostname instead of one tree:
-  `sites/apt.voxpupuli.org/`, `sites/yum.voxpupuli.org/`,
-  `sites/downloads.voxpupuli.org/`, and `sites/artifacts.voxpupuli.org/`. Its
-  rsync service is `rsync.mirrorservice.org`.
+  `sites/apt.voxpupuli.org/`, `sites/yum.voxpupuli.org/`, and
+  `sites/downloads.voxpupuli.org/`. Its rsync service is
+  `rsync.mirrorservice.org`.
 - NFrance serves `apt/` and `yum/` only.
-- CERN serves `apt/`, `yum/`, and `downloads/`, but not `artifacts/`. Its rsync
-  service is `rsync-linuxsoft.cern.ch::voxpupuli`.
-- OVHcloud serves `apt/`, `yum/`, and `downloads/`, but not `artifacts/`. It
-  uses one anycast address, so requests reach the nearest of the
+- CERN's rsync service is `rsync-linuxsoft.cern.ch::voxpupuli`.
+- OVHcloud uses one anycast address, so requests reach the nearest of the
   [locations listed on mirrors.ovh.net](https://mirrors.ovh.net/). The
   mirror is IPv4-only.
 
