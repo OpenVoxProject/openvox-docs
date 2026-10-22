@@ -72,6 +72,7 @@ The following organizations mirror the OpenVox repositories:
 | [openvox.repo.nfrance.com/](https://openvox.repo.nfrance.com/) | NFrance, Toulouse, France | http, https | Not published |
 | [openvox.mirror.liquidtelecom.com/](https://openvox.mirror.liquidtelecom.com/) | Liquid Intelligent Technologies, Nairobi, Kenya | http, https, rsync | Every 6 hours |
 | [linuxsoft.cern.ch/voxpupuli/](https://linuxsoft.cern.ch/voxpupuli/) | CERN, Geneva, Switzerland | http, https, rsync | Twice daily |
+| [openvox.mirrors.ovh.net/](https://openvox.mirrors.ovh.net/) | OVHcloud, Australia, Canada, France, India, Italy, and Singapore | http, https | Daily |
 
 Most mirrors carry the full `rsync.voxpupuli.org` tree with the same layout. The
 exceptions:
@@ -86,10 +87,15 @@ exceptions:
 - NFrance serves `apt/` and `yum/` only.
 - CERN serves `apt/`, `yum/`, and `downloads/`, but not `artifacts/`. Its rsync
   service is `rsync-linuxsoft.cern.ch::voxpupuli`.
+- OVHcloud serves `apt/`, `yum/`, and `downloads/`, but not `artifacts/`. It
+  uses one anycast address, so requests reach the nearest of the
+  [locations listed on mirrors.ovh.net](https://mirrors.ovh.net/). The
+  mirror is IPv4-only.
 
 Choose the mirror closest to your nodes. Rackspace answers DNS queries from the
-nearest of its six sites, which makes it a reasonable choice for nodes spread
-across several regions.
+nearest of its six sites, and OVHcloud routes requests to its nearest location
+over anycast, which makes either a reasonable choice for nodes spread across
+several regions.
 
 > **Note:** This table was last checked on 2026-10-05. The OpenVox project does
 > not operate or monitor these mirrors, and a mirror can fall behind or go
