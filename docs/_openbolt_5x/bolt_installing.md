@@ -33,7 +33,7 @@ the full list, including CPU architectures, see
 | Operating system                                              | Versions                   |
 | ------------------------------------------------------------- | -------------------------- |
 | Amazon Linux                                                  | 2, 2023                    |
-| Debian                                                        | 11, 12, 13                 |
+| Debian                                                        | 11*, 12, 13                |
 | Enterprise Linux (RHEL, AlmaLinux, Rocky Linux, Oracle Linux) | 8, 9, 10                   |
 | Fedora                                                        | 42, 43, 44                 |
 | SLES                                                          | 15, 16                     |
@@ -43,6 +43,9 @@ the full list, including CPU architectures, see
 
 Packages are built and tested on these versions. They might also install on
 other versions of the same operating system.
+
+\* Debian 11 is past its upstream end of life. Packages are still published
+for it.
 
 ## Install OpenBolt on Linux
 
@@ -59,10 +62,9 @@ other versions of the same operating system.
    ```
 
    > **Note:** If the host already has the `openvox9-release` package, do not
-   > install `openvox8-release`. The two packages name different keyring files
-   > for the same repository, apt rejects that, and every `apt` command fails
-   > until one package is removed. Add the `openvox8` component to the existing
-   > source instead:
+   > install `openvox8-release`. The two release packages cannot currently be
+   > installed together on Debian and Ubuntu. Add the `openvox8` component to
+   > the existing source instead:
    >
    > ```console
    > sed 's/ openvox9$/ openvox8/' \
@@ -106,16 +108,23 @@ sudo apt remove openbolt
    `fedora`, `amazon`, or `sles`. For example, on Enterprise Linux 9:
 
    ```console
-   sudo dnf install -y https://yum.voxpupuli.org/openvox8-release-el-9.noarch.rpm
+   sudo dnf install https://yum.voxpupuli.org/openvox8-release-el-9.noarch.rpm
    ```
 
-2. Install OpenBolt. On Enterprise Linux, Fedora, and Amazon Linux 2023:
+   On Amazon Linux 2, use `yum` instead of `dnf`. On SLES, `zypper` refuses the
+   package because its signing key is not installed yet, so use `rpm`:
+
+   ```console
+   sudo rpm -Uvh https://yum.voxpupuli.org/openvox8-release-sles-16.noarch.rpm
+   ```
+
+2. Install OpenBolt. On Enterprise Linux, Fedora, and Amazon Linux:
 
    ```console
    sudo dnf install openbolt
    ```
 
-   On Amazon Linux 2, use `yum` instead of `dnf`. On SLES:
+   On SLES:
 
    ```console
    sudo zypper install openbolt
