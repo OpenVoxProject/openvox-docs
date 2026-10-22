@@ -24,9 +24,6 @@ If you're new to using roles and profiles, do some additional setup before writi
    2. Edit the `environment.conf` file to add `site-modules` to the `modulepath`, ahead of `modules`. (For example: `modulepath = site-modules:modules:$basemodulepath`).
    3. Put the `role` and `profile` modules in the `site-modules` directory.
 
-   This layout is where to start. As the number of profiles and the number of teams writing them grow, you can move profiles into ordinary modules that you version and deploy through the Puppetfile like any other module.
-   A profile module can carry its own parameter defaults in [the module layer of Hiera](hiera_intro.html#the-module-layer), so it needs nothing from the control repository beyond a Puppetfile entry. Roles stay in the control repository: they are short, and they change with your fleet rather than with any one technology.
-
 2. Make sure [Hiera](./hiera_intro.html) or Puppet lookup is set up and working, with a hierarchy that works well for you.
 
 ### Choose component modules
