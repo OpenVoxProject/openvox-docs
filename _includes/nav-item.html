@@ -1,22 +1,68 @@
+{%- comment -%}
+  This file renders a single sidebar nav item, which is a list element defined
+  in `_data/nav/<product_version>.yml`.
+
+  The nav item is passed in as `include.item` and can take one of three shapes:
+
+    - `items:` only        -> collapsible topic header (just expands/collapses)
+    - `link:` only         -> leaf item; display link to page content
+    - `link:` and `items:` -> collapsible header AND has its own page content
+                              (e.g., OpenBolt's "Plans")
+
+  Nested levels are handled by recursing into `include.item.items`.
+{%- endcomment -%}
 {% if include.item.items %}
   {% assign nav_next_level = include.level | plus: 1 %}
 
+  {%- comment -%}
+    It's necessary to pre-render all child items before this item,
+    because we'll need to peek at their formatting to decide our own.
+  {%- endcomment -%}
   {% capture nav_children %}
     {% for child in include.item.items %}
       {% include nav-item.html item=child level=nav_next_level %}
     {% endfor %}
   {% endcapture %}
 
+  {%- comment -%}
+    Compute our item's absolute URL/`nav_item_url`:
+    - Absolute links ("/openvox-server/latest/http_api_index.html") used as-is
+    - Relative links ("plans.html") prepend `nav_base` ("/openbolt/latest/")
+
+    It's important to compute this AFTER the recursive children capture above:
+    Liquid's `assign` (below) leaks between includes + theirs would whack ours!
+  {%- endcomment -%}
+  {% if include.item.link %}
+    {% assign nav_link_first_char = include.item.link | slice: 0 %}
+    {% if nav_link_first_char == '/' %}
+      {% assign nav_item_url = include.item.link %}
+    {% else %}
+      {% assign nav_item_url = include.item.link | prepend: nav_base %}
+    {% endif %}
+  {% endif %}
+
+  {%- comment -%}
+    Peek at buffered markup; if any are `is-active`, our formatting must change
+  {%- endcomment -%}
   {% assign nav_has_active = false %}
   {% if nav_children contains 'is-active' %}
+    {% assign nav_has_active = true %}
+  {% endif %}
+  {% if include.item.link and nav_item_url == page.url %}
     {% assign nav_has_active = true %}
   {% endif %}
 
   <div class="group no-transition">
     <section class="VPSidebarItem level-{{ include.level }} collapsible{% if nav_has_active %} has-active{% endif %}" data-vp-sidebar-group>
-      <div class="item" role="button" tabindex="0">
+      <div class="item"{% unless include.item.link %} role="button" tabindex="0"{% endunless %}>
         <div class="indicator"></div>
-        <h2 class="text">{{ include.item.text }}</h2>
+        {% if include.item.link %}
+          <a class="VPLink link link{% if nav_item_url == page.url %} is-active{% endif %}" href="{{ nav_item_url }}" data-vp-sidebar-link data-turbo="true" data-turbo-frame="vp-content-frame" data-turbo-action="advance">
+            <h2 class="text">{{ include.item.text }}</h2>
+          </a>
+        {% else %}
+          <h2 class="text">{{ include.item.text }}</h2>
+        {% endif %}
         <div class="caret" role="button" aria-label="toggle section" tabindex="0">
           <span class="vpi-chevron-right caret-icon"></span>
         </div>
@@ -28,10 +74,6 @@
     </section>
   </div>
 {% elsif include.item.link %}
-  {%- comment -%}
-    Links starting with '/' are already absolute site paths. Prepending nav_base (which also
-    starts with '/') would produce a broken double-prefix like /openvox/latest//other/page.html.
-  {%- endcomment -%}
   {% assign nav_link_first_char = include.item.link | slice: 0 %}
   {% if nav_link_first_char == '/' %}
     {% assign nav_item_url = include.item.link %}
