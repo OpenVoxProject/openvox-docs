@@ -232,9 +232,10 @@ server exposes two rsync modules, described in the
 | `rsync://rsync.voxpupuli.org/packages` | `apt/`, `yum/`, and `downloads/` | 100 GB |
 | `rsync://rsync.voxpupuli.org/all` | Everything, including `artifacts/` | 500 GB |
 
-These sizes are from September 2026 and grow with every release. Most mirrors
-need only the `packages` module. The `artifacts/` directory holds build output
-from the release pipelines and is the largest part of the tree.
+These sizes are from September 2026 and grow with every release. Mirrors do not
+need to sync `artifacts/`, so use the `packages` module. The `artifacts/`
+directory holds build output from the release pipelines and is the largest part
+of the tree.
 
 Keep the directory layout of the module so that the examples on this page work
 with your mirror unchanged. For example:
