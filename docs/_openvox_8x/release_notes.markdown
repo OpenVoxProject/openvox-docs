@@ -20,6 +20,30 @@ You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade
 
 See [Upgrading from Puppet 7 to OpenVox 8](upgrade_major.html) for the changes to review before you move from 7 to 8.
 
+## OpenVox 8.31.1
+
+Released October 21, 2026.
+
+This is a security release of OpenVox. It refreshes the CA trust store and updates curl to 8.23.0.
+
+All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/8.31.1).
+
+Notable changes in this release:
+
+- The CA certificate bundle at `/opt/puppetlabs/puppet/ssl/cert.pem` and the Java keystore at `/opt/puppetlabs/puppet/ssl/puppet-cacerts` are rebuilt from the Mozilla root store as shipped in NSS 3.131.1 ([puppet-ca-bundle 1.1.1](https://github.com/OpenVoxProject/puppet-ca-bundle/pull/5)).
+  The rebuild removes the `emSign Root CA - C1`, `emSign ECC Root CA - C3`, and `emSign ECC Root CA - G3` roots after [eMudhra's private keys were found to be exposed](https://emudhra.we-have-a-problem.com/).
+  The bundle is what the agent's Ruby, OpenSSL, and curl trust when connecting to servers with publicly issued certificates, such as the Forge, `https` file sources, and gem installs. It plays no part in the trust between agents and the OpenVox server, which comes from the OpenVox CA in `ssldir`.
+- The upgrade replaces `cert.pem`, so a CA that you appended to that file has to be added again. [Adding a custom CA for HTTPS-inspecting proxies](ssl_custom_ca_proxy.html) describes the ways that survive upgrades.
+- curl is updated to 8.23.0, which fixes a use-after-free during HTTP/2 uploads ([CVE-2026-92392](https://curl.se/docs/CVE-2026-92392.html)).
+- Bundled gems are updated, including fast_gettext 4.1.1, multi_json 1.21.2, and net-ssh 7.3.6.
+- OpenSSL 3.0, which OpenVox 8 bundles, reached the end of its upstream support on September 7, 2026 and no longer receives fixes. The OpenSSL issues listed as open on the release page stay open in OpenVox 8. OpenVox 9 bundles OpenSSL 3.5, the current long-term-support line; see [Upgrading from OpenVox 8 to OpenVox 9](/openvox/9.x/upgrade_major.html).
+
+### Security Issues Resolved in 8.31.1
+
+| Identifier                                                        | CVSS 3.1 Score | Resolved By                        |
+| :---------------------------------------------------------------- | :------------: | :--------------------------------- |
+| [CVE-2026-92392](https://nvd.nist.gov/vuln/detail/CVE-2026-92392) |       8.1      | `pkg:github/curl/curl@8.23.0`      |
+
 ## OpenVox 8.31.0
 
 Released October 13, 2026.
