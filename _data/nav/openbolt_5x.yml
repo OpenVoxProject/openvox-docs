@@ -10,9 +10,9 @@
     link: bolt_versioning.html
   - text: Known issues
     link: bolt_known_issues.html
-- text: Installing Bolt
+- text: Installing OpenBolt
   items:
-  - text: Installing Bolt
+  - text: Installing OpenBolt
     link: bolt_installing.html
   - text: Run Bolt from a Docker image
     link: running_bolt_in_docker.html
