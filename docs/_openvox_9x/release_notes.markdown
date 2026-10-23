@@ -18,6 +18,20 @@ Puppet Open Source is no longer actively developed.
 
 You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade through OpenVox 8 to OpenVox 9, or you can upgrade to Puppet 8 and then migrate to OpenVox 8 and then to OpenVox 9.
 
+## OpenVox 9.2.1
+
+Released October 23, 2026.
+
+This is a security release of OpenVox. It updates the bundled Ruby to 4.0.9.
+
+All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/9.2.1).
+
+Notable changes in this release:
+
+- Ruby is updated from 4.0.8 to [4.0.9](https://www.ruby-lang.org/en/news/2026/10/23/ruby-4-0-9-released/), which fixes the regular expression compilation bugs described in Ruby's [advisory on regexp compilation fixes](https://www.ruby-lang.org/en/news/2026/10/23/regexp-fixes-for-gitlab-cves/).
+  GitLab found that the bugs could be used for remote code execution and published them as CVE-2026-89078, CVE-2026-93577, CVE-2026-97229, and CVE-2026-110264.
+  They are reached only when a program compiles a regular expression from untrusted input. Ruby has not assigned CVE identifiers of its own for them, so they do not appear in scans of OpenVox's bundled components.
+
 ## OpenVox 9.2.0
 
 Released October 22, 2026.
@@ -31,8 +45,6 @@ Notable changes in this release:
 - Ruby is updated from 4.0.7 to [4.0.8](https://github.com/ruby/ruby/releases/tag/v4.0.8), a routine bug-fix release.
   The agent daemon forks a child process for each run, and two of the fixes concern forked children: on glibc systems the child could be left unable to resolve hostnames ([Bug #22406](https://bugs.ruby-lang.org/issues/22406)), and on macOS it could abort with `pthread_rwlock_destroy: Resource busy` ([Bug #22445](https://bugs.ruby-lang.org/issues/22445)).
   The release also fixes several memory-safety bugs in `String` and `Array` methods.
-- Ruby 4.0.8 contains the fix for the integer overflow in regular expression compilation behind GitLab's CVE-2026-93577 and CVE-2026-97229, which Ruby describes in its [advisory on regexp compilation fixes](https://www.ruby-lang.org/en/news/2026/10/23/regexp-fixes-for-gitlab-cves/).
-  Those bugs are reached only by programs that compile a regular expression from untrusted input. The last fix from that advisory is in Ruby 4.0.9, which is not yet bundled.
   No CVEs reported against OpenVox's bundled components are resolved by this release.
 
 ## OpenVox 9.1.1
