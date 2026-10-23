@@ -81,8 +81,8 @@ The drawbacks are:
 - Reduced readability...maybe. Conditional logic isn't usually hard to read, especially in a simple case like this, but you might feel tempted to add a bunch of
   new custom facts to accommodate complex roles. This can make roles much harder to read, because a reader must also know what those facts mean.
 
-  In short, be careful of turning your node classification system inside-out. You might have a better time if you separate the roles and assign them with your
-  node classifier.
+  In short, be careful of turning your node classification system inside-out. You might have a better time if you separate the roles and assign them in your
+  classification data.
 
 ## Third approach: Nested roles
 
@@ -113,7 +113,7 @@ In this example, we reduce boilerplate by having `role::jenkins::master` include
 The benefits of this approach are:
 
 - You have fewer roles, and they're easy to maintain.
-- Increased visibility in your node classifier.
+- Fewer role names to choose from when classifying nodes.
 
 The drawbacks are:
 
@@ -127,8 +127,8 @@ However, if your nodes tend to provide more than one primary service, it can mak
 
 For example, say you have a large application that is usually composed of an application server, a database server, and a web server. To enable lighter-weight
 testing during development, you've decided to provide an "all-in-one" node type to your developers. You could do this by creating a new
-`role::our_application::monolithic` class, which includes all of the profiles that compose the three normal roles, but you might find it simpler to use your node
-classifier to assign all three roles (`role::our_application::app`, `role::our_application::db`, and `role::our_application::web`) to those all-in-one machines.
+`role::our_application::monolithic` class, which includes all of the profiles that compose the three normal roles, but you might find it simpler to assign all three roles (`role::our_application::app`, `role::our_application::db`, and `role::our_application::web`) to those all-in-one machines in your
+classification data.
 
 The benefit of this approach is:
 
@@ -137,7 +137,7 @@ The benefit of this approach is:
 The drawbacks are:
 
 - There's no actual "role" that describes your multi-purpose nodes; instead, the source of truth for what's on them is spread out between your roles and your
-  node classifier, and you must cross-reference to understand their configurations. This reduces readability.
+  classification data, and you must cross-reference to understand their configurations. This reduces readability.
 - The normal and all-in-one versions of a complex application are likely to have other subtle differences you need to account for, which might mean making your
   "normal" roles more complex. It's possible that making a separate role for this kind of node would *reduce* your overall complexity, even though it increases
   the number of roles and adds repetition.
@@ -148,7 +148,7 @@ Since profiles can already include other profiles, you can decide to enforce an 
 needed to manage a complete node that provides that service.
 
 For example, our `profile::jenkins::master` class could include both `profile::server` and `profile::base`, and you could manage a Jenkins master server by
-directly assigning `profile::jenkins::master` in your node classifier. In other words, a "main" profile would do all the work that a role usually does, and the
+assigning `profile::jenkins::master` directly to nodes. In other words, a "main" profile would do all the work that a role usually does, and the
 roles layer would no longer be necessary.
 
 The benefits of this approach are:
@@ -167,24 +167,23 @@ The drawbacks are:
   this, a "profiles and profiles" approach might make sense. But we strongly caution you against it unless you're very sure; for most people, a true roles and
   profiles approach works better. Try the well-traveled path first.
 
-## Sixth approach: Building roles in the node classifier
+## Sixth approach: Building roles in your classification data
 
-Instead of building roles with the Puppet language and then assigning them to nodes with your node classifier, you might find your classifier flexible enough to build roles directly.
+Instead of writing roles in the Puppet language and then assigning them to nodes, you can list the profiles directly in whatever assigns classes to nodes: a `classes` array at a role level of your Hiera hierarchy, or the class list that an external node classifier (ENC) returns. Some ENCs, Foreman among them, provide a user interface for this.
 
-For example, you might create a "Jenkins masters" group in your node classifier and assign it the `profile::base`, `profile::server`, and
-`profile::jenkins::master` classes, doing much the same job as our basic `role::jenkins::master` class.
+For example, a `roles/jenkins_master.yaml` data file could list `profile::base`, `profile::server`, and `profile::jenkins::master`, doing much the same job as our basic `role::jenkins::master` class.
 
-> **Important:** If you're doing this, make sure you don't set parameters for profiles in the classifier. Continue to use Hiera or Puppet lookup to configure profiles.
+> **Important:** If you're doing this with an ENC, make sure you don't set parameters for profiles in the ENC. Continue to use Hiera or Puppet lookup to configure profiles.
 >
-> This is because profiles are allowed to include other profiles, which interacts badly with the resource-like behavior that node classifiers use to set class parameters.
+> This is because profiles are allowed to include other profiles, which interacts badly with the resource-like behavior that ENCs use to set class parameters.
 
 The benefits of this approach are:
 
-- Your node classifier becomes much more powerful, and can be a central point of collaboration for managing nodes.
-- Increased readability: a node's page in the classifier displays the full content of its role, without having to cross-reference with manifests in your `role`
-  module.
+- Nodes can be classified without writing Puppet code, which suits teams that manage nodes through an ENC's user interface.
+- Increased readability: a node's data file or ENC entry displays the full content of its role, without having to cross-reference with manifests in your `role` module.
 
 The drawbacks are:
 
-- Loss of flexibility. The Puppet language's conditional logic is often more flexible and convenient than most node classifiers.
-- Your roles are no longer in the same code repository as your profiles, and it's more difficult to make them follow the same code promotion processes.
+- Loss of flexibility. The Puppet language's conditional logic is more flexible and convenient than a static list of classes.
+- A list in a data file cannot be tested with rspec-puppet the way a role class can, and when `classes` is merged across hierarchy levels it is harder to see the complete list for a node in one place.
+- With an ENC, your roles are no longer in the same code repository as your profiles, and it's more difficult to make them follow the same code promotion processes.
