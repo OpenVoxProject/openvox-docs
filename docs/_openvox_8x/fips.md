@@ -83,17 +83,16 @@ first.
    The package's post-install script runs `openssl fipsinstall` against the bundled
    FIPS module and installs the FIPS-enabled `/opt/puppetlabs/puppet/ssl/openssl.cnf`.
 
-3. For OpenVox Server or OpenVoxDB, install a supported Java first, then the
-   package:
+3. For OpenVox Server or OpenVoxDB, install the package. It depends on
+   `jre-17-headless`, the same as the `el` packages, so `dnf` installs Java 17
+   with it:
 
    ```console
-   sudo dnf install java-17-openjdk-headless
    sudo dnf install openvox-server
    ```
 
-   The FIPS packages of OpenVox Server 8 and OpenVoxDB 8 depend on Java 17
-   (`jre-17-headless`), the same as the `el` packages, and the Bouncy Castle FIPS
-   1.x libraries they bundle are certified up to Java 17
+   The Bouncy Castle FIPS 1.x libraries the FIPS packages of OpenVox Server 8 and
+   OpenVoxDB 8 bundle are certified up to Java 17
    ([Bouncy Castle FIPS downloads][bc_fips]), so run them on Java 17. Everything
    else about installing the server is as described in
    [Before you install OpenVox Server][server_install_pre].

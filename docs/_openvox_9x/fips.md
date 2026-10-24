@@ -90,10 +90,10 @@ first.
    The package's post-install script runs `openssl fipsinstall` against the bundled
    FIPS module and installs the FIPS-enabled `/opt/puppetlabs/puppet/ssl/openssl.cnf`.
 
-3. For OpenVox Server or OpenVoxDB, install Java 21, then the package:
+3. For OpenVox Server or OpenVoxDB, install the package. It depends on
+   `jre-21-headless`, so `dnf` installs Java 21 with it:
 
    ```console
-   sudo dnf install java-21-openjdk-headless
    sudo dnf install openvox-server
    ```
 
