@@ -13,6 +13,8 @@
     link: "component_versions.html"
   - text: Supported platforms
     link: "supported_platforms.html"
+  - text: Running OpenVox in FIPS mode
+    link: "fips.html"
 - text: Getting started
   items:
   - text: Getting started with OpenVox
