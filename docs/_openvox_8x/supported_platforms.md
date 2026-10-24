@@ -25,8 +25,9 @@ OpenVox ships on two build systems, which is why each row has two columns:
   dash means they are not (the agent still runs there, but you would run the server
   or database on a different platform).
 
-A dagger (†) marks operating systems with FIPS-validated builds. FIPS builds are
-x86-64 only.
+A dagger (†) marks operating systems that also get builds for hosts running in FIPS
+mode: `openvox-agent`, `openvox-server`, `openvoxdb`, and `openvoxdb-termini`, on
+x86-64 only (OpenBolt has no FIPS build). See [Running OpenVox in FIPS mode](fips.html).
 
 ## OpenVox 8.x
 

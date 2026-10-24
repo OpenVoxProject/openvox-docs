@@ -158,7 +158,7 @@ These settings are gone in OpenVox 9. Remove them from `puppet.conf` and from an
 
 ## Server and OpenVoxDB changes
 
-- **Java:** OpenVox Server 9 and OpenVoxDB 9 drop support for Java 17 and depend on a Java 25 or Java 21 runtime package, so a normal package upgrade installs one. Java 25 is used wherever the platform provides it; Enterprise Linux 8 provides Java 21 only, and the FIPS packages run on Java 21 only.
+- **Java:** OpenVox Server 9 and OpenVoxDB 9 drop support for Java 17 and depend on a Java 25 or Java 21 runtime package, so a normal package upgrade installs one. Java 25 is used wherever the platform provides it; Enterprise Linux 8 provides Java 21 only, and the [FIPS packages](fips.html) run on Java 21 only.
   A service that does start under Java 17, for example through a `JAVA_BIN` override, crashes early with `ClassNotFoundException: java.util.SequencedCollection`.
 - **Filebucket reads need an administrative certificate:** the default `auth.conf` in OpenVox Server 9 lets agents store filebucket content (`HEAD` and `PUT`) but restricts reading it back (`GET` and `POST`) to client certificates with the `pp_cli_auth: "true"` extension.
   If you restore or diff filebucket content remotely with an ordinary agent certificate, add an `auth.conf` rule for that certname as part of the upgrade. See [auth.conf](/openvox-server/9.x/config_file_auth.html).

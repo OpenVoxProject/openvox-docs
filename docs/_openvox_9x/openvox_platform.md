@@ -24,6 +24,8 @@ OpenVox publishes packages through these channels:
 
 On Linux systems, install the appropriate `openvox9-release` package for your
 distribution first. That package configures the repository and its signing keys.
+Enterprise Linux hosts running in FIPS mode use the `openvox9-release-redhatfips-<version>`
+package instead; see [Running OpenVox in FIPS mode](fips.html).
 
 All of these locations are served from a single server in Germany. If downloads are
 slow in your region, see [Repositories and mirrors](mirrors.html) for the list of
