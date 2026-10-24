@@ -2,6 +2,10 @@
 - text: Welcome to Puppet Bolt®
   link: bolt.html
   items:
+  - text: Overview
+    link: index.html
+  - text: Welcome to Puppet Bolt®
+    link: bolt.html
   - text: Developer updates
     link: developer_updates.html
   - text: Release notes
@@ -30,6 +34,8 @@
     link: logs.html
   - text: Escalating privilege with Bolt
     link: privilege_escalation.html
+  - text: Choria transport
+    link: choria-transport.html
   - text: Setting up VS Code for Bolt
     link: vscode_and_bolt.html
 - text: Running Bolt
@@ -47,6 +53,8 @@
 - text: Plans
   link: plans.html
   items:
+  - text: Plans overview
+    link: plans.html
   - text: Inspecting plans
     link: inspecting_plans.html
   - text: Running plans
@@ -62,6 +70,8 @@
 - text: Tasks
   link: tasks.html
   items:
+  - text: Tasks overview
+    link: tasks.html
   - text: Inspecting tasks
     link: inspecting_tasks.html
   - text: Running tasks
@@ -99,6 +109,8 @@
 - text: Bolt Examples
   link: bolt_examples.html
   items:
+  - text: Examples overview
+    link: bolt_examples.html
   - text: Automating Windows targets
     link: automating_windows_targets.html
   - text: Deploy a TIG stack with Bolt
