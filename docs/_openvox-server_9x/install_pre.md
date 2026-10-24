@@ -29,11 +29,13 @@ Before installing OpenVox Server:
    | Fedora | 43, 44 | x86_64, aarch64 |
    | SLES | 15 | x86_64 |
    | SLES | 16 | x86_64, aarch64 |
-   | RHEL FIPS | 8, 9 | x86_64 |
+   | RHEL FIPS | 8, 9, 10 | x86_64 |
 
    OpenVox Server 9 no longer ships packages for Debian 11 and 12 (they only provide
    Java 17) or for Amazon Linux 2. For the list the build system works from, see
-   [Supported platforms](/openvox/latest/supported_platforms.html).
+   [Supported platforms](/openvox/latest/supported_platforms.html). Hosts running in
+   FIPS mode need the `redhatfips` packages; see
+   [Running OpenVox in FIPS mode](/openvox/latest/fips.html).
 
 2. Verify your Java version.
 

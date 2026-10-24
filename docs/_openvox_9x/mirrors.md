@@ -47,7 +47,9 @@ component within that suite, such as `openvox9`.
 Within the `yum/` tree, repositories follow the pattern
 `<series>/<platform>/<version>/<arch>`, where `<platform>` is `el`, `fedora`,
 `amazon`, `sles`, or `redhatfips`. For example, the OpenVox 9 repository for
-EL 9 on x86_64 is `yum/openvox9/el/9/x86_64/`.
+EL 9 on x86_64 is `yum/openvox9/el/9/x86_64/`. The `redhatfips` repositories hold
+the builds for Enterprise Linux hosts running in FIPS mode; see
+[Running OpenVox in FIPS mode](fips.html).
 
 ### Signing key
 

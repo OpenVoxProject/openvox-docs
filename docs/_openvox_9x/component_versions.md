@@ -77,8 +77,8 @@ from the server's per-release SBOM.
 {% endif %}
 
 > **Java is not bundled.** OpenVox Server requires a supported JDK to be installed
-> separately. The Java column shows the currently supported major versions (the FIPS
-> packages run on Java 21 only), not a per-release pin; see
+> separately. The Java column shows the currently supported major versions (the
+> [FIPS packages](fips.html) run on Java 21 only), not a per-release pin; see
 > [Before you install OpenVox Server][server_install_pre].
 
 ## Data components
@@ -108,7 +108,7 @@ Jetty is the bundled HTTP server, read from the OpenVoxDB SBOM.
 > **Java and PostgreSQL are not bundled.** OpenVoxDB runs on a JVM and connects to a
 > PostgreSQL server you install separately (the `puppet-openvoxdb` module can install
 > PostgreSQL for you). The Java column shows the currently supported major versions
-> (the FIPS packages run on Java 21 only), and the PostgreSQL column the supported
+> (the [FIPS packages](fips.html) run on Java 21 only), and the PostgreSQL column the supported
 > minimum — neither is a per-release pin. See
 > [Configuring PostgreSQL][openvoxdb_postgres].
 
