@@ -30,7 +30,10 @@ Before installing OpenVox Server:
    | Amazon Linux | 2, 2023 | x86_64, aarch64 |
    | Fedora | 36, 40, 41, 42, 43 | x86_64, aarch64 |
    | SLES | 15, 16 | x86_64, aarch64 |
-   | RHEL FIPS | 8, 9 | x86_64, aarch64 |
+   | RHEL FIPS | 8, 9 | x86_64 |
+
+   Hosts running in FIPS mode need the `redhatfips` packages; see
+   [Running OpenVox in FIPS mode](/openvox/8.x/fips.html).
 
 2. Verify your Java version.
 
