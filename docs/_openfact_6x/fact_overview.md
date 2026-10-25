@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Overview of custom facts with examples"
+title: "Custom facts reference"
 ---
 
 A typical fact in OpenFact is a fairly simple assemblage of just a few different elements.
@@ -36,7 +36,7 @@ Facter.add(:rubypath) do
 end
 
 Facter.add(:rubypath) do
-  confine :os['family'] => "Windows"
+  confine 'os.family' => 'windows'
   # Windows uses 'where' instead of 'which'
   setcode 'where ruby'
 end
@@ -70,6 +70,7 @@ Simple facts are typically made up of the following parts:
     * Can either match against the value of another fact or evaluate a Ruby block.
     * If given a symbol or string representing a fact name, a block is required and the block receives the fact's value as an argument.
     * If given a hash, the keys are expected to be fact names. The values of the hash are either the expected fact values or an array of values to compare against.
+    * A fact name can be dotted, such as `'os.family'`, to match part of a structured fact.
     * If given a block, the confine is suitable if the block returns a value other than `nil` or `false`.
 3. An optional `has_weight` statement:
     * When multiple resolutions are available for a fact, resolutions are evaluated from highest weight value to lowest.
@@ -77,8 +78,8 @@ Simple facts are typically made up of the following parts:
     * Defaults to the number of `confine` statements for the resolution.
 4. A `setcode` statement that determines the value of the fact:
     * Can take either a string or a block.
-    * If given a string, OpenFact executes it as a shell command. If the command succeeds, the output of the command is the value of the fact. If the command fails, the next suitable resolution is evaluated.
-    * If given a block, the block's return value is the value of the fact unless the block returns `nil`. If `nil` is returned, the next suitable resolution is evalutated.
+    * If given a string, OpenFact executes it as a shell command, and the command's output is the value of the fact, even if the command exits with a non-zero status. If the command prints nothing or cannot be run, the next suitable resolution is evaluated.
+    * If given a block, the block's return value is the value of the fact unless the block returns `nil`. If `nil` is returned, the next suitable resolution is evaluated.
     * Can execute shell commands within a `setcode` block, using the `Facter::Core::Execution.execute` function.
     * If multiple `setcode` statements are evaluated for a single resolution, only the last `setcode` block is used.
 
@@ -93,8 +94,8 @@ Structured facts can have [simple](#main-components-of-simple-resolutions) or [a
 Facter.add(:interfaces_array) do
   setcode do
     interfaces = Facter.value(:networking)['interfaces'].keys
-    # the 'networking' fact provdes a list of interface hashes with the interface name as key.
-    # using the keys functon on the hash provoides an array of interface names.
+    # the 'networking' fact provides a list of interface hashes with the interface name as key.
+    # using the keys function on the hash provides an array of interface names.
   end
 end
 ```
@@ -164,7 +165,7 @@ end
 
 ## Writing facts with aggregate resolutions
 
-Aggregate resolutions allow you to split up the resolution of a fact into separate chunks.By default, OpenFact merges hashes with hashes or arrays with arrays, resulting in a [structured fact](#writing-structured-facts).
+Aggregate resolutions allow you to split up the resolution of a fact into separate chunks. By default, OpenFact merges hashes with hashes or arrays with arrays, resulting in a [structured fact](#writing-structured-facts).
 But you can also aggregate the chunks into a flat fact using concatenation, addition, or any other function that you can express in Ruby code.
 
 ### Main components of aggregate resolutions
@@ -178,7 +179,7 @@ The `aggregate` block is optional, and without it OpenFact merges hashes with ha
     * The `:type => :aggregate` parameter is required for aggregate resolutions.
     * The rest of the fact is wrapped in the `add` call's `do ... end` block.
 2. Zero or more `confine` statements:
-    * Determine whether the resolution is suitable and (therefore is evaluated).
+    * Determine whether the resolution is suitable (and therefore is evaluated).
     * They can either match against the value of another fact or evaluate a Ruby block.
     * If given a symbol or string representing a fact name, a block is required and the block receives the fact's value as an argument.
     * If given a hash, the keys are expected to be fact names. The values of the hash are either the expected fact values or an array of values to compare against.
@@ -234,26 +235,27 @@ Facter.add(:networking_primary_sha, :type => :aggregate) do
 end
 ```
 
-The fact's output is organized by network interface into hashes, each containing the two chunks:
+The fact's output is organized by network interface into hashes that merge the two chunks. An
+interface without a MAC address has only the `primary?` key:
 
-``` ruby
+``` json
 {
-  bridge0 => {
-    mac_sha256 => "bfgEFV7m1V04HYU6UqzoNoVmnPIEKWRSUOU650j0Wkk=",
-    primary?   => false
-  },
-  en0 => {
-    mac_sha256 => "6Fd3Ws2z+aIl8vNmClCbzxiO2TddyFBChMlIU+QB28c=",
-    primary?   => true
-  },
-  ...
+  "networking_primary_sha": {
+    "eth0": {
+      "mac_sha256": "MUg0aOS8jHzmFZ4roTqlkhoqCSwF8XPJqLo4iqy3Hrw=",
+      "primary?": true
+    },
+    "lo": {
+      "primary?": false
+    }
+  }
 }
 ```
 
 ### Example: Building a flat fact progressively with addition
 
 ``` ruby
-Facter.add(:total_free_memory_mb, :type => :aggregate) do
+Facter.add(:total_free_memory_bytes, :type => :aggregate) do
   chunk(:physical_memory) do
     Facter.value(:memory)['system']['available_bytes']
   end
