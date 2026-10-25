@@ -43,6 +43,7 @@ Ruby 2.5 through 2.7. See the [release notes](./release_notes.html) for the othe
 - [Core facts reference](./core_facts.html) — every built-in fact that ships with OpenFact (auto-generated)
 - [Custom facts walkthrough](./custom_facts.html) — step-by-step guide to writing and distributing your own facts
 - [Custom facts reference](./fact_overview.html) — example-driven quick reference for fact authors
+- [External facts](./external_facts.html) — scripts and structured data files as facts
 - [Configuring OpenFact](./configuring_openfact.html) — `facter.conf` options
 - [CLI reference](./cli.html) — command-line flags and options (auto-generated)
 - [Release notes](./release_notes.html) — OpenFact version history

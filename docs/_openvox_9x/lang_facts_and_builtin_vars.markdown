@@ -9,7 +9,7 @@ title: "Language: Facts and built-in variables"
 [core_facts]: /openfact/latest/core_facts.html
 [facter]: /openfact/latest
 [customfacts]: /openfact/latest/custom_facts.html
-[external facts]: /openfact/latest/custom_facts.html#external-facts
+[external facts]: /openfact/latest/external_facts.html
 [facterconfig]: /openfact/latest/configuring_openfact.html
 [catalog]: ./lang_summary.html#compilation-and-catalogs
 [noop]: ./configuration.html#noop

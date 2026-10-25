@@ -3,7 +3,7 @@ layout: default
 title: Plug-ins in Modules
 ---
 
-[external facts]: /openfact/latest/custom_facts.html#external-facts
+[external facts]: /openfact/latest/external_facts.html
 [vardir]: ./dirs_vardir.html
 [custom facts]: /openfact/latest/custom_facts.html
 [custom resource types and providers]: ./custom_types.html

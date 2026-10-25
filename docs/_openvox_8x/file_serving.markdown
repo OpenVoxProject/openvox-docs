@@ -7,7 +7,7 @@ title: "Adding file server mount points"
 [fileserver.conf]: ./config_file_fileserver.html
 [auth.conf]: /openvox-server/latest/config_file_auth.html
 [disable_legacy]: /openvox-server/latest/config_file_puppetserver.html
-[external facts]: /openfact/latest/custom_facts.html#external-facts
+[external facts]: /openfact/latest/external_facts.html
 
 Puppet Server includes a file server for transferring static file content to agents; this is what's used whenever a `file` resource has a `source => puppet:///...` attribute specified.
 
