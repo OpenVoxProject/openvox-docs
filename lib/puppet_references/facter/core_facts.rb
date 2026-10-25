@@ -11,7 +11,7 @@ module PuppetReferences
         puts 'Core facts: building reference.'
         collection_dir.mkpath
         raw_text = `ruby #{PuppetReferences::FACTER_DIR}/lib/docs/generate.rb`
-        header_data = { title: 'Facter: Core Facts',
+        header_data = { title: 'OpenFact: Core Facts',
                         toc: 'columns',
                         canonical: "#{@latest}/core_facts.html", }
         content = make_header(header_data, 'OpenFact', PuppetReferences.version_commit) + PREAMBLE + raw_text

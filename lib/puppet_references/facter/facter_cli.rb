@@ -5,7 +5,7 @@ module PuppetReferences
   module Facter
     class FacterCli < PuppetReferences::Reference
       def header_data
-        { title: 'Facter: CLI',
+        { title: 'OpenFact: CLI',
           toc: 'columns',
           canonical: "#{@latest}/cli.html", }
       end
@@ -25,6 +25,9 @@ module PuppetReferences
         markdown_text, = Open3.capture3('mandoc -T markdown', stdin_data: raw_text)
         # Strip the "TITLE - Manual" header line and the dated footer line mandoc adds
         markdown_text = markdown_text.lines[1...-1].join
+        # mandoc renders the man page sections (NAME, SYNOPSIS, ...) as level-1 headings; the page
+        # title is already the H1, so demote them.
+        markdown_text = markdown_text.gsub(/^# /, '## ')
         content = make_header(header_data, 'OpenFact', PuppetReferences.version_commit) + markdown_text
         filename = collection_dir + 'cli.md'
         filename.open('w') { |f| f.write(content) }
