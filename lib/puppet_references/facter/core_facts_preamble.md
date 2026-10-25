@@ -1,13 +1,23 @@
-# This is a list of all of the built-in facts that ship with OpenFact
+<!-- markdownlint-disable MD041 MD051 -->
+<!-- Prepended to the generated core facts list, which supplies the page title and the #legacy-facts anchor. -->
+This page lists the built-in facts that ship with OpenFact. Not every fact applies to every system,
+and your site might also use [custom facts](custom_facts.html) and
+[external facts](external_facts.html) that your modules distribute.
 
-Not all of them apply to every system, and your site might also use [custom facts](custom_facts.html) delivered via Puppet modules.
-To see the full list of structured facts and values on a given system (including plugin facts), run `puppet facts` at the command line.
-If you are using [PuppetBoard](https://github.com/voxpupuli/puppetboard) or if you are using Puppet Enterprise, you can view all of the facts in the web UI.
+To see every fact on a node, including the ones your modules add, run `puppet facts show`. If you
+use [Puppetboard](https://github.com/voxpupuli/puppetboard) with OpenVoxDB, you can also browse
+facts in its web interface.
 
-You can access facts in your Puppet manifests as `$facts['fact_name']`. For more information, see [the Puppet docs on facts and built-in variables.](/openvox/latest/lang_facts_and_builtin_vars.html)
+In manifests, read facts from the `$facts` hash, for example `$facts['os']['family']`. For more
+information, see [Facts and built-in variables](/openvox/latest/lang_facts_and_builtin_vars.html).
 
-> **Legacy Facts Note:** As of Facter 3, legacy facts such as `architecture` are hidden by default to reduce noise in OpenFact's default command-line output.
-> These older facts are now part of more useful structured facts; for example, `architecture` is now part of the `os` fact and accessible as `os.architecture`.
-> You can still view them alongside structured facts (`facter --show-legacy`).
+> **Legacy facts:** The facts in the [Legacy Facts](#legacy-facts) section, such as `osfamily` and
+> `architecture`, come from older versions of Facter. Their data is also in structured facts, for
+> example `os.family` and `os.architecture`. Since OpenVox 8, agents do not send legacy facts to
+> the server, because the `include_legacy_facts` setting defaults to `false`. A manifest that uses
+> `$osfamily` fails with "Unknown variable", and `$facts['osfamily']` is empty, so use the
+> structured facts instead. If you still depend on legacy facts, set `include_legacy_facts = true`
+> in `puppet.conf` on your agents while you migrate. `facter` and `puppet facts show` also hide
+> legacy facts unless you pass `--show-legacy` or ask for a fact by name.
 
 * * *
