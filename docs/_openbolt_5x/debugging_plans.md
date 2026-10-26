@@ -5,15 +5,15 @@ title: Debugging plans
 
 # Debugging plans
 
-By default, Bolt does not print the result for each step of a plan to standard
-output (stdout). However, there are multiple ways to debug a Bolt plan.
+By default, OpenBolt does not print the result for each step of a plan to standard
+output (stdout). However, there are multiple ways to debug a plan.
 
 To investigate a plan's execution:
 
-- You can view the default debug log, which Bolt prints to each time you run a
-  Bolt command.
+- You can view the default debug log, which OpenBolt prints to each time you run an
+  OpenBolt command.
 
-- You can adjust your log level for detailed information on how Bolt is
+- You can adjust your log level for detailed information on how OpenBolt is
   executing your plan, including the results returned from each step.
 
 - You can print logs using built-in plan functions.
@@ -28,15 +28,15 @@ To investigate a plan's execution:
 
 ### Default debug log
 
-Bolt logs additional information about a plan run, including output sent to
-standard error (stderr), at the `debug` level. When you run a Bolt command, Bolt
+OpenBolt logs additional information about a plan run, including output sent to
+standard error (stderr), at the `debug` level. When you run an OpenBolt command, OpenBolt
 automatically prints to a debug log named `bolt-debug.log`, located in the root
 of your project. This log includes all messages printed at the `debug` level or
 higher.
 
 ### Setting the log level
 
-You can adjust the log level that Bolt prints at using the `log-level`
+You can adjust the log level that OpenBolt prints at using the `log-level`
 command-line option:
 
 _\*nix shell command:_
@@ -53,10 +53,10 @@ _PowerShell cmdlet:_
 
 ### Default action logging
 
-Bolt logs actions that a plan takes on targets, such as running commands,
-scripts, or tasks, or downloading or uploading files. By default, Bolt logs
+OpenBolt logs actions that a plan takes on targets, such as running commands,
+scripts, or tasks, or downloading or uploading files. By default, OpenBolt logs
 an `info` level message when an action starts and another when it completes. If
-you pass a description to the action, Bolt uses the description in place of the
+you pass a description to the action, OpenBolt uses the description in place of the
 generic log message.
 
 _Puppet language plan:_
@@ -107,7 +107,7 @@ without_default_logging { run_command('echo hi', $targets) }
 
 ### Log functions
 
-Bolt ships with built-in functions for logging at each of Bolt's log levels.
+OpenBolt ships with built-in functions for logging at each of OpenBolt's log levels.
 
 | Log level | Plan function |
 | --- | --- |
@@ -118,14 +118,14 @@ Bolt ships with built-in functions for logging at each of Bolt's log levels.
 | `error` | [`log::error`](plan_functions.html#logtrace) |
 | `fatal` | [`log::fatal`](plan_functions.html#logfatal) |
 
-### Puppet log functions in Bolt
+### Puppet log functions in OpenBolt
 
-You can use Puppet log functions in Bolt plans, but Bolt log levels do not map
+You can use Puppet log functions in plans, but OpenBolt log levels do not map
 directly to Puppet log levels. For example, a `notice` function in a plan logs
-at the `info` level in Bolt. Whenever possible, use Bolt log functions instead
+at the `info` level in OpenBolt. Whenever possible, use OpenBolt log functions instead
 of Puppet log functions. Log levels map as follows:
 
-| Puppet log level | Bolt log level |
+| Puppet log level | OpenBolt log level |
 | --- | --- |
 | `debug` | `trace` |
 | `info` | `debug` |
@@ -138,7 +138,7 @@ of Puppet log functions. Log levels map as follows:
 
 ## Running in verbose mode
 
-When you run a plan in verbose mode, Bolt automatically prints the results for
+When you run a plan in verbose mode, OpenBolt automatically prints the results for
 commands, scripts, tasks, and plans to stdout. To run in verbose mode, specify
 the `verbose` command-line option:
 
@@ -162,8 +162,8 @@ choose to always print values or only print values when running a plan in
 verbose mode.
 
 When you print a value that is a valid [plan
-result](bolt_types_reference.html#planresult), Bolt formats and prints the value
-as JSON. If the object is not a plan result, then Bolt prints the value as a
+result](bolt_types_reference.html#planresult), OpenBolt formats and prints the value
+as JSON. If the object is not a plan result, then OpenBolt prints the value as a
 string.
 
 ### Printing values in Puppet language plans

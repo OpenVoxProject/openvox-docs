@@ -5,7 +5,7 @@ title: Writing tasks
 
 # Writing tasks
 
-Bolt tasks are similar to scripts, but they are kept in modules and can have
+Tasks are similar to scripts, but they are kept in modules and can have
 metadata. This allows you to reuse and share them.
 
 You can write tasks in any programming language the targets run, such as Bash,
@@ -59,7 +59,7 @@ end
 
 ## Naming tasks
 
-You use a task name to interact with a task from the Bolt command line. For
+You use a task name to interact with a task from the OpenBolt command line. For
 example, you can use `bolt task run puppet_agent::version --targets localhost`
 to run the `puppet_agent::version` task.
 
@@ -90,7 +90,7 @@ Each task or plan name segment must begin with a lowercase letter and:
 ## Task metadata
 
 Task metadata files describe task parameters, validate input, and control how
-Bolt executes the task.
+OpenBolt executes the task.
 
 Your task must have metadata to be published and shared on the Forge. Specify
 task metadata in a JSON file with the naming convention `<TASKNAME>.json`. Place
@@ -170,7 +170,7 @@ syntax](/openvox/latest/lang_data_type.html)
 ## Defining parameters in tasks
 
 Tasks can receive input as either environment variables, a JSON hash on standard
-input, or as PowerShell arguments. By default, Bolt submits parameters as both
+input, or as PowerShell arguments. By default, OpenBolt submits parameters as both
 environment variables and as JSON on `stdin`. Environment variables work well
 for simple JSON types such as strings and numbers. For arrays and hashes, use
 structured input instead, because parameters with undefined values (`nil`,
@@ -248,19 +248,19 @@ if ($Name -eq $null -or $Name -eq "") {
 
 To pass parameters in your task as environment variables (`PT_parameter`), you
 must set `input_method` in your task metadata to `environment`. To run Ruby
-tasks on Windows, the Puppet agent must be installed on the targets.
+tasks on Windows, the OpenVox agent must be installed on the targets.
 
 ### Adding parameters to metadata
 
 To document and validate task parameters, add the parameters to the task
 metadata as JSON object, `parameters`.
 
-If a task includes `parameters` in its metadata, Bolt rejects any parameters
+If a task includes `parameters` in its metadata, OpenBolt rejects any parameters
 input to the task that aren't defined in the metadata.
 
 In the `parameter` object, give each parameter a description and specify its
 Puppet type. For a complete list of types, see the [types
-documentation](https://docs.puppet.com/puppet/latest/lang_data_type.html).
+documentation](/openvox/latest/lang_data_type.html).
 
 For example, the following code in a metadata file describes a `provider`
 parameter:
@@ -335,8 +335,8 @@ part of a task plan, consider using structured input and output with your task.
 The task API is based on JSON. Task parameters are encoded in JSON, and the task
 runner attempts to parse the output of the tasks as a JSON object.
 
-Bolt can inject keys into that object, prefixed with `_`. If the task does not
-return a JSON object, Bolt creates one and places the output in an `_output`
+OpenBolt can inject keys into that object, prefixed with `_`. If the task does not
+return a JSON object, OpenBolt creates one and places the output in an `_output`
 key.
 
 ### Structured input
@@ -344,7 +344,7 @@ key.
 For complex input, such as hashes and arrays, you can accept structured JSON in
 your task.
 
-By default, Bolt passes task parameters as both environment variables and as a
+By default, OpenBolt passes task parameters as both environment variables and as a
 single JSON object on `stdin`. The JSON input allows the task to accept complex
 data structures.
 
@@ -396,8 +396,8 @@ json.dump(result, sys.stdout)
 To return a detailed error message if your task fails, include an `Error` object
 in the task's result.
 
-When a task exits non-zero, Bolt checks for an error key `_error`. If one is not
-present, Bolt generates a generic error and adds it to the result. If there is
+When a task exits non-zero, OpenBolt checks for an error key `_error`. If one is not
+present, OpenBolt generates a generic error and adds it to the result. If there is
 no text on `stdout`, but text is present on `stderr`, the `stderr` text is
 included in the message.
 
@@ -447,15 +447,15 @@ puts result.to_json
 ```
 
 Error results typically contain the file and line number under the `details` key of an
-error. Bolt merges the 'file' and 'line' keys with results unless 'file' is present in the
+error. OpenBolt merges the 'file' and 'line' keys with results unless 'file' is present in the
 `_error` hash returned from a task.
 
 ### Returning sensitive data
 
-To return secrets from a task, use the `_sensitive` key at the top level of the output. Bolt treats
-the result as sensitive and does not allow it to be printed to the console or log. Note that Bolt
+To return secrets from a task, use the `_sensitive` key at the top level of the output. OpenBolt treats
+the result as sensitive and does not allow it to be printed to the console or log. Note that OpenBolt
 does not obfuscate data under `_sensitive` if `_sensitive` is not at the top level.  For example,
-Bolt does not treat this `user` data as sensitive: `{user: _sensitive: { carmen: sandiego } }`.
+OpenBolt does not treat this `user` data as sensitive: `{user: _sensitive: { carmen: sandiego } }`.
 
 This task generates a random password for user `someone`, making the password hash sensitive.
 
@@ -499,7 +499,7 @@ metaparameter.
 
 If the user passes the `--noop` flag with their command, this parameter is set
 to `true`, and your task must not make changes. You must also set
-`supports_noop` to `true` in your task metadata or Bolt will refuse to run the
+`supports_noop` to `true` in your task metadata or OpenBolt will refuse to run the
 task in noop mode.
 
 ### No-op metadata example
@@ -625,15 +625,15 @@ The task metadata file, `sql.json`, contains an implementations section:
 ```
 
 Each implementations has a `name` and a list of `requirements`. Task
-requirements correspond directly to Bolt _features_. A feature must be available
-on the target in order for Bolt to use an implementation. You can specify
-additional features for a target using the `set_feature` function in a Bolt
-plan, or by adding `features` to your inventory file. Bolt chooses the first
+requirements correspond directly to OpenBolt _features_. A feature must be available
+on the target in order for OpenBolt to use an implementation. You can specify
+additional features for a target using the `set_feature` function in an OpenBolt
+plan, or by adding `features` to your inventory file. OpenBolt chooses the first
 implementation whose requirements are satisfied.
 
-Bolt defines the following features by default:
+OpenBolt defines the following features by default:
 
-- `puppet-agent`: Present if the target has the Puppet agent package
+- `puppet-agent`: Present if the target has the OpenVox agent package
     installed. This feature is automatically added to hosts with the name
     `localhost`.
 - `shell`: Present if the target has a POSIX shell.
@@ -650,7 +650,7 @@ cases, you can write a task that runs on a proxy target and remotely interacts
 with the real target.
 
 For example, a network device might have a limited shell environment or a cloud
-service might be driven only by HTTP APIs. By writing a remote task, Bolt allows
+service might be driven only by HTTP APIs. By writing a remote task, OpenBolt allows
 you to specify connection information for remote targets in their inventory file
 and injects them into the `_target` metaparameter.
 
@@ -682,7 +682,7 @@ puts resp.body
 ```
 
 To prevent accidentally running a normal task on a remote target and breaking
-its configuration, Bolt won't run a task on a remote target unless its metadata
+its configuration, OpenBolt won't run a task on a remote target unless its metadata
 defines it as remote:
 
 ```json
@@ -904,9 +904,9 @@ Ran on 1 target in 0.12 seconds
 
 ### Task helpers
 
-Bolt ships with several libraries that can be used to help write tasks.
+OpenBolt ships with several libraries that can be used to help write tasks.
 See [Task helpers](task_helpers.html) for a list of task helpers that
-ship with Bolt and examples for how to use them in your tasks.
+ship with OpenBolt and examples for how to use them in your tasks.
 
 ## Secure coding practices for tasks
 
@@ -917,7 +917,7 @@ writing secure tasks. It is not an exhaustive list.
 
 One of the methods attackers use to gain access to your systems is remote code
 execution, where they are able to gain access to other parts of your system and
-make arbitrary changes by running an allowed script. Because Bolt executes
+make arbitrary changes by running an allowed script. Because OpenBolt executes
 scripts across your infrastructure, it is important to be aware of certain
 vulnerabilities, and to code tasks in a way that guards against remote code
 execution.
@@ -1063,8 +1063,8 @@ running the task locally as a script, and redirecting `stderr` to `stdout`.
 
 ### Debug logs
 
-Typically, Bolt only displays task output that is sent to `stdout`. However,
-Bolt does log additional information about a task run, including output sent to
+Typically, OpenBolt only displays task output that is sent to `stdout`. However,
+OpenBolt does log additional information about a task run, including output sent to
 `stderr`, at the `debug` level. You can view these logs during a task run using
 the `--log-level debug` CLI option.
 
@@ -1080,12 +1080,12 @@ as it executes.
 
 Both Python and Ruby have remote debugging libraries available that make it
 easy to pause execution of a task and debug the code. Using remote debugging
-libraries is necessary when running tasks with Bolt since the tasks are
+libraries is necessary when running tasks with OpenBolt since the tasks are
 executed in separate threads.
 
 PowerShell tasks can take advantage of the `Set-PSBreakpoint` cmdlet, which
 sets a breakpoint in a PowerShell script and allows you to step through the
-code. Since Bolt passes parameters to PowerShell tasks as named arguments,
+code. Since OpenBolt passes parameters to PowerShell tasks as named arguments,
 you can easily run PowerShell tasks as scripts and use the `Set-PSBreakpoint`
 cmdlet.
 
@@ -1147,7 +1147,7 @@ gem install pry-remote
 ```
 
 If you are running the task on `localhost`, you can install the `pry-remote`
-gem locally using Bolt's Ruby:
+gem locally using OpenBolt's Ruby:
 
 ```console
 /opt/puppetlabs/bolt/bin/gem install --user-install pry-remote
@@ -1395,7 +1395,7 @@ $ bolt task run mytask -t localhost value_1=10 value_2=0 --format json
 
 ### Running a task as a script
 
-Running tasks without Bolt can make debugging easier, as the task will no
+Running tasks without OpenBolt can make debugging easier, as the task will no
 longer be executed in a separate thread. Since tasks are similar to scripts,
 you can make temporary changes to the task so they can accept command-line
 arguments and be run from the command line.
@@ -1499,7 +1499,7 @@ puts result.to_json
 
 #### PowerShell example
 
-Bolt sends parameters to PowerShell tasks by converting the parameters into
+OpenBolt sends parameters to PowerShell tasks by converting the parameters into
 named arguments. You can run a PowerShell task as a script by running it
 from the command line and providing the parameters as named arguments:
 
@@ -1521,7 +1521,7 @@ Write-Output $result
 
 ### Redirecting `stderr`
 
-By default, Bolt does not display output from `stderr` if any output is sent
+By default, OpenBolt does not display output from `stderr` if any output is sent
 to `stdout`. If you want to stream output from both `stderr` and `stdout`, you
 can redirect `stderr`.
 

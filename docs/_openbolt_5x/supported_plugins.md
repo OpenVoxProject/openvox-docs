@@ -5,8 +5,8 @@ title: Supported plugins
 
 # Supported plugins
 
-The following plugins are supported and maintained by Bolt. Supported plugins
-are shipped with Bolt packages and do not need to be installed separately.
+The following plugins are supported and maintained by OpenBolt. Supported plugins
+are shipped with OpenBolt packages and do not need to be installed separately.
 
 ## Reference plugins
 
@@ -22,7 +22,7 @@ files, and plans.
 | `gcloud_inventory` | Generate targets from Google Cloud compute engine instances. | [gcloud_inventory](https://forge.puppet.com/puppetlabs/gcloud_inventory) |
 | `pkcs7` | Decrypt ciphertext. | [pkcs7](https://forge.puppet.com/puppetlabs/pkcs7) |
 | `prompt` | Prompt the user for a sensitive value. | [prompt](#prompt) |
-| `puppetdb` | Query PuppetDB for a group of targets. | [puppetdb](#puppetdb) |
+| `puppetdb` | Query OpenVoxDB for a group of targets. | [puppetdb](#puppetdb) |
 | `task` | Run a task as a plugin. | [task](#task) |
 | `terraform` | Generate targets from local and remote Terraform state files. | [terraform](https://forge.puppet.com/puppetlabs/terraform) |
 | `vault` | Access secrets from a Key/Value engine on a Hashicorp Vault server. | [vault](https://forge.puppet.com/puppetlabs/vault) |
@@ -31,7 +31,7 @@ files, and plans.
 ## Secret plugins
 
 Use secret plugins to create keys for encryption and decryption, to encrypt
-plaintext, or to decrypt ciphertext. Secret plugins are used by Bolt's `secret`
+plaintext, or to decrypt ciphertext. Secret plugins are used by OpenBolt's `secret`
 command.
 
 | Plugin | Description | Documentation |
@@ -49,7 +49,7 @@ when a plan calls the `apply_prep` function.
 
 ## Built-in plugins
 
-The following plugins are built into Bolt and are not available in modules.
+The following plugins are built into OpenBolt and are not available in modules.
 
 ### `env_var`
 
@@ -87,7 +87,7 @@ config:
 The `prompt` plugin allows users to interactively enter sensitive configuration
 information on the CLI instead of storing that data in the inventory file. Data
 is looked up when the value is needed for the target. Once the value has been
-stored, it is re-used for the rest of the Bolt run.
+stored, it is re-used for the rest of the OpenBolt run.
 
 #### Parameters
 
@@ -113,7 +113,7 @@ config:
 
 ### `puppetdb`
 
-The `puppetdb` plugin queries PuppetDB for a group of targets.
+The `puppetdb` plugin queries OpenVoxDB for a group of targets.
 
 If you require target-specific configuration, you can use the `puppetdb` plugin
 to look up configuration values for the `alias`, `config`, `facts`, `features`,
@@ -130,7 +130,7 @@ The following parameters are available to the `puppetdb` plugin:
 
 | Parameter | Description | Type | Default |
 | --- | ----------- | ---- | ------- |
-| `query` | **Required.** A string containing a [PQL query](/openvoxdb/latest/api/query/v4/pql.html) or an array containing a [PuppetDB AST format query](/openvoxdb/latest/api/query/v4/ast.html). | `String` | None |
+| `query` | **Required.** A string containing a [PQL query](/openvoxdb/latest/api/query/v4/pql.html) or an array containing an [OpenVoxDB AST format query](/openvoxdb/latest/api/query/v4/ast.html). | `String` | None |
 | `target_mapping` | **Required.** A hash of target attributes (`name`, `uri`, `config`) to populate with fact lookup values. | `Hash` | None |
 
 > **Note:** If neither `name` nor `uri` is specified in `target_mapping`, then
@@ -143,7 +143,7 @@ The following values/patterns are available to use for looking up facts in the
 
 | Key | Description |
 | --- | ----------- |
-| `certname` | The certname of the node returned from PuppetDB. This is short hand for doing: `facts.trusted.certname`. |
+| `certname` | The certname of the node returned from OpenVoxDB. This is short hand for doing: `facts.trusted.certname`. |
 | `facts.*` | [PQL dot notation](/openvoxdb/latest/api/query/v4/ast.html#dot-notation) facts string such as `facts.os.family` to reference fact value. Dot notation is required for both structured and unstructured facts. |
 
 #### Example usage
@@ -153,7 +153,7 @@ values:
 
 * The alias with the fact `hostname`
 * The name with the fact `certname`
-* A target fact called `custom_fact` with the `custom_fact` from PuppetDB
+* A target fact called `custom_fact` with the `custom_fact` from OpenVoxDB
 * A feature from the fact `custom_feature`
 * The SSH hostname with the fact `networking.interfaces.en0.ipaddress`
 * The puppetversion variable from the fact `puppetversion`
@@ -178,7 +178,7 @@ targets:
 
 ### `task`
 
-The `task` plugin lets Bolt run a task as a plugin and extracts the `value` key
+The `task` plugin lets OpenBolt run a task as a plugin and extracts the `value` key
 from the task output to use as the plugin value. Plugin tasks run on the
 `localhost` target without access to any configuration defined in an inventory
 file, but with access to any parameters that you've configured.

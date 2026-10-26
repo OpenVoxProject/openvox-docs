@@ -1,17 +1,13 @@
 ---
-- text: Welcome to Puppet Bolt®
-  link: bolt.html
+- text: OpenBolt
+  link: index.html
   items:
   - text: Overview
     link: index.html
-  - text: Welcome to Puppet Bolt®
-    link: bolt.html
   - text: Developer updates
     link: developer_updates.html
   - text: Release notes
     link: release_notes.html
-  - text: Bolt versioning
-    link: bolt_versioning.html
   - text: Known issues
     link: bolt_known_issues.html
 - text: Installing OpenBolt
@@ -20,29 +16,29 @@
     link: bolt_installing.html
   - text: Run Bolt from a Docker image
     link: running_bolt_in_docker.html
-- text: Getting started with Bolt
+- text: Getting started with OpenBolt
   link: getting_started_with_bolt.html
-- text: Configuring Bolt
+- text: Configuring OpenBolt
   items:
-  - text: Bolt projects
+  - text: OpenBolt projects
     link: projects.html
   - text: Inventory files
     link: inventory_files.html
-  - text: Configuring Bolt
+  - text: Configuring OpenBolt
     link: configuring_bolt.html
   - text: Logs
     link: logs.html
-  - text: Escalating privilege with Bolt
+  - text: Escalating privilege
     link: privilege_escalation.html
   - text: Choria transport
     link: choria-transport.html
-  - text: Setting up VS Code for Bolt
+  - text: Setting up VS Code for OpenBolt
     link: vscode_and_bolt.html
-- text: Running Bolt
+- text: Running OpenBolt
   items:
-  - text: Run Bolt
+  - text: Run OpenBolt
     link: running_bolt_commands.html
-  - text: Run Bolt on network devices
+  - text: Run OpenBolt on network devices
     link: running_bolt_network.html
 - text: Scripts
   items:
@@ -98,22 +94,22 @@
     link: supported_plugins.html
   - text: Writing plugins
     link: writing_plugins.html
-- text: Using Bolt with Puppet
+- text: Using OpenBolt with OpenVox
   items:
   - text: Applying Puppet code
     link: applying_manifest_blocks.html
-  - text: Using Bolt with Hiera
+  - text: Using OpenBolt with Hiera
     link: hiera.html
-  - text: Connecting Bolt to PuppetDB
+  - text: Connecting OpenBolt to OpenVoxDB
     link: bolt_connect_puppetdb.html
-- text: Bolt Examples
+- text: Guides
   link: bolt_examples.html
   items:
-  - text: Examples overview
+  - text: Guides overview
     link: bolt_examples.html
   - text: Automating Windows targets
     link: automating_windows_targets.html
-  - text: Deploy a TIG stack with Bolt
+  - text: Deploy a TIG stack with OpenBolt
     link: tig_stack.html
 - text: "\U0001F9EA Experimental features"
   link: experimental_features.html

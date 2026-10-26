@@ -1,14 +1,14 @@
 ---
 layout: default
-title: Run Bolt on network devices
+title: Run OpenBolt on network devices
 ---
 
-# Run Bolt on network devices
+# Run OpenBolt on network devices
 
-You can run Bolt commands that target network devices in order to configure, provision, and make
-other changes to those devices. However, interacting with network devices through Bolt can be
+You can run OpenBolt commands that target network devices in order to configure, provision, and make
+other changes to those devices. However, interacting with network devices through OpenBolt can be
 different than interacting with other types of targets. Here are some use cases and workflows that
-are useful when executing Bolt against network devices.
+are useful when executing OpenBolt against network devices.
 
 ## Run multiline commands
 
@@ -37,9 +37,9 @@ next
 end
 ```
 
-### Execute from the Bolt CLI
+### Execute from the OpenBolt CLI
 
-To run multiline commands from a file, run Bolt from the directory where the file exists:
+To run multiline commands from a file, run OpenBolt from the directory where the file exists:
 
 _\*nix shell command:_
 
@@ -53,7 +53,7 @@ _PowerShell cmdlet:_
 Invoke-BoltCommand -Command '@configure-vap' -Targets servers
 ```
 
-### Execute in a Bolt plan
+### Execute in a plan
 
 You can provide the absolute path to the file or the Puppet file path (`<mymodule>/<myfile>` for
 files stored in the `files/` directory of modules on the modulepath) to the `file::read()` plan
@@ -68,17 +68,17 @@ run_command(file::read('/path/to/configure-vap'), $target)
 🧪 **Note:** Support for device modules is experimental and might change in
 future minor (y) releases.
 
-[Bolt plans](plans.html) can execute Puppet code from [apply
+[Plans](plans.html) can execute Puppet code from [apply
 blocks](applying_manifest_blocks.html#applying-manifest-blocks-from-a-puppet-plan), including applying
 classes from Puppet network device modules like the [PanOS
 module](https://forge.puppet.com/modules/puppetlabs/panos). Puppet device modules based on
-remote transports allow network devices and other targets that can't run a Puppet agent to be
+remote transports allow network devices and other targets that can't run an OpenVox agent to be
 managed from a proxy. Check out the [Puppet
 Forge](https://forge.puppet.com/modules?utf-8=%E2%9C%93&page_size=25&sort=rank&q=network&endorsements=partner+supported)
 to find an up to date list of modules for managing network devices.
 
 To use device modules from an apply statement, you must add the devices to the
-Bolt inventory as remote targets. The `name` of the target will be used to
+Inventory as remote targets. The `name` of the target will be used to
 auto-populate the `name`, `uri`, `user`, `password`, `host`, and `port` fields
 of the remote transport's connection info. You must set the `remote-transport`
 option and any other connection info under the `remote` section of config.
@@ -93,5 +93,5 @@ targets:
 ```
 
 When you set the `run-on` option with a device module, the `puppet-resource_api`
-Gem must be installed with the Puppet agent on the proxy target and it must be
+Gem must be installed with the OpenVox agent on the proxy target and it must be
 version 1.8.1 or later.

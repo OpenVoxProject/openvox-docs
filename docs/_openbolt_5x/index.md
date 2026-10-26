@@ -3,29 +3,67 @@ layout: default
 title: OpenBolt 5
 ---
 
-OpenBolt is a community implementation of [Puppet Bolt](https://github.com/puppetlabs/bolt) — an open
-source orchestration tool that automates infrastructure management over SSH and WinRM without requiring
-agents. Use OpenBolt to run commands, scripts, and tasks across remote targets, or to orchestrate
-complex workflows using plans.
-
-OpenBolt is downstream-compatible with Puppet Bolt — existing tasks, plans, modules, and inventory files work unchanged.
+OpenBolt is an open source orchestration tool that automates the manual work it
+takes to maintain your infrastructure. Use it for one-off changes, such as
+patching systems, troubleshooting servers, or restarting services, or as part of
+a larger orchestration workflow. OpenBolt runs on your workstation and connects
+directly to remote targets, so you don't need to install agent software on them.
 
 ## How it works
 
-OpenBolt connects directly to remote targets using SSH or WinRM, authenticates as a specified user, and
-executes work on the target. There is no persistent agent or daemon: each Bolt run is a one-shot
-operation that connects, executes, and disconnects.
+OpenBolt usually connects to targets over SSH (the default) or WinRM, authenticates
+as a specified user, and runs work on the target. Other transports cover Docker and
+Podman containers, the local machine, network devices through a proxy target,
+and [Choria](choria-transport.html). There is no persistent agent or daemon:
+each run connects, executes, and disconnects.
 
 Work is expressed at several levels:
 
-- **Commands** — run a shell command directly on targets
-- **Scripts** — upload and execute a script file on targets
-- **Tasks** — self-contained, reusable units of automation with defined parameters; written in any language
-- **Plans** — Puppet or YAML programs that sequence tasks, commands, and scripts across multiple targets with conditional logic
+- **Commands:** run a shell command directly on targets.
+- **Scripts:** upload and run a script file on targets.
+- **Tasks:** reusable units of automation with defined parameters, written in
+  any language.
+- **Plans:** Puppet language or YAML programs that combine tasks, commands, and
+  scripts across multiple targets with conditional logic.
 
-## Getting started
+Tasks, plans, modules, and inventory files you already have work unchanged.
 
-- [Installing OpenBolt](bolt_installing.html)
-- [Getting started with Bolt](getting_started_with_bolt.html)
+## Get started
+
+- [Install OpenBolt](bolt_installing.html) on Linux, macOS, or Windows.
+- Work through [Getting started with OpenBolt](getting_started_with_bolt.html),
+  then try the longer [guides](bolt_examples.html).
+
+## Make one-time changes to your targets
+
+- [Run a command](running_bolt_commands.html#run-a-command)
+- [Run a script](running_bolt_commands.html#run-a-script)
+- [Upload a file or directory](running_bolt_commands.html#upload-a-file-or-directory)
+
+## Automate your workflow with tasks and plans
+
+- [Running tasks](bolt_running_tasks.html)
+- [Running plans](bolt_running_plans.html)
 - [Writing tasks](writing_tasks.html)
-- [Writing plans](writing_plans.html)
+- [Writing plans in YAML](writing_yaml_plans.html)
+- [Writing plans in the Puppet language](writing_plans.html)
+- [Applying Puppet code](applying_manifest_blocks.html)
+
+## Related documentation
+
+- [OpenVox](/openvox/latest/index.html): the agent, server, and the Puppet
+  language that manifest blocks are written in.
+- [OpenVoxDB](/openvoxdb/latest/index.html): the database that the `puppetdb`
+  plugin and plan functions query.
+- [PDK](/pdk.html): tooling for creating and testing modules.
+
+## Get help and contribute
+
+- [OpenBolt on GitHub](https://github.com/OpenVoxProject/openbolt): source code,
+  issues, and pull requests.
+- [OpenVox community Slack](https://short.voxpupu.li/puppetcommunity_slack_signup):
+  ask questions and share what you've built.
+- [Vox Pupuli](https://voxpupuli.org/): the community that OpenVox grew out of,
+  which maintains many of the modules you can use with OpenBolt.
+- [Puppet Forge](https://forge.puppet.com): find modules with tasks and plans,
+  and publish your own.

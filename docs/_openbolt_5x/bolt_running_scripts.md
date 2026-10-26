@@ -5,12 +5,12 @@ title: Running scripts
 
 # Running scripts
 
-When you run a script on a target, Bolt copies the script from your Bolt controller to a temporary
+When you run a script on a target, OpenBolt copies the script from your OpenBolt controller to a temporary
 directory on the target, runs the script, and deletes the script from the temporary directory.
 You can run scripts in any language as long as the appropriate interpreter is installed on the
 target's operating system. This includes any scripting language the target can run.
 
-There are a few ways to reference scripts for Bolt to load:
+There are a few ways to reference scripts for OpenBolt to load:
 
 - _Preferred_: Using a [Puppet file
   reference](/openvox/latest/types/file.html#file-attribute-source) of the
@@ -18,21 +18,20 @@ There are a few ways to reference scripts for Bolt to load:
   modules that are on [the modulepath](modules.html#modulepath). You can load a script from the
   `files/` directory using `<module>/files/myscript.sh`, but the preferred place for scripts to be
   loaded from is the `scripts/` directory, which is referenced with `<module>/scripts/myscript.sh`.
-- Use a relative path from the root of your [Bolt project](projects.html).
+- Use a relative path from the root of your [OpenBolt project](projects.html).
 - Use an absolute filepath.
 
 Using a Puppet file reference is preferred for a few reasons:
 
 - It works using the [run_script plan function](./plan_functions.html#run_script), which might be shared
   with users on other machines that don't have the same file structure
-- It works in other Bolt runners, like Puppet Enterprise
 - It isn't unique to your current system, which makes documentation and plans shareable
 
 To execute a script you'll want to specify:
 
 - The script file reference (Puppet file reference, relative path, or absolute path)
 - Any arguments the script takes
-- [Bolt CLI options](bolt_command_reference.html)
+- [OpenBolt CLI options](bolt_command_reference.html)
 
 For example, the following script is named `update_images.sh` and is in a module named
 `manage_docker`. The script gets an updated image for every Docker container running in a
@@ -185,7 +184,7 @@ Invoke-BoltScript -Script manage_docker/scripts/reboot.ps1 -Targets <TARGETS> -A
 
 - For information on converting your script into a plan, see [Creating a script
   plan](creating_a_script_plan.html).
-- For information on Bolt project directories, see [Bolt project
+- For information on OpenBolt project directories, see [OpenBolt project
   directories](projects.html).
 - For more information about the modulepath, see [Modules
   overview](modules.html#modulepath).

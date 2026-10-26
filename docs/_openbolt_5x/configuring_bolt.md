@@ -1,36 +1,36 @@
 ---
 layout: default
-title: Configuring Bolt
+title: Configuring OpenBolt
 ---
 
-# Configuring Bolt
+# Configuring OpenBolt
 
-Bolt has many options and features that can be configured to suit your
-project's needs. In general, Bolt configuration falls into four categories:
+OpenBolt has many options and features that can be configured to suit your
+project's needs. In general, OpenBolt configuration falls into four categories:
 
-- **Bolt behavior:** Configure how Bolt itself runs, such as the format to use
+- **OpenBolt behavior:** Configure how OpenBolt itself runs, such as the format to use
   when displaying output or how many threads to use when connecting to targets.
 
-- **Projects:** Configure the Bolt project that you are running Bolt in, such
+- **Projects:** Configure the OpenBolt project that you are running OpenBolt in, such
   as the path to an inventory file or the path to a Hiera configuration file.
 
-- **Transports:** Configure the transports that Bolt uses to connect to
+- **Transports:** Configure the transports that OpenBolt uses to connect to
   targets, such as the path to a private key when using SSH or the port to
   connect to when using WinRM.
 
 - **Inventory data:** Group and configure the targets that you connect to and
-  run commands on with Bolt.
+  run commands on with OpenBolt.
 
-You can configure Bolt's options and features at a project level, a user level,
-or a system-wide level. At the project level, you set Bolt configuration in the
+You can configure OpenBolt's options and features at a project level, a user level,
+or a system-wide level. At the project level, you set OpenBolt configuration in the
 `bolt-project.yaml` and `inventory.yaml` files. At the user and system-wide
 levels, set your configuration in the `bolt-defaults.yaml` file. Unless your use
 case requires setting user-specific or system-wide configurations, configure
-Bolt at the project level.
+OpenBolt at the project level.
 
 | Type of Configuration | [inventory.yaml](bolt_inventory_reference.html) | [bolt-project.yaml](bolt_project_reference.html) | [bolt-defaults.yaml](bolt_defaults_reference.html) |
 | --- | :-: | :-: | :-: |
-| Bolt behavior  |   | ✓ | ✓ |
+| OpenBolt behavior  |   | ✓ | ✓ |
 | Projects       |   | ✓ |   |
 | Transports     | ✓ |   | ✓ |
 | Inventory data | ✓ |   |   |
@@ -39,23 +39,23 @@ Bolt at the project level.
 ## Project-level configuration
 
 Most of the time, you'll only need to set configuration at the project level.
-You can set all configurable options in Bolt at the project level, and any options
+You can set all configurable options in OpenBolt at the project level, and any options
 you set within a project only apply to that project.
 
-Bolt loads project-level configuration files from the root of your [Bolt project
+OpenBolt loads project-level configuration files from the root of your [OpenBolt project
 directory](projects.html). If it can't find a project directory,
-Bolt uses the default project directory: `~/.puppetlabs/bolt/`.
+OpenBolt uses the default project directory: `~/.puppetlabs/bolt/`.
 
 Set project-level configuration in these files:
 
-- For Bolt configuration, use `bolt-project.yaml`.
+- For OpenBolt configuration, use `bolt-project.yaml`.
 - For inventory configuration, use `inventory.yaml`.
 
 ### `bolt-project.yaml`
 
 **Filepath:** `<PROJECT DIRECTORY>/bolt-project.yaml`
 
-The project configuration file supports options that configure how Bolt behaves,
+The project configuration file supports options that configure how OpenBolt behaves,
 such as how many threads it can use when running commands on targets. You can
 also use `bolt-project.yaml` to configure different components of the project,
 such as a list of plans and tasks that are visible to the user. Any directory
@@ -70,7 +70,7 @@ options](bolt_project_reference.html).
 **Filepath:** `<PROJECT DIRECTORY>/inventory.yaml`
 
 The inventory file is a structured data file that contains groups of targets
-that you can run Bolt commands on, as well as configuration for the transports
+that you can run OpenBolt commands on, as well as configuration for the transports
 used to connect to the targets. Most projects include an inventory file.
 
 Inventory configuration can be set at multiple levels in an inventory file
@@ -92,19 +92,19 @@ fields](bolt_inventory_reference.html).
 Use this level to set configuration that should apply to all projects for a
 particular user. Options that you might set at the user-level include paths to
 private keys, credentials for a plugin, or default inventory configuration that
-is common to all of your projects. You can set most configurable options in Bolt
+is common to all of your projects. You can set most configurable options in OpenBolt
 at the user level.
 
 To set configuration at the user level, use a `bolt-defaults.yaml` file. This
 file does not allow you to set project-specific configuration, such as the modulepath,
-and is less likely to lead to errors where Bolt loads
+and is less likely to lead to errors where OpenBolt loads
 content from another project.
 
 ### `bolt-defaults.yaml`
 
 **Filepath:** `~/.puppetlabs/etc/bolt/bolt-defaults.yaml`
 
-The defaults configuration file supports most of Bolt's configuration options,
+The defaults configuration file supports most of OpenBolt's configuration options,
 with the exception of options that are project-specific such as `modules` and
 `modulepath`.
 
@@ -115,9 +115,9 @@ options](bolt_defaults_reference.html).
 
 Use this level to set configuration that applies to all users and all projects.
 This might include configuration for connecting to an organization's Forge
-proxy, the number of threads Bolt should use when connecting to targets, or
-setting credentials for connecting to PuppetDB. You can set most configurable
-Bolt options at the system level.
+proxy, the number of threads OpenBolt should use when connecting to targets, or
+setting credentials for connecting to OpenVoxDB. You can set most configurable
+OpenBolt options at the system level.
 
 To set configuration at the user level, use a `bolt-defaults.yaml` file. This
 file does not allow you to set project-specific configuration, such as the modulepath,
@@ -130,7 +130,7 @@ another project is loaded.
 
 **Windows Filepath:** `%PROGRAMDATA%\PuppetLabs\bolt\etc\bolt-defaults.yaml`
 
-The defaults configuration file supports most of Bolt's configuration options,
+The defaults configuration file supports most of OpenBolt's configuration options,
 with the exception of options that are project-specific such as `modulepath`.
 
 You can view a full list of the available options in [`bolt-defaults.yaml`
@@ -138,7 +138,7 @@ options](bolt_defaults_reference.html).
 
 ## Configuration precedence
 
-Bolt uses the following precedence when interpolating configuration settings,
+OpenBolt uses the following precedence when interpolating configuration settings,
 from highest precedence to lowest:
 
 - Configuration specifications from the target's URI. For example, `ssh://user:password@hostname:port`.
@@ -152,7 +152,7 @@ from highest precedence to lowest:
 
 ## Merge strategy
 
-When merging configurations, Bolt's strategy is to shallow merge any options
+When merging configurations, OpenBolt's strategy is to shallow merge any options
 that accept hashes and to overwrite any options that do not accept hashes. There
 are a few exceptions to this strategy:
 
@@ -190,7 +190,7 @@ inventory-config:
     private-key: ~/path/to/key/id_rsa
 ```
 
-The merged Bolt configuration would look like this:
+The merged OpenBolt configuration would look like this:
 
 ```yaml
 ssh:
@@ -236,7 +236,7 @@ plugins:
       token: xxxx-xxxx-xxxx-xxxx
 ```
 
-The merged Bolt configuration would look like this:
+The merged OpenBolt configuration would look like this:
 
 ```yaml
 plugins:
@@ -273,7 +273,7 @@ disable-warnings:
   - oranges
 ```
 
-The merged Bolt configuration would look like this:
+The merged OpenBolt configuration would look like this:
 
 ```yaml
 disable-warnings:
@@ -283,10 +283,10 @@ disable-warnings:
 
 📖 **Related information**
 
-- [Bolt projects](projects.html)
+- [OpenBolt projects](projects.html)
 - [bolt-defaults.yaml options](bolt_defaults_reference.html)
 - [bolt-project.yaml options](bolt_project_reference.html)
 - [inventory.yaml fields](bolt_inventory_reference.html)
 - [Transport configuration options](bolt_transports_reference.html)
-- For information on connecting Bolt to PuppetDB, see [Connecting Bolt to
-  PuppetDB](bolt_connect_puppetdb.html)
+- For information on connecting OpenBolt to OpenVoxDB, see [Connecting OpenBolt to
+  OpenVoxDB](bolt_connect_puppetdb.html)

@@ -5,7 +5,7 @@ title: Wrapping a script in a plan
 
 # Wrapping a script in a plan
 
-Running commands and scripts with Bolt is awesome, but at some point you might find yourself wanting
+Running commands and scripts with OpenBolt is awesome, but at some point you might find yourself wanting
 to do more. Wrapping a script in a plan is a great way to:
 
 - Make the script discoverable in your project. Your teammates or module users can now find the
@@ -36,9 +36,9 @@ done
 docker-compose up -d --remove-orphans
 ```
 
-1. Create a new directory named 'manage_docker' to store your Bolt project. When you initialize
-   the project, Bolt uses the directory name as the Bolt project name.
-1. Inside the 'manage_docker' directory, create a Bolt project:
+1. Create a new directory named 'manage_docker' to store your OpenBolt project. When you initialize
+   the project, OpenBolt uses the directory name as the OpenBolt project name.
+1. Inside the 'manage_docker' directory, create an OpenBolt project:
 
    _\*nix shell command:_
 
@@ -52,9 +52,9 @@ docker-compose up -d --remove-orphans
    New-BoltProject
    ```
 
-1. Make a `scripts/` directory in your Bolt project.
+1. Make a `scripts/` directory in your OpenBolt project.
 1. Place the `update_images.sh` script in the `scripts/` directory.
-1. Create a Bolt plan using `bolt plan new --script`.
+1. Create a plan using `bolt plan new --script`.
 
    _\*nix shell command:_
 
@@ -68,7 +68,7 @@ docker-compose up -d --remove-orphans
    New-BoltPlan -Name manage_docker::update_images -Script manage_docker/scripts/update_images.sh
    ```
 
-   This command creates a Bolt YAML plan that takes a `targets` parameter, runs the script on the
+   This command creates a YAML plan that takes a `targets` parameter, runs the script on the
    targets, and returns the result from the script run. If you'd prefer to create a Puppet language
    plan instead of YAML, you can run the same command with the `--pp` or `-Pp` option.
 
@@ -114,7 +114,7 @@ done
 docker-compose up -d --remove-orphans
 ```
 
-Run this script directly with Bolt by passing the `--env-var` command-line option to set
+Run this script directly with OpenBolt by passing the `--env-var` command-line option to set
 environment variables during script execution:
 
 _\*nix shell command:_
@@ -194,7 +194,7 @@ Invoke-BoltPlan -Name manage_docker::update_images -Targets <TARGETS> directory=
 
 ### As command-line arguments
 
-Passing script arguments on the command-line through Bolt is useful for scripts with simple,
+Passing script arguments on the command-line through OpenBolt is useful for scripts with simple,
 required arguments, like one or more required strings.
 
 For example, the following script takes a command-line argument for the directory instead of an environment variable:
@@ -388,9 +388,9 @@ Invoke-BoltPlan -Name manage_docker::update_images -Targets <TARGETS> timeout=30
 
 ## When to write a task
 
-[Bolt tasks](tasks.html) are scripts with an optional metadata file. In general, scripts are easier to
+[Tasks](tasks.html) are scripts with an optional metadata file. In general, scripts are easier to
 write and debug, and you should favor them over tasks unless you need to use a [feature specific to
-Bolt tasks](writing_tasks.html).
+Tasks](writing_tasks.html).
 
 If you need to use a task, you can convert your script into a task. Writing a script
 that accepts input through environment variables makes it easier to convert into a task.

@@ -45,7 +45,7 @@ features:
 
   - icon: 🔩
     title: OpenBolt
-    details: OpenBolt is a community implementation of Puppet Bolt, an open source orchestration tool that automates infrastructure management over SSH and WinRM without requiring agents.
+    details: OpenBolt is an open source orchestration tool that automates infrastructure management over SSH and WinRM without requiring agents.
     link: openbolt/latest/
 
   - icon: 🐳

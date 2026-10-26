@@ -220,7 +220,7 @@ sudo pkgutil --forget org.voxpupuli.openbolt
    bolt --version
    ```
 
-   The [Bolt cmdlets](bolt_cmdlet_reference.html), such as `Get-BoltVersion`,
+   The [OpenBolt cmdlets](bolt_cmdlet_reference.html), such as `Get-BoltVersion`,
    are available in the same window. If PowerShell does not recognize them, see
    [PuppetBolt PowerShell module](#puppetbolt-powershell-module).
 
@@ -237,15 +237,15 @@ search for **OpenBolt**, and select **Uninstall**.
 
 ### PuppetBolt PowerShell module
 
-The PuppetBolt PowerShell module provides the [Bolt cmdlets](bolt_cmdlet_reference.html)
+The PuppetBolt PowerShell module provides the [OpenBolt cmdlets](bolt_cmdlet_reference.html)
 and their help topics. The OpenBolt installer puts the module in
 `C:\Program Files\WindowsPowerShell\Modules\PuppetBolt`, where PowerShell loads
 it automatically, so you do not install it separately. Upgrading or
 uninstalling OpenBolt upgrades or removes the module with it.
 
 If PowerShell does not recognize the cmdlets, you might need to
-[add the module to PowerShell](troubleshooting.html#powershell-does-not-recognize-bolt-cmdlets)
-or [change execution policy restrictions](troubleshooting.html#powershell-could-not-load-the-bolt-powershell-module).
+[add the module to PowerShell](troubleshooting.html#powershell-does-not-recognize-openbolt-cmdlets)
+or [change execution policy restrictions](troubleshooting.html#powershell-could-not-load-the-openbolt-powershell-module).
 
 ## Install OpenBolt as a gem
 
