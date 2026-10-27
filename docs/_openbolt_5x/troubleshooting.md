@@ -280,16 +280,14 @@ helps prevent the execution of malicious scripts. The default policy is
 _servers_. Some environments change this to `AllSigned`, which only allows
 scripts to run as long as they are signed by a trusted publisher.
 
-As of Bolt 2.21.0, we sign Bolt PowerShell module files with a Puppet code
-signing certificate. If your PowerShell environment uses an `AllSigned`
-execution policy and you add Puppet as a trusted publisher, the `bolt` command
-works without any further input. If you're using the `AllSigned` policy and you
-have not added Puppet as a trusted publisher, you can accept the publisher
-without having to change your execution policy.
+The OpenBolt installer is signed, but the PuppetBolt module files it installs
+are not. PowerShell loads them under `RemoteSigned`, because they are local
+files, but refuses them under `AllSigned`, so neither the `bolt` command nor the
+OpenBolt cmdlets work in PowerShell with that policy.
 
-If your environment uses a `Restricted` policy, you must change your policy to
-`RemoteSigned` or `AllSigned`. Check with your security team before you make any
-policy changes.
+If your environment uses a `Restricted` or `AllSigned` policy, you must change
+your policy to `RemoteSigned`. Check with your security team before you make
+any policy changes.
 
 If you see this or a similar error when trying to run OpenBolt, you probably need to
 change your script execution policy restrictions:
@@ -317,8 +315,9 @@ To change your script execution policy:
 
     For more information about PowerShell execution policies, see Microsoft's
     documentation about [execution
-    policies](http://go.microsoft.com/fwlink/?LinkID=135170) and [how to set
-    them](https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.security/set-executionpolicy).
+    policies](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies)
+    and [how to set
+    them](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy).
 
 ## 'Could not parse PKey: no start line' error message when using SSH private key
 

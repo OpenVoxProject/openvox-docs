@@ -10,8 +10,6 @@ and intermediate level OpenBolt use cases, demonstrating OpenBolt concepts along
 
 - [Automating Windows targets](automating_windows_targets.html): run an existing PowerShell script,
   turn it into a task, and deploy a package with Chocolatey.
-- [Deploy a TIG stack with OpenBolt](tig_stack.html): use a plan and existing Puppet modules to install
-  Telegraf, InfluxDB, and Grafana.
 
 You can find shorter examples of common patterns in the [bolt-examples
 repository](https://github.com/puppetlabs/bolt-examples), which is more of a reference than a learning
