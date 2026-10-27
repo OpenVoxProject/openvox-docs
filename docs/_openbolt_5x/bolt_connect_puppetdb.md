@@ -9,8 +9,9 @@ Configure OpenBolt to connect to OpenVoxDB.
 
 ## OpenVoxDB authorization
 
-Bolt can authenticate with PuppetDB through an SSL client certificate or a PE
-RBAC token.
+OpenBolt authenticates with OpenVoxDB using an SSL client certificate. If
+OpenVoxDB is behind an API gateway that needs other credentials, such as an OAuth
+token, you can also add HTTP headers to OpenBolt's requests.
 
 ## Client certificate
 
@@ -23,28 +24,6 @@ command.
 ```console
 curl -X GET $SERVER_URL/pdb/query/v4 --data-urlencode 'query=nodes[certname] {}' --cert $CERT_PATH --key $KEY_PATH --cacert $CACERT_PATH
 ```
-
-## Token-based authentication with PE RBAC token
-
-If you use Puppet Enterprise you can grant more restricted access to PuppetDB
-with a PE role-based access control (RBAC) token.
-
-1. In PE, verify you are assigned to a role that has the appropriate RBAC
-    permission. It needs the permission type **Nodes** and the action **View
-    node data from PuppetDB**.
-
-2. From the command line, run `puppet-access login --lifetime <TIME PERIOD>`.
-
-3. When prompted, enter the same username and password that you use to log into
-    the PE console. The token is generated and stored in a file for later use.
-    The default location for storing the token is ~/.puppetlabs/token.
-
-4. Verify that authentication is working with the following curl command.
-
-```console
-curl -X GET https://$SERVER_URL/pdb/query/v4 --data-urlencode 'query=nodes[certname] {}' -H "X-Authentication: `cat ~/.puppetlabs/token`" --cacert $CACERT_PATH
-```
-
 
 ## Configuration
 
@@ -66,12 +45,6 @@ If you are using certificate authentication also set:
 | `cert` | `String` | The path to the client certificate file to use for authentication. |
 | `key` | `String` | The private key for the certificate. |
 
-If you are using a PE RBAC token set:
-
-| Option | Type | Description |
-| --- | --- | --- |
-| `token` | `String` | The path to the PE RBAC token. |
-
 For example, to use certificate authentication:
 
 ```yaml
@@ -82,26 +55,8 @@ puppetdb:
   key: /etc/puppetlabs/puppet/ssl/private_keys/my-host.example.com.pem
 ```
 
-If PE is installed and PuppetDB is not defined in a config file, Bolt uses the
-PuppetDB config defined in either:
-
-- `$HOME/.puppetlabs/client-tools/puppetdb.conf` or
-- `/etc/puppetlabs/client-tools/puppetdb.conf` (Windows:
-`%CSIDL_COMMON_APPDATA%\PuppetLabs\client-tools\puppetdb.conf`).
-
-**Important:** OpenBolt does not merge config files into a conf.d format the way
-that pe-client-tools does.
-
-To use PE RBAC authentication:
-
-```yaml
-puppetdb:
-  server_urls: ["https://puppet.example.com:8081"]
-  cacert: /etc/puppetlabs/puppet/ssl/certs/ca.pem
-  token: ~/.puppetlabs/token
-```
-
-To use custom headers, such as for OAuth authentication:
+To add custom headers, for example for an API gateway that requires an OAuth
+token:
 
 ```yaml
 puppetdb:
@@ -122,7 +77,7 @@ name of the OpenVoxDB instance and values are the configuration for the instance
 Each instance supports the same configuration as the `puppetdb` section.
 
 For example, to configure a named instance that uses certificate authentication
-and a second instance that uses PE RBAC authentication:
+and a second instance that uses a custom header:
 
 ```yaml
 puppetdb-instances:
@@ -134,7 +89,8 @@ puppetdb-instances:
   instance-2:
     server_urls: ["https://instance-2.example.com:8081"]
     cacert: /etc/puppetlabs/puppet/ssl/certs/ca.pem
-    token: ~/.puppetlabs/token
+    headers:
+      Authorization: "Bearer <token-content>"
 ```
 
 ## Connecting to a named OpenVoxDB instance
@@ -186,7 +142,8 @@ OpenVoxDB instance and two named OpenVoxDB instances:
 puppetdb:
     server_urls: ["https://puppetdb.example.com:8081"]
     cacert: /etc/puppetlabs/puppet/ssl/certs/ca.pem
-    token: ~/.puppetlabs/token
+    cert: /etc/puppetlabs/puppet/ssl/certs/my-host.example.com.pem
+    key: /etc/puppetlabs/puppet/ssl/private_keys/my-host.example.com.pem
 
 puppetdb-instances:
   instance-1:
@@ -197,7 +154,8 @@ puppetdb-instances:
   instance-2:
     server_urls: ["https://instance-2.example.com:8081"]
     cacert: /etc/puppetlabs/puppet/ssl/certs/ca.pem
-    token: ~/.puppetlabs/token
+    headers:
+      Authorization: "Bearer <token-content>"
 ```
 
 The following plan invokes the `puppetdb_fact` twice. The first invocation

@@ -9,7 +9,7 @@ Definitions of terms used in OpenBolt documentation.
 
 ## agent
 
-The Puppet agent software package, also known as `puppet-agent`.
+The OpenVox agent software package, also known as `openvox-agent`.
 
 ## apply
 
@@ -25,9 +25,9 @@ the `apply_prep` plan function. See [`apply_prep`](#apply_prep).
 
 ## apply_prep
 
-A [plan function](writing_plans.html) that installs the `puppet-agent` package on targets
+A [plan function](writing_plans.html) that installs the `openvox-agent` package on targets
 if needed and collects facts, including any custom facts found in OpenBolt's module
-path. The `puppet-agent` package and facts are required for an `apply`.
+path. The OpenVox agent and facts are required for an `apply`.
 
 📖 **Related information**
 

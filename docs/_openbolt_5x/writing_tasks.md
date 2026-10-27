@@ -60,8 +60,8 @@ end
 ## Naming tasks
 
 You use a task name to interact with a task from the OpenBolt command line. For
-example, you can use `bolt task run puppet_agent::version --targets localhost`
-to run the `puppet_agent::version` task.
+example, you can use `bolt task run openvox_bootstrap::check --targets localhost`
+to run the `openvox_bootstrap::check` task.
 
 Task names are composed of one or two name segments, indicating:
 
@@ -747,9 +747,9 @@ else
 fi
 ```
 
-> **Caution**: If you intend to use a task with Puppet Enterprise and assign
-> RBAC permissions, make sure the script safely handles parameters, or validate
-> them to prevent shell injection vulnerabilities.
+> **Caution**: If other people can run your task with parameters they choose,
+> make sure the script safely handles parameters, or validate them to prevent
+> shell injection vulnerabilities.
 
 ## Sharing executables
 

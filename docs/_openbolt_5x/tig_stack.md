@@ -215,7 +215,7 @@ plan tig() {
 ```
 
 The first step in the plan uses the `apply_prep` function to install the
-`puppet-agent` package and collect facts from each of the targets in the
+`openvox-agent` package and collect facts from each of the targets in the
 inventory file.
 
 Next, an apply block applies the `dashboard` manifest, which installs and

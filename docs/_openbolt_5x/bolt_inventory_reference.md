@@ -201,11 +201,11 @@ groups:
 
 A map of [plugin hooks](writing_plugins.html#plugin-hooks) and which plugins a
 hook should use for targets in the group. The only configurable plugin hook is
-`puppet_library`, which configures the plugin used to install the Puppet agent
+`puppet_library`, which configures the plugin used to install the OpenVox agent
 on targets when plans call [apply_prep](plan_functions.html#apply_prep) or the
 `bolt apply` command or `Invoke-BoltApply` PowerShell cmdlet are used.
 
-The `puppet_library` plugin hook can use one of two plugins: `puppet_agent` or
+The `puppet_library` plugin hook can use one of two plugins: `openvox_bootstrap` or
 `task`.
 
 - **Type:** Hash
@@ -216,9 +216,9 @@ groups:
     plugin_hooks:
       puppet_library:
         plugin: task
-        task: puppet_agent::install
+        task: openvox_bootstrap::install
         parameters:
-          collection: puppet6
+          collection: openvox8
     targets:
       - linux.example.com
       - windows.example.com
@@ -347,11 +347,11 @@ targets:
 
 A map of [plugin hooks](writing_plugins.html#plugin-hooks) and which plugins a
 hook should use for the target. The only configurable plugin hook is
-`puppet_library`, which configures the plugin used to install the Puppet agent
+`puppet_library`, which configures the plugin used to install the OpenVox agent
 on a target when plans call [apply_prep](plan_functions.html#apply_prep) or the
 `bolt apply` command or `Invoke-BoltApply` PowerShell cmdlet are used.
 
-The `puppet_library` plugin hook can use one of two plugins: `puppet_agent` or
+The `puppet_library` plugin hook can use one of two plugins: `openvox_bootstrap` or
 `task`.
 
 - **Type:** Hash
@@ -362,9 +362,9 @@ targets:
     plugin_hooks:
       puppet_library:
         plugin: task
-        task: puppet_agent::install
+        task: openvox_bootstrap::install
         parameters:
-          collection: puppet6
+          collection: openvox8
 ```
 
 ### `uri`

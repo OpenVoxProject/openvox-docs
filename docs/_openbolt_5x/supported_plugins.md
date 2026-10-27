@@ -40,12 +40,12 @@ command.
 
 ## Puppet library plugins
 
-Puppet library plugins ensure that the Puppet library is installed on a target
+Puppet library plugins ensure that the OpenVox agent is installed on a target
 when a plan calls the `apply_prep` function.
 
 | Plugin | Description | Documentation |
 | --- | --- | --- |
-| `puppet_agent` | Install Puppet libraries on target nodes when a plan calls `apply_prep`. | [puppet_agent](https://forge.puppet.com/puppetlabs/puppet_agent) |
+| `openvox_bootstrap` | Install the OpenVox agent on targets when a plan calls `apply_prep`. | [openvox_bootstrap](https://forge.puppet.com/modules/puppet/openvox_bootstrap) |
 
 ## Built-in plugins
 

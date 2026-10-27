@@ -823,11 +823,11 @@ transport whenever OpenBolt connects to the target, even if you specify a differ
 transport using the `transport` command-line option. While switching between
 transports for a target isn't common, there are cases where it is helpful.
 
-For example, you might have several targets that use the PCP transport and need
-to download files from the targets. Because the PCP transport does not support
-downloading files, you need to use the SSH transport instead. Instead of
-editing your inventory file to use the SSH transport for this one-off command,
-you can use one of the following approaches to switch between transports.
+For example, your targets might normally use the WinRM transport, and you need
+to reach them over SSH for a one-off command, such as when you run OpenBolt from
+a network that only allows SSH. Instead of editing your inventory file to use
+the SSH transport for this one-off command, you can use one of the following
+approaches to switch between transports.
 
 #### Using the `env_var` plugin
 
@@ -848,32 +848,30 @@ config:
   transport:
     _plugin: env_var
     var: BOLT_TRANSPORT
-    default: pcp
-  pcp:
-    cacert: ~/.puppetlabs/puppet/cert.pem
-    service-url: https://api.example.org:8143
-    task-environment: development
-    token-file: ~/.puppetlabs/puppet/token.pem
+    default: winrm
+  winrm:
+    user: Administrator
+    password: Bolt!
   ssh:
-    user: root
+    user: Administrator
     password: Bolt!
 ```
 
 When the `BOLT_TRANSPORT` environment variable is not set, the default value is
-`pcp`. To override the transport, set the `BOLT_TRANSPORT` environment
+`winrm`. To override the transport, set the `BOLT_TRANSPORT` environment
 variable when running a command:
 
 _\*nix shell command:_
 
 ```console
-BOLT_TRANSPORT=ssh bolt file download /var/logs downloads --targets all
+BOLT_TRANSPORT=ssh bolt command run 'hostname' --targets all
 ```
 
 _PowerShell cmdlet:_
 
 ```powershell
 $env:BOLT_TRANSPORT = 'ssh'
-Receive-BoltFile -Source '/var/logs' -Destination 'downloads' -Targets 'all'
+Invoke-BoltCommand -Command 'hostname' -Targets 'all'
 Remove-Item Env:\BOLT_TRANSPORT
 ```
 
@@ -889,22 +887,22 @@ transport as needed.
 ```yaml
 # ~/.puppetlabs/etc/bolt/bolt-defaults.yaml
 inventory-config:
-  transport: pcp
+  transport: winrm
 ```
 
-To override the default `pcp` transport, use the `transport` command-line
+To override the default `winrm` transport, use the `transport` command-line
 option:
 
 _\*nix shell command:_
 
 ```console
-bolt file download /var/logs downloads --targets all --transport ssh
+bolt command run 'hostname' --targets all --transport ssh
 ```
 
 _PowerShell cmdlet:_
 
 ```powershell
-Receive-BoltFile -Source '/var/logs' -Destination 'downloads' -Targets 'all' -Transport 'ssh'
+Invoke-BoltCommand -Command 'hostname' -Targets 'all' -Transport 'ssh'
 ```
 
 Specifying a default transport in the `bolt-defaults.yaml` file applies to _all_
