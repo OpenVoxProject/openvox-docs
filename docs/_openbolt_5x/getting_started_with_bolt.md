@@ -28,13 +28,12 @@ After you've completed this guide, you'll know how to:
 >- Make sure you've installed OpenBolt on your machine. For instructions on how to
 > install OpenBolt on your operating system, see [Installing
 > OpenBolt](./bolt_installing.html).
->- Make sure you've [installed Docker](https://docs.docker.com/get-docker/).
+>- Make sure you've [installed Docker](https://docs.docker.com/get-started/get-docker/)
+> with the [Compose plugin](https://docs.docker.com/compose/install/), which
+> provides the `docker compose` command.
 > OpenBolt does not require Docker to run, but for the purposes of this guide,
 > Docker containers offer a safe and relatively simple way to set up some
 > targets to practice on.
->- You can follow along and create the content you need as you go, or download
-> everything you need from the [Getting started
-> repo](https://github.com/puppetlabs/bolt-getting-started).
 
 ## Create an OpenBolt project and set up targets
 
@@ -105,27 +104,33 @@ and run some Docker containers to use as targets.
 In the root of your `my_project` directory, create a file named `Dockerfile` and
 paste in the following:
 
-```bash
-FROM rastasheep/ubuntu-sshd
-RUN apt-get update && apt-get -y install libssl-dev
-EXPOSE 80
+```dockerfile
+FROM ubuntu:24.04
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends openssh-server procps \
+    && mkdir -p /run/sshd \
+    && echo 'root:root' | chpasswd \
+    && printf 'PermitRootLogin yes\n' > /etc/ssh/sshd_config.d/00-root.conf
+EXPOSE 22 80
 CMD ["/usr/sbin/sshd", "-D"]
 ```
 
-This Dockerfile defines an Ubuntu container with an active SSH service. The SSH
+This Dockerfile defines an Ubuntu 24.04 container with an active SSH service. The SSH
 service allows OpenBolt to communicate with the container using the SSH transport.
+The container lets `root` log in with the password `root`, so use it only for
+practice. It also installs `procps` for the `ps` command, which a script uses
+later in this guide.
 
 > 🔩 **Tip**: A transport is the connection method that OpenBolt uses to
   connect and communicate with a target. There is a Docker transport that
   simplifies connecting to Docker containers, but the SSH transport is useful
   for gaining a broader understanding of how inventory files work.
 
-Next, build a `docker-compose.yaml` file to create two instances of the
+Next, create a Compose file to run two instances of the
 container. In your `my_project` directory, create the following file and name it
-`docker-compose.yaml`:
+`compose.yaml`:
 
 ```yaml
-version: '3'
 services:
   target1:
     build: .
@@ -145,14 +150,14 @@ This compose file uses the Dockerfile to create two containers. The containers
 are named `target1` and `target2`, and are bound to SSH ports `2000` and `2001`,
 and HTTP ports `3000` and `3001`.
 
-After creating your Dockerfile and `docker-compose.yaml` file, your file
+After creating your Dockerfile and `compose.yaml` file, your file
 structure looks like this:
 
 ```bash
 .
 ├── Dockerfile
 ├── bolt-project.yaml
-├── docker-compose.yaml
+├── compose.yaml
 ├── inventory.yaml
 └── modules
     └── apache
@@ -160,21 +165,20 @@ structure looks like this:
         └── plans
 ```
 
-Build and run your containers using the `docker-compose` command:
+Build and run your containers using the `docker compose` command:
 
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
-You can check that your containers are running using the `docker-compose ps`
+You can check that your containers are running using the `docker compose ps`
 command:
 
 ```bash
-$ docker-compose ps
-Name          Command        State                     Ports
---------------------------------------------------------------------------------
-target1   /usr/sbin/sshd -D   Up      127.0.0.1:2000->22/tcp, 127.0.0.1:3000->80/tcp
-target2   /usr/sbin/sshd -D   Up      127.0.0.1:2001->22/tcp, 127.0.0.1:3001->80/tcp
+$ docker compose ps
+NAME      IMAGE                COMMAND               SERVICE   CREATED          STATUS          PORTS
+target1   my_project-target1   "/usr/sbin/sshd -D"   target1   10 seconds ago   Up 10 seconds   127.0.0.1:2000->22/tcp, [::]:2000->22/tcp, 127.0.0.1:3000->80/tcp, [::]:3000->80/tcp
+target2   my_project-target2   "/usr/sbin/sshd -D"   target2   10 seconds ago   Up 10 seconds   127.0.0.1:2001->22/tcp, [::]:2001->22/tcp, 127.0.0.1:3001->80/tcp, [::]:3001->80/tcp
 ```
 
 Your targets are ready. Next, run a command on a target to see how OpenBolt works.
@@ -193,21 +197,20 @@ bolt command run whoami -t 127.0.0.1:2000 -u root -p root --no-host-key-check
 
 This command targets `127.0.0.1:2000`, which is the IP address and SSH port for
 the `target1` container. The command also specifies `root` as the username and
-password, and includes the `--no-host-key-check` option to turn off certificate
-authentication.
+password, and includes the `--no-host-key-check` option to skip host key
+verification.
 
 After you run the command, you get the following output from `whoami`. Ignore
 the warning about your inventory file. You'll set that up next.
 
 ```bash
 $ bolt command run whoami -t 127.0.0.1:2000 -u root -p root --no-host-key-check
-CLI arguments ["user", "password", "host-key-check"] might be overridden by Inventory: /Users/heston.hoffman/bolt-projects/my_project/inventory.yaml [ID: cli_overrides]
+CLI arguments ["user", "password", "host-key-check"] might be overridden by Inventory: /home/user/my_project/inventory.yaml [ID: cli_overrides]
 Started on 127.0.0.1:2000...
 Finished on 127.0.0.1:2000:
-  STDOUT:
-    root
+  root
 Successful on 1 target: 127.0.0.1:2000
-Ran on 1 target in 0.46 sec
+Ran on 1 target in 0.21 sec
 ```
 
 You've run your first OpenBolt command on a target! Next, create an inventory file
@@ -305,7 +308,7 @@ steps:
     parameters:
       action: install
       name: apache2
-    description: "Install Apache using the packages task"
+    description: "Install Apache using the package task"
 ```
 
 The first section of a plan defines the parameters your plan accepts. So
@@ -339,7 +342,7 @@ After creating `install.yaml`, your file structure looks like this:
 .
 ├── Dockerfile
 ├── bolt-project.yaml
-├── docker-compose.yaml
+├── compose.yaml
 ├── inventory.yaml
 └── modules
     └── apache
@@ -364,11 +367,11 @@ bolt plan run apache::install -t containers
 The output looks like this:
 
 ```bash
-bolt plan run apache::install -t containers
+$ bolt plan run apache::install -t containers
 Starting: plan apache::install
-Starting: Install Apache using the packages task on target1, target2
-Finished: Install Apache using the packages task with 0 failures in 11.42 sec
-Finished: plan apache::install in 11.43 sec
+Starting: Install Apache using the package task on target1, target2
+Finished: Install Apache using the package task with 0 failures in 9.73 sec
+Finished: plan apache::install in 9.73 sec
 Plan completed successfully with no result
 ```
 
@@ -380,7 +383,7 @@ Because you're running Apache on containers, the Apache service does not start
 automatically. You must create a short bash script that starts the Apache
 service and add it to your plan as a script step.
 
-Create a file named `start_apache.sh` in `my-project/modules/apache/files/`
+Create a file named `start_apache.sh` in `my_project/modules/apache/files/`
 and enter the following script:
 
 ```bash
@@ -401,7 +404,7 @@ At this point, your file structure looks like this:
 .
 ├── Dockerfile
 ├── bolt-project.yaml
-├── docker-compose.yaml
+├── compose.yaml
 ├── inventory.yaml
 └── modules
     └── apache
@@ -421,7 +424,7 @@ step, paste the following:
 - name: start_apache
   script: apache/start_apache.sh
   targets: $targets
-  description: "Starting Apache service"
+  description: "Start the Apache service"
 ```
 
 The step calls the `start_apache.sh` script from your apache module directory.
@@ -448,7 +451,7 @@ steps:
   - name: start_apache
     script: apache/start_apache.sh
     targets: $targets
-    description: "Starting Apache service"
+    description: "Start the Apache service"
 ```
 
 Run the plan again:
@@ -457,8 +460,8 @@ Run the plan again:
 bolt plan run apache::install -t containers
 ```
 
-At this point, you can reach either of your targets in your web browser using
-their UID followed by port `3000` for `target1`, or port `3001` for `target2`.
+At this point, you can reach either of your targets in your web browser at
+`127.0.0.1` on port `3000` for `target1`, or port `3001` for `target2`.
 Go to [127.0.0.1:3000](http://127.0.0.1:3000) to see Apache's default Ubuntu
 homepage on `target1`.
 
@@ -480,7 +483,7 @@ enter the following:
   </head>
   <body>
     <h1>Success!</h1>
-    <p>I'm running this website on a server configured with Bolt!</p>
+    <p>I'm running this website on a server configured with OpenBolt!</p>
   </body>
 </html>
 ```
@@ -491,7 +494,7 @@ Your final file structure looks like this:
 .
 ├── Dockerfile
 ├── bolt-project.yaml
-├── docker-compose.yaml
+├── compose.yaml
 ├── inventory.yaml
 └── modules
     └── apache
@@ -526,7 +529,7 @@ Now add the following step after the `start_apache` step:
   upload: $src
   destination: /var/www/html/index.html
   targets: $targets
-  description: "Upload homepage"      
+  description: "Upload homepage"
 ```
 
 The `upload_homepage` step uploads a file from the path you specify to a
@@ -539,7 +542,7 @@ parameters:
   targets:
     type: TargetSpec
   src:
-    type: String  
+    type: String
 
 steps:
   - name: install_apache
@@ -559,7 +562,7 @@ steps:
     upload: $src
     destination: /var/www/html/index.html
     targets: $targets
-    description: "Upload site contents"                            
+    description: "Upload homepage"
 ```
 
 This time, run the plan with the `src` argument to give OpenBolt a path to the
