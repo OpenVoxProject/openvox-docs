@@ -14,7 +14,7 @@
   items:
   - text: Installing OpenBolt
     link: bolt_installing.html
-  - text: Run Bolt from a Docker image
+  - text: Run OpenBolt in a container
     link: running_bolt_in_docker.html
 - text: Getting started with OpenBolt
   link: getting_started_with_bolt.html
