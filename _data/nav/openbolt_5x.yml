@@ -109,8 +109,6 @@
     link: bolt_examples.html
   - text: Automating Windows targets
     link: automating_windows_targets.html
-  - text: Deploy a TIG stack with OpenBolt
-    link: tig_stack.html
 - text: "\U0001F9EA Experimental features"
   link: experimental_features.html
 - text: Reference
