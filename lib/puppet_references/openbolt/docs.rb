@@ -80,9 +80,14 @@ module PuppetReferences
       # The JSON schemas that vscode_and_bolt.md tells editors to load. Only the
       # .json files: the directory's README.md would otherwise render as a page.
       def copy_schemas
+        schemas = Pathname.glob(SCHEMAS_SOURCE + '*.json')
+        raise "openbolt: no JSON schemas found in #{SCHEMAS_SOURCE}" if schemas.empty?
+
         schemas_dir = collection_dir + 'schemas'
         schemas_dir.mkpath
-        Pathname.glob(SCHEMAS_SOURCE + '*.json').each do |schema|
+        # Drop schemas from an earlier run, so one openbolt no longer ships doesn't linger.
+        Pathname.glob(schemas_dir + '*.json').each(&:delete)
+        schemas.each do |schema|
           FileUtils.cp(schema.to_path, (schemas_dir + schema.basename).to_path)
         end
       end
