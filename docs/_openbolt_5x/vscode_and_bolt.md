@@ -14,19 +14,24 @@ errors.
 ## Validating configuration and inventory files with JSON schemas
 
 You can validate OpenBolt's configuration and inventory files using JSON schemas
-provided through the [Puppet Forge](https://forge.puppet.com). Configuring
-Visual Studio Code (VS Code) to use OpenBolt's JSON schemas enables VS Code's live
-IntelliSense feature, which gives you functionality like code completion and
-parameter info for available fields in the files.
+published with this documentation. Configuring Visual Studio Code (VS Code) to
+use OpenBolt's JSON schemas enables VS Code's live IntelliSense feature, which
+gives you functionality like code completion and parameter info for available
+fields in the files.
 
 OpenBolt offers the following JSON schemas:
 
-| OpenBolt file                                          | JSON schema                                             |
-| -------------------------------------------------- | ------------------------------------------------------- |
-| [`bolt-defaults.yaml`](bolt_defaults_reference.html) | <https://forgeapi.puppet.com/schemas/bolt-defaults.json>  |
-| [`bolt-project.yaml`](bolt_project_reference.html)   | <https://forgeapi.puppet.com/schemas/bolt-project.json>   |
-| [`inventory.yaml`](bolt_inventory_reference.html)    | <https://forgeapi.puppet.com/schemas/bolt-inventory.json> |
-| [YAML plans](writing_yaml_plans.html)                | <https://forgeapi.puppet.com/schemas/bolt-yaml-plan.json> |
+| OpenBolt file                                        | JSON schema                                                         |
+| ---------------------------------------------------- | ------------------------------------------------------------------- |
+| [`bolt-defaults.yaml`](bolt_defaults_reference.html) | [`bolt-defaults.schema.json`](schemas/bolt-defaults.schema.json)   |
+| [`bolt-project.yaml`](bolt_project_reference.html)   | [`bolt-project.schema.json`](schemas/bolt-project.schema.json)     |
+| [`inventory.yaml`](bolt_inventory_reference.html)    | [`bolt-inventory.schema.json`](schemas/bolt-inventory.schema.json) |
+| [YAML plans](writing_yaml_plans.html)                | [`bolt-yaml-plan.schema.json`](schemas/bolt-yaml-plan.schema.json) |
+
+If your settings still point at the `forgeapi.puppet.com` schemas from the Puppet
+Bolt documentation, replace them. Those describe Puppet Bolt, so they offer
+options OpenBolt has removed, such as the `pcp` transport, and lack ones it has
+added, such as the `choria` transport.
 
 ### Enabling schemas
 
@@ -42,16 +47,16 @@ To start using the JSON schemas with VS Code, follow these steps:
     ```json
     {
       "yaml.schemas": {
-        "https://forgeapi.puppet.com/schemas/bolt-defaults.json": [
+        "https://docs.openvoxproject.org/openbolt/5.x/schemas/bolt-defaults.schema.json": [
           "bolt-defaults.yaml"
         ],
-        "https://forgeapi.puppet.com/schemas/bolt-project.json": [
+        "https://docs.openvoxproject.org/openbolt/5.x/schemas/bolt-project.schema.json": [
           "bolt-project.yaml"
         ],
-        "https://forgeapi.puppet.com/schemas/bolt-inventory.json": [
+        "https://docs.openvoxproject.org/openbolt/5.x/schemas/bolt-inventory.schema.json": [
           "inventory.yaml"
         ],
-        "https://forgeapi.puppet.com/schemas/bolt-yaml-plan.json": [
+        "https://docs.openvoxproject.org/openbolt/5.x/schemas/bolt-yaml-plan.schema.json": [
           "plans/**/*.yaml"
         ]
       }
