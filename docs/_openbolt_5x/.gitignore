@@ -12,3 +12,5 @@ privilege_escalation.md
 *.jpg
 *.gif
 *.svg
+# JSON schemas, copied from openbolt/schemas by the same task
+schemas/
