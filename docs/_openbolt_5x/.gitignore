@@ -12,5 +12,5 @@ privilege_escalation.md
 *.jpg
 *.gif
 *.svg
-# JSON schemas, copied from openbolt/schemas by the same task
+# JSON schemas, copied from openbolt/schemas by CI (bundle exec rake references:openbolt)
 schemas/
