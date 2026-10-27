@@ -1,4 +1,8 @@
 ---
+- release: 8.16.0
+  jetty: 12.1.12
+- release: 8.15.0
+  jetty: 12.1.11
 - release: 8.14.1
   jetty: 12.1.10
 - release: 8.14.0

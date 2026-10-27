@@ -81,7 +81,8 @@ The `ssldir` has the following structure:
 * `certs` _(directory)_ --- Contains any signed certificates present on this node. This includes the node's own certificate, as well as a copy of the CA certificate (for use when validating certificates presented by other nodes). Mode: 0755. Setting: [`certdir`][certdir].
   * `<certname>.pem` --- This node's certificate. Mode: 0644. Setting: [`hostcert`][hostcert].
   * `ca.pem` --- A local copy of the CA certificate. Mode: 0644. Setting: [`localcacert`][localcacert].
-* `crl.pem` --- A copy of the certificate revocation list (CRL) retrieved from the CA, for use by OpenVox agent or OpenVox Server. Mode: 0644. Setting: [`hostcrl`][hostcrl].
+* `crl.pem` --- A copy of the certificate revocation list (CRL) retrieved from the CA, for use by OpenVox agent or OpenVox Server. Mode: 0644. Setting: [`hostcrl`][hostcrl]. On a host that runs OpenVox Server with the CA service,
+  the server overwrites this file with the CA's CRL. See [how OpenVox Server uses `hostcrl`](/openvox-server/latest/puppet_conf_setting_diffs.html#hostcrl).
 * `private` _(directory)_ --- Usually does not contain any files. Mode: 0750. Setting: [`privatedir`][privatedir].
   * `password` --- The password to a node's private key. Usually not present. The conditions in which this file would exist are not defined. Mode: 0640. Setting: [`passfile`][passfile].
 * `private_keys` _(directory)_ --- Contains any private keys present on this node. This should generally

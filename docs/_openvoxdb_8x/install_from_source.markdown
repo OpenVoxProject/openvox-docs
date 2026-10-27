@@ -22,13 +22,11 @@ a new version, developing OpenVoxDB, or installing it on a system not supported 
 
 Use your system's package tools to ensure that the following prerequisites are installed:
 
-- (Optional) Puppet Server 2.x or newer
-- A working Puppet agent or server setup (for ssl-setup to succeed)
-- Facter, version 3 or newer
-- JDK 8 or newer
+- (Optional) OpenVox Server 8.x or newer
+- A working OpenVox agent or server setup (for ssl-setup to succeed)
+- JDK 17 or newer
 - [Leiningen][]
 - Git (for checking out the source code)
-- Rake (version 0.9.6 or newer)
 
 ## Step 2, option A: Install from source
 

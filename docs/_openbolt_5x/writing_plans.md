@@ -5,14 +5,14 @@ title: Writing plans in the Puppet language
 
 # Writing plans in the Puppet language
 
-Bolt plans allow you to tie together complex workflows that include multiple
+Plans allow you to tie together complex workflows that include multiple
 tasks, scripts, commands, and even other plans.
 
 Plans written in the Puppet language allow for more sophisticated control flow
 and better error handling than YAML plans. Puppet plans also allow you to apply
 blocks of Puppet code to remote targets.
 
-When you're writing a plan, you can use any combination of [Bolt
+When you're writing a plan, you can use any combination of [OpenBolt
 functions](plan_functions.html) or [built-in Puppet
 functions](/openvox/latest/function.html).
 
@@ -22,23 +22,23 @@ functions](/openvox/latest/function.html).
 
 📖 **Related information**
 
-- For information on using Hiera data in plans, see [Using Bolt with Hiera](hiera.html).
+- For information on using Hiera data in plans, see [Using OpenBolt with Hiera](hiera.html).
 
 ## Plan location
 
-Bolt content follows the same directory structure as Puppet modules. Bolt loads
+OpenBolt content follows the same directory structure as Puppet modules. OpenBolt loads
 downloaded module plans from `modules/<MODULE_NAME>/plans/`, and local plans
 from `site-modules/<MODULE_NAME>/plans/`.
 
-Put your Bolt plan in your module's `plans` directory and give it the `.pp`
+Put your plan in your module's `plans` directory and give it the `.pp`
 extension. For example, given a plan named `my_plan.pp` in a module named
 `my_module`, the location of the plan would be
 `site-modules/my_module/plans/my_plan.pp`.
 
 ## Creating a new project-level Puppet language plan
 
-You can create a new project-level Puppet language plan in your Bolt project
-using a Bolt command. The command accepts a single argument: the name of the
+You can create a new project-level Puppet language plan in your OpenBolt project
+using an OpenBolt command. The command accepts a single argument: the name of the
 plan. Project-level plans must be namespaced to the project.
 
 _\*nix shell command:_
@@ -66,7 +66,7 @@ myproject/
 ## Naming plans
 
 The first line of your plan contains the plan name. You use the plan name to
-call the plan from the Bolt command line, or from other plans.
+call the plan from the OpenBolt command line, or from other plans.
 
 Plan names are composed of two or more name segments, indicating:
 
@@ -193,7 +193,7 @@ environment variable has the value of `null` of type `String`.
 Use the `Sensitive` data type to mask parameters that should not be displayed in
 logs.
 
-When you pass a value to a `Sensitive` parameter, Bolt automatically masks the
+When you pass a value to a `Sensitive` parameter, OpenBolt automatically masks the
 value before the plan is run.
 
 To access the unmasked value, call the `unwrap` function on the parameter.
@@ -215,7 +215,7 @@ automatically masked.
 ## Returning results from plans
 
 Use plans to return results that you can use in other plans or save for use
-outside of Bolt.
+outside of OpenBolt.
 
 Plans, unlike functions, are primarily run for side effects, but they can
 optionally return a result. To return a result from a plan, use the `return`
@@ -231,7 +231,7 @@ plan return_result(
 
 The result of a plan must match the `PlanResult` type alias. This roughly
 includes JSON types as well as the plan language types which have well defined
-JSON representations in Bolt.
+JSON representations in OpenBolt.
 
 - `Undef`
 - `String`
@@ -282,7 +282,7 @@ fail_plan($errorobject)
 
 ### Catching errors in plans
 
-Bolt includes a `catch_errors` function that executes a block of code and
+OpenBolt includes a `catch_errors` function that executes a block of code and
 returns the error if an error is raised, or returns the result of the block if
 no errors are raised. You might get an `Error` object returned if you:
 
@@ -355,7 +355,7 @@ This is useful for packaging common general logic in your plan. You can also
 call the plan functions, such as `run_task` or `run_plan`, from within a
 function.
 
-> 🔩 **Tip**: You can use any combination of [Bolt functions](plan_functions.html)
+> 🔩 **Tip**: You can use any combination of [OpenBolt functions](plan_functions.html)
 > or [built-in Puppet
 > functions](/openvox/latest/function.html) in a plan.
 
@@ -380,7 +380,7 @@ Be aware of a few other Puppet behaviors in plans:
 - `--strict=error` is always on, so minor language issues generate errors. For
     example `{ a => 10, a => 20 }` is an error because there is a duplicate key
     in the hash.
-- Most Puppet settings are empty and not-configurable when using Bolt.
+- Most Puppet settings are empty and not-configurable when using OpenBolt.
 - Logs include "source location" (file, line) instead of resource type or
     name.
 
@@ -394,7 +394,7 @@ Each [execution function](plan_functions.html#) returns an object type
 contains a `Result` object. The [apply action](applying_manifest_blocks.html#)
 returns a `ResultSet` containing `ApplyResult` objects.
 
-For information on the types returned from plan functions, see [Bolt data
+For information on the types returned from plan functions, see [OpenBolt data
 types](bolt_types_reference.html).
 
 An instance of `ResultSet` is `Iterable` as if it were an `Array[Variant[Result,
@@ -480,7 +480,7 @@ The state of a target is stored in the inventory for the duration of a plan,
 allowing you to collect facts or set variables for a target and retrieve them
 later. You can get a printable representation via the `name` function, as well
 as access components of the target: `protocol, host, port, user, password`. For
-a list of functions available to a target, see [Bolt data
+a list of functions available to a target, see [OpenBolt data
 types](./bolt_types_reference.html#target)
 
 ### `TargetSpec`
@@ -668,12 +668,12 @@ plan test(String $host) {
 
 ### Variables and facts on targets
 
-When Bolt runs, it loads transport configuration values, variables, and facts
+When OpenBolt runs, it loads transport configuration values, variables, and facts
 from the inventory. These can be accessed with the `$target.facts()` and
 `$target.vars()` functions. During the course of a plan, you can update the
 facts or variables for any target. Facts usually come from running `facter` or
 another fact collection application on the target, or from a fact store like
-PuppetDB. Variables are computed externally or assigned directly.
+OpenVoxDB. Variables are computed externally or assigned directly.
 
 Using the `facts` plan function does not automatically collect facts for a
 target, and will only return facts that are currently set in the inventory. To
@@ -714,7 +714,8 @@ The methods used to collect facts:
 
 - On `ssh` targets, it runs a Bash script.
 - On `winrm` targets, it runs a PowerShell script.
-- On `pcp` or targets where the Puppet agent is present, it runs Facter.
+- On targets with the `puppet-agent` feature, which `apply_prep` sets after it
+  installs the OpenVox agent, it runs Facter.
 
 This example collects facts with the facts plan and uses those facts to decide
 which task to run on the targets.
@@ -731,12 +732,12 @@ plan run_with_facts(TargetSpec $targets) {
 }
 ```
 
-### Collect facts from PuppetDB
+### Collect facts from OpenVoxDB {#collect-facts-from-puppetdb}
 
-When targets are running a Puppet agent and sending facts to PuppetDB, you can
+When targets are running an OpenVox agent and sending facts to OpenVoxDB, you can
 use the `puppetdb_fact` plan to collect facts for them. This example collects
 facts with the `puppetdb_fact` plan, and uses those facts to decide which task
-to run on the targets. You must configure the PuppetDB client before you run it.
+to run on the targets. You must configure the OpenVoxDB client before you run it.
 
 ```puppet
 plan run_with_facts(TargetSpec $targets) {
@@ -750,11 +751,11 @@ plan run_with_facts(TargetSpec $targets) {
 }
 ```
 
-### Collect general data from PuppetDB
+### Collect general data from OpenVoxDB
 
 You can use the `puppetdb_query` function in plans to make direct queries to
-PuppetDB. For example, you can discover targets from PuppetDB and run tasks on
-them. You'll have to configure the PuppetDB client before running it. You can
+OpenVoxDB. For example, you can discover targets from OpenVoxDB and run tasks on
+them. You'll have to configure the OpenVoxDB client before running it. You can
 learn how to structure Puppet Query Language (PQL) queries using [the PQL
 tutorial](/openvoxdb/latest/api/query/tutorial-pql.html).
 For information, see [the PQL reference
@@ -763,27 +764,24 @@ guide](/openvoxdb/latest/api/query/v4/pql.html).
 ```puppet
 plan pdb_discover {
   $result = puppetdb_query("inventory[certname] { app_role == 'web_server' }")
-  # extract the certnames into an array
-  $names = $result.map |$r| { $r["certname"] }
-  # wrap in url. You can skip this if the default transport is pcp
-  $targets = $names.map |$n| { "pcp://${n}" }
+  # extract the certnames into an array to use as targets
+  $targets = $result.map |$r| { $r["certname"] }
   run_task('my_task', $targets)
 }
 ```
 
 📖 **Related information**  
 
-- [Connecting Bolt to PuppetDB](bolt_connect_puppetdb.html)
+- [Connecting OpenBolt to OpenVoxDB](bolt_connect_puppetdb.html)
 
 ## Documenting plans
 
 When writing plans, it's helpful to document what the plan does and the
 parameters that it accepts. This information can be used in `bolt plan show`
-output or in the Puppet Enterprise console to provide users with context
-on how to run the plan.
+output to provide users with context on how to run the plan.
 
 Unlike tasks, plans do not have a corresponding
-[metadata.json](writing_tasks.html#task-metadata) file. Instead, Bolt pulls
+[metadata.json](writing_tasks.html#task-metadata) file. Instead, OpenBolt pulls
 documentation directly from the plan using Puppet Types and [Puppet
 Strings](/openvox/latest/openvox_strings.html).
 
@@ -902,7 +900,7 @@ As a plan author, you might not want users to run your plan directly or know it 
 for plans that are used by other plans 'under the hood', but aren't designed to be run by a human.
 You can hide plans from `bolt plan show` and `Get-BoltPlan` output by specifying the `# @api
 private` Puppet strings tag. Private plans are still viewable with `bolt plan show <PLAN NAME>` and
-`Get-BoltPlan -Name <PLAN NAME>`, and can still be run with Bolt.
+`Get-BoltPlan -Name <PLAN NAME>`, and can still be run with OpenBolt.
 
 ```puppet
 # This plan isn't shown in plan list output
@@ -915,15 +913,15 @@ plan single_command (
 }
 ```
 
-The `private` metadata is cached in your Bolt project. Bolt updates the cache:
+The `private` metadata is cached in your OpenBolt project. OpenBolt updates the cache:
 
-- When you update plans in the current Bolt project.
+- When you update plans in the current OpenBolt project.
 - When you update modules in the `<PROJECT DIRECTORY>/modules/` directory.
-- When you install modules using a Bolt command that installs modules.
+- When you install modules using an OpenBolt command that installs modules.
 - When you generate Puppet types using a `generate` command.
 
 If you manually edit a plan that is located outside of the `<PROJECT DIRECTORY>/plans/` directory or
-`<PROJECT DIRECTORY>/modules/` path, Bolt might not pick up manual edits to metadata. If your plan
+`<PROJECT DIRECTORY>/modules/` path, OpenBolt might not pick up manual edits to metadata. If your plan
 still appears in the output of `bolt plan show` and `Get-BoltPlan`, clear the metadata cache by
 running with the `--clear-cache` flag.
 
@@ -960,8 +958,5 @@ These resources show more advanced features in the plan language.
 These resources show more complex use cases such as applying puppet code blocks
 and using external modules.
 
-- [Introducing Masterless Puppet with
-  Bolt](https://puppet.com/blog/introducing-masterless-puppet-bolt): Blog post
-  explaining how plans can be used to deploy a load-balanced web server.
 - [patching::deploy_scripts
-  plan](https://github.com/EncoreTechnologies/puppet-patching/tree/master/plans/deploy_scripts.pp): Plan to deploy scripts from a Bolt controller to several targets using Puppet.
+  plan](https://github.com/EncoreTechnologies/puppet-patching/tree/master/plans/deploy_scripts.pp): Plan to deploy scripts from an OpenBolt controller to several targets using Puppet.

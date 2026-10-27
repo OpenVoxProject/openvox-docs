@@ -21,6 +21,7 @@ module PuppetReferences
         # Remove the first H1 with the title, like "# Metaparameter Reference"
         raw_content.sub!(/^# \w+ Reference *$/, '')
         clean_configuration_reference!(raw_content) if reference == 'configuration'
+        separate_report_headings!(raw_content) if reference == 'report'
         header_data = { title: "#{reference.capitalize} Reference",
                         toc: 'columns',
                         canonical: "#{@latest}/#{reference}.html", }
@@ -40,6 +41,14 @@ module PuppetReferences
         return unless domain != ''
 
         text.gsub!("- *Default*: #{domain.downcase}\n", "- *Default*: (the system's own domain)\n")
+      end
+
+      # Since OpenVox 9.1.0 the report reference header ends with a `none`
+      # section and no trailing blank line, so the first report processor's
+      # setext heading (`http` / `----`) follows a paragraph line directly.
+      # Kramdown folds it into that paragraph and the `#http` anchor vanishes.
+      def separate_report_headings!(text)
+        text.gsub!(/(\S)\n(\w+\n-+\n)/, "\\1\n\n\\2")
       end
     end
   end

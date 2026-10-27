@@ -5,8 +5,8 @@ title: Running plans
 
 # Running plans
 
-Bolt plans allow you to tie together complex workflows that include multiple
-tasks, scripts, commands, and even other plans. Bolt is packaged with a
+Plans allow you to tie together complex workflows that include multiple
+tasks, scripts, commands, and even other plans. OpenBolt is packaged with a
 collection of modules that contain useful plans to support common workflows. For
 details, see [Packaged modules](packaged_modules.html).
 
@@ -45,11 +45,11 @@ language](bolt_types_reference.html#targetspec).
 
 ## Plan location
 
-In order for Bolt to find a plan, the plan must be in a module on the modulepath
-or in a `plans/` directory in your Bolt project. If you are developing a new
-plan, you can [create a Bolt project](projects.html#create-a-bolt-project),
-develop your plan in `<PROJECT DIRECTORY>/plans/`, and run Bolt from the root of
-your Bolt project directory to test the plan.
+In order for OpenBolt to find a plan, the plan must be in a module on the modulepath
+or in a `plans/` directory in your OpenBolt project. If you are developing a new
+plan, you can [create an OpenBolt project](projects.html#create-an-openbolt-project),
+develop your plan in `<PROJECT DIRECTORY>/plans/`, and run OpenBolt from the root of
+your OpenBolt project directory to test the plan.
 
 ## Passing structured data into a plan
 
@@ -107,9 +107,9 @@ For example:
 
 📖 **Related information**
 
-- For information on Bolt project directories, see [Bolt project
+- For information on OpenBolt project directories, see [OpenBolt project
   directories](projects.html).
-- For information on running Bolt tasks, see [Running
+- For information on running tasks, see [Running
   tasks](./bolt_running_tasks.html).
 - To find out how to write your own plan, see [Writing plans in
   YAML](./writing_yaml_plans.html) or [Writing plans in the Puppet

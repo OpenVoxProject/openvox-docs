@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Setting up VS Code for Bolt
+title: Setting up VS Code for OpenBolt
 ---
 
-# Setting up VS Code for Bolt
+# Setting up VS Code for OpenBolt
 
-Bolt configuration and inventory files, as well as content such as plans and
+OpenBolt configuration and inventory files, as well as content such as plans and
 task metadata, conform to particular specifications. Making your development
 environment aware of these specifications gives you real-time validation and
 data type checking as you write, speeding up the development cycle and reducing
@@ -13,15 +13,15 @@ errors.
 
 ## Validating configuration and inventory files with JSON schemas
 
-You can validate Bolt's configuration and inventory files using JSON schemas
+You can validate OpenBolt's configuration and inventory files using JSON schemas
 provided through the [Puppet Forge](https://forge.puppet.com). Configuring
-Visual Studio Code (VS Code) to use Bolt's JSON schemas enables VS Code's live
+Visual Studio Code (VS Code) to use OpenBolt's JSON schemas enables VS Code's live
 IntelliSense feature, which gives you functionality like code completion and
 parameter info for available fields in the files.
 
-Bolt offers the following JSON schemas:
+OpenBolt offers the following JSON schemas:
 
-| Bolt file                                          | JSON schema                                             |
+| OpenBolt file                                          | JSON schema                                             |
 | -------------------------------------------------- | ------------------------------------------------------- |
 | [`bolt-defaults.yaml`](bolt_defaults_reference.html) | <https://forgeapi.puppet.com/schemas/bolt-defaults.json>  |
 | [`bolt-project.yaml`](bolt_project_reference.html)   | <https://forgeapi.puppet.com/schemas/bolt-project.json>   |
@@ -60,17 +60,17 @@ To start using the JSON schemas with VS Code, follow these steps:
 
 📖 **Related information**
 
-- [Configuring Bolt](configuring_bolt.html)
+- [Configuring OpenBolt](configuring_bolt.html)
 - [Inventory files](inventory_files.html)
 - [VS Code settings
   file](https://code.visualstudio.com/docs/getstarted/settings)
 - [VS Code YAML
   extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
 
-## Developing Bolt content with the Puppet VS Code Extension
+## Developing OpenBolt content with the Puppet VS Code Extension
 
 Puppet offers a VS Code Extension that you can use when developing content for
-your Bolt project. The Puppet VS Code Extension includes many powerful
+your OpenBolt project. The Puppet VS Code Extension includes many powerful
 features, including validation for task metadata files, live Intellisense for
 Puppet plans, validating Puppetfiles, and more.
 

@@ -1,15 +1,15 @@
 - title: OpenFact
   url: /openfact/latest/
-  collections: [openfact_latest, openfact_5x]
+  collections: [openfact_latest, openfact_5x, openfact_6x]
 - title: OpenVox
   url: /openvox/latest/
-  collections: [openvox_latest, openvox_8x]
+  collections: [openvox_latest, openvox_8x, openvox_9x]
 - title: OpenVox Server
   url: /openvox-server/latest/
-  collections: [openvox-server_latest, openvox-server_8x]
+  collections: [openvox-server_latest, openvox-server_8x, openvox-server_9x]
 - title: OpenVoxDB
   url: /openvoxdb/latest/
-  collections: [openvoxdb_latest, openvoxdb_8x]
+  collections: [openvoxdb_latest, openvoxdb_8x, openvoxdb_9x]
 - title: OpenBolt
   url: /openbolt/latest/
   collections: [openbolt_latest, openbolt_5x]

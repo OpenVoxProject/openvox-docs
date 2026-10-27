@@ -27,6 +27,7 @@ Strings are the most common and useful data type, but you'll also have to work w
 * [Binary](./lang_data_binary.html)
 * [Timestamp and Timespan](./lang_data_time.html)
 * [SemVer and SemVerRange](./lang_data_semver.html)
+* [Error](./lang_data_error.html)
 * [Sensitive](./lang_data_sensitive.html)
 * [Undef](./lang_data_undef.html)
 * [Resource References](./lang_data_resource_reference.html)
@@ -47,4 +48,9 @@ For info about each type's behavior, see the main data type pages listed above. 
 For special abstract data types, which you can use to do more sophisticated or permissive type checking, see:
 
 * [Abstract Data Types](./lang_data_abstract.html)
+
+Converting a value from one data type to another is something you ask for explicitly. To turn a value of one
+type into a value of another, such as a string holding a number into an actual number, see:
+
+* [Typecasting](./lang_typecasting.html)
 

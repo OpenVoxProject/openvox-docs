@@ -1,0 +1,15 @@
+# Generated reference pages — copied here by CI (bundle exec rake references:openvox)
+configuration.md
+function.md
+indirection.md
+metaparameter.md
+report.md
+type.md
+type.json
+type_strings.md
+type_strings.json
+raw_strings_data_output.json
+strings.json
+man/
+types/
+types_strings/

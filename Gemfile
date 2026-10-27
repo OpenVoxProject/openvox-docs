@@ -3,7 +3,7 @@
 source 'https://rubygems.org/'
 gemspec name: 'puppet_docs'
 
-gem 'git', '~> 4.0'
+gem 'git', '~> 5.2'
 gem 'json', '~> 2.5'
 gem 'rack', '>= 2.2.14'
 gem 'rake', '~> 13.0', '>= 13.0.1'
@@ -11,12 +11,14 @@ gem 'rake', '~> 13.0', '>= 13.0.1'
 group(:build_site) do
   gem 'jekyll', '~> 4.4'
   gem 'jekyll-tabs', '~> 1.2'
-  gem 'jekyll-vitepress-theme', '~> 1.4'
+  # Pinned so theme upgrades arrive as Dependabot PRs that can be tested,
+  # not on the next deploy (Gemfile.lock is gitignored).
+  gem 'jekyll-vitepress-theme', '1.10.1'
 end
 
 group(:generate_references) do
   gem 'nokogiri', '>= 1.18.9'
-  gem 'openvox', '~> 8'
+  gem 'openvox', '~> 9'
   gem 'openvox-strings'
   gem 'pandoc-ruby'
   gem 'pragmatic_segmenter', '~> 0.3'
@@ -33,7 +35,7 @@ end
 
 group(:development) do
   gem 'rubocop-rake', require: false
-  gem 'voxpupuli-rubocop', '~> 5.2.0'
+  gem 'voxpupuli-rubocop', '~> 5.3.0'
 end
 
 group(:test) do

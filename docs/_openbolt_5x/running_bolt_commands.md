@@ -1,20 +1,20 @@
 ---
 layout: default
-title: Run Bolt
+title: Run OpenBolt
 ---
 
-# Run Bolt
+# Run OpenBolt
 
-You can use Bolt commands to connect to targets and perform actions on
+You can use OpenBolt commands to connect to targets and perform actions on
 them. These actions range in complexity from invoking a simple command to
 running a series of commands and tasks as part of an orchestration workflow.
 
-For a full list of available Bolt commands, see the [Bolt command
+For a full list of available OpenBolt commands, see the [OpenBolt command
 reference](bolt_command_reference.html).
 
 ## Run a command
 
-Bolt can run arbitrary commands on targets. To run a command, provide a
+OpenBolt can run arbitrary commands on targets. To run a command, provide a
 command and a list of targets to run the command on.
 
 _\*nix shell command:_
@@ -49,7 +49,7 @@ bolt command run "Get-WMIObject Win32_Service -Filter ""Name like '%mon'""" -t l
 In a PowerShell shell, use a combination of backslashes `\` and doubling of
 quotation marks. The example below uses two double quotation marks to quote the
 value being passed to `Filter`, however the example also uses a backslash so
-that Bolt's underlying Ruby argument parser accepts the command.
+that OpenBolt's underlying Ruby argument parser accepts the command.
 
 _PowerShell cmdlet:_
 
@@ -80,7 +80,7 @@ Invoke-BoltCommand -Command '@configure.ps1' -Targets servers
 ### Read a command from stdin
 
 To read a command from standard input (stdin), pipe the results from another
-command to Bolt and pass a single dash (`-`) as the command.
+command to OpenBolt and pass a single dash (`-`) as the command.
 
 _\*nix shell command:_
 
@@ -126,7 +126,7 @@ Invoke-BoltCommand -Command 'pwd' -Targets servers,databases
 
 ### Specify targets using glob matching
 
-Bolt supports extended glob matching for targets. This is helpful when you have
+OpenBolt supports extended glob matching for targets. This is helpful when you have
 several targets that you want to run a comand on that have similar names. For
 example, to run a command on all targets that start with the word `bolt`:
 
@@ -142,7 +142,7 @@ _PowerShell cmdlet:_
 Invoke-BoltCommand -Command 'pwd' -Targets 'bolt*'
 ```
 
-Bolt supports globs using the following metacharacters:
+OpenBolt supports globs using the following metacharacters:
 
 | `Metacharacter` | `Description` |
 | --- | --- |
@@ -181,10 +181,10 @@ object with an `items` array where each item has a `target` key.
 ### Read targets from stdin
 
 To read a list of targets from stdin, pipe the results from another command to
-Bolt and pass a single dash (`-`) to the `targets` option. Stdin accepts
+OpenBolt and pass a single dash (`-`) to the `targets` option. Stdin accepts
 plain text target lists as well as JSON input. JSON input can be a JSON array
-of target names or a Bolt result object with an `items` array where each item
-has a `target` key.
+of target names or an OpenBolt result object with an `items` array where each
+item has a `target` key.
 
 _\*nix shell command:_
 
@@ -192,7 +192,7 @@ _\*nix shell command:_
 cat targets.txt | bolt command run 'pwd' --targets -
 ```
 
-Pipe JSON output from a Bolt plan to run a command on the resulting targets:
+Pipe JSON output from an OpenBolt plan to run a command on the resulting targets:
 
 _\*nix shell command:_
 
@@ -204,8 +204,8 @@ bolt plan run myplan --format=json | bolt command run 'pwd' -t-
 
 ### Specify targets from the previous command
 
-After every execution, Bolt writes information about the result of that run to a
-`.rerun.json` file inside the Bolt project directory. You can use the
+After every execution, OpenBolt writes information about the result of that run to a
+`.rerun.json` file inside the OpenBolt project directory. You can use the
 `.rerun.json` file together with the `rerun` option to specify targets for
 future commands. The `rerun` option accepts one of three values:
 
@@ -231,7 +231,7 @@ Invoke-BoltTask -Name restart_server -Targets servers -Rerun success
 
 #### Disable `.rerun.json`
 
-If you want to preserve the results of a specific Bolt run and run multiple
+If you want to preserve the results of a specific OpenBolt run and run multiple
 `rerun` commands against it, you can disable the `.rerun.json` file.
 
 _\*nix shell command:_
@@ -253,14 +253,14 @@ Invoke-BoltTask -Name restart_server -Targets servers -Rerun success -SaveRerun:
 
 ## Specify connection credentials
 
-To establish connections with remote targets, Bolt needs to provide credentials
+To establish connections with remote targets, OpenBolt needs to provide credentials
 to the target. You can provide credentials at the command line or in an
 inventory file, and the credentials you provide might vary based on the
 operating system the target is running.
 
 Whether a target is running a Unix-like operating system or Windows, the
 simplest way to specify credentials is to pass the `user` and `password`
-to the Bolt command:
+to the OpenBolt command:
 
 _\*nix shell command:_
 
@@ -274,7 +274,7 @@ _PowerShell cmdlet:_
 Invoke-BoltCommand -Command 'pwd' -Targets servers -User bolt -Password puppet
 ```
 
-If you'd prefer to have Bolt securely prompt for a password, so that it does not
+If you'd prefer to have OpenBolt securely prompt for a password, so that it does not
 appear in a process listing or on the console, use the `password-prompt` option
 instead:
 
@@ -292,8 +292,8 @@ Invoke-BoltCommand -Command 'pwd' -Targets servers -User bolt -PasswordPrompt
 
 ## Specify a transport
 
-Bolt uses a specific transport to establish a connection with a target. By
-default, Bolt connects to targets using the `ssh` transport. You can use one of
+OpenBolt uses a specific transport to establish a connection with a target. By
+default, OpenBolt connects to targets using the `ssh` transport. You can use one of
 the methods below to set a different transport from the command line, or you can
 configure transports in your inventory file.
 
@@ -328,14 +328,14 @@ Invoke-BoltCommand -Command 'Get-Location' -Targets windows.example.org -Transpo
 
 📖 **Related information**
 
-- [Bolt transports reference](bolt_transports_reference.html)
+- [OpenBolt transports reference](bolt_transports_reference.html)
 
 
 ## Stream output
 
 🧪 _This feature is experimental and is subject to change._
 
-Bolt can stream output from running commands and scripts on a target, allowing you
+OpenBolt can stream output from running commands and scripts on a target, allowing you
 to see what is happening on a target as an action runs.
 
 To enable streaming from the command line, you can specify the `stream` command-line
@@ -362,7 +362,7 @@ name: myproject
 stream: true
 ```
 
-When streaming is enabled, Bolt prints the output to the console in the order it
+When streaming is enabled, OpenBolt prints the output to the console in the order it
 receives it. Each line of the output includes the name of the target that
 returned the output and whether it was printed to standard output (`out`) or
 standard error (`err`).
@@ -380,7 +380,7 @@ Successful on 1 target: localhost
 Ran on 1 target in 0.01 sec
 ```
 
-Once an action finishes running, Bolt prints all of the output from a target
+Once an action finishes running, OpenBolt prints all of the output from a target
 under the target's name. If you do not want to see the output a second time, you
 can specify the `no-verbose` command-line option when running a command or
 script. This command-line option does not have a corresponding configuration
@@ -413,14 +413,14 @@ Ran on 1 target in 0.01 sec
 
 ## Run a script
 
-When you run a script on a target Bolt copies the script from your
-Bolt controller to a temporary directory on the target, runs the script, and then
+When you run a script on a target OpenBolt copies the script from your
+OpenBolt controller to a temporary directory on the target, runs the script, and then
 deletes the script from the temporary directory.
 
 You can run scripts in any language, as long as the appropriate interpreter is
 installed on the system. This includes any scripting language the system can run.
 
-To run a script, provide the path to the script on the Bolt controller and a list of
+To run a script, provide the path to the script on the OpenBolt controller and a list of
 targets to run the script on.
 
 _\*nix shell command:_
@@ -535,7 +535,7 @@ Invoke-BoltTask -Name facts -Targets servers
 
 ### Pass parameters to a task
 
-If a task accepts parameters, you can pass them to Bolt as part of the command.
+If a task accepts parameters, you can pass them to OpenBolt as part of the command.
 
 _\*nix shell command:_
 
@@ -586,7 +586,7 @@ Invoke-BoltPlan -Name myplan
 
 ### Pass parameters to a plan
 
-If a plan accepts parameters, you can pass them to Bolt as part of the command.
+If a plan accepts parameters, you can pass them to OpenBolt as part of the command.
 
 _\*nix shell command:_
 
@@ -632,13 +632,13 @@ Invoke-BoltPlan -Name reboot -Targets servers
 
 ## Upload a file or directory
 
-Bolt can copy files and directories from your Bolt controller to targets. To
-upload a file or directory, provide the `source` path on your Bolt controller, the
+OpenBolt can copy files and directories from your OpenBolt controller to targets. To
+upload a file or directory, provide the `source` path on your OpenBolt controller, the
 `destination` path on the target that it should be copied to, and a
 list of targets.
 
 Both the `source` and `destination` accept absolute and relative paths. If you
-provide a relative path as the `destination`, Bolt will copy the file relative
+provide a relative path as the `destination`, OpenBolt will copy the file relative
 to the current working directory on the target. Typically, the current working
 directory for the target is the log-in user's home directory.
 
@@ -656,13 +656,13 @@ Send-BoltFile -Source /path/to/source -Destination /path/to/destination -Targets
 
 ## Download a file or directory
 
-Bolt can copy files and directories from targets to a destination
-directory on your Bolt controller. To download a file or directory, provide the
+OpenBolt can copy files and directories from targets to a destination
+directory on your OpenBolt controller. To download a file or directory, provide the
 `source` path on the target, the path to the `destination` directory on
-the Bolt controller, and a list of targets.
+the OpenBolt controller, and a list of targets.
 
 Both the `source` and `destination` accept absolute and relative paths. If you
-provide a relative path as the `source`, Bolt will copy the file relative to the
+provide a relative path as the `source`, OpenBolt will copy the file relative to the
 current working directory on the target. Typically, the current working
 directory for the target is the log-in user's home directory.
 
@@ -678,11 +678,11 @@ _PowerShell cmdlet:_
 Receive-BoltFile -Source /path/to/source -Destination /path/to/destination -Targets servers
 ```
 
-The `destination` on the Bolt controller is a path to a directory that the downloaded
+The `destination` on the OpenBolt controller is a path to a directory that the downloaded
 file or directory is copied to. If the `destination` directory does not exist,
-Bolt will create it for you.
+OpenBolt will create it for you.
 
-Bolt saves each file or directory it downloads to a subdirectory of the
+OpenBolt saves each file or directory it downloads to a subdirectory of the
 `destination` directory that matches the URL-encoded name of the target it was
 downloaded from. The target directory names are URL-encoded to ensure that they
 are valid directory names.
@@ -729,7 +729,7 @@ a manifest) to your targets. To apply Puppet manifest code to a target, provide
 the path to the manifest file and a list of targets.
 
 The Puppet Agent package needs to be installed on the target for the manifest
-code to be run. When you apply Puppet manifest code, Bolt ensures that the
+code to be run. When you apply Puppet manifest code, OpenBolt ensures that the
 Puppet Agent package is installed on the target.
 
 _\*nix shell command:_

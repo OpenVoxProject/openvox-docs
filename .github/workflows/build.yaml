@@ -70,14 +70,26 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: '${{ inputs.ref }}'
-          fetch-depth: 1
+          # The theme dates each page's "Last updated" footer from the last
+          # commit that touched it, so the build needs the full history. A
+          # shallow clone stamps every page with the checkout time.
+          fetch-depth: 0
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
           bundler-cache: true
+      # pandoc comes from its GitHub release because the runners' Ubuntu mirror
+      # sometimes serves the 27 MB package at a few kB/s. 3.1.3 is the version
+      # Ubuntu 24.04 ships, so the generated pages don't change. Keep this step
+      # the same as the one in test.yml.
       - name: Install pandoc and mandoc
+        env:
+          PANDOC_VERSION: 3.1.3
+          PANDOC_SHA256: caa7e0410f9e2cb1da2eb8db13cc97b5548fe455985e2c944e3929d22f99bcdc
         run: |
-          sudo apt install -y pandoc mandoc
+          curl -fsSL -o /tmp/pandoc.deb "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
+          echo "${PANDOC_SHA256}  /tmp/pandoc.deb" | sha256sum --check
+          sudo apt-get install -y --no-install-recommends /tmp/pandoc.deb mandoc
       - name: Build website
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -86,11 +98,15 @@ jobs:
           # _data/products.yml into its collection (see `rake references:all`).
           bundle exec rake references:all INSTALLPATH=docs
           # Refresh the component-version tables (agent, server, openvoxdb) from
-          # upstream pins. Each falls back to its committed _data file if the
-          # GitHub API is unreachable, so a transient failure never breaks the build.
-          bundle exec rake references:agent_versions || echo 'agent_versions refresh failed; using committed _data'
-          bundle exec rake references:server_versions || echo 'server_versions refresh failed; using committed _data'
-          bundle exec rake references:openvoxdb_versions || echo 'openvoxdb_versions refresh failed; using committed _data'
+          # upstream pins, once per OpenVox series: each run writes the data file
+          # for its series (_data/<table>/openvox_<N>x.yml). Each falls back to its
+          # committed _data file if the GitHub API is unreachable, so a transient
+          # failure never breaks the build.
+          for series in 8. 9.; do
+            SERIES=$series bundle exec rake references:agent_versions || echo "agent_versions refresh failed for ${series}x; using committed _data"
+            SERIES=$series bundle exec rake references:server_versions || echo "server_versions refresh failed for ${series}x; using committed _data"
+            SERIES=$series bundle exec rake references:openvoxdb_versions || echo "openvoxdb_versions refresh failed for ${series}x; using committed _data"
+          done
           bundle exec rake references:openbolt_versions || echo 'openbolt_versions refresh failed; using committed _data'
           # Refresh the supported-platforms table from the shared-actions
           # platforms.json, falling back to the committed _data file if unreachable.

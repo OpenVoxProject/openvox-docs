@@ -354,7 +354,7 @@ Update-BoltProject
 Keep in mind that this command only makes changes to a project. Changes to plans
 and configuration files at the user and system level will need to be made
 manually. For more information on how the `migrate` command changes your project
-files, see [Migrate a Bolt project](projects.html#migrate-a-bolt-project).
+files, see [Migrate a Bolt project](projects.html#migrate-an-openbolt-project).
 
 ### Puppet 7 Release Prep
 
@@ -414,7 +414,7 @@ modules and their dependencies in a Puppetfile and can instead automate that
 process with Bolt.
 
 If you want to try it out, [create a
-project](bolt_installing_modules.html#create-a-bolt-project-with-pre-installed-modules)
+project](bolt_installing_modules.html#create-an-openbolt-project-with-pre-installed-modules)
 or migrate an existing project with the following command:
 
 _\*nix shell command:_
@@ -456,8 +456,8 @@ is not part of the configured modulepath.
 
 The new module management feature is available starting with **Bolt 2.30.0**. To
 try it out, [create a
-project](bolt_installing_modules.html#create-a-bolt-project-with-pre-installed-modules)
-or [migrate an existing project](./projects.html#migrate-a-bolt-project).
+project](bolt_installing_modules.html#create-an-openbolt-project-with-pre-installed-modules)
+or [migrate an existing project](./projects.html#migrate-an-openbolt-project).
 
 Here's a summary of what's changed:
 

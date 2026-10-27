@@ -18,6 +18,104 @@ Puppet Open Source is no longer actively developed.
 
 You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade to OpenVox 8, or you can upgrade to Puppet 8 and then migrate to OpenVox 8.
 
+See [Upgrading from Puppet 7 to OpenVox 8](upgrade_major.html) for the changes to review before you move from 7 to 8.
+
+## OpenVox 8.31.1
+
+Released October 21, 2026.
+
+This is a security release of OpenVox. It refreshes the CA trust store and updates curl to 8.23.0.
+
+All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/8.31.1).
+
+Notable changes in this release:
+
+- The CA certificate bundle at `/opt/puppetlabs/puppet/ssl/cert.pem` and the Java keystore at `/opt/puppetlabs/puppet/ssl/puppet-cacerts` are rebuilt from the Mozilla root store as shipped in NSS 3.131.1 ([puppet-ca-bundle 1.1.1](https://github.com/OpenVoxProject/puppet-ca-bundle/pull/5)).
+  The rebuild removes the `emSign Root CA - C1`, `emSign ECC Root CA - C3`, and `emSign ECC Root CA - G3` roots after [eMudhra's private keys were found to be exposed](https://emudhra.we-have-a-problem.com/).
+  The bundle is what the agent's Ruby, OpenSSL, and curl trust when connecting to servers with publicly issued certificates, such as the Forge, `https` file sources, and gem installs. It plays no part in the trust between agents and the OpenVox server, which comes from the OpenVox CA in `ssldir`.
+- The upgrade replaces `cert.pem`, so a CA that you appended to that file has to be added again. [Adding a custom CA for HTTPS-inspecting proxies](ssl_custom_ca_proxy.html) describes the ways that survive upgrades.
+- curl is updated to 8.23.0, which fixes a use-after-free during HTTP/2 uploads ([CVE-2026-92392](https://curl.se/docs/CVE-2026-92392.html)).
+- Bundled gems are updated, including fast_gettext 4.1.1, multi_json 1.21.2, and net-ssh 7.3.6.
+- OpenSSL 3.0, which OpenVox 8 bundles, reached the end of its upstream support on September 7, 2026 and no longer receives fixes. The OpenSSL issues listed as open on the release page stay open in OpenVox 8. OpenVox 9 bundles OpenSSL 3.5, the current long-term-support line; see [Upgrading from OpenVox 8 to OpenVox 9](/openvox/9.x/upgrade_major.html).
+
+### Security Issues Resolved in 8.31.1
+
+| Identifier                                                        | CVSS 3.1 Score | Resolved By                        |
+| :---------------------------------------------------------------- | :------------: | :--------------------------------- |
+| [CVE-2026-92392](https://nvd.nist.gov/vuln/detail/CVE-2026-92392) |       8.1      | `pkg:github/curl/curl@8.23.0`      |
+
+## OpenVox 8.31.0
+
+Released October 13, 2026.
+
+This is a feature release of OpenVox. It adds support for version 3 of the `json` gem and updates bundled components.
+
+All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/8.31.0).
+
+Notable changes in this release:
+
+- The agent works with version 3 of the `json` gem ([#721](https://github.com/OpenVoxProject/openvox/pull/721), a backport of [#706](https://github.com/OpenVoxProject/openvox/pull/706)).
+  An agent installed from the `openvox` gem or from a distribution package, on a Ruby that has json 3 installed, failed every request to the server with `Failed to deserialize ... from json: wrong number of arguments (given 2, expected 1)`, and `puppet facts show` failed with `uninitialized constant JSON::PRETTY_STATE_PROTOTYPE`.
+  The `openvox-agent` packages bundle json 2 and were not affected.
+  On json 3, a JSON document with a duplicated key, such as a module's `metadata.json`, is rejected instead of silently keeping the last value.
+- Bundled components are updated, including Augeas 1.15.0. It is the first Augeas release since 2023 and adds an `Aptsources822` lens for Deb822-style apt `.sources` files, `leapseclist` in the Chrony lens, `/usr/share/iproute2` in the IPRoute2 lens, and `/etc/nginx/snippets` in the Nginx lens, among other lens changes listed in the [Augeas release notes](https://github.com/hercules-team/augeas/releases/tag/release-1.15.0).
+  Augeas 1.15.0 also carries the upstream fix for [CVE-2025-2588](https://nvd.nist.gov/vuln/detail/CVE-2025-2588), which OpenVox agents have had as a patch to Augeas 1.14.1 since 8.23.0, so this release resolves no new security issues.
+
+## OpenVox 8.30.0
+
+Released October 7, 2026.
+
+This is a bug-fix and security release of OpenVox.
+
+All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/8.30.0).
+
+Notable changes in this release:
+
+- The agent daemon waits for its certificate in the forked child instead of in the daemon process, and kills a forked run that outlives `runtimeout` instead of blocking until the service is restarted ([#485](https://github.com/OpenVoxProject/openvox/issues/485)).
+- Resolving a `Deferred` value that calls a Puppet-language function no longer fails for lack of a global scope.
+- The `Loading facts` message is printed once per run instead of once for every directory searched for facts.
+- Bundled components are updated, including [OpenFact 5.7.2](/openfact/5.x/release_notes.html) and libxml2 2.15.4.
+
+### Security Issues Resolved in 8.30.0
+
+| Identifier                                                        | CVSS 3.1 Score | Resolved By                        |
+| :---------------------------------------------------------------- | :------------: | :--------------------------------- |
+| [CVE-2026-86138](https://nvd.nist.gov/vuln/detail/CVE-2026-86138) |       7.8      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86139](https://nvd.nist.gov/vuln/detail/CVE-2026-86139) |       7.8      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86140](https://nvd.nist.gov/vuln/detail/CVE-2026-86140) |       7.8      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86142](https://nvd.nist.gov/vuln/detail/CVE-2026-86142) |       7.8      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86144](https://nvd.nist.gov/vuln/detail/CVE-2026-86144) |       7.8      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86143](https://nvd.nist.gov/vuln/detail/CVE-2026-86143) |       7.3      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86137](https://nvd.nist.gov/vuln/detail/CVE-2026-86137) |       6.1      | `pkg:github/gnome/libxml2@2.15.4`  |
+| [CVE-2026-86141](https://nvd.nist.gov/vuln/detail/CVE-2026-86141) |       3.3      | `pkg:github/gnome/libxml2@2.15.4`  |
+
+## OpenVox 8.29.0
+
+Released September 4, 2026.
+
+This is a bug-fix and security release of OpenVox.
+
+All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/8.29.0).
+
+### Security Issues Resolved in 8.29.0
+
+| Identifier                                                        | CVSS 3.1 Score | Resolved By                         |
+| :---------------------------------------------------------------- | :------------: | :---------------------------------- |
+| [CVE-2026-75803](https://nvd.nist.gov/vuln/detail/CVE-2026-75803) |       9.1      | `pkg:github/openssl/openssl@3.0.22` |
+| [CVE-2026-54874](https://nvd.nist.gov/vuln/detail/CVE-2026-54874) |       7.5      | `pkg:github/openssl/openssl@3.0.22` |
+| [CVE-2026-63072](https://nvd.nist.gov/vuln/detail/CVE-2026-63072) |       7.5      | `pkg:github/openssl/openssl@3.0.22` |
+| [CVE-2026-63076](https://nvd.nist.gov/vuln/detail/CVE-2026-63076) |       7.5      | `pkg:github/openssl/openssl@3.0.22` |
+| [CVE-2026-63074](https://nvd.nist.gov/vuln/detail/CVE-2026-63074) |       5.9      | `pkg:github/openssl/openssl@3.0.22` |
+| [CVE-2026-19931](https://nvd.nist.gov/vuln/detail/CVE-2026-19931) |       N/A      | `pkg:github/curl/curl@8.22.0`       |
+| [CVE-2026-13608](https://nvd.nist.gov/vuln/detail/CVE-2026-13608) |       N/A      | `pkg:github/curl/curl@8.22.0`       |
+| [CVE-2026-18924](https://nvd.nist.gov/vuln/detail/CVE-2026-18924) |       N/A      | `pkg:github/curl/curl@8.22.0`       |
+| [CVE-2026-80229](https://nvd.nist.gov/vuln/detail/CVE-2026-80229) |       N/A      | `pkg:github/curl/curl@8.22.0`       |
+| [CVE-2026-80230](https://nvd.nist.gov/vuln/detail/CVE-2026-80230) |       N/A      | `pkg:github/curl/curl@8.22.0`       |
+| [CVE-2026-80231](https://nvd.nist.gov/vuln/detail/CVE-2026-80231) |       N/A      | `pkg:github/curl/curl@8.22.0`       |
+| [CVE-2026-80255](https://nvd.nist.gov/vuln/detail/CVE-2026-80255) |       N/A      | `pkg:github/curl/curl@8.22.0`       |
+| [CVE-2026-82208](https://nvd.nist.gov/vuln/detail/CVE-2026-82208) |       N/A      | `pkg:github/curl/curl@8.22.0`       |
+| [CVE-2026-82209](https://nvd.nist.gov/vuln/detail/CVE-2026-82209) |       N/A      | `pkg:github/curl/curl@8.22.0`       |
+
 ## OpenVox 8.28.1
 
 Released July 8, 2026.

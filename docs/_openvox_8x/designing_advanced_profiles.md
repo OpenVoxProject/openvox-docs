@@ -11,9 +11,9 @@ Along the way, we'll explain our choices and point out some of the common trade-
 Here's the basic Jenkins profile we're starting with:
 
 ```puppet
-# /etc/puppetlabs/code/environments/production/site/profile/manifests/jenkins/master.pp
+# /etc/puppetlabs/code/environments/production/site-modules/profile/manifests/jenkins/master.pp
 class profile::jenkins::master (
-  String $jenkins_port = '9091',
+  Integer $jenkins_port = 9091,
   String $java_dist    = 'jdk',
   String $java_version = 'latest',
 ) {
@@ -60,7 +60,7 @@ Here's the new parameter list:
 
 ```puppet
 class profile::jenkins::master (
-  String  $jenkins_port = '9091',
+  Integer $jenkins_port = 9091,
   Boolean $install_jenkins_java = true,
 ) { # ...
 ```
@@ -115,12 +115,12 @@ class profile::jenkins::usage::java8 {
 
 ```diff
 @@ -1,13 +1,12 @@
- # /etc/puppetlabs/code/environments/production/site/profile/manifests/jenkins/master.pp
+ # /etc/puppetlabs/code/environments/production/site-modules/profile/manifests/jenkins/master.pp
  class profile::jenkins::master (
--  String $jenkins_port = '9091',
+-  Integer $jenkins_port = 9091,
 -  String $java_dist    = 'jdk',
 -  String $java_version = 'latest',
-+  String  $jenkins_port = '9091',
++  Integer $jenkins_port = 9091,
 +  Boolean $install_jenkins_java = true,
  ) {
 
@@ -217,7 +217,7 @@ The Jenkins module has a `jenkins::sysconfig` defined type for managing system p
 We dislike surprise upgrades, so we pin Jenkins to a specific version. We do this with a direct package URL instead of by adding Jenkins to our internal package
 repositories. Your organization might choose to do it differently.
 
-First, we add a parameter to control upgrades. Now we can set a new value in `.../data/groups/ci/dev.yaml` while leaving `.../data/groups/ci.yaml` alone — our
+First, we add a parameter to control upgrades. Now we can set a new value in `.../data/applications/ci/dev.yaml` while leaving `.../data/applications/ci.yaml` alone — our
 dev machines will get the new Jenkins version first, and we can ensure everything works as expected before upgrading our prod machines.
 
 ```puppet
@@ -253,11 +253,11 @@ This was a good time to explicitly manage the Jenkins *service,* so we did that 
 
 ```diff
 @@ -1,10 +1,17 @@
- # /etc/puppetlabs/code/environments/production/site/profile/manifests/jenkins/master.pp
+ # /etc/puppetlabs/code/environments/production/site-modules/profile/manifests/jenkins/master.pp
  class profile::jenkins::master (
--  String  $jenkins_port = '9091',
+-  Integer $jenkins_port = 9091,
 -  Boolean $install_jenkins_java = true,
-+  String                      $jenkins_port = '9091',
++  Integer                     $jenkins_port = 9091,
 +  Variant[String[1], Boolean] $direct_download = 'http://pkg.jenkins-ci.org/debian-stable/binary/jenkins_1.642.2_all.deb',
 +  Boolean                     $install_jenkins_java = true,
  ) {
@@ -462,7 +462,7 @@ class profile::jenkins::master (
 In the plugins profile, we can use the `jenkins::plugin` resource type provided by the Jenkins module.
 
 ```puppet
-# /etc/puppetlabs/code/environments/production/site/profile/manifests/jenkins/master/plugins.pp
+# /etc/puppetlabs/code/environments/production/site-modules/profile/manifests/jenkins/master/plugins.pp
 class profile::jenkins::master::plugins {
   jenkins::plugin { 'audit2db':          }
   jenkins::plugin { 'credentials':       }
@@ -479,9 +479,9 @@ class profile::jenkins::master::plugins {
 
 ```diff
 @@ -1,6 +1,7 @@
- # /etc/puppetlabs/code/environments/production/site/profile/manifests/jenkins/master.pp
+ # /etc/puppetlabs/code/environments/production/site-modules/profile/manifests/jenkins/master.pp
  class profile::jenkins::master (
-   String                      $jenkins_port = '9091',
+   Integer                     $jenkins_port = 9091,
 +  Boolean                     $manage_plugins = false,
    Variant[String[1], Boolean] $direct_download = 'http://pkg.jenkins-ci.org/debian-stable/binary/jenkins_1.642.2_all.deb',
    Boolean                     $install_jenkins_java = true,
@@ -608,9 +608,9 @@ class profile::jenkins::master (
 
 ```diff
 @@ -1,8 +1,10 @@
- # /etc/puppetlabs/code/environments/production/site/profile/manifests/jenkins/master.pp
+ # /etc/puppetlabs/code/environments/production/site-modules/profile/manifests/jenkins/master.pp
  class profile::jenkins::master (
-   String                      $jenkins_port = '9091',
+   Integer                     $jenkins_port = 9091,
 +  Boolean                     $backups_enabled = false,
    Boolean                     $manage_plugins = false,
    Variant[String[1], Boolean] $direct_download = 'http://pkg.jenkins-ci.org/debian-stable/binary/jenkins_1.642.2_all.deb',
@@ -763,9 +763,9 @@ Then, we declare that profile in our main profile:
 
 ```diff
 @@ -1,8 +1,9 @@
- # /etc/puppetlabs/code/environments/production/site/profile/manifests/jenkins/master.pp
+ # /etc/puppetlabs/code/environments/production/site-modules/profile/manifests/jenkins/master.pp
  class profile::jenkins::master (
--  String                      $jenkins_port = '9091',
+-  Integer                     $jenkins_port = 9091,
    Boolean                     $backups_enabled = false,
    Boolean                     $manage_plugins = false,
 +  Boolean                     $ssl = false,
@@ -840,7 +840,7 @@ Then, we declare that profile in our main profile:
 After all of this refactoring (and a few more minor adjustments), here's the final code for `profile::jenkins::master`.
 
 ```puppet
-# /etc/puppetlabs/code/environments/production/site/profile/manifests/jenkins/master.pp
+# /etc/puppetlabs/code/environments/production/site-modules/profile/manifests/jenkins/master.pp
 # Class: profile::jenkins::master
 #
 # Install a Jenkins master that meets Puppet's internal needs.

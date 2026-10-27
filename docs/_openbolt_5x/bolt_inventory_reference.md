@@ -7,7 +7,7 @@ title: inventory.yaml fields
 
 Use an [inventory file](inventory_files.html) to store information about
 your targets and arrange them into groups. Both targets and groups can
-include data such as facts or vars and can configure the transports Bolt uses
+include data such as facts or vars and can configure the transports OpenBolt uses
 to establish connections with targets.
 
 ## Top-level fields
@@ -59,7 +59,7 @@ level apply to all groups and targets in the inventory file.
 
 - **Type:** Array
 
-> 🔩 **Tip:** You can set the `puppet-agent` feature to indicate that Bolt
+> 🔩 **Tip:** You can set the `puppet-agent` feature to indicate that OpenBolt
 > should skip installing the OpenVox agent on all targets when using
 > `bolt apply` or the `apply_prep` plan function.
 
@@ -160,7 +160,7 @@ all groups and targets under the group.
 - **Type:** Array
 
 > 🔩 **Tip:** You can set the `puppet-agent` feature on the group to indicate
-> that Bolt should skip installing the OpenVox agent on all targets under the
+> that OpenBolt should skip installing the OpenVox agent on all targets under the
 > group when using `bolt apply` or the `apply_prep` plan function.
 
 ```yaml
@@ -201,11 +201,11 @@ groups:
 
 A map of [plugin hooks](writing_plugins.html#plugin-hooks) and which plugins a
 hook should use for targets in the group. The only configurable plugin hook is
-`puppet_library`, which configures the plugin used to install the Puppet agent
+`puppet_library`, which configures the plugin used to install the OpenVox agent
 on targets when plans call [apply_prep](plan_functions.html#apply_prep) or the
 `bolt apply` command or `Invoke-BoltApply` PowerShell cmdlet are used.
 
-The `puppet_library` plugin hook can use one of two plugins: `puppet_agent` or
+The `puppet_library` plugin hook can use one of two plugins: `openvox_bootstrap` or
 `task`.
 
 - **Type:** Hash
@@ -216,9 +216,9 @@ groups:
     plugin_hooks:
       puppet_library:
         plugin: task
-        task: puppet_agent::install
+        task: openvox_bootstrap::install
         parameters:
-          collection: puppet6
+          collection: openvox8
     targets:
       - linux.example.com
       - windows.example.com
@@ -321,7 +321,7 @@ A list of available features for the target.
 - **Type:** Array
 
 > 🔩 **Tip:** You can set the `puppet-agent` feature on the target to indicate
-> that Bolt should skip installing the OpenVox agent on the target when using
+> that OpenBolt should skip installing the OpenVox agent on the target when using
 > `bolt apply` or the `apply_prep` plan function.
 
 ```yaml
@@ -347,11 +347,11 @@ targets:
 
 A map of [plugin hooks](writing_plugins.html#plugin-hooks) and which plugins a
 hook should use for the target. The only configurable plugin hook is
-`puppet_library`, which configures the plugin used to install the Puppet agent
+`puppet_library`, which configures the plugin used to install the OpenVox agent
 on a target when plans call [apply_prep](plan_functions.html#apply_prep) or the
 `bolt apply` command or `Invoke-BoltApply` PowerShell cmdlet are used.
 
-The `puppet_library` plugin hook can use one of two plugins: `puppet_agent` or
+The `puppet_library` plugin hook can use one of two plugins: `openvox_bootstrap` or
 `task`.
 
 - **Type:** Hash
@@ -362,9 +362,9 @@ targets:
     plugin_hooks:
       puppet_library:
         plugin: task
-        task: puppet_agent::install
+        task: openvox_bootstrap::install
         parameters:
-          collection: puppet6
+          collection: openvox8
 ```
 
 ### `uri`

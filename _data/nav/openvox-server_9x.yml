@@ -1,0 +1,170 @@
+---
+- text: About OpenVox Server
+  link: services_puppetserver.html
+- text: Release notes
+  link: release_notes.html
+- text: Deprecated features
+  link: deprecated_features.html
+- text: Installing and upgrading
+  items:
+  - text: Before you begin
+    link: install_pre.html
+  - text: Install OpenVox Server
+    link: install_from_packages.html
+  - text: What gets installed and where
+    link: install_what_and_where.html
+  - text: Upgrading OpenVox Server
+    link: upgrade_minor.html
+- text: Configuring OpenVox Server
+  items:
+  - text: Configuring OpenVox Server
+    link: configuration.html
+  - text: 'Main OpenVox Server configurations: puppetserver.conf'
+    link: config_file_puppetserver.html
+  - text: 'Global settings: global.conf'
+    link: config_file_global.html
+  - text: 'Webserver service: webserver.conf'
+    link: config_file_webserver.html
+  - text: 'Web application mount points: web-routes.conf'
+    link: config_file_web-routes.html
+  - text: 'Access control: auth.conf'
+    link: config_file_auth.html
+  - text: 'Metrics services: metrics.conf'
+    link: config_file_metrics.html
+  - text: 'Log level and location: logback.xml'
+    link: config_file_logbackxml.html
+  - text: Advanced logging configuration
+    link: config_logging_advanced.html
+  - text: 'CA service: ca.conf'
+    link: config_file_ca.html
+  - text: OpenVox Server use of puppet.conf settings
+    link: puppet_conf_setting_diffs.html
+  - text: 'Configuring product-level interactions (optional): product.conf'
+    link: config_file_product.html
+- text: Using and extending OpenVox Server
+  items:
+  - text: Using Ruby gems
+    link: gems.html
+  - text: Subcommands
+    link: subcommands.html
+  - text: Infrastructure CRL
+    link: infrastructure_crl.html
+  - text: Intermediate CA
+    link: intermediate_ca.html
+  - text: Renewing and regenerating certificates
+    link: certificate_renewal.html
+  - text: External SSL termination
+    link: external_ssl_termination.html
+  - text: Restarting OpenVox Server
+    link: restarting.html
+- text: Tuning, troubleshooting, and known issues
+  items:
+  - text: Known issues
+    link: known_issues.html
+  - text: SSL problems with load-balanced PuppetDB servers ("Server Certificate Change"
+      error)
+    link: ssl_server_certificate_change_and_virtual_ips.html
+  - text: OpenVox Server tuning guide
+    link: tuning_guide.html
+  - text: Scaling OpenVox Server with compilers
+    link: scaling_puppet_server.html
+- text: HTTP API
+  items:
+  - text: HTTP API overview
+    link: http_api_index.html
+  - text: PSON
+    link: pson.html
+  - text: Puppet v3 API
+    items:
+    - text: Catalog
+      link: http_catalog.html
+    - text: Node
+      link: http_node.html
+    - text: Facts
+      link: http_facts.html
+    - text: File bucket file
+      link: http_file_bucket_file.html
+    - text: File content
+      link: http_file_content.html
+    - text: File metadata
+      link: http_file_metadata.html
+    - text: Report
+      link: http_report.html
+    - text: Environments
+      link: http_environments.html
+  - text: Puppet v4 API
+    items:
+    - text: Catalog
+      link: puppet-api/v4/catalog.html
+  - text: CA v1 API
+    items:
+    - text: Certificate
+      link: ca-api/v1/http_certificate.html
+    - text: Certificate request
+      link: ca-api/v1/http_certificate_request.html
+    - text: Certificate status
+      link: ca-api/v1/http_certificate_status.html
+    - text: Certificate revocation list
+      link: ca-api/v1/http_certificate_revocation_list.html
+    - text: Certificate clean
+      link: ca-api/v1/http_certificate_clean.html
+    - text: Certificate expirations
+      link: ca-api/v1/http_certificate_expirations.html
+    - text: Certificate renewal
+      link: ca-api/v1/http_certificate_renewal.html
+    - text: Bulk certificate sign
+      link: ca-api/v1/http_certificate_sign.html
+  - text: Server-specific API
+    items:
+    - text: Environment classes
+      link: puppet-api/v3/environment_classes.html
+    - text: Environment modules
+      link: puppet-api/v3/environment_modules.html
+    - text: Environment transports
+      link: puppet-api/v3/environment_transports.html
+    - text: Compile endpoint
+      link: puppet-api/v3/compile.html
+    - text: Static file content
+      link: puppet-api/v3/static_file_content.html
+    - text: File content
+      link: puppet-api/v3/file_content.html
+    - text: Tasks overview
+      link: puppet-api/v3/tasks.html
+    - text: Tasks details
+      link: puppet-api/v3/task_detail.html
+    - text: Plans overview
+      link: puppet-api/v3/plans.html
+    - text: Plans details
+      link: puppet-api/v3/plan_detail.html
+  - text: Admin API
+    items:
+    - text: Environment cache
+      link: admin-api/v1/environment-cache.html
+    - text: JRuby pool
+      link: admin-api/v1/jruby-pool.html
+  - text: Status API
+    items:
+    - text: Services endpoint
+      link: status-api/v1/services.html
+    - text: Simple endpoint
+      link: status-api/v1/simple.html
+  - text: Metrics
+    items:
+    - text: Monitoring OpenVox Server metrics
+      link: puppet_server_metrics.html
+    - text: HTTP client metrics
+      link: http_client_metrics.html
+    - text: Applying metrics to improve performance
+      link: puppet_server_metrics_performance.html
+    - text: v1 metrics API
+      link: metrics-api/v1/metrics_api.html
+    - text: v2 (Jolokia) metrics API
+      link: metrics-api/v2/metrics_api.html
+- text: Developer information
+  items:
+  - text: Developer debugging
+    link: dev_debugging.html
+  - text: Running from source
+    link: dev_running_from_source.html
+  - text: Tracing code events
+    link: dev_trace_func.html

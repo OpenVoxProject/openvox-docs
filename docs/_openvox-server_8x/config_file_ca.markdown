@@ -19,6 +19,14 @@ to sign certs with subject alternative names. `puppet cert sign` used to allow t
 The `allow-authorization-extensions` setting in the `certificate-authority` section enables you to sign certs with authorization extensions. It is false by default for security reasons, but can be enabled if
 you know you need to sign certs this way. `puppet cert sign` used to allow this via a flag, but `puppetserver ca sign` requires it to be configued in the config file.
 
+## Auto-renewal settings
+
+The `allow-auto-renewal` setting in the `certificate-authority` section enables automatic renewal of agent certificates. It is false by default.
+When enabled, the CA issues certificates to renewal-capable agents with the lifetime from the `auto-renewal-cert-ttl` setting instead of the `ca_ttl` value, and agents renew their certificates automatically before they expire.
+The packaged `ca.conf` sets `auto-renewal-cert-ttl` to 60 days; when the setting is absent, the built-in default is 90 days. See [Renewing and regenerating certificates](certificate_renewal.html) for details.
+
+The `certificate-authority` section also accepts a `ca-ttl` setting that controls the lifetime of newly signed certificates and takes precedence over the `ca_ttl` value in `puppet.conf`.
+
 ## Infrastructure CRL settings
 
 OpenVox Server is able to create a separate CRL file containing only revocations of OpenVox infrastructure nodes. This behavior is turned off by default. To enable it, set `certificate-authority.enable-infra-crl`

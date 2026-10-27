@@ -1,0 +1,19 @@
+---
+- text: OpenFact
+  items:
+  - text: Overview
+    link: index.html
+  - text: Release notes
+    link: release_notes.html
+  - text: 'CLI'
+    link: cli.html
+  - text: Core Facts
+    link: core_facts.html
+  - text: Custom facts walkthrough
+    link: custom_facts.html
+  - text: Custom facts reference
+    link: fact_overview.html
+  - text: External facts
+    link: external_facts.html
+  - text: Configuring OpenFact with facter.conf
+    link: configuring_openfact.html

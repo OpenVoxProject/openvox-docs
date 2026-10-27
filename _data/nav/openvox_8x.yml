@@ -13,6 +13,8 @@
     link: "component_versions.html"
   - text: Supported platforms
     link: "supported_platforms.html"
+  - text: Running OpenVox in FIPS mode
+    link: "fips.html"
 - text: Getting started
   items:
   - text: Getting started with OpenVox
@@ -29,6 +31,8 @@
     link: "install_pre.html"
   - text: OpenVox repositories and packages
     link: "openvox_platform.html"
+  - text: Repositories and mirrors
+    link: "mirrors.html"
   - text: 'Install agent: Linux'
     link: "install_linux.html"
   - text: 'Install agent: Windows'
@@ -37,6 +41,8 @@
     link: "install_osx.html"
   - text: What gets installed and where (agent)
     link: "install_what_and_where.html"
+  - text: Upgrading from Puppet 7 to OpenVox 8
+    link: "upgrade_major.html"
   - text: Upgrading OpenVox 8
     link: "upgrade_minor.html"
 - text: Configuration
@@ -199,6 +205,8 @@
     link: "lang_data_time.html"
   - text: SemVer and SemVerRange
     link: "lang_data_semver.html"
+  - text: Error
+    link: "lang_data_error.html"
   - text: Sensitive
     link: "lang_data_sensitive.html"
   - text: Undef
@@ -213,6 +221,8 @@
     link: "lang_data_type.html"
   - text: Abstract data types
     link: "lang_data_abstract.html"
+  - text: Typecasting
+    link: "lang_typecasting.html"
   - text: Using templates
     link: "lang_template.html"
   - text: Embedded Puppet (EPP) template syntax

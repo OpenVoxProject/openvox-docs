@@ -5,8 +5,8 @@ title: JSON output
 
 # JSON output
 
-Bolt output can be returned as JSON by specifying the `--format json`
-command-line option or the `-Format json` parameter in PowerShell. Bolt commands
+OpenBolt output can be returned as JSON by specifying the `--format json`
+command-line option or the `-Format json` parameter in PowerShell. OpenBolt commands
 return JSON output guaranteed to have the following structures:
 
 ## `apply`
@@ -87,7 +87,7 @@ This command outputs an object. It uses the following keys:
 
     - `merged_output` (string):
       The merged output from `stderr` and `stdout`. Output is merged in the
-      order that Bolt receives it, which may be different from how it was
+      order that OpenBolt receives it, which may be different from how it was
       output on the target itself.
 
     - `stderr` (string):
@@ -420,7 +420,7 @@ For example:
       },
       "plugin_hooks": {
         "puppet_library": {
-          "plugin": "puppet_agent",
+          "plugin": "openvox_bootstrap",
           "stop_service": true
         }
       },
@@ -534,7 +534,7 @@ describing each module in the directory.
 
   - `internal_module_group` (string):
     The name of the internal module group. For built-in modules, this is _Plan
-    Language Modules_. For modules that ship with Bolt packages, this is
+    Language Modules_. For modules that ship with OpenBolt packages, this is
     _Packaged Modules_. For modules installed to the project's managed module
     directory (`.modules/`), this is _Project Dependencies_.
 
@@ -703,7 +703,7 @@ This command outputs an object. It uses the following keys:
 
     - `merged_output` (string):
       The merged output from `stderr` and `stdout`. Output is merged in the order
-      that Bolt receives it, which may be different than the order it was output
+      that OpenBolt receives it, which may be different than the order it was output
       on the target.
 
     - `stderr` (string):

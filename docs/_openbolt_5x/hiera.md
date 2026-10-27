@@ -1,25 +1,25 @@
 ---
 layout: default
-title: Using Bolt with Hiera
+title: Using OpenBolt with Hiera
 ---
 
-# Using Bolt with Hiera
+# Using OpenBolt with Hiera
 
-Because Bolt uses Puppet as a library, it has access to Hiera. Hiera is a
+Because OpenBolt uses Puppet as a library, it has access to Hiera. Hiera is a
 built-in key-value configuration data lookup system, which lets you separate
-data from your code. There are some key differences in how Bolt and Puppet use
+data from your code. There are some key differences in how OpenBolt and Puppet use
 Hiera, which this page covers in more detail.
 
-Before you start using Hiera in Bolt, get familiar with:
+Before you start using Hiera in OpenBolt, get familiar with:
 
 - [How to use Hiera](/openvox/latest/hiera_intro.html).
-- [Applying Puppet code](applying_manifest_blocks.html) with Bolt.
+- [Applying Puppet code](applying_manifest_blocks.html) with OpenBolt.
 
 ## Hiera configuration layers
 
-In Bolt, Hiera uses two independent layers of configuration when you look up
+In OpenBolt, Hiera uses two independent layers of configuration when you look up
 data: the project layer and the module layer. This is different from Puppet,
-where Hiera has three independent layers of configuration. Bolt searches the two
+where Hiera has three independent layers of configuration. OpenBolt searches the two
 layers of configuration in the order: project → module.
 
 ### Project layer
@@ -54,20 +54,20 @@ data set by a user overrides the default data set by the module’s author.
 
 You can use the [Puppet `lookup()`
 function](/openvox/latest/hiera_automatic.html#puppet-lookup)
-in plans to look up data. It's useful to think of looking up Hiera data in Bolt
+in plans to look up data. It's useful to think of looking up Hiera data in OpenBolt
 plans in two different contexts: inside apply blocks and outside apply blocks.
 
 ### Inside apply blocks
 
-Inside apply blocks, Bolt compiles Puppet catalogs in a per-target context, and
+Inside apply blocks, OpenBolt compiles Puppet catalogs in a per-target context, and
 has unfettered access to Hiera data. You can use the same Hiera configuration
 and data you would for Puppet, and look up data in the same way as you would in
 Puppet.
 
 Before executing an apply block in a plan, you typically run the `apply_prep()`
 function on all of the targets that you run the apply on. As part of the
-`apply_prep()` function, Bolt collects facts for each target and sets them on
-the target. When Bolt compiles Puppet catalogs for each of these targets, the
+`apply_prep()` function, OpenBolt collects facts for each target and sets them on
+the target. When OpenBolt compiles Puppet catalogs for each of these targets, the
 context includes the target's facts, which you can use in interpolations in your
 Hiera configuration.
 
@@ -121,7 +121,7 @@ steps during the plan run:
 1. Hiera finds the `confpath` key in the data source and returns the value
    `C:\Program Files\Common Files\my_tool.conf` from the `lookup()` function.
 
-After looking up the `confpath` key, Bolt uses this code to compile the Puppet
+After looking up the `confpath` key, OpenBolt uses this code to compile the Puppet
 catalog for the target:
 
 ```puppet
@@ -133,7 +133,7 @@ file { 'C:\Program Files\Common Files\my_tool.conf':
 
 ### Outside apply blocks
 
-Outside apply blocks, Bolt is essentially executing a script. It doesn't have a
+Outside apply blocks, OpenBolt is essentially executing a script. It doesn't have a
 concept of a target or context, and thus cannot load per-target data. This
 breaks common Hiera features like interpolating target facts.
 
@@ -214,7 +214,7 @@ up the static value for `api_key`.
 
 By specifying both keys in the same Hiera configuration, you can look up data
 inside and outside apply blocks in the same plan. This allows you to use your
-existing Hiera configuration in Bolt plans without encountering an error if
+existing Hiera configuration in plans without encountering an error if
 per-target interpolations exist and your plan tries to look up data outside an
 apply block.
 
@@ -254,7 +254,7 @@ And a data source at `<PROJECT DIRECTORY>/data/doggos.yaml`:
 site_path: /var/www/doggos.tld/public_html
 ```
 
-Bolt looks up the site path and passes the value to a task to deploy the site:
+OpenBolt looks up the site path and passes the value to a task to deploy the site:
 
 ```puppet
 # plans/plan_lookup.pp
@@ -291,13 +291,13 @@ plan other_plan(
 }
 ```
 
-Bolt would error, because `$application` is not in scope in `other_plan` and the
+OpenBolt would error, because `$application` is not in scope in `other_plan` and the
 interpolation in the Hiera configuration would fail.
 
 ## Look up data from the command line
 
 You can use the `bolt lookup` command and `Invoke-BoltLookup` PowerShell cmdlet
-to look up Hiera data from the command line. By default, Bolt uses the `hierarchy`
+to look up Hiera data from the command line. By default, OpenBolt uses the `hierarchy`
 key in your `hiera.yaml` file to look up data and performs the lookup inside an apply
 block. Similar to looking up data outside of an apply block in a plan, you can use
 the `--plan-hierarchy` or `-PlanHierarchy` command options to look up data from
@@ -308,9 +308,9 @@ the `plan_hierarchy` key.
 Without additional options, the `lookup` command looks up data in the context of a target,
 allowing you to interpolate target facts and variables in your hierarchy.
 
-When you run the `bolt lookup` and `Invoke-BoltLookup` commands, Bolt first
+When you run the `bolt lookup` and `Invoke-BoltLookup` commands, OpenBolt first
 runs an `apply_prep` on each of the targets specified. This installs the
-`puppet-agent` package on the target, collects facts, and then stores the facts
+`openvox-agent` package on the target, collects facts, and then stores the facts
 on the target to be used in interpolations.
 
 Looking up data from the command line is particularly useful if you need to
@@ -360,7 +360,7 @@ _PowerShell cmdlet:_
 Invoke-BoltLooup -Key 'password' -Targets 'windows_target,ubuntu_target'
 ```
 
-Bolt prints the value for the key to the console:
+OpenBolt prints the value for the key to the console:
 
 ```console
 Starting: install puppet and gather facts on windows_target, ubuntu_target
@@ -377,7 +377,7 @@ Ran on 2 targets
 
 To look up data from Hiera's `plan_hierarchy` key, use the `lookup` command with
 the `--plan-hierarchy` option. This mimics performing a lookup outside an apply block
-in a Bolt plan.
+in a plan.
 
 Because `plan_hierarchy` values are not specific to individual targets, this command performs
 just one lookup and returns the bare value. You can't use the `--plan-hierarchy` option

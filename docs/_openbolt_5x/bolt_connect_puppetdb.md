@@ -1,63 +1,42 @@
 ---
 layout: default
-title: Connecting Bolt to PuppetDB
+title: Connecting OpenBolt to OpenVoxDB
 ---
 
-# Connecting Bolt to PuppetDB
+# Connecting OpenBolt to OpenVoxDB
 
-Configure Bolt to connect to PuppetDB.
+Configure OpenBolt to connect to OpenVoxDB.
 
-## PuppetDB authorization
+## OpenVoxDB authorization
 
-Bolt can authenticate with PuppetDB through an SSL client certificate or a PE
-RBAC token.
+OpenBolt authenticates with OpenVoxDB using an SSL client certificate. If
+OpenVoxDB is behind an API gateway that needs other credentials, such as an OAuth
+token, you can also add HTTP headers to OpenBolt's requests.
 
 ## Client certificate
 
 Add the certname for the certificate you want to authenticate with
 to `/etc/puppetlabs/puppetdb/certificate-allowlist`. This certificate has full
-access to all PuppetDB API endpoints and can read all data, push new data, or
-run commands on PuppetDB. To test the certificate you run the following curl
+access to all OpenVoxDB API endpoints and can read all data, push new data, or
+run commands on OpenVoxDB. To test the certificate you run the following curl
 command.
 
 ```console
 curl -X GET $SERVER_URL/pdb/query/v4 --data-urlencode 'query=nodes[certname] {}' --cert $CERT_PATH --key $KEY_PATH --cacert $CACERT_PATH
 ```
 
-## Token-based authentication with PE RBAC token
-
-If you use Puppet Enterprise you can grant more restricted access to PuppetDB
-with a PE role-based access control (RBAC) token.
-
-1. In PE, verify you are assigned to a role that has the appropriate RBAC
-    permission. It needs the permission type **Nodes** and the action **View
-    node data from PuppetDB**.
-
-2. From the command line, run `puppet-access login --lifetime <TIME PERIOD>`.
-
-3. When prompted, enter the same username and password that you use to log into
-    the PE console. The token is generated and stored in a file for later use.
-    The default location for storing the token is ~/.puppetlabs/token.
-
-4. Verify that authentication is working with the following curl command.
-
-```console
-curl -X GET https://$SERVER_URL/pdb/query/v4 --data-urlencode 'query=nodes[certname] {}' -H "X-Authentication: `cat ~/.puppetlabs/token`" --cacert $CACERT_PATH
-```
-
-
 ## Configuration
 
-To configure the Bolt PuppetDB client, add a `puppetdb` section to your [Bolt
+To configure the OpenVoxDB client, add a `puppetdb` section to your [OpenBolt
 config](configuring_bolt.html) with the following values:
 
 | Option | Type | Description |
 | --- | --- | --- |
-| `cacert` | `String` | The path to the CA certificate for PuppetDB. |
-| `connect_timeout` | `Integer` | How long to wait in seconds when establishing connections with PuppetDB. |
-| `headers` | `Hash` | A map of HTTP headers to add to PuppetDB requests. |
-| `read_timeout` | `Integer` | How long to wait in seconds for a response from PuppetDB. |
-| `server_urls` | `Array` | An array of PuppetDB hosts to connect to, each including the `https` protocol and port (usually `8081`), for example `https://my-puppetdb-server.example.com:8081`. Bolt tries each host until one connects. |
+| `cacert` | `String` | The path to the CA certificate for OpenVoxDB. |
+| `connect_timeout` | `Integer` | How long to wait in seconds when establishing connections with OpenVoxDB. |
+| `headers` | `Hash` | A map of HTTP headers to add to OpenVoxDB requests. |
+| `read_timeout` | `Integer` | How long to wait in seconds for a response from OpenVoxDB. |
+| `server_urls` | `Array` | An array of OpenVoxDB hosts to connect to, each including the `https` protocol and port (usually `8081`), for example `https://my-puppetdb-server.example.com:8081`. OpenBolt tries each host until one connects. |
 
 If you are using certificate authentication also set:
 
@@ -65,12 +44,6 @@ If you are using certificate authentication also set:
 | --- | --- | --- |
 | `cert` | `String` | The path to the client certificate file to use for authentication. |
 | `key` | `String` | The private key for the certificate. |
-
-If you are using a PE RBAC token set:
-
-| Option | Type | Description |
-| --- | --- | --- |
-| `token` | `String` | The path to the PE RBAC token. |
 
 For example, to use certificate authentication:
 
@@ -82,26 +55,8 @@ puppetdb:
   key: /etc/puppetlabs/puppet/ssl/private_keys/my-host.example.com.pem
 ```
 
-If PE is installed and PuppetDB is not defined in a config file, Bolt uses the
-PuppetDB config defined in either:
-
-- `$HOME/.puppetlabs/client-tools/puppetdb.conf` or
-- `/etc/puppetlabs/client-tools/puppetdb.conf` (Windows:
-`%CSIDL_COMMON_APPDATA%\PuppetLabs\client-tools\puppetdb.conf`).
-
-**Important:** Bolt does not merge config files into a conf.d format the way
-that pe-client-tools does.
-
-To use PE RBAC authentication:
-
-```yaml
-puppetdb:
-  server_urls: ["https://puppet.example.com:8081"]
-  cacert: /etc/puppetlabs/puppet/ssl/certs/ca.pem
-  token: ~/.puppetlabs/token
-```
-
-To use custom headers, such as for OAuth authentication:
+To add custom headers, for example for an API gateway that requires an OAuth
+token:
 
 ```yaml
 puppetdb:
@@ -111,18 +66,18 @@ puppetdb:
     Authorization: "Bearer <token-content>"
 ```
 
-## Configuring multiple PuppetDB instances
+## Configuring multiple OpenVoxDB instances
 
-The Bolt PuppetDB Client supports connections to multiple PuppetDB instances. To
-configure multiple PuppetDB instances, add the `puppetdb-instances` section to
-your [Bolt config](configuring_bolt.html).
+The OpenVoxDB client supports connections to multiple OpenVoxDB instances. To
+configure multiple OpenVoxDB instances, add the `puppetdb-instances` section to
+your [OpenBolt config](configuring_bolt.html).
 
 The `puppetdb-instances` section is a map of configuration, where each key is the
-name of the PuppetDB instance and values are the configuration for the instance.
+name of the OpenVoxDB instance and values are the configuration for the instance.
 Each instance supports the same configuration as the `puppetdb` section.
 
 For example, to configure a named instance that uses certificate authentication
-and a second instance that uses PE RBAC authentication:
+and a second instance that uses a custom header:
 
 ```yaml
 puppetdb-instances:
@@ -134,17 +89,18 @@ puppetdb-instances:
   instance-2:
     server_urls: ["https://instance-2.example.com:8081"]
     cacert: /etc/puppetlabs/puppet/ssl/certs/ca.pem
-    token: ~/.puppetlabs/token
+    headers:
+      Authorization: "Bearer <token-content>"
 ```
 
-## Connecting to a named PuppetDB instance
+## Connecting to a named OpenVoxDB instance
 
-When using Bolt features that connect to PuppetDB, you can specify a named
-instance to connect to if you have configured multiple PuppetDB instances
+When using OpenBolt features that connect to OpenVoxDB, you can specify a named
+instance to connect to if you have configured multiple OpenVoxDB instances
 under the `puppetdb-instances` section.
 
-To specify a PuppetDB instance to the `puppetdb_*` plan functions, pass the
-PuppetDB instance name as the last positional argument to the function:
+To specify an OpenVoxDB instance to the `puppetdb_*` plan functions, pass the
+OpenVoxDB instance name as the last positional argument to the function:
 
 ```puppet
 plan example() {
@@ -152,7 +108,7 @@ plan example() {
 }
 ```
 
-To specify a PuppetDB instance to the `apply` plan function, use the `_puppetdb`
+To specify an OpenVoxDB instance to the `apply` plan function, use the `_puppetdb`
 option:
 
 ```puppet
@@ -163,7 +119,7 @@ plan example() {
 }
 ```
 
-To specify a PuppetDB instance to the `puppetdb` plugin, use the `instance`
+To specify an OpenVoxDB instance to the `puppetdb` plugin, use the `instance`
 option:
 
 ```yaml
@@ -173,20 +129,21 @@ targets:
   instance: instance-1
 ```
 
-## Specifying a default PuppetDB instance
+## Specifying a default OpenVoxDB instance
 
-When you do not specify a named PuppetDB instance, the Bolt PuppetDB client
-connects to the default PuppetDB instance. Typically, this is the PuppetDB
+When you do not specify a named OpenVoxDB instance, the OpenVoxDB client
+connects to the default OpenVoxDB instance. Typically, this is the OpenVoxDB
 instance configured under the `puppetdb` section.
 
 For example, the following `bolt-project.yaml` configures a default
-PuppetDB instance and two named PuppetDB instances:
+OpenVoxDB instance and two named OpenVoxDB instances:
 
 ```yaml
 puppetdb:
     server_urls: ["https://puppetdb.example.com:8081"]
     cacert: /etc/puppetlabs/puppet/ssl/certs/ca.pem
-    token: ~/.puppetlabs/token
+    cert: /etc/puppetlabs/puppet/ssl/certs/my-host.example.com.pem
+    key: /etc/puppetlabs/puppet/ssl/private_keys/my-host.example.com.pem
 
 puppetdb-instances:
   instance-1:
@@ -197,11 +154,12 @@ puppetdb-instances:
   instance-2:
     server_urls: ["https://instance-2.example.com:8081"]
     cacert: /etc/puppetlabs/puppet/ssl/certs/ca.pem
-    token: ~/.puppetlabs/token
+    headers:
+      Authorization: "Bearer <token-content>"
 ```
 
 The following plan invokes the `puppetdb_fact` twice. The first invocation
-connects to the default PuppetDB instance (configured under the `puppetdb`
+connects to the default OpenVoxDB instance (configured under the `puppetdb`
 section), while the second invocation connects to `instance-2` (configured
 under the `puppetdb-instances` section).
 
@@ -215,8 +173,8 @@ plan example() {
 }
 ```
 
-Bolt allows you to change the default PuppetDB instance to a named instance
-each time you run a command. This results in Bolt connecting to the named
+OpenBolt allows you to change the default OpenVoxDB instance to a named instance
+each time you run a command. This results in OpenBolt connecting to the named
 instance whenever a named instance is not specified.
 
 To specify a named instance as the default instance, use the `puppetdb`
@@ -235,13 +193,13 @@ _PowerShell cmdlet:_
 ```
 
 When running the example from above, the first invocation of the
-`puppetdb_fact` function will now connect to the named PuppetDB instance
+`puppetdb_fact` function will now connect to the named OpenVoxDB instance
 `instance-1`.
 
 ## Testing
 
 You can test your configuration with the following plan, which returns a list of
-all nodes in PuppetDB.
+all nodes in OpenVoxDB.
 
 ```puppet
 plan pdb_test {
@@ -251,7 +209,7 @@ plan pdb_test {
 
 ## Practical Usage
 
-In practice, it is common to extract inventory from PuppetDB dynamically to use
+In practice, it is common to extract inventory from OpenVoxDB dynamically to use
 in a plan. The following is an example using the `puppetdb_query()` function
 directly. This method works but requires data munging to be effective.
 
@@ -275,7 +233,7 @@ plan puppetdb_query_targets {
 }
 ```
 
-Alternatively, the [PuppetDB inventory plugin](using_plugins.html) can be used to
+Alternatively, the [`puppetdb` inventory plugin](supported_plugins.html#puppetdb) can be used to
 execute a query and return Targets. This avoids the data munging from the
 previous example:
 

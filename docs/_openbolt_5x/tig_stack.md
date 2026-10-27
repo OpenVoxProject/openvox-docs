@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Deploy a TIG stack with Bolt
+title: Deploy a TIG stack with OpenBolt
 ---
 
-# Deploy a TIG stack with Bolt
+# Deploy a TIG stack with OpenBolt
 
-In this guide, you'll use Bolt to configure and deploy a TIG stack.
+In this guide, you'll use OpenBolt to configure and deploy a TIG stack.
 
 A TIG stack provides metrics visualization to help you monitor your
 infrastructure. TIG stands for:
@@ -19,9 +19,9 @@ infrastructure. TIG stands for:
 
 > **Before you begin**
 >
-> - Make sure you've installed Bolt version 2.10.0 or greater on your machine.
-> For instructions on how to install Bolt, see
-> [Installing Bolt](./bolt_installing.html).
+> - Make sure you've installed OpenBolt on your machine.
+> For instructions on how to install OpenBolt, see
+> [Installing OpenBolt](./bolt_installing.html).
 > - Clone or download the [TIG stack repo](https://github.com/puppetlabs/bolt-tig-stack)
 > - This guide uses virtual machines
 > to host the stack, which requires [Vagrant](https://www.vagrantup.com/docs/installation) and a hypervisor like
@@ -29,11 +29,11 @@ infrastructure. TIG stands for:
 > targets, you can skip the directions for provisioning targets and go straight
 > to [installing the TIG modules](#install-the-tig-modules).
 
-To deploy your TIG stack, you'll use a Bolt plan that leverages existing Puppet
+To deploy your TIG stack, you'll use a plan that leverages existing Puppet
 Modules. You can find all the files you need in the
 [TIG stack repo](https://github.com/puppetlabs/bolt-tig-stack).
 
-After you've cloned or downloaded the repo, you can access the TIG Bolt
+After you've cloned or downloaded the repo, you can access the TIG stack
 project from the `tig_stack` directory. The project has the following file structure:
 
 ```console
@@ -94,7 +94,7 @@ To provision your targets:
    vagant up
    ```  
 
-2. Generate the SSH configuration for both targets. Bolt will automatically
+2. Generate the SSH configuration for both targets. OpenBolt will automatically
    detect the configuration.
 
     ```console
@@ -112,7 +112,7 @@ Next, install the Puppet modules for the different components of the TIG stack.
 
 ## Install the TIG modules
 
-Before you can use Bolt to install modules, you must install the relevant
+Before you can use OpenBolt to install modules, you must install the relevant
 modules. The modules you need are all listed in the `bolt-project.yaml` file
 under the `modules` key:
 
@@ -215,7 +215,7 @@ plan tig() {
 ```
 
 The first step in the plan uses the `apply_prep` function to install the
-`puppet-agent` package and collect facts from each of the targets in the
+`openvox-agent` package and collect facts from each of the targets in the
 inventory file.
 
 Next, an apply block applies the `dashboard` manifest, which installs and
@@ -346,7 +346,7 @@ class tig::telegraf (
 ```
 
 The last step in the plan returns results that you can use in other plans or
-save for use outside of Bolt. Here, it returns the address for the Grafana
+save for use outside of OpenBolt. Here, it returns the address for the Grafana
 dashboard.
 
 Next, run the plan.
@@ -390,7 +390,7 @@ dashboard. You can sign in with the following credentials (from
 - username: `bolt`
 - password: `boltIsAwesome`.
 
-Congratulations! You've deployed a TIG Stack with Bolt!
+Congratulations! You've deployed a TIG Stack with OpenBolt!
 
-Do you have a real-world use case for Bolt that you'd like to share? Reach out
-to us in the #bolt channel on [Slack](https://slack.puppet.com).
+Do you have a real-world use case for OpenBolt that you'd like to share? Tell us
+about it in the [OpenVox community](/ecosystem/latest/community.html).

@@ -5,18 +5,18 @@ title: Logs
 
 # Logs
 
-Bolt supports multiple log levels. You can configure the log level from the CLI,
+OpenBolt supports multiple log levels. You can configure the log level from the CLI,
 or in a project configuration file. Supported logging levels, in order from most
 to least information logged, are `trace`, `debug`, `info`, `warn`, `error`, and
 `fatal`.
 
-By default, Bolt logs a debug-level log to a `bolt-debug.log` file in the root
+By default, OpenBolt logs a debug-level log to a `bolt-debug.log` file in the root
 of your project directory. You can also configure custom logs from your project
 configuration file.
 
 ## The `bolt-debug.log` file
 
-Each time you run a Bolt command, Bolt prints a debug-level log to a
+Each time you run an OpenBolt command, OpenBolt prints a debug-level log to a
 `bolt-debug.log` file in the root of your project directory.
 
 You can disable the log file by specifying the following in your
@@ -29,7 +29,7 @@ log:
 
 ## Setting log level
 
-You can set Bolt's log level from the CLI or use a
+You can set OpenBolt's log level from the CLI or use a
 configuration file.
 
 ### Setting log level on the CLI
@@ -68,7 +68,7 @@ log:
 
 If you want to write a log to a file, add a map with the file destination to the
 log mapping. For example, the following `bolt-project.yaml` file writes `info`
-and `trace` level logs to a `logs` directory in the Bolt project:
+and `trace` level logs to a `logs` directory in the OpenBolt project:
 
 ```yaml
 # bolt-project.yaml
@@ -86,7 +86,7 @@ log:
 Set the `append` key to `false` if you want to overwrite the file on each run,
 or `true` if you want to append to the existing file.
 
-> **Note**: The directory you set for logging must exist, and Bolt must have
+> **Note**: The directory you set for logging must exist, and OpenBolt must have
 > permission to write to it.
 
 ## Log levels
@@ -98,56 +98,56 @@ targets. For example, the logs include each command run on a target, each step
 of compiling a puppet code file (manifest) for an apply block, and information about establishing
 connections with targets.
 
-Trace logs are useful when you're trying to troubleshoot a problem with Bolt.
-They contain information about what exactly Bolt is doing when it runs an action
+Trace logs are useful when you're trying to troubleshoot a problem with OpenBolt.
+They contain information about what exactly OpenBolt is doing when it runs an action
 on each target.
 
 ### `debug`
 
 Debug logs contain information for target-specific steps and detailed
-information about where Bolt is loading data from. For example, debug logs
-include information on how Bolt locates the project to load, where different
+information about where OpenBolt is loading data from. For example, debug logs
+include information on how OpenBolt locates the project to load, where different
 content is loaded from, and information about actions run on each individual
 target.
 
 Debug logs are useful for troubleshooting a problem with a plan or the way
-you're using Bolt. You can use debug logs for a high-level understanding of what
-actions Bolt is running on individual targets, or to find out where Bolt is
+you're using OpenBolt. You can use debug logs for a high-level understanding of what
+actions OpenBolt is running on individual targets, or to find out where OpenBolt is
 loading data from.
 
 ### `info`
 
-Info logs give you a high-level overview of what Bolt is doing. For example, an
-info log contains information about which Bolt project is loaded, when different
+Info logs give you a high-level overview of what OpenBolt is doing. For example, an
+info log contains information about which OpenBolt project is loaded, when different
 actions run on targets start and finish, and results from actions run on
 targets.
 
-Info logs are useful when you want to see the results for an action in a Bolt
-execution. They're also useful for a high-level understanding of what Bolt is
+Info logs are useful when you want to see the results for an action in an OpenBolt
+execution. They're also useful for a high-level understanding of what OpenBolt is
 doing.
 
 ### `warn`
 
 Warn logs contain warnings about deprecations and potentially harmful situations
-that might affect your Bolt run, even though they don't prevent Bolt from
-executing. For example, Bolt warns you if your inventory file includes an
-unsupported transport configuration that might result in Bolt connecting to
+that might affect your OpenBolt run, even though they don't prevent OpenBolt from
+executing. For example, OpenBolt warns you if your inventory file includes an
+unsupported transport configuration that might result in OpenBolt connecting to
 targets in a way that you don’t expect.
 
-Bolt prints warnings to the console by default.
+OpenBolt prints warnings to the console by default.
 
-Use a warn log if you're trying to find out if you're using Bolt in a way that
+Use a warn log if you're trying to find out if you're using OpenBolt in a way that
 might result in unexpected behavior, or to see if you're using a deprecated
 feature.
 
 ### `error`
 
-Error logs contain messages for errors that Bolt encountered during execution.
-For example, Bolt prints an error if a PuppetDB query fails.
+Error logs contain messages for errors that OpenBolt encountered during execution.
+For example, OpenBolt prints an error if an OpenVoxDB query fails.
 
-Bolt prints errors to the console by default.
+OpenBolt prints errors to the console by default.
 
-Use an error log if you want to see errors that Bolt raised during a Bolt run.
+Use an error log if you want to see errors that OpenBolt raised during an OpenBolt run.
 
 ### `fatal`
 
@@ -159,11 +159,11 @@ Puppet code.
 
 ## Using `verbose` output
 
-Verbose output is useful when you want to see the results for Bolt actions on your targets that are
+Verbose output is useful when you want to see the results for OpenBolt actions on your targets that are
 usually not printed to standard out (stdout). Verbose isn't a log level, but is a way of telling
-Bolt to output additional information in a human-readable format.
+OpenBolt to output additional information in a human-readable format.
 
-The following Bolt commands include the `--verbose` CLI option:
+The following OpenBolt commands include the `--verbose` CLI option:
 
 - `bolt command run`
 - `bolt task run`
@@ -197,11 +197,11 @@ plan mymodule::myplan {
 
 ## Suppress warnings
 
-You can suppress warning messages from being logged by Bolt. To disable specific
+You can suppress warning messages from being logged by OpenBolt. To disable specific
 warnings, add a list of warning IDs to the `disable-warnings` configuration
 option in `bolt-project.yaml` or `bolt-defaults.yaml`. If defined in both files,
 the lists of warnings are concatenated per the [configuration merge
-strategy](configuring_bolt.html#merge-strategy). For example, if Bolt issues the
+strategy](configuring_bolt.html#merge-strategy). For example, if OpenBolt issues the
 following warning:
 
 ```console
@@ -218,7 +218,7 @@ disable-warnings:
   - fruit_option
 ```
 
-The next time you run Bolt, the warning message will not be logged.
+The next time you run OpenBolt, the warning message will not be logged.
 
 📖 **Related information**  
 
@@ -227,4 +227,4 @@ The next time you run Bolt, the warning message will not be logged.
 - [Debugging Puppet language plans](debugging_plans.html#debugging-plans)
 - [Project level configuration](configuring_bolt.html#project-level-configuration)
 - [Applying Puppet code](applying_manifest_blocks.html)
-- [Bolt command reference](bolt_command_reference.html)
+- [OpenBolt command reference](bolt_command_reference.html)

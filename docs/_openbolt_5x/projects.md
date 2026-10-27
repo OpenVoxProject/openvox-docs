@@ -1,39 +1,39 @@
 ---
 layout: default
-title: Bolt projects
+title: OpenBolt projects
 ---
 
-# Bolt projects
+# OpenBolt projects
 
-A Bolt project is a simple directory that serves as the launching point for
-Bolt. You store your inventory file and configuration files in a project,
-together with your Bolt content such as plans and tasks.
+An OpenBolt project is a simple directory that serves as the launching point for
+OpenBolt. You store your inventory file and configuration files in a project,
+together with your OpenBolt content such as plans and tasks.
 
-In addition to working with your local Bolt content, Bolt projects give you a
+In addition to working with your local OpenBolt content, OpenBolt projects give you a
 way to share that content with other users in your organization. You can create
 orchestration that is specific to the infrastructure you're working with, and
 then commit the project directory to version control for others to consume.
 
-Bolt identifies a directory as a Bolt project as long as a `bolt-project.yaml`
+OpenBolt identifies a directory as an OpenBolt project as long as a `bolt-project.yaml`
 file exists at the root of the directory, and the `bolt-project.yaml` file
 contains a `name` key.
 
-## Create a Bolt project
+## Create an OpenBolt project
 
-To create a Bolt project:
+To create an OpenBolt project:
 
-1. Create a directory for your Bolt project. To avoid having to specify a
+1. Create a directory for your OpenBolt project. To avoid having to specify a
    project name in the next step, follow project naming conventions. Project
    names can contain only lowercase letters, numbers, and underscores, and begin
    with a lowercase letter.
 2. Run `bolt project init` (or `New-BoltProject` for PowerShell cmdlet).
-   Bolt creates a `bolt-project.yaml` file in your project directory.
+   OpenBolt creates a `bolt-project.yaml` file in your project directory.
    At this point, the `bolt-project.yaml` only contains a `name` key with the
    name of your project.
 
-Congratulations, you've created a Bolt project! 🎉 Develop your Bolt plans and
+Congratulations, you've created an OpenBolt project! 🎉 Develop your plans and
 tasks in `plans` and `tasks` directories in the root of the project directory,
-next to `bolt-project.yaml`. Bolt loads tasks and plans from the `tasks` and
+next to `bolt-project.yaml`. OpenBolt loads tasks and plans from the `tasks` and
 `plans` directories and namespaces them to the project name.
 
 Here is an example of a typical project with a task, a plan, and an inventory
@@ -52,15 +52,15 @@ file:
 
 > 🔩 **Tip:** To create a project with a list of pre-installed modules, use the
 > `--modules` option. For more information, see
-> [](./bolt_installing_modules.html#create-a-bolt-project-with-pre-installed-modules).
+> [](./bolt_installing_modules.html#create-an-openbolt-project-with-pre-installed-modules).
 
 ## Configuring a project
 
 Besides the `name` key, the `bolt-project.yaml` file holds options to configure
-your Bolt project, as well as options to control how Bolt behaves when you run a
+your OpenBolt project, as well as options to control how OpenBolt behaves when you run a
 project.
 
-For example, if you want to add a little flair to your Bolt output, use the
+For example, if you want to add a little flair to your OpenBolt output, use the
 `rainbow` output format:
 
 ```yaml
@@ -79,7 +79,7 @@ Projects allow you to limit which plans and tasks a user can see when running
 
 Limiting tasks and plans is useful for the following reasons:
 
-- Bolt is bundled with several plans and tasks that might not be useful in your
+- OpenBolt is bundled with several plans and tasks that might not be useful in your
   project.
 - You might have written a task or plan that is only used by another task or
   plan, and you don't want your users to run that task or plan directly.
@@ -143,76 +143,76 @@ The following metacharacters can be used in a glob pattern:
 
 ## Common files and directories in a project
 
-The following are common files and directories found in a Bolt project.  
+The following are common files and directories found in an OpenBolt project.  
 
 |Directory/File|Description|
 |---------|-----------|
-|[`bolt-project.yaml`](bolt_project_reference.html)|Contains configuration options for Bolt and  Bolt projects. This file must exist for Bolt to find any of the other files or directories in this list.|
+|[`bolt-project.yaml`](bolt_project_reference.html)|Contains configuration options for OpenBolt and  OpenBolt projects. This file must exist for OpenBolt to find any of the other files or directories in this list.|
 |[`inventory.yaml`](inventory_files.html)|Contains a list of known targets and target specific data.|
 |[`plans/`](plans.html)|A directory for storing your plans.|
 |[`tasks/`](tasks.html)|A directory for storing your tasks.|
 |`files/`|A directory for storing content consumed by your tasks and plans, such as scripts.|
-|[`Puppetfile`](bolt_installing_modules.html#)|Specifies the modules installed in your project. Bolt manages this file. Avoid editing it.|
+|[`Puppetfile`](bolt_installing_modules.html#)|Specifies the modules installed in your project. OpenBolt manages this file. Avoid editing it.|
 |[`modules/`](bolt_installing_modules.html#)|A directory for storing your custom modules.|
 |[`manifests`](applying_manifest_blocks.html)|A directory for storing your Puppet code files, known as _manifests_.|
 |`hiera.yaml`|Contains the Hiera config to use for target-specific data when using `apply`.|
 |`data/`|The standard path to store static Hiera data files.|
-|`bolt-debug.log`|Contains debug log output for the most recent Bolt command.|
-| `.modules/` |The directory where Bolt installs modules. Avoid committing this directory to source control.|
+|`bolt-debug.log`|Contains debug log output for the most recent OpenBolt command.|
+| `.modules/` |The directory where OpenBolt installs modules. Avoid committing this directory to source control.|
 
-> **Remember:** A directory must have a `bolt-project.yaml` file before Bolt
-> recognizes it as a Bolt project.
+> **Remember:** A directory must have a `bolt-project.yaml` file before OpenBolt
+> recognizes it as an OpenBolt project.
 
 📖 **Related information**
 
 - [Modules overview](modules.html)
 
-## How Bolt chooses a project directory
+## How OpenBolt chooses a project directory
 
-Most of the time, you run Bolt commands from within a Bolt project directory
-that you've created. Running Bolt from inside your project allows Bolt to find
+Most of the time, you run OpenBolt commands from within an OpenBolt project directory
+that you've created. Running OpenBolt from inside your project allows OpenBolt to find
 your inventory and other configuration files.
 
-However, Bolt always runs in the context of a project. If you don't run from
-within your own Bolt project, or you don't specify a project, Bolt uses the
+However, OpenBolt always runs in the context of a project. If you don't run from
+within your own OpenBolt project, or you don't specify a project, OpenBolt uses the
 default project directory at `~/.puppetlabs/bolt/`.
 
-Bolt uses the following methods, in order, to choose a Bolt directory.
+OpenBolt uses the following methods, in order, to choose an OpenBolt directory.
 
 1. **Environment variable:** You can specify a path to a project using the
    `BOLT_PROJECT` environment variable.
 2. **Command-line specification:** You can specify a directory path on the
    command line with `--project <DIRECTORY_PATH>`. There is not an equivalent
-   configuration setting because the Bolt directory must be known in order to
+   configuration setting because the OpenBolt directory must be known in order to
    load configuration.
-3. **Parent directory:** Bolt traverses parents of the current directory until
+3. **Parent directory:** OpenBolt traverses parents of the current directory until
    it finds one of the following:
    - A `bolt-project.yaml` file.
    - A directory named `Boltdir`.
-4. **Default project directory:** If Bolt reaches the root of the file system
-   without finding a `Boltdir` directory or `bolt-project.yaml` file, Bolt uses
+4. **Default project directory:** If OpenBolt reaches the root of the file system
+   without finding a `Boltdir` directory or `bolt-project.yaml` file, OpenBolt uses
    `~/.puppetlabs/bolt/` as the project directory.
 
 For information on `Boltdir` directories, see [Embedded project directories](#embedded-project-directories).
 
 ## Embedded project directories
 
-If you need to embed your Bolt management code into another repo, you can use an
-embedded project directory. For example, you can store Bolt management code in
-the same repo as the application that Bolt manages. This prevents file clutter in the
-top level of the repo and allows you to run Bolt from anywhere in the
+If you need to embed your OpenBolt management code into another repo, you can use an
+embedded project directory. For example, you can store OpenBolt management code in
+the same repo as the application that OpenBolt manages. This prevents file clutter in the
+top level of the repo and allows you to run OpenBolt from anywhere in the
 application's directory structure.
 
 To create an embedded project directory, create a subdirectory in your
-application's repo and name it `Boltdir`. Bolt treats a directory containing a
+application's repo and name it `Boltdir`. OpenBolt treats a directory containing a
 subdirectory named `Boltdir` as an embedded project directory.
 
 The contents the `Boltdir` directory follows the same pattern as a local project
 directory. As long as your `bolt-project.yaml` file contains a `name` field,
-Bolt loads your local Bolt content from the top level of the `Boltdir`. Your
+OpenBolt loads your local OpenBolt content from the top level of the `Boltdir`. Your
 `Boltdir` can also contain modules.
 
-An embedded Bolt directory looks like this:
+An embedded OpenBolt directory looks like this:
 
 ```console
 project/
@@ -225,37 +225,37 @@ project/
 │   └── tasks
 │       ├── init.json
 │       └── init.py
-├── src #non Bolt source code for the project
-└── tests #non Bolt tests for the project
+├── src #non-OpenBolt source code for the project
+└── tests #non-OpenBolt tests for the project
 ```
 
-In this example, you could run a Bolt command from the parent `project`
-directory, and Bolt would still find your Bolt project.
+In this example, you could run an OpenBolt command from the parent `project`
+directory, and OpenBolt would still find your OpenBolt project.
 
 > 🔩 **Tip:** You can use an existing Puppet control
-  repo as a Bolt directory
+  repo as an OpenBolt directory
   by adding a `bolt-project.yaml` file to it and configuring the `modulepath` to
   match the `modulepath` in `environment.conf`.
 
-## Using modules in a Bolt project
+## Using modules in an OpenBolt project
 
-Bolt projects make it easier for you to get started with Bolt without following
+OpenBolt projects make it easier for you to get started with OpenBolt without following
 Puppet's module structure. However, if you're developing a custom module, you
-can still use the Puppet module directory structure with Bolt. For more
+can still use the Puppet module directory structure with OpenBolt. For more
 information, see [Module structure](module_structure.html).
 
-> **Note:** When you're naming your modules or Bolt project, keep in mind that
+> **Note:** When you're naming your modules or OpenBolt project, keep in mind that
 > projects take precedence over installed modules of the same name.
 
 ## World-writable project directories
 
-On **Unix-like systems**, Bolt will not load a project from a world-writable
+On **Unix-like systems**, OpenBolt will not load a project from a world-writable
 directory by default, as loading from a world-writable directory presents a
 potential security risk. If you attempt to load a project from a
-world-writable directory, Bolt does not load any content and raises an
+world-writable directory, OpenBolt does not load any content and raises an
 exception.
 
-If you wish to override this behavior and force Bolt to load a project from a
+If you wish to override this behavior and force OpenBolt to load a project from a
 world-writable directory, you can set the `BOLT_PROJECT` environment variable
 to the project directory path.
 
@@ -271,8 +271,8 @@ export BOLT_PROJECT='~/project/my_project'
 > session. If you need a more permanent solution, add the `export` line to your
 > `~/.bashrc` or the relevant profile for the shell you're using.
 
-If you want to use a world-writable directory for a single Bolt execution, set the
-environment variable before the Bolt command:
+If you want to use a world-writable directory for a single OpenBolt execution, set the
+environment variable before the OpenBolt command:
 
 ```bash
 BOLT_PROJECT='~/project/my_project' bolt command run uptime -t target1
@@ -281,13 +281,13 @@ BOLT_PROJECT='~/project/my_project' bolt command run uptime -t target1
 > **Note:** The `BOLT_PROJECT` environment variable takes precedence over the
 > `--project` CLI option.
 
-## Migrate a Bolt project
+## Migrate an OpenBolt project
 
-After upgrading to a newer version of Bolt, you might find that a Bolt project
+After upgrading to a newer version of OpenBolt, you might find that an OpenBolt project
 you created in the past no longer works as expected. Or there might be new
 features that you want to use in an existing project. The `migrate` command
-allows you to update old Bolt projects so that you can use them with the latest
-Bolt release.
+allows you to update old OpenBolt projects so that you can use them with the latest
+OpenBolt release.
 
 Currently, the `migrate` command:
 
@@ -314,9 +314,9 @@ The migrate command modifies files in your project and does not preserve
 comments or formatting. Before using the command, **make sure to use source
 control or backup your projects**.
 
-### How Bolt updates inventory files
+### How OpenBolt updates inventory files
 
-Bolt locates the inventory file for the current Bolt project and migrates it
+OpenBolt locates the inventory file for the current OpenBolt project and migrates it
 in place.
 
 The updates change the following keys in your inventory file:
@@ -348,9 +348,9 @@ groups:
         alias: target2
 ```
 
-### How Bolt updates project configuration
+### How OpenBolt updates project configuration
 
-Bolt locates a `bolt.yaml` file and moves its configuration to a new `bolt-project.yaml` file
+OpenBolt locates a `bolt.yaml` file and moves its configuration to a new `bolt-project.yaml` file
 and the `inventory.yaml` file. It then deletes the `bolt.yaml` file.
 
 Project-specific configuration is moved to the `bolt-project.yaml` file, while transport
@@ -404,14 +404,14 @@ config:
     password: Bolt!
 ```
 
-### How Bolt updates projects to use module dependency management
+### How OpenBolt updates projects to use module dependency management
 
-When you run the `migrate` command, Bolt reads your Puppetfile and prompts you
-for the direct dependencies of your project. Bolt adds the direct dependencies
+When you run the `migrate` command, OpenBolt reads your Puppetfile and prompts you
+for the direct dependencies of your project. OpenBolt adds the direct dependencies
 to a `modules` key in your `bolt-project.yaml` file and resolves the
-dependencies of those modules. Next, Bolt installs the modules and dependencies
+dependencies of those modules. Next, OpenBolt installs the modules and dependencies
 into a `.modules` directory and generates a Puppetfile with a list of the
-installed modules. Bolt moves any modules from your `site-modules` directory
+installed modules. OpenBolt moves any modules from your `site-modules` directory
 into `modules`.
 
 For example, given a project named `myproject` with a custom module named
@@ -429,7 +429,7 @@ mod "puppetlabs-puppetserver_gem", "1.1.1"
 ```
 
 If you ran the `migrate` command, and selected the `apache`, `apt`, and `mysql`
-modules as direct dependencies of your Bolt project, Bolt would do the
+modules as direct dependencies of your OpenBolt project, OpenBolt would do the
 following:
 
 - Update your `bolt-project.yaml` file to add the `modules` key, together with

@@ -14,10 +14,11 @@ the workflow before committing to a real installation.
 ## Prerequisites
 
 - Docker and Docker Compose installed and running.
-- A fork of [puppetlabs/control-repo](https://github.com/puppetlabs/control-repo) on
-  your Git host. Open the repository on GitHub and click **Fork** to create a copy
-  under your own account. You will point the server at your fork so you can push
-  changes and see them applied in Step 4.
+- Your own copy of
+  [OpenVoxProject/control-repo-template](https://github.com/OpenVoxProject/control-repo-template)
+  on your Git host. Open the template on GitHub and click **Use this template** to
+  create a copy under your own account. You will point the server at your copy so
+  you can push changes and see them applied in Step 4.
 
 Clone crafty and change into the OSS example directory:
 
@@ -28,18 +29,38 @@ cd crafty/openvox/oss
 
 ---
 
-## Step 1: Start the OpenVox Server
+## Step 1: Deploy your control repository
 
-The server container runs r10k automatically on startup, so configure your control
-repository before bringing it up. Open `compose.yaml`, find the commented-out
-`R10K_REMOTE` line, uncomment it, and update it to point at your fork:
+The `oss` example shares its code directory (`./openvox-code`) between the server
+container and the [r10k container image](https://github.com/voxpupuli/container-r10k).
+Run r10k once before starting the server, so the code directory is populated (with
+the right ownership) by the time the server boots. Each branch of your control
+repository is deployed as a Puppet [environment](./environments_about.html):
 
-```yaml
-R10K_REMOTE: https://github.com/<YOUR_ORG>/control-repo.git
+```bash
+docker run --rm \
+  -e PUPPET_CONTROL_REPO=https://github.com/<YOUR_ORG>/<YOUR_REPO>.git \
+  -v "$PWD/openvox-code:/etc/puppetlabs/code" \
+  ghcr.io/voxpupuli/r10k:latest deploy environment -mv
 ```
 
-Then start the stack. The server takes a minute to become healthy as it bootstraps
-its CA and runs r10k — start it now and continue reading while it initialises:
+Verify the `production` environment was deployed:
+
+```bash
+ls ./openvox-code/environments/production
+```
+
+You should see the files from your copy's `production` branch.
+
+> **Note:** The commented-out `R10K_REMOTE` variable in `compose.yaml` is not used
+> by the current server image — the r10k container above does the deployment.
+
+---
+
+## Step 2: Start the OpenVox Server
+
+Start the stack. The server takes a minute to become healthy as it bootstraps its
+CA — start it now and continue reading while it initialises:
 
 ```bash
 docker compose --profile openvox up -d
@@ -53,7 +74,7 @@ docker compose ps
 
 ---
 
-## Step 2: Install and enroll agents
+## Step 3: Install and enroll agents
 
 Once all containers report healthy, run the agent container. crafty enables
 [autosigning](./ssl_autosign.html), so the certificate is approved automatically —
@@ -68,32 +89,21 @@ compiled from your control repository. A successful run ends with output like:
 
 ```text
 Notice: Catalog compiled by puppet
+Info: Applying configuration version 'puppet-production-<commit>'
 Notice: Applied catalog in 0.01 seconds
 ```
 
----
-
-## Step 3: Verify your control repository
-
-The server runs r10k during startup and deploys each branch of your control repository
-as a Puppet environment. Verify the `production` environment was deployed:
-
-```bash
-docker exec oss-openvoxserver-1 ls /etc/puppetlabs/code/environments/
-```
-
-The container is named `oss-openvoxserver-1` by default; adjust if yours differs.
-You should see a `production/` directory containing the files from your fork's
-`production` branch.
+The configuration version comes from the control repository's `config_version`
+script and names the deployed environment and Git commit.
 
 ---
 
 ## Step 4: Write and apply Puppet code
 
-The agent run in Step 2 already compiled and applied a catalog from the `production`
+The agent run in Step 3 already compiled and applied a catalog from the `production`
 environment. To iterate on your Puppet code:
 
-1. Push a change to the `production` branch of your fork. For example, add a `notify`
+1. Push a change to the `production` branch of your copy. For example, add a `notify`
    resource to `manifests/site.pp`:
 
    ```puppet
@@ -104,10 +114,13 @@ environment. To iterate on your Puppet code:
    }
    ```
 
-2. Trigger r10k to redeploy:
+2. Run the r10k container again to redeploy:
 
    ```bash
-   docker exec oss-openvoxserver-1 r10k deploy environment production -v
+   docker run --rm \
+     -e PUPPET_CONTROL_REPO=https://github.com/<YOUR_ORG>/<YOUR_REPO>.git \
+     -v "$PWD/openvox-code:/etc/puppetlabs/code" \
+     ghcr.io/voxpupuli/r10k:latest deploy environment -mv
    ```
 
 3. Run the agent again to apply the updated catalog:

@@ -5,17 +5,17 @@ title: Writing plugins
 
 # Writing plugins
 
-A plugin is a special task that Bolt loads from a module on each run. Before you
+A plugin is a special task that OpenBolt loads from a module on each run. Before you
 write a plugin, get familiar with [writing tasks](writing_tasks.html).
 
 ## Supported languages
 
-Bolt runs plugin tasks on the `localhost` target without any configuration from
+OpenBolt runs plugin tasks on the `localhost` target without any configuration from
 the inventory file. You can write your plugin in any scripting language, as long
 as your workstation can interpret that scripting language.
 
 For Unix-like controllers, you should include a shebang line at the top of the
-plugin file to ensure that Bolt executes the plugin with the correct
+plugin file to ensure that OpenBolt executes the plugin with the correct
 interpreter.
 
 ```python
@@ -55,8 +55,8 @@ configuration file contains an empty JSON object:
 ### Project-level plugins
 
 You can also write plugins at the project level. To write a project-level
-plugin, you will first need to [create a Bolt
-project](projects.html#create-a-bolt-project).
+plugin, you will first need to [create an OpenBolt
+project](projects.html#create-an-openbolt-project).
 Project-level plugins are referred to by the project's name, similar to how
 module plugins are referred to by the module's name.
 
@@ -84,7 +84,7 @@ object:
 ## Plugin hooks
 
 There are three types of plugins: reference plugins, secret plugins, and Puppet
-library plugins. Each type of plugin has an associated plugin hook. Bolt uses
+library plugins. Each type of plugin has an associated plugin hook. OpenBolt uses
 these hooks to determine how it should load and run the plugin. In most cases,
 you only need to know what type of hook to use when naming the plugin task.
 
@@ -117,10 +117,10 @@ There are two plugin hooks associated with reference plugins:
 
 - `validate_resolve_reference`
 
-  Use this hook to pre-validate the parameters that Bolt will pass to the
-  `resolve_reference` plugin. These plugins let Bolt raise any validation
+  Use this hook to pre-validate the parameters that OpenBolt will pass to the
+  `resolve_reference` plugin. These plugins let OpenBolt raise any validation
   errors during inventory loading, rather than in the middle of a plan run.
-  Regardless of whether your specify this hook, Bolt tests parameters to
+  Regardless of whether your specify this hook, OpenBolt tests parameters to
   make sure they match the parameters for the `resolve_reference` plugin.
 
 📖 **Related information**
@@ -131,7 +131,7 @@ There are two plugin hooks associated with reference plugins:
 ### Secret plugins
 
 Use a secret plugin to create keys for encryption and decryption, to encrypt
-plaintext, or to decrypt ciphertext. You can configure Bolt to use specific
+plaintext, or to decrypt ciphertext. You can configure OpenBolt to use specific
 secret plugins when you run the `bolt secret` command.
 
 There are three plugin hooks associated with secret plugins:
@@ -139,7 +139,7 @@ There are three plugin hooks associated with secret plugins:
 - `secret_createkeys`
 
   Use the `secret_createkeys` hook for plugins that create keys for encryption
-  and decryption. Bolt always passes a `force` parameter to plugins using this
+  and decryption. OpenBolt always passes a `force` parameter to plugins using this
   hook. When running the `bolt secret createkeys --force` command or
   `New-BoltSecretKey -Force` cmdlet, the `force` parameter has a value of
   `true`.
@@ -147,14 +147,14 @@ There are three plugin hooks associated with secret plugins:
 - `secret_decrypt`
 
   Use the `secret_decrypt` hook for plugins that decrypt ciphertext and return
-  plaintext. Bolt always passes an `encrypted_value` parameter to plugins using
+  plaintext. OpenBolt always passes an `encrypted_value` parameter to plugins using
   this hook. The `encrypted_value` parameter is set when you run the `bolt
   secret decrypt` command or `Unprotect-BoltSecret` cmdlet.
 
 - `secret_encrypt`
 
   Use the `secret_encrypt` hook for plugins that encrypt plaintext and return
-  ciphertext. Bolt always passes a `plaintext_value` parameter to plugins using
+  ciphertext. OpenBolt always passes a `plaintext_value` parameter to plugins using
   this hook. The `plaintext_value` parameter is set when you run the `bolt
   secret encrypt` command or `Protect-BoltSecret` cmdlet.
 
@@ -169,7 +169,7 @@ Puppet library plugins install Puppet libraries on a target when a plan calls
 the `apply_prep` function.
 
 Puppet library plugins behave differently from other types of plugins. While
-Bolt runs other types of plugins on `localhost`, Bolt runs Puppet library
+OpenBolt runs other types of plugins on `localhost`, OpenBolt runs Puppet library
 plugins on each target that you are running `apply_prep` on. Because of this
 behavior, each target you run the plugin on must be able to interpret the
 scripting language the plugin uses.
@@ -183,15 +183,15 @@ There is a single plugin hook associated with Puppet library plugins:
 
 📖 **Related information**
 
-- For an example of a Puppet library plugin, see the built-in [puppet_agent
-  plugin](https://github.com/puppetlabs/puppetlabs-puppet_agent/tree/master/tasks).
+- For an example of a Puppet library plugin, see the built-in [openvox_bootstrap
+  plugin](https://github.com/voxpupuli/puppet-openvox_bootstrap).
 
 ## Configuring hooks
 
-The `bolt_plugin.json` file not only indicates to Bolt that the module includes
+The `bolt_plugin.json` file not only indicates to OpenBolt that the module includes
 a plugin, but also allows you to map tasks to specific plugin hooks. Mapping a
 task to a plugin hook allows you to give the task any valid name you want while
-still having Bolt recognize the task as a plugin. You can also use the
+still having OpenBolt recognize the task as a plugin. You can also use the
 `bolt_plugin.json` file to configure multiple hooks for a single plugin.
 
 For example, if you have a task named `my_module::my_plugin` that you want to
@@ -283,15 +283,15 @@ filepath = os.environ['PT_filepath']
 
 ### Metaparameters
 
-Like all tasks, plugins receive metaparameters from Bolt by default. These
+Like all tasks, plugins receive metaparameters from OpenBolt by default. These
 metaparameters are helpful if your plugin task uses other files or needs to
-locate files relative to the Bolt project directory. The following
+locate files relative to the OpenBolt project directory. The following
 metaparameters are available:
 
 - `_boltdir`
 
-  The absolute path to the Bolt project directory. This is useful when you need
-  to expand a path relative to the Bolt project directory.
+  The absolute path to the OpenBolt project directory. This is useful when you need
+  to expand a path relative to the OpenBolt project directory.
 
 - `_installdir`
 
@@ -340,20 +340,20 @@ json.dump({"value": value}, sys.stdout)
 ```
 
 The above plugin returns the value of the environment variable under the `value`
-key. Bolt automatically parses this object and adds the value wherever the
+key. OpenBolt automatically parses this object and adds the value wherever the
 plugin is used.
 
-Because plugins might return sensitive information, such as passwords, Bolt sets
-the log level for plugin task output to `trace`. This prevents Bolt from
+Because plugins might return sensitive information, such as passwords, OpenBolt sets
+the log level for plugin task output to `trace`. This prevents OpenBolt from
 accidentally printing sensitive information to the command line or default
 debugging log, `bolt-debug.log`. If you need to see a plugin task's output, you
-can [set Bolt's log level](logs.html#setting-log-level).
+can [set OpenBolt's log level](logs.html#setting-log-level).
 
 ### Returning target data
 
 A common application for plugins is to query an external service for a list of
 targets. The output of these plugins must adhere to a specific format, otherwise
-Bolt will be unable to create target objects from the data and will raise an
+OpenBolt will be unable to create target objects from the data and will raise an
 error.
 
 Plugins that return lists of targets should format the data in the same way they
@@ -478,7 +478,7 @@ include a `msg` key. For example, a minimal error object might look like this:
 }
 ```
 
-Bolt would parse this error object and raise an error similar to this:
+OpenBolt would parse this error object and raise an error similar to this:
 
 ```shell
 Error executing plugin example from resolve_reference in example:

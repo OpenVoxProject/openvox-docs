@@ -1,49 +1,49 @@
 ---
 layout: default
-title: Getting started with Bolt
+title: Getting started with OpenBolt
 ---
 
-# Getting started with Bolt
+# Getting started with OpenBolt
 
-Welcome to _Getting started with Bolt!_ Bolt is an open source orchestration
+Welcome to _Getting started with OpenBolt!_ OpenBolt is an open source orchestration
 tool that helps you make on-demand changes to remote targets such as servers,
 network devices, and cloud services.
 
-In this guide, you'll write and run a Bolt plan. Bolt plans are powerful
+In this guide, you'll write and run a plan. Plans are powerful
 workflows that allow you to string together and automate commands, scripts,
 tasks, and even other plans. Your plan will install Apache on a group
 of target machines and upload a customized home page.
 
 After you've completed this guide, you'll know how to:
 
-- Set up a Bolt project directory.
-- Run a Bolt command on a target.
+- Set up an OpenBolt project directory.
+- Run an OpenBolt command on a target.
 - Create an inventory file to set up groups and add connection information for
   your targets.
-- Write a Bolt plan that runs a bash script, runs a Bolt task, and uploads a
+- Write a plan that runs a bash script, runs a task, and uploads a
   file to your targets.
 
 > **Before you begin**
 >
->- Make sure you've installed Bolt on your machine. For instructions on how to
-> install Bolt on your operating system, see [Installing
-> Bolt](./bolt_installing.html).
+>- Make sure you've installed OpenBolt on your machine. For instructions on how to
+> install OpenBolt on your operating system, see [Installing
+> OpenBolt](./bolt_installing.html).
 >- Make sure you've [installed Docker](https://docs.docker.com/get-docker/).
-> Bolt does not require Docker to run, but for the purposes of this guide,
+> OpenBolt does not require Docker to run, but for the purposes of this guide,
 > Docker containers offer a safe and relatively simple way to set up some
 > targets to practice on.
 >- You can follow along and create the content you need as you go, or download
 > everything you need from the [Getting started
 > repo](https://github.com/puppetlabs/bolt-getting-started).
 
-## Create a Bolt project and set up targets
+## Create an OpenBolt project and set up targets
 
-A Bolt project is a directory containing a `bolt-project.yaml` file. The
+An OpenBolt project is a directory containing a `bolt-project.yaml` file. The
 `bolt-project.yaml` file contains project-wide configuration settings. Your
-`my_project` directory must contain a `bolt-project.yaml` file so Bolt
-recognizes it as a Bolt project.
+`my_project` directory must contain a `bolt-project.yaml` file so OpenBolt
+recognizes it as an OpenBolt project.
 
-### Create a Bolt project directory
+### Create an OpenBolt project directory
 
 Create a directory named `my_project` and set it as your working directory:
 
@@ -51,7 +51,7 @@ Create a directory named `my_project` and set it as your working directory:
 mkdir my_project; cd my_project
 ```
 
-Run the following command to turn `my_project` into a Bolt project:
+Run the following command to turn `my_project` into an OpenBolt project:
 
 _\*nix shell command:_
 
@@ -69,8 +69,8 @@ New-BoltProject -Name my_project
 > the steps to
 > [install the PuppetBolt PowerShell module](bolt_installing.html#puppetbolt-powershell-module).
 
-To use Bolt plans or tasks, your Bolt project must use a specific directory
-structure. The directory structure of a Bolt project is closely tied to [Puppet
+To use plans or tasks, your OpenBolt project must use a specific directory
+structure. The directory structure of an OpenBolt project is closely tied to [Puppet
 modules](/openvox/latest/modules_fundamentals.html).
 Because your plan will install Apache, you need an `apache` module directory.
 Your `apache` directory needs `files` and `plans` subdirectories.
@@ -98,8 +98,8 @@ Next, set up Docker targets to run Apache on.
 
 ### Create your targets
 
-Bolt connects directly to computers, or _targets_, using Secure Shell (SSH) or
-Windows Remote Management (WinRM). To see how a Bolt plan works, you'll build
+OpenBolt connects directly to computers, or _targets_, using Secure Shell (SSH) or
+Windows Remote Management (WinRM). To see how a plan works, you'll build
 and run some Docker containers to use as targets.
 
 In the root of your `my_project` directory, create a file named `Dockerfile` and
@@ -113,12 +113,12 @@ CMD ["/usr/sbin/sshd", "-D"]
 ```
 
 This Dockerfile defines an Ubuntu container with an active SSH service. The SSH
-service allows Bolt to communicate with the container using the SSH transport.
+service allows OpenBolt to communicate with the container using the SSH transport.
 
-> 🔩 **Tip**: A Bolt transport is the connection method that Bolt uses to
+> 🔩 **Tip**: A transport is the connection method that OpenBolt uses to
   connect and communicate with a target. There is a Docker transport that
   simplifies connecting to Docker containers, but the SSH transport is useful
-  for gaining a broader understanding of how Bolt inventory files work.
+  for gaining a broader understanding of how inventory files work.
 
 Next, build a `docker-compose.yaml` file to create two instances of the
 container. In your `my_project` directory, create the following file and name it
@@ -177,12 +177,12 @@ target1   /usr/sbin/sshd -D   Up      0.0.0.0:2000->22/tcp, 0.0.0.0:3000->80/tcp
 target2   /usr/sbin/sshd -D   Up      0.0.0.0:2001->22/tcp, 0.0.0.0:3001->80/tcp
 ```
 
-Your targets are ready. Next, run a command on a target to see how Bolt works.
+Your targets are ready. Next, run a command on a target to see how OpenBolt works.
 
 ## Run a command on a target
 
-Before you start writing a plan, try using Bolt to run a command on one of your
-targets. The syntax to run a Bolt command is `bolt command run <COMMAND>
+Before you start writing a plan, try using OpenBolt to run a command on one of your
+targets. The syntax to run an OpenBolt command is `bolt command run <COMMAND>
 --targets <TARGET_NAME> <OPTIONS>`.
 
 Use the following command to run `whoami` on `target1`:
@@ -210,8 +210,8 @@ Successful on 1 target: 127.0.0.1:2000
 Ran on 1 target in 0.46 sec
 ```
 
-You've run your first Bolt command on a target! Next, create an inventory file
-to group your targets together and simplify your Bolt commands.
+You've run your first OpenBolt command on a target! Next, create an inventory file
+to group your targets together and simplify your OpenBolt commands.
 
 ## Create an inventory file to group your targets
 
@@ -224,7 +224,7 @@ With an inventory file, you can set up different connection settings for each of
 your targets, and group targets together so you can aim a command at the group
 instead of specifying targets in a list.
 
-When you set up your Bolt project, Bolt created an inventory file template named
+When you set up your OpenBolt project, OpenBolt created an inventory file template named
 `inventory.yaml` in your project directory. Replace the contents of that file
 with the following:
 
@@ -248,10 +248,10 @@ This inventory file contains a group called `containers`. The `containers` group
 lists:
 
 - The Uniform Resource Identifier (URI) and name for each Docker container.
-- The transport type that Bolt is using to communicate with the containers. In
+- The transport type that OpenBolt is using to communicate with the containers. In
   this case you're using the SSH transport.
 - The SSH authentication settings, which include the username, password, and
-  whether Bolt should check for host keys.
+  whether OpenBolt should check for host keys.
 
 To test your inventory file, run the `whoami` command on `target1`:
 
@@ -268,19 +268,19 @@ To run the command on both containers in the `containers` group:
 bolt command run whoami -t containers
 ```
 
-To run the command on all targets in an inventory, use Bolt's implicit `all`
+To run the command on all targets in an inventory, use OpenBolt's implicit `all`
 group:
 
 ```bash
 bolt command run whoami -t all
 ```
 
-Next, write a Bolt plan to install Apache on your targets.
+Next, write a plan to install Apache on your targets.
 
-## Write a Bolt plan
+## Write a plan
 
 Plans allow you to tie your commands, scripts, and tasks together to create
-powerful workflows. You can write Bolt plans in the Puppet language, or use
+powerful workflows. You can write plans in the Puppet language, or use
 YAML. In this guide, you're going to write a YAML plan that installs the Apache
 package on your Docker targets, starts the Apache service, and uploads an HTML
 homepage.
@@ -308,30 +308,30 @@ steps:
     description: "Install Apache using the packages task"
 ```
 
-The first section of a Bolt plan defines the parameters your plan accepts. So
+The first section of a plan defines the parameters your plan accepts. So
 far, this plan has one parameter, `targets`, with the type `TargetSpec`. The
 `TargetSpec` type is a wrapper for defining targets that allows you to pass a
 target, or multiple targets, into a plan. When you run this plan from the
-command line and use the `--targets` argument, Bolt interpolates the targets
+command line and use the `--targets` argument, OpenBolt interpolates the targets
 into the `targets` parameter.
 
 After the `parameters` section, you define the steps that make up the body of
 your plan. The first step in your plan is named `install_apache`. This step uses
-a Bolt task called `package` to install Apache on your targets. The `package`
+a task called `package` to install Apache on your targets. The `package`
 task includes:
 
-- A `targets` parameter so Bolt knows which targets to execute the step on: In
+- A `targets` parameter so OpenBolt knows which targets to execute the step on: In
   this case the task is using the `$targets` parameter, so the step will run on
   all of the targets that you specify when you run your plan.
 - A `parameters` section to tell the task what action to perform (`install`),
-  and the name of the package that Bolt should install (`apache2`).
+  and the name of the package that OpenBolt should install (`apache2`).
 - An optional `description` key.
 
-> 🔩 **Tip**: A Bolt task is a script that has been packaged into a Puppet
-module. The `package` task comes prepackaged with Bolt and allows you to perform
-various package-related actions. Bolt tasks are useful because you can reuse
+> 🔩 **Tip**: A task is a script that has been packaged into a Puppet
+module. The `package` task comes prepackaged with OpenBolt and allows you to perform
+various package-related actions. Tasks are useful because you can reuse
 them or share them with others. Many of the modules on the [Puppet
-forge](https://forge.puppet.com/modules?with_tasks=true) include Bolt tasks.
+forge](https://forge.puppet.com/modules?with_tasks=true) include tasks.
 
 After creating `install.yaml`, your file structure looks like this:
 
@@ -478,7 +478,7 @@ enter the following:
 ```html
 <html>
   <head>
-    <title> Getting started with Bolt </title>
+    <title> Getting started with OpenBolt </title>
   </head>
   <body>
     <h1>Success!</h1>
@@ -564,7 +564,7 @@ steps:
     description: "Upload site contents"                            
 ```
 
-This time, run the plan with the `src` argument to give Bolt a path to the
+This time, run the plan with the `src` argument to give OpenBolt a path to the
 homepage file you want to upload:
 
 ```bash
@@ -581,26 +581,22 @@ Go to [127.0.0.1:3000](http://127.0.0.1:3000) again to see your new index page.
   hard refresh to clear the page's cache. On most browsers, you can accomplish
   this by holding **Shift** and clicking **Reload**.
 
-Congratulations! You've learned how to run commands and scripts with Bolt,
-you've created a Bolt project with an inventory file, and you've written and run
-a Bolt plan that installs Apache on your targets and uploads a customized
+Congratulations! You've learned how to run commands and scripts with OpenBolt,
+you've created an OpenBolt project with an inventory file, and you've written and run
+a plan that installs Apache on your targets and uploads a customized
 homepage.
 
-**Continue learning about Bolt:**
+**Continue learning about OpenBolt:**
 
-- For a deeper dive into Bolt, try the [Introduction to
-  Bolt](https://learn.puppet.com/course/puppet-orchestration-bolt-and-tasks)
-  training course or the [Bolt learning
-  kit](https://puppet.com/learning-training/kits/intro-to-bolt/).
 - For more information on working with Windows targets, see [Automating Windows
-  targets](./bolt_examples.html).
-- To find out more about Bolt plans, see [Orchestrating workflows with
+  targets](automating_windows_targets.html).
+- To find out more about plans, see [Orchestrating workflows with
   plans](./plans.html).
-- For a list of available Bolt transports, see [Running Bolt
+- For a list of available OpenBolt transports, see [Running OpenBolt
   commands](./running_bolt_commands.html).
-- To learn about Bolt tasks, see [Making on-demand changes with
+- To learn about tasks, see [Making on-demand changes with
   tasks](./tasks.html).
 - To find Puppet modules that use tasks, take a look at the [Puppet
   Forge](https://forge.puppet.com/).
-- For information on Bolt configuration see [Configuring Bolt](configuring_bolt.html).
-- For information on Bolt projects see [Bolt projects](projects.html)
+- For information on OpenBolt configuration see [Configuring OpenBolt](configuring_bolt.html).
+- For information on OpenBolt projects see [OpenBolt projects](projects.html)

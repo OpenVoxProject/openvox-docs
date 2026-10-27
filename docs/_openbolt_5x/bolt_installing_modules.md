@@ -5,29 +5,29 @@ title: Installing modules
 
 # Installing modules
 
-When you use the Bolt command line to install a module, Bolt manages your
+When you use the OpenBolt command line to install a module, OpenBolt manages your
 dependencies for you.
 
 You can use the command line to:
 
 - Create a project with pre-installed modules.
-- Add a Puppet Forge module to your existing Bolt project.
-- Install the modules associated with a Bolt project. This is useful if you've
+- Add a Puppet Forge module to your existing OpenBolt project.
+- Install the modules associated with an OpenBolt project. This is useful if you've
   downloaded a project from source control and want to install its dependencies.
 - Update your project's modules.
 
 If you need to install a module from a git repository or an alternate Forge, or
-you need to use a Forge proxy, you can manually configure your Bolt modules in
-your Bolt project configuration file (`bolt-project.yaml`).
+you need to use a Forge proxy, you can manually configure your modules in your
+project configuration file (`bolt-project.yaml`).
 
-## Create a Bolt project with pre-installed modules
+## Create an OpenBolt project with pre-installed modules
 
-If you want to get started with a new Bolt project and you need specific modules
+If you want to get started with a new OpenBolt project and you need specific modules
 from the Puppet Forge, you can install the modules and their dependencies using
-the Bolt command line.
+the OpenBolt command line.
 
 When you create a project with the `modules` command-line option and a
-comma-separated list of Forge modules, Bolt installs the latest versions of each
+comma-separated list of Forge modules, OpenBolt installs the latest versions of each
 module and resolves and installs all dependencies required by those modules. For
 example, to turn the current directory into a project named `example_project`
 with the `puppetlabs/apache` and `puppetlabs/mysql` modules installed, use the following command:
@@ -60,15 +60,15 @@ mod 'puppetlabs-puppetserver_gem', '1.1.1'
 
 ## Install a module to an existing project
 
-Before you use the Bolt command line to install a module to an existing project,
+Before you use the OpenBolt command line to install a module to an existing project,
 make sure the project is configured to use dependency management. If your
 `bolt-project.yaml` file contains a `modules` key, your project is set up for
 dependency management. If your `bolt-project.yaml` file does not contain a
-`modules` key, [migrate your project](projects.html#migrate-a-bolt-project).
+`modules` key, [migrate your project](projects.html#migrate-an-openbolt-project).
 
 ### Add a Forge module and its dependencies to an existing project
 
-To add a single Puppet Forge module and its dependencies to your Bolt project,
+To add a single Puppet Forge module and its dependencies to your OpenBolt project,
 use the `bolt module add` *nix shell command or the `Add-BoltModule` Powershell
 cmdlet. For example, to add the `puppetlabs/apt` module:
 
@@ -84,7 +84,7 @@ _Powershell cmdlet:_
 Add-BoltModule -Module puppetlabs/apt
 ```
 
-Bolt adds a specification to your project configuration file, resolves
+OpenBolt adds a specification to your project configuration file, resolves
 dependencies, updates your project's Puppetfile, and installs the modules to the
 project's `.modules` directory.
 
@@ -92,19 +92,19 @@ project's `.modules` directory.
 > [manually specify the module in your project configuration
 > file](#git-modules).
 
-When Bolt adds a new module to the project and resolves its dependencies, it
-attempts to keep all installed modules on the same versions. If Bolt encounters
+When OpenBolt adds a new module to the project and resolves its dependencies, it
+attempts to keep all installed modules on the same versions. If OpenBolt encounters
 a version conflict, it might update installed modules to newer versions.
 
 📖 **Related information**
 
 - If you receive an error telling you to "update your project configuration to
-  manage module dependencies", see [migrate a Bolt
-  project](projects.html#migrate-a-bolt-project).
+  manage module dependencies", see [migrate an OpenBolt
+  project](projects.html#migrate-an-openbolt-project).
 
-### Install the modules associated with a Bolt project
+### Install the modules associated with an OpenBolt project
 
-If you've just downloaded a Bolt project from source control and want to install
+If you've just downloaded an OpenBolt project from source control and want to install
 the modules associated with it, use the following command:
 
 _\*nix shell command:_
@@ -119,18 +119,18 @@ _Powershell cmdlet:_
 Install-BoltModule
 ```
 
-Bolt loads your `bolt-project.yaml` file, resolves dependencies for all of the
+OpenBolt loads your `bolt-project.yaml` file, resolves dependencies for all of the
 declared modules, writes a Puppetfile to your project that includes
 specifications for the resolved modules, and installs the modules to the
 project's `.modules` directory.
 
 #### Forcibly install modules
 
-When you add a module to a project, or install a project's modules, Bolt
+When you add a module to a project, or install a project's modules, OpenBolt
 compares the module specifications in the project configuration file to the
-modules in the Puppetfile to check if an existing Puppetfile is managed by Bolt.
-If the Puppetfile is missing any module specifications, Bolt assumes the
-Puppetfile is not managed by Bolt and raises an error like this:
+modules in the Puppetfile to check if an existing Puppetfile is managed by OpenBolt.
+If the Puppetfile is missing any module specifications, OpenBolt assumes the
+Puppetfile is not managed by OpenBolt and raises an error like this:
 
 ```console
 Puppetfile at /myproject/Puppetfile does not include modules that
@@ -174,20 +174,20 @@ _Powershell cmdlet:_
 Install-BoltModule -Force
 ```
 
-Bolt updates your modules to the latest available versions and attempts to
+OpenBolt updates your modules to the latest available versions and attempts to
 resolve all of the modules in the project configuration file to ensure that
 there are no version conflicts between modules and their dependencies.
 
-## Manually specify modules in a Bolt project
+## Manually specify modules in an OpenBolt project
 
-In most cases, you can use the Bolt command line to install a new module.
+In most cases, you can use the OpenBolt command line to install a new module.
 However, there are times when you might want to manually specify a module
-instead of using the Bolt command line. For example, you might want to add a git
+instead of using the OpenBolt command line. For example, you might want to add a git
 module, which is not supported through the command line, or you might want to
 add a large number of modules to your project at once and you don't want to
 string together multiple commands.
 
-To manually specify a module in a Bolt project, add a specification to the
+To manually specify a module in an OpenBolt project, add a specification to the
 project configuration file `bolt-project.yaml`. Specifications are listed under
 the `modules` key, and include specific keys depending on the type of module
 specified.
@@ -232,7 +232,7 @@ To specify a git module, use the following keys in the specification:
 | Key | Description | Required |
 | --- | --- | :-: |
 | `git` | The URI to the git repository. URI must begin with either `git@`, `http://`, or `https://`. | ✓ |
-| `name` | The name of the module. Bolt uses it in the Puppetfile, as the download directory name, and as a namespace for the module's content. Make sure it matches the name in the module's `metadata.json`. **Required if `resolve` is `false`.** | |
+| `name` | The name of the module. OpenBolt uses it in the Puppetfile, as the download directory name, and as a namespace for the module's content. Make sure it matches the name in the module's `metadata.json`. **Required if `resolve` is `false`.** | |
 | `ref` | The git reference to checkout. Can be either a branch, commit, or tag. | ✓ |
 | `resolve` | Boolean. Whether to resolve the module's dependencies when installing modules. | |
 
@@ -250,7 +250,7 @@ modules:
 
 ## Pin a module version
 
-If you need to pin a module in your Bolt project to a specific version, you can
+If you need to pin a module in your OpenBolt project to a specific version, you can
 add a version requirement to the module in your `bolt-project.yaml` and run the
 `install` command with the `force` option.
 
@@ -286,9 +286,9 @@ Follow these steps to pin a module version:
    Install-BoltModule -Force
    ```
 
-When you run the install command with the `force` option, Bolt attempts to
+When you run the install command with the `force` option, OpenBolt attempts to
 resolve all of the modules in the project configuration file to ensure that
-there are no version conflicts between modules and their dependencies. Bolt
+there are no version conflicts between modules and their dependencies. OpenBolt
 fails with an error message if it cannot resolve a dependency due to a version
 requirement.
 
@@ -298,9 +298,9 @@ requirement.
 
 ## Install Forge modules from an alternate Forge
 
-You can configure Bolt to use a Forge other than the [Puppet
+You can configure OpenBolt to use a Forge other than the [Puppet
 Forge](https://forge.puppet.com) when it installs Forge modules. To configure
-Bolt to use an alternate Forge, set the `module-install` configuration option in
+OpenBolt to use an alternate Forge, set the `module-install` configuration option in
 either your project configuration file, `bolt-project.yaml`, or the default
 configuration file, `bolt-defaults.yaml`.
 
@@ -322,7 +322,7 @@ module-install:
 ## Install modules using a proxy
 
 If your workstation cannot connect directly to the internet, you can configure
-Bolt to use a proxy when it installs modules. To configure Bolt to use a proxy
+OpenBolt to use a proxy when it installs modules. To configure OpenBolt to use a proxy
 when it installs modules, set the `module-install` configuration option in
 either your project configuration file, `bolt-project.yaml`, or the default
 configuration file, `bolt-defaults.yaml`.
@@ -350,8 +350,8 @@ module-install:
 ## Install modules using an authorization token
 
 If you need to install modules that require an authorization token to download,
-you can configure Bolt to pass a token as part of the request it makes to the
-Forge host. To configure Bolt to use an authorization token, set the
+you can configure OpenBolt to pass a token as part of the request it makes to the
+Forge host. To configure OpenBolt to use an authorization token, set the
 `module-install` configuration option in either your project configuration file,
 `bolt-project.yaml`, or the default configuration file, `bolt-defaults.yaml`.
 
@@ -376,26 +376,26 @@ module-install:
 ## Skip dependency resolution for a module
 
 Skipping dependency resolution for a module allows you to take advantage of
-Bolt's module dependency resolution while still using modules that Bolt cannot
+OpenBolt's module dependency resolution while still using modules that OpenBolt cannot
 resolve dependencies for.
 
 You might want to skip dependency resolution for a module if:
 
 - The module has outdated or incorrect metadata.
-- Bolt can't cleanly resolve the module's dependencies.
+- OpenBolt can't cleanly resolve the module's dependencies.
 
-You can configure Bolt to skip dependency resolution for a module by setting the
+You can configure OpenBolt to skip dependency resolution for a module by setting the
 `resolve` key for the module specification to `false`. This key is available for
 both Forge and git modules.
 
-When you install modules with Bolt, it only resolves module dependencies for
+When you install modules with OpenBolt, it only resolves module dependencies for
 module specifications that do not set `resolve: false`. After resolving
-dependencies, Bolt generates a Puppetfile with the resolved modules and
+dependencies, OpenBolt generates a Puppetfile with the resolved modules and
 dependencies, as well as the modules it did not resolve dependencies for.
 
 For example, if your project includes the `puppetlabs/ntp` Forge module and a
 git module named `private_module` that has incorrect metadata, you can configure
-Bolt to skip dependency resolution for `private_module`:
+OpenBolt to skip dependency resolution for `private_module`:
 
 ```yaml
 # bolt-project.yaml
@@ -411,7 +411,7 @@ modules:
 > **Note:** When setting `resolve: false` for a git module, you must include
 > the `name` key.
 
-When you install the project's modules, Bolt resolves dependencies for the
+When you install the project's modules, OpenBolt resolves dependencies for the
 `puppetlabs/ntp` module, skips dependency resolution for `private_module`, and
 generates a Puppetfile similar to this:
 
@@ -429,7 +429,7 @@ mod 'private_module',
   ref: '1.0.0'
 ```
 
-Because Bolt skips dependency resolution for module specifications that set
+Because OpenBolt skips dependency resolution for module specifications that set
 `resolve: false`, you'll need to include any dependencies for these modules
 in your project configuration. For example, if `private_module` included
 the following dependency in its `metadata.json` file:
@@ -463,8 +463,8 @@ modules:
 
 ## Manually manage a project's modules
 
-If Bolt can't resolve your module dependencies, you can manage your project's
-Puppetfile manually and use Bolt to install the modules listed in the Puppetfile
+If OpenBolt can't resolve your module dependencies, you can manage your project's
+Puppetfile manually and use OpenBolt to install the modules listed in the Puppetfile
 without resolving dependencies. The process for manually managing your modules
 uses the new `module` subcommand, and replaces the now deprecated `puppetfile`
 subcommand.
@@ -500,21 +500,21 @@ dependencies, follow these steps:
    Install-BoltModule -NoResolve
    ```
 
-Bolt installs modules in the Puppetfile to the `.modules/` directory in your
+OpenBolt installs modules in the Puppetfile to the `.modules/` directory in your
 project directory. If you need to add or remove modules to the project, update
 your Puppetfile and run the above command again.
 
 ## Migrate a project to use module management
 
-If you created a Bolt project before module dependency management was
-introduced, you can use Bolt's built-in migration tool to [update your
-project](projects.html#migrate-a-bolt-project).
+If you created an OpenBolt project before module dependency management was
+introduced, you can use OpenBolt's built-in migration tool to [update your
+project](projects.html#migrate-an-openbolt-project).
 
 ### Manual migration
 
-In some cases, Bolt is unable to resolve module dependencies and manage your
-project's modules for you. If Bolt can't resolve your module dependencies, you
-can manage your project's Puppetfile manually and use Bolt to install the
+In some cases, OpenBolt is unable to resolve module dependencies and manage your
+project's modules for you. If OpenBolt can't resolve your module dependencies, you
+can manage your project's Puppetfile manually and use OpenBolt to install the
 modules listed in the Puppetfile without resolving dependencies.
 
 The module management feature makes changes to configuration files and changes
@@ -577,5 +577,5 @@ following:
 
 📖 **Related information**
 
-- For a list of modules that are shipped with Bolt, see [Packaged modules](packaged_modules.html).
-- For a list of plugins that Bolt maintains, see [Supported plugins](supported_plugins.html).
+- For a list of modules that are shipped with OpenBolt, see [Packaged modules](packaged_modules.html).
+- For a list of plugins that OpenBolt maintains, see [Supported plugins](supported_plugins.html).

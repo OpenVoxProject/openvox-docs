@@ -11,7 +11,7 @@ necessary.
 
 ## Creating a new project-level YAML plan
 
-You can create a new project-level YAML plan in your Bolt project using a Bolt
+You can create a new project-level YAML plan in your OpenBolt project using an OpenBolt
 command. The command accepts a single argument: the name of the plan.
 Project-level plans must be namespaced to the project.
 
@@ -74,7 +74,7 @@ Each plan name segment must begin with a lowercase letter and:
 - Can include digits.
 - Can include underscores.
 - Must not be a [reserved
-    word](https://docs.puppet.com/puppet/latest/lang_reserved.html).
+    word](/openvox/latest/lang_reserved.html).
 - Must not have the same name as any Puppet data types.
 - Namespace segments must match the following regular expression
     `\A[a-z][a-z0-9_]*\Z`
@@ -122,8 +122,8 @@ steps:
 ```
 
 You can pass variables to the message step to print them to stdout. If the
-variable contains a valid plan result, Bolt formats the plan result using a JSON
-representation of the result object. If the object is not a plan result, Bolt
+variable contains a valid plan result, OpenBolt formats the plan result using a JSON
+representation of the result object. If the object is not a plan result, OpenBolt
 prints the object as a string.
 
 For information on printing a step result with `message`, see [Debugging
@@ -149,9 +149,9 @@ steps:
 ```
 
 You can pass variables to the verbose step to print them to stdout. If the
-variable is a [Bolt datatype](bolt_types_reference.html) it will be formatted
+variable is an [OpenBolt datatype](bolt_types_reference.html) it will be formatted
 as a Hash. Once the object is formatted, if it's a Hash or Array it is printed
-as JSON, otherwise Bolt prints the object as a string.
+as JSON, otherwise OpenBolt prints the object as a string.
 
 ### Command step
 
@@ -165,7 +165,7 @@ Command steps support the following keys:
 | --- | --- | --- | --- |
 | `catch_errors` | `Boolean` | Whether to catch raised errors. If set to true, the plan continues execution if the step fails. | |
 | `command` | `String` | The command to run. | ✓ |
-| `description` | `String` | The step's description. Logged by Bolt when the step is run. | |
+| `description` | `String` | The step's description. Logged by OpenBolt when the step is run. | |
 | `env_vars` | `Hash` | A map of environment variables to set on the target when running the command. | |
 | `name` | `String` | The name of the variable to save the step result to. | |
 | `run_as` | `String` | The user to run as when running the command on the target. Only applies to targets using a transport that supports `run-as` configuration. | |
@@ -185,14 +185,14 @@ steps:
 
 ### Task step
 
-Use a `task` step to run a Bolt task on a list of targets and save the results.
+Use a `task` step to run a task on a list of targets and save the results.
 
 Task steps support the following keys:
 
 | Key | Type | Description | Required |
 | --- | --- | --- | --- |
 | `catch_errors` | `Boolean` | Whether to catch raised errors. If set to true, the plan continues execution if the step fails. | |
-| `description` | `String` | The step's description. Logged by Bolt when the step is run. | |
+| `description` | `String` | The step's description. Logged by OpenBolt when the step is run. | |
 | `name` | `String` | The name of the variable to save the step result to. | |
 | `noop` | `Boolean` | Whether to run in no-operation mode, if available. | |
 | `parameters` | `Hash` | A map of parameters to pass to the task. | |
@@ -229,7 +229,7 @@ Script steps support the following keys:
 | --- | --- | --- | --- |
 | `arguments` | `Array` | An array of command-line arguments to pass to the script. Cannot be used with `pwsh_params`. | |
 | `catch_errors` | `Boolean` | Whether to catch raised errors. If set to true, the plan continues execution if the step fails. | |
-| `description` | `String` | The step's description. Logged by Bolt when the step is run. | |
+| `description` | `String` | The step's description. Logged by OpenBolt when the step is run. | |
 | `env_vars` | `Hash` | A map of environment variables to set on the target when running the script. | |
 | `name` | `String` | The name of the variable to save the step result to. | |
 | `pwsh_params` | `Hash` | A map of named parameters to pass to a PowerShell script. Cannot be used with `arguments`. | |
@@ -267,7 +267,7 @@ File download steps support the following keys:
 | Key | Type | Description | Required |
 | --- | --- | --- | --- |
 | `catch_errors` | `Boolean` | Whether to catch raised errors. If set to true, the plan continues execution if the step fails. | |
-| `description` | `String` | The step's description. Logged by Bolt when the step is run. | |
+| `description` | `String` | The step's description. Logged by OpenBolt when the step is run. | |
 | `destination` | `String` | The destination directory to download the file to. | ✓ |
 | `download` | `String` | The location of the remote file to download. | ✓ |
 | `name` | `String` | The name of the variable to save the step result to. | |
@@ -314,7 +314,7 @@ File upload steps support the following keys:
 | Key | Type | Description | Required |
 | --- | --- | --- | --- |
 | `catch_errors` | `Boolean` | Whether to catch raised errors. If set to true, the plan continues execution if the step fails. | |
-| `description` | `String` | The step's description. Logged by Bolt when the step is run. | |
+| `description` | `String` | The step's description. Logged by OpenBolt when the step is run. | |
 | `destination` | `String` | The remote location to upload the file to. | ✓ |
 | `name` | `String` | The name of the variable to save the step result to. | |
 | `run_as` | `String` | The user to run as when uploading the file to the target. Only applies to targets using a transport that supports `run-as` configuration. | |
@@ -347,7 +347,7 @@ Plan steps support the following keys:
 | Key | Type | Description | Required |
 | --- | --- | --- | --- |
 | `catch_errors` | `Boolean` | Whether to catch raised errors. If set to true, the plan continues execution if the step fails. | |
-| `description` | `String` | The step's description. Logged by Bolt when the step is run. | |
+| `description` | `String` | The step's description. Logged by OpenBolt when the step is run. | |
 | `name` | `String` | The name of the variable to save the step result to. | |
 | `parameters` | `Hash` | A map of parameters to pass to the plan. | |
 | `plan` | `String` | The plan to run. | ✓ |
@@ -370,11 +370,11 @@ steps:
 ### Resources step
 
 Use a `resources` step to apply a list of Puppet resources. A resource defines
-the desired state for part of a target. Bolt ensures each resource is in its
+the desired state for part of a target. OpenBolt ensures each resource is in its
 desired state. Like the steps in a `plan`, if any resource in the list fails,
 the rest are skipped.
 
-> **Note:** For each `resources` step, Bolt executes the `apply_prep` plan function against
+> **Note:** For each `resources` step, OpenBolt executes the `apply_prep` plan function against
 > the targets specified with the `targets` field. For more information about `apply_prep`, see
 > [Applying manifest blocks](applying_manifest_blocks.html#applying-manifest-blocks-from-a-puppet-plan).
 
@@ -383,7 +383,7 @@ Resources steps support the following keys:
 | Key | Type | Description | Required |
 | --- | --- | --- | --- |
 | `catch_errors` | `Boolean` | Whether to catch raised errors. If set to true, the plan continues execution if the step fails. | |
-| `description` | `String` | The step's description. Logged by Bolt when the step is run. | |
+| `description` | `String` | The step's description. Logged by OpenBolt when the step is run. | |
 | `name` | `String` | The name of the variable to save the step result to. | |
 | `noop` | `Boolean` | Whether to run in no-operation mode. If set to true, applies the resources in Puppet no-operation mode, returning a report of the changes it would make while taking no action. | |
 | `resources` | `Array` | An array of resources to apply. | ✓ |
@@ -482,9 +482,9 @@ parameters:
 
 As a plan author, you might not want users to run your plan directly or know it exists. This is useful
 for plans that are used by other plans 'under the hood', but aren't designed to be run by a human.
-Plans accept a `private` key. The value of `private` is a boolean that tells Bolt whether to display
+Plans accept a `private` key. The value of `private` is a boolean that tells OpenBolt whether to display
 the plan in `bolt plan show` or `Get-BoltPlan` output. Private plans are still viewable with `bolt
-plan show <PLAN NAME>` and `Get-BoltPlan -Name <PLAN NAME>`, and can still be run with Bolt.
+plan show <PLAN NAME>` and `Get-BoltPlan -Name <PLAN NAME>`, and can still be run with OpenBolt.
 
 ```yaml
 private: true
@@ -498,15 +498,15 @@ steps:
     targets: $targets
 ```
 
-The `private` metadata is cached in your Bolt project. Bolt updates the cache:
+The `private` metadata is cached in your OpenBolt project. OpenBolt updates the cache:
 
-- When you update plans in the current Bolt project.
+- When you update plans in the current OpenBolt project.
 - When you update modules in the `<PROJECT DIRECTORY>/modules/` directory.
-- When you install modules using a Bolt command that installs modules.
+- When you install modules using an OpenBolt command that installs modules.
 - When you generate Puppet types using a `generate` command.
 
 If you manually edit a plan that is located outside of the `<PROJECT DIRECTORY>/plans/` directory or
-`<PROJECT DIRECTORY>/modules/` path, Bolt might not pick up manual edits to metadata. If your plan
+`<PROJECT DIRECTORY>/modules/` path, OpenBolt might not pick up manual edits to metadata. If your plan
 still appears in the output of `bolt plan show` and `Get-BoltPlan`, clear the metadata cache by
 running with the `--clear-cache` flag.
 
@@ -610,7 +610,7 @@ steps:
 
 ### Calling functions
 
-You can call a built-in [Bolt function](plan_functions.html#) or [Puppet
+You can call a built-in [OpenBolt function](plan_functions.html#) or [Puppet
 function](/openvox/latest/function.html) to compute a
 value.
 
@@ -694,7 +694,7 @@ return: $hostnames.map |$hostname_result| { $hostname_result['stdout'] }
 To compute complex values, you can use a Puppet code expression as the value of
 any field of a step except the `name`.
 
-Bolt loads the plan as a YAML data structure. As it executes each step, it
+OpenBolt loads the plan as a YAML data structure. As it executes each step, it
 evaluates any expressions embedded in the step. Each plan parameter and the
 values of every previous named step are available in scope.
 
@@ -771,7 +771,7 @@ converted Puppet language plan's functionality. There are some constructs that
 do not translate from YAML plans to Puppet language plans. These are
 listed below.
 If you convert a YAML plan to Puppet and it changes behavior, [file an
-issue](https://github.com/puppetlabs/bolt/issues) in Bolt's Git repo.
+issue](https://github.com/OpenVoxProject/openbolt/issues) in the OpenBolt repository.
 
 For example, with this YAML plan:
 
@@ -880,7 +880,7 @@ This Puppet language plan
 to a temporary file.
 - Reads the value written to the file and returns it.
 
-Trying to access `$facts['os']['family']` in a YAML plan would fail because Bolt would try to resolve `$facts` as a plan variable instead of evaluating it as manifest code in an `apply` block.
+Trying to access `$facts['os']['family']` in a YAML plan would fail because OpenBolt would try to resolve `$facts` as a plan variable instead of evaluating it as manifest code in an `apply` block.
 
 ### Dependency order
 
@@ -910,7 +910,7 @@ steps:
           require: Package['openssh-server']
 ```
 
-Executing this plan fails during catalog compilation because of how Bolt parses
+Executing this plan fails during catalog compilation because of how OpenBolt parses
 the resources referenced in the `before` and `require` parameters. You will see
 the error message `Could not find resource 'File['/etc/ssh/sshd_config']' in
 parameter 'before'`. The solution is to not quote the resource titles:

@@ -20,6 +20,7 @@ title: "Language: Data types: Data type syntax"
 [binary]: ./lang_data_binary.html
 [time]: ./lang_data_time.html
 [semver]: ./lang_data_semver.html
+[error]: ./lang_data_error.html
 [undef]: ./lang_data_undef.html
 [default]: ./lang_data_default.html
 [resource_reference]: ./lang_data_resource_reference.html
@@ -35,6 +36,16 @@ title: "Language: Data types: Data type syntax"
 [catalogentry]: ./lang_data_abstract.html#catalogentry
 [any]: ./lang_data_abstract.html#any
 [callable]: ./lang_data_abstract.html#callable
+[sensitive]: ./lang_data_sensitive.html
+[notundef]: ./lang_data_abstract.html#notundef
+[init]: ./lang_data_abstract.html#init
+[scalardata]: ./lang_data_abstract.html#scalardata
+[richdata]: ./lang_data_abstract.html#richdata
+[iterable]: ./lang_data_abstract.html#iterable
+[iterator]: ./lang_data_abstract.html#iterator
+[runtime]: ./lang_data_abstract.html#runtime
+[object]: ./lang_data_abstract.html#object
+[typeset]: ./lang_data_abstract.html#typeset
 
 Each value in the Puppet language has a data type, like "string." There is also a set of values _whose data type is "data type."_
 
@@ -156,6 +167,8 @@ These are the "real" data types, which make up the most common values you'll int
 * [`Binary`][binary]
 * [`Timestamp` and `Timespan`][time]
 * [`SemVer` and `SemVerRange`][semver]
+* [`Error`][error]
+* [`Sensitive`][sensitive]
 * [`Undef`][undef]
 * [`Default`][default]
 
@@ -171,18 +184,27 @@ Resource references and class references are implemented as data types, although
 Abstract data types let you do more sophisticated or permissive type checking.
 
 * [`Scalar`][Scalar]
+* [`ScalarData`][ScalarData]
 * [`Collection`][Collection]
 * [`Variant`][Variant]
 * [`Data`][Data]
+* [`RichData`][RichData]
 * [`Pattern`][Pattern]
 * [`Enum`][Enum]
 * [`Tuple`][Tuple]
 * [`Struct`][Struct]
 * [`Optional`][Optional]
+* [`NotUndef`][NotUndef]
 * [`Catalogentry`][Catalogentry]
 * [`Type`][inpage_type]
 * [`Any`][Any]
 * [`Callable`][Callable]
+* [`Init`][Init]
+* [`Iterable`][Iterable]
+* [`Iterator`][Iterator]
+* [`Runtime`][Runtime]
+* [`Object`][Object]
+* [`TypeSet`][TypeSet]
 
 ## The `Type` data type
 

@@ -36,7 +36,7 @@ task :references do
   puts 'bundle exec rake references:openvox [VERSION=<GIT TAG OR COMMIT> COLLECTION=<DIR> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
   puts 'bundle exec rake references:openfact [VERSION=<GIT TAG OR COMMIT> COLLECTION=<DIR> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
   puts 'bundle exec rake references:openbolt [VERSION=<GIT TAG OR COMMIT> COLLECTION=<DIR> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
-  puts '  VERSION can be omitted, uses latest non-prerelease tag; an explicit VERSION builds that exact ref (e.g. a 9.x prerelease)'
+  puts '  VERSION can be omitted, uses latest non-prerelease tag; a series like 8.x uses the latest non-prerelease tag in that series; anything else builds that exact ref (e.g. a 9.x prerelease)'
   puts '  COLLECTION can be omitted, defaults to the current stable dir per product (e.g. _openvox_latest); set it to build a frozen version (e.g. _openvox_9x)'
   puts '  INSTALLPATH can be omitted, defaults to references_output/'
   puts 'bundle exec rake references:all [INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
@@ -184,25 +184,6 @@ namespace :test do
       openvox-containers
     ]
 
-    # The OpenBolt generated reference pages 404 site-wide until an openbolt
-    # release > 5.5.0 ships the front-matter fix (issue #202). CI builds the
-    # newest openbolt release tag, which predates that fix, so these nine pages
-    # don't render. They're linked from authored pages *and* the shared theme
-    # sidebar (rendered on every collection's pages), so ignore them by basename
-    # -- matching the absolute path, a relative path, or an anchored form. Remove
-    # this once #202 ships in a release.
-    openbolt_202_404s = /(?:
-      bolt_command_reference|
-      bolt_cmdlet_reference|
-      bolt_defaults_reference|
-      bolt_project_reference|
-      bolt_transports_reference|
-      bolt_types_reference|
-      packaged_modules|
-      plan_functions|
-      privilege_escalation
-    )\.html/x
-
     dirs = collections.map { |c| File.join(site_dir, c, 'latest') }
 
     HTMLProofer.check_directories(
@@ -211,8 +192,39 @@ namespace :test do
       disable_external: true,
       enforce_https: false,
       ignore_empty_alt: true,
-      ignore_urls: [openbolt_202_404s],
       checks: ['Links'],
     ).run
+  end
+
+  desc 'Validate _data/products.yml: `latest` must name a real version, and ' \
+       '`versions` must be ordered newest-first (both are relied on by ' \
+       '_includes/version-banner.html and the version selector)'
+  task :products_data do
+    products = YAML.load_file('_data/products.yml')
+    errors = []
+
+    products.each do |product_id, product|
+      next if product['single_version']
+
+      ids = (product['versions'] || []).map { |v| v['id'] }
+
+      errors << "#{product_id}: duplicate version ids (#{ids.join(', ')})" if ids.uniq.length != ids.length
+
+      errors << "#{product_id}: latest '#{product['latest']}' is not one of its versions (#{ids.join(', ')})" unless ids.include?(product['latest'])
+
+      majors = ids.map { |id| id[/\A\d+/] }
+      if majors.any?(&:nil?)
+        errors << "#{product_id}: version id(s) don't start with a number (#{ids.join(', ')}), can't check ordering"
+      elsif majors.map(&:to_i) != majors.map(&:to_i).sort.reverse
+        errors << "#{product_id}: versions must be newest-first by id (got #{ids.join(', ')})"
+      end
+    end
+
+    if errors.any?
+      warn "_data/products.yml failed validation:\n  - #{errors.join("\n  - ")}"
+      exit 1
+    end
+
+    puts '_data/products.yml: latest references and version ordering OK'
   end
 end

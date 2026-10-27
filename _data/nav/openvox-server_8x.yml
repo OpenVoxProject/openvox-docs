@@ -51,6 +51,8 @@
     link: infrastructure_crl.html
   - text: Intermediate CA
     link: intermediate_ca.html
+  - text: Renewing and regenerating certificates
+    link: certificate_renewal.html
   - text: External SSL termination
     link: external_ssl_termination.html
   - text: Restarting OpenVox Server

@@ -5,16 +5,16 @@ title: Testing plans
 
 # Testing plans
 
-Bolt ships with a library of helpers, named `BoltSpec`, intended to be used for
+OpenBolt ships with a library of helpers, named `BoltSpec`, intended to be used for
 writing unit tests for plans with the `RSpec` testing tool. Before writing unit
 tests for plans, get familiar with [RSpec](https://rspec.info/).
 
 `BoltSpec` requires other Puppet testing tools like `rspec-puppet`. The [Puppet
 Development Kit (PDK)](/pdk.html) provides
 commands for installing and configuring these tools in new or existing modules.
-If your plan is part of a Bolt project, you can either move the plan to a module
+If your plan is part of an OpenBolt project, you can either move the plan to a module
 created with PDK or [manually setup
-rspec-puppet](https://rspec-puppet.com/documentation/setup/) in your Bolt
+rspec-puppet](https://rspec-puppet.com/documentation/setup/) in your OpenBolt
 project.
 
 ## Set up the test environment
@@ -36,7 +36,7 @@ Before you can write and run tests, you need to set up the test environment.
 1. Ensure your module has `Gemfile`, `Rakefile`, and `spec/spec_helper.rb`
    files.
 
-1. Install the module's gem dependencies, which include Bolt and other testing
+1. Install the module's gem dependencies, which include OpenBolt and other testing
    tools:
 
     ```shell
@@ -67,16 +67,16 @@ my_module/
 
 To use the `BoltSpec` library functions, include them in either the
 `spec_helper.rb` file or in the individual test files, and configure Puppet and
-Bolt for the testing environment.
+OpenBolt for the testing environment.
 
 > 🔩 **Tip**: Unless your module also includes tests for manifest code, add the
-> `BoltSpec` helpers and configure Puppet and Bolt in `spec_helper.rb` instead
+> `BoltSpec` helpers and configure Puppet and OpenBolt in `spec_helper.rb` instead
 > of including them in the individual test files. This makes the helpers
 > available to all of your tests.
 
 ### Include BoltSpec in spec_helper.rb
 
-To expose the `BoltSpec` library functions and configure Puppet and Bolt for all
+To expose the `BoltSpec` library functions and configure Puppet and OpenBolt for all
 tests in the `spec/` directory, add the following lines to the `spec_helper.rb`
 file:
 
@@ -89,7 +89,7 @@ require 'bolt_spec/plans'
 # Include the BoltSpec library functions
 include BoltSpec::Plans
 
-# Configure Puppet and Bolt for testing
+# Configure Puppet and OpenBolt for testing
 BoltSpec::Plans.init
 
 # Additional spec_helper configuration . . .
@@ -97,13 +97,13 @@ BoltSpec::Plans.init
 
 ### Include BoltSpec in test files
 
-You can expose the `BoltSpec` helper functions and configure Puppet and Bolt for
+You can expose the `BoltSpec` helper functions and configure Puppet and OpenBolt for
 individual test files by adding the functions directly in the file instead of
 adding them to `spec_helper.rb`. You should do this if your module includes
-tests for manifest code, as configuring Puppet and Bolt in `spec_helper.rb`
+tests for manifest code, as configuring Puppet and OpenBolt in `spec_helper.rb`
 might cause your manifest tests to fail.
 
-To include `BoltSpec` helpers and configure Puppet and Bolt for a single test
+To include `BoltSpec` helpers and configure Puppet and OpenBolt for a single test
 file, add the following lines to the file:
 
 ```ruby
@@ -117,7 +117,7 @@ describe '<PLAN NAME>' do
   # Include the BoltSpec library functions
   include BoltSpec::Plans
 
-  # Configure Puppet and Bolt before running any tests
+  # Configure Puppet and OpenBolt before running any tests
   before(:all) do
     BoltSpec::Plans.init
   end
@@ -150,11 +150,11 @@ pdk bundle exec rake spec_clean
 
 ## Configuration
 
-By default, the testing environment uses Bolt's default configuration and an
-empty inventory. The one exception is that Bolt's modulepath is configured to
+By default, the testing environment uses OpenBolt's default configuration and an
+empty inventory. The one exception is that OpenBolt's modulepath is configured to
 the modulepath set up for `rspec-puppet`.
 
-You can create your own values for Bolt's configuration, inventory, and
+You can create your own values for OpenBolt's configuration, inventory, and
 modulepath by overriding the helper functions that set them. You can write these
 functions in the `spec_helper.rb` file, which exposes them to all tests, or in
 individual test files.
@@ -449,11 +449,11 @@ it 'configures servers and databases' do
 end
 ```
 
-### Stubbing and Mocking PuppetDB Calls
+### Stubbing and Mocking OpenVoxDB Calls
 
 Plans that use the `puppetdb_*` set of functions can stub and mock values
-to PuppetDB using standard RSpec mechanisms on `puppetdb_client`, which is
-an automatically provided instance of the PuppetDB client in the
+to OpenVoxDB using standard RSpec mechanisms on `puppetdb_client`, which is
+an automatically provided instance of the OpenVoxDB client in the
 `BoltSpec` testing context.
 
 If you attempt to test a plan that uses one of the `puppetdb_*` functions
@@ -463,7 +463,7 @@ you need to stub/mock will depend on which of the `puppetdb_*` set of
 functions you called.
 
 List of methods to stub/mock on the `puppetdb_client` instance for each
-Bolt function:
+OpenBolt function:
 
 - `puppetdb_command`: `send_command(command, version, payload)`
 - `puppetdb_fact`: `facts_for_node(certnames)`
@@ -590,7 +590,7 @@ expect. To do so, you can write a few tests that assert the following behavior:
 
 Because the tests include assertions about the `run_script` function, you need
 to ensure the script that you pass to the mocks and stubs exists. This is
-because Bolt validates that a script exists when it invokes the `expect_script`
+because OpenBolt validates that a script exists when it invokes the `expect_script`
 mock. In the following tests, the path to the script is
 `command_or_script/script.rb`, which is a file in the module's files directory
 at `command_or_script/files/script.rb`.
@@ -606,7 +606,7 @@ require 'bolt_spec/plans'
 describe 'test' do
   include BoltSpec::Plans
 
-  # Configure Puppet and Bolt before running any tests
+  # Configure Puppet and OpenBolt before running any tests
   before(:all) do
     BoltSpec::Plans.init
   end
@@ -661,10 +661,13 @@ pdk bundle exec rake spec
 The following example demonstrates testing a plan that runs sub-plans.
 
 This plan accepts a single parameter: a list of targets to run on. First, the
-plan runs a sub-plan to group targets depending on whether the `puppet-agent`
-package is installed. Then, the plan runs the `patch` task on any targets with
-the `puppet-agent` package installed and the `puppet_agent::install` task on any
-targets without the `puppet-agent` package installed.
+plan runs a sub-plan to group targets depending on whether the OpenVox agent is
+installed. Then, the plan runs the `patch` task on any targets with the agent
+and the `openvox_bootstrap::install` task on any targets without it.
+
+The example assumes the module also has a `patch` task, in `patch/tasks/init.sh`,
+that applies the patches. The tests stub that task, but `BoltSpec` still loads it
+from the modulepath, so the file must exist.
 
 Save the following plan to `patch/plans/init.pp`:
 
@@ -677,7 +680,7 @@ Save the following plan to `patch/plans/init.pp`:
 plan patch (
   TargetSpec $targets
 ) {
-  # Group targets by puppet-agent status
+  # Group targets by agent status
   $_targets = run_plan('patch::get_targets', 'targets' => $targets)
 
   # Run the patching task on targets with agents
@@ -685,21 +688,21 @@ plan patch (
     run_task('patch', $_targets['agents'])
   }
 
-  # Install the puppet-agent package on agentless targets
+  # Install the agent on agentless targets
   unless $_targets['agentless'].empty() {
-    run_task('puppet_agent::install', $_targets['agentless'])
+    run_task('openvox_bootstrap::install', $_targets['agentless'])
   }
 
-  # Return the targets grouped by puppet-agent status
+  # Return the targets grouped by agent status
   return $_targets
 }
 ```
 
 The plan executes the following sub-plan. The sub-plan runs the
-`puppet_agent::version` task on each target and groups targets depending on
-whether the target has the `puppet-agent` package installed. It returns a hash
-that indicates which targets have the `puppet-agent` packaged installed and
-which do not.
+`openvox_bootstrap::check` task on each target. The task succeeds on targets
+that have the OpenVox agent installed and fails on targets that don't, so the
+sub-plan catches the failures and groups targets by result. It returns a hash
+that indicates which targets have the agent installed and which do not.
 
 Save the following plan to `patch/plans/get_targets.pp`:
 
@@ -711,27 +714,24 @@ Save the following plan to `patch/plans/get_targets.pp`:
 plan patch::get_targets (
   TargetSpec $targets
 ) {
-  # Get puppet-agent version on all targets
-  $_targets = get_targets($targets) 
-  $results  = run_task('puppet_agent::version', $_targets)
+  # Check for the agent on all targets. The check fails on targets without
+  # an agent, so collect the failures instead of stopping the plan.
+  $results = run_task('openvox_bootstrap::check', $targets, '_catch_errors' => true)
 
-  # Group targets by puppet-agent status
-  $agents    = $results.filter_set |$result| { $result['version'] != undef }.targets
-  $agentless = $results.filter_set |$result| { $result['version'] == undef }.targets
-
+  # Group targets by agent status
   return({
-    'agents'    => $agents,
-    'agentless' => $agentless
+    'agents'    => $results.ok_set.targets,
+    'agentless' => $results.error_set.targets
   })
 }
 ```
 
 As a plan author, you might want to ensure the `patch::get_targets` sub-plan
-correctly returns a hash with targets grouped by `puppet-agent` status, and then
+correctly returns a hash with targets grouped by agent status, and then
 run the appropriate task on each group of targets. To do so, you can write a few
 tests that assert the following behavior:
 
-- The sub-plan groups targets by their `puppet-agent` status and returns a hash
+- The sub-plan groups targets by their agent status and returns a hash
   with these groups.
 
 - The sub-plan returns an empty array for a group that has no member targets.
@@ -740,29 +740,29 @@ tests that assert the following behavior:
 
 - The plan does not run the `patch` task if there are no targets with agents.
 
-- The plan runs the `puppet_agent::install` task on agentless targets.
+- The plan runs the `openvox_bootstrap::install` task on agentless targets.
 
-- The plan does not run the `puppet_agent::install` task if there are no
+- The plan does not run the `openvox_bootstrap::install` task if there are no
   agentless targets.
 
-The plan and sub-plan both run tasks in the `puppet_agent` module. To ensure
+The plan and sub-plan both run tasks in the `openvox_bootstrap` module. To ensure
 this module is available to the tests, you can add it to the `.fixtures.yml`
-file in the module's root directory. Because the `puppet_agent` module also uses
-files from the `facts` module, include that module as well.
+file in the module's root directory. Because the `openvox_bootstrap` module also
+uses files from the `facts` module, include that module as well.
 
 ```yaml
 # .fixtures.yml
 fixtures:
   forge_modules:
-    puppet_agent:
-      repo: "puppetlabs/puppet_agent"
-      ref: "4.4.0"
+    openvox_bootstrap:
+      repo: "puppet/openvox_bootstrap"
+      ref: "1.4.0"
     facts:
       repo: "puppetlabs/facts"
-      ref: "1.4.0"
+      ref: "1.7.0"
 ```
 
-Because the plan invokes the `get_targets` function, which accesses Bolt's
+Because the plan invokes the `get_targets` function, which accesses OpenBolt's
 inventory to retrieve `Target` objects, the tests must include an inventory. You
 can override the default inventory in `BoltSpec` using the `inventory_data`
 function.
@@ -771,6 +771,10 @@ By default, `BoltSpec` tests run in `execute_any_plan` mode, which means the
 `patch::get_targets` plan is run in each test. For tests where it is not
 necessary to make assertions about the sub-plan, you can stub the sub-plan and
 have it return a set value.
+
+To make the check task fail on one target, return an `_error` value for that
+target. OpenBolt treats a result with an `_error` key as a failure, the same as
+a task that exits with a non-zero code.
 
 Save the following tests to `patch/spec/plans/init_spec.rb`:
 
@@ -783,7 +787,7 @@ require 'bolt_spec/plans'
 describe 'patch' do
   include BoltSpec::Plans
 
-  # Inventory that is loaded by Bolt with targets that can be referenced
+  # Inventory that is loaded by OpenBolt with targets that can be referenced
   # by name in stubs and mocks
   def inventory_data
     {
@@ -804,24 +808,29 @@ describe 'patch' do
     }
   end
 
-  # Configure Puppet and Bolt before running any tests
+  # Configure Puppet and OpenBolt before running any tests
   before(:all) do
     BoltSpec::Plans.init
   end
 
-  # Set the return value of puppet_agent::version for each target
-  # Stub the patch and puppet_agent::install tasks
+  # Make the check task succeed on agent-target and fail on agentless-target
+  # Stub the patch and openvox_bootstrap::install tasks
   before(:each) do
-    allow_task('puppet_agent::version').return_for_targets({
-      'agent-target'     => { 'version' => '7.0.0' },
-      'agentless-target' => { 'version' => nil }
+    allow_task('openvox_bootstrap::check').return_for_targets({
+      'agent-target'     => { 'puppet_version' => '8.25.0', 'valid' => true },
+      'agentless-target' => {
+        '_error' => {
+          'msg'  => 'No puppet binary found',
+          'kind' => 'puppetlabs.tasks/task-error'
+        }
+      }
     })
 
     allow_task('patch')
-    allow_task('puppet_agent::install')
+    allow_task('openvox_bootstrap::install')
   end
 
-  it 'groups targets by puppet-agent status' do
+  it 'groups targets by agent status' do
     result = run_plan('patch', 'targets' => 'all')
 
     expect(result.value['agents'].map(&:name)).to eq(['agent-target'])
@@ -847,14 +856,14 @@ describe 'patch' do
     run_plan('patch', 'targets' => 'agentless')
   end
 
-  it 'runs the puppet_agent::install task on agentless targets' do
-    expect_task('puppet_agent::install').with_targets(['agentless-target'])
+  it 'runs the openvox_bootstrap::install task on agentless targets' do
+    expect_task('openvox_bootstrap::install').with_targets(['agentless-target'])
 
     run_plan('patch', 'targets' => 'all')
   end
 
-  it 'does not run the puppet_agent::install task if there are no agentless targets' do
-    expect_task('puppet_agent::install').not_be_called
+  it 'does not run the openvox_bootstrap::install task if there are no agentless targets' do
+    expect_task('openvox_bootstrap::install').not_be_called
 
     run_plan('patch', 'targets' => 'agents')
   end
@@ -965,7 +974,7 @@ require 'bolt_spec/plans'
 describe 'sql' do
   include BoltSpec::Plans
 
-  # Inventory that is loaded by Bolt with targets that can be referenced
+  # Inventory that is loaded by OpenBolt with targets that can be referenced
   # by name in stubs and mocks
   def inventory_data
     {
@@ -990,7 +999,7 @@ describe 'sql' do
 
   let(:sql) { 'select * from examples' }
 
-  # Configure Puppet and Bolt before running the test
+  # Configure Puppet and OpenBolt before running the test
   before(:all) do
     BoltSpec::Plans.init
   end

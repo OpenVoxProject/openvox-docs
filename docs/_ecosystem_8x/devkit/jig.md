@@ -17,11 +17,55 @@ The tool we recommend for this today is [Jig](https://github.com/voxpupuli/jig).
 
 ## Installing Jig
 
-Download the latest release for your platform from the [releases page](https://github.com/voxpupuli/jig/releases).
-Uncompress it and move the `jig` binary to a path like `/usr/local/bin`.
+Jig is a single static binary with no runtime dependencies.
+Each [release](https://github.com/voxpupuli/jig/releases) ships:
 
-{% include alert.html type="tip" title="macOS Security Alert" content="The packages are unsigned, so macOS won't open them by default. Run it once and cancel the warning dialog that tells you to trash it.
+* `.deb` and `.rpm` packages for Linux (amd64 and arm64)
+* `.tar.gz` archives for Linux and macOS (amd64 and arm64)
+* a `.zip` archive for Windows (amd64)
+* `sha256sums.txt` with the checksums of every file above
+
+### Linux packages
+
+Install the `.deb` or `.rpm` straight from the release on GitHub.
+Set `VERSION` to the current release and replace `amd64` with `arm64` if needed.
+The package places the `jig` binary in `/usr/bin`.
+
+On Debian and Ubuntu, `apt` needs a local file, so download it first:
+
+```console
+VERSION=2.5.0
+BASE=https://github.com/voxpupuli/jig/releases/download/v${VERSION}
+curl -LO ${BASE}/jig_${VERSION}_linux_amd64.deb
+sudo apt install ./jig_${VERSION}_linux_amd64.deb
+```
+
+On Red Hat family systems, `dnf` accepts the URL directly:
+
+```console
+VERSION=2.5.0
+BASE=https://github.com/voxpupuli/jig/releases/download/v${VERSION}
+sudo dnf install ${BASE}/jig_${VERSION}_linux_amd64.rpm
+```
+
+The packages are standalone files attached to each release; there is no apt or dnf repository to subscribe to.
+To upgrade, install the package from the next release the same way.
+
+### Archives
+
+Download the archive for your platform, uncompress it, and move the `jig` binary to a directory on your `PATH`, such as `/usr/local/bin`.
+To check the download before unpacking it, put `sha256sums.txt` from the same release next to the archive and run:
+
+```console
+shasum -a 256 -c --ignore-missing sha256sums.txt
+```
+
+On Linux, `sha256sum` takes the same options.
+
+{% include alert.html type="tip" title="macOS Security Alert" content="The macOS binaries are unsigned, so macOS won't open them by default. Run it once and cancel the warning dialog that tells you to trash it.
 Then go to `System Settings -> Privacy & Security` and scroll to the bottom of the pane. You'll see the option to allow `jig` to run." %}
+
+### Go
 
 Jig is one of the few tools in the Vox Pupuli ecosystem implemented in Go.
 If you have [Go installed](https://go.dev/doc/install), then you can choose to install via the Go package manager instead.
@@ -29,8 +73,11 @@ This will place the compiled binary into `$GOPATH/bin`, which is likely to be `~
 Ensure that location is in your `$PATH`.
 
 ```console
-go install github.com/voxpupuli/jig@latest
+go install github.com/voxpupuli/jig/v2@latest
 ```
+
+The `/v2` in the module path is required.
+Without it, `go install` resolves `@latest` against the old module path and installs the last 1.x release.
 
 ## Creating a new module
 
@@ -57,26 +104,34 @@ $ tree demo
 demo
 ├── CHANGELOG.md
 ├── data
-│   └── common.yaml
+│   └── common.yaml
 ├── examples
 ├── files
 ├── Gemfile
 ├── hiera.yaml
+├── jig.toml
 ├── manifests
-│   └── init.pp
+│   └── init.pp
 ├── metadata.json
 ├── Rakefile
 ├── README.md
 ├── spec
-│   ├── classes
-│   │   └── init_spec.rb
-│   ├── default_facts.yml
-│   └── spec_helper.rb
+│   ├── acceptance
+│   │   └── init_spec.rb
+│   ├── classes
+│   │   └── init_spec.rb
+│   ├── default_facts.yml
+│   ├── spec_helper.rb
+│   └── spec_helper_acceptance.rb
 ├── tasks
 └── templates
 
-9 directories, 11 files
+9 directories, 14 files
 ```
+
+Two of those files are written by Jig itself rather than from a template: `metadata.json`, and `jig.toml`, which holds the [per-module settings](#per-module-configuration-jigtoml) described below.
+The generated `metadata.json` declares its runtime requirement as `openvox` (`>= 7.0.0 < 9.0.0`), which the Vox Pupuli test tooling understands alongside the older `puppet` name.
+It also ships dotfiles that `tree` hides: `.editorconfig`, `.gitignore`, `.overcommit.yml`, `.rubocop.yml`, and a `.devcontainer/` for editors that support it.
 
 ### Adding content to a module
 
@@ -140,7 +195,52 @@ author         = "John Doe"
 license        = "Apache-2.0"
 forge_token    = "your-forge-token"
 template_dir   = "~/.config/jig/templates"
+
+# Trust unknown ssh host keys when fetching remote templates (for CI).
+ssh_accept_new = false
+
+# Run the Ruby-backed commands in a container instead of on the host.
+[runner]
+type   = "local"                            # "local" (default) or "voxbox"
+engine = "docker"                           # "docker" (default) or "podman"
+image  = "ghcr.io/voxpupuli/voxbox:latest"
 ```
+
+Every field can also be set with a `JIG_`-prefixed environment variable (`JIG_FORGE_USERNAME`, `JIG_TEMPLATE_DIR`, `JIG_RUNNER_TYPE`, and so on), which takes precedence over the file.
+Pass `--config` to point at a different file.
+
+This file holds settings that belong to you: credentials, interview defaults, where your templates live.
+Settings that belong to a module live in `jig.toml` instead.
+
+### Per-module configuration (`jig.toml`)
+
+`jig new module` writes a `jig.toml` next to `metadata.json`, and you commit it with the module so everyone working on it shares the same settings.
+All three sections are optional; a missing section means Jig's defaults.
+
+```toml
+# Template repository the module was scaffolded from; later jig commands
+# in this module default to it.
+[template]
+url    = "ssh://git@my.git.server/jig_templates.git"
+ref    = "main"
+commit = "<commit the templates were fetched at>"
+
+# Files `jig renew` may re-render and overwrite. Empty by default so
+# nothing is overwritten accidentally.
+[renew]
+paths = []
+
+# Which files go into the module package built by `jig build`.
+[build]
+action     = "deny"
+exceptions = []
+```
+
+`[template]` and `[renew]` are covered in the next two sections; `[build]` is covered on the [publishing page](publishing.html#what-gets-packaged).
+
+Trust settings such as `ssh_accept_new` are deliberately never read from `jig.toml`.
+A cloned repository must not be able to change security behavior for the people who clone it.
+{: .tip }
 
 ## Maintaining your own content templates
 
@@ -153,12 +253,129 @@ jig templates dump ~/.config/jig/templates
 
 Any template found in your directory takes precedence over the embedded default, and any template you don't override falls back to the embedded version, so you only need to include the files you want to change.
 
-To tell Jig where your templates live, use either of the following:
+Two rules govern how a template becomes a file in the module:
 
-* the `--template-dir` (`-t`) flag on `jig new`, which takes precedence, or
+* A file ending in `.tmpl` is rendered with Go's [text/template](https://pkg.go.dev/text/template) and written with the suffix stripped, so `README.md.tmpl` becomes `README.md`.
+  Every other file is copied byte-for-byte.
+  This is what lets a GitHub Actions workflow, which uses `{% raw %}{{ ... }}{% endraw %}` for its own purposes, sit in a template tree unescaped: leave the `.tmpl` suffix off and it's copied as-is.
+* The `module/` directory of the template tree mirrors the generated module exactly.
+  There's no mapping in Jig's source, so you can add files Jig knows nothing about.
+  Drop `module/.github/workflows/ci.yml` into your template directory and every module you scaffold gets it.
+
+`metadata.json` and `jig.toml` are the exceptions: Jig always generates those itself and ignores (with a warning) any copy in a template tree.
+
+To tell Jig where your templates live, use any of the following, in order of precedence:
+
+* the `--template-dir` (`-t`) flag on `jig new`,
+* the `JIG_TEMPLATE_DIR` environment variable, or
 * the `template_dir` key in your Jig config file.
 
------
+When something doesn't render the way you expect, `jig templates resolve` shows exactly where a template name is being loaded from and every path Jig checked on the way:
+
+```console
+$ jig templates resolve class/class.pp
+no external template directory configured; using embedded templates only
+  looking for templates/class/class.pp.tmpl (embedded) ... found
+resolved class/class.pp to embedded template templates/class/class.pp.tmpl (rendered with text/template)
+```
+
+### Sharing templates from a git repository
+
+A directory on disk works for one person.
+For a team, point Jig at a git repository instead and everyone scaffolds from the same source without keeping a checkout at the same local path:
+
+```console
+jig new module --template-url 'ssh://git@my.git.server/jig_templates.git' --template-ref main mymodule
+```
+
+Jig makes a shallow clone into a temporary directory, uses it exactly like a `--template-dir`, and deletes the clone afterwards.
+The repository layout is the same as a dumped template directory.
+It then records the URL, ref, and commit in the module's `jig.toml` under `[template]`, so later `jig new class` and similar commands inside that module use the same templates with no flags at all.
+An explicit `--template-dir` or `--template-url` overrides the recorded values.
+
+ssh URLs authenticate through your running ssh-agent; https URLs are anonymous only.
+On first contact with an unknown host Jig shows the key fingerprint and asks, like OpenSSH does.
+In CI, pass `--ssh-accept-new` (or set `ssh_accept_new = true` in your config, or export `JIG_SSH_ACCEPT_NEW=true`) to accept unknown hosts automatically.
+A host key that has _changed_ always fails with no override; if a server legitimately rotated its key, run `ssh-keygen -R <host>` and try again.
+
+## Refreshing a module from its templates
+
+When you change a template, `jig renew` re-renders the affected files in an existing module and overwrites them, so a change to (say) your standard `Gemfile` can be rolled out across many modules without hand-editing each one.
+
+It only touches files matching the `[renew]` allowlist in the module's `jig.toml`, and that list is empty by default, so nothing can be overwritten until the module opts in:
+
+```toml
+[renew]
+paths = [".github/**", "Gemfile", "Rakefile", "spec/spec_helper.rb"]
+```
+
+Patterns are gitignore-style globs relative to the module root.
+Allowlisted files whose rendered content differs are overwritten, files that already match are left alone, and allowlisted files the module doesn't have yet are created.
+`metadata.json` and `jig.toml` are never renewed.
+
+Run it with `--dry-run` first to see a diff of every file that would change without writing anything:
+
+```console
+jig renew --dry-run
+jig renew
+```
+
+The template source resolves the same way as for `jig new`: flags first, then `[template]` in `jig.toml` (re-fetching the latest commit of the recorded ref), then `template_dir` from your config.
+After a successful renew from a remote repository, Jig rewrites `jig.toml` with the commit it fetched, so hand-written comments in that file don't survive.
+
+If you maintain many modules with [ModuleSync](modulesync.html), note the difference: `jig renew` is Jig's own template-driven refresh of one module, while `jig msync update` runs ModuleSync.
+Pick one mechanism per file; having both manage the same `Gemfile` will end in a tug of war.
+{: .tip }
+
+## Running the Ruby-backed commands
+
+Three commands wrap the `bundle exec` tooling described elsewhere in this guide, so you can use one CLI for everything:
+
+| Command | Runs |
+|---------|------|
+| `jig validate` | `rake validate`, `rake lint`, and `rake rubocop`, each as its own invocation, stopping at the first failure. `-s`, `-l`, and `-r` select a subset. |
+| `jig test unit` | `rake spec`, or `rake parallel_spec` with `--parallel`. |
+| `jig msync` | `msync` with whatever arguments you pass, for example `jig msync update`. |
+
+Arguments after `--` are passed through verbatim to the underlying command.
+Because these shell out to Bundler, they need the module's gems installed (`bundle install`) just as the direct commands do.
+
+If you'd rather not maintain a Ruby toolchain on the host, set `type = "voxbox"` in the `[runner]` section of your config file (or export `JIG_RUNNER_TYPE=voxbox`).
+Jig then runs the same three commands inside the [VoxBox](voxbox.html) container, mounting the module at `/repo`, so the only host dependency is Docker or Podman.
+This is the most practical route on Windows, where a system-wide Bundler install is awkward.
+
+## Migrate an existing module to Jig
+
+`jig convert` brings an existing module onto the toolchain that Jig's other commands expect.
+Run it from the module's root directory and it overwrites `Gemfile`, `Rakefile`, and `spec/spec_helper.rb` with the same templates `jig new module` uses, creating `spec/` if needed:
+
+```console
+$ jig convert
+convert successful: Gemfile, Rakefile, spec/spec_helper.rb
+```
+
+It works on PDK-generated and hand-maintained modules alike, including modules old enough to predate `metadata.json`.
+Before it touches the three files above, it looks at the module's `metadata.json`:
+
+* **Missing.** Jig creates it, and writes a `jig.toml` as well if the module doesn't have one.
+  If a Puppet 3-era `Modulefile` is present, its `name`, `version`, `author`, `license`, `summary`, `source`, `project_page`, and `dependency` lines pre-fill the new file, and the `Modulefile` is left in place with a warning that you can delete it.
+  Otherwise Jig runs the same interview as `jig new module`, taking the module name from the directory name (`puppet-nftables` gives `nftables`).
+  Pass `--skip-interview` (`-i`) together with the `-u`, `-a`, `-l`, `-s`, and `-S` flags to answer non-interactively; a flag wins over the `Modulefile`, which wins over the defaults in your config file.
+* **Present but not valid JSON.** Jig prints the parse error and stops without changing anything.
+* **Present but incomplete.** Jig fills in a default `version` (`0.1.0`) and empty `dependencies`, `requirements`, `operatingsystem_support`, and `tags` lists where they're missing, warns about anything else that fails validation (a missing `author` or `source`, say), and never overwrites a value that's already there.
+  Keys Jig doesn't know about, such as a PDK-era `pdk-version`, are kept, and an `operatingsystem_support` written as a bare list of OS names (the pre-2014 format) is rewritten in the current object form.
+  Running it a second time changes nothing.
+* **Present and valid.** Left alone.
+
+After writing the three files, Jig removes a `Gemfile.lock` if one is present, because it locks the dependency set of the `Gemfile` that was just replaced and would make the next `bundle install` fail.
+Other PDK-era files (`.sync.yml`, `.pdkignore`, `.rubocop.yml`, `.puppet-lint.rc`, `.fixtures.yml`, `.vscode/`) are left in place, since they might hold customizations you want to keep, but Jig warns about each one it finds; nothing in Jig or VoxBox reads them.
+
+Add `--dry-run` to see what would be created, overwritten, or removed without writing anything.
+The `metadata.json` handling and the lock file cleanup need Jig 2.4.0 or later; earlier releases stop with `metadata.json not found` on a module that lacks the file.
+
+Unlike `jig renew`, it always uses Jig's embedded templates, ignoring `--template-dir` and the module's `jig.toml`, and it needs no allowlist.
+
+If you're coming from the PDK, the [migration page](migrating.html) maps each `pdk` command to its Jig or `bundle exec` equivalent.
 
 ## Alternative scaffolding solutions
 

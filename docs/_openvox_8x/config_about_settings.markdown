@@ -41,9 +41,19 @@ A command or service _only_ reads its settings _once;_ if something needs to be 
 
 Settings from the command line have top priority, and **always override settings from the config file.** When a Puppet command or service is started, you can specify any setting as a command line option.
 
-Settings require two hyphens and the name of the setting on the command line:
+Settings require two hyphens and the name of the setting on the command line. Use the setting name exactly as it appears in `puppet.conf`, including any underscores:
 
-`$ sudo puppet agent --test --noop --certname temporary-name.example.com`
+`$ sudo puppet agent --test --noop --certname temporary-name.example.com --include_legacy_facts`
+
+> **Note:** Multi-word setting names keep their underscores on the command line: `--include_legacy_facts`, not `--include-legacy-facts`. The hyphenated spelling is accepted only through a deprecated fallback, which prints a warning:
+>
+> ```text
+> Warning: Partial argument match detected: correct argument is --[no-]include_legacy_facts, got --include-legacy-facts. Partial argument matching is deprecated and will be removed in a future release.
+> ```
+>
+> The fallback is planned for removal in OpenVox 9 ([openvox#334](https://github.com/OpenVoxProject/openvox/issues/334)). After that, the hyphenated form is rejected as an unknown argument, so update any scripts that still use it.
+>
+> The `[no-]` in the warning means the setting is a Boolean; see [Boolean settings](#boolean-settings) below. This warning often appears during upgrades from Puppet 7, because [`include_legacy_facts`](./configuration.html#include_legacy_facts) defaults to `false` from OpenVox 8 onward, and Puppet 7 silently ignored the hyphenated form.
 
 ## Basic settings
 
@@ -66,6 +76,12 @@ This means:
 `--noop` is equivalent to setting `noop = true` in `puppet.conf`.
 
 `--no-noop` is equivalent to setting `noop = false` in `puppet.conf`.
+
+The `no-` prefix goes in front of the full setting name, so a multi-word Boolean setting keeps its underscores:
+
+`--include_legacy_facts` is equivalent to setting `include_legacy_facts = true` in `puppet.conf`.
+
+`--no-include_legacy_facts` is equivalent to setting `include_legacy_facts = false` in `puppet.conf`.
 
 ## Default values
 

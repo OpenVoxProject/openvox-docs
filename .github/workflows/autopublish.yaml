@@ -1,6 +1,16 @@
 ---
 name: Automatically publish new content
 
+# Shows what triggered a dispatched run in the Actions list (e.g. "Rebuild for
+# openvox 8.28.1"). Empty for push runs and for dispatches without a payload;
+# GitHub then falls back to the default run name.
+run-name: >-
+  ${{ github.event_name == 'repository_dispatch'
+      && github.event.client_payload.product
+      && github.event.client_payload.version
+      && format('Rebuild for {0} {1}', github.event.client_payload.product, github.event.client_payload.version)
+      || '' }}
+
 on:
   push:
     branches:
@@ -14,8 +24,34 @@ on:
       - 'docs/**/*'
       - 'assets/**/*'
 
+  # Upstream release workflows send this after tagging so the generated
+  # reference pages (built from the series refs in _data/products.yml) and the
+  # component-version tables pick up the new release without a docs commit.
+  # Optional payload: { "product": "openvox", "version": "8.28.1" }, used only
+  # for the run name above.
+  repository_dispatch:
+    types: [upstream-release]
+
+  # Manual "rebuild and publish now" for the same purpose, e.g. after an
+  # upstream doc-string fix or a failed release-table refresh. Only runs on
+  # master (see the guard on the test job).
+  workflow_dispatch:
+
+# Every run deploys master's head, so two overlapping runs (a merge landing
+# while a dispatch is in flight) would deploy the same content twice. Queue
+# them instead; never cancel, so a build is not killed mid-deploy.
+concurrency:
+  group: autopublish
+  cancel-in-progress: false
+
 jobs:
+  # workflow_dispatch can be started from any branch or tag, and github.sha
+  # follows that ref, so without this guard the manual button could deploy a
+  # feature branch to production. Skipping test skips build and deploy too,
+  # since they depend on it. push is already limited to master and
+  # repository_dispatch always runs on the default branch.
   test:
+    if: github.ref == 'refs/heads/master'
     uses: ./.github/workflows/test.yml
 
   build:

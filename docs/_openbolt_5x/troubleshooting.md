@@ -5,7 +5,7 @@ title: Troubleshooting
 
 # Troubleshooting
 
-## Bolt can't find my task
+## OpenBolt can't find my task
 
 Run the `bolt task show` command or `Get-BoltTask` PowerShell cmdlet and look
 for any warnings related to your task metadata.
@@ -20,7 +20,7 @@ Make sure your task executable is named the same as your task metadata. For
 example, if your task is named `mytask.rb`, you must name your metadata file
 `mytask.json`.
 
-## I can't add a module to my Bolt project
+## I can't add a module to my OpenBolt project
 
 If you receive the following error:
 
@@ -28,9 +28,9 @@ If you receive the following error:
 Unable to use command 'bolt module add'. To use this command, update your project configuration to manage module dependencies.
 ```
 
-You need to upgrade your project so Bolt can manage your modules and
-dependencies. For more information, see [migrate a Bolt
-project](./projects.html#migrate-a-bolt-project).
+You need to upgrade your project so OpenBolt can manage your modules and
+dependencies. For more information, see [migrate an OpenBolt
+project](./projects.html#migrate-an-openbolt-project).
 
 ## My task fails with a "permission denied" error (`noexec` issue)
 
@@ -48,7 +48,7 @@ directory.
 
 ## My `plan/task show` output is not correct
 
-Bolt caches task and plan metadata when listing plans and tasks, and only
+OpenBolt caches task and plan metadata when listing plans and tasks, and only
 updates the cache when modules in the `<PROJECT DIRECTORY>/modules/` directory
 are modified. Try rerunning the command with `--clear-cache` to refresh the
 cache and update task and plan metadata.
@@ -61,23 +61,23 @@ the path the task or plan is loaded from.
 
 ## My task fails mysteriously
 
-Try running Bolt with `--log-level debug` to see the exact output from your task.
+Try running OpenBolt with `--log-level debug` to see the exact output from your task.
 
 Make sure your task executable starts with a shebang (`#!`) line indicating the
 interpreter to use and verify that the executable is present on the target
 system. For example, if you write a Python task and include the line:
-`#!/usr/bin/env python`, Bolt attempts to execute the script using the default
+`#!/usr/bin/env python`, OpenBolt attempts to execute the script using the default
 `python` executable on the target system.
 
 ## My task fails on Windows targets
 
-Bolt does not support PowerShell 2.0. If your task targets a Windows OS that has only PowerShell 2.0 installed, the task will fail.
+OpenBolt does not support PowerShell 2.0. If your task targets a Windows OS that has only PowerShell 2.0 installed, the task will fail.
 
 In 2017, Microsoft [deprecated PowerShell 2.0](https://docs.microsoft.com/en-US/windows/deployment/planning/windows-10-removed-features). For a more detailed explanation, see [Micosoft's blog post on the subject](https://devblogs.microsoft.com/powershell/windows-powershell-2-0-deprecation).
 
 Both Microsoft and Puppet recommend updating the target with Windows PowerShell 5.1, but versions 3.0 and 4.0 are also supported.
 
-## Bolt can't connect to my hosts over SSH
+## OpenBolt can't connect to my hosts over SSH
 
 ### Host key verification failures
 
@@ -87,12 +87,12 @@ This will show up as an error similar to the following:
 fingerprint SHA256:6+fv7inQSgU2DuYF5NolTlGF6xM8RBRTw1W6B9rbHkc is unknown for "hostname.example.com,10.16.112.82"
 ```
 
-When connecting over SSH, Bolt checks the host key against the fingerprint in
+When connecting over SSH, OpenBolt checks the host key against the fingerprint in
 `~/.ssh/known_hosts` to verify the host is the one it's expecting to connect to.
 This error means that there is no key for the host in `~/.ssh/known_hosts`, so
-Bolt doesn't know how to tell if it's the right host.
+OpenBolt doesn't know how to tell if it's the right host.
 
-If you can connect to the host over SSH outside Bolt, you can store the SSH host
+If you can connect to the host over SSH outside OpenBolt, you can store the SSH host
 key fingerprint with `ssh-keyscan hostname.example.com >> ~/.ssh/known_hosts`.
 
 You can disable this check entirely with `--no-host-key-check` on the CLI or the
@@ -107,9 +107,9 @@ config:
 
 ### Timeout or connection refused
 
-By default, Bolt tries to connect over the standard SSH port 22. If you need to
+By default, OpenBolt tries to connect over the standard SSH port 22. If you need to
 connect over a different port, either include the port in the name of the target
-(`hostname.example.com:2345`) or set it in your Bolt config or inventory.
+(`hostname.example.com:2345`) or set it in your OpenBolt config or inventory.
 
 ### Providing a password non-interactively using `native-ssh`
 
@@ -121,7 +121,7 @@ if you are unable to authenticate using keys.
 You can disable `BatchMode` in your transport configuration using the
 `batch-mode` setting, which allows SSH to fall back to querying for a password
 when key authentication fails. However, `native-ssh` uses the `ssh` client by
-default, which prompts for passwords interactively and causes Bolt to hang.
+default, which prompts for passwords interactively and causes OpenBolt to hang.
 
 To avoid hanging when `BatchMode` is disabled, you must configure `ssh-command`
 to use an SSH utility like `sshpass` to provide a password to the SSH client
@@ -147,11 +147,11 @@ config:
       - ssh
 ```
 
-## Bolt can't connect to my Windows hosts
+## OpenBolt can't connect to my Windows hosts
 
 ### Timeout or connection refused
 
-By default, Bolt tries to connect over SSH. Make sure you've specified the
+By default, OpenBolt tries to connect over SSH. Make sure you've specified the
 `winrm` protocol for the target. There are three ways to specify `winrm`:
 
 - Include the `winrm` in the name of the target. For example:
@@ -167,8 +167,8 @@ By default, Bolt tries to connect over SSH. Make sure you've specified the
   ```
 
 If you're still getting "connection refused" messages, try disabling SSL. By
-default, Bolt connects to targets over WinRM using the HTTPS port 5986. Your
-target might not be set up to connect over HTTPS. If you disable SSL, Bolt
+default, OpenBolt connects to targets over WinRM using the HTTPS port 5986. Your
+target might not be set up to connect over HTTPS. If you disable SSL, OpenBolt
 connects to the target using the HTTP port 5985. You can disable SSL in one of
 the following ways:
 
@@ -187,24 +187,24 @@ the following ways:
 ## Puppet log functions are not logging to the console
 
 Puppet logs might not be printing to the console because they are logged at a
-lower level than Bolt is configured to print at. By default, Bolt prints all
+lower level than OpenBolt is configured to print at. By default, OpenBolt prints all
 logs at the `warn` level or higher to the console.
 
-Additionally, Puppet logs are printed at a different level in Bolt than they
+Additionally, Puppet logs are printed at a different level in OpenBolt than they
 would be in Puppet. For example, Puppet `notice` level logs are equivalent to
-the `info` level in Bolt. As a result, if you use the `notice()` Puppet log
-function, Bolt does not print the contents of `notice` to the console by
-default. You can see which Bolt log level each Puppet log level maps to in
-[Puppet log functions in Bolt](debugging_plans.html#puppet-log-functions-in-bolt).
+the `info` level in OpenBolt. As a result, if you use the `notice()` Puppet log
+function, OpenBolt does not print the contents of `notice` to the console by
+default. You can see which OpenBolt log level each Puppet log level maps to in
+[Puppet log functions in OpenBolt](debugging_plans.html#puppet-log-functions-in-openbolt).
 
-To print logs and messages in Bolt to the console you can do one or more of the
+To print logs and messages in OpenBolt to the console you can do one or more of the
 following:
 
 - When you want to view all logs at a specific level on the console, [set the
   log level](logs.html#setting-log-level) from the command line or in your
   configuration file.
 
-- When you have messages you want to log directly from Bolt, use Bolt's [log
+- When you have messages you want to log directly from OpenBolt, use OpenBolt's [log
   plan functions](debugging_plans.html#log-functions).
 
 - When you have messages you want printed to the console regardless of log
@@ -220,7 +220,7 @@ If you see a `gem` related error similar to the following:
     Ignoring unf_ext-0.0.7.5 because its extensions are not built. Try: gem pristine unf_ext --version 0.0.7.5
 ```
 
-Use the Bolt-provided gem command to reinstall/install these gems. For example:
+Use the OpenBolt-provided gem command to reinstall/install these gems. For example:
 
 ```console
     sudo /opt/puppetlabs/bolt/bin/gem pristine nokogiri --version 1.10.2
@@ -230,10 +230,10 @@ Use the Bolt-provided gem command to reinstall/install these gems. For example:
 
 ## Certificate verify failed when installing modules
 
-When running on Windows, Bolt automatically sets the `SSL_CERT_DIR` and
+When running on Windows, OpenBolt automatically sets the `SSL_CERT_DIR` and
 `SSL_CERT_FILE` environment variables if they are not already set. Assuming a
 default install location, the variables are set to the following directory and
-certificate, which are installed with the Bolt package:
+certificate, which are installed with the OpenBolt package:
 
 - `SSL_CERT_DIR = C:\Program Files\Puppet Labs\Bolt\ssl\certs`
 - `SSL_CERT_FILE = C:\Program Files\Puppet Labs\Bolt\ssl\cert.pem`
@@ -248,14 +248,14 @@ SSL_connect returned=1 errno=0 state=error: certificate verify failed (unable to
 Set the `SSL_CERT_DIR` and `SSL_CERT_FILE` environment variables to use a valid
 certificate and certificate directory.
 
-## PowerShell does not recognize Bolt cmdlets
+## PowerShell does not recognize OpenBolt cmdlets
 
-PowerShell 3.0 cannot automatically discover and load the Bolt module. If you're
-using PowerShell 3.0, add the Bolt module manually.
+PowerShell 3.0 cannot automatically discover and load the `PuppetBolt` module. If
+you're using PowerShell 3.0, add the module manually.
 
 > 🔩 **Tip** To confirm your PowerShell version, run`$PSVersionTable`.
 
-To allow PowerShell to load Bolt, add the correct module to your PowerShell
+To allow PowerShell to load OpenBolt, add the correct module to your PowerShell
 profile.
 
 1. Update your PowerShell profile.
@@ -270,7 +270,7 @@ profile.
     . $PROFILE
     ```
 
-## PowerShell could not load the Bolt PowerShell module
+## PowerShell could not load the OpenBolt PowerShell module
 
 PowerShell's execution policy is a safety feature that controls the conditions
 under which PowerShell loads configuration files and runs scripts. This feature
@@ -291,7 +291,7 @@ If your environment uses a `Restricted` policy, you must change your policy to
 `RemoteSigned` or `AllSigned`. Check with your security team before you make any
 policy changes.
 
-If you see this or a similar error when trying to run Bolt, you probably need to
+If you see this or a similar error when trying to run OpenBolt, you probably need to
 change your script execution policy restrictions:
 
 ```text
@@ -322,16 +322,16 @@ To change your script execution policy:
 
 ## 'Could not parse PKey: no start line' error message when using SSH private key
 
-Bolt does not support encrypted SSH private keys if the keys are provided using the
+OpenBolt does not support encrypted SSH private keys if the keys are provided using the
 `key-data` field in your transport configuration. If providing a decrypted key is feasible
 for your use case and security practices, you can manually decrypt the key by running
 `openssl rsa -in <KEY FILE>` and providing your passphrase. Alternatively, you can
-add the key to your SSH agent and _not_ specify a `private-key` for Bolt to use. Bolt
+add the key to your SSH agent and _not_ specify a `private-key` for OpenBolt to use. OpenBolt
 will use the agent to authenticate your connection.
 
 ## Running commands with the Docker transport does not use environment variables
 
-When Bolt runs a command using the Docker transport, it shells out to the
+When OpenBolt runs a command using the Docker transport, it shells out to the
 `docker exec` command and sets environment variables using the `--env`
 command-line option to set environment variables. When you run a command
 using the Docker transport, and the command includes environment variable
@@ -389,14 +389,7 @@ inventory-config:
     shell-command: /bin/sh -c
 ```
 
-## I can't access sensitive output from a task using the `pcp` transport
-
-Sensitive output is not supported when running tasks using the `pcp` transport.
-For more information, see the [`bolt_shim`
-documentation](https://github.com/puppetlabs/puppetlabs-bolt_shim/blob/main/docs/sensitive_task_output.md).
-
 ## I still need help
 
-Visit the **#bolt** channel in the [Puppet Community
-Slack](https://slack.puppet.com) to find a whole community of people waiting
-to help!
+Ask in the [OpenVox community](/ecosystem/latest/community.html) channels, or search and file
+issues in the [OpenBolt repository](https://github.com/OpenVoxProject/openbolt/issues).

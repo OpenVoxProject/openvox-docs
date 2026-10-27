@@ -5,9 +5,8 @@ title: "Custom facts walkthrough"
 
 [Plugins in Modules]: /openvox/latest/plugins_in_modules.html
 [Adding plug-ins to a module]: /openvox/latest/plugins_in_modules.html
-[Facts overview]: ./fact_overview.html
+[Facts overview]: fact_overview.html
 [openvoxdb]: /openvoxdb/latest
-[Win32 API]: https://docs.microsoft.com/en-us/windows/win32/api/
 [Fiddle]: https://github.com/ruby/fiddle
 
 You can add custom facts by adding snippets of Ruby code to the OpenVox server. OpenVox then uses [Plugins in Modules][] to distribute the facts to all agents.
@@ -21,7 +20,7 @@ Sometimes you need to be able to write conditional expressions based on site-spe
 Because you can't include arbitrary Ruby code in your manifests, the best solution is to add a new fact to OpenFact.
 These additional facts can then be distributed to OpenVox agent and are available for use in manifests and templates, just like any other fact is.
 
-> **Note:** OpenFact provides a [custom facts API](https://github.com/openvoxproject/openfact/blob/master/Extensibility.md#custom-facts-compatibility).
+> **Note:** OpenFact provides a [custom facts API](https://github.com/OpenVoxProject/openfact/blob/main/Extensibility.md#custom-facts-compatibility).
 
 ## Loading custom facts
 
@@ -32,6 +31,9 @@ OpenFact offers multiple methods of loading facts:
 - The environment variable 'FACTERLIB'
 
 You can use these methods to do things like test files locally before distributing them, or you can arrange to have a specific set of facts available on certain machines.
+
+The `facter` command does not load the custom facts that the agent downloads from your modules
+unless you pass `-p`. Without it, those facts are missing from the output.
 
 ### Using the Ruby load path
 
@@ -51,7 +53,7 @@ OpenFact loads `facter/system_load.rb` and `facter/users.rb`.
 
 ### Using the `--custom-dir` command line option
 
-OpenFact can take multiple `--custom-dir` options on the command line that specifies a single directory
+OpenFact can take multiple `--custom-dir` options on the command line, each naming a directory
 to search for custom facts. OpenFact attempts to load all Ruby files in the specified directories.
 This allows you to do something like this:
 
@@ -109,8 +111,10 @@ execute shell commands:
   Whatever the `setcode` statement returns is used as the fact's value.
 - Your shell command is also a Ruby string, so you need to escape special characters if you want to pass them through.
 
-> **Note:** Not everything that works in the terminal works in a fact. You can use the pipe (`|`) and similar operators as you normally would.
-> but Bash-specific syntax like `if` statements do not work. The best way to handle this limitation is to write your conditional logic in Ruby.
+> **Note:** Not everything that works in a terminal works in a fact. Pipes (`|`) and similar
+> operators work, but a command that starts with shell syntax such as `if` fails with "command not
+> found", because OpenFact runs the first word as the command. Write the logic in Ruby, or pass it to
+> a shell explicitly, for example `sh -c 'if true; then echo yes; fi'`.
 
 ### Example
 
@@ -134,24 +138,18 @@ To get the output of `uname --hardware-platform` to single out a specific type o
 
 ## Accessing other facts
 
-You can write a custom fact that uses other facts by accessing `Facter.value(:somefact)`. When accessing parts of a structured fact, one must append the key name: `Facter.value(:os)['family']`.
-If the fact fails to resolve or is not present, OpenFact returns `nil`.
-Please take care to not build loops!
+You can write a custom fact that uses other facts by calling `Facter.value`. For part of a
+structured fact, either index into the hash, `Facter.value(:os)['family']`, or use a dotted name,
+`Facter.value('os.family')`. If the fact fails to resolve or is not present, OpenFact returns
+`nil`. Make sure facts do not depend on each other in a loop.
 
-For example:
+For example, this fact combines the operating system name and major release into one string, such
+as `Debian 12`:
 
 ```ruby
-Facter.add(:my_osfamily) do
+Facter.add(:os_label) do
   setcode do
-    distid = Facter.value(:os)['family']
-    case distid
-    when /RedHatEnterprise|CentOS|Fedora/
-      'redhat'
-    when 'ubuntu'
-      'debian'
-    else
-      distid
-    end
+    "#{Facter.value('os.name')} #{Facter.value('os.release.major')}"
   end
 end
 ```
@@ -178,17 +176,21 @@ Facter.add(:powerstates) do
 end
 ```
 
-Note that everything you put inside the `setcode` block is confined. Everything outside of the `setcode` block is not confined.
+Only the code inside the `setcode` block is confined. Code outside it, directly in the
+`Facter.add` block, runs when OpenFact loads the file, on every node.
 
-This fact uses sysfs on linux to get a list of the power states that are
+This fact uses sysfs on Linux to get a list of the power states that are
 available on the given system. Since this is only available on Linux systems,
 we use the `confine` statement to ensure that this fact isn't needlessly run on
 systems that don't support this type of enumeration.
 
-In our next example the application has different config paths for different OS.
+To confine on part of a structured fact, use a dotted name, for example
+`confine 'os.family' => 'RedHat'`.
 
-RedHat - /etc/sysconfig/application
-Debian - /etc/default/application
+In our next example the application has different config paths for different OS:
+
+- RedHat: `/etc/sysconfig/application`
+- Debian: `/etc/default/application`
 
 Example with access to another fact:
 
@@ -215,7 +217,7 @@ end
 
 The example retrieves the os fact and uses the family key to compare the OS, then applies logic to determine which application config path to check for.
 
-> **Note:** More information on other ways to confine can be found in the [Facts overview]
+> **Note:** More information on other ways to confine can be found in the [Facts overview].
 
 ### Custom facts precedence
 
@@ -264,76 +266,71 @@ Facter.add(:role) do
 end
 ```
 
-> **Hint:** A weight above 1000 overwrites external facts
+> **Note:** External facts have a weight of 10000. To override an external fact with a custom
+> fact of the same name, give the custom fact a weight above 10000.
 
 ### Custom facts execution timeouts
 
-Although this version of OpenFact does not support overall timeouts on resolutions, you can pass a timeout
-to `Facter::Core::Execution#execute` or specify the timeout per fact.
+You can limit how long a whole resolution runs, and how long each command in it runs.
 
-Timeout for the whole fact:
+To limit a whole resolution, pass `timeout` to `Facter.add`. If the resolution takes longer,
+OpenFact logs an error and the fact has no value. OpenFact still waits for a command that the
+resolution started, so give long-running commands their own, shorter timeout as well:
 
 ```ruby
-Facter.add('<name>', {timeout: 5}) do
-  ...
+Facter.add(:application_config, timeout: 10) do
+  setcode do
+    Facter::Core::Execution.execute('/opt/app/bin/app config', timeout: 5)
+  end
 end
 ```
 
-Timeout per execute method
-
-```ruby
-Facter::Core::Execution::execute('<cmd>', options = {:timeout => 5})
-```
+To limit a single command, pass `timeout` to `Facter::Core::Execution.execute`. Without it, a
+command can run for up to 300 seconds. When the command times out, or cannot be found,
+`execute` raises `Facter::Core::Execution::ExecutionFailure`:
 
 ```ruby
 Facter.add(:sleep) do
   setcode do
     begin
-      Facter::Core::Execution.execute('sleep 10', options = {:timeout => 5})
-      'did not timeout!'
+      Facter::Core::Execution.execute('sleep 10', timeout: 5)
+      'did not time out'
     rescue Facter::Core::Execution::ExecutionFailure
-      'timeout!'
+      'timed out'
     end
   end
 end
 ```
 
-For example, if an application returns its configuration via /opt/app/bin/app config and this commands is sometimes running very long, you can set a timeout:
+To get a value back instead of an exception when the command cannot be found, pass `on_fail`. For
+example, `Facter::Core::Execution.execute('app config', on_fail: nil)` returns `nil` if `app` is
+not installed. A command that runs but exits with a non-zero status does not count as a failure:
+`execute` returns its output.
 
-```ruby
-Facter.add(:application_config) do
-  confine do
-    File.exist?('/opt/app/bin/app')
-  end
-
-  setcode do
-    Facter::Core::Execution.execute('/opt/app/bin/app config', {:timeout => 5})
-  end
-end
-```
-
-> Please note that Facter::Core::Execution::exec has been deprecated in favor of Facter::Core::Execution::execute. This is important when migrating from older versions of Facter.
+> **Note:** `Facter::Core::Execution.exec` has been deprecated in favor of `Facter::Core::Execution.execute`. This is important when migrating from older versions of Facter.
 
 ### Logging
 
-It's often useful to include logging within custom facts to help with troubleshooting and development. You can log messages using OpenVox's built-in logging mechanism:
+It's often useful to include logging within custom facts to help with troubleshooting and development. You can log messages with OpenFact's logging methods:
 
 ```ruby
 Facter.add(:application_version) do
   setcode do
     Facter.debug("Custom fact 'application_version' running")
-    ...
+    Facter::Core::Execution.execute('/opt/app/bin/app --version')
   end
 end
 ```
 
-Logging levels include `debug`, `info`, `warn`, `error`, and `fatal`.
+The logging methods are `Facter.debug` and `Facter.warn`, their `Facter.debugonce` and
+`Facter.warnonce` variants, which log a given message only once, and `Facter.log_exception` for
+logging an exception. To see debug messages, run `facter --debug`.
 
 ## Structured custom facts
 
 Structured facts take the form of either a hash or an array. To create a structured fact, return a hash or an array from the `setcode` statement.
 
-You can see some relevant examples in the [writing structured facts](./fact_overview.html#writing-structured-facts) section of the [Facts overview].
+You can see some relevant examples in the [writing structured facts](fact_overview.html#writing-structured-facts) section of the [Facts overview].
 
 ## Aggregate resolutions
 
@@ -379,31 +376,17 @@ end
 
 If the `chunk` blocks all return arrays or hashes, you can omit the `aggregate` block. If you do, OpenFact automatically merges all of your data into one array or hash and uses that as the fact's value.
 
-For more examples of aggregate resolutions, see the [aggregate resolutions](./fact_overview.html#writing-facts-with-aggregate-resolutions) section of the [Fact overview] page.
+For more examples of aggregate resolutions, see the [aggregate resolutions](fact_overview.html#writing-facts-with-aggregate-resolutions) section of the [Facts overview] page.
 
 ## Windows Facts
 
 Windows-based systems support custom facts just like Linux or other Unix-like systems.
-The main difference is that many Windows-specific tasks (such as checking installed software or reading from the registry) may require platform-specific Ruby code.
+The main difference is that many Windows-specific tasks, such as checking installed software or
+reading from the registry, need platform-specific Ruby code or a PowerShell command run through
+`Facter::Core::Execution.execute`.
 
-Within the Facter::Core::Execution.execute usually powershell commands are used.
-
-Here's an example of a Windows custom fact that retrieves the version of Internet Explorer:
-
-```ruby
-Facter.add(:internet_explorer_version) do
-  confine kernel: 'windows'
-
-  setcode do
-    Facter::Core::Execution.execute('reg query "HKLM\Software\Microsoft\Internet Explorer" /v svcVersion')
-  end
-end
-```
-
-In this example, we use the `reg query` command to check the Internet Explorer version in the Windows registry.
-
-Please note that the [Win32 API] calls are deprecated since ruby 1.9.
-Please consider using [Fiddle] or other Ruby-based libraries for interacting with the system.
+Ruby's old `Win32API` library is deprecated. To call Windows APIs, use [Fiddle] or another Ruby
+library.
 
 ## Viewing fact values
 
@@ -411,226 +394,5 @@ If your OpenVox servers are configured to use [OpenVoxDB][OpenVoxDB], you can vi
 
 ## External facts
 
-### What are external facts?
-
-External facts provide a way to use arbitrary executables or scripts as facts, or set facts statically with structured data.
-If you've ever wanted to write a custom fact in Perl, C, or a one-line text file, this is how.
-
-### Executable external facts --- Unix
-
-Executable facts on Unix work by dropping an executable file into the standard
-external fact path. A shebang (`#!`) is always required for executable facts on Unix. If the shebang is missing, the execution of the fact fails.
-
-An example external fact written in Python:
-
-```python
-#!/usr/bin/env python
-data = {"key1" : "value1", "key2" : "value2" }
-
-for k in data:
-    print "%s=%s" % (k,data[k])
-```
-
-You must ensure that the script has its execute bit set:
-
-```shell
-    chmod +x /etc/facter/facts.d/my_fact_script.py
-```
-
-For OpenFact to parse the output, the script must return key/value pairs on
-STDOUT in the format:
-
-```text
-    key1=value1
-    key2=value2
-    key3=value3
-```
-
-Using this format, a single script can return multiple facts.
-
-### Executable external facts --- Windows
-
-Executable facts on Windows work by dropping an executable file into the external fact path.
-Unlike with Unix, the external facts interface expects Windows scripts to end with a known extension. Line endings can be either `LF` or `CRLF`. The following extensions are currently supported:
-
-- `.com` and `.exe`: binary executables
-- `.bat` and `.cmd`: batch scripts
-- `.ps1`: PowerShell scripts
-
-As with Unix facts, each script must return key/value pairs on STDOUT in the format:
-
-```text
-    key1=value1
-    key2=value2
-    key3=value3
-```
-
-Using this format, a single script can return multiple facts in one return.
-
-#### Executable external fact locations
-
-The best way to distribute external executable facts is with pluginsync, To add external executable facts to your OpenVox modules, just place them in `<MODULEPATH>/<MODULE>/facts.d/`.
-
-If you're not using pluginsync, then external facts must go in a standard directory. The location of this directory varies depending on your operating system and whether you are running as root/Administrator.
-When calling OpenFact from the command line, you can specify the external facts directory with the `--external-dir` option.
-
-> **Note:** These directories don't necessarily exist by default; you may need to create them. If you create the directory, make sure to restrict access so that only Administrators can write to the directory.
-
-In a module (recommended):
-
-```text
-    <MODULEPATH>/<MODULE>/facts.d/
-```
-
-On Unix/Linux/OS X, there are three directories:
-
-```text
-    /opt/puppetlabs/facter/facts.d/
-    /etc/puppetlabs/facter/facts.d/
-    /etc/facter/facts.d/
-```
-
-On Windows:
-
-```text
-    C:\ProgramData\PuppetLabs\facter\facts.d\
-```
-
-When running as a non-root / non-Administrator user:
-
-```text
-    <HOME DIRECTORY>/.facter/facts.d/
-```
-
-> **Note:** You can only use custom facts as a non-root user if you have previously run OpenVox agent as that same user.
-
-#### Windows batch scripts
-
-The file encoding for `.bat/.cmd` files must be `ANSI` or `UTF8 without BOM` (Byte Order Mark), otherwise you may get strange output.
-
-Here is a sample batch script which outputs facts using the required format:
-
-```text
-    @echo off
-    echo key1=val1
-    echo key2=val2
-    echo key3=val3
-    REM Invalid - echo 'key4=val4'
-    REM Invalid - echo "key5=val5"
-```
-
-#### PowerShell scripts
-
-The encoding that should be used with `.ps1` files is pretty open. PowerShell determines the encoding of the file at run time.
-
-Here is a sample PowerShell script which outputs facts using the required format:
-
-```powershell
-    Write-Host "key1=val1"
-    Write-Host 'key2=val2'
-    Write-Host key3=val3
-```
-
-You should be able to save and execute this PowerShell script on the command line.
-
-### Structured data based external facts
-
-OpenFact can parse structured data files stored in the external facts directory and set facts based on their contents.
-
-Structured data files must use one of the supported data types and must have the correct file extension. OpenFact supports the following extensions and data types:
-
-`.yaml`: YAML data, in the following format:
-
-```yaml
----
-key1: val1
-key2: val2
-key3: val3
-```
-
-`.json`: JSON data, in the following format:
-
-```json
-{
-    "key1": "val1",
-    "key2": "val2",
-    "key3": "val3"
-}
-```
-
-`.txt`: Key value pairs, of the `String` data type, in the following format:
-
-```text
-key1=value1
-key2=value2
-key3=value3
-```
-
-As with executable facts, structured data files can set multiple facts at once.
-
-```json
-{
-  "datacenter":
-  {
-    "location": "bfs",
-    "workload": "Web Development Pipeline",
-    "contact": "Blackbird"
-  },
-  "provision":
-  {
-    "birth": "2017-01-01 14:23:34",
-    "user": "alex"
-  }
-}
-```
-
-#### Structured data based external facts on Windows
-
-All of the above types are supported on Windows with the following caveats:
-
-- The line endings can be either `LF` or `CRLF`.
-- The file encoding must be either `ANSI` or `UTF8 without BOM` (Byte Order Mark).
-
-### Troubleshooting external facts
-
-If your external fact is not appearing in OpenFact's output, running
-OpenFact in debug mode should give you a meaningful reason and tell you which file is causing the problem:
-
-```shell
-    # puppet facts --debug
-```
-
-One example of when this can happen is in cases where a fact returns invalid characters.
-For example if you used a hyphen instead of an equals sign in your script `test.sh`:
-
-```shell
-    #!/bin/bash
-
-    echo "key1-value1"
-```
-
-Running `puppet facts --debug` yields a useful message:
-
-```text
-    ...
-    Debug: Facter: resolving facts from executable file "/tmp/test.sh".
-    Debug: Facter: executing command: /tmp/test.sh
-    Debug: Facter: key1-value1
-    Debug: Facter: ignoring line in output: key1-value1
-    Debug: Facter: process exited with status code 0.
-    Debug: Facter: completed resolving facts from executable file "/tmp/test.sh".
-    ...
-```
-
-#### External facts and `stdlib`
-
-If you find that an external fact does not match what you have configured in your `facts.d`
-directory, make sure you have not defined the same fact using the external facts capabilities
-found in the `stdlib` module.
-
-### Drawbacks
-
-While external facts provide a mostly-equal way to create variables for OpenVox, they have a few drawbacks:
-
-- An external fact cannot internally reference another fact. However, due to parse order, you can reference an external fact from a Ruby fact.
-- External executable facts are forked instead of executed within the same process.
+External facts let you set facts with an executable script or a structured data file instead of
+Ruby code. See [External facts](external_facts.html).
