@@ -5,17 +5,17 @@ title: Automating Windows targets
 
 # Automating Windows targets
 
-Here are some common use cases that you can accomplish with Bolt on Windows targets.
+Here are some common use cases that you can accomplish with OpenBolt on Windows targets.
 
 ## Run a PowerShell script that restarts a service
 
-To show you how you can use Bolt to reuse your existing PowerShell scripts, this
-guide walks you through running a script with Bolt, and then converting the
-script to a Bolt task and running that.
+To show you how you can use OpenBolt to reuse your existing PowerShell scripts, this
+guide walks you through running a script with OpenBolt, and then converting the
+script to a task and running that.
 
 > **Before you begin**
 >
-> - Ensure you’ve already [installed Bolt](bolt_installing.html#) on your
+> - Ensure you’ve already [installed OpenBolt](bolt_installing.html#) on your
 >     Windows machine.
 > - Identify a remote Windows target to work with.
 > - Ensure you have Windows credentials for the target.
@@ -36,9 +36,9 @@ these steps:
 
 ### 1. Run your PowerShell script on a Windows target
 
-First, we’ll use Bolt to run the script as-is on a single target.
+First, we’ll use OpenBolt to run the script as-is on a single target.
 
-1. Create a Bolt project directory to work in, called `bolt-guide`.
+1. Create an OpenBolt project directory to work in, called `bolt-guide`.
 1. Copy the
     [`restart_service.ps1`](https://gist.github.com/RandomNoun7/03dfb910e5d93fefaae6e6c2da625c44#file-restart_service-ps1)
     script into `bolt-guide`.
@@ -48,26 +48,26 @@ First, we’ll use Bolt to run the script as-is on a single target.
     bolt script run .\restart_service.ps1 W32Time --targets winrm://<HOSTNAME> -u Administrator -p 
     ```
 
-    ![Output of running the restart_service.ps1 script with Bolt](restart_service.png)
+    ![Output of running the restart_service.ps1 script with OpenBolt](restart_service.png)
 
     **Note:** The `-p` option prompts you to enter a password.
 
-    By running this command, you’ve brought your script under Bolt control and
-    have run it on a remote target. When you ran your script with Bolt, the
+    By running this command, you’ve brought your script under OpenBolt control and
+    have run it on a remote target. When you ran your script with OpenBolt, the
     script was transferred into a temporary directory on the remote target, it
     ran on that target, and then it was deleted from the target.
 
 
 ### 2. Create an inventory file to store information about your targets
 
-To run Bolt commands against multiple targets at once, you need to provide
+To run OpenBolt commands against multiple targets at once, you need to provide
 information about the environment by creating an [inventory
 file](inventory_files.html). The inventory file is a YAML file that contains a
 list of targets and target specific data.
 
 1. Inside the `bolt-guide` directory, use a text editor to create an
     `inventory.yaml` file and a `bolt-project.yaml` file. The `inventory.yaml` file is where
-    connection information is stored, while `bolt-project.yaml` tells Bolt that the directory is a project
+    connection information is stored, while `bolt-project.yaml` tells OpenBolt that the directory is a project
     and that it should load the inventory file from the directory.
 1. Inside the new `inventory.yaml` file, add the following content, listing the
     fully qualified domain names of the targets you want to run the script on,
@@ -87,7 +87,7 @@ list of targets and target specific data.
             password: <ADD PASSWORD>
     ```
 
-    **Note:** To have Bolt securely prompt for a password, use the
+    **Note:** To have OpenBolt securely prompt for a password, use the
     `--password-prompt` command-line option without supplying any value. This
     prevents the password from appearing in a process listing or on the console.
     Alternatively you can use the [`prompt` plugin](supported_plugins.html#prompt) to
@@ -96,12 +96,12 @@ list of targets and target specific data.
     You now have an inventory file where you can store information about your
     targets.
 
-    You can also configure a variety of options for Bolt in `bolt-project.yaml`. For more
-    information about configuration see [Configuring Bolt](configuring_bolt.html). For more
-    information about Bolt projects see [Bolt projects](projects.html).
+    You can also configure a variety of options for OpenBolt in `bolt-project.yaml`. For more
+    information about configuration see [Configuring OpenBolt](configuring_bolt.html). For more
+    information about OpenBolt projects see [OpenBolt projects](projects.html).
 
 
-### 3. Convert your script to a Bolt task
+### 3. Convert your script to a task
 
 To convert the `restart_service.ps1` script to a task, giving you the ability to
 reuse and share it, create a [task metadata](writing_tasks.html#) file. Task
@@ -154,9 +154,9 @@ documentation.](/pdk.html)
 
     You now have two files in the `gsg` module’s `tasks` directory:
     `restart_service.ps1` and `restart_service.json` -- the script is officially
-    converted to a Bolt task. Now that it’s converted, you no longer need to
-    specify the file extension when you call it from a Bolt command.
-1. Validate that Bolt recognizes the script as a task:
+    converted to a task. Now that it’s converted, you no longer need to
+    specify the file extension when you call it from an OpenBolt command.
+1. Validate that OpenBolt recognizes the script as a task:
 
     ```console
     bolt task show gsg::restart_service
@@ -165,7 +165,7 @@ documentation.](/pdk.html)
     ![Output of bolt task show for the restart_service task](bolt_PS_2.png)
 
     Congratulations! You’ve successfully converted the `restart_service.ps1`
-    script to a Bolt task.
+    script to a task.
 
 1. Execute your new task:
 
@@ -179,9 +179,9 @@ documentation.](/pdk.html)
     that you specified in your inventory file. For more information, see
     [Specify targets](running_bolt_commands.html).
 
-## Deploy a package with Bolt and Chocolatey
+## Deploy a package with OpenBolt and Chocolatey
 
-You can use Bolt with Chocolatey to deploy a package on a Windows target. First,
+You can use OpenBolt with Chocolatey to deploy a package on a Windows target. First,
 use the `apply` command to install Chocolatey on the target. Next, use Puppet's
 Chocolatey package provider to install the package.
 
@@ -189,14 +189,14 @@ This example installs the Frogsay package on a Windows target.
 
 **Before you begin:**
 
-- [Install Bolt](bolt_installing_modules.html)
+- [Install OpenBolt](bolt_installing_modules.html)
 - Configure Windows Remote Management (WinRM) on your Windows target.
 
 To install the Frogsay package with Chocolatey:
 
-1. Install the Chocolatey module to your Bolt project. This allows you to
+1. Install the Chocolatey module to your OpenBolt project. This allows you to
    install Chocolatey to your target in the next step.
-   - If you're using an existing Bolt project:
+   - If you're using an existing OpenBolt project:
 
       _\*nix shell command:_
 
@@ -284,15 +284,15 @@ To install the Frogsay package with Chocolatey:
    Ran on 1 target in 2.19 sec
    ```
 
-If you need to install packages on multiple targets, create a Bolt project with
+If you need to install packages on multiple targets, create an OpenBolt project with
 an inventory for your targets. Using an inventory allows you to group your
-targets together and dramatically simplifies Bolt commands.
+targets together and dramatically simplifies OpenBolt commands.
 
 📖 **Related information**
 
-- [Bolt projects](projects.html)
+- [OpenBolt projects](projects.html)
 - [Inventory files](inventory_files.html)
 - [Applying Puppet code](applying_manifest_blocks.html)
 
-Do you have a real-world use case for Bolt that you'd like to share? Reach out to us in the #bolt
-channel on [Slack](https://slack.puppet.com).
+Do you have a real-world use case for OpenBolt that you'd like to share? Tell us
+about it in the [OpenVox community](/ecosystem/latest/community.html).

@@ -8,7 +8,7 @@ title: Inspecting plans
 Before you run a plan in your environment, inspect the plan to determine what
 effect it has on your targets.
 
-> 🔩 **Tip:** Bolt is packaged with a collection of modules that contain useful
+> 🔩 **Tip:** OpenBolt is packaged with a collection of modules that contain useful
 > plans to support common workflows. For details, see [Packaged
 > modules](packaged_modules.html).
 
@@ -29,7 +29,7 @@ View a list of available plans:
   ```
 
 If you don't see a plan you were expecting to find, make sure the plan is
-located in the correct directory. For more information, see [How Bolt locates
+located in the correct directory. For more information, see [How OpenBolt locates
 plans](./bolt_running_plans.html#plan-location)
 
 ## Show documentation for a plan

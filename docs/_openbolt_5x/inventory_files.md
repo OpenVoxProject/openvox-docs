@@ -5,13 +5,13 @@ title: Inventory files
 
 # Inventory files
 
-Use an inventory file to store information about your targets, control how Bolt
+Use an inventory file to store information about your targets, control how OpenBolt
 connects to them, and arrange them into groups. Grouping your targets lets you
-aim your Bolt commands at the group instead of having to reference each target
+aim your OpenBolt commands at the group instead of having to reference each target
 individually.
 
-An inventory file is part of a Bolt project and must exist alongside a
-`bolt-project.yaml` file. For more information, see [Bolt projects](projects.html).
+An inventory file is part of an OpenBolt project and must exist alongside a
+`bolt-project.yaml` file. For more information, see [OpenBolt projects](projects.html).
 
 ## Inventory file structure
 
@@ -24,7 +24,7 @@ The following fields are available at the top level of an inventory file:
 
 | Key | Description | Type |
 | --- | ----------- | ---- |
-| `config` | The transport configuration for the `all` group. Optional. For more information see [Configuring Bolt](configuring_bolt.html#inventoryyaml).  | `Hash` |
+| `config` | The transport configuration for the `all` group. Optional. For more information see [Configuring OpenBolt](configuring_bolt.html#inventoryyaml).  | `Hash` |
 | `facts` | The facts for the `all` group. Optional. | `Hash` |
 | `features` | The features for the `all` group. Optional. | `Array[String]` |
 | `groups` | A list of targets and groups and their associated configuration. Optional. | `Array[Group]` |
@@ -38,7 +38,7 @@ configuration. Each group is a map that can contain any of the following fields:
 
 | Key | Description | Type |
 | --- | ----------- | ---- |
-| `config` | The transport configuration for the group. Optional. For more information see [Configuring Bolt](configuring_bolt.html#inventoryyaml). | `Hash` |
+| `config` | The transport configuration for the group. Optional. For more information see [Configuring OpenBolt](configuring_bolt.html#inventoryyaml). | `Hash` |
 | `facts` | The facts for the group. Optional. | `Hash` |
 | `features` | The features for the group. Optional. | `Array[String]` |
 | `groups` | A list of groups and their associated configuration. Optional. | `Array[Group]` |
@@ -72,11 +72,11 @@ where each element is either a string or a hash.
 - For a string, use the string representation of the target's Universal Resource
   Identifier (URI).
 - A hash must specify either the `uri` for a hash, or a `name`. If you don't
-  specify a `name`, Bolt uses the `uri` as the target's name. To make it easier to run Bolt commands
+  specify a `name`, OpenBolt uses the `uri` as the target's name. To make it easier to run OpenBolt commands
   on the target, specify both a `uri` and a `name` and run your commands against
   the `name`.
 
-Bolt uses the target's `uri` to establish a connection to the target. If you set
+OpenBolt uses the target's `uri` to establish a connection to the target. If you set
 a `name` and no `uri`, you must specify the hostname for the target using the
 `host` key in your transport configuration. If the transport you're using does
 not support hostname configuration, you must set a `uri`.
@@ -104,7 +104,7 @@ targets:
       transport: winrm
 ```
 
-An example of a target specified with `name` and no `uri`. In this case, Bolt
+An example of a target specified with `name` and no `uri`. In this case, OpenBolt
 uses the hostname of the target from the transport's `host` key to establish a
 connection with the target:
 
@@ -143,13 +143,13 @@ Targets specified with a hash accept the following fields:
 | `config` | The configuration for the target. Optional. | `Hash` |
 | `facts` | The facts for the target. Optional. | `Hash` |
 | `features` | The features for the target. Optional. | `Array[String]` |
-| `name` | A human-readable name for a target.<br> **Required** when specifying a target using a hash. Optional if using `uri`. If you don't specify a `name`, Bolt uses the `uri` as the target name. | `String` |
-| `uri` | The URI of the target. Bolt uses the `uri` to establish a connection to the target. <br> **Required** when specifying a target using a hash, unless you specify a `name` **and** configure a hostname using `host` in the target's transport configuration.| `String` |
+| `name` | A human-readable name for a target.<br> **Required** when specifying a target using a hash. Optional if using `uri`. If you don't specify a `name`, OpenBolt uses the `uri` as the target name. | `String` |
+| `uri` | The URI of the target. OpenBolt uses the `uri` to establish a connection to the target. <br> **Required** when specifying a target using a hash, unless you specify a `name` **and** configure a hostname using `host` in the target's transport configuration.| `String` |
 | `vars` | The variables for the target. Optional. | `Hash` |
 
 ## Transport configuration
 
-Use the `config` field to configure the transports that Bolt uses to connect to
+Use the `config` field to configure the transports that OpenBolt uses to connect to
 targets in your inventory file. For example, you can use this section to specify
 a transport like SSH, configure authentication options like passwords or the
 path to your private key file, or specify a proxy.
@@ -183,13 +183,13 @@ target or group of targets:
   Get-BoltInventory -Targets <TARGET LIST> -Detail
   ```
 
-## How Bolt loads inventory
+## How OpenBolt loads inventory
 
-Bolt only loads inventory for commands that accept targeting options (`query`,
-`rerun`, and `targets`). For example, Bolt loads inventory when it runs a task
+OpenBolt only loads inventory for commands that accept targeting options (`query`,
+`rerun`, and `targets`). For example, OpenBolt loads inventory when it runs a task
 but does not load inventory when it installs modules.
 
-When Bolt loads inventory, it loads the entirety of the inventory, not just the
+When OpenBolt loads inventory, it loads the entirety of the inventory, not just the
 targets or groups provided to the targeting option. It's important to understand
 how the inventory is resolved, because loading the entire inventory can impact
 performance and result in different target configuration than you might expect.
@@ -247,11 +247,11 @@ server
 ...
 ```
 
-Even though the command only specifies a single group, Bolt loads the entire
+Even though the command only specifies a single group, OpenBolt loads the entire
 inventory file. Because the `server` target is defined in both the `ssh` and
-`winrm` groups, Bolt merges all of the configuration for the target, with
+`winrm` groups, OpenBolt merges all of the configuration for the target, with
 configuration from definitions earlier in the inventory taking precedence.
-Bolt's merge strategy is covered in more detail in the [Precedence](#precedence)
+OpenBolt's merge strategy is covered in more detail in the [Precedence](#precedence)
 section.
 
 To avoid merging configuration and data for targets with the same URI, you can
@@ -260,11 +260,11 @@ targets `ssh_server` and `winrm_server` instead of `server`.
 
 ## Precedence
 
-When searching for a target's configuration data, Bolt matches a target's URI
-with its name. Bolt uses depth-first search and uses the first value it finds.
+When searching for a target's configuration data, OpenBolt matches a target's URI
+with its name. OpenBolt uses depth-first search and uses the first value it finds.
 
 The `config` values for a target object, such as `host`, `transport`, and
-`port`, take precedent and override any `config` values at the group level. Bolt
+`port`, take precedent and override any `config` values at the group level. OpenBolt
 merges non-`config` data in the target object, such as `facts` and `vars`, with
 data in the group object.
 
@@ -318,7 +318,7 @@ Inventory files are not context-aware. Any data set for a target, whether in a
 target definition or a group, apply to all definitions of the target. For
 example, the inventory file above contains two definitions of `mytarget`. The
 values for `user` and `host-key-check` are set in `group1`. The value for
-`password` is set in `group2`. If you ran a Bolt command on `group2`, all three
+`password` is set in `group2`. If you ran an OpenBolt command on `group2`, all three
 values would be set on `mytarget`.
 
 Showing the detailed inventory for `group` will return all three configuration
@@ -350,17 +350,17 @@ values:
 ## Plugins
 
 Use plugins to dynamically load information into the inventory file. Plugins
-either ship with Bolt, or are installed as Puppet modules that have the same
+either ship with OpenBolt, or are installed as Puppet modules that have the same
 name as the plugin. The plugin framework is based on a set of plugin hooks that
-are implemented by plugin authors and called by Bolt.
+are implemented by plugin authors and called by OpenBolt.
 
-### How Bolt resolves plugins
+### How OpenBolt resolves plugins
 
-Bolt resolves Plugins in an inventory file at specific times:
+OpenBolt resolves Plugins in an inventory file at specific times:
 
-- Bolt resolves plugins used under a `groups` or `targets` key when the
+- OpenBolt resolves plugins used under a `groups` or `targets` key when the
   inventory is loaded.
-- Bolt loads plugins under data keys such as `config`, `facts`, `features`, and
+- OpenBolt loads plugins under data keys such as `config`, `facts`, `features`, and
   `vars` when it runs on a group or target that includes that data.
 
 For example, the following inventory file includes two groups: `fruits` and
@@ -395,12 +395,12 @@ While the `yaml` plugin resolves quickly and has little impact on performance,
 plugins that interact with external services (such as the `puppetdb` and
 `aws_inventory` plugins) take longer to resolve. Consider how your inventory
 file is structured and where plugins are used. Using several plugins to load
-groups and targets can have a significant impact on Bolt's performance.
+groups and targets can have a significant impact on OpenBolt's performance.
 
 The following inventory file includes two groups: `fruits` and `vegetables`.
 Both groups share a common target named `tomato`. The `vegetables` group
 loads configuration from an external file using the `yaml` plugin. Because
-this plugin is under the `config` key, it is only resolved when Bolt runs
+this plugin is under the `config` key, it is only resolved when OpenBolt runs
 on a target or group that uses the configuration:
 
 ```yaml
@@ -431,14 +431,14 @@ ssh:
 ```
 
 Because group configuration applies to all targets in a group, the plugin
-is resolved whenever Bolt starts running on the `vegetables` group or the
+is resolved whenever OpenBolt starts running on the `vegetables` group or the
 `okra` or `tomato` targets. Because the `tomato` target is also part of the
-`fruits` group, and Bolt merges all configuration and data in the inventory
+`fruits` group, and OpenBolt merges all configuration and data in the inventory
 for a given target, running on the `fruits` group also resolves the plugin.
 
 📖 **Related information**
 
-- For more information on plugins that ship with Bolt, see [Supported
+- For more information on plugins that ship with OpenBolt, see [Supported
   plugins](supported_plugins.html).
 - For more information about how plugins work, see [Using
   plugins](./using_plugins.html).
@@ -448,8 +448,8 @@ for a given target, running on the `fruits` group also resolves the plugin.
 This page documents version 2 inventory files. Version 1 inventory files are
 deprecated and lack features like plugins. If you're using Bolt 2.0 or later,
 use version 2 inventory files. If you need to migrate your inventory files from
-version 1, you can use the `migrate` command documented at [Migrate a Bolt
-project](projects.html#migrate-a-bolt-project).
+version 1, you can use the `migrate` command documented at [Migrate an OpenBolt
+project](projects.html#migrate-an-openbolt-project).
 
 ## Inventory file examples
 
@@ -565,7 +565,7 @@ groups:
 The following inventory file uses several bundled plugins.
 
 - The `yaml` plugin composes `aws_inventory.yaml` and `azure_inventory.yaml`
-  into a single inventory file loaded by Bolt.
+  into a single inventory file loaded by OpenBolt.
 - The `aws_inventory` plugin generates targets from AWS EC2 instances.
 - The `azure_inventory` plugin generates targets from Azure VMs.
 - The `vault` plugin loads a secret from a Hashicorp Vault server and uses it as
@@ -645,7 +645,7 @@ your inventory in each project individually.
 #### Using the command line
 
 The simplest way to specify a shared inventory is to save the inventory file in
-an accessible location such as the Bolt user configuration directory and then
+an accessible location such as the OpenBolt user configuration directory and then
 specify the inventory file from the command line.
 
 Save the shared inventory file to
@@ -813,13 +813,13 @@ groups:
     role: server
 ```
 
-Bolt uses the password `Bolt!` because the project-specific target definition
+OpenBolt uses the password `Bolt!` because the project-specific target definition
 comes before the target definition in the shared inventory.
 
 ### Switch transports between commands
 
 Targets configured to use a specific transport in the inventory use that
-transport whenever Bolt connects to the target, even if you specify a different
+transport whenever OpenBolt connects to the target, even if you specify a different
 transport using the `transport` command-line option. While switching between
 transports for a target isn't common, there are cases where it is helpful.
 
@@ -880,7 +880,7 @@ Remove-Item Env:\BOLT_TRANSPORT
 #### Using `bolt-defaults.yaml`
 
 You can specify a default transport for your targets in the user- or
-system-level configuration file, `bolt-defaults.yaml`. When Bolt merges
+system-level configuration file, `bolt-defaults.yaml`. When OpenBolt merges
 configuration, user- and system-level configuration has a lower precedence
 than command-line options. This allows you to configure a default transport
 that is used by all targets in your inventory and specify a different
@@ -915,7 +915,7 @@ inventory file.
 📖 **Related information**
 
 - For more information on configuration options, see [Configuring
-  Bolt](configuring_bolt.html).
+  OpenBolt](configuring_bolt.html).
 - For a comprehensive list of inventory fields and their descriptions, see
   [inventory.yaml fields](bolt_inventory_reference.html).
 - For more information on transport options, see [Transport configuration

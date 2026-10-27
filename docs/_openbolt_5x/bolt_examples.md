@@ -1,21 +1,21 @@
 ---
 layout: default
-title: Bolt Examples
+title: OpenBolt guides
 ---
 
-# Bolt Examples
+# OpenBolt guides
 
-Bolt lets you automate almost any task you can think of. These examples walk you through beginning
-and intermediate level Bolt use cases, demonstrating Bolt concepts along the way. You can find
-shorter examples of common Bolt patterns in the [Bolt examples
-repo](https://github.com/puppetlabs/bolt-examples), which is more of a reference than a learning
+OpenBolt lets you automate almost any task you can think of. These guides walk you through beginning
+and intermediate level OpenBolt use cases, demonstrating OpenBolt concepts along the way:
+
+- [Automating Windows targets](automating_windows_targets.html): run an existing PowerShell script,
+  turn it into a task, and deploy a package with Chocolatey.
+- [Deploy a TIG stack with OpenBolt](tig_stack.html): use a plan and existing Puppet modules to install
+  Telegraf, InfluxDB, and Grafana.
+
+You can find shorter examples of common patterns in the [bolt-examples
+repository](https://github.com/puppetlabs/bolt-examples), which is more of a reference than a learning
 tool.
 
-If you'd like to share a real-world use case, reach out to us in the #bolt
-channel on [Slack](https://slack.puppet.com).
-
-For even more usage examples, check out the [Puppet
-blog](https://puppet.com/search/?query=bolt&page=1&configure%5BhitsPerPage%5D=20&refinementList%5Btype%5D%5B0%5D=Post).
-
-> **Note:** Do you have a real-world use case for Bolt that you'd like to share? Reach out to us in the #bolt
-  channel on [Slack](https://slack.puppet.com).
+If you'd like to share a real-world use case, tell us about it in the
+[OpenVox community](/ecosystem/latest/community.html).

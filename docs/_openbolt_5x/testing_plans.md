@@ -5,16 +5,16 @@ title: Testing plans
 
 # Testing plans
 
-Bolt ships with a library of helpers, named `BoltSpec`, intended to be used for
+OpenBolt ships with a library of helpers, named `BoltSpec`, intended to be used for
 writing unit tests for plans with the `RSpec` testing tool. Before writing unit
 tests for plans, get familiar with [RSpec](https://rspec.info/).
 
 `BoltSpec` requires other Puppet testing tools like `rspec-puppet`. The [Puppet
 Development Kit (PDK)](/pdk.html) provides
 commands for installing and configuring these tools in new or existing modules.
-If your plan is part of a Bolt project, you can either move the plan to a module
+If your plan is part of an OpenBolt project, you can either move the plan to a module
 created with PDK or [manually setup
-rspec-puppet](https://rspec-puppet.com/documentation/setup/) in your Bolt
+rspec-puppet](https://rspec-puppet.com/documentation/setup/) in your OpenBolt
 project.
 
 ## Set up the test environment
@@ -36,7 +36,7 @@ Before you can write and run tests, you need to set up the test environment.
 1. Ensure your module has `Gemfile`, `Rakefile`, and `spec/spec_helper.rb`
    files.
 
-1. Install the module's gem dependencies, which include Bolt and other testing
+1. Install the module's gem dependencies, which include OpenBolt and other testing
    tools:
 
     ```shell
@@ -67,16 +67,16 @@ my_module/
 
 To use the `BoltSpec` library functions, include them in either the
 `spec_helper.rb` file or in the individual test files, and configure Puppet and
-Bolt for the testing environment.
+OpenBolt for the testing environment.
 
 > 🔩 **Tip**: Unless your module also includes tests for manifest code, add the
-> `BoltSpec` helpers and configure Puppet and Bolt in `spec_helper.rb` instead
+> `BoltSpec` helpers and configure Puppet and OpenBolt in `spec_helper.rb` instead
 > of including them in the individual test files. This makes the helpers
 > available to all of your tests.
 
 ### Include BoltSpec in spec_helper.rb
 
-To expose the `BoltSpec` library functions and configure Puppet and Bolt for all
+To expose the `BoltSpec` library functions and configure Puppet and OpenBolt for all
 tests in the `spec/` directory, add the following lines to the `spec_helper.rb`
 file:
 
@@ -89,7 +89,7 @@ require 'bolt_spec/plans'
 # Include the BoltSpec library functions
 include BoltSpec::Plans
 
-# Configure Puppet and Bolt for testing
+# Configure Puppet and OpenBolt for testing
 BoltSpec::Plans.init
 
 # Additional spec_helper configuration . . .
@@ -97,13 +97,13 @@ BoltSpec::Plans.init
 
 ### Include BoltSpec in test files
 
-You can expose the `BoltSpec` helper functions and configure Puppet and Bolt for
+You can expose the `BoltSpec` helper functions and configure Puppet and OpenBolt for
 individual test files by adding the functions directly in the file instead of
 adding them to `spec_helper.rb`. You should do this if your module includes
-tests for manifest code, as configuring Puppet and Bolt in `spec_helper.rb`
+tests for manifest code, as configuring Puppet and OpenBolt in `spec_helper.rb`
 might cause your manifest tests to fail.
 
-To include `BoltSpec` helpers and configure Puppet and Bolt for a single test
+To include `BoltSpec` helpers and configure Puppet and OpenBolt for a single test
 file, add the following lines to the file:
 
 ```ruby
@@ -117,7 +117,7 @@ describe '<PLAN NAME>' do
   # Include the BoltSpec library functions
   include BoltSpec::Plans
 
-  # Configure Puppet and Bolt before running any tests
+  # Configure Puppet and OpenBolt before running any tests
   before(:all) do
     BoltSpec::Plans.init
   end
@@ -150,11 +150,11 @@ pdk bundle exec rake spec_clean
 
 ## Configuration
 
-By default, the testing environment uses Bolt's default configuration and an
-empty inventory. The one exception is that Bolt's modulepath is configured to
+By default, the testing environment uses OpenBolt's default configuration and an
+empty inventory. The one exception is that OpenBolt's modulepath is configured to
 the modulepath set up for `rspec-puppet`.
 
-You can create your own values for Bolt's configuration, inventory, and
+You can create your own values for OpenBolt's configuration, inventory, and
 modulepath by overriding the helper functions that set them. You can write these
 functions in the `spec_helper.rb` file, which exposes them to all tests, or in
 individual test files.
@@ -449,11 +449,11 @@ it 'configures servers and databases' do
 end
 ```
 
-### Stubbing and Mocking PuppetDB Calls
+### Stubbing and Mocking OpenVoxDB Calls
 
 Plans that use the `puppetdb_*` set of functions can stub and mock values
-to PuppetDB using standard RSpec mechanisms on `puppetdb_client`, which is
-an automatically provided instance of the PuppetDB client in the
+to OpenVoxDB using standard RSpec mechanisms on `puppetdb_client`, which is
+an automatically provided instance of the OpenVoxDB client in the
 `BoltSpec` testing context.
 
 If you attempt to test a plan that uses one of the `puppetdb_*` functions
@@ -463,7 +463,7 @@ you need to stub/mock will depend on which of the `puppetdb_*` set of
 functions you called.
 
 List of methods to stub/mock on the `puppetdb_client` instance for each
-Bolt function:
+OpenBolt function:
 
 - `puppetdb_command`: `send_command(command, version, payload)`
 - `puppetdb_fact`: `facts_for_node(certnames)`
@@ -590,7 +590,7 @@ expect. To do so, you can write a few tests that assert the following behavior:
 
 Because the tests include assertions about the `run_script` function, you need
 to ensure the script that you pass to the mocks and stubs exists. This is
-because Bolt validates that a script exists when it invokes the `expect_script`
+because OpenBolt validates that a script exists when it invokes the `expect_script`
 mock. In the following tests, the path to the script is
 `command_or_script/script.rb`, which is a file in the module's files directory
 at `command_or_script/files/script.rb`.
@@ -606,7 +606,7 @@ require 'bolt_spec/plans'
 describe 'test' do
   include BoltSpec::Plans
 
-  # Configure Puppet and Bolt before running any tests
+  # Configure Puppet and OpenBolt before running any tests
   before(:all) do
     BoltSpec::Plans.init
   end
@@ -762,7 +762,7 @@ fixtures:
       ref: "1.4.0"
 ```
 
-Because the plan invokes the `get_targets` function, which accesses Bolt's
+Because the plan invokes the `get_targets` function, which accesses OpenBolt's
 inventory to retrieve `Target` objects, the tests must include an inventory. You
 can override the default inventory in `BoltSpec` using the `inventory_data`
 function.
@@ -783,7 +783,7 @@ require 'bolt_spec/plans'
 describe 'patch' do
   include BoltSpec::Plans
 
-  # Inventory that is loaded by Bolt with targets that can be referenced
+  # Inventory that is loaded by OpenBolt with targets that can be referenced
   # by name in stubs and mocks
   def inventory_data
     {
@@ -804,7 +804,7 @@ describe 'patch' do
     }
   end
 
-  # Configure Puppet and Bolt before running any tests
+  # Configure Puppet and OpenBolt before running any tests
   before(:all) do
     BoltSpec::Plans.init
   end
@@ -965,7 +965,7 @@ require 'bolt_spec/plans'
 describe 'sql' do
   include BoltSpec::Plans
 
-  # Inventory that is loaded by Bolt with targets that can be referenced
+  # Inventory that is loaded by OpenBolt with targets that can be referenced
   # by name in stubs and mocks
   def inventory_data
     {
@@ -990,7 +990,7 @@ describe 'sql' do
 
   let(:sql) { 'select * from examples' }
 
-  # Configure Puppet and Bolt before running the test
+  # Configure Puppet and OpenBolt before running the test
   before(:all) do
     BoltSpec::Plans.init
   end

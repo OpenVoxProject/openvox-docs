@@ -5,7 +5,7 @@ title: Running tasks
 
 # Running tasks
 
-Bolt can run Puppet tasks on remote targets without requiring any Puppet
+OpenBolt can run Puppet tasks on remote targets without requiring any Puppet
 infrastructure.
 
 To execute a task, specify the following:
@@ -51,7 +51,7 @@ you run:
   Invoke-BoltTask -Name package -Targets neptune action=status name=vim
   ```
 
-> 🔩 **Tip:** Bolt ships with a collection of modules that contain useful plans
+> 🔩 **Tip:** OpenBolt ships with a collection of modules that contain useful plans
 > to support common workflows. For details, see [Packaged
 > modules](bolt_installing_modules.html).
 
@@ -109,13 +109,13 @@ You can also load parameters from a file by putting `@` before the file name.
 
 ## Task location
 
-In order for Bolt to find a task, the task must be in a module on the modulepath
-or in the `tasks/` directory in your Bolt project. If you are developing a new
-task, you can [create a Bolt project](projects.html#create-a-bolt-project),
-develop your task in `<PROJECT DIRECTORY>/tasks/`, and run Bolt from the root of
-your Bolt project directory to test the task.
+In order for OpenBolt to find a task, the task must be in a module on the modulepath
+or in the `tasks/` directory in your OpenBolt project. If you are developing a new
+task, you can [create an OpenBolt project](projects.html#create-an-openbolt-project),
+develop your task in `<PROJECT DIRECTORY>/tasks/`, and run OpenBolt from the root of
+your OpenBolt project directory to test the task.
 
 📖 **Related information**
 
-- For more information on projects, see [Bolt projects](projects.html).
+- For more information on projects, see [OpenBolt projects](projects.html).
 - For more information on the modulepath, see [Modules overview](modules.html#modulepath).

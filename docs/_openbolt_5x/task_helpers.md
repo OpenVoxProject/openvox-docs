@@ -5,12 +5,12 @@ title: Task helpers
 
 # Task helpers
 
-Bolt ships with several libraries that can be used to help write tasks.
+OpenBolt ships with several libraries that can be used to help write tasks.
 These task helpers include functions for returning structured output,
-creating error objects, and more. Because Bolt ships with these task
+creating error objects, and more. Because OpenBolt ships with these task
 helpers, you do not need to install them separately.
 
-The following task helpers are shipped with Bolt:
+The following task helpers are shipped with OpenBolt:
 
 | Language | Module |
 | --- | --- |
@@ -139,7 +139,7 @@ To use the PowerShell task helper, include the
 `powershell_task_helper/files/BoltPwshHelper` file in the task metadata.
 
 > **Note**: If you're using a version of PowerShell more recent than 3.0, you
-  don't have to write an import statement to load the task helper. Bolt
+  don't have to write an import statement to load the task helper. OpenBolt
   automatically loads the module by adding your task directory to
   `$env:PSModulePath`.
 
@@ -194,7 +194,7 @@ else {
 }
 
 <#
-An exmaple of returning a full exception stacktrace in Bolt formatted json
+An example of returning a full exception stacktrace in OpenBolt formatted json
 You can add a `-Message` if you want
 #>
 try {

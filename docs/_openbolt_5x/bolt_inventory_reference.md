@@ -7,7 +7,7 @@ title: inventory.yaml fields
 
 Use an [inventory file](inventory_files.html) to store information about
 your targets and arrange them into groups. Both targets and groups can
-include data such as facts or vars and can configure the transports Bolt uses
+include data such as facts or vars and can configure the transports OpenBolt uses
 to establish connections with targets.
 
 ## Top-level fields
@@ -59,7 +59,7 @@ level apply to all groups and targets in the inventory file.
 
 - **Type:** Array
 
-> 🔩 **Tip:** You can set the `puppet-agent` feature to indicate that Bolt
+> 🔩 **Tip:** You can set the `puppet-agent` feature to indicate that OpenBolt
 > should skip installing the OpenVox agent on all targets when using
 > `bolt apply` or the `apply_prep` plan function.
 
@@ -160,7 +160,7 @@ all groups and targets under the group.
 - **Type:** Array
 
 > 🔩 **Tip:** You can set the `puppet-agent` feature on the group to indicate
-> that Bolt should skip installing the OpenVox agent on all targets under the
+> that OpenBolt should skip installing the OpenVox agent on all targets under the
 > group when using `bolt apply` or the `apply_prep` plan function.
 
 ```yaml
@@ -321,7 +321,7 @@ A list of available features for the target.
 - **Type:** Array
 
 > 🔩 **Tip:** You can set the `puppet-agent` feature on the target to indicate
-> that Bolt should skip installing the OpenVox agent on the target when using
+> that OpenBolt should skip installing the OpenVox agent on the target when using
 > `bolt apply` or the `apply_prep` plan function.
 
 ```yaml

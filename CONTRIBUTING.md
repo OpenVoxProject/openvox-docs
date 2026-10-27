@@ -98,6 +98,16 @@ Use the following terms for the individual components:
 - OpenFact
 - OpenBolt
 
+In the OpenBolt docs:
+
+- Use `OpenBolt` for the product, its packages, the project, and the release series ("OpenBolt 5").
+- Keep `Bolt` only in names spelled that way: the `bolt` command, `bolt-project.yaml`, `bolt-defaults.yaml`,
+  `Boltdir`, the `PuppetBolt` PowerShell module and its cmdlets, BoltSpec, and type names such as
+  `Boltlib::TargetSpec`. Upstream version numbers ("introduced in Bolt 2.30.0") also keep it.
+- Plans, tasks, and inventory are generic nouns: write "a plan", not "an OpenBolt plan".
+- Use `OpenVox` for the agent and server, and `OpenVoxDB` for the database. Keep `puppetdb` only in the plugin
+  name and in configuration keys and API paths spelled that way.
+
 ### Writing and editing pages
 
 - Prefer editing existing pages over creating new ones

@@ -38,7 +38,7 @@ facts.
 When executing PowerShell tasks on targets using PowerShell version 2.x or
 earlier, you cannot use a task parameter with the name `type`. Because
 PowerShell version 2.x and earlier do not support `type` as a named argument,
-and PowerShell tasks convert parameters to named arguments, Bolt will filter out
+and PowerShell tasks convert parameters to named arguments, OpenBolt will filter out
 a `type` parameter before running the task.
 
 When running PowerShell tasks on targets using PowerShell version 3.0 or later,
@@ -64,7 +64,7 @@ workaround.
 ## Commands fail in remote Windows sessions
 
 Interactive tools fail when run in a remote PowerShell session. For example,
-using `--password-prompt` to prompt for a password when running Bolt triggers an
+using `--password-prompt` to prompt for a password when running OpenBolt triggers an
 error.
 
 As a workaround, consider putting the password in a configuration file
@@ -80,9 +80,9 @@ command line with the `--password` option.
 
 ## Unable to authenticate with ed25519 keys over SSH transport on Windows
 
-By default, Bolt uses the `net-ssh` Ruby libary to connect to targets over SSH.
+By default, OpenBolt uses the `net-ssh` Ruby libary to connect to targets over SSH.
 The `net-ssh` library requires the `ed25519` and `bcrypt_pbkdf` gems as
-dependencies, which are not supported in Bolt's packaging process due to issues
+dependencies, which are not supported in OpenBolt's packaging process due to issues
 with compiling native extensions.
 
 Attempting to authenticate with ed25519 keys over SSH on Windows will result
@@ -96,7 +96,7 @@ unsupported key type `ssh-ed25519'
 ```
 
 A workaround is to use native SSH when you need to authenticate with ed25519
-keys. When native SSH is enabled, Bolt will use a specified SSH client to
+keys. When native SSH is enabled, OpenBolt will use a specified SSH client to
 connect to targets instead of the `net-ssh` Ruby library. To learn more about
 native SSH, see [native SSH
 transport](experimental_features.html#native-ssh-transport).
@@ -112,7 +112,7 @@ experimental and might change in future minor (y) releases.
 ## 🧪 Limited Kerberos support over WinRM
 
 🧪 Authenticating with Kerberos over WinRM is considered experimental and is
-only supported when running Bolt from a Linux host. You must install the
+only supported when running OpenBolt from a Linux host. You must install the
 the [MIT Kerberos
 library](https://web.mit.edu/Kerberos/www/krb5-latest/doc/admin/install_clients.html)
 to authenticate with Kerberos over WinRM.
@@ -126,7 +126,7 @@ to authenticate with Kerberos over WinRM.
 
 ## Errno::EMFILE Too many open files
 
-This error is raised when there are too many files open in Bolt's Ruby process.
+This error is raised when there are too many files open in OpenBolt's Ruby process.
 To see what your current limit is, run:
 
 ```console
@@ -140,9 +140,9 @@ example, `~/.bash_profile`):
 ulimit -n 1024
 ```
 
-You can also set Bolt's concurrency lower to have fewer file descriptors opened
+You can also set OpenBolt's concurrency lower to have fewer file descriptors opened
 at once. The default concurrency is 100. You can use `--concurrency` on the CLI,
-or set `concurrency: <CONCURRENCY>` in [Bolt config](configuring_bolt.html).
+or set `concurrency: <CONCURRENCY>` in [OpenBolt config](configuring_bolt.html).
 
 📖 **Related issues**
 
