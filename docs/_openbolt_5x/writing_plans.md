@@ -714,7 +714,8 @@ The methods used to collect facts:
 
 - On `ssh` targets, it runs a Bash script.
 - On `winrm` targets, it runs a PowerShell script.
-- On `pcp` or targets where the Puppet agent is present, it runs Facter.
+- On targets with the `puppet-agent` feature, which `apply_prep` sets after it
+  installs the OpenVox agent, it runs Facter.
 
 This example collects facts with the facts plan and uses those facts to decide
 which task to run on the targets.
@@ -763,10 +764,8 @@ guide](/openvoxdb/latest/api/query/v4/pql.html).
 ```puppet
 plan pdb_discover {
   $result = puppetdb_query("inventory[certname] { app_role == 'web_server' }")
-  # extract the certnames into an array
-  $names = $result.map |$r| { $r["certname"] }
-  # wrap in url. You can skip this if the default transport is pcp
-  $targets = $names.map |$n| { "pcp://${n}" }
+  # extract the certnames into an array to use as targets
+  $targets = $result.map |$r| { $r["certname"] }
   run_task('my_task', $targets)
 }
 ```
@@ -779,8 +778,7 @@ plan pdb_discover {
 
 When writing plans, it's helpful to document what the plan does and the
 parameters that it accepts. This information can be used in `bolt plan show`
-output or in the Puppet Enterprise console to provide users with context
-on how to run the plan.
+output to provide users with context on how to run the plan.
 
 Unlike tasks, plans do not have a corresponding
 [metadata.json](writing_tasks.html#task-metadata) file. Instead, OpenBolt pulls

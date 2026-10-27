@@ -420,7 +420,7 @@ For example:
       },
       "plugin_hooks": {
         "puppet_library": {
-          "plugin": "puppet_agent",
+          "plugin": "openvox_bootstrap",
           "stop_service": true
         }
       },

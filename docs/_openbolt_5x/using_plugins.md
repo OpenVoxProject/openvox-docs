@@ -170,14 +170,15 @@ to encrypt a plaintext value, you would run the following command:
 ## Puppet library plugins
 
 Puppet library plugins install Puppet libraries on a target when a plan calls
-the `apply_prep` function. Bolt is configured to use the `puppet_agent::install`
-task as the default Puppet library plugin. However, you can configure Bolt to
-use another plugin instead.
+the `apply_prep` function. OpenBolt is configured to use the `openvox_bootstrap`
+plugin, which runs the [`openvox_bootstrap::install` task](https://forge.puppet.com/modules/puppet/openvox_bootstrap), as the
+default Puppet library plugin. However, you can configure OpenBolt to use
+another plugin instead.
 
 To configure OpenBolt to use a specific Puppet library plugin, configure the
 `puppet_library` plugin hook under the `plugin-hooks` key in a configuration
 file. The `puppet_library` plugin hook accepts one of two different plugins.
-The `puppet_agent` plugin is the default plugin that Bolt is configured to use,
+The `openvox_bootstrap` plugin is the default plugin that OpenBolt is configured to use,
 while `task` can be used to specify a task to run as a plugin.
 
 ```yaml
@@ -188,9 +189,11 @@ plugin-hooks:
     task: <plugin name>
 ```
 
-The following example demonstrates using the `package` task as a `puppet_library`
-plugin to install the Puppet Agent directly via the package manager without setting
-up a repository (as is default with the `puppet_agent::install` task).
+The following example uses the `package` task as a `puppet_library` plugin. It
+installs the `openvox-agent` package with the target's package manager, without
+adding the OpenVox package repository the way `openvox_bootstrap::install` does.
+Use it when your targets already have a repository that provides
+`openvox-agent`, such as an internal mirror.
 
 ```yaml
 plugin-hooks:
@@ -198,7 +201,7 @@ plugin-hooks:
     plugin: task
     task: package
     parameters:
-      name: puppet-agent
+      name: openvox-agent
       action: install
 ```
 

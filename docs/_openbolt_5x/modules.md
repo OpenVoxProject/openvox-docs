@@ -130,14 +130,14 @@ this feature affect:
   into effect. For information on how to migrate your OpenBolt project to use
   dependency management, see [Migrate an OpenBolt
   project](projects.html#migrate-an-openbolt-project).
-- Your Puppet Enterprise installation (if you're using the dependency management
+- Your OpenVox Server environments (if you're using the dependency management
   feature).
 
-### Puppet Enterprise (PE) compatibility
+### OpenVox Server compatibility
 
 OpenBolt sets the moduledir in the Puppetfile to `.modules/` which is not on the
 modulepath in versions of Bolt before 2.30.0. If you're using OpenBolt's dependency
-management feature in an environment in Puppet Enterprise, you must specify
+management feature in an OpenVox Server environment, you must specify
 `.modules` on the modulepath in your
 [environment.conf](/openvox/latest/config_file_environment.html#example).
 

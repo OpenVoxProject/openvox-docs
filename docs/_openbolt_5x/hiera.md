@@ -310,7 +310,7 @@ allowing you to interpolate target facts and variables in your hierarchy.
 
 When you run the `bolt lookup` and `Invoke-BoltLookup` commands, OpenBolt first
 runs an `apply_prep` on each of the targets specified. This installs the
-`puppet-agent` package on the target, collects facts, and then stores the facts
+`openvox-agent` package on the target, collects facts, and then stores the facts
 on the target to be used in interpolations.
 
 Looking up data from the command line is particularly useful if you need to

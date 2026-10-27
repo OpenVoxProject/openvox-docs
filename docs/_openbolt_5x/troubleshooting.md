@@ -389,12 +389,6 @@ inventory-config:
     shell-command: /bin/sh -c
 ```
 
-## I can't access sensitive output from a task using the `pcp` transport
-
-Sensitive output is not supported when running tasks using the `pcp` transport.
-For more information, see the [`bolt_shim`
-documentation](https://github.com/puppetlabs/puppetlabs-bolt_shim/blob/main/docs/sensitive_task_output.md).
-
 ## I still need help
 
 Ask in the [OpenVox community](/ecosystem/latest/community.html) channels, or search and file

@@ -38,8 +38,8 @@ Manifest blocks require facts to compile. When OpenBolt applies Puppet manifests
 automatically installs the packages necessary to run the apply command and
 gathers facts using [facter](/openfact/latest/), making the
 facts available to the manifest block. OpenBolt also identifies targets that do not
-have Puppet agents and runs the [`openvox_bootstrap::install`
-task](https://forge.puppet.com/puppet/openvox_bootstrap) to install the agent.
+have the OpenVox agent and runs the [`openvox_bootstrap::install`
+task](https://forge.puppet.com/modules/puppet/openvox_bootstrap) to install it.
 
 > **Note:** OpenBolt installs the OpenVox agent package to enable the use of Puppet
   code. It does not require setting up a server-agent architecture between the
@@ -165,10 +165,10 @@ The `apply_prep` function installs the packages necessary to run the apply
 command and gathers facts by running
 [facter](/openfact/latest/), making the facts available to
 the manifest block. The `apply_prep` function also identifies the targets that
-do not have Puppet agents and runs the [`puppet_agent::install`
-task](https://forge.puppet.com/puppetlabs/puppet_agent) to install the agent.
+do not have the OpenVox agent and runs the [`openvox_bootstrap::install`
+task](https://forge.puppet.com/modules/puppet/openvox_bootstrap) to install it.
 
-> **Note:** OpenBolt installs the Puppet agent package to enable the use of Puppet
+> **Note:** OpenBolt installs the OpenVox agent package to enable the use of Puppet
   code. It does not require setting up a server-agent architecture between the
   remote systems and the local system running OpenBolt.
 

@@ -183,8 +183,8 @@ There is a single plugin hook associated with Puppet library plugins:
 
 📖 **Related information**
 
-- For an example of a Puppet library plugin, see the built-in [puppet_agent
-  plugin](https://github.com/puppetlabs/puppetlabs-puppet_agent/tree/master/tasks).
+- For an example of a Puppet library plugin, see the built-in [openvox_bootstrap
+  plugin](https://github.com/voxpupuli/puppet-openvox_bootstrap).
 
 ## Configuring hooks
 
