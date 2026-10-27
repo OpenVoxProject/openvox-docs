@@ -178,7 +178,7 @@ OpenBolt updates your modules to the latest available versions and attempts to
 resolve all of the modules in the project configuration file to ensure that
 there are no version conflicts between modules and their dependencies.
 
-## Manually specify modules in an OpenBolt project
+## Manually specify modules in an OpenBolt project {#manually-specify-modules-in-a-bolt-project}
 
 In most cases, you can use the OpenBolt command line to install a new module.
 However, there are times when you might want to manually specify a module

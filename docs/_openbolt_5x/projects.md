@@ -293,8 +293,7 @@ Currently, the `migrate` command:
 
 - Updates inventory files from version 1.
 - Updates projects to use `bolt-project.yaml` and `inventory.yaml` instead of `bolt.yaml`.
-- Updates projects to implement module dependency management. Dependency
-  management was introduced in Bolt 2.30.0.
+- Updates projects to use module dependency management.
 
 To migrate a project:
 
