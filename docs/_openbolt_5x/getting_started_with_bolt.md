@@ -130,14 +130,14 @@ services:
   target1:
     build: .
     ports:
-      - '3000:80'
-      - '2000:22'
+      - '127.0.0.1:3000:80'
+      - '127.0.0.1:2000:22'
     container_name: target1
   target2:
     build: .
     ports:
-      - '3001:80'
-      - '2001:22'
+      - '127.0.0.1:3001:80'
+      - '127.0.0.1:2001:22'
     container_name: target2
 ```
 
@@ -173,8 +173,8 @@ command:
 $ docker-compose ps
 Name          Command        State                     Ports
 --------------------------------------------------------------------------------
-target1   /usr/sbin/sshd -D   Up      0.0.0.0:2000->22/tcp, 0.0.0.0:3000->80/tcp
-target2   /usr/sbin/sshd -D   Up      0.0.0.0:2001->22/tcp, 0.0.0.0:3001->80/tcp
+target1   /usr/sbin/sshd -D   Up      127.0.0.1:2000->22/tcp, 127.0.0.1:3000->80/tcp
+target2   /usr/sbin/sshd -D   Up      127.0.0.1:2001->22/tcp, 127.0.0.1:3001->80/tcp
 ```
 
 Your targets are ready. Next, run a command on a target to see how OpenBolt works.
@@ -386,9 +386,7 @@ and enter the following script:
 ```bash
 #!/usr/bin/env bash
 
-i=$( pgrep -i apache | wc -l )
-
-if [[ $i -gt 0 ]]
+if pgrep -x apache2 > /dev/null
 then
   echo "Apache is running"
 else
