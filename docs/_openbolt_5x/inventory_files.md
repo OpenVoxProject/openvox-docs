@@ -445,9 +445,9 @@ for a given target, running on the `fruits` group also resolves the plugin.
 
 ## Inventory file versioning
 
-This page documents version 2 inventory files. Version 1 inventory files are
-deprecated and lack features like plugins. If you're using Bolt 2.0 or later,
-use version 2 inventory files. If you need to migrate your inventory files from
+This page documents version 2 inventory files, the only version OpenBolt reads.
+OpenBolt stops with an error when it finds a version 1 inventory file, which
+lists targets under a `nodes` key. If you need to migrate your inventory files from
 version 1, you can use the `migrate` command documented at [Migrate an OpenBolt
 project](projects.html#migrate-an-openbolt-project).
 

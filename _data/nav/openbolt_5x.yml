@@ -4,8 +4,6 @@
   items:
   - text: Overview
     link: index.html
-  - text: Developer updates
-    link: developer_updates.html
   - text: Release notes
     link: release_notes.html
   - text: Known issues
