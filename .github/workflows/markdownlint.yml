@@ -30,6 +30,6 @@ jobs:
             echo 'EOF'
           } >> "${GITHUB_OUTPUT}"
       - name: Lint tracked Markdown files
-        uses: DavidAnson/markdownlint-cli2-action@v24
+        uses: DavidAnson/markdownlint-cli2-action@v25
         with:
           globs: ${{ steps.tracked-markdown.outputs.files }}
