@@ -62,13 +62,14 @@ First, we’ll use OpenBolt to run the script as-is on a single target.
 
     foreach ($name in $service) {
       try{
-        $serviceObject = Get-service -Name $name
-        Write-output "Found Service: $name"
+        $serviceObject = Get-service -Name $name -ErrorAction SilentlyContinue
 
         if(-not $serviceObject){
           Write-Output "Service not found: $name"
           continue
         }
+
+        Write-output "Found Service: $name"
 
         Stop-Service -InputObject $serviceObject -ErrorAction Stop
 
@@ -142,13 +143,15 @@ list of targets and target specific data.
           winrm:
             user: Administrator
             password: <ADD PASSWORD>
+            # cacert: <PATH TO CA CERTIFICATE>
+            # ssl-verify: false
     ```
 
     If the target's WinRM certificate is self-signed or signed by a private
     certificate authority, OpenBolt can't verify it and fails to connect. Either
-    set `cacert` under `winrm` to the path of the CA certificate, or, for a test
-    target, set `ssl-verify: false`. On the command line, the equivalent of
-    `ssl-verify: false` is `--no-ssl-verify`.
+    uncomment `cacert` and set it to the path of the CA certificate, or, for a
+    test target, uncomment `ssl-verify: false`. On the command line, the
+    equivalent of `ssl-verify: false` is `--no-ssl-verify`.
 
     **Note:** To have OpenBolt securely prompt for a password, use the
     `--password-prompt` command-line option without supplying any value. This
