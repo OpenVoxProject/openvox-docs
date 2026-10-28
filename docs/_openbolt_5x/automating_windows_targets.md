@@ -15,18 +15,23 @@ script to a task and running that.
 
 > **Before you begin**
 >
-> - Ensure you’ve already [installed OpenBolt](bolt_installing.html#) on your
+> - Ensure you’ve already [installed OpenBolt](bolt_installing.html) on your
 >     Windows machine.
 > - Identify a remote Windows target to work with.
 > - Ensure you have Windows credentials for the target.
 > - Ensure you have [configured Windows Remote
->     Management](https://docs.microsoft.com/en-us/windows/desktop/winrm/installation-and-configuration-for-windows-remote-management)
->     on the target.
+>     Management](https://learn.microsoft.com/en-us/windows/win32/winrm/installation-and-configuration-for-windows-remote-management)
+>     on the target. OpenBolt connects over HTTPS on port 5986 and verifies the
+>     target's certificate by default.
+> - Ensure the target's [PowerShell execution
+>     policy](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies)
+>     allows scripts to run, for example `RemoteSigned`. Windows Server uses
+>     `RemoteSigned` by default, but Windows client editions such as Windows 11
+>     use `Restricted`, and OpenBolt can't run scripts or tasks on a target
+>     with that policy.
 
-The example script,
-called [restart_service.ps1](https://gist.github.com/RandomNoun7/03dfb910e5d93fefaae6e6c2da625c44#file-restart_service-ps1),
-performs common task of restarting a service on demand. The process involves
-these steps:
+The example script, `restart_service.ps1`, performs a common task: restarting a
+service on demand. The process involves these steps:
 
 1. Run your PowerShell script on a Windows target.
 1. Create an inventory file to store information about the target.
@@ -38,19 +43,72 @@ these steps:
 
 First, we’ll use OpenBolt to run the script as-is on a single target.
 
-1. Create an OpenBolt project directory to work in, called `bolt-guide`.
-1. Copy the
-    [`restart_service.ps1`](https://gist.github.com/RandomNoun7/03dfb910e5d93fefaae6e6c2da625c44#file-restart_service-ps1)
-    script into `bolt-guide`.
+1. Create a directory to work in, called `bolt-guide`.
+1. In `bolt-guide`, create a file named `restart_service.ps1` with the
+    following content:
+
+    ```powershell
+    [CmdletBinding()]
+    param (
+      # Name or list of service names to stop
+      [Parameter(Mandatory=$true)]
+      [string[]]
+      $service,
+      # Stop the services without starting them again
+      [Parameter(Mandatory=$false)]
+      [switch]
+      $norestart
+    )
+
+    foreach ($name in $service) {
+      try{
+        $serviceObject = Get-service -Name $name -ErrorAction SilentlyContinue
+
+        if(-not $serviceObject){
+          Write-Output "Service not found: $name"
+          continue
+        }
+
+        Write-output "Found Service: $name"
+
+        Stop-Service -InputObject $serviceObject -ErrorAction Stop
+
+        Write-Output "Stopped service: $name"
+
+        if($norestart){continue}
+
+        Start-Service -InputObject $serviceObject
+
+        Write-Output "Started service: $name"
+
+      } catch {
+        Write-Output "Cannot stop service: $name"
+        Write-Output "Dependent services: $($serviceObject.dependentservices)"
+
+        exit 1
+      }
+    }
+    ```
+
 1. In the `bolt-guide` directory, run the `restart_service.ps1` script:
 
     ```console
-    bolt script run .\restart_service.ps1 W32Time --targets winrm://<HOSTNAME> -u Administrator -p 
+    bolt script run .\restart_service.ps1 W32Time --targets winrm://<HOSTNAME> -u Administrator --password-prompt
     ```
 
-    ![Output of running the restart_service.ps1 script with OpenBolt](restart_service.png)
+    The output looks like this:
 
-    **Note:** The `-p` option prompts you to enter a password.
+    ```console
+    Started on winrm://win01.example.com...
+    Finished on winrm://win01.example.com:
+      Found Service: W32Time
+      Stopped service: W32Time
+      Started service: W32Time
+    Successful on 1 target: winrm://win01.example.com
+    Ran on 1 target in 6.62 sec
+    ```
+
+    **Note:** The `--password-prompt` option prompts you to enter a password.
 
     By running this command, you’ve brought your script under OpenBolt control and
     have run it on a remote target. When you ran your script with OpenBolt, the
@@ -85,7 +143,15 @@ list of targets and target specific data.
           winrm:
             user: Administrator
             password: <ADD PASSWORD>
+            # cacert: <PATH TO CA CERTIFICATE>
+            # ssl-verify: false
     ```
+
+    If the target's WinRM certificate is self-signed or signed by a private
+    certificate authority, OpenBolt can't verify it and fails to connect. Either
+    uncomment `cacert` and set it to the path of the CA certificate, or, for a
+    test target, uncomment `ssl-verify: false`. On the command line, the
+    equivalent of `ssl-verify: false` is `--no-ssl-verify`.
 
     **Note:** To have OpenBolt securely prompt for a password, use the
     `--password-prompt` command-line option without supplying any value. This
@@ -104,18 +170,14 @@ list of targets and target specific data.
 ### 3. Convert your script to a task
 
 To convert the `restart_service.ps1` script to a task, giving you the ability to
-reuse and share it, create a [task metadata](writing_tasks.html#) file. Task
+reuse and share it, create a [task metadata](writing_tasks.html) file. Task
 metadata files describe task parameters, validate input, and control how the
 task runner executes the task.
 
 **Note:** This guide shows you how to convert the script to a task by manually
-creating the `.ps1` file in a directory called `tasks`. Alternatively, you can
-use Puppet Development Kit (PDK), to create a task by using the [`pdk new
-task`
-command](/pdk.html).
-If you’re going to be creating a lot of tasks, using PDK is worth getting to
-know. For more information, see the [PDK
-documentation.](/pdk.html)
+creating the metadata file in a directory called `tasks`. If your task lives in
+a module created with [Jig](/ecosystem/latest/devkit/jig.html), `jig new task
+<name>` creates the metadata file for you.
 
 1. In the `bolt-guide` directory, create the following subdirectories:
 
@@ -143,7 +205,7 @@ documentation.](/pdk.html)
           "type": "Variant[Array[String],String]"
         },
         "norestart": {
-          "description": "Immediately restart the services after start.",
+          "description": "Stop the services without starting them again.",
           "type": "Optional[Boolean]"
         }
       }
@@ -162,7 +224,24 @@ documentation.](/pdk.html)
     bolt task show gsg::restart_service
     ```
 
-    ![Output of bolt task show for the restart_service task](bolt_PS_2.png)
+    ```console
+    gsg::restart_service
+      Stop or restart a service or list of services on a target.
+
+    Usage
+      bolt task run gsg::restart_service --targets <targets> [norestart=<value>]
+      service=<value>
+
+    Parameters
+      norestart  Optional[Boolean]
+        Stop the services without starting them again.
+
+      service  Variant[Array[String],String]
+        The name of the service, or a list of service names to stop.
+
+    Module
+      C:/Users/user/bolt-guide/modules/gsg
+    ```
 
     Congratulations! You’ve successfully converted the `restart_service.ps1`
     script to a task.
@@ -173,7 +252,15 @@ documentation.](/pdk.html)
     bolt task run gsg::restart_service service=W32Time --targets windows
     ```
 
-    ![Output of running the gsg::restart_service task](bolt_PS_3.png)
+    ```console
+    Started on win01.example.com...
+    Finished on win01.example.com:
+      Found Service: W32Time
+      Stopped service: W32Time
+      Started service: W32Time
+    Successful on 1 target: win01.example.com
+    Ran on 1 target in 4.24 sec
+    ```
 
     **Note:** `--targets windows` refers to the name of the group of targets
     that you specified in your inventory file. For more information, see
@@ -182,17 +269,20 @@ documentation.](/pdk.html)
 ## Deploy a package with OpenBolt and Chocolatey
 
 You can use OpenBolt with Chocolatey to deploy a package on a Windows target. First,
-use the `apply` command to install Chocolatey on the target. Next, use Puppet's
-Chocolatey package provider to install the package.
+use the `apply` command to install Chocolatey on the target. Next, use the
+built-in `package` task, which installs packages with Chocolatey on Windows
+targets.
 
-This example installs the Frogsay package on a Windows target.
+This example installs the `jq` package on a Windows target.
 
 **Before you begin:**
 
-- [Install OpenBolt](bolt_installing_modules.html)
+- [Install OpenBolt](bolt_installing.html)
 - Configure Windows Remote Management (WinRM) on your Windows target.
+- If the target's WinRM certificate is self-signed, add `--no-ssl-verify` to
+  the commands below, or `-SslVerify:$false` to the PowerShell cmdlets.
 
-To install the Frogsay package with Chocolatey:
+To install the `jq` package with Chocolatey:
 
 1. Install the Chocolatey module to your OpenBolt project. This allows you to
    install Chocolatey to your target in the next step.
@@ -215,7 +305,7 @@ To install the Frogsay package with Chocolatey:
       _\*nix shell command:_
 
       ```console
-      bolt project init chocho_project --modules puppetlabs-chocolatey
+      bolt project init choco_project --modules puppetlabs-chocolatey
       ```
 
       _PowerShell cmdlet:_
@@ -238,50 +328,42 @@ To install the Frogsay package with Chocolatey:
     Invoke-BoltApply -Execute "include chocolatey"  -Targets <TARGET URI> -User <USER> -Password <PASSWORD> -Transport winrm
     ```
 
-1. Use the built-in Package task to install Frogsay on your target:
+1. Use the built-in `package` task to install `jq` on your target:
 
     _\*nix shell command:_
 
     ```console
-    bolt task run package -t <TARGET URI> -u <USER> -p <PASSWORD> --transport winrm action=install name=frogsay
+    bolt task run package -t <TARGET URI> -u <USER> -p <PASSWORD> --transport winrm action=install name=jq
     ```
 
     _PowerShell cmdlet:_
 
     ```powershell
-    Invoke-BoltTask -Name package -Targets <TARGET URI> -User <USER> -Password <PASSWORD> -Transport winrm action=install name=frogsay
+    Invoke-BoltTask -Name package -Targets <TARGET URI> -User <USER> -Password <PASSWORD> -Transport winrm action=install name=jq
     ```
 
-1. Run `frogsay` on your target to test:
+1. Run `jq` on your target to test:
 
    _\*nix shell command:_
 
    ```console
-   bolt command run 'frogsay ribbit' -t <TARGET URI> -u <USER> -p <PASSWORD> --transport winrm
+   bolt command run 'jq --version' -t <TARGET URI> -u <USER> -p <PASSWORD> --transport winrm
    ```
 
    _PowerShell cmdlet:_
 
    ```powershell
-   Invoke-BoltCommand 'frogsay ribbit' -Targets <TARGET URI> -User <USER> -Password <PASSWORD> -Transport winrm
+   Invoke-BoltCommand 'jq --version' -Targets <TARGET URI> -User <USER> -Password <PASSWORD> -Transport winrm
    ```
-  
+
    Your output should look something like this:
 
    ```console
-   Started on example.windowstarget.net...
-   Finished on example.windowstarget.net:
-      STDOUT:
-
-                WORRIED ABOUT LONG LINES? FROG CAN HOLD YOUR PLACE FOR UP TO 65534
-                SECONDS BEFORE IT FORGETS WHAT IT'S DOING AND HOPS AWAY.
-                /
-          @..@
-        (----)
-        ( >__< )
-        ^^ ~~ ^^
-   Successful on 1 target: example.windowstarget.net
-   Ran on 1 target in 2.19 sec
+   Started on win01.example.com...
+   Finished on win01.example.com:
+     jq-1.8.2
+   Successful on 1 target: win01.example.com
+   Ran on 1 target in 2.26 sec
    ```
 
 If you need to install packages on multiple targets, create an OpenBolt project with
