@@ -280,10 +280,10 @@ helps prevent the execution of malicious scripts. The default policy is
 _servers_. Some environments change this to `AllSigned`, which only allows
 scripts to run as long as they are signed by a trusted publisher.
 
-The OpenBolt installer is signed, but the PuppetBolt module files it installs
-are not. PowerShell loads them under `RemoteSigned`, because they are local
-files, but refuses them under `AllSigned`, so neither the `bolt` command nor the
-OpenBolt cmdlets work in PowerShell with that policy.
+The OpenBolt MSI installer is signed, but the PuppetBolt module files it
+installs are not. PowerShell loads them under `RemoteSigned`, because they are
+local files, but refuses them under `AllSigned`, so neither the `bolt` command
+nor the OpenBolt cmdlets work in PowerShell with that policy.
 
 If your environment uses a `Restricted` or `AllSigned` policy, you must change
 your policy to `RemoteSigned`. Check with your security team before you make
