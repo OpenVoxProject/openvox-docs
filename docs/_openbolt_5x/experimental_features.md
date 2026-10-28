@@ -11,8 +11,6 @@ might need to update your code or configuration when you upgrade OpenBolt.
 
 ## Configuration policies and the `policy` command
 
-### What are policies?
-
 Configuration policies are public Puppet classes stored in the `manifests/`
 directory of modules on the modulepath. Just like other Puppet code, you can
 apply policies directly to one or more targets.
@@ -390,7 +388,7 @@ background. Then the backgrounded commands and tasks are waited on before contin
 # $targets = target1,target2,target3
 plan myplan(TargetSpec $targets) {
   $binary_future = background("Run mycoolbinary") || {
-    # These commands execute sequentially per target. Bolt connects to the targets in 
+    # These commands execute sequentially per target. OpenBolt connects to the targets in
     # parallel, but waits for the cp command to finish before running chmod
     run_command("cp /home/user/Downloads/mycoolbinary /home/user/bin", $targets)
     run_command("chmod +x /home/user/bin/mycoolbinary", $targets)
