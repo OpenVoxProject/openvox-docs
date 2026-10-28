@@ -110,7 +110,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends openssh-server procps \
     && mkdir -p /run/sshd \
     && echo 'root:root' | chpasswd \
-    && sed -i 's/^#\?PermitRootLogin .*/PermitRootLogin yes/' /etc/ssh/sshd_config
+    && printf 'PermitRootLogin yes\n' > /etc/ssh/sshd_config.d/00-root.conf
 EXPOSE 22 80
 CMD ["/usr/sbin/sshd", "-D"]
 ```
