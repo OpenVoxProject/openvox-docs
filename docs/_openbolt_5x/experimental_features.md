@@ -5,33 +5,25 @@ title: 🧪 Experimental features
 
 # 🧪 Experimental features
 
-Most larger Bolt features are released initially in an experimental or unstable
-state. This allows the Bolt team to gather feedback from real users quickly
-while iterating on new functionality. Almost all experimental features are
-eventually stabilized in future releases. While a feature is experimental, its
-API might change, requiring the user to update their code or configuration. The
-Bolt team attempts to make these changes painless by providing useful warnings
-around breaking behavior where possible.
+The features on this page are experimental. While a feature is experimental, its
+configuration, behavior, or API might change between minor releases, so you
+might need to update your code or configuration when you upgrade OpenBolt.
 
 ## Configuration policies and the `policy` command
-
-This feature was introduced in [Bolt 3.21.0](https://github.com/puppetlabs/bolt/blob/main/CHANGELOG.md#bolt-3210-2021-12-16).
-
-### What are policies?
 
 Configuration policies are public Puppet classes stored in the `manifests/`
 directory of modules on the modulepath. Just like other Puppet code, you can
 apply policies directly to one or more targets.
 
-### Policies in a Bolt project's configuration file
+### Policies in an OpenBolt project's configuration file
 
 The project configuration file, `bolt-project.yaml`, supports a `policies` key
 which lists the policies available to a project. A Puppet class becomes a policy
 when you list it under the `policies` key. If you do not configure the
-`policies` key, no policies will be available for Bolt to apply.
+`policies` key, no policies will be available for OpenBolt to apply.
 
 You can manually add policies to the `policies` key in `bolt-project.yaml`, or
-manage policies using the Bolt command line. The `policies` key supports glob
+manage policies using the OpenBolt command line. The `policies` key supports glob
 patterns for easily listing multiple policies. For example, `myproject::*`
 includes both the `myproject::admin` and `myproject::sshkeys` policies.
 
@@ -49,7 +41,7 @@ policies:
 
 ### Creating new policies
 
-You can use Bolt to create a new policy in your project and add it to the
+You can use OpenBolt to create a new policy in your project and add it to the
 `policies` key in your project configuration. For example, to create a new
 project-level policy named `myproject::user`, run:
 
@@ -65,7 +57,7 @@ project-level policy named `myproject::user`, run:
   New-BoltPolicy -Name myproject::user
   ```
 
-Bolt creates an empty class in the project's `manifests/` directory that you can
+OpenBolt creates an empty class in the project's `manifests/` directory that you can
 populate with code. Policy names must follow [class naming
 conventions](/openvox/latest/lang_reserved.html#classes-and-defined-resource-types).
 
@@ -113,7 +105,7 @@ Modulepath
 
 Applying policies is similar to [applying Puppet
 code](applying_manifest_blocks.html), with
-the addition that you can apply one or more policies at a time. The Bolt
+the addition that you can apply one or more policies at a time. The OpenBolt
 commands for applying policies accept a single policy name or a comma-separated
 list of policy names to apply to a list of one or more targets.
 
@@ -146,17 +138,15 @@ Successful on 1 target: mytarget
 Ran on 1 target in 15.2 sec
 ```
 
-Before applying policies, Bolt uses the `apply_prep` function to collect facts and
+Before applying policies, OpenBolt uses the `apply_prep` function to collect facts and
 ensure that the puppet-agent package is available on each target. For more
-information on how Bolt uses `apply_prep`, see [Applying manifest
+information on how OpenBolt uses `apply_prep`, see [Applying manifest
 blocks](applying_manifest_blocks.html#applying-manifest-blocks-from-a-puppet-plan).
-Bolt creates a single line of Puppet code to compile and apply to the provided
-targets. This line of code includes the syntax `include <POLICIES>` and Bolt
+OpenBolt creates a single line of Puppet code to compile and apply to the provided
+targets. This line of code includes the syntax `include <POLICIES>` and OpenBolt
 logs the line at the debug level.
 
 ## `run_container` plan step
-
-This feature was introduced in [Bolt 3.5.0](https://github.com/puppetlabs/bolt/blob/main/CHANGELOG.md#bolt-350-2021-3-29).
 
 Currently available as a Puppet plan function, `run_container()` runs a provided image and
 returns the `stdout`, `stderr`, and `exit_code` for that image. The function supports several
@@ -164,7 +154,7 @@ options, including `cmd` to specify a command to run in the container, `volumes`
 the container, and `ports` to publish ports from the container on the host. You can see all the
 supported options in the [plan function documentation](plan_functions.html#run_container).
 
-The function runs the container on the Bolt controller, not on remote targets. This function is
+The function runs the container on the OpenBolt controller, not on remote targets. This function is
 supported on both \*nix and Windows systems.
 
 This plan clones the [Relay repository](https://github.com/puppetlabs/relay), builds the Go binary in a
@@ -186,7 +176,7 @@ plan bolt (
 
 ## Podman support
 
-Bolt now has experimental support for [Podman](https://podman.io/), a daemonless container engine.
+OpenBolt has experimental support for [Podman](https://podman.io/), a daemonless container engine.
 The Podman transport supports connecting to containers managed by Podman on the local system.
 The Podman transport accepts many of the same configuration options as the Docker transport. You can
 see the full list of supported configuration options [on the transport reference
@@ -208,7 +198,7 @@ targets:
 
 ## FreeBSD jails support
 
-Bolt now has experimental support for [FreeBSD
+OpenBolt has experimental support for [FreeBSD
 jails](https://docs.freebsd.org/en/books/handbook/jails/), a lightweight virtualization solution
 that allow for the creation of isolated environments within a single FreeBSD system.
 The jail transport supports connecting to jails running on the local system.
@@ -232,10 +222,8 @@ targets:
 
 ## Streaming output
 
-This feature was introduced in [Bolt 3.2.0](https://github.com/puppetlabs/bolt/blob/main/CHANGELOG.md#bolt-320-2021-3-08).
-
-You can set the new `stream` output option in `bolt-project.yaml` or `bolt-defaults.yaml`, or
-specify the option on the command line as `--stream`. Bolt streams results back to the console as
+You can set the `stream` output option in `bolt-project.yaml` or `bolt-defaults.yaml`, or
+specify the option on the command line as `--stream`. OpenBolt streams results back to the console as
 they are received, with the target's safe name (the URI without the password included) and the
 stream (either 'out' or 'err') appended to the message, like so:
 
@@ -250,14 +238,12 @@ Finished on docker://puppet_6_node:
   Hello!
 ```
 
-As you can see, when you configure output to stream, Bolt may print to the console twice:
-once as the actions are running, and again after Bolt prints the results. You can prevent
-Bolt from printing the results once the action has completed by specifying the `--no-verbose`
+As you can see, when you configure output to stream, OpenBolt may print to the console twice:
+once as the actions are running, and again after OpenBolt prints the results. You can prevent
+OpenBolt from printing the results once the action has completed by specifying the `--no-verbose`
 command-line option.
 
 ## LXD Transport
-
-This feature was introduced in [Bolt 3.2.0](https://github.com/puppetlabs/bolt/blob/main/CHANGELOG.md#bolt-320-2021-3-08).
 
 The LXD transport supports connecting to Linux containers on the local system. Similar to the Docker
 transport, the LXD transport accepts the name of the container as the URI, and connects to the
@@ -274,24 +260,21 @@ targets:
 
 ## Plugin caching
 
-This feature was introduced in [Bolt
-2.37.0](https://github.com/puppetlabs/bolt/blob/main/CHANGELOG.md#bolt-2370-2020-12-07).
-
-Bolt supports the use of plugins to dynamically load information during a Bolt run and change how
-Bolt executes certain actions. Bolt also loads all configuration plugins for most Bolt commands, and
+OpenBolt supports the use of plugins to dynamically load information during an OpenBolt run and change how
+OpenBolt executes certain actions. OpenBolt also loads all configuration plugins for most OpenBolt commands, and
 all inventory plugins for any action that requires the inventory, even if the action only uses a
 subset of targets from the inventory. Plugins can sometimes take a long time to execute, and several
-plugin invocations can add quite a bit of start up time to any Bolt command regardless of whether it
+plugin invocations can add quite a bit of start up time to any OpenBolt command regardless of whether it
 uses the plugin results.
 
-To mitigate the time it takes for Bolt to load plugins, we've introduced plugin caching. Plugin
+To reduce the time OpenBolt spends loading plugins, you can turn on plugin caching. Plugin
 caching is enabled by configuring a Time to Live (TTL) for the cache, either by setting a default
 TTL for all plugins with the `plugin-cache` project configuration option or by setting `ttl` under
-the `_cache` option for an individual plugin invocation. The TTL is always in seconds. Bolt caches
-plugin results inside the Bolt project, and removes all expired cache entries whenever it
-uses a cache result. This prevents cache entries from getting orphaned and never removed. Bolt
+the `_cache` option for an individual plugin invocation. The TTL is always in seconds. OpenBolt caches
+plugin results inside the OpenBolt project, and removes all expired cache entries whenever it
+uses a cache result. This prevents cache entries from getting orphaned and never removed. OpenBolt
 identifies a cache result based on a hash (delightfully named 'bubblebabble') of the entire plugin
-invocation, minus the `_cache` key. If any element of the plugin invocation changes, Bolt reloads
+invocation, minus the `_cache` key. If any element of the plugin invocation changes, OpenBolt reloads
 the plugin and updates the cache.
 
 You can set `ttl` to 0 to disable caching for a particular plugin. Caching is disabled by default,
@@ -303,7 +286,7 @@ invocations.
 future release.
 
 Users can clear all cache entries using the `--clear-cache` or `-ClearCache` command-line option
-with any Bolt command.
+with any OpenBolt command.
 
 This inventory sets a TTL of 1 hour, or 3600 seconds, for the PuppetDB plugin:
 
@@ -327,13 +310,9 @@ plugin-cache:
 > **NOTE**: The same cache and cache configuration is used for the `resolve_reference()` plan
 function.
 
-## Parallelism in Bolt plans
+## Parallelism in OpenBolt plans
 
-The `parallelize()` plan function was introduced in [Bolt
-2.35.0](https://github.com/puppetlabs/bolt/tree/main/CHANGELOG.md#bolt-2350-2020-11-16).
-The `background()` and `wait()` plan functions were introduced in [Bolt 3.9.0](https://github.com/puppetlabs/bolt/tree/main/CHANGELOG.md#bolt-390-2021-05-25).
-
-For context, Bolt plan functions have always run concurrently across targets - that is, if a
+For context, OpenBolt plan functions have always run concurrently across targets - that is, if a
 function takes a list of targets and operates on them, the function runs that step on each target in
 parallel. For example, the following plan runs `hostname` on all targets at the same time, waits for
 all targets to finish, and then runs `whoami` on all targets at the same time.
@@ -349,7 +328,7 @@ plan myplan(TargetSpec $targets) {
 In the example above, `target3` has to wait for `hostname` to finish on `target1` and `target2`
 before it can run `whoami`.
 
-While useful, this form of parallelism is limited. Bolt plans have a few methods that allow a block
+While useful, this form of parallelism is limited. OpenBolt plans have a few methods that allow a block
 of plan steps to execute in the background while other parts of the plan execute in parallel:
 
 * The `background` plan function begins executing a block of code in parellel with the main plan
@@ -389,7 +368,7 @@ The code block has access to all existing variables when it's created, and has i
 new variables are not accessible outside the code block.
 
 Plans will return normally even when they have Futures running in the background, and those
-Futures will continue to execute in parallel. However, Bolt itself will not exit until all Futures
+Futures will continue to execute in parallel. However, OpenBolt itself will not exit until all Futures
 have completed in order to ensure that all work is finished. Any errors raised after the calling
 plan has finished will be logged at warn level for visibility.
 
@@ -409,7 +388,7 @@ background. Then the backgrounded commands and tasks are waited on before contin
 # $targets = target1,target2,target3
 plan myplan(TargetSpec $targets) {
   $binary_future = background("Run mycoolbinary") || {
-    # These commands execute sequentially per target. Bolt connects to the targets in 
+    # These commands execute sequentially per target. OpenBolt connects to the targets in
     # parallel, but waits for the cp command to finish before running chmod
     run_command("cp /home/user/Downloads/mycoolbinary /home/user/bin", $targets)
     run_command("chmod +x /home/user/bin/mycoolbinary", $targets)
@@ -434,7 +413,7 @@ The function blocks until the Futures finish, with an optional timeout. If provi
 unfinished Futures raise a timeout error if they have not completed within the timeout. You can
 return errors instead of raising them by passing `_catch_errors => true` to `wait()`. The `wait()`
 function returns the results from the Future blocks once they've all finished. If a Future errors,
-Bolt only raises the error after all other Futures finish executing and return to `wait()`.
+OpenBolt only raises the error after all other Futures finish executing and return to `wait()`.
 
 ### `parallelize()` plan function
 
@@ -477,7 +456,7 @@ Within a backgrounded code block, only the following functions can run in parall
 * `download_file`.
 
 You can run other functions from a parallelize or background block, but those functions will block
-execution on other targets until they complete. For example, in the following plan, Bolt can start
+execution on other targets until they complete. For example, in the following plan, OpenBolt can start
 running `task2` and `task3` while `task1` is still executing. However, it cannot start `task4` while
 `out::message` is executing on any of the targets.
 
@@ -539,16 +518,16 @@ $result = wait($futures)
 out::message($result)
 ```
 
-If any step of the block errors, Bolt stops executing the block for that target, but continues
+If any step of the block errors, OpenBolt stops executing the block for that target, but continues
 executing for all other targets from the input array. When the block finishes, if there is an error
 in the result array, the plan throws a `PlanFailure` and includes the entire result array in the
-`details` key of the failure. If the block is wrapped in a `catch_errors()` block, Bolt catches the
+`details` key of the failure. If the block is wrapped in a `catch_errors()` block, OpenBolt catches the
 `PlanFailure` and continues to execute the plan. If you've provided `_catch_errors => true`
-to `wait()`, Bolt returns any errors raised and the plan continues to execute.
+to `wait()`, OpenBolt returns any errors raised and the plan continues to execute.
 
 #### Viewing failing results in parallel blocks
 
-When an action fails in a parallel block, such as a task returning an error, Bolt
+When an action fails in a parallel block, such as a task returning an error, OpenBolt
 does not print the error result to the console. For example, the following plan
 runs a non-existent command on targets in parallel:
 
@@ -566,7 +545,7 @@ plan example (
 }
 ```
 
-Bolt does not print the error result from the targets the command is run on,
+OpenBolt does not print the error result from the targets the command is run on,
 making it difficult to know why the command failed:
 
 ```console
@@ -624,18 +603,14 @@ parallel block failed on 2 targets
 
 ## `ResourceInstance` data type
 
-This feature was introduced in [Bolt
-2.10.0](https://github.com/puppetlabs/bolt/blob/main/CHANGELOG.md#bolt-2100-2020-05-18).
+Outside this data type, OpenBolt's ability to interact with Puppet's Resource
+Abstraction Layer is limited: the `apply` function generates catalogs and
+returns events, and the `get_resources` plan function queries resources on a
+target. The `ResourceInstance` data type lets plan authors build resource-based
+logic into their plans, for a discover-inspect-execute workflow with resources
+on remote systems.
 
-Bolt has had a limited ability to interact with Puppet's Resource Abstraction
-Layer. You could use the `apply` function to generate catalogs and return
-events, and the `get_resources` plan function can be used to query resources on
-a target. The `ResourceInstance` data type is the first step in enabling plan
-authors to build resource-based logic into their plans to enable a
-discover-inspect-execute workflow for interacting with resources on remote
-systems.
-
-Use the `ResourceInstance` data type is used to store information about a single
+The `ResourceInstance` data type stores information about a single
 resource on a target, including its observed state, desired state, and any
 related events.
 
@@ -649,7 +624,7 @@ related events.
 The recommended way to create `ResourceInstance` objects is by setting them
 directly on a `Target` object using the `Target.set_resources` function. Use the
 function to set one or more resources on a target at a time. You can read more
-about this function in [Bolt plan functions](plan_functions.html#set_resources).
+about this function in [OpenBolt plan functions](plan_functions.html#set_resources).
 
 The `Target.set_resources` function can set existing `ResourceInstance` objects
 on a target, or take hashes of parameters to create new `ResourceInstance`
@@ -679,7 +654,7 @@ $target.set_resources(
   on.
 >
 > **Note:** If the `target` parameter is any target other than the one you are
-  setting the resource on, Bolt will raise an error.
+  setting the resource on, OpenBolt will raise an error.
 
 When setting resources using existing `ResourceInstance` objects, you can pass
 either a single `ResourceInstance` or an array of `ResourceInstance` objects.
@@ -693,10 +668,10 @@ $target.set_resources(
 ```
 
 > **Note:** If the target for a `ResourceInstance` does not match the target it
-  is being set on, Bolt will raise an error.
+  is being set on, OpenBolt will raise an error.
 
 A target can only have a single instance of a given resource. If you set a
-duplicate resource on a target, Bolt shallow merges the `state` and
+duplicate resource on a target, OpenBolt shallow merges the `state` and
 `desired_state` of the duplicate resource with the `state` and `desired_state`
 of the existing resource and adds any `events` for the duplicate resource to the
 existing resource.
@@ -777,7 +752,7 @@ using [the data type's functions](bolt_types_reference.html#resourceinstance).
 
 The `ResourceInstance` data type has several built-in functions. These range
 from accessing the object's attributes to modifying and overwriting state. For a
-full list of the available functions, see [Bolt data
+full list of the available functions, see [OpenBolt data
 types](bolt_types_reference.html#resourceinstance).
 
 ### Example usage
@@ -851,15 +826,12 @@ $apply_results.each |$result| {
 
 ## Native SSH transport
 
-This feature was introduced in [Bolt
-2.10.0](https://github.com/puppetlabs/bolt/blob/main/CHANGELOG.md#bolt-2100-2020-05-18).
-
-Bolt's SSH transport uses the ruby library `net-ssh`, which is a pure ruby
+OpenBolt's SSH transport uses the ruby library `net-ssh`, which is a pure ruby
 implementation of the SSH2 client protocol. While robust, the library lacks
 support for some features and algorithms that are available in native SSH. When
-you use the native SSH transport, Bolt uses the SSH executable you've
+you use the native SSH transport, OpenBolt uses the SSH executable you've
 specified instead of using `net-ssh`. Essentially, using the native SSH
-transport is the same as running SSH on your command line, but with Bolt
+transport is the same as running SSH on your command line, but with OpenBolt
 managing the connections.
 
 To use the native SSH transport, under the `config` option in your inventory
@@ -875,14 +847,14 @@ ssh:
 ```
 
 The value of `ssh-command` can be either a string or an array, and you can
-provide any command-line options to the command. Bolt appends
-Bolt-configuration settings to the command, as well as the specified target,
-when connecting. Not all Bolt configuration options are supported using the
+provide any command-line options to the command. OpenBolt appends
+its configuration settings to the command, as well as the specified target,
+when connecting. Not all OpenBolt configuration options are supported using the
 native SSH transport, but you can configure most options in your OpenSSH Config.
 See [Transport configuration options](bolt_transports_reference.html#ssh) for a list
-of supported Bolt SSH options.
+of supported OpenBolt SSH options.
 
-Bolt transports have two main functions: executing remotely, and copying files
+OpenBolt transports have two main functions: executing remotely, and copying files
 to the remote targets. `ssh-command` is what configures the remote execution,
 and `copy-command` configures the copy command. The default is `scp -r`, and
 `rsync` is not supported at this time.
@@ -927,7 +899,7 @@ To encrypt SSH connections using the unsupported algorithm
    Ciphers+=chacha20-poly1305@openssh.com
    ```
 
-2. In your inventory file, configure Bolt to use the SSH shell command:
+2. In your inventory file, configure OpenBolt to use the SSH shell command:
 
    ```yaml
    # inventory.yaml

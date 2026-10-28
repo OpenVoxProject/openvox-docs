@@ -121,23 +121,21 @@ _PowerShell cmdlet:_
 Get-BoltModule
 ```
 
-## Compatibility with Bolt versions
+## Compatibility with older projects and OpenVox Server
 
-Bolt 2.30.0 introduced module dependency management. The changes introduced by
-this feature affect:
+Module dependency management affects:
 
-- Existing OpenBolt projects that were created before the dependency changes came
-  into effect. For information on how to migrate your OpenBolt project to use
-  dependency management, see [Migrate an OpenBolt
-  project](projects.html#migrate-an-openbolt-project).
+- Older projects that don't use dependency management yet. For information on
+  how to migrate your OpenBolt project to use dependency management, see
+  [Migrate an OpenBolt project](projects.html#migrate-an-openbolt-project).
 - Your OpenVox Server environments (if you're using the dependency management
   feature).
 
 ### OpenVox Server compatibility
 
-OpenBolt sets the moduledir in the Puppetfile to `.modules/` which is not on the
-modulepath in versions of Bolt before 2.30.0. If you're using OpenBolt's dependency
-management feature in an OpenVox Server environment, you must specify
+OpenBolt sets the moduledir in the Puppetfile to `.modules/`, which is not on an
+OpenVox Server environment's default modulepath. If you're using OpenBolt's
+dependency management feature in an OpenVox Server environment, you must specify
 `.modules` on the modulepath in your
 [environment.conf](/openvox/latest/config_file_environment.html#example).
 
@@ -148,6 +146,3 @@ For example:
 
 modulepath = site:dist:modules:$basemodulepath:.modules
 ```
-
-You can learn more about the module changes introduced in Bolt 2.23.0 in the
-[September 2020 developer update](./developer_updates.html#september-2020).
