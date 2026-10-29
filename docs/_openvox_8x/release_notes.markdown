@@ -20,6 +20,34 @@ You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade
 
 See [Upgrading from Puppet 7 to OpenVox 8](upgrade_major.html) for the changes to review before you move from 7 to 8.
 
+## OpenVox 8.31.2
+
+Released October 29, 2026.
+
+This is a security release of OpenVox. It patches the bundled OpenSSL 3.0.22 and Ruby 3.2.11 without changing their versions.
+
+All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/8.31.2).
+
+Notable changes in this release:
+
+- OpenSSL is patched for the six issues listed as open in 8.31.1 ([puppet-runtime#322](https://github.com/OpenVoxProject/puppet-runtime/pull/322)).
+  OpenSSL 3.0 is past the end of its upstream support, so the patches are the backports that Debian 12 applies to its own OpenSSL 3.0 packages.
+  The version stays at 3.0.22, so scanners that match on the version number still report these CVEs against the agent.
+- Ruby is patched with the regular expression compilation fixes from Ruby 3.3.13 ([puppet-runtime#321](https://github.com/OpenVoxProject/puppet-runtime/pull/321)), the bugs that OpenVox 9.2.1 fixed by updating to Ruby 4.0.9.
+  GitLab found that the bugs could be used for remote code execution and published them as CVE-2026-89078, CVE-2026-93577, CVE-2026-97229, and CVE-2026-110264; see Ruby's [advisory on regexp compilation fixes](https://www.ruby-lang.org/en/news/2026/10/23/regexp-fixes-for-gitlab-cves/).
+  They are reached only when a program compiles a regular expression from untrusted input. Ruby has not assigned CVE identifiers of its own for them, so they do not appear in scans of OpenVox's bundled components.
+
+### Security Issues Resolved in 8.31.2
+
+| Identifier                                                        | CVSS 3.1 Score | Resolved By                         |
+| :---------------------------------------------------------------- | :------------: | :---------------------------------- |
+| [CVE-2026-84782](https://nvd.nist.gov/vuln/detail/CVE-2026-84782) |       8.2      | `pkg:github/openssl/openssl@3.0.22` |
+| [CVE-2026-75806](https://nvd.nist.gov/vuln/detail/CVE-2026-75806) |       5.3      | `pkg:github/openssl/openssl@3.0.22` |
+| [CVE-2026-75805](https://nvd.nist.gov/vuln/detail/CVE-2026-75805) |       5.3      | `pkg:github/openssl/openssl@3.0.22` |
+| [CVE-2026-35189](https://nvd.nist.gov/vuln/detail/CVE-2026-35189) |       5.3      | `pkg:github/openssl/openssl@3.0.22` |
+| [CVE-2026-54872](https://nvd.nist.gov/vuln/detail/CVE-2026-54872) |       3.7      | `pkg:github/openssl/openssl@3.0.22` |
+| [CVE-2026-77696](https://nvd.nist.gov/vuln/detail/CVE-2026-77696) |       3.7      | `pkg:github/openssl/openssl@3.0.22` |
+
 ## OpenVox 8.31.1
 
 Released October 21, 2026.
@@ -36,7 +64,7 @@ Notable changes in this release:
 - The upgrade replaces `cert.pem`, so a CA that you appended to that file has to be added again. [Adding a custom CA for HTTPS-inspecting proxies](ssl_custom_ca_proxy.html) describes the ways that survive upgrades.
 - curl is updated to 8.23.0, which fixes a use-after-free during HTTP/2 uploads ([CVE-2026-92392](https://curl.se/docs/CVE-2026-92392.html)).
 - Bundled gems are updated, including fast_gettext 4.1.1, multi_json 1.21.2, and net-ssh 7.3.6.
-- OpenSSL 3.0, which OpenVox 8 bundles, reached the end of its upstream support on September 7, 2026 and no longer receives fixes. The OpenSSL issues listed as open on the release page stay open in OpenVox 8. OpenVox 9 bundles OpenSSL 3.5, the current long-term-support line; see [Upgrading from OpenVox 8 to OpenVox 9](/openvox/9.x/upgrade_major.html).
+- OpenSSL 3.0, which OpenVox 8 bundles, reached the end of its upstream support on September 7, 2026 and no longer receives fixes. The OpenSSL issues listed as open on the release page are not fixed in this release; [8.31.2](#openvox-8312) patches them. OpenVox 9 bundles OpenSSL 3.5, the current long-term-support line; see [Upgrading from OpenVox 8 to OpenVox 9](/openvox/9.x/upgrade_major.html).
 
 ### Security Issues Resolved in 8.31.1
 
