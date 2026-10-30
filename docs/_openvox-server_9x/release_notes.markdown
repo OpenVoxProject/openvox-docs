@@ -7,6 +7,8 @@ OpenVox Server 9 pairs with OpenVox 9 (the agent): the `openvox-server` 9.x pack
 depends on `openvox-agent` 9.x on the same host. For the changes on the agent side,
 see the [OpenVox 9 release notes](/openvox/9.x/release_notes.html).
 
+{% include release_notes.html product="OpenVox Server" %}
+
 ## OpenVox Server 9.1.1
 
 Released October 29, 2026.

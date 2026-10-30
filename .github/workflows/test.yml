@@ -27,6 +27,8 @@ jobs:
         run: bundle env
       - name: Run rake rubocop
         run: bundle exec rake rubocop
+      - name: Run unit tests
+        run: bundle exec rake spec
       - name: Validate products.yml
         run: bundle exec rake test:products_data
       - name: Validate code

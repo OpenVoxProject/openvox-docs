@@ -4,6 +4,8 @@ title: "OpenVox Server: Release Notes"
 canonical: "/openvox-server/latest/release_notes.html"
 ---
 
+{% include release_notes.html product="OpenVox Server" %}
+
 ## OpenVox Server 8.17.1
 
 Released October 29, 2026.

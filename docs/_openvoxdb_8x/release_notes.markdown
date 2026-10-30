@@ -6,6 +6,8 @@ canonical: "/openvoxdb/latest/release_notes.html"
 
 # OpenVoxDB 8 Release Notes
 
+{% include release_notes.html product="OpenVoxDB" %}
+
 ## OpenVoxDB 8.17.1
 
 Released October 29, 2026.

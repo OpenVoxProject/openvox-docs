@@ -23,10 +23,13 @@ on:
       - '_layouts/**/*'
       - 'docs/**/*'
       - 'assets/**/*'
+      - '_plugins/**/*'
+      - '_release_highlights/**/*'
 
   # Upstream release workflows send this after tagging so the generated
-  # reference pages (built from the series refs in _data/products.yml) and the
-  # component-version tables pick up the new release without a docs commit.
+  # reference pages (built from the series refs in _data/products.yml), the
+  # component-version tables, and the generated release-notes entries pick up
+  # the new release without a docs commit.
   # Optional payload: { "product": "openvox", "version": "8.28.1" }, used only
   # for the run name above.
   repository_dispatch:

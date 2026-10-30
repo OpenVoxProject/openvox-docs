@@ -9,6 +9,8 @@ OpenVoxDB 9 is released alongside OpenVox 9 and OpenVox Server 9. For the change
 those components, see the [OpenVox 9 release notes](/openvox/9.x/release_notes.html)
 and the [OpenVox Server 9 release notes](/openvox-server/9.x/release_notes.html).
 
+{% include release_notes.html product="OpenVoxDB" %}
+
 ## OpenVoxDB 9.1.1
 
 Released October 29, 2026.

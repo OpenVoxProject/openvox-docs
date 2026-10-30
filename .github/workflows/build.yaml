@@ -108,6 +108,10 @@ jobs:
             SERIES=$series bundle exec rake references:openvoxdb_versions || echo "openvoxdb_versions refresh failed for ${series}x; using committed _data"
           done
           bundle exec rake references:openbolt_versions || echo 'openbolt_versions refresh failed; using committed _data'
+          # Refresh the generated release-notes entries for every page that sets
+          # `release_notes_after` in _data/products.yml. A page whose refresh
+          # fails keeps its committed _data/release_notes file.
+          bundle exec rake references:release_notes || echo 'release_notes refresh failed; using committed _data'
           # Refresh the supported-platforms table from the shared-actions
           # platforms.json, falling back to the committed _data file if unreachable.
           bundle exec rake references:supported_platforms || echo 'supported_platforms refresh failed; using committed _data'

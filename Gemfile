@@ -40,6 +40,7 @@ end
 
 group(:test) do
   gem 'html-proofer', '~> 5.2'
+  gem 'rspec', '~> 3.13'
 end
 
 # group(:debug) do

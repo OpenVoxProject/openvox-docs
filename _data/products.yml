@@ -5,6 +5,8 @@
 #     `collection` (which upstream tag builds into which collection dir).
 #   - the version selector UI (forthcoming): `label`, `latest`, `single_version`,
 #     and per-version `id`, `label`, `base`.
+#   - `rake references:release_notes`: `release_notes`, plus per-version
+#     `release_notes_after`, `collection`, and `label` (the series).
 #
 # Keyed by product id; insertion order is the display order. Each product has:
 #   - label:          display name for the UI (e.g. "OpenVox").
@@ -18,6 +20,11 @@
 #   - single_version: (optional) true when the product has no numbered collection,
 #                     only a real `_<product>_latest` dir (e.g. OpenVox Containers);
 #                     the selector can hide the picker for these.
+#   - release_notes:  (optional) generate the newest entries on this product's
+#                     release-notes pages (see MAINTAINING.md). `repo` is the
+#                     GitHub repo whose releases are listed and `sbom` the
+#                     openvox-sbom-tools package whose SBOMs give the component
+#                     changes.
 #   - versions:       list of version entries, newest first, each with:
 #       - id:         short version id (e.g. "8x"); the `latest` key references one.
 #       - label:      display label for the UI (e.g. "8.x").
@@ -39,6 +46,10 @@
 #                         reproducible. An older major that still receives
 #                         maintenance releases keeps its series ref until its
 #                         last release has shipped; freeze it then.
+#       - release_notes_after: (products with `release_notes` only) generate
+#                     entries for the stable releases in this series newer than
+#                     this version. Releases up to and including it keep their
+#                     hand-written entries.
 
 openvox:
   label: OpenVox
@@ -86,28 +97,38 @@ openbolt:
 openvox-server:
   label: OpenVox Server
   latest: 9x
+  release_notes:
+    repo: OpenVoxProject/openvox-server
+    sbom: openvox-server
   versions:
     - id: 9x
       label: "9.x"
       collection: _openvox-server_9x
       base: /openvox-server/9.x/
+      release_notes_after: "9.1.1"
     - id: 8x
       label: "8.x"
       collection: _openvox-server_8x
       base: /openvox-server/8.x/
+      release_notes_after: "8.17.1"
 
 openvoxdb:
   label: OpenVoxDB
   latest: 9x
+  release_notes:
+    repo: OpenVoxProject/openvoxdb
+    sbom: openvoxdb
   versions:
     - id: 9x
       label: "9.x"
       collection: _openvoxdb_9x
       base: /openvoxdb/9.x/
+      release_notes_after: "9.1.1"
     - id: 8x
       label: "8.x"
       collection: _openvoxdb_8x
       base: /openvoxdb/8.x/
+      release_notes_after: "8.17.1"
 
 ecosystem:
   label: Ecosystem
