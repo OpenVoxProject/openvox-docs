@@ -25,9 +25,17 @@ Notable changes in this release:
 
 ### Security Issues Resolved in 9.1.1
 
-| Identifier                                                          | CVSS 3.1 Score | Resolved By                                                    |
-| :------------------------------------------------------------------ | :------------: | :------------------------------------------------------------- |
-| [CVE-2026-110879](https://nvd.nist.gov/vuln/detail/CVE-2026-110879) |       9.8      | `pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.21.8` |
+| Identifier                                                          | CVSS 3.1 Score | Resolved By                                                                  |
+| :------------------------------------------------------------------ | :------------: | :--------------------------------------------------------------------------- |
+| [CVE-2026-110879](https://nvd.nist.gov/vuln/detail/CVE-2026-110879) |       9.3      | `pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.21.8`               |
+| [CVE-2026-68495](https://nvd.nist.gov/vuln/detail/CVE-2026-68495)   |       8.7      | `pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.21.8`  |
+| [CVE-2026-104895](https://nvd.nist.gov/vuln/detail/CVE-2026-104895) |       8.7      | `pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-smile@2.21.8` |
+| [CVE-2026-68496](https://nvd.nist.gov/vuln/detail/CVE-2026-68496)   |       8.7      | `pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-smile@2.21.8` |
+| [CVE-2026-77711](https://nvd.nist.gov/vuln/detail/CVE-2026-77711)   |       8.2      | `pkg:maven/org.eclipse.jetty/jetty-client@12.1.14`                           |
+| [CVE-2026-76184](https://nvd.nist.gov/vuln/detail/CVE-2026-76184)   |       8.2      | `pkg:maven/org.eclipse.jetty/jetty-client@12.1.14`                           |
+| [CVE-2026-19864](https://nvd.nist.gov/vuln/detail/CVE-2026-19864)   |       5.6      | `pkg:maven/org.eclipse.jetty/jetty-client@12.1.14`                           |
+| [CVE-2026-19863](https://nvd.nist.gov/vuln/detail/CVE-2026-19863)   |       9.3      | `pkg:maven/org.eclipse.jetty/jetty-security@12.1.14`                         |
+| [CVE-2026-112046](https://nvd.nist.gov/vuln/detail/CVE-2026-112046) |       6.8      | `pkg:maven/org.ow2.asm/asm@9.11.1`                                           |
 
 ## OpenVox Server 9.1.0
 
