@@ -389,6 +389,7 @@ and enter the following script:
 ```bash
 #!/usr/bin/env bash
 
+# -x matches the process name exactly
 if pgrep -x apache2 > /dev/null
 then
   echo "Apache is running"
