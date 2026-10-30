@@ -18,7 +18,7 @@ Contributions are made via GitHub pull requests.
 2. Make your changes (see [Previewing locally](#previewing-locally) below)
 3. Commit with a GPG signature and DCO sign-off: `git commit -S -s`
 4. Open a pull request against `master`
-5. Ensure CI is passing and your branch is up to date with `master` before marking ready for review
+5. Ensure CI is passing before marking ready for review. If your branch conflicts with `master`, [rebase it onto `master`](https://docs.github.com/en/get-started/using-git/resolving-merge-conflicts-after-a-git-rebase) instead of merging `master` into it, then update the pull request with `git push --force-with-lease`
 
 All commits must be:
 
