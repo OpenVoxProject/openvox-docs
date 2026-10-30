@@ -20,6 +20,12 @@ Notable changes in this release:
 - jackson-databind 2.21.8 fixes [CVE-2026-110879](https://nvd.nist.gov/vuln/detail/CVE-2026-110879). Where polymorphic type handling uses class-name type ids, classes named as generic type arguments or array element types inside a type id were not checked by `PolymorphicTypeValidator`, so crafted input could instantiate arbitrary classes.
 - Bundled components are updated, including Jackson 2.21.8, Jetty 12.1.14, Logback 1.6.6, HoneySQL 2.8.85, next.jdbc 1.4.72, PostgreSQL JDBC 42.7.14, Ring 1.15.6, commons-codec 1.23.0, and trapperkeeper-webserver 12.1.2.
 
+### Security Issues Resolved in 8.17.1
+
+| Identifier                                                          | CVSS 3.1 Score | Resolved By                                                    |
+| :------------------------------------------------------------------ | :------------: | :------------------------------------------------------------- |
+| [CVE-2026-110879](https://nvd.nist.gov/vuln/detail/CVE-2026-110879) |       9.8      | `pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.21.8` |
+
 ## OpenVoxDB 8.17.0
 
 Released October 7, 2026.

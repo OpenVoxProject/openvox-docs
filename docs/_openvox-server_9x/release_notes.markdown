@@ -23,6 +23,12 @@ Notable changes in this release:
   It prevents a size overflow when compiling a regular expression, a bug similar to the Ruby regexp bugs behind CVE-2026-93577 and CVE-2026-97229 that [OpenVox 9.2.1](/openvox/9.x/release_notes.html#openvox-921) fixes in the agent. It also fixes an endless loop on invalid Unicode input.
 - Bundled components are updated, including Jackson 2.21.8, Jetty 12.1.14, Logback 1.6.6, Ring 1.15.6, and trapperkeeper-webserver 12.1.2.
 
+### Security Issues Resolved in 9.1.1
+
+| Identifier                                                          | CVSS 3.1 Score | Resolved By                                                    |
+| :------------------------------------------------------------------ | :------------: | :------------------------------------------------------------- |
+| [CVE-2026-110879](https://nvd.nist.gov/vuln/detail/CVE-2026-110879) |       9.8      | `pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.21.8` |
+
 ## OpenVox Server 9.1.0
 
 Released October 15, 2026.
