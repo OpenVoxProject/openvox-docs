@@ -135,20 +135,20 @@ services:
   target1:
     build: .
     ports:
-      - '3000:80'
-      - '2000:22'
+      - '127.0.0.1:3000:80'
+      - '127.0.0.1:2000:22'
     container_name: target1
   target2:
     build: .
     ports:
-      - '3001:80'
-      - '2001:22'
+      - '127.0.0.1:3001:80'
+      - '127.0.0.1:2001:22'
     container_name: target2
 ```
 
 This compose file uses the Dockerfile to create two containers. The containers
-are named `target1` and `target2`, and are bound to SSH ports `2000` and `2001`,
-and HTTP ports `3000` and `3001`.
+are named `target1` and `target2`, and are bound on localhost to SSH ports
+`2000` and `2001`, and to HTTP ports `3000` and `3001`.
 
 After creating your Dockerfile and `compose.yaml` file, your file
 structure looks like this:
@@ -177,8 +177,8 @@ command:
 ```bash
 $ docker compose ps
 NAME      IMAGE                COMMAND               SERVICE   CREATED          STATUS          PORTS
-target1   my_project-target1   "/usr/sbin/sshd -D"   target1   10 seconds ago   Up 10 seconds   0.0.0.0:2000->22/tcp, [::]:2000->22/tcp, 0.0.0.0:3000->80/tcp, [::]:3000->80/tcp
-target2   my_project-target2   "/usr/sbin/sshd -D"   target2   10 seconds ago   Up 10 seconds   0.0.0.0:2001->22/tcp, [::]:2001->22/tcp, 0.0.0.0:3001->80/tcp, [::]:3001->80/tcp
+target1   my_project-target1   "/usr/sbin/sshd -D"   target1   10 seconds ago   Up 10 seconds   127.0.0.1:2000->22/tcp, 127.0.0.1:3000->80/tcp
+target2   my_project-target2   "/usr/sbin/sshd -D"   target2   10 seconds ago   Up 10 seconds   127.0.0.1:2001->22/tcp, 127.0.0.1:3001->80/tcp
 ```
 
 Your targets are ready. Next, run a command on a target to see how OpenBolt works.
