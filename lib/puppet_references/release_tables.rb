@@ -85,16 +85,33 @@ module PuppetReferences
     # newest first.
     def release_tags(series:, min_version:)
       floor = Gem::Version.new(min_version)
-      # Only the first page (100 newest releases) is read. Safe while min_version
-      # stays near the newest releases; revisit with pagination if a series ever
-      # has more than 100 releases above the floor.
-      body = api_get("/repos/#{repo}/releases?per_page=100", accept: 'application/vnd.github+json')
-      JSON.parse(body)
-          .reject { |r| r['prerelease'] || r['draft'] }
-          .map { |r| r['tag_name'] }
-          .select { |t| t.start_with?(series) && Gem::Version.correct?(t) && Gem::Version.new(t) >= floor }
-          .sort_by { |t| Gem::Version.new(t) }
-          .reverse
+      stable_releases(series: series)
+        .map { |r| r['tag_name'] }
+        .select { |t| Gem::Version.new(t) >= floor }
+        .sort_by { |t| Gem::Version.new(t) }
+        .reverse
+    end
+
+    # Published, non-prerelease GitHub releases whose tag is a version in the
+    # series, as the API returns them.
+    def stable_releases(series:)
+      all_releases
+        .reject { |r| r['prerelease'] || r['draft'] }
+        .select { |r| r['tag_name'].start_with?(series) && Gem::Version.correct?(r['tag_name']) }
+    end
+
+    # Every release in the repo, reading all pages. A data file is rewritten from
+    # this list on each refresh, so stopping at the first page would silently drop
+    # the oldest rows (and the release before the oldest one, which the generated
+    # release notes compare components against) once a repo passes 100 releases.
+    def all_releases
+      releases = []
+      (1..).each do |page|
+        batch = JSON.parse(api_get("/repos/#{repo}/releases?per_page=100&page=#{page}",
+                                   accept: 'application/vnd.github+json'))
+        releases.concat(batch)
+        return releases if batch.size < 100
+      end
     end
 
     def json_at(repo, path, ref)

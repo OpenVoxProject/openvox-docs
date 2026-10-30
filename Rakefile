@@ -9,10 +9,13 @@ require 'yaml'
 require 'rake/clean'
 
 require 'rubocop/rake_task'
+require 'rspec/core/rake_task'
 
 RuboCop::RakeTask.new do |task|
   task.plugins << 'rubocop-rake'
 end
+
+RSpec::Core::RakeTask.new(:spec)
 
 clobber_dirs = [
   # ceated by references rake sub tasks
@@ -146,6 +149,17 @@ namespace :references do
 
   desc 'Generate all component-version data files (agent, server, openvoxdb, openbolt)'
   task component_versions: %i[agent_versions server_versions openvoxdb_versions openbolt_versions]
+
+  desc 'Generate _data/release_notes/<nav>.yml for the release-notes pages that generate their entries'
+  task :release_notes do
+    require 'puppet_references/release_notes'
+    # Each version with `release_notes_after` in _data/products.yml gets its own
+    # data file. A version that fails keeps its committed file; the task still
+    # fails so CI logs the fallback.
+    dir = ENV.fetch('RELEASE_NOTES_DATA', '_data/release_notes')
+    failed = PuppetReferences::ReleaseNotes.write_all(products: YAML.load_file('_data/products.yml'), dir:)
+    abort "release notes failed for #{failed.join(', ')}" unless failed.empty?
+  end
 
   desc 'Generate _data/supported_platforms.yml from the shared-actions platforms.json'
   task :supported_platforms do

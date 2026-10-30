@@ -1,0 +1,40 @@
+{%- comment -%}
+  Generated release-notes entries for the current page, newest first.
+
+  This include emits Markdown, not HTML: it is called from a Markdown page, so
+  kramdown converts these headings exactly like the hand-written entries below
+  them and the anchors (for example #openvox-server-911) keep the same form.
+
+  Records come from _data/release_notes/<nav>.yml (rake references:release_notes)
+  and highlights from _release_highlights/<nav>/<version>.md
+  (_plugins/release_highlights.rb). Pass the product name used in the headings:
+  include release_notes.html product="OpenVox Server"
+{%- endcomment -%}
+{%- assign highlights = site.data.release_highlights[page.nav] -%}
+{%- for r in site.data.release_notes[page.nav] -%}
+{%- assign h = highlights[r.version] -%}
+{%- assign type = h.type | default: r.type -%}
+{%- assign initial = type | slice: 0 %}
+
+## {{ include.product }} {{ r.version }}
+
+Released {{ r.date | date: "%B %-d, %Y" }}.
+
+This is {% if "aeiou" contains initial %}an{% else %}a{% endif %} {{ type }} release of {{ include.product }}.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page]({{ r.url }}).
+{% if h.body %}
+{{ h.body }}
+{% endif %}
+{%- if r.components %}
+
+<details markdown="1">
+<summary>Component changes since {{ r.previous }}</summary>
+
+| Component | {{ r.previous }} | {{ r.version }} |
+| :-- | :-- | :-- |
+{% for c in r.components %}| {{ c.name }} | {{ c.from | default: "(new)" }} | {{ c.to | default: "(removed)" }} |
+{% endfor %}
+</details>
+{%- endif %}
+{% endfor %}

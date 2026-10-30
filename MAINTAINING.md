@@ -225,3 +225,71 @@ Do this when the new major becomes the stable release.
 To back out a cutover: repoint the `_<product>_latest` symlink to the previous
 collection, revert the `_config.yml` / `nav_map.yml` / `products.yml` / `_data/nav`
 changes, and remove the new `docs/_<product>_<major>/` directory.
+
+## Release notes
+
+The newest entries on the OpenVox Server and OpenVoxDB release-notes pages are
+generated from the GitHub releases. Older entries are hand-written Markdown on the
+page itself.
+
+### What is generated
+
+`rake references:release_notes` writes `_data/release_notes/<nav>.yml` (for example
+`openvox-server_9x.yml`) with one record for each stable release in the page's series
+that is newer than its `release_notes_after` version in `_data/products.yml`.
+`_includes/release_notes.html` renders the records, newest first, where the page
+includes it. Each entry has:
+
+- the heading, such as `## OpenVox Server 9.1.2`
+- the release date, which is the GitHub release's publication date in UTC
+- the release type: `feature` for an x.y.0 release, otherwise `bug-fix`
+- the link to the GitHub release
+- a collapsed table of the bundled components that changed since the previous
+  release, from the [openvox-sbom-tools](https://github.com/OpenVoxProject/openvox-sbom-tools)
+  SBOMs. The table appears once the SBOMs for both releases are merged there.
+
+CI runs the task on every build, and falls back to the committed data files if the
+GitHub API is unreachable, so a new release needs no docs PR. It appears with the
+next production build. If nothing else is merging, start one from the
+"Automatically publish new content" workflow's **Run workflow** button. To preview
+locally, run `bundle exec rake references:release_notes` before `jekyll build`. The
+generator and the highlights plugin have unit tests in `spec/`; run
+`bundle exec rake spec` after changing them.
+
+CVE tables are not generated yet. Until they are, add a hand-written
+`### Security Issues Resolved in <version>` table to the release's highlights file.
+
+### Adding highlights
+
+Put anything a release needs beyond the generated text in
+`_release_highlights/<nav>/<version>.md`, for example
+`_release_highlights/openvox-server_9x/9.1.2.md`. The file is rendered after the
+GitHub link, as part of that release's entry:
+
+```markdown
+---
+type: security
+---
+
+Notable changes in this release:
+
+- The `openvox-server` package now requires `openvox-agent` 9.2.2 or later.
+```
+
+- The front matter is optional. `type` replaces the generated release type.
+- Start with a paragraph or a list, not a heading. Use `###` headings for sections
+  inside the entry, as the hand-written entries do.
+- Keep to what readers need to act on or won't find on the GitHub release: package
+  requirement changes, upgrade steps, links to related releases of other components.
+- The build warns about a highlights file whose version has no generated entry, for
+  example because of a typo in the file name.
+
+### Switching a page to generated entries
+
+1. In `_data/products.yml`, give the product a `release_notes` block with its GitHub
+   `repo` and `sbom` package name, and set `release_notes_after` on the version to
+   the newest release that has a hand-written entry.
+2. Add `{% include release_notes.html product="<name>" %}` to the page above the
+   first hand-written entry, where `<name>` is the product name used in the entry
+   headings.
+3. Run `bundle exec rake references:release_notes` and commit the new data file.

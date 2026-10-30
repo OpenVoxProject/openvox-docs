@@ -1,0 +1,5 @@
+---
+# Highlight files are fragments of a release-notes entry, not pages: they start
+# with a paragraph or a list, never a heading of their own.
+extends: ../.markdownlint.yaml
+first-line-heading: false
