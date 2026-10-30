@@ -118,7 +118,7 @@ CMD ["/usr/sbin/sshd", "-D"]
 This Dockerfile defines an Ubuntu 24.04 container with an active SSH service. The SSH
 service allows OpenBolt to communicate with the container using the SSH transport.
 The container lets `root` log in with the password `root`, so use it only for
-practice. It also installs `procps` for the `ps` command, which a script uses
+practice. It also installs `procps`, which provides `pgrep`, used by a script
 later in this guide.
 
 > 🔩 **Tip**: A transport is the connection method that OpenBolt uses to
@@ -389,9 +389,8 @@ and enter the following script:
 ```bash
 #!/usr/bin/env bash
 
-i=`ps -eaf | grep -i apache | grep -v grep | grep -v bash | wc -l`
-
-if [[ $i > 0 ]]
+# -x matches the process name exactly
+if pgrep -x apache2 > /dev/null
 then
   echo "Apache is running"
 else
