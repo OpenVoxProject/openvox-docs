@@ -4,6 +4,22 @@ title: "OpenVox Server: Release Notes"
 canonical: "/openvox-server/latest/release_notes.html"
 ---
 
+## OpenVox Server 8.17.1
+
+Released October 29, 2026.
+
+This is a security release of OpenVox Server.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvox-server/releases/tag/8.17.1).
+
+Notable changes in this release:
+
+- The `openvox-server` package now requires `openvox-agent` 8.31.2 or later, so upgrading the server also upgrades the agent on the same host.
+- jackson-databind 2.21.8 fixes [CVE-2026-110879](https://nvd.nist.gov/vuln/detail/CVE-2026-110879). Where polymorphic type handling uses class-name type ids, classes named as generic type arguments or array element types inside a type id were not checked by `PolymorphicTypeValidator`, so crafted input could instantiate arbitrary classes.
+- JOni, the regular expression library used by JRuby, is updated from 2.2.5 to 2.2.8 ([#739](https://github.com/OpenVoxProject/openvox-server/pull/739)).
+  It prevents a size overflow when compiling a regular expression, a bug similar to the Ruby regexp bugs behind CVE-2026-93577 and CVE-2026-97229 that [OpenVox 8.31.2](/openvox/8.x/release_notes.html#openvox-8312) patches in the agent. It also fixes an endless loop on invalid Unicode input.
+- Bundled components are updated, including Jackson 2.21.8, Jetty 12.1.14, Logback 1.6.6, Ring 1.15.6, commons-codec 1.23.0, and trapperkeeper-webserver 12.1.2.
+
 ## OpenVox Server 8.17.0
 
 Released October 7, 2026.

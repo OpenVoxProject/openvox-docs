@@ -9,6 +9,20 @@ OpenVoxDB 9 is released alongside OpenVox 9 and OpenVox Server 9. For the change
 those components, see the [OpenVox 9 release notes](/openvox/9.x/release_notes.html)
 and the [OpenVox Server 9 release notes](/openvox-server/9.x/release_notes.html).
 
+## OpenVoxDB 9.1.1
+
+Released October 29, 2026.
+
+This is a security release of OpenVoxDB.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvoxdb/releases/tag/9.1.1).
+
+Notable changes in this release:
+
+- The `openvoxdb` package now requires `openvox-agent` 9.2.1 or later, so upgrading OpenVoxDB also upgrades the agent on the same host.
+- jackson-databind 2.21.8 fixes [CVE-2026-110879](https://nvd.nist.gov/vuln/detail/CVE-2026-110879). Where polymorphic type handling uses class-name type ids, classes named as generic type arguments or array element types inside a type id were not checked by `PolymorphicTypeValidator`, so crafted input could instantiate arbitrary classes.
+- Bundled components are updated, including Jackson 2.21.8, Jetty 12.1.14, Logback 1.6.6, HoneySQL 2.8.85, next.jdbc 1.4.72, Ring 1.15.6, and trapperkeeper-webserver 12.1.2.
+
 ## OpenVoxDB 9.1.0
 
 Released October 15, 2026.

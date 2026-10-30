@@ -6,6 +6,20 @@ canonical: "/openvoxdb/latest/release_notes.html"
 
 # OpenVoxDB 8 Release Notes
 
+## OpenVoxDB 8.17.1
+
+Released October 29, 2026.
+
+This is a security release of OpenVoxDB.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvoxdb/releases/tag/8.17.1).
+
+Notable changes in this release:
+
+- The `openvoxdb` package now requires `openvox-agent` 8.31.2 or later, so upgrading OpenVoxDB also upgrades the agent on the same host.
+- jackson-databind 2.21.8 fixes [CVE-2026-110879](https://nvd.nist.gov/vuln/detail/CVE-2026-110879). Where polymorphic type handling uses class-name type ids, classes named as generic type arguments or array element types inside a type id were not checked by `PolymorphicTypeValidator`, so crafted input could instantiate arbitrary classes.
+- Bundled components are updated, including Jackson 2.21.8, Jetty 12.1.14, Logback 1.6.6, HoneySQL 2.8.85, next.jdbc 1.4.72, PostgreSQL JDBC 42.7.14, Ring 1.15.6, commons-codec 1.23.0, and trapperkeeper-webserver 12.1.2.
+
 ## OpenVoxDB 8.17.0
 
 Released October 7, 2026.
