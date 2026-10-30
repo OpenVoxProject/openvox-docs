@@ -7,6 +7,36 @@ OpenVox Server 9 pairs with OpenVox 9 (the agent): the `openvox-server` 9.x pack
 depends on `openvox-agent` 9.x on the same host. For the changes on the agent side,
 see the [OpenVox 9 release notes](/openvox/9.x/release_notes.html).
 
+## OpenVox Server 9.1.1
+
+Released October 29, 2026.
+
+This is a security release of OpenVox Server.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvox-server/releases/tag/9.1.1).
+
+Notable changes in this release:
+
+- The `openvox-server` package now requires `openvox-agent` 9.2.1 or later, so upgrading the server also upgrades the agent on the same host.
+- Jackson is updated to 2.21.8, which fixes [CVE-2026-110879](https://nvd.nist.gov/vuln/detail/CVE-2026-110879) in jackson-databind. Where polymorphic type handling uses class-name type ids, classes named as generic type arguments or array element types inside a type id were not checked by `PolymorphicTypeValidator`, so crafted input could instantiate arbitrary classes.
+- Joni, the regular expression library used by JRuby, is updated from 2.2.7 to 2.2.8 ([#738](https://github.com/OpenVoxProject/openvox-server/pull/738)).
+  It prevents a size overflow when compiling a regular expression, a bug similar to the Ruby regexp bugs behind CVE-2026-93577 and CVE-2026-97229 that [OpenVox 9.2.1](/openvox/9.x/release_notes.html#openvox-921) fixes in the agent. It also fixes an endless loop on invalid Unicode input.
+- Bundled components are updated, including ASM 9.11.1, Jetty 12.1.14, Logback 1.6.6, Ring 1.15.6, and trapperkeeper-webserver 12.1.2.
+
+### Security Issues Resolved in 9.1.1
+
+| Identifier                                                          | CVSS 3.1 Score | Resolved By                                                                  |
+| :------------------------------------------------------------------ | :------------: | :--------------------------------------------------------------------------- |
+| [CVE-2026-110879](https://nvd.nist.gov/vuln/detail/CVE-2026-110879) |       9.3      | `pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.21.8`               |
+| [CVE-2026-68495](https://nvd.nist.gov/vuln/detail/CVE-2026-68495)   |       8.7      | `pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor@2.21.8`  |
+| [CVE-2026-104895](https://nvd.nist.gov/vuln/detail/CVE-2026-104895) |       8.7      | `pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-smile@2.21.8` |
+| [CVE-2026-68496](https://nvd.nist.gov/vuln/detail/CVE-2026-68496)   |       8.7      | `pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-smile@2.21.8` |
+| [CVE-2026-77711](https://nvd.nist.gov/vuln/detail/CVE-2026-77711)   |       8.2      | `pkg:maven/org.eclipse.jetty/jetty-client@12.1.14`                           |
+| [CVE-2026-76184](https://nvd.nist.gov/vuln/detail/CVE-2026-76184)   |       8.2      | `pkg:maven/org.eclipse.jetty/jetty-client@12.1.14`                           |
+| [CVE-2026-19864](https://nvd.nist.gov/vuln/detail/CVE-2026-19864)   |       5.6      | `pkg:maven/org.eclipse.jetty/jetty-client@12.1.14`                           |
+| [CVE-2026-19863](https://nvd.nist.gov/vuln/detail/CVE-2026-19863)   |       9.3      | `pkg:maven/org.eclipse.jetty/jetty-security@12.1.14`                         |
+| [CVE-2026-112046](https://nvd.nist.gov/vuln/detail/CVE-2026-112046) |       6.8      | `pkg:maven/org.ow2.asm/asm@9.11.1`                                           |
+
 ## OpenVox Server 9.1.0
 
 Released October 15, 2026.

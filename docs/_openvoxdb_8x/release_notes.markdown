@@ -6,6 +6,33 @@ canonical: "/openvoxdb/latest/release_notes.html"
 
 # OpenVoxDB 8 Release Notes
 
+## OpenVoxDB 8.17.1
+
+Released October 29, 2026.
+
+This is a security release of OpenVoxDB.
+
+All bug fixes, new features and other changes are provided on the [project's GitHub release page](https://github.com/OpenVoxProject/openvoxdb/releases/tag/8.17.1).
+
+Notable changes in this release:
+
+- The `openvoxdb` package now requires `openvox-agent` 8.31.2 or later, so upgrading OpenVoxDB also upgrades the agent on the same host.
+- Jackson is updated to 2.21.8, which fixes [CVE-2026-110879](https://nvd.nist.gov/vuln/detail/CVE-2026-110879) in jackson-databind. Where polymorphic type handling uses class-name type ids, classes named as generic type arguments or array element types inside a type id were not checked by `PolymorphicTypeValidator`, so crafted input could instantiate arbitrary classes.
+- Bundled components are updated, including Jetty 12.1.14, Logback 1.6.6, HoneySQL 2.8.85, next.jdbc 1.4.72, PostgreSQL JDBC 42.7.14, Ring 1.15.6, commons-codec 1.23.0, and trapperkeeper-webserver 12.1.2.
+
+### Security Issues Resolved in 8.17.1
+
+| Identifier                                                          | CVSS 3.1 Score | Resolved By                                                                  |
+| :------------------------------------------------------------------ | :------------: | :--------------------------------------------------------------------------- |
+| [CVE-2026-110879](https://nvd.nist.gov/vuln/detail/CVE-2026-110879) |       9.3      | `pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.21.8`               |
+| [CVE-2026-104895](https://nvd.nist.gov/vuln/detail/CVE-2026-104895) |       8.7      | `pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-smile@2.21.8` |
+| [CVE-2026-77711](https://nvd.nist.gov/vuln/detail/CVE-2026-77711)   |       8.2      | `pkg:maven/org.eclipse.jetty/jetty-client@12.1.14`                           |
+| [CVE-2026-76184](https://nvd.nist.gov/vuln/detail/CVE-2026-76184)   |       8.2      | `pkg:maven/org.eclipse.jetty/jetty-client@12.1.14`                           |
+| [CVE-2026-19864](https://nvd.nist.gov/vuln/detail/CVE-2026-19864)   |       5.6      | `pkg:maven/org.eclipse.jetty/jetty-client@12.1.14`                           |
+| [CVE-2026-19863](https://nvd.nist.gov/vuln/detail/CVE-2026-19863)   |       9.3      | `pkg:maven/org.eclipse.jetty/jetty-security@12.1.14`                         |
+| [CVE-2026-107314](https://nvd.nist.gov/vuln/detail/CVE-2026-107314) |       8.2      | `pkg:maven/org.postgresql/postgresql@42.7.14`                                |
+| [CVE-2026-107315](https://nvd.nist.gov/vuln/detail/CVE-2026-107315) |       6.0      | `pkg:maven/org.postgresql/postgresql@42.7.14`                                |
+
 ## OpenVoxDB 8.17.0
 
 Released October 7, 2026.
