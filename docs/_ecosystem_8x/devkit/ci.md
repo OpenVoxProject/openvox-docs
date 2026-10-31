@@ -22,7 +22,7 @@ It checks out your repository, runs `bundle install`, and then calls the same ra
 That means your module needs the same three files that the rest of the DevKit relies on:
 
 1. A `Gemfile` with a `test` group containing `voxpupuli-test` and `puppet_metadata`, and an `openvox` gem line that reads its version from the environment.
-   The workflow sets `OPENVOX_GEM_VERSION` to pick the release under test, so this is what lets it build a version matrix.
+   The workflow sets `OPENVOX_GEM_VERSION` in every unit job, one job per OpenVox major release that the `requirements` in your `metadata.json` allow, so each job installs the release it is testing.
 
    ```ruby
    source ENV['GEM_SOURCE'] || 'https://rubygems.org'
@@ -142,7 +142,7 @@ bundle exec rake parallel_spec
 ## Adding acceptance tests
 
 When you're ready to run your module against real operating systems, switch `basic.yml` to `beaker.yml` in the `uses:` line.
-The beaker workflow runs everything above and then adds a job per platform listed in your `metadata.json`, using Docker on the GitHub-hosted runner.
+The beaker workflow runs everything above and then adds a job per platform listed in your `metadata.json`, using Podman containers on the GitHub-hosted runner (the `beaker_hypervisor` input defaults to `container_podman`).
 The [acceptance testing guide](acceptance_testing.html#running-in-ci) covers what the tests themselves look like.
 
 ## If you only want a syntax check
@@ -190,7 +190,7 @@ If that's what you want to verify, [acceptance tests](acceptance_testing.html) a
 
 ## Troubleshooting
 
-### `Could not locate Gemfile or .bundle/ directory`
+### `Could not locate Gemfile`
 
 The **Static validations** job fails on its first step, and every unit job shows as skipped:
 
@@ -200,6 +200,7 @@ Could not locate Gemfile or .bundle/ directory
 Error: Process completed with exit code 10.
 ```
 
+Bundler 4 shortens the message to `Could not locate Gemfile`; the cause is the same.
 Your repository has no `Gemfile` at the path the workflow is looking at.
 Add one as described in [What the workflow expects](#what-the-workflow-expects), or set `working-directory` if the module lives in a subdirectory.
 
