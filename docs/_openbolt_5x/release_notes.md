@@ -5,6 +5,8 @@ title: OpenBolt release notes
 
 This page documents the history of the OpenBolt 5.x series.
 
+{% include release_notes.html product="OpenBolt" %}
+
 ## OpenBolt 5.6.0
 
 Released on June 17, 2026

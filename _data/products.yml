@@ -55,17 +55,22 @@ openvox:
   label: OpenVox
   latest: 9x
   references: references:openvox
+  release_notes:
+    repo: OpenVoxProject/openvox
+    sbom: openvox-agent
   versions:
     - id: 9x
       label: "9.x"
       collection: _openvox_9x
       base: /openvox/9.x/
       ref: "9.x"
+      release_notes_after: "9.2.1"
     - id: 8x
       label: "8.x"
       collection: _openvox_8x
       base: /openvox/8.x/
       ref: "8.x"
+      release_notes_after: "8.31.2"
 
 openfact:
   label: OpenFact
@@ -87,12 +92,16 @@ openbolt:
   label: OpenBolt
   latest: 5x
   references: references:openbolt
+  release_notes:
+    repo: OpenVoxProject/openbolt
+    sbom: openbolt
   versions:
     - id: 5x
       label: "5.x"
       collection: _openbolt_5x
       base: /openbolt/5.x/
       ref: "5.x"
+      release_notes_after: "5.6.0"
 
 openvox-server:
   label: OpenVox Server

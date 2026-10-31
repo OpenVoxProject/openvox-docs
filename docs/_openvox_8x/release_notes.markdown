@@ -20,6 +20,8 @@ You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade
 
 See [Upgrading from Puppet 7 to OpenVox 8](upgrade_major.html) for the changes to review before you move from 7 to 8.
 
+{% include release_notes.html product="OpenVox" %}
+
 ## OpenVox 8.31.2
 
 Released October 29, 2026.

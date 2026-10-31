@@ -228,9 +228,9 @@ changes, and remove the new `docs/_<product>_<major>/` directory.
 
 ## Release notes
 
-The newest entries on the OpenVox Server and OpenVoxDB release-notes pages are
-generated from the GitHub releases. Older entries are hand-written Markdown on the
-page itself.
+The newest entries on the release-notes pages for OpenVox (the agent), OpenBolt,
+OpenVox Server, and OpenVoxDB are generated from the GitHub releases. Older entries
+are hand-written Markdown on the page itself.
 
 ### What is generated
 
