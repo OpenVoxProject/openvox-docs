@@ -190,6 +190,10 @@ If that's what you want to verify, [acceptance tests](acceptance_testing.html) a
 
 ## Troubleshooting
 
+The snippets on this page match gha-puppet `v4` and the jig 2.5 templates as of October 2026.
+If the workflow fails in a way this page doesn't cover, compare your files against the [gha-puppet repository](https://github.com/voxpupuli/gha-puppet), whose workflow files are the source of truth.
+{: .tip }
+
 ### `Could not locate Gemfile`
 
 The **Static validations** job fails on its first step, and every unit job shows as skipped:
