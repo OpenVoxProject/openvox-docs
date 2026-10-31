@@ -36,7 +36,6 @@ We publish and test official `openvox-agent` packages for these platforms. Less 
 | Ubuntu | 22.04, 24.04, 26.04 |
 | Fedora | 43, 44 |
 | Microsoft Windows | Windows Server 2016 and later, Windows 10/11 (64 bit) |
-| Microsoft Windows (Consumer OS) | 10 Enterprise |
 | macOS | macOS 13+ (ARM & X86) |
 
 To make a OS migration easier, we also have OpenVox 8 packages for the following platforms (we do not publish new packages anymore):
