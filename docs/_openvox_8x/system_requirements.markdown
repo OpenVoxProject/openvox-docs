@@ -33,20 +33,11 @@ Less common and sometimes brand new platforms might not be automatically tested,
 | ---------------- | --------------- |
 | Red Hat Enterprise Linux (and derivatives) | 7, 8, 9, 10 |
 | SUSE Linux Enterprise Server | 15, 16 |
-| Debian | Bullseye (11), Bookworm (12), Trixie (13) |
-| Ubuntu | 22.04, 24.04, 25.04, 26.04 |
-| Fedora | 41, 42, 43, 44 |
+| Debian | Buster (10), Bullseye (11), Bookworm (12), Trixie (13) |
+| Ubuntu | 18.04, 20.04, 22.04, 24.04, 25.04, 26.04 |
+| Fedora | 36, 40, 41, 42, 43, 44 |
 | Microsoft Windows | All 64bit versions |
 | macOS | macOS 13+ (ARM & X86) |
-
-To make a OS migration easier, we also have OpenVox 8 packages for the following platforms (we do not publish new packages anymore):
-
-| Operating system | Versions |
-| Debian | Buster (10) |
-| Ubuntu | 18.04, 20.04 |
-| Fedora | 36, 40, 41 |
-
-The authoritative list is in [our pipeline repo](https://github.com/OpenVoxProject/shared-actions/blob/main/platforms.json) (check for "8.x vanagon").
 
 ## Platforms without packages
 

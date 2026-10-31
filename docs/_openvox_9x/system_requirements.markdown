@@ -30,14 +30,26 @@ We publish and test official `openvox-agent` packages for these platforms. Less 
 
 | Operating system | Tested versions |
 | ---------------- | --------------- |
-| Red Hat Enterprise Linux (and derivatives) | 7, 8, 9,10 |
+| Red Hat Enterprise Linux (and derivatives) | 8, 9, 10 |
 | SUSE Linux Enterprise Server | 15, 16 |
-| Debian | Wheezy (10), Jessie (11), Stretch (12), (13) |
-| Ubuntu | 18.04, 20.04, 22.04, 24.04, 25.04, 26.04 |
-| Fedora | 36, 40,41,42,43 |
+| Debian | Bookworm (12), Trixie (13) |
+| Ubuntu | 22.04, 24.04, 26.04 |
+| Fedora | 43, 44 |
 | Microsoft Windows (Server OS) | 2008R2, 2012R2, 2016 |
 | Microsoft Windows (Consumer OS) | 10 Enterprise |
 | macOS | 10.12 Sierra, 10.13 High Sierra |
+
+To make a OS migration easier, we also have OpenVox 8 packages for the following platforms (we do not publish new packages anymore):
+
+| Operating system | Versions |
+| ---------------- | -------- |
+| Red Hat Enterprise Linux (and derivatives) | 7 |
+| Debian | Buster (10), Bullseye (11) |
+| Ubuntu | 18.04, 20.04, 25.04 |
+| Fedora | 36, 40, 41, 42 |
+
+The authoritative list is in [our pipeline repo](https://github.com/OpenVoxProject/shared-actions/blob/main/platforms.json) (check for "8.x vanagon").
+
 
 ## Platforms without packages
 
