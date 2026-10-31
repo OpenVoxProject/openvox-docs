@@ -42,15 +42,13 @@ case $facts['os']['family'] {
   'RedHat': { $webserver_name = 'httpd' }
   'Debian': { $webserver_name = 'apache2' }
 }
-package { 'httpd':
+package { $webserver_name:
   ensure => installed,
-  name   => $webserver_name,
 }
 
-service { 'httpd':
+service { $webserver_name:
   ensure => running,
   enable => true,
-  name   => $webserver_name,
 }
 ```
 
