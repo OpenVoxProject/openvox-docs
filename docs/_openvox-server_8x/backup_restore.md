@@ -18,7 +18,7 @@ Two things to know before you start:
 
 ### Tier 0: irreplaceable
 
-Lose any of these without a backup and the fleet has to be re-enrolled or the secret re-issued.
+Lose any of these without a backup and there is no way to recover it. Losing the CA means re-enrolling every agent under a new one; losing a key means issuing a new key and replacing everything that depended on the old one, such as every eyaml-encrypted Hiera value.
 
 | What | Where | Why it matters |
 | ---- | ----- | -------------- |
