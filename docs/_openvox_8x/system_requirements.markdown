@@ -36,7 +36,7 @@ Less common and sometimes brand new platforms might not be automatically tested,
 | Debian | Buster (10), Bullseye (11), Bookworm (12), Trixie (13) |
 | Ubuntu | 18.04, 20.04, 22.04, 24.04, 25.04, 26.04 |
 | Fedora | 36, 40, 41, 42, 43, 44 |
-| Microsoft Windows | All 64bit versions |
+| Microsoft Windows | Windows Server 2016 and later, Windows 10/11 (64 bit) |
 | macOS | macOS 13+ (ARM & X86) |
 
 ## Platforms without packages
