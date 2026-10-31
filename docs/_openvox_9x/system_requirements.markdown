@@ -37,7 +37,7 @@ We publish and test official `openvox-agent` packages for these platforms. Less 
 | Fedora | 43, 44 |
 | Microsoft Windows (Server OS) | 2008R2, 2012R2, 2016 |
 | Microsoft Windows (Consumer OS) | 10 Enterprise |
-| macOS | 10.12 Sierra, 10.13 High Sierra |
+| macOS | macOS 13+ (ARM & X86) |
 
 To make a OS migration easier, we also have OpenVox 8 packages for the following platforms (we do not publish new packages anymore):
 
