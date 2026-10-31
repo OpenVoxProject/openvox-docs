@@ -22,7 +22,7 @@ Lose any of these without a backup and the fleet has to be re-enrolled or the se
 
 | What | Where | Why it matters |
 | ---- | ----- | -------------- |
-| The CA: signing key and certificate, root key, CRL, serial, inventory, signed certificates, pending requests | `/etc/puppetlabs/puppetserver/ca/` (`cadir`), the whole directory: `ca_key.pem`, `root_key.pem`, `ca_crt.pem`, `ca_pub.pem`, `ca_crl.pem`, `serial`, `inventory.txt`, `infra_crl.pem`, `infra_inventory.txt`, `infra_serials`, `signed/`, `requests/` | Every agent trusts this CA. Without the key, no new node can be signed and no certificate revoked; without `inventory.txt` and `signed/`, the CA no longer knows the certificates it issued. The `infra_*` files drive the [infrastructure CRL](infrastructure_crl.html) and are empty placeholders until it is enabled. Owned by `puppet:puppet`, directory `0750`, files `0640`. |
+| The certificate authority | `/etc/puppetlabs/puppetserver/ca/` (`cadir`), the whole directory: `ca_key.pem`, `root_key.pem`, `ca_crt.pem`, `ca_pub.pem`, `ca_crl.pem`, `serial`, `inventory.txt`, `infra_crl.pem`, `infra_inventory.txt`, `infra_serials`, `signed/`, `requests/` | Every agent trusts this CA. Without the key, no new node can be signed and no certificate revoked; without `inventory.txt` and `signed/`, the CA no longer knows the certificates it issued. The `infra_*` files drive the [infrastructure CRL](infrastructure_crl.html) and are empty placeholders until it is enabled. Owned by `puppet:puppet`, directory `0750`, files `0640`. |
 | The server's own certificate and key | `/etc/puppetlabs/puppet/ssl/` (`ssldir`) | Re-issuable from the CA, but restoring it means no re-sign step and no change agents could notice. Also holds the server's copy of the CA bundle and the CRL. `puppet:puppet`. |
 | OpenVoxDB's copy of the server certificate | `/etc/puppetlabs/puppetdb/ssl/` | Copies of the files above, made by `puppetdb ssl-setup`. Regenerable from `ssldir`, cheap to keep. `puppetdb:puppetdb`, `0700`. |
 | Hiera eyaml keys | The paths that `pkcs7_private_key` and `pkcs7_public_key` name in each environment's `hiera.yaml`, for example `/etc/puppetlabs/puppet/eyaml/` | Without the private key, every encrypted Hiera value is gone and every secret in your data has to be rotated. The location is set by your control repository, not by the package, and the global `/etc/puppetlabs/puppet/hiera.yaml` usually does not mention it. |
@@ -55,7 +55,7 @@ Large, and either reproducible from somewhere else or rebuilt by the agents on t
 | ---- | ----- | ----------------------- |
 | Deployed code | `/etc/puppetlabs/code/environments/`, one directory per environment | `r10k deploy environment --modules` rebuilds it from your Git server. Each environment's `.r10k-deploy.json` records the commit (`signature`) and the module versions that were deployed, so keep those files to be able to reproduce the exact state. Back up the tree itself only when your Git server shares the primary's blast radius. |
 | r10k cache | `/var/cache/r10k/` | Re-fetched on the next deploy. |
-| OpenVoxDB data | The `puppetdb` database in PostgreSQL. The `puppetdb` role owns every table, and `puppetdb-read` is the read-only connection's role. Dumped with `pg_dump`, never copied as files while PostgreSQL runs. | Facts and catalogs come back on each agent's next run. Reports, resource events, and exported resources do not. Sites that rely on exported resources, on report history, or on tools that read OpenVoxDB want this tier. |
+| OpenVoxDB data | The `puppetdb` database in PostgreSQL, dumped with `pg_dump` | Facts and catalogs come back on each agent's next run. Reports, resource events, and exported resources do not. Sites that rely on exported resources, on report history, or on tools that read OpenVoxDB want this tier. The `puppetdb` role owns every table and `puppetdb-read` is the read-only connection's role; never copy the database as files while PostgreSQL runs. |
 | Server runtime data | `/opt/puppetlabs/server/data/puppetserver/` | The node cache (`yaml/`) and the JRuby gem directory regenerate; the file bucket (`bucket/`) matters only if your site uses it, and reports stored there only if you do not send them to OpenVoxDB. If you use static catalogs, the `code_id` and `code_content` scripts under `scripts/` are yours and belong in the backup. |
 
 ### What is not here
@@ -100,7 +100,8 @@ Record what code was deployed, which is enough to reproduce the environments wit
 
 ```console
 for d in /etc/puppetlabs/code/environments/*/; do
-  cp "$d/.r10k-deploy.json" "$backup/r10k-deploy-$(basename "$d").json" 2>/dev/null
+  cp "$d/.r10k-deploy.json" \
+    "$backup/r10k-deploy-$(basename "$d").json" 2>/dev/null
 done
 ```
 
@@ -110,12 +111,15 @@ Dump the database with the connection OpenVoxDB itself uses, read from `database
 
 ```console
 ini=/etc/puppetlabs/puppetdb/conf.d/database.ini
-subname=$(awk -F= '/^subname/ {gsub(/ /,"",$2); print $2}' "$ini")   # //HOST:PORT/DATABASE
+# subname has the form //HOST:PORT/DATABASE
+subname=$(awk -F= '/^subname/ {gsub(/ /,"",$2); print $2}' "$ini")
 export PGPASSWORD=$(awk -F= '/^password/ {gsub(/ /,"",$2); print $2}' "$ini")
 host=${subname#//}; host=${host%%[:/]*}
-port=$(echo "$subname" | sed -n 's#//[^:/]*:\([0-9]*\)/.*#\1#p'); port=${port:-5432}
+port=$(echo "$subname" | sed -n 's#//[^:/]*:\([0-9]*\)/.*#\1#p')
+port=${port:-5432}
 db=${subname##*/}
-pg_dump -h "$host" -p "$port" -U puppetdb -d "$db" -Fd -Z3 -j4 -f "$backup/openvoxdb"
+pg_dump -h "$host" -p "$port" -U puppetdb -d "$db" \
+  -Fd -Z3 -j4 -f "$backup/openvoxdb"
 unset PGPASSWORD
 ```
 
@@ -126,7 +130,8 @@ The directory format (`-Fd`) with compression (`-Z3`) and four parallel jobs (`-
 Confirm the CA did not change while you worked, then lock the directory down:
 
 ```console
-cmp "$backup/ca-serial-before" /etc/puppetlabs/puppetserver/ca/serial && rm "$backup/ca-serial-before"
+cmp "$backup/ca-serial-before" /etc/puppetlabs/puppetserver/ca/serial \
+  && rm "$backup/ca-serial-before"
 chmod -R go-rwx "$backup"
 du -sh "$backup"
 ```
@@ -185,7 +190,8 @@ The CA directory is gone or damaged but the fleet still has its certificates. Be
 2. Extract the CA directory from the archive:
 
    ```console
-   tar -C / -xzpf "$backup/etc-puppetlabs.tar.gz" etc/puppetlabs/puppetserver/ca
+   tar -C / -xzpf "$backup/etc-puppetlabs.tar.gz" \
+     etc/puppetlabs/puppetserver/ca
    ```
 
 3. Find the hosts enrolled after the backup was taken. Their certificates are valid as far as the agents are concerned, but the restored CA does not know them, so it cannot revoke or renew them. The server cannot list them for you, because the record that would show them is the one you lost.
@@ -193,8 +199,11 @@ The CA directory is gone or damaged but the fleet still has its certificates. Be
    OpenVoxDB can: every node that has checked in is there, so compare its node list with the archive's inventory. This uses OpenVoxDB's plain-text port, which listens on `localhost:8080` by default:
 
    ```console
-   tar -xzOf "$backup/etc-puppetlabs.tar.gz" etc/puppetlabs/puppetserver/ca/inventory.txt | sed -n 's|.*/CN=||p' | sort -u > /tmp/ca-known
-   curl -s http://localhost:8080/pdb/query/v4/nodes | jq -r '.[].certname' | sort | comm -13 /tmp/ca-known -
+   tar -xzOf "$backup/etc-puppetlabs.tar.gz" \
+     etc/puppetlabs/puppetserver/ca/inventory.txt \
+     | sed -n 's|.*/CN=||p' | sort -u > /tmp/ca-known
+   curl -s http://localhost:8080/pdb/query/v4/nodes \
+     | jq -r '.[].certname' | sort | comm -13 /tmp/ca-known -
    ```
 
    Each host the second command prints needs a certificate the CA knows. Once the services are back (step 4), run `puppetserver ca clean --certname <name>` for it, remove `ssldir` on that agent, and let it submit a new request. Hosts that have not checked in since the backup are not on the list; add them from your provisioning records.
@@ -240,7 +249,9 @@ The host is lost. You have the backup, and the replacement host has the same cer
 
    ```console
    tar -C / -xzpf "$backup/etc-puppetlabs.tar.gz" \
-     etc/puppetlabs/puppet/puppet.conf etc/puppetlabs/puppet/puppetdb.conf etc/puppetlabs/puppet/routes.yaml
+     etc/puppetlabs/puppet/puppet.conf \
+     etc/puppetlabs/puppet/puppetdb.conf \
+     etc/puppetlabs/puppet/routes.yaml
    systemctl restart puppetserver
    ```
 
@@ -258,19 +269,26 @@ The `puppetdb` role owns every object in the database, so it can restore without
 
 ```console
 systemctl stop puppetdb
-sudo -u postgres psql -q -d puppetdb -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public; ALTER SCHEMA public OWNER TO pg_database_owner; GRANT USAGE ON SCHEMA public TO PUBLIC; GRANT CREATE ON SCHEMA public TO puppetdb;"
+sudo -u postgres psql -q -d puppetdb <<'SQL'
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+ALTER SCHEMA public OWNER TO pg_database_owner;
+GRANT USAGE ON SCHEMA public TO PUBLIC;
+GRANT CREATE ON SCHEMA public TO puppetdb;
+SQL
 ini=/etc/puppetlabs/puppetdb/conf.d/database.ini
 subname=$(awk -F= '/^subname/ {gsub(/ /,"",$2); print $2}' "$ini")
 export PGPASSWORD=$(awk -F= '/^password/ {gsub(/ /,"",$2); print $2}' "$ini")
 host=${subname#//}; host=${host%%[:/]*}
-port=$(echo "$subname" | sed -n 's#//[^:/]*:\([0-9]*\)/.*#\1#p'); port=${port:-5432}
+port=$(echo "$subname" | sed -n 's#//[^:/]*:\([0-9]*\)/.*#\1#p')
+port=${port:-5432}
 db=${subname##*/}
 pg_restore -h "$host" -p "$port" -U puppetdb -d "$db" -j4 "$backup/openvoxdb"
 unset PGPASSWORD
 systemctl start puppetdb
 ```
 
-On PostgreSQL 14 and earlier `public` is owned by `postgres`, so leave the `ALTER SCHEMA ... OWNER` clause out. With PostgreSQL on another host, run the schema reset through an administrative connection there; `pg_restore` needs no shell on the database host. OpenVoxDB starts, finds the schema it expects, and the reports are there.
+On PostgreSQL 14 and earlier `public` is owned by `postgres`, so leave the `ALTER SCHEMA` line out. With PostgreSQL on another host, run the schema reset through an administrative connection there; `pg_restore` needs no shell on the database host. OpenVoxDB starts, finds the schema it expects, and the reports are there.
 
 ### A CA lost with no backup
 
