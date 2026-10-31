@@ -36,7 +36,7 @@ OpenVox 9 no longer ships its own curl. Scripts that call `/opt/puppetlabs/puppe
 1. Upgrade your deployment to the latest OpenVox 8 release first and resolve any deprecation warnings in agent and server logs. Most of what OpenVox 9 removes was already deprecated in the 8.x series.
 2. Read the release notes for each component: [OpenVox 9](release_notes.html), [OpenVox Server 9](/openvox-server/9.x/release_notes.html), [OpenVoxDB 9](/openvoxdb/9.x/release_notes.html), and [OpenFact 6](/openfact/6.x/release_notes.html). Each links to the GitHub release page with the full list of changes.
 3. Check that packages exist for your platforms on the [supported platforms](supported_platforms.html) page. Compared with OpenVox 8, no OpenVox 9 packages are built for Enterprise Linux 7, Amazon Linux 2, Fedora 42, Debian 11, or Ubuntu 25.04, and Debian 12 gets `openvox-agent` only, because OpenVox Server 9 and OpenVoxDB 9 need Java 21 or 25 and Debian 12 provides neither.
-4. Back up `/etc/puppetlabs/` on your servers and take a database backup of OpenVoxDB with `pg_dump` before starting.
+4. Back up `/etc/puppetlabs/` on your servers and take a database backup of OpenVoxDB with `pg_dump` before starting. [Backing up and restoring OpenVox Server](/openvox-server/latest/backup_restore.html) has the recipes.
 
 ## Review Ruby code for Ruby 4.0
 
