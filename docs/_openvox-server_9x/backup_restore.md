@@ -206,7 +206,11 @@ The CA directory is gone or damaged but the fleet still has its certificates. Be
      | jq -r '.[].certname' | sort | comm -13 /tmp/ca-known -
    ```
 
-   Each host the second command prints needs a certificate the CA knows. The restored CA has no record of the old one, so `puppetserver ca clean` cannot remove it: delete `signed/<name>.pem` under the CA directory by hand if a copy survived, remove `ssldir` on that agent, and let it submit a new request once the services are back (step 4). The restored CA reuses the serial numbers those certificates had, which is why no copy of them may stay behind. Hosts that have not checked in since the backup are not on the list; add them from your provisioning records.
+   Each host the second command prints needs a certificate the CA knows. The restored CA has no record of the old one, so `puppetserver ca clean` cannot remove it. Delete `signed/<name>.pem` under the CA directory by hand if a copy survived, remove `ssldir` on that agent, and let it submit a new request once the services are back (step 4).
+
+   The restored CA reuses the serial numbers those certificates had, which is why no copy of them may stay behind.
+
+   Hosts that have not checked in since the backup are not on the list; add them from your provisioning records.
 
 4. Start the services:
 
