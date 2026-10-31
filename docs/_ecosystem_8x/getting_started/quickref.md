@@ -21,7 +21,9 @@ Here are some of the commands you'll use most often as you're getting started:
 | `puppet resource package httpd` | Shows the state of the `httpd` package |
 | `puppet config print all` | Dumps all configuration settings |
 | `puppet module list` | Lists installed modules |
-| `facter os.name` | Shows the OS name fact |
+| `puppet describe user` | Prints the documentation for the user resource |
+| `puppet facts os.name` | Shows the OS name fact as JSON structure |
+| `facter os.name` | Shows the OS name fact as plain value |
 | `facter --json` | Dumps all facts as JSON |
 
 

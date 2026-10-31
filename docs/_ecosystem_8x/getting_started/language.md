@@ -23,13 +23,13 @@ if $ID == 'rhel'; then
   fi
   systemctl enable httpd
   systemctl start httpd
-elsif $ID == 'ubuntu'; then
-  if ! dpkg-query -W -f='${Status}' apache 2>/dev/null | grep -q "ok installed"; then
-    apt install -y apache
+elif $ID == 'ubuntu'; then
+  if ! dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -q "ok installed"; then
+    apt install -y apache2
   fi
-  systemctl enable apache
-  systemctl start apache
-elseif .....
+  systemctl enable apache2
+  systemctl start apache2
+elif .....
   # ....
 fi
 ```
@@ -38,11 +38,15 @@ You write:
 
 ```puppet
 # Declarative (Puppet): WHAT you want
-package { 'httpd':
+case $facts['os']['family'] {
+  'RedHat': { $webserver_name = 'httpd' }
+  'Debian': { $webserver_name = 'apache2' }
+}
+package { $webserver_name:
   ensure => installed,
 }
 
-service { 'httpd':
+service { $webserver_name:
   ensure => running,
   enable => true,
 }
