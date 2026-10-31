@@ -38,13 +38,19 @@ You write:
 
 ```puppet
 # Declarative (Puppet): WHAT you want
+case $facts['os']['family'] {
+  'RedHat': { $webserver_name = 'httpd' }
+  'Debian': { $webserver_name = 'apache2' }
+}
 package { 'httpd':
   ensure => installed,
+  name   => $webserver_name,
 }
 
 service { 'httpd':
   ensure => running,
   enable => true,
+  name   => $webserver_name,
 }
 ```
 
