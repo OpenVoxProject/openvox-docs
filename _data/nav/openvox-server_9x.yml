@@ -15,6 +15,8 @@
     link: install_what_and_where.html
   - text: Upgrading OpenVox Server
     link: upgrade_minor.html
+  - text: Backing up and restoring OpenVox Server
+    link: backup_restore.html
 - text: Configuring OpenVox Server
   items:
   - text: Configuring OpenVox Server
