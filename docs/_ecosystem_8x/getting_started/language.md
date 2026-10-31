@@ -24,11 +24,11 @@ if $ID == 'rhel'; then
   systemctl enable httpd
   systemctl start httpd
 elsif $ID == 'ubuntu'; then
-  if ! dpkg-query -W -f='${Status}' apache 2>/dev/null | grep -q "ok installed"; then
-    apt install -y apache
+  if ! dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -q "ok installed"; then
+    apt install -y apache2
   fi
-  systemctl enable apache
-  systemctl start apache
+  systemctl enable apache2
+  systemctl start apache2
 elseif .....
   # ....
 fi
