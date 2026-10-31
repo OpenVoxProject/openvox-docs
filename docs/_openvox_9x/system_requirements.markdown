@@ -35,7 +35,7 @@ We publish and test official `openvox-agent` packages for these platforms. Less 
 | Debian | Bookworm (12), Trixie (13) |
 | Ubuntu | 22.04, 24.04, 26.04 |
 | Fedora | 43, 44 |
-| Microsoft Windows (Server OS) | 2008R2, 2012R2, 2016 |
+| Microsoft Windows | Windows Server 2016 and later, Windows 10/11 (64 bit) |
 | Microsoft Windows (Consumer OS) | 10 Enterprise |
 | macOS | macOS 13+ (ARM & X86) |
 
