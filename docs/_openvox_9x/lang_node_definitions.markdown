@@ -94,6 +94,7 @@ The name `default` (without quotes) is a special value for node names. If no nod
 
 [Regular expressions (regexes)][regex] can be used as node names. This is another method for writing a single node statement that matches multiple nodes.
 
+> **WARNING:** Regular expressions are parsed using first match, not best match. This is also valid if you spread your node classifications to multiple files. Recommendation is to not use regular expressions for node classification.
 > **Note:** Make sure all of your node regexes match non-overlapping sets of node names. If a node's name matches more than one regex, Puppet makes no guarantee about which matching definition it will get.
 
 ```puppet
