@@ -31,6 +31,8 @@ For test environment setup, see [choria-transport-testing.md](https://github.com
 - At least one of the supported agents installed on target nodes:
   - **bolt_tasks** (ships with Puppet-enabled Choria setups)
   - **shell** (separate install, version 1.2.1 or later)
+  - **file_transfer** (separate install, version 1.0.0 or later) for `upload`
+    and `download`; its client files are also needed on the OpenBolt controller
 
 ## Configuration
 
@@ -99,9 +101,11 @@ targets:
 | `collective` | `--choria-collective` | String | (from config file) | Choria collective to route messages through. Per-target. |
 | `command-timeout` | `--choria-command-timeout` | Integer | `60` | Seconds to wait for commands and scripts to complete. |
 | `config-file` | `--choria-config-file` | String | (auto-detected) | Path to a Choria/MCollective client config file. |
+| `file-transfer-timeout` | | Integer | `300` | Seconds to wait for targets to respond to each file transfer request. Never shorter than the file_transfer agent's DDL timeout of 120 seconds. |
 | `host` | | String | (from URI) | Target's Choria identity (FQDN). Overrides the hostname from the URI. |
 | `interpreters` | | Hash | (none) | File extension to interpreter mapping (e.g., `{".rb": "/usr/bin/ruby"}`). |
 | `mcollective-certname` | `--choria-mcollective-certname` | String | (auto) | Override the MCollective certname for Choria client identity. See [Non-root certname](#non-root-certname) below. |
+| `message-data-size` | | Integer | `512` | File content per Choria message for `upload` and `download`, in KiB. The default is half the broker's 1 MiB message limit, which has no setting. |
 | `broker-timeout` | `--choria-broker-timeout` | Integer | `30` | Seconds to wait for the TCP connection to a Choria broker. |
 | `brokers` | `--choria-brokers` | String or Array | (auto-discovered) | Choria broker addresses in `host` or `host:port` format (comma-separated for multiple). Port defaults to 4222 if omitted. Do not use the `nats://` prefix. When not provided, the Choria client checks the config file, then SRV records, then falls back to `puppet:4222`. Multiple servers provide failover. |
 | `puppet-environment` | `--choria-puppet-environment` | String | `production` | Puppet environment for bolt_tasks file URIs. |
@@ -111,6 +115,7 @@ targets:
 | `ssl-key` | `--choria-ssl-key` | String | (from config file) | Client private key path for TLS. |
 | `task-timeout` | `--choria-task-timeout` | Integer | `300` | Seconds to wait for task execution to complete. |
 | `tmpdir` | `--tmpdir` | String | `/tmp` or `C:\Windows\Temp` | Base path for temp directories on remote nodes. Must be absolute. |
+| `upload-batch-size` | | Integer | `256` | Targets one `upload` chunk is published to at a time. |
 
 **CLI flag precedence:** CLI flags provide default values that can be
 overridden by inventory-level config (per-group or per-target). For example,
@@ -133,6 +138,8 @@ the Choria config file.
   call (discovery, status checks, etc.)
 - `command-timeout` (60s) / `task-timeout` (300s): How long to wait for the
   entire operation (the full duration of the command or task)
+- `file-transfer-timeout` (300s): How long to wait for targets to respond to
+  each request of an `upload` or `download`
 
 **SSL options:** If you provide any of `ssl-ca`, `ssl-cert`, or `ssl-key`,
 you must provide all three. Partial SSL configurations are rejected during
@@ -230,10 +237,21 @@ agent is not available on a target, that target gets a clear error result.
 
 ### upload / download
 
-Not yet supported. These will be implemented in Phase 4 with a new
-chunked file-transfer agent. See the
-[project plan](https://github.com/openvoxproject/openbolt/blob/main/developer-docs/choria/choria-transport-plan.md#phase-4-file-transfer-agent) for
-details.
+Require the **file_transfer agent** (>= 1.0.0) on target nodes and its client
+files on the OpenBolt controller. See
+[file_transfer](#file_transfer-separate-install) below.
+
+```bash
+bolt file upload ./app.tar /opt/app/app.tar --targets node1.example.com,node2.example.com
+bolt file download /var/log/app.log ./logs --targets node1.example.com,node2.example.com
+```
+
+Files travel in chunks of `message-data-size` KiB over Choria RPC, so there
+is no size limit, but each chunk is a signed RPC round trip. The transfer is
+far slower than a file server download and is meant for smaller files. A
+directory is sent as a tree. A download writes each target's copy under
+`<destination>/<target name>/`, as other transports do. Two targets that use
+`host` to point at the same Choria identity share one download directory.
 
 ### connected?
 
@@ -266,6 +284,16 @@ With the shell agent:
 The shell agent DDL (required by the client library) is bundled with OpenBolt
 and loaded automatically. No client-side setup is needed.
 
+### file_transfer (separate install)
+
+The [file_transfer agent](https://github.com/overlookinfra/file_transfer-agent)
+is a separate Choria plugin that moves files in chunks over RPC. Version 1.0.0
+or later is required on target nodes. The OpenBolt controller also needs the
+module's client files, which install the client library the transport uses
+under the Choria libdir.
+
+With the file_transfer agent, `upload` and `download` work.
+
 ### Agent detection
 
 On first contact with a target, the transport automatically discovers which
@@ -279,13 +307,14 @@ not affected.
 
 ### Installing the shell agent
 
-The Choria plugin modules are not currently published on the Puppet Forge.
-Install via Puppet by referencing the GitHub repository in your Puppetfile:
+The shell agent module on the Puppet Forge is older than the 1.2.1 that
+OpenBolt needs, so install it from GitHub by referencing the repository in
+your Puppetfile:
 
 ```ruby
 mod 'mcollective_agent_shell',
   git: 'https://github.com/choria-plugins/shell-agent',
-  ref: 'v1.2.1'
+  ref: '1.2.1'
 ```
 
 Deploy with r10k or Code Manager, then apply via Hiera:
@@ -299,6 +328,38 @@ Restart `choria-server` on target nodes after installing.
 
 For detailed installation instructions (including manual file copy), see
 [choria-transport-testing.md](https://github.com/openvoxproject/openbolt/blob/main/developer-docs/choria/choria-transport-testing.md#shell-agent).
+
+### Installing the file_transfer agent
+
+Install it from the Puppet Forge:
+
+```ruby
+mod 'overlookinfra-mcollective_agent_file_transfer'
+```
+
+```yaml
+mcollective::plugin_classes:
+  - mcollective_agent_file_transfer
+```
+
+On the OpenBolt controller, also set `mcollective_agent_file_transfer::client: true`
+(or `mcollective::client: true`) so that the client library is installed under
+the Choria libdir. Without it, `upload` and `download` fail with
+`bolt/choria-file-transfer-library` naming the module to apply. The Choria
+server picks up the agent without a restart.
+
+The Choria server denies every request to an agent without a policy file. The
+module writes one from `mcollective::policy_default`, `mcollective::site_policies`
+and its own `mcollective_agent_file_transfer::policies`, for example:
+
+```yaml
+mcollective_agent_file_transfer::policies:
+  - action: allow
+    callers: choria=openbolt.example.net
+    actions: "*"
+    facts: "*"
+    classes: "*"
+```
 
 ## Using bolt_tasks with an OpenVox/Puppet Server
 
@@ -393,12 +454,15 @@ local modulepath matters.
 
 ## Limitations
 
-1. **Upload and download not yet supported.** These will be implemented in a
-   future release with a new file-transfer agent.
+1. **Shell and file_transfer agents not installed by default.** Without the
+   shell agent, `run_command` and `run_script` fail with a clear error message
+   and `run_task` needs bolt_tasks. Without the file_transfer agent, `upload`
+   and `download` fail the same way.
 
-2. **Shell agent not installed by default.** Without it, only `run_task`
-   (via bolt_tasks + OpenVox/Puppet Server) works. All other operations fail with a
-   clear error message. Version 1.2.1 or later is required.
+2. **An interrupted transfer can leave a temporary file.** The file_transfer
+   agent assembles each file as `.file_transfer-<token>` beside its destination
+   and renames it into place once verified. A file left behind by an
+   interrupted run is safe to remove.
 
 3. **bolt_tasks requires an OpenVox/Puppet Server.** The bolt_tasks agent downloads
    task files from the OpenVox/Puppet Server. Tasks not served by the OpenVox/Puppet Server
@@ -418,11 +482,11 @@ local modulepath matters.
    after OpenBolt reports a timeout (bolt_tasks has no kill mechanism).
 
 8. **File size limit for shell agent uploads.** When using the shell agent
-   (`run_script`, `run_task` with `--choria-task-agent shell`), files are
-   base64-encoded and sent as RPC messages. The maximum file size is limited
-   by the NATS max message size (default 1MB, roughly 750KB effective after
-   base64 overhead). Increase `plugin.choria.network.client_max_payload` in
-   the Choria broker config for larger files. The bolt_tasks agent is not
+   (`run_script`, `run_task` with `--choria-task-agent shell`), each file is
+   base64-encoded into one RPC command, and the shell agent's DDL caps a
+   command at 10,240 characters. A script or task file can therefore be about
+   7.5 KB on POSIX targets and under 3 KB on Windows targets. Use `upload`
+   with the file_transfer agent for larger files. The bolt_tasks agent is not
    affected since it downloads files from the OpenVox/Puppet Server.
 
 9. **POSIX targets need `base64` CLI for shell agent uploads.** The `base64`
