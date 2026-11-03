@@ -70,18 +70,21 @@ Large, and either reproducible from somewhere else or rebuilt by the agents on t
 
 The commands below run as root on the primary server and produce a timestamped directory under `/var/backups/openvox`. They do not stop any service: the CA directory changes only when a certificate is signed or revoked, and `pg_dump` produces a consistent snapshot on its own.
 
+Run the steps as one script that starts with `set -euo pipefail`, so that a failing step stops the run instead of leaving a gap in the archive.
+
 ### Record versions and state
 
 ```console
+set -euo pipefail
 backup=/var/backups/openvox/$(hostname -f)-$(date +%Y%m%dT%H%M%S)
 install -d -m 0700 "$backup"
-rpm -q openvox-server openvoxdb openvoxdb-termini openvox-agent postgresql-server > "$backup/versions.txt"
+rpm -q openvox-server openvoxdb openvoxdb-termini openvox-agent postgresql-server > "$backup/versions.txt" || true
 puppetserver gem list > "$backup/puppetserver-gems.txt"
 /opt/puppetlabs/puppet/bin/gem list > "$backup/agent-gems.txt"
-cat /etc/puppetlabs/puppetserver/ca/serial > "$backup/ca-serial-before"
+sha256sum /etc/puppetlabs/puppetserver/ca/{serial,ca_crl.pem,inventory.txt} > "$backup/ca-state-before"
 ```
 
-On Debian and Ubuntu, use `dpkg-query -W openvox-server openvoxdb openvoxdb-termini openvox-agent postgresql` for the versions.
+On Debian and Ubuntu, use `dpkg-query -W openvox-server openvoxdb openvoxdb-termini openvox-agent postgresql` for the versions. A package that is not installed, such as `postgresql-server` on a primary whose database is on another host, is noted in `versions.txt` rather than stopping the script.
 
 ### Back up tiers 0 and 1
 
@@ -103,8 +106,8 @@ Record what code was deployed, which is enough to reproduce the environments wit
 
 ```console
 for d in /etc/puppetlabs/code/environments/*/; do
-  cp "$d/.r10k-deploy.json" \
-    "$backup/r10k-deploy-$(basename "$d").json" 2>/dev/null
+  [ -f "$d/.r10k-deploy.json" ] || continue
+  cp "$d/.r10k-deploy.json" "$backup/r10k-deploy-$(basename "$d").json"
 done
 ```
 
@@ -115,13 +118,14 @@ Dump the database with the connection OpenVoxDB itself uses, read from `database
 ```console
 ini=/etc/puppetlabs/puppetdb/conf.d/database.ini
 # subname has the form //HOST:PORT/DATABASE
-subname=$(awk -F= '/^subname/ {gsub(/ /,"",$2); print $2}' "$ini")
-export PGPASSWORD=$(awk -F= '/^password/ {gsub(/ /,"",$2); print $2}' "$ini")
+subname=$(sed -n 's/^subname *= *//p' "$ini")
+user=$(sed -n 's/^username *= *//p' "$ini")
+export PGPASSWORD=$(sed -n 's/^password *= *//p' "$ini")
 host=${subname#//}; host=${host%%[:/]*}
 port=$(echo "$subname" | sed -n 's#//[^:/]*:\([0-9]*\)/.*#\1#p')
 port=${port:-5432}
 db=${subname##*/}
-pg_dump -h "$host" -p "$port" -U puppetdb -d "$db" \
+pg_dump -h "$host" -p "$port" -U "$user" -d "$db" \
   -Fd -Z3 -j4 -f "$backup/openvoxdb"
 unset PGPASSWORD
 ```
@@ -130,16 +134,16 @@ The directory format (`-Fd`) with compression (`-Z3`) and four parallel jobs (`-
 
 ### Close the archive
 
-Confirm the CA did not change while you worked, then lock the directory down:
+Lock the directory down, then confirm the CA did not change while you worked:
 
 ```console
-cmp "$backup/ca-serial-before" /etc/puppetlabs/puppetserver/ca/serial \
-  && rm "$backup/ca-serial-before"
 chmod -R go-rwx "$backup"
+sha256sum -c --quiet "$backup/ca-state-before"
+rm "$backup/ca-state-before"
 du -sh "$backup"
 ```
 
-If `cmp` reports a difference, a certificate was signed during the backup; run it again. Then copy the directory off the host.
+If `sha256sum` reports a file as `FAILED`, a certificate was signed or revoked during the backup, and the script stops there; run it again. Then copy the directory off the host.
 
 ### How often
 
@@ -164,19 +168,26 @@ A change to `conf.d`, JVM settings, or `puppet.conf` did not work out, and you w
 2. Extract the archive over the live tree. Owners and modes come back with the files, since the archive was made as root:
 
    ```console
-   tar -C / -xzpf "$backup/etc-puppetlabs.tar.gz"
+   tar -C / -xzpf "$backup/etc-puppetlabs.tar.gz" \
+     --exclude=etc/puppetlabs/puppetserver/ca \
+     --exclude=etc/puppetlabs/puppet/ssl \
+     --exclude=etc/puppetlabs/puppetdb/ssl
    ```
+
+   The excludes leave the CA and the certificates alone, so a host enrolled since the backup keeps working. The rebuild procedures below use the full archive.
 
    To put back only part of the tree, name the paths after the archive, for example `etc/puppetlabs/puppetserver/conf.d`. Leave out any `*.rpmnew` or `*.dpkg-dist` the archive holds. Files added since the backup stay in place; remove any you do not want yourself.
 
-3. Start the services and the agent, and confirm the server answers:
+3. Start the services, confirm they answer, and only then start the agent:
 
    ```console
-   systemctl start puppetserver puppetdb puppet
+   systemctl start puppetserver puppetdb
    curl -sk https://localhost:8140/status/v1/simple
+   curl -s http://localhost:8080/status/v1/simple
+   systemctl start puppet
    ```
 
-   `systemctl start` returns once the server is up, which takes a minute or two; the status endpoint then prints `running`.
+   `systemctl start` returns once the services are up, which takes a minute or two; each status endpoint then prints `running`.
 
 4. Run the agent on the primary server once. If a module manages the server, this is where its files take over again.
 
@@ -204,7 +215,7 @@ The CA directory is gone or damaged but the fleet still has its certificates. Be
 
 3. Find the hosts enrolled after the backup was taken. Their certificates are valid as far as the agents are concerned, but the restored CA does not know them, so it cannot revoke or renew them. The server cannot list them for you, because the record that would show them is the one you lost.
 
-   OpenVoxDB can, and step 1 left it running: every node that has checked in is there, so compare its node list with the archive's inventory. This uses OpenVoxDB's plain-text port, which listens on `localhost:8080` by default:
+   OpenVoxDB can, and step 1 left it running: every node that has checked in is there, so compare its node list with the archive's inventory. This uses `jq`, which needs to be installed first, and OpenVoxDB's plain-text port, which listens on `localhost:8080` unless `jetty.ini` moved it:
 
    ```console
    tar -xzOf "$backup/etc-puppetlabs.tar.gz" \
@@ -304,25 +315,26 @@ The outcome: agents see the same CA, the same server certificate, and the same c
 
 Use this after a rebuild, or when the database is lost or corrupt and you want the reports and exported resources back rather than waiting for the agents to repopulate facts and catalogs.
 
-The `puppetdb` role owns every object in the database, so it can restore without superuser rights. The one privileged step is resetting the schema, which the `postgres` user does. `pg_restore --clean` is not an alternative: it fails on the partitioned `resource_events_*` tables. The database must exist, with the `puppetdb` role as OpenVoxDB's configuration names it.
+OpenVoxDB's database role owns every object in the database, so it can restore without superuser rights. The one privileged step is resetting the schema, which the `postgres` user does. `pg_restore --clean` is not an alternative: it fails on the partitioned `resource_events_*` tables. The database and the role must exist under the names `database.ini` gives, which is where the commands read them.
 
 ```console
 systemctl stop puppetdb
-sudo -u postgres psql -q -d puppetdb <<'SQL'
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
-ALTER SCHEMA public OWNER TO pg_database_owner;
-GRANT USAGE ON SCHEMA public TO PUBLIC;
-GRANT CREATE ON SCHEMA public TO puppetdb;
-SQL
 ini=/etc/puppetlabs/puppetdb/conf.d/database.ini
-subname=$(awk -F= '/^subname/ {gsub(/ /,"",$2); print $2}' "$ini")
-export PGPASSWORD=$(awk -F= '/^password/ {gsub(/ /,"",$2); print $2}' "$ini")
+subname=$(sed -n 's/^subname *= *//p' "$ini")
+user=$(sed -n 's/^username *= *//p' "$ini")
 host=${subname#//}; host=${host%%[:/]*}
 port=$(echo "$subname" | sed -n 's#//[^:/]*:\([0-9]*\)/.*#\1#p')
 port=${port:-5432}
 db=${subname##*/}
-pg_restore -h "$host" -p "$port" -U puppetdb -d "$db" -j4 "$backup/openvoxdb"
+sudo -u postgres psql -q -d "$db" <<SQL
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+ALTER SCHEMA public OWNER TO pg_database_owner;
+GRANT USAGE ON SCHEMA public TO PUBLIC;
+GRANT CREATE ON SCHEMA public TO "$user";
+SQL
+export PGPASSWORD=$(sed -n 's/^password *= *//p' "$ini")
+pg_restore -h "$host" -p "$port" -U "$user" -d "$db" -j4 "$backup/openvoxdb"
 unset PGPASSWORD
 systemctl start puppetdb
 ```
