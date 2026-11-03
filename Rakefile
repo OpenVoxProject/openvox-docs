@@ -161,12 +161,14 @@ namespace :references do
     abort "release notes failed for #{failed.join(', ')}" unless failed.empty?
   end
 
-  desc 'Generate _data/supported_platforms.yml from the shared-actions platforms.json'
+  desc 'Generate _data/supported_platforms.yml from the shared-actions platforms.json and the package servers'
   task :supported_platforms do
     require 'puppet_references/supported_platforms'
     path = ENV.fetch('SUPPORTED_PLATFORMS_DATA', '_data/supported_platforms.yml')
     data = PuppetReferences::SupportedPlatforms.write_data_file(path:)
-    puts "Wrote #{data.values.sum(&:size)} platform rows across #{data.size} series to #{path}"
+    rows = data.values.sum { |series| series['platforms'].size }
+    legacy = data.values.sum { |series| series['legacy'].size }
+    puts "Wrote #{rows} platform rows and #{legacy} legacy rows across #{data.size} series to #{path}"
   end
 
   task :check do

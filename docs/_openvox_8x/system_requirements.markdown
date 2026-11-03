@@ -22,22 +22,11 @@ The demands on the OpenVox server vary widely between deployments. The total nee
 
 ## OpenVox agent and operating system support life cycles
 
-In general we try, to support OpenVox agent for the operating system's life cycle. Essentially, OpenVox stops publishing packages for a platform 30 days after its end-of-life (EOL) date. For example, RHEL 7 reached its EOL on June 30, 2024. This means on or around July 23, OpenVox stopped providing fixes, updates, or support for that agent package.
+OpenVox aims to build packages for an operating system for as long as its vendor supports it. When a platform is dropped from the build list, its existing packages stay on the package servers; the [Supported platforms](supported_platforms.html) page lists those platforms and the last version built for each.
 
 ## Platforms with packages
 
-We publish and test official `openvox-agent` packages for these platforms. Less common and sometimes brand new platforms might not be automatically tested, but packages are still available for them.
-
-| Operating system | Tested versions |
-| ---------------- | --------------- |
-| Red Hat Enterprise Linux (and derivatives) | 7, 8, 9,10 |
-| SUSE Linux Enterprise Server | 15, 16 |
-| Debian | Wheezy (10), Jessie (11), Stretch (12), (13) |
-| Ubuntu | 18.04, 20.04, 22.04, 24.04, 25.04, 26.04 |
-| Fedora | 36, 40,41,42,43 |
-| Microsoft Windows (Server OS) | 2008R2, 2012R2, 2016 |
-| Microsoft Windows (Consumer OS) | 10 Enterprise |
-| macOS | 10.12 Sierra, 10.13 High Sierra |
+The operating systems with official `openvox-agent`, `openvox-server`, and `openvoxdb` packages are listed on the [Supported platforms](supported_platforms.html) page. That page is generated from the build system's platform list and the package servers, and it also lists the platforms whose packages remain available but are no longer built.
 
 ## Platforms without packages
 
