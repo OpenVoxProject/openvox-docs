@@ -18,6 +18,8 @@ Puppet Open Source is no longer actively developed.
 
 You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade through OpenVox 8 to OpenVox 9, or you can upgrade to Puppet 8 and then migrate to OpenVox 8 and then to OpenVox 9.
 
+{% include release_notes.html product="OpenVox" %}
+
 ## OpenVox 9.2.1
 
 Released October 23, 2026.
