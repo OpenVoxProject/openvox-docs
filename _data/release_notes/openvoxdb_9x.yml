@@ -1,1 +1,18 @@
---- []
+---
+- version: 9.2.0
+  date: '2026-11-03'
+  url: https://github.com/OpenVoxProject/openvoxdb/releases/tag/9.2.0
+  type: feature
+  previous: 9.1.1
+  components:
+  - name: cheshire
+    from: 6.2.0
+    to: 6.2.1
+  - name: ordered
+    from: 1.15.12
+  - name: trapperkeeper-authorization
+    from: 2.4.1
+    to: 2.5.0
+  - name: trapperkeeper-webserver
+    from: 12.1.2
+    to: 12.2.0

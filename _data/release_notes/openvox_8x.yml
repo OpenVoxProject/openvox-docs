@@ -1,1 +1,10 @@
---- []
+---
+- version: 8.32.0
+  date: '2026-11-03'
+  url: https://github.com/OpenVoxProject/openvox/releases/tag/8.32.0
+  type: feature
+  previous: 8.31.2
+  components:
+  - name: puppet
+    from: 8.31.2
+    to: 8.32.0
