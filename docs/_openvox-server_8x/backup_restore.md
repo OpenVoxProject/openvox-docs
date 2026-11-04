@@ -84,7 +84,13 @@ puppetserver gem list > "$backup/puppetserver-gems.txt"
 sha256sum /etc/puppetlabs/puppetserver/ca/{serial,ca_crl.pem,inventory.txt} > "$backup/ca-state-before"
 ```
 
-On Debian and Ubuntu, use `dpkg-query -W openvox-server openvoxdb openvoxdb-termini openvox-agent postgresql` for the versions. A package that is not installed, such as `postgresql-server` on a primary whose database is on another host, is noted in `versions.txt` rather than stopping the script.
+A package that is not installed, such as `postgresql-server` on a primary whose database is on another host, is noted in `versions.txt` rather than stopping the script. On Debian and Ubuntu, replace the `rpm -q` line with:
+
+```console
+dpkg-query -W openvox-server openvoxdb openvoxdb-termini openvox-agent postgresql > "$backup/versions.txt" 2>&1 || true
+```
+
+`dpkg-query` reports a missing package on standard error and exits 1, so it needs both the redirection and the guard to behave the same way.
 
 ### Back up tiers 0 and 1
 
@@ -182,12 +188,12 @@ A change to `conf.d`, JVM settings, or `puppet.conf` did not work out, and you w
 
    ```console
    systemctl start puppetserver puppetdb
-   curl -sk https://localhost:8140/status/v1/simple
-   curl -s http://localhost:8080/status/v1/simple
-   systemctl start puppet
+   curl -sfk https://localhost:8140/status/v1/simple &&
+     curl -sf http://localhost:8080/status/v1/simple &&
+     systemctl start puppet
    ```
 
-   `systemctl start` returns once the services are up, which takes a minute or two; each status endpoint then prints `running`.
+   `systemctl start` returns once the services are up, which takes a minute or two; each status endpoint then prints `running`. A service that answers with an error instead makes `curl --fail` exit non-zero, and the agent stays stopped until you have fixed it and run the line again.
 
 4. Run the agent on the primary server once. If a module manages the server, this is where its files take over again.
 
