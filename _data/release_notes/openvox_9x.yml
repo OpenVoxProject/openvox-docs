@@ -1,1 +1,10 @@
---- []
+---
+- version: 9.3.0
+  date: '2026-11-03'
+  url: https://github.com/OpenVoxProject/openvox/releases/tag/9.3.0
+  type: feature
+  previous: 9.2.1
+  components:
+  - name: puppet
+    from: 9.2.1
+    to: 9.3.0
