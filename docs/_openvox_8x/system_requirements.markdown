@@ -20,6 +20,18 @@ However, the OpenVox server service is fairly resource intensive, and should be 
 
 The demands on the OpenVox server vary widely between deployments. The total needs are affected by the number of agents being served, how frequently those agents check in, how many resources are being managed on each agent, and the complexity of the manifests and modules in use.
 
+## Agent and server version compatibility
+
+Find your agent version in the first column and read across to your server version.
+
+| Agent | OpenVox Server 8 | OpenVox Server 9 |
+| ----- | ---------------- | ---------------- |
+| 7 (OpenVox or Puppet) | Supported | Supported |
+| OpenVox 8 | Supported | Supported |
+| OpenVox 9 | Not supported | Supported |
+
+Agents older than version 7 often still work, because the API between the agent and the server has changed little across releases, but those combinations are not tested. An agent of a newer major version than its server is not supported, so upgrade servers before agents, as described in [Mixed versions](upgrade_major.html#mixed-versions).
+
 ## OpenVox agent and operating system support life cycles
 
 In general we try, to support OpenVox agent for the operating system's life cycle. Essentially, OpenVox stops publishing packages for a platform 30 days after its end-of-life (EOL) date. For example, RHEL 7 reached its EOL on June 30, 2024. This means on or around July 23, OpenVox stopped providing fixes, updates, or support for that agent package.
