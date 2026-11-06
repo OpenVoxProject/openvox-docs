@@ -27,7 +27,7 @@ Find your agent version in the first column and read across to your server versi
 | Agent | OpenVox Server 8 | OpenVox Server 9 |
 | ----- | ---------------- | ---------------- |
 | 7 (OpenVox or Puppet) | Supported | Supported |
-| OpenVox 8 | Supported | Supported |
+| 8 (OpenVox or Puppet) | Supported | Supported |
 | OpenVox 9 | Not supported | Supported |
 
 Agents older than version 7 often still work, because the API between the agent and the server has changed little across releases, but those combinations are not tested. An agent of a newer major version than its server is not supported, so upgrade servers before agents, as described in [Mixed versions](upgrade_major.html#mixed-versions).
