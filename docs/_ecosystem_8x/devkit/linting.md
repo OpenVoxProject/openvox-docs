@@ -61,7 +61,7 @@ To ignore a check on one line, append the comment to that line.
 The check name is the one printed in the lint output, such as `unquoted_resource_title` in the run above.
 
 ```puppet
-$motd = "Managed by OpenVox. Do not edit." # lint:ignore:double_quoted_strings
+$motd = "Managed by OpenVox" # lint:ignore:double_quoted_strings
 ```
 
 To ignore a check across several lines, open a block with `lint:ignore` and close it with `lint:endignore`.
@@ -77,8 +77,11 @@ One comment can name several checks, and any text after the check names is recor
 Running `puppet-lint --show-ignored` lists each ignored offense with its reason, which is handy when deciding whether an old exception is still needed.
 
 ```puppet
-# lint:ignore:double_quoted_strings lint:ignore:140chars the vendor's parser only accepts double quotes
-$config = "..."
+# lint:ignore:arrow_alignment lint:ignore:140chars generated code
+file { '/etc/app/token':
+  ensure => file,
+  content => 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+}
 # lint:endignore
 ```
 
