@@ -64,7 +64,7 @@ The check name is the one printed in the lint output, such as `unquoted_resource
 $motd = "Managed by OpenVox" # lint:ignore:double_quoted_strings
 ```
 
-To ignore a check across several lines, open a block with `lint:ignore` and close it with `lint:endignore`.
+To ignore a check across several lines, open a block with `lint:ignore:<check_name>` and close it with `lint:endignore`.
 
 ```puppet
 # lint:ignore:double_quoted_strings
@@ -74,18 +74,18 @@ $gronk = "gronk"
 ```
 
 One comment can name several checks, and any text after the check names is recorded as the reason.
-Running `puppet-lint --show-ignored` lists each ignored offense with its reason, which is handy when deciding whether an old exception is still needed.
+Running `bundle exec puppet-lint --show-ignored` lists each ignored offense and any reason text, which is handy when deciding whether an old exception is still needed.
 
 ```puppet
-# lint:ignore:arrow_alignment lint:ignore:140chars generated code
+# lint:ignore:arrow_alignment lint:ignore:double_quoted_strings generated code
 file { '/etc/app/token':
   ensure => file,
-  content => 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+  content => "foobar",
 }
 # lint:endignore
 ```
 
-Upstream documents these in the [Puppet Lint README](https://github.com/puppetlabs/puppet-lint#disable-lint-checks).
+Upstream documents the inline and block forms in the [Puppet Lint README](https://github.com/puppetlabs/puppet-lint#disable-lint-checks).
 
 ## Linting module metadata
 
