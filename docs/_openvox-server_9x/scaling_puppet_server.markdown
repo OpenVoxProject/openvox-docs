@@ -81,6 +81,52 @@ _x-puppet._tcp.site-b.example.com. IN SRV 1 75 8140 server-1.site-a.example.com.
 _x-puppet._tcp.site-b.example.com. IN SRV 1 25 8140 server-2.site-a.example.com.
 ```
 
+#### Using `SRV` records for other services
+
+Agents use service-specific `SRV` records for catalog, CA, file serving, and transaction report requests. If a
+service-specific record does not exist, the agent falls back to `_x-puppet._tcp.$srv_domain`.
+
+| Service      | SRV record                              | Used for                                                                 |
+| ------------ | --------------------------------------- | ------------------------------------------------------------------------ |
+| `puppet`     | `_x-puppet._tcp.$srv_domain`            | Catalogs, facts, node data, and file bucket requests                     |
+| `ca`         | `_x-puppet-ca._tcp.$srv_domain`         | Certificate signing and renewal                                          |
+| `fileserver` | `_x-puppet-fileserver._tcp.$srv_domain` | File metadata and content, including `puppet:///` sources and pluginsync |
+| `report`     | `_x-puppet-report._tcp.$srv_domain`     | Transaction reports saved through the REST report terminus               |
+
+Reports sent by the `http` report processor go to the `reporturl` setting and do not use `SRV` records.
+
+For services other than `puppet`, agents choose a server in this order:
+
+1. Use the service-specific `SRV` record if it exists and a target accepts a connection.
+2. If the service-specific record does not exist, use `_x-puppet._tcp.$srv_domain`.
+3. If no `SRV` record is available, or the chosen record exists but no target accepts a connection:
+    - Do not try another `SRV` record. In particular, do not try `_x-puppet` after a failed
+      service-specific lookup.
+    - Try the servers in the [`server_list` setting](/openvox/9.x/configuration.html#server_list) if that setting
+      applies to the request. If `ca_server` or `report_server` is set, `server_list` is not used for CA
+      or report requests, respectively.
+    - If every server in `server_list` fails, stop. Do not try `ca_server`, `report_server`, or `server`.
+    - If `server_list` does not apply, use `ca_server` for CA requests, `report_server` for reports, or
+      `server` for other requests.
+
+The `_x-puppet-fileserver` record applies to `puppet:///` sources that do not name a server. A source such
+as `puppet://fileserver.example.com/path` connects directly to that host and does not use the record.
+
+To direct file serving to a dedicated OpenVox Server, publish an `_x-puppet-fileserver` record for it:
+
+```text
+# Catalogs, facts, and other agent requests go to the compilers:
+_x-puppet._tcp.example.com.             IN SRV 0 5 8140 compiler-a.example.com.
+_x-puppet._tcp.example.com.             IN SRV 0 5 8140 compiler-b.example.com.
+
+# File metadata and content go to a dedicated fileserver:
+_x-puppet-fileserver._tcp.example.com.  IN SRV 0 5 8140 fileserver.example.com.
+```
+
+The dedicated fileserver must trust the same certificate authority, present a certificate valid for the
+`SRV` target, authorize agent certificates, and serve the same environments and code as the compilers.
+Otherwise, agents cannot retrieve file metadata or content.
+
 ## Centralizing the Certificate Authority
 
 Additional OpenVox Servers should only share the burden of compiling and serving catalogs, which is why they're
