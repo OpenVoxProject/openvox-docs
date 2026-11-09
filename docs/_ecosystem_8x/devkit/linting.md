@@ -74,7 +74,8 @@ $gronk = "gronk"
 ```
 
 One comment can name several checks, and any text after the check names is recorded as the reason.
-Running `bundle exec puppet-lint --show-ignored` lists each ignored offense and any reason text, which is handy when deciding whether an old exception is still needed.
+Run `bundle exec puppet-lint --show-ignored manifests/` to list each ignored offense and any reason text in the `manifests/` directory.
+This is handy when deciding whether an old exception is still needed.
 
 ```puppet
 # lint:ignore:arrow_alignment lint:ignore:double_quoted_strings generated code
