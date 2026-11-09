@@ -7,8 +7,9 @@ Use this page for routine OpenVox Server upgrades and for in-place migrations fr
 legacy Puppet Server packages to OpenVox Server packages.
 
 OpenVox Server is functionally equivalent to modern Puppet Server. A host cannot have
-both Puppet Server and OpenVox Server packages installed at the same time. Back up
-`/etc/puppetlabs/` and `/var/opt/puppetlabs/` before you start.
+both Puppet Server and OpenVox Server packages installed at the same time. Take a
+backup before you start; [Backing up and restoring OpenVox Server](backup_restore.html)
+lists what to copy and how to put it back.
 
 ## Recommended upgrade order
 
