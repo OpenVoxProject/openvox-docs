@@ -188,12 +188,14 @@ A change to `conf.d`, JVM settings, or `puppet.conf` did not work out, and you w
 
    ```console
    systemctl start puppetserver puppetdb
+   db_port=$(sed -n 's/^port *= *//p' /etc/puppetlabs/puppetdb/conf.d/jetty.ini)
+   db_port=${db_port:-8080}
    curl -sfk https://localhost:8140/status/v1/simple &&
-     curl -sf http://localhost:8080/status/v1/simple &&
+     curl -sf http://localhost:${db_port}/status/v1/simple &&
      systemctl start puppet
    ```
 
-   `systemctl start` returns once the services are up, which takes a minute or two; each status endpoint then prints `running`. A service that answers with an error instead makes `curl --fail` exit non-zero, and the agent stays stopped until you have fixed it and run the line again.
+   The `db_port` lines read OpenVoxDB's plain-text port from `jetty.ini` and fall back to the default, 8080. `systemctl start` returns once the services are up, which takes a minute or two; each status endpoint then prints `running`. A service that answers with an error instead makes `curl --fail` exit non-zero, and the agent stays stopped until you have fixed it and run the line again.
 
 4. Run the agent on the primary server once. If a module manages the server, this is where its files take over again.
 
@@ -221,17 +223,18 @@ The CA directory is gone or damaged but the fleet still has its certificates. Be
 
 3. Find the hosts enrolled after the backup was taken. Their certificates are valid as far as the agents are concerned, but the restored CA does not know them, so it cannot revoke or renew them. The server cannot list them for you, because the record that would show them is the one you lost.
 
-   OpenVoxDB can, and step 1 left it running: every node that has checked in is there, so compare its node list with the archive's inventory. This uses `jq`, which needs to be installed first, and OpenVoxDB's plain-text port, which listens on `localhost:8080` unless `jetty.ini` moved it:
+   OpenVoxDB can, and step 1 left it running: every node that has checked in is there, so compare its node list with the archive's inventory. This uses `jq`, which needs to be installed first, and OpenVoxDB's plain-text port, read from `jetty.ini` with the default, 8080, as the fallback:
 
    ```console
    tar -xzOf "$backup/etc-puppetlabs.tar.gz" \
      etc/puppetlabs/puppetserver/ca/inventory.txt \
      | sed -n 's|.*/CN=||p' | sort -u > /tmp/ca-known
-   curl -s http://localhost:8080/pdb/query/v4/nodes \
+   db_port=$(sed -n 's/^port *= *//p' /etc/puppetlabs/puppetdb/conf.d/jetty.ini)
+   curl -s "http://localhost:${db_port:-8080}/pdb/query/v4/nodes" \
      | jq -r '.[].certname' | sort | comm -13 /tmp/ca-known -
    ```
 
-   Each host the second command prints needs a new certificate; step 5 covers that. Hosts that have not checked in since the backup are not on the list; add them from your provisioning records.
+   Each host the last command prints needs a new certificate; step 5 covers that. Hosts that have not checked in since the backup are not on the list; add them from your provisioning records.
 
    The restored revocation list is the backup's as well, so a certificate revoked since then is valid again. After step 4, revoke it once more with `puppetserver ca revoke --certname <name>`.
 
