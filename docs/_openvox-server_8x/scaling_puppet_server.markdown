@@ -121,7 +121,7 @@ Before running `puppet agent` or starting `puppetserver` on the new compiler:
    If an `ssldir` is configured, make sure it's set in the `[main]` block of `puppet.conf` only.
 
 1. If you're using the [DNS round robin method](#using-round-robin-dns) of agent load balancing, or a
-   [load balancer](#choose-a-tls-mode) in TLS passthrough mode, provide compilers with certificates
+   [load balancer](#choosing-a-tls-mode) in TLS passthrough mode, provide compilers with certificates
    using DNS Subject Alternative Names.
 
     Configure `dns_alt_names` in the `[main]` block of `puppet.conf` to cover every DNS name that might be
@@ -132,7 +132,7 @@ Before running `puppet agent` or starting `puppetserver` on the new compiler:
     ```
 
     If the agent or server has been run and already created a certificate, remove it by running
-    `sudo puppet ssl clean`. If an agent has requested a certificate from the server, delete it there to
+    `sudo /opt/puppetlabs/bin/puppet ssl clean`. If an agent has requested a certificate from the server, delete it there to
     re-issue a new one with the alt names: `puppetserver ca clean --certname server-2.example.com`.
 
 1. Request a new certificate by running `puppet agent --test --waitforcert 10`.
@@ -177,36 +177,39 @@ in their `server` setting, not at individual compilers. Complete the compiler, c
 and [code deployment](#keeping-manifests-and-modules-synchronized-across-compilers) configuration before you put
 the load balancer in front of the pool.
 
-### Choose a TLS mode
+### Choosing a TLS mode
 
-Load balancers usually operate in one of two TLS modes:
+Load balancers usually operate in one of two TLS modes.
 
-- **TLS passthrough:** The load balancer forwards the TLS connection without decrypting it. OpenVox Server
-  terminates TLS and sees the agent's client certificate directly. This preserves client-certificate
-  authentication and is the simplest mode to operate. Compilers must have a certificate whose DNS names
-  include the load balancer's hostname; see [Certificates](#certificates). The
-  [example HAProxy configuration](#example-haproxy-configuration) uses this mode.
+**TLS passthrough.** The load balancer forwards the TLS connection without decrypting it. OpenVox Server
+terminates TLS and sees the agent's client certificate directly. This preserves client-certificate
+authentication and is the simplest mode to operate. Compilers must have a certificate whose DNS names include
+the load balancer's hostname; see [Certificates](#certificates). The
+[example HAProxy configuration](#example-haproxy-configuration) uses this mode.
 
-- **TLS termination:** The load balancer terminates the agent's TLS connection and connects to OpenVox Server
-  over HTTP or a second TLS connection. OpenVox Server no longer sees the agent's certificate unless the load
-  balancer forwards it in HTTP headers. This requires `allow-header-cert-info: true` and the `X-Client-Verify`,
-  `X-Client-DN`, and optional `X-Client-Cert` headers. Configure the load balancer to request and verify the
-  agent certificate against the CA. Discard any client-supplied `X-Client-*` values first. Overwrite
-  `X-Client-Verify` and `X-Client-DN` with values from the verified certificate, and set `X-Client-Cert` only
-  when you use trusted facts; otherwise remove it. Without this, an agent can spoof another node's identity.
-  Restrict compiler network access to the load balancer.
-  When the load balancer connects to the compilers over TLS and they set `client-auth: need`, the load balancer
-  must also present a client certificate that the compiler CA trusts. If it cannot, set `client-auth: want` on
-  the compilers. With `want`, the TLS handshake succeeds without a client certificate, but `auth.conf` still
-  requires a valid identity for agent endpoints. See
-  [External SSL Termination](./external_ssl_termination.html) for the required configuration and security warning.
+**TLS termination.** The load balancer terminates the agent's TLS connection and connects to OpenVox Server over
+HTTP or a second TLS connection. OpenVox Server no longer sees the agent's certificate unless the load balancer
+forwards it in HTTP headers. To configure this mode:
+
+- Set `allow-header-cert-info: true` in the authorization configuration.
+- Configure the load balancer to request and verify the agent's certificate against the CA.
+- Discard any client-supplied `X-Client-*` values, then overwrite `X-Client-Verify` and `X-Client-DN` with
+  values from the verified certificate. Set `X-Client-Cert` only when you use trusted facts; otherwise remove
+  it. Without this, an agent can spoof another node's identity.
+- Restrict compiler network access to the load balancer.
+- If the load balancer connects to the compilers over TLS and they set `client-auth: need`, give the load
+  balancer a client certificate that the CA in the compiler's `ssl-ca-cert` trusts. If it cannot, set
+  `client-auth: want` on the compilers. With `want`, the TLS handshake succeeds without a client certificate,
+  but `auth.conf` still requires a valid identity for agent endpoints.
+
+See [External SSL Termination](./external_ssl_termination.html) for the required configuration and security
+warning.
 
 For most deployments, start with TLS passthrough. It avoids forwarding client identity in HTTP headers and the
 security risk of trusting those headers. If you must inspect HTTP traffic at the load balancer, use TLS
-termination, or re-encrypt to the compilers by adding `ssl` to each server line. In that case, the compilers
-must present certificates valid for the names the load balancer uses.
+termination and follow [External SSL Termination](./external_ssl_termination.html).
 
-### Balance requests
+### Balancing requests
 
 Use the least-connections algorithm (`leastconn` in HAProxy) as a starting point. Catalog compilation time
 varies by node, so round robin can leave one compiler busy while another is idle. If your load balancer uses a
@@ -230,16 +233,15 @@ It returns `200` when the service is running and `503` when the service state is
 allows unauthenticated access to both endpoints; if you tightened `auth.conf`, allow the status endpoint you
 use (`/status/v1/simple` or `/status/v1/services`).
 
-If the health check uses TLS and `client-auth` is set to `need`, the check must present a client certificate that
-the webserver trusts. `auth.conf` only authorizes the identity; TLS trust comes from `ssl-ca-cert`. The `check-ssl`
-example configures no client certificate, so with `client-auth: need`, either add `crt <client.pem>` to each
-`server` line so the health check sends a client certificate, set `client-auth: want` on the compilers, or keep
-the TCP health check.
+The packaged `webserver.conf` sets `client-auth: want`, so an HTTPS health check works without a client
+certificate. If you changed `client-auth` to `need`, the check must present a client certificate that the
+webserver trusts, or you can keep the TCP health check. The
+[example HAProxy configuration](#example-haproxy-configuration) shows how to add the certificate.
 
-The agent's default `http_read_timeout` is `10m`. Set the load balancer's client and server timeouts longer than
-the agent's `http_read_timeout` setting and your slowest catalog compilation. Check the agent value with
-`puppet config print http_read_timeout`. A timeout shorter than a normal compile causes retries, which adds load
-to the remaining compilers. See [Status API: Simple](./status-api/v1/simple.html) and
+The agent's default `http_read_timeout` is 10 minutes; `puppet config print http_read_timeout` reports `600`.
+Set the load balancer's client and server timeouts longer than the agent's `http_read_timeout` and your slowest
+catalog compilation. A timeout shorter than a normal compile causes retries, which adds load to the remaining
+compilers. See [Status API: Simple](./status-api/v1/simple.html) and
 [Status API: Services](./status-api/v1/services.html) for endpoint details.
 
 ### Certificates
@@ -258,7 +260,8 @@ certificate-authority: {
 ```
 
 Set this before the CA signs the compiler's certificate request, then restart `puppetserver` on the CA server.
-If a compiler already has a certificate without the load balancer name, replace it:
+If a compiler already has a certificate without the load balancer name, replace it. Run all of the following
+commands as root:
 
 1. Remove the compiler from the load balancer pool if your load balancer supports manual removal. Then run
    `systemctl stop puppetserver` so it stops using the old certificate before you revoke it. If you cannot remove
@@ -266,7 +269,7 @@ If a compiler already has a certificate without the load balancer name, replace 
 
 1. On the CA server, run `puppetserver ca clean --certname <compiler-certname>`.
 
-1. On the compiler, remove the old certificate and key with `sudo puppet ssl clean`.
+1. On the compiler, remove the old certificate and key with `puppet ssl clean`.
 
 1. Request a new certificate with `puppet ssl bootstrap --waitforcert 10`. The request includes the `dns_alt_names`
    set in `puppet.conf`, so confirm that setting includes the load balancer name.
@@ -307,6 +310,9 @@ backend openvox_compilers
     server compiler2 compiler2.example.com:8140 check
 ```
 
+On Enterprise Linux hosts with SELinux enforcing, HAProxy cannot bind port 8140, which is labeled `puppet_port_t`,
+by default. Allow it before you start HAProxy, for example with `setsebool -P haproxy_connect_any 1`.
+
 This example performs a TCP health check, which detects a closed port but not an unhealthy OpenVox Server
 service. To check `/status/v1/simple` over TLS instead, change `check` to `check check-ssl` in each `server`
 line and add an HTTP check to the backend:
@@ -324,18 +330,20 @@ backend openvox_compilers
 `ca-file` must contain the CA that signed the compiler certificates; `/etc/haproxy/openvox-ca.pem` is a placeholder.
 This check sends no client certificate. If `client-auth` is `need`, add `crt <client.pem>` to each `server`
 line so the health check sends a client certificate. Passthrough traffic is not affected. Use a PEM that contains
-the certificate and key, or provide the matching `.key` file. The certificate must be trusted by the compiler CA.
-The 15-minute timeouts exceed the agent default of `10m`; tune them to your environment.
+the certificate and key, or provide the matching `.key` file. The certificate must be trusted by the CA in the
+compiler's `ssl-ca-cert`. The 15-minute timeouts exceed the agent default of 10 minutes; tune them to your
+environment.
 
-### Test failover
+### Testing failover
 
 After you configure the load balancer, test the full path:
 
-1. Run `puppet config print server` on a test node and confirm it returns the load balancer's hostname, then run
-   `puppet agent --test`.
+1. Run `puppet config print server ca_server` on a test node and confirm the output shows the load balancer for
+   `server` and the CA server for `ca_server`, then run `puppet agent --test`.
 
 1. Run `systemctl stop puppetserver` on one compiler, wait for the health check to remove it from the pool
-   (HAProxy defaults: `fall` 3 and `inter` 2s, so about six seconds), and confirm it is down.
+   (HAProxy defaults: `fall` 3 and `inter` 2s, so about six seconds), and confirm it is down in the load
+   balancer's statistics page or log (`Server openvox_compilers/compiler1 is DOWN`).
 
 1. Run `puppet agent --test` again and confirm the agent succeeds through another compiler.
 
