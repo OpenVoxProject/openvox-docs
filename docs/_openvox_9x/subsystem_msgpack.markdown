@@ -31,7 +31,7 @@ Because of this, msgpack is best suited to testing or to environments where you 
 1. Install the [`msgpack` gem](https://rubygems.org/gems/msgpack) on OpenVox Server and on every agent that will use msgpack, using the Ruby that ships with OpenVox:
     * On OpenVox Server, use `puppetserver gem install msgpack`, then restart the OpenVox Server service.
     * On \*nix agents, use `sudo /opt/puppetlabs/puppet/bin/gem install msgpack`. This compiles a native extension, so the node needs a build toolchain (for example `gcc` and `make`).
-    * On Windows agents, use the bundled Ruby's gem command: `& "C:\Program Files\Puppet Labs\OpenVox\puppet\bin\gem.bat" install msgpack` (also requires a compiler).
+    * On Windows agents, use the bundled Ruby's gem command: `& "C:\Program Files\Puppet Labs\Puppet\puppet\bin\gem.bat" install msgpack` (also requires a compiler).
 2. On any number of agent nodes, set [the `preferred_serialization_format` setting](configuration.html#preferred_serialization_format) to `msgpack` (in the `[agent]` or `[main]` section of `puppet.conf`).
 
 Once this is configured, OpenVox Server uses msgpack when serving any agents that both have the gem installed and have `preferred_serialization_format` set to `msgpack`.

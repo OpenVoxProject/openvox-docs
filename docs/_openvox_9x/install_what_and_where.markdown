@@ -12,7 +12,10 @@ When you install the `openvox-agent` package, it places files and directories in
 | `/opt/puppetlabs/bin/` | Public binaries (`puppet`, `facter`). This directory is on the `PATH` by default. |
 | `/opt/puppetlabs/puppet/bin/` | Private binaries and the Ruby runtime used internally by the agent. Not on the `PATH` by default. |
 
-**Windows:** `C:\Program Files\Puppet Labs\OpenVox\bin\` and `C:\Program Files\Puppet Labs\OpenVox\puppet\bin\`
+**Windows:** `C:\Program Files\Puppet Labs\Puppet\bin\` and
+`C:\Program Files\Puppet Labs\Puppet\puppet\bin\`. The bundled Ruby is at
+`C:\Program Files\Puppet Labs\Puppet\puppet\bin\ruby.exe`. OpenVox keeps the
+`Puppet Labs\Puppet` directory for upgrade compatibility with Puppet Agent.
 
 ## Configuration files
 
