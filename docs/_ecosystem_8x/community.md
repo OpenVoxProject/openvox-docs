@@ -14,7 +14,7 @@ Now we'd love to have you engaging too.
 
 ### Key Community Resources
 
-* **VoxPupuli Connect** — A single page with links to all community channels, mailing lists, and social media: [voxpupuli.org/connect](https://voxpupuli.org/connect/).
+* **VoxPupuli Connect** — A single page with links to all community channels, announcement mailing list, and social media: [voxpupuli.org/connect](https://voxpupuli.org/connect/).
 * **VoxPupuli Community Slack** — The home turf for OpenVox and Vox Pupuli discussion. [voxpupuli.slack.com](https://voxpupuli.slack.com/).
   * [Join the Slack here](https://short.voxpupu.li/puppetcommunity_slack_signup)
 * **Contribution Guide** — Whether you're filing a bug report or contributing code, we deeply appreciate it: [voxpupuli.org/contributing](https://voxpupuli.org/contributing/).
