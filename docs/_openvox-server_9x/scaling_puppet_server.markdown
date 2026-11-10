@@ -107,6 +107,10 @@ For services other than `puppet`, agents choose a server in this order:
 3. If `server_list` is not set or was skipped, use `ca_server` for CA requests, `report_server` for
    reports, and `server` for everything else.
 
+OpenVox 9 has no default for `server`. If agents use `srv_domain` without `server` and DNS is
+unavailable, catalog and file requests fail instead of falling back. Set `server` if you want a
+fallback when DNS is unavailable.
+
 The `_x-puppet-fileserver` record applies to `puppet:///` sources that do not name a server. A source such
 as `puppet://fileserver.example.com/path` connects directly to that host and does not use the record.
 
