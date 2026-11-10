@@ -97,17 +97,15 @@ Reports sent by the `http` report processor go to the `reporturl` setting and do
 
 For services other than `puppet`, agents choose a server in this order:
 
-1. Use the service-specific `SRV` record if it exists and a target accepts a connection.
-2. If the service-specific record does not exist, use `_x-puppet._tcp.$srv_domain`.
-3. If no `SRV` record is available, or the chosen record exists but no target accepts a connection:
-    - Do not try another `SRV` record. In particular, do not try `_x-puppet` after a failed
-      service-specific lookup.
-    - Try the servers in the [`server_list` setting](/openvox/9.x/configuration.html#server_list) if that setting
-      applies to the request. If `ca_server` or `report_server` is set, `server_list` is not used for CA
-      or report requests, respectively.
-    - If every server in `server_list` fails, stop. Do not try `ca_server`, `report_server`, or `server`.
-    - If `server_list` does not apply, use `ca_server` for CA requests, `report_server` for reports, or
-      `server` for other requests.
+1. Look up the service-specific `SRV` record. If it does not exist, look up `_x-puppet._tcp.$srv_domain`
+   instead. If the service-specific record exists but none of its targets accepts a connection, the
+   agent does not try `_x-puppet`.
+2. If no `SRV` target accepted a connection, try the servers in the
+   [`server_list` setting](/openvox/9.x/configuration.html#server_list). This step is skipped for CA
+   requests when `ca_server` is set, and for report requests when `report_server` is set.
+   If every server in `server_list` fails, the agent stops trying other options and that request fails.
+3. If `server_list` is not set or was skipped, use `ca_server` for CA requests, `report_server` for
+   reports, and `server` for everything else.
 
 The `_x-puppet-fileserver` record applies to `puppet:///` sources that do not name a server. A source such
 as `puppet://fileserver.example.com/path` connects directly to that host and does not use the record.
