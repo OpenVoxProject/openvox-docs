@@ -86,12 +86,12 @@ _x-puppet._tcp.site-b.example.com. IN SRV 1 25 8140 server-2.site-a.example.com.
 Agents use service-specific `SRV` records for catalog, CA, file serving, and transaction report requests. If a
 service-specific record does not exist, the agent falls back to `_x-puppet._tcp.$srv_domain`.
 
-| Service      | SRV record                              | Used for                                                                 |
-| ------------ | --------------------------------------- | ------------------------------------------------------------------------ |
-| `puppet`     | `_x-puppet._tcp.$srv_domain`            | Catalogs, facts, node data, and file bucket requests                     |
-| `ca`         | `_x-puppet-ca._tcp.$srv_domain`         | Certificate signing and renewal                                          |
-| `fileserver` | `_x-puppet-fileserver._tcp.$srv_domain` | File metadata and content, including `puppet:///` sources and pluginsync |
-| `report`     | `_x-puppet-report._tcp.$srv_domain`     | Transaction reports saved through the REST report terminus               |
+| Service         | SRV record                              | Used for                                                                 |
+| --------------- | --------------------------------------- | ------------------------------------------------------------------------ |
+| OpenVox Server  | `_x-puppet._tcp.$srv_domain`            | Catalogs, facts, node data, and file bucket requests                     |
+| CA              | `_x-puppet-ca._tcp.$srv_domain`         | Certificate requests and renewal, CA certificate and CRL downloads       |
+| File server     | `_x-puppet-fileserver._tcp.$srv_domain` | File metadata and content, including `puppet:///` sources and pluginsync |
+| Reports         | `_x-puppet-report._tcp.$srv_domain`     | Transaction reports saved through the REST report terminus               |
 
 Reports sent by the `http` report processor go to the `reporturl` setting and do not use `SRV` records.
 
