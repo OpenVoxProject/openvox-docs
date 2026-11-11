@@ -87,11 +87,11 @@ Optional. Should contain the client's [PEM-formatted][pem format] (Base-64) cert
 
 ## Example: nginx
 
-This configuration runs nginx on the same host as OpenVox Server, listening on port 8140 so that agents need no changes. It was tested with nginx 1.29 in front of OpenVox Server 8.16.0: agents bootstrap their certificates, receive catalogs, and get trusted facts through the proxy.
+This configuration runs nginx on the same host as OpenVox Server, listening on port 8140 so that agents need no changes. It was tested with nginx 1.29 in front of OpenVox Server 8.16.0 and with nginx 1.26 in front of OpenVox Server 9.2.0: agents bootstrap their certificates, receive catalogs, and get trusted facts through the proxy.
 
 You need nginx 1.13.5 or later, which provides the `$ssl_client_escaped_cert` variable.
 
-On the CA server, nginx reads the server certificate and key from the Puppet SSL directory and the CA certificate and CRL from the CA directory. The nginx master process runs as root on package installs and reads these files when it starts, so you don't need to change their permissions.
+On the CA server, nginx reads the server certificate and key from the Puppet SSL directory and the CA certificate and CRL from the CA directory. The nginx master process runs as root on package installs and reads these files when it starts, so you don't need to change their permissions. With SELinux enforcing, see [SELinux on Enterprise Linux](#selinux-on-enterprise-linux).
 On a compiler that is not the CA, use `/etc/puppetlabs/puppet/ssl/certs/ca.pem` and `/etc/puppetlabs/puppet/ssl/crl.pem` instead of the CA directory files.
 
 Replace `puppet.example.com` with your server's certname:
@@ -133,15 +133,34 @@ What each part does:
 - **`client_max_body_size`**: The default of 1 MB applies to the facts sent with each catalog request and to each report, both of which can exceed it on large nodes. nginx rejects a larger request with HTTP 413.
 - **`proxy_read_timeout`**: The default of 60 seconds is shorter than a slow catalog compile. Set it to at least the longest compile time you expect, or agents receive HTTP 504 errors.
 - **`proxy_set_header`**: nginx replaces any `X-Client-*` headers a client sends with its own values, so a client cannot authenticate as another node through the proxy. The direct OpenVox Server port has no such protection, which is why it must be bound to the loopback address.
+- **`ssl_certificate` and `ssl_certificate_key`**: nginx reads these files when it starts or reloads. After you [renew or replace the server certificate](certificate_renewal.html), run `nginx -s reload`, or agents keep seeing the old certificate until the next restart.
 
 The `puppetserver ca` subcommands keep working. They connect to the CA over HTTPS using the server's own certificate, so they go through nginx like any agent.
+
+### SELinux on Enterprise Linux
+
+With SELinux enforcing, nginx can listen on port 8140 without a policy change, but it is not allowed to connect to the OpenVox Server port, and agents receive HTTP 502 errors. Allow the connection:
+
+```console
+sudo setsebool -P httpd_can_network_connect 1
+```
+
+On Enterprise Linux 9, nginx also fails to start, because the files under `/etc/puppetlabs` are labeled `puppet_etc_t`, which it cannot read. Label the directories that hold the certificates as `cert_t` (`semanage` is in the `policycoreutils-python-utils` package):
+
+```console
+sudo semanage fcontext -a -t cert_t '/etc/puppetlabs/puppet/ssl(/.*)?'
+sudo semanage fcontext -a -t cert_t '/etc/puppetlabs/puppetserver/ca(/.*)?'
+sudo restorecon -R /etc/puppetlabs/puppet/ssl /etc/puppetlabs/puppetserver/ca
+```
+
+On a host that is not the CA server, leave out the `puppetserver/ca` paths. Enterprise Linux 10 labels these files `etc_t`, which nginx can read, so it needs only the `setsebool` command.
 
 ### Verify the setup
 
 Run an agent against the proxy:
 
 ```console
-puppet agent --test --server puppet.example.com
+sudo /opt/puppetlabs/bin/puppet agent --test --server puppet.example.com
 ```
 
 To confirm that the headers carry the certificate details, add a resource to the node's catalog that prints its trusted facts:
@@ -155,6 +174,7 @@ The agent run should print `authenticated=remote` and the agent's certname. If t
 ### Compilers behind one proxy
 
 With [compilers](scaling_puppet_server.html#creating-and-configuring-compilers), one proxy can terminate TLS for the whole pool and route by path: certificate requests go to the CA server, everything else is balanced across the compilers.
+Most deployments should start with TLS passthrough, which keeps client-certificate authentication inside OpenVox Server. Use the configuration in this section only when the proxy must see the request path. See [Choosing a TLS mode](scaling_puppet_server.html#choosing-a-tls-mode).
 This was tested with a CA server and a compiler behind one nginx: the compiler requested its own certificate through the proxy, and agents received catalogs compiled by the compiler.
 
 Compared with the single-host example:
@@ -189,9 +209,14 @@ Compared with the single-host example:
 
 Requests for other endpoints, such as `/status/`, go to the compilers under this configuration. Monitor each server directly on its HTTP port instead.
 
-If the proxy runs on a host other than the CA server, it has no local copy of the CRL. Fetch it from the CA on a timer and reload nginx when it changes:
+If the proxy runs on a host other than the CA server, it has no local copy of the CRL. Point `ssl_crl` at a local file such as `/etc/nginx/ca_crl.pem`, and copy the first CRL from the CA server by hand, because nginx does not start without the file. Then refresh it from the CA as root on a timer.
+Write to a temporary file and move it into place only after a successful fetch, so that a failed request cannot replace a working CRL, and reload nginx:
 
 ```console
-curl --silent --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem --header 'Accept: text/plain' \
-  https://puppet.example.com:8140/puppet-ca/v1/certificate_revocation_list/ca --output /etc/nginx/ca_crl.pem
+curl --silent --fail --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
+  --header 'Accept: text/plain' \
+  https://puppet.example.com:8140/puppet-ca/v1/certificate_revocation_list/ca \
+  --output /etc/nginx/ca_crl.pem.new \
+  && mv /etc/nginx/ca_crl.pem.new /etc/nginx/ca_crl.pem \
+  && nginx -s reload
 ```
