@@ -18,8 +18,8 @@
 #                     pages. Omit for authored-only products — their versions never
 #                     build generated references.
 #   - single_version: (optional) true when the product has no numbered collection,
-#                     only a real `_<product>_latest` dir (e.g. OpenVox Containers);
-#                     the selector can hide the picker for these.
+#                     only a real `_<product>_latest` dir (OpenVox Containers,
+#                     OpenBolt); the selector can hide the picker for these.
 #   - release_notes:  (optional) generate the newest entries on this product's
 #                     release-notes pages (see MAINTAINING.md). `repo` is the
 #                     GitHub repo whose releases are listed and `sbom` the
@@ -46,6 +46,10 @@
 #                         reproducible. An older major that still receives
 #                         maintenance releases keeps its series ref until its
 #                         last release has shipped; freeze it then.
+#       - aliases:    (optional) other collections that publish this version's
+#                     pages again, each with a `collection` (a symlink to this
+#                     version's dir) and its `base`. Their pages set their
+#                     canonical URL to this version's page.
 #       - release_notes_after: (products with `release_notes` only) generate
 #                     entries for the stable releases in this series newer than
 #                     this version. Releases up to and including it keep their
@@ -90,18 +94,24 @@ openfact:
 
 openbolt:
   label: OpenBolt
-  latest: 5x
+  latest: latest
+  single_version: true  # one docs set for the current release, in a real `_latest` dir
   references: references:openbolt
   release_notes:
     repo: OpenVoxProject/openbolt
     sbom: openbolt
   versions:
-    - id: 5x
-      label: "5.x"
-      collection: _openbolt_5x
-      base: /openbolt/5.x/
+    - id: latest
+      label: "5.x"  # the current release series; release notes read it
+      collection: _openbolt_latest
+      base: /openbolt/latest/
       ref: "5.x"
       release_notes_after: "5.6.0"
+      # /openbolt/5.x/ was the collection's first address. It stays as a symlink
+      # so existing links keep working.
+      aliases:
+        - collection: _openbolt_5x
+          base: /openbolt/5.x/
 
 openvox-server:
   label: OpenVox Server
