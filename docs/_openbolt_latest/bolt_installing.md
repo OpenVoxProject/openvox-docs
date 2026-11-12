@@ -180,6 +180,16 @@ To upgrade OpenBolt:
 brew upgrade --cask openvox9-openbolt
 ```
 
+OpenBolt 5 was published as the `openvox8-openbolt` cask. The two casks
+conflict, so Homebrew can't upgrade from one to the other and refuses to
+install `openvox9-openbolt` while `openvox8-openbolt` is installed. To move
+from OpenBolt 5 to OpenBolt 9, uninstall the old cask and install the new one:
+
+```console
+brew uninstall --cask openvox8-openbolt
+brew install --cask openvoxproject/openvox/openvox9-openbolt
+```
+
 To uninstall OpenBolt:
 
 ```console
