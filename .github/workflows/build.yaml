@@ -76,7 +76,8 @@ jobs:
           fetch-depth: 0
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          # OpenBolt's reference build (rake references:openbolt) needs Ruby 3.4.
+          ruby-version: '3.4'
           bundler-cache: true
       # pandoc comes from its GitHub release because the runners' Ubuntu mirror
       # sometimes serves the 27 MB package at a few kB/s. 3.1.3 is the version
