@@ -21,7 +21,7 @@ jobs:
       - name: Install Ruby version 3.4
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4
+          ruby-version: '3.4'
           bundler-cache: true
       - name: Display Ruby environment
         run: bundle env
@@ -46,7 +46,7 @@ jobs:
       - name: Install Ruby version 3.4
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4
+          ruby-version: '3.4'
           bundler-cache: true
       # pandoc renders the openvox man-page references; mandoc renders the
       # openfact CLI references (see lib/puppet_references/).
