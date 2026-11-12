@@ -19,6 +19,7 @@ This is useful for a small fix, a rebase, or a follow-up change that must land w
 
 Use direct pushes only when the change belongs with the pull request and the author is reachable.
 For an independent fix, open a separate pull request instead.
+{: .tip }
 
 First, confirm that maintainer edits are allowed and identify the head repository and branch:
 
@@ -40,7 +41,8 @@ curl -fsSL -H 'Accept: application/vnd.github+json' \
 
 The same values are visible on the pull request page: the head owner and branch appear under the title, and `maintainer_can_modify` corresponds to the author allowing edits by maintainers.
 
-Fetch the pull request branch and work on a local copy:
+Fetch the pull request branch and work on a local copy.
+Replace `upstream` with the name of your remote for the base repository:
 
 ```console
 git fetch upstream pull/<number>/head:pr-<number>
@@ -70,4 +72,3 @@ If maintainer edits are disabled, or you do not have push access to the fork, pu
 Ask the author to cherry-pick it, or document the dependency and rebase the original pull request after the fix merges.
 
 After pushing, confirm that the pull request shows the new commit and that CI has started again.
-{: .tip }
