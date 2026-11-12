@@ -113,8 +113,9 @@ Jetty is the bundled HTTP server, read from the OpenVoxDB SBOM.
 ## OpenBolt
 
 [OpenBolt][openbolt] is the orchestration tool. It is not part of the
-agent/server/data stack above and ships on its own **5.x** release line, bundling
-its own runtime. See the [OpenBolt documentation][openbolt] for OpenBolt's own
+agent/server/data stack above and bundles its own runtime. OpenBolt 9.x is built
+against OpenVox 9 and OpenBolt 5.x against OpenVox 8; there are no OpenBolt 6, 7,
+or 8 releases. See the [OpenBolt documentation][openbolt] for OpenBolt's own
 release notes.
 
 OpenBolt is the only OpenVox package that **bundles r10k**. Although r10k is
@@ -129,8 +130,8 @@ separately, for example with the `puppet/r10k` module or a `gem install`.
 
 > **The OpenVox column is the bundled version, not something you install.** OpenBolt
 > bundles OpenVox for [`bolt apply`][openbolt_apply]; its gemspec declares a range
-> (`~> 8.0`) and the version shown here is the exact one resolved into the package at
-> build time. For `bolt apply`, OpenBolt compiles the catalog with this bundled
+> (`~> 9.0` for OpenBolt 9.x, `~> 8.0` for 5.x) and the version shown here is the
+> exact one resolved into the package at build time. For `bolt apply`, OpenBolt compiles the catalog with this bundled
 > OpenVox and installs the `openvox-agent` package on targets via `apply_prep`, so
 > you don't install OpenVox separately to use it.
 
@@ -152,8 +153,8 @@ file named for the collection's nav_key, so the page renders its own series via
 `_data/server_release_contents/openvox_8x.yml`, and
 `_data/openvoxdb_release_contents/openvox_8x.yml`; with `SERIES=9.` it writes the
 `…/openvox_9x.yml` files that the 9.x page reads. The site build runs the tasks for
-both series. OpenBolt is independent of the OpenVox major and is shared across
-series in `_data/openbolt_release_contents.yml`.
+both series. The OpenBolt table is shared across series: one file,
+`_data/openbolt_release_contents.yml`, lists every OpenBolt release.
 
 The generator only reads stable releases: alphas, betas, and release candidates are
 skipped, and it refuses to write a data file when a series has no stable releases

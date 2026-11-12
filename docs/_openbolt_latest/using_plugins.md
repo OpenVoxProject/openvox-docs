@@ -175,6 +175,20 @@ plugin, which runs the [`openvox_bootstrap::install` task](https://forge.puppet.
 default Puppet library plugin. However, you can configure OpenBolt to use
 another plugin instead.
 
+The `openvox_bootstrap` plugin installs the OpenVox 9 agent by default. A Linux
+target that already has an agent keeps it. A Windows target that has an older
+agent is upgraded to OpenVox 9, unless the target sets the `puppet-agent`
+[feature](bolt_inventory_reference.html#features) in the inventory. To install
+the OpenVox 8 agent instead, set the collection:
+
+```yaml
+# bolt-defaults.yaml
+plugin-hooks:
+  puppet_library:
+    plugin: openvox_bootstrap
+    collection: openvox8
+```
+
 To configure OpenBolt to use a specific Puppet library plugin, configure the
 `puppet_library` plugin hook under the `plugin-hooks` key in a configuration
 file. The `puppet_library` plugin hook accepts one of two different plugins.

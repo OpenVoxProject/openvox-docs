@@ -9,13 +9,9 @@ OpenBolt packages are available for Linux, macOS, and Microsoft Windows. Each
 package bundles its own Ruby, so you do not need to install Ruby or other
 dependencies separately.
 
-OpenBolt 5.x is built against OpenVox 8, and its packages are published in the
-`openvox8` repositories and download directories alongside the OpenVox 8 agent.
-On a host that runs OpenVox 9, enable the `openvox8` repository as well.
-OpenBolt installs into its own directory, separate from the agent, and the
-`openvox9` packages keep priority. On Debian and Ubuntu, read the note in
-[Debian and Ubuntu](#debian-and-ubuntu) before you install the release package.
-The next OpenBolt release is numbered 9 and is built against OpenVox 9.
+OpenBolt 9.x is built against OpenVox 9, and its packages are published in the
+`openvox9` repositories and download directories alongside the OpenVox 9 agent.
+OpenBolt installs into its own directory, separate from the agent.
 
 If downloads from `voxpupuli.org` are slow in your region, you can install from
 a public mirror instead. See [Repositories and mirrors](/openvox/latest/mirrors.html).
@@ -26,50 +22,53 @@ a public mirror instead. See [Repositories and mirrors](/openvox/latest/mirrors.
 
 ## Supported platforms
 
-OpenBolt is built for the same operating systems as the OpenVox 8 agent. For
+OpenBolt is built for the same operating systems as the OpenVox 9 agent. For
 the full list, including CPU architectures, see
-[Supported platforms](/openvox/8.x/supported_platforms.html).
+[Supported platforms](/openvox/latest/supported_platforms.html).
 
 | Operating system                                              | Versions                   |
 | ------------------------------------------------------------- | -------------------------- |
-| Amazon Linux                                                  | 2, 2023                    |
-| Debian                                                        | 11*, 12, 13                |
+| Amazon Linux                                                  | 2023                       |
+| Debian                                                        | 12, 13                     |
 | Enterprise Linux (RHEL, AlmaLinux, Rocky Linux, Oracle Linux) | 8, 9, 10                   |
-| Fedora                                                        | 42, 43, 44                 |
+| Fedora                                                        | 43, 44, 45                 |
 | SLES                                                          | 15, 16                     |
-| Ubuntu                                                        | 22.04, 24.04, 25.04, 26.04 |
+| Ubuntu                                                        | 22.04, 24.04, 26.04        |
 | macOS (Intel and Apple silicon)                               | 13 (Ventura) and later     |
 | Microsoft Windows                                             | 64-bit (x64)               |
 
 Packages are built and tested on these versions. They might also install on
 other versions of the same operating system.
 
-\* Debian 11 is past its upstream end of life. Packages are still published
-for it.
-
 ## Install OpenBolt on Linux
 
 ### Debian and Ubuntu
 
-1. Download and install the `openvox8` release package for your OS version from
+1. Download and install the `openvox9` release package for your OS version from
    [apt.voxpupuli.org](https://apt.voxpupuli.org). The file is named
-   `openvox8-release-debian<VERSION>.deb` or
-   `openvox8-release-ubuntu<VERSION>.deb`. For example, on Ubuntu 24.04:
+   `openvox9-release-debian<VERSION>.deb` or
+   `openvox9-release-ubuntu<VERSION>.deb`. For example, on Ubuntu 24.04:
 
    ```console
-   wget https://apt.voxpupuli.org/openvox8-release-ubuntu24.04.deb
-   sudo dpkg -i openvox8-release-ubuntu24.04.deb
+   wget https://apt.voxpupuli.org/openvox9-release-ubuntu24.04.deb
+   sudo dpkg -i openvox9-release-ubuntu24.04.deb
    ```
 
-   > **Note:** If the host already has the `openvox9-release` package, do not
-   > install `openvox8-release`. The two release packages cannot currently be
-   > installed together on Debian and Ubuntu. Add the `openvox8` component to
-   > the existing source instead:
+   If the host already has the `openvox9-release` package, for example because
+   it runs the OpenVox 9 agent, skip this step.
+
+   > **Note:** If the host has the `openvox8-release` package, for example
+   > because it runs the OpenVox 8 agent, do not install `openvox9-release`.
+   > The two release packages cannot currently be installed together on Debian
+   > and Ubuntu. Add the `openvox9` component to the existing source instead,
+   > and hold the agent package so that `apt upgrade` does not move it to
+   > OpenVox 9:
    >
    > ```console
-   > sed 's/ openvox9$/ openvox8/' \
-   >   /etc/apt/sources.list.d/openvox9-release.list \
-   >   | sudo tee /etc/apt/sources.list.d/openvox8.list
+   > sed 's/ openvox8$/ openvox9/' \
+   >   /etc/apt/sources.list.d/openvox8-release.list \
+   >   | sudo tee /etc/apt/sources.list.d/openvox9.list
+   > sudo apt-mark hold openvox-agent
    > ```
 
 2. Install OpenBolt:
@@ -102,21 +101,31 @@ sudo apt remove openbolt
 
 ### Enterprise Linux, Fedora, Amazon Linux, and SLES
 
-1. Install the `openvox8` release package for your OS from
+1. Install the `openvox9` release package for your OS from
    [yum.voxpupuli.org](https://yum.voxpupuli.org). The file is named
-   `openvox8-release-<FAMILY>-<VERSION>.noarch.rpm`, where `<FAMILY>` is `el`,
+   `openvox9-release-<FAMILY>-<VERSION>.noarch.rpm`, where `<FAMILY>` is `el`,
    `fedora`, `amazon`, or `sles`. For example, on Enterprise Linux 9:
 
    ```console
-   sudo dnf install https://yum.voxpupuli.org/openvox8-release-el-9.noarch.rpm
+   sudo dnf install https://yum.voxpupuli.org/openvox9-release-el-9.noarch.rpm
    ```
 
-   On Amazon Linux 2, use `yum` instead of `dnf`. On SLES, `zypper` refuses the
-   package because its signing key is not installed yet, so use `rpm`:
+   On SLES, `zypper` refuses the package because its signing key is not
+   installed yet, so use `rpm`:
 
    ```console
-   sudo rpm -Uvh https://yum.voxpupuli.org/openvox8-release-sles-16.noarch.rpm
+   sudo rpm -Uvh https://yum.voxpupuli.org/openvox9-release-sles-16.noarch.rpm
    ```
+
+   > **Note:** The `openvox9` repository also provides the OpenVox 9 agent. On
+   > a host that runs the OpenVox 8 agent, a package upgrade then moves the
+   > agent to OpenVox 9. To keep OpenVox 8 with `dnf`, limit the repository to
+   > OpenBolt by adding this line to the `[openvox9]` section of
+   > `/etc/yum.repos.d/openvox9-release.repo`:
+   >
+   > ```ini
+   > includepkgs=openbolt
+   > ```
 
 2. Install OpenBolt. On Enterprise Linux, Fedora, and Amazon Linux:
 
@@ -156,7 +165,7 @@ you must have the [Homebrew package manager](https://brew.sh/) installed.
 1. Install OpenBolt:
 
    ```console
-   brew install --cask openvoxproject/openvox/openvox8-openbolt
+   brew install --cask openvoxproject/openvox/openvox9-openbolt
    ```
 
 2. Open a new terminal window and confirm that OpenBolt runs:
@@ -168,19 +177,29 @@ you must have the [Homebrew package manager](https://brew.sh/) installed.
 To upgrade OpenBolt:
 
 ```console
-brew upgrade --cask openvox8-openbolt
+brew upgrade --cask openvox9-openbolt
+```
+
+OpenBolt 5 was published as the `openvox8-openbolt` cask. The two casks
+conflict, so Homebrew can't upgrade from one to the other and refuses to
+install `openvox9-openbolt` while `openvox8-openbolt` is installed. To move
+from OpenBolt 5 to OpenBolt 9, uninstall the old cask and install the new one:
+
+```console
+brew uninstall --cask openvox8-openbolt
+brew install --cask openvoxproject/openvox/openvox9-openbolt
 ```
 
 To uninstall OpenBolt:
 
 ```console
-brew uninstall --cask openvox8-openbolt
+brew uninstall --cask openvox9-openbolt
 ```
 
 ### macOS installer (DMG)
 
 1. Download the current disk image from
-   <https://downloads.voxpupuli.org/mac/openvox8/>. Choose the `arm64` file for
+   <https://downloads.voxpupuli.org/mac/openvox9/>. Choose the `arm64` file for
    Apple silicon or the `x86_64` file for Intel.
 
 2. Open the disk image and run `openbolt-<VERSION>-installer.pkg`. The package
@@ -209,7 +228,7 @@ sudo pkgutil --forget org.voxpupuli.openbolt
 ## Install OpenBolt on Microsoft Windows
 
 1. Download the current installer from
-   <https://downloads.voxpupuli.org/windows/openvox8/>.
+   <https://downloads.voxpupuli.org/windows/openvox9/>.
 
 2. Run the installer. It installs the `bolt` command and the PuppetBolt
    PowerShell module.
@@ -251,7 +270,8 @@ or [change execution policy restrictions](troubleshooting.html#powershell-could-
 
 To install OpenBolt reliably and with all dependencies, use one of the OpenBolt
 installation packages instead of a gem. Gem installations do not include core
-modules which are required for common OpenBolt actions.
+modules which are required for common OpenBolt actions. The gem requires Ruby 3.4
+or later.
 
 To install OpenBolt as a gem:
 

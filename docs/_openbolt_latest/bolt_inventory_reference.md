@@ -218,7 +218,7 @@ groups:
         plugin: task
         task: openvox_bootstrap::install
         parameters:
-          collection: openvox8
+          collection: openvox9
     targets:
       - linux.example.com
       - windows.example.com
@@ -364,7 +364,7 @@ targets:
         plugin: task
         task: openvox_bootstrap::install
         parameters:
-          collection: openvox8
+          collection: openvox9
 ```
 
 ### `uri`

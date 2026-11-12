@@ -1,6 +1,6 @@
 ---
 layout: default
-title: OpenBolt 5
+title: OpenBolt 9
 ---
 
 OpenBolt is an open source orchestration tool that automates the manual work it

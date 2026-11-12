@@ -134,13 +134,14 @@ namespace :references do
   desc 'Generate _data/openbolt_release_contents.yml from upstream component pins'
   task :openbolt_versions do
     require 'puppet_references/release_tables'
-    # OpenBolt is on its own 5.x line, independent of the OpenVox major, so it uses
-    # its own OPENBOLT_SERIES / OPENBOLT_MIN_RELEASE rather than the generic
-    # SERIES / MIN_RELEASE. That keeps an OpenVox 9.x regeneration (SERIES=9.) from
-    # leaking into OpenBolt, where it would resolve no 9.x releases and abort.
-    # The floor is 5.3.0 because OpenBolt SBOMs begin there; 5.1.0/5.2.0 predate the
-    # SBOMs and would only be skipped.
-    series = ENV.fetch('OPENBOLT_SERIES', '5.')
+    # OpenBolt has one table shared by every OpenVox series, so it uses its own
+    # OPENBOLT_SERIES / OPENBOLT_MIN_RELEASE rather than the generic SERIES /
+    # MIN_RELEASE that the per-series tasks above read. The default series is
+    # empty, which matches every release: the table lists 5.x (built against
+    # OpenVox 8) and 9.x (built against OpenVox 9) together, and the OpenVox column
+    # shows which is which. The floor is 5.3.0 because OpenBolt SBOMs begin there;
+    # 5.1.0/5.2.0 predate the SBOMs and would only be skipped.
+    series = ENV.fetch('OPENBOLT_SERIES', '')
     min_version = ENV.fetch('OPENBOLT_MIN_RELEASE', '5.3.0')
     path = ENV.fetch('OPENBOLT_VERSIONS_DATA', '_data/openbolt_release_contents.yml')
     rows = PuppetReferences::OpenboltReleaseTable.write_data_file(series:, min_version:, path:)

@@ -41,6 +41,9 @@ facts available to the manifest block. OpenBolt also identifies targets that do 
 have the OpenVox agent and runs the [`openvox_bootstrap::install`
 task](https://forge.puppet.com/modules/puppet/openvox_bootstrap) to install it.
 
+The task installs the OpenVox 9 agent by default. To install the OpenVox 8 agent
+instead, see [Puppet library plugins](using_plugins.html#puppet-library-plugins).
+
 > **Note:** OpenBolt installs the OpenVox agent package to enable the use of Puppet
   code. It does not require setting up a server-agent architecture between the
   remote systems and the local system running OpenBolt.
@@ -167,6 +170,9 @@ command and gathers facts by running
 the manifest block. The `apply_prep` function also identifies the targets that
 do not have the OpenVox agent and runs the [`openvox_bootstrap::install`
 task](https://forge.puppet.com/modules/puppet/openvox_bootstrap) to install it.
+
+The task installs the OpenVox 9 agent by default. To install the OpenVox 8 agent
+instead, see [Puppet library plugins](using_plugins.html#puppet-library-plugins).
 
 > **Note:** OpenBolt installs the OpenVox agent package to enable the use of Puppet
   code. It does not require setting up a server-agent architecture between the
