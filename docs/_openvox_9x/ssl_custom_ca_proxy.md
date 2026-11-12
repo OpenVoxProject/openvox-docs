@@ -33,7 +33,7 @@ This directory is OpenVox Ruby's `DEFAULT_CERT_DIR` and is included by `set_defa
 on every connection. The directory is empty by default — the `openvox-agent` package does
 not place any files there — so user-added files survive package upgrades.
 
-> **Note:** `openssl rehash` is not supported on Windows as of OpenVox 8. Use the
+> **Note:** `openssl rehash` is not available on Windows. Use the
 > `SSL_CERT_FILE` approach below on Windows nodes.
 
 If you prefer a one-liner that skips rehash, appending directly to `cert.pem` also works,
