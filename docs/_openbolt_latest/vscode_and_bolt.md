@@ -47,16 +47,16 @@ To start using the JSON schemas with VS Code, follow these steps:
     ```json
     {
       "yaml.schemas": {
-        "https://docs.openvoxproject.org/openbolt/5.x/schemas/bolt-defaults.schema.json": [
+        "https://docs.openvoxproject.org/openbolt/latest/schemas/bolt-defaults.schema.json": [
           "bolt-defaults.yaml"
         ],
-        "https://docs.openvoxproject.org/openbolt/5.x/schemas/bolt-project.schema.json": [
+        "https://docs.openvoxproject.org/openbolt/latest/schemas/bolt-project.schema.json": [
           "bolt-project.yaml"
         ],
-        "https://docs.openvoxproject.org/openbolt/5.x/schemas/bolt-inventory.schema.json": [
+        "https://docs.openvoxproject.org/openbolt/latest/schemas/bolt-inventory.schema.json": [
           "inventory.yaml"
         ],
-        "https://docs.openvoxproject.org/openbolt/5.x/schemas/bolt-yaml-plan.schema.json": [
+        "https://docs.openvoxproject.org/openbolt/latest/schemas/bolt-yaml-plan.schema.json": [
           "plans/**/*.yaml"
         ]
       }

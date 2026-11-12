@@ -7,6 +7,10 @@
 # /latest/ twin so search engines index the stable /latest/ URLs; the theme's
 # head.html (and jekyll-seo-tag, if adopted) emit page.canonical_url when set.
 #
+# A version's `aliases` (e.g. /openbolt/5.x/, the first address of the single
+# OpenBolt docs set) are further copies of the same pages and get the same
+# canonical.
+#
 # Frozen older versions are deliberately left alone with the theme's default
 # self-canonical: once `latest` moves on, their content is unique and the
 # same page may not exist under /latest/.
@@ -23,10 +27,12 @@ module OpenvoxDocs
         version = Array(product['versions']).find { |v| v['id'] == product['latest'] }
         next unless version
 
-        collection = site.collections[version['collection'].delete_prefix('_')]
-        next if collection.nil? || collection.label.end_with?('_latest')
+        [version, *Array(version['aliases'])].each do |entry|
+          collection = site.collections[entry['collection'].delete_prefix('_')]
+          next if collection.nil? || collection.label.end_with?('_latest')
 
-        canonicalize(collection, origin, version['base'], "/#{product_id}/latest/")
+          canonicalize(collection, origin, entry['base'], "/#{product_id}/latest/")
+        end
       end
     end
 

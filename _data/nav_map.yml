@@ -34,7 +34,7 @@
   collections: openvoxdb_9x|openvoxdb_latest
   base: /openvoxdb/latest/
 
-- nav_key: openbolt_5x
+- nav_key: openbolt_latest
   collections: openbolt_latest|openbolt_5x
   base: /openbolt/latest/
 

@@ -187,13 +187,13 @@ defaults:
       type: openbolt_latest
     values:
       layout: default
-      nav: openbolt_5x
+      nav: openbolt_latest
   - scope:
       path: ''
       type: openbolt_5x
     values:
       layout: default
-      nav: openbolt_5x
+      nav: openbolt_latest
 
   - scope:
       path: ''
