@@ -5,6 +5,7 @@ inherit_gem:
 
 # Exclude externalsources also
 AllCops:
+  TargetRubyVersion: '3.4'
   Exclude:
     - vendor/**/*
     - .vendor/**/*

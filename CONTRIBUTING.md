@@ -33,7 +33,7 @@ Signed-off-by: Your Name <your@email.com>
 
 ## Previewing locally
 
-Ruby 3.2 or later is required. With [rbenv](https://github.com/rbenv/rbenv) or [rvm](https://rvm.io/) installed:
+Ruby 3.4 or later is required. With [rbenv](https://github.com/rbenv/rbenv) or [rvm](https://rvm.io/) installed:
 
 ```console
 bundle install

@@ -10,7 +10,7 @@ The site is built at each merged PR.
 
 ## Getting started
 
-To build the documentation in this repository, first install Ruby 3.2 or later.
+To build the documentation in this repository, first install Ruby 3.4 or later.
 Then use Bundler to install the project dependencies:
 
 ```console
