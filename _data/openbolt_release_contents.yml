@@ -1,4 +1,9 @@
 ---
+- release: 9.0.0
+  openvox: 9.3.0
+  ruby: 4.0.9
+  openssl: 3.5.9
+  r10k: 5.0.3
 - release: 5.6.0
   openvox: 8.28.0
   ruby: 3.2.11

@@ -3,7 +3,10 @@ layout: default
 title: OpenBolt release notes
 ---
 
-This page documents the history of the OpenBolt 5.x series.
+This page documents the history of OpenBolt releases. OpenBolt 9 is built
+against OpenVox 9, and its version number now follows the OpenVox major version.
+There are no OpenBolt 6, 7, or 8 releases: the release before 9.0.0 is 5.6.0, the
+last one built against OpenVox 8.
 
 {% include release_notes.html product="OpenBolt" %}
 

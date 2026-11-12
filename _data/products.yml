@@ -100,12 +100,15 @@ openbolt:
   release_notes:
     repo: OpenVoxProject/openbolt
     sbom: openbolt
+  # OpenBolt publishes one documentation set, for the current release. `label`
+  # and `ref` name the current series and move together at each new major.
   versions:
     - id: latest
-      label: "5.x"  # the current release series; release notes read it
+      label: "9.x"  # the current release series; release notes read it
       collection: _openbolt_latest
       base: /openbolt/latest/
-      ref: "5.x"
+      ref: "9.x"
+      # 5.6.0 and earlier have hand-written entries; every 9.x release is generated.
       release_notes_after: "5.6.0"
       # /openbolt/5.x/ was the collection's first address. It stays as a symlink
       # so existing links keep working.
