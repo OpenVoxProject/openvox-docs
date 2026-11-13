@@ -49,6 +49,14 @@ Translations       | `<MODULE>/locales`  | `locales`     | `<VARDIR>/locales`
 
 (`<VARDIR>` is OpenVox agent's [cache directory][vardir], which is located at `/var/opt/puppetlabs/puppet/cache`, `%PROGRAMDATA%\PuppetLabs\puppet\cache`, or `~/.puppetlabs/opt/puppet/cache`.)
 
+### Plug-ins under Puppet apply
+
+Puppet apply has no sync phase and doesn't need one. It loads custom facts, external facts, functions, resource types, and providers directly from the modulepath of the run, including during compilation and in `--noop` runs.
+If a module's custom fact comes back `undef` under Puppet apply, the modulepath was incomplete for that run: either the Puppetfile modules weren't installed yet, or `--modulepath` left out a module directory.
+
+A standalone run does not fill the agent directories in the table above, and other commands read them. After a run that used an explicit `--modulepath`, `facter -p` and `puppet facts` return no module facts, `puppet lookup --explain` interpolates `undef` into hierarchy levels that use them, and `puppet resource` can't find custom types.
+Even with the modules deployed in the default environment, `facter -p` reads only the cache. To fill the cache on standalone nodes, see [Keep the plug-in cache in sync](services_apply_standalone.html#keep-the-plug-in-cache-in-sync).
+
 ## Types of plug-ins
 
 OpenVox supports several kinds of plug-ins:
