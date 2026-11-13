@@ -347,10 +347,10 @@ Compile catalogs for the same nodes with the old and new settings and compare th
 4. Install an OpenVox 8 server in a test environment, point test agents at it, and review the output of `puppet agent --test --noop`.
 5. Switch each host to the OpenVox 8 repository. See [OpenVox repositories and packages](openvox_platform.html).
 
-   If the host has `openvox7-release` installed, remove it first on Debian and Ubuntu. Both packages contain `/etc/apt/preferences.d/openvox-release.pref`, and `dpkg` refuses to install the second one:
+   On Debian and Ubuntu, purge `openvox7-release` first. Both packages configure the same suite with a different `signed-by` path, so `apt` cannot read the source list while both are installed. `apt remove` leaves `openvox7-release.list` behind, so use `apt purge`:
 
    ```console
-   sudo apt remove openvox7-release
+   sudo apt purge openvox7-release
    wget https://apt.voxpupuli.org/openvox8-release-ubuntu24.04.deb
    sudo dpkg -i openvox8-release-ubuntu24.04.deb
    sudo apt update

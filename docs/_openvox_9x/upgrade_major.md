@@ -190,10 +190,10 @@ The Windows package is also built with MSYS2 and the UCRT toolchain, the same `x
 3. Validate your manifests with `puppet parser validate`.
 4. Stand up an OpenVox 9 server in a test environment, point test agents at it, and compare `puppet agent --test --noop` output against OpenVox 8 for unexpected changes.
 5. Switch each host to the OpenVox 9 repository. The `openvox8-release` package configures only the 8.x repository, so a host still using it stays on 8.x no matter what you upgrade. Install the `openvox9-release` package for the platform from [apt.voxpupuli.org](https://apt.voxpupuli.org) or [yum.voxpupuli.org](https://yum.voxpupuli.org).
-   On Debian and Ubuntu, remove `openvox8-release` first: both packages ship `/etc/apt/preferences.d/openvox-release.pref`, and `dpkg` refuses to install the second one over it.
+   On Debian and Ubuntu, purge `openvox8-release` first. Both packages configure the same suite with a different `signed-by` path, so `apt` cannot read the source list while both are installed. `apt remove` leaves `openvox8-release.list` behind, so use `apt purge`:
 
-   ```bash
-   sudo apt remove openvox8-release
+   ```console
+   sudo apt purge openvox8-release
    wget https://apt.voxpupuli.org/openvox9-release-ubuntu24.04.deb
    sudo dpkg -i openvox9-release-ubuntu24.04.deb
    sudo apt update
@@ -201,7 +201,7 @@ The Windows package is also built with MSYS2 and the UCRT toolchain, the same `x
 
    On EL, the two release packages can be installed side by side and the package manager prefers the 9.x packages; remove `openvox8-release` once the host is upgraded.
 
-   ```bash
+   ```console
    sudo dnf install https://yum.voxpupuli.org/openvox9-release-el-9.noarch.rpm
    ```
 
