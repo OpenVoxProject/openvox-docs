@@ -10,6 +10,7 @@ title: "Standalone workflows with Puppet apply"
 [trusted facts]: lang_facts_and_builtin_vars.html#trusted-facts
 [install]: install_pre.html
 [template]: https://github.com/OpenVoxProject/control-repo-template
+[r10k config]: https://github.com/OpenVoxProject/control-repo-template#quick-start
 [controlrepo site.pp]: https://github.com/voxpupuli/controlrepo/blob/production/manifests/site.pp
 [controlrepo readme]: https://github.com/voxpupuli/controlrepo#hetzner-cloud-cloud-init-userdata
 [r10k]: https://github.com/puppetlabs/r10k
@@ -49,15 +50,17 @@ For Puppet apply's general behavior (logging, reporting, scheduling), see [the P
      --show_diff
    ```
 
-   The `--modulepath` must list every directory that contains modules, or plug-ins from the omitted ones won't load. In scripts and CI, add `--detailed-exitcodes` and treat exit code 2 (changes applied) as success alongside 0.
+   The `--modulepath` must list every directory that contains modules, or plug-ins from the omitted ones won't load. It replaces the default path, so if you also keep modules in `/etc/puppetlabs/code/modules`, add `:$basemodulepath` to the end of the value and put the value in single quotes. The core modules shipped with the agent, such as `cron_core`, load either way.
+
+   In scripts and CI, add `--detailed-exitcodes` and treat exit code 2 (changes applied) as success alongside 0.
 
 Rerun step 1 whenever the Puppetfile changes and step 2 to converge.
 
-Alternatively, deploy the control repository into `/etc/puppetlabs/code/environments/production` with `r10k deploy environment --modules` and apply its `manifests/site.pp` without the `--hiera_config` and `--modulepath` arguments.
+Alternatively, [point r10k at your repository][r10k config], deploy it into `/etc/puppetlabs/code/environments/production` with `r10k deploy environment --modules`, and apply its `manifests/site.pp` without the `--hiera_config` and `--modulepath` arguments.
 
 ## Bootstrap the first node in two phases
 
-When the node is your future OpenVox Server, its real configuration should come from a deployed environment, not a temporary checkout. The [Vox Pupuli control repository's cloud-init example][controlrepo readme] splits the bootstrap in two:
+When the node is your future OpenVox Server, its real configuration should come from a deployed environment, not a temporary checkout. The [Vox Pupuli control repository's cloud-init example][controlrepo readme] splits the bootstrap in two. The commands use that repository's layout and tags; the template has no resources tagged `r10k` or `hacked_pluginsync`, so there they apply nothing.
 
 1. From the initial checkout, apply only the tagged bootstrap resources:
 
