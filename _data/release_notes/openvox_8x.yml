@@ -1,4 +1,54 @@
 ---
+- version: 8.34.0
+  date: '2026-11-19'
+  url: https://github.com/OpenVoxProject/openvox/releases/tag/8.34.0
+  type: feature
+  previous: 8.33.1
+  components:
+  - name: puppet
+    from: 8.33.1
+    to: 8.34.0
+  - name: puppet-runtime
+    from: 2026.11.17.1
+    to: 2026.11.19.1
+- version: 8.33.1
+  date: '2026-11-18'
+  url: https://github.com/OpenVoxProject/openvox/releases/tag/8.33.1
+  type: bug-fix
+  previous: 8.33.0
+  components:
+  - name: openfact
+    from: 5.7.2
+    to: 5.7.4
+  - name: openssl-fips
+    from: 2025.12.17.1
+  - name: puppet
+    from: 8.33.0
+    to: 8.33.1
+  - name: puppet-runtime
+    from: 2026.11.12.1
+    to: 2026.11.17.1
+- version: 8.33.0
+  date: '2026-11-13'
+  url: https://github.com/OpenVoxProject/openvox/releases/tag/8.33.0
+  type: feature
+  previous: 8.32.0
+  components:
+  - name: minitar
+    from: 1.1.0
+    to: 1.2.0
+  - name: multi_json
+    from: 1.21.2
+    to: 1.19.1
+  - name: net-ssh
+    from: 7.3.6
+    to: 7.3.8
+  - name: puppet
+    from: 8.32.0
+    to: 8.33.0
+  - name: puppet-runtime
+    from: 2026.10.28.1
+    to: 2026.11.12.1
 - version: 8.32.0
   date: '2026-11-03'
   url: https://github.com/OpenVoxProject/openvox/releases/tag/8.32.0

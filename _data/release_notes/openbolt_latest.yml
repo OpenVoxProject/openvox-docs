@@ -1,4 +1,54 @@
 ---
+- version: 9.1.0
+  date: '2026-11-19'
+  url: https://github.com/OpenVoxProject/openbolt/releases/tag/9.1.0
+  type: feature
+  previous: 9.0.0
+  components:
+  - name: aws-partitions
+    from: 1.1301.0
+    to: 1.1308.0
+  - name: aws-sdk-core
+    from: 3.264.0
+    to: 3.270.0
+  - name: aws-sdk-ec2
+    from: 1.664.0
+    to: 1.673.0
+  - name: connection_pool
+    to: 3.0.3
+  - name: faraday-net_http_persistent
+    to: 2.3.1
+  - name: httpclient
+    from: 2.10.0
+    to: 2.11.0
+  - name: minitar
+    from: 1.1.0
+    to: 1.2.0
+  - name: net-http-persistent
+    to: 4.0.8
+  - name: net-scp
+    from: 4.2.1
+    to: 4.2.2
+  - name: openbolt
+    from: 9.0.0
+    to: 9.1.0
+  - name: openbolt-runtime
+    from: 2026.11.06.1
+    to: 2026.11.19.1
+  - name: openfact
+    from: 6.2.1
+    to: 6.2.3
+  - name: openvox
+    from: 9.3.0
+    to: 9.4.1
+  - name: orchestrator_client
+    to: 0.7.2
+  - name: puppet-resource_api
+    from: 2.0.1
+    to: 2.1.0
+  - name: ruby
+    from: 4.0.9
+    to: 4.0.10
 - version: 9.0.0
   date: '2026-11-11'
   url: https://github.com/OpenVoxProject/openbolt/releases/tag/9.0.0

@@ -1,4 +1,54 @@
 ---
+- version: 9.5.0
+  date: '2026-11-19'
+  url: https://github.com/OpenVoxProject/openvox/releases/tag/9.5.0
+  type: feature
+  previous: 9.4.1
+  components:
+  - name: puppet
+    from: 9.4.1
+    to: 9.5.0
+  - name: puppet-runtime
+    from: 2026.11.17.1
+    to: 2026.11.19.1
+  - name: ruby
+    from: 4.0.9
+    to: 4.0.10
+- version: 9.4.1
+  date: '2026-11-18'
+  url: https://github.com/OpenVoxProject/openvox/releases/tag/9.4.1
+  type: bug-fix
+  previous: 9.4.0
+  components:
+  - name: openfact
+    from: 6.2.1
+    to: 6.2.3
+  - name: openssl-fips
+    from: 2026.10.05.1
+  - name: puppet
+    from: 9.4.0
+    to: 9.4.1
+  - name: puppet-runtime
+    from: 2026.11.12.1
+    to: 2026.11.17.1
+- version: 9.4.0
+  date: '2026-11-13'
+  url: https://github.com/OpenVoxProject/openvox/releases/tag/9.4.0
+  type: feature
+  previous: 9.3.0
+  components:
+  - name: minitar
+    from: 1.1.0
+    to: 1.2.0
+  - name: net-ssh
+    from: 7.3.6
+    to: 7.3.8
+  - name: puppet
+    from: 9.3.0
+    to: 9.4.0
+  - name: puppet-runtime
+    from: 2026.10.23.1
+    to: 2026.11.12.1
 - version: 9.3.0
   date: '2026-11-03'
   url: https://github.com/OpenVoxProject/openvox/releases/tag/9.3.0
