@@ -41,6 +41,10 @@ Before installing OpenVox Server:
    distribution's repositories before installing the OpenVox Server package. OpenVox
    Server does not bundle a JDK.
 
+   The service runs `/usr/bin/java`. To run a JDK installed elsewhere, such as Eclipse
+   Temurin, set `JAVA_BIN` to the path of its `java` binary in
+   `/etc/sysconfig/puppetserver` (`/etc/default/puppetserver` on Debian and Ubuntu).
+
 3. Plan memory allocation.
 
    OpenVox Server is configured to use 2 GB of RAM by default. Make sure the host
