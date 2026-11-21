@@ -59,8 +59,10 @@ other versions of the same operating system.
 
    > **Note:** If the host has the `openvox8-release` package, for example
    > because it runs the OpenVox 8 agent, do not install `openvox9-release`.
-   > The two release packages cannot currently be installed together on Debian
-   > and Ubuntu. Add the `openvox9` component to the existing source instead,
+   > Both release packages point at the same `apt.voxpupuli.org` suite with
+   > different `signed-by` keyring paths, so every `apt` command fails with a
+   > `Conflicting values set for option Signed-By` error once both are
+   > installed. Add the `openvox9` component to the existing source instead,
    > and hold the agent package so that `apt upgrade` does not move it to
    > OpenVox 9:
    >
@@ -70,6 +72,9 @@ other versions of the same operating system.
    >   | sudo tee /etc/apt/sources.list.d/openvox9.list
    > sudo apt-mark hold openvox-agent
    > ```
+   >
+   > Remove the hold with `sudo apt-mark unhold openvox-agent` when you are
+   > ready to upgrade the agent.
 
 2. Install OpenBolt:
 
@@ -119,12 +124,19 @@ sudo apt remove openbolt
 
    > **Note:** The `openvox9` repository also provides the OpenVox 9 agent. On
    > a host that runs the OpenVox 8 agent, a package upgrade then moves the
-   > agent to OpenVox 9. To keep OpenVox 8 with `dnf`, limit the repository to
-   > OpenBolt by adding this line to the `[openvox9]` section of
+   > agent to OpenVox 9. With `dnf`, limit the repository to OpenBolt by adding
+   > this line to the `[openvox9]` section of
    > `/etc/yum.repos.d/openvox9-release.repo`:
    >
    > ```ini
    > includepkgs=openbolt
+   > ```
+   >
+   > On SLES, `zypper` ignores `includepkgs`. Lock the agent from the 9
+   > repository instead, so that 8.x updates still install:
+   >
+   > ```console
+   > sudo zypper addlock --repo openvox9 openvox-agent
    > ```
 
 2. Install OpenBolt. On Enterprise Linux, Fedora, and Amazon Linux:
@@ -202,7 +214,7 @@ brew uninstall --cask openvox9-openbolt
    <https://downloads.voxpupuli.org/mac/openvox9/>. Choose the `arm64` file for
    Apple silicon or the `x86_64` file for Intel.
 
-2. Open the disk image and run `openbolt-<VERSION>-installer.pkg`. The package
+2. Open the disk image and run `openbolt-<VERSION>-1-installer.pkg`. The package
    is signed and notarized, so macOS opens it without any security prompts.
 
 3. Open a new terminal window and confirm that OpenBolt runs:
