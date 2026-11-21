@@ -21,7 +21,7 @@ title: "Puppet's services: Puppet apply"
 
 Puppet apply is an application that compiles and manages configurations on nodes. It acts like a self-contained combination of the OpenVox Server and OpenVox agent applications. For more info about Puppet's architecture, see [Overview of Puppet's Architecture](./architecture.html) --- in particular, read the note at the end about [differences and trade-offs between agent/master and puppet apply.](architecture.html#differences-between-agent-server-and-stand-alone)
 
-For details about invoking the Puppet apply command, see [the puppet apply man page][man].
+For details about invoking the Puppet apply command, see [the puppet apply man page][man]. For running whole nodes with Puppet apply instead of an agent, see [Standalone workflows with Puppet apply](services_apply_standalone.html).
 
 ## Supported platforms
 

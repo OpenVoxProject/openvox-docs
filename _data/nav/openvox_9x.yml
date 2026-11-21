@@ -137,6 +137,8 @@
     link: "services_agent_windows.html"
   - text: Puppet apply
     link: "services_apply.html"
+  - text: Standalone workflows with Puppet apply
+    link: "services_apply_standalone.html"
 - text: The Puppet language
   items:
   - text: Visual index
