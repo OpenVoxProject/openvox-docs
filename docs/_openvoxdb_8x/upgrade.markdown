@@ -13,6 +13,7 @@ layout: default
 [plugin_source]: ./connect_puppet_server.html#on-platforms-without-packages
 [module]: ./install_via_module.html
 [versioning]: ./versioning_policy.html#upgrades
+[ghsa_termini]: https://github.com/OpenVoxProject/openvoxdb/security/advisories/GHSA-859m-7qpm-85p7
 
 ## Checking for updates
 
@@ -67,10 +68,10 @@ minutes during the upgrade and Puppet Server will not be able to serve catalogs
 until it comes back, you should schedule upgrades during a maintenance window
 during which no new nodes will be brought online.
 
-If you upgrade OpenVoxDB without upgrading the OpenVoxDB-termini, your Puppet
-deployment should continue to function identically, with no loss of
-functionality. However, you may not be able to take advantage of new OpenVoxDB
-features until you upgrade the OpenVoxDB-termini.
+A newer OpenVoxDB works with older OpenVoxDB-termini, so you can upgrade the
+database first and the servers afterward. Upgrade the termini with every release
+all the same. A release can fix a bug or a security issue in the termini alone,
+as OpenVoxDB 9.2.1 and 8.18.1 did for [GHSA-859m-7qpm-85p7][ghsa_termini].
 
 ### Upgrading OpenVoxDB
 
@@ -96,23 +97,20 @@ the source, and
 
 ### Upgrading the terminus plugins
 
-**On your Puppet Servers:** upgrade the OpenVoxDB-termini package, then
-restart the Puppet Server's web server:
+**On each OpenVox Server host:** upgrade the `openvoxdb-termini` package, then
+restart the `puppetserver` service. The server does not use the new version
+until it restarts.
 
 ```console
-sudo puppet resource package openvoxdb-termini ensure=latest
+sudo /opt/puppetlabs/bin/puppet resource package openvoxdb-termini ensure=latest
+sudo systemctl restart puppetserver
 ```
-
-The command to restart the Puppet Server will vary, depending on which web
-server you are using.
 
 #### On platforms without packages
 
 Obtain a fresh copy of the OpenVoxDB source, and follow
-[the instructions for installing the termini][plugin_source].
-
-The command to restart the Puppet Server will vary, depending on which web
-server you are using.
+[the instructions for installing the termini][plugin_source]. Then restart the
+`puppetserver` service.
 
 ### Upgrading across multiple major versions
 
