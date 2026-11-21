@@ -43,6 +43,13 @@ Before installing OpenVox Server:
    supported JDK from your distribution's repositories before installing the OpenVox
    Server package. OpenVox Server does not bundle a JDK.
 
+   The service looks for Java only where the distribution's packages install it, and
+   fails to start with `no Java runtime found (wanted 25 21)` if none is there. To run
+   a JDK installed elsewhere, such as Eclipse Temurin, set `JAVA_BIN` to the path of its
+   `java` binary in `/etc/sysconfig/puppetserver` (`/etc/default/puppetserver` on Debian
+   and Ubuntu). OpenVox Server is tested with the JDK packages from the distributions'
+   repositories; other JDKs are expected to work but are not tested.
+
    The `openvox-server` 9.x package depends on `openvox-agent` 9.x, so the package
    manager installs or upgrades the agent on the server host along with it.
 
