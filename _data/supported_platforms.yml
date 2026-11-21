@@ -42,6 +42,13 @@ main:
   - Arm64
   server_db: true
   fips: false
+- os: Fedora 45
+  family: fedora
+  agent_bolt:
+  - x86-64
+  - Arm64
+  server_db: false
+  fips: false
 - os: SLES 15
   family: sles
   agent_bolt:
@@ -148,13 +155,6 @@ main:
   - Arm64
   server_db: true
   fips: false
-- os: Fedora 42
-  family: fedora
-  agent_bolt:
-  - x86-64
-  - Arm64
-  server_db: true
-  fips: false
 - os: Fedora 43
   family: fedora
   agent_bolt:
@@ -205,14 +205,6 @@ main:
   server_db: true
   fips: false
 - os: Ubuntu 24.04
-  family: ubuntu
-  agent_bolt:
-  - x86-64
-  - Arm64
-  - armhf
-  server_db: true
-  fips: false
-- os: Ubuntu 25.04
   family: ubuntu
   agent_bolt:
   - x86-64
