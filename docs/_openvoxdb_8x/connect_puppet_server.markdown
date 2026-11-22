@@ -39,11 +39,14 @@ Currently, Puppet Servers need additional Ruby plug-ins in order to use OpenVoxD
 The `openvoxdb-termini` package provides them:
 
 * The `puppetdb` termini for facts, catalogs, resources, and nodes
+* The `puppetdb_apply` facts terminus for `puppet apply` nodes
 * The `puppetdb` report processor
 * The `puppetdb_query` function
 * The `puppet node deactivate` and `puppet node status` commands
 
-OpenVox Server keeps this code loaded while it runs, so a new version of the package takes effect only after `puppetserver` restarts. The package is released together with `openvoxdb`, at the same version.
+Puppet Server keeps this code loaded while it runs, so a new version of the
+package takes effect only after `puppetserver` restarts. The package is released
+together with `openvoxdb`, at the same version.
 
 ### On platforms with packages
 

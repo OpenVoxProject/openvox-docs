@@ -68,10 +68,10 @@ minutes during the upgrade and Puppet Server will not be able to serve catalogs
 until it comes back, you should schedule upgrades during a maintenance window
 during which no new nodes will be brought online.
 
-A newer OpenVoxDB works with older OpenVoxDB-termini, so you can upgrade the
-database first and the servers afterward. Upgrade the termini with every release
-all the same. A release can fix a bug or a security issue in the termini alone,
-as OpenVoxDB 9.2.1 and 8.18.1 did for [GHSA-859m-7qpm-85p7][ghsa_termini].
+You can upgrade the database before the Puppet Servers, but still upgrade the
+termini with every release. A release can fix a bug or a security issue in the
+termini alone, as OpenVoxDB 9.2.1 and 8.18.1 did for
+[GHSA-859m-7qpm-85p7][ghsa_termini].
 
 ### Upgrading OpenVoxDB
 
@@ -97,9 +97,10 @@ the source, and
 
 ### Upgrading the terminus plugins
 
-**On each OpenVox Server host:** upgrade the `openvoxdb-termini` package, then
-restart the `puppetserver` service. The server does not use the new version
-until it restarts.
+**On each Puppet Server host (and each standalone `puppet apply` node):**
+upgrade the `openvoxdb-termini` package. On a Puppet Server host, restart the
+`puppetserver` service: the server does not use the new version until it
+restarts.
 
 ```console
 sudo /opt/puppetlabs/bin/puppet resource package openvoxdb-termini ensure=latest
