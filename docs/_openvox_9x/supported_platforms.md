@@ -32,10 +32,9 @@ x86-64 only (OpenBolt has no FIPS build). See [Running OpenVox in FIPS mode](fip
 
 ## OpenVox 9.x
 
-Compared with OpenVox 8, packages are no longer built for Enterprise Linux 7, Amazon
-Linux 2, Fedora 42, Debian 11, or Ubuntu 25.04, and Debian 12 gets `openvox-agent`
-only (OpenVox Server and OpenVoxDB 9 need Java 21 or 25, which Debian 12 does not
-provide).
+Compared with OpenVox 8, packages are no longer built for Enterprise Linux 7 or
+Amazon Linux 2, and Debian 12 gets `openvox-agent` only (OpenVox Server and
+OpenVoxDB 9 need Java 21 or 25, which Debian 12 does not provide).
 
 {% comment %}
 shared-actions keeps the newest line under "main" until the next major branches,
