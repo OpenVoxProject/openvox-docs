@@ -150,10 +150,18 @@ module PuppetReferences
         family = grouping_family(os)
         next if built.include?([family, version])
 
-        new_row(family, version).slice('os', 'family', 'version')
-                                .merge('last_version' => last_agent_version(major, os, version, repo))
+        legacy_row(os, family, version).merge('last_version' => last_agent_version(major, os, version, repo))
       end
       finalize(rows)
+    end
+
+    # el and redhatfips are separate repositories on the package servers and can
+    # stop at different versions, so the FIPS one gets its own labeled row
+    # instead of a second row with the same name.
+    def legacy_row(os, family, version)
+      row = new_row(family, version).slice('os', 'family', 'version')
+      row['os'] = "#{row['os']} (FIPS)" if os == 'redhatfips'
+      row
     end
 
     # { major => [[os, version, :yum|:apt], ...] } from the release packages on
@@ -269,7 +277,7 @@ module PuppetReferences
       rows.each do |row|
         row['agent_bolt'] = row['agent_bolt'].uniq.sort_by { |a| ARCH_ORDER.index(a) || ARCH_ORDER.size } if row['agent_bolt']
       end
-      rows.sort_by! { |row| [FAMILY_ORDER.index(row['family']) || FAMILY_ORDER.size, version_key(row['version'])] }
+      rows.sort_by! { |row| [FAMILY_ORDER.index(row['family']) || FAMILY_ORDER.size, version_key(row['version']), row['os']] }
       rows.each { |row| row.delete('version') }
       rows
     end

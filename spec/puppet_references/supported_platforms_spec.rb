@@ -91,6 +91,26 @@ RSpec.describe PuppetReferences::SupportedPlatforms do
       expect(data['8.x']['legacy'].map { |r| r['os'] }).not_to include(a_string_starting_with('Enterprise Linux'))
     end
 
+    context 'when an Enterprise Linux version with a FIPS variant leaves the build list' do
+      let(:platforms) do
+        super().merge('8.x' => super()['8.x'].transform_values { |list| list.reject { |p| p.start_with?('el-9') } })
+      end
+
+      let(:listings) do
+        super().merge(
+          "#{described_class::YUM_URL}openvox8/el/9/x86_64/" => autoindex(%w[openvox-agent-8.30.0-1.el9.x86_64.rpm]),
+          "#{described_class::YUM_URL}openvox8/redhatfips/9/x86_64/" => autoindex(%w[openvox-agent-8.28.0-1.el9.x86_64.rpm]),
+        )
+      end
+
+      it 'lists the regular and FIPS repositories as separate, distinctly named rows' do
+        expect(data['8.x']['legacy'].first(2)).to eq([
+                                                       { 'os' => 'Enterprise Linux 9', 'family' => 'el', 'last_version' => '8.30.0' },
+                                                       { 'os' => 'Enterprise Linux 9 (FIPS)', 'family' => 'el', 'last_version' => '8.28.0' },
+                                                     ])
+      end
+    end
+
     context 'when the major has its own series key' do
       let(:platforms) { super().merge('9.x' => super()['main'], 'main' => { 'vanagon' => %w[el-10-x86_64] }) }
 
