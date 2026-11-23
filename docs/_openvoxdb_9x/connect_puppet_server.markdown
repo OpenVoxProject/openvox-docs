@@ -36,11 +36,23 @@ After OpenVoxDB is installed and running, configure your Puppet Server to use it
 
 Currently, Puppet Servers need additional Ruby plug-ins in order to use OpenVoxDB. Unlike custom facts or functions, these cannot be loaded from a module and must be installed in Puppet's main source directory.
 
+The `openvoxdb-termini` package provides them:
+
+* The `puppetdb` termini for facts, catalogs, resources, and nodes
+* The `puppetdb_apply` facts terminus for `puppet apply` nodes
+* The `puppetdb` report processor
+* The `puppetdb_query` function
+* The `puppet node deactivate` and `puppet node status` commands
+
+Puppet Server keeps this code loaded while it runs, so a new version of the
+package takes effect only after `puppetserver` restarts. The package is released
+together with `openvoxdb`, at the same version.
+
 ### On platforms with packages
 
 [Enable the Puppet Platform package repository][package_repos] and then install the `openvoxdb-termini` package:
 
-    sudo puppet resource package openvoxdb-termini ensure=latest
+    sudo /opt/puppetlabs/bin/puppet resource package openvoxdb-termini ensure=latest
 
 ### On platforms without packages
 
@@ -129,7 +141,9 @@ OpenVoxDB works without modification with SELinux in enforcing mode.
 
 ## Step 4: Restart Puppet Server
 
-Use your system's service tools to restart the Puppet Server service. For open source Puppet users, the command to do this will vary, depending on the frontend web server being used.
+Restart the `puppetserver` service:
+
+    sudo systemctl restart puppetserver
 
 > Your Puppet Server is now using OpenVoxDB to store and retrieve catalogs, facts, and exported resources. You can test your setup by triggering a Puppet agent run on an arbitrary node, then logging into your OpenVoxDB server and viewing the `/var/log/puppetlabs/puppetdb/puppetdb.log` file, which will include calls to the "replace facts", "replace catalog", and "store report" commands:
 >
