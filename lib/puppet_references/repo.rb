@@ -34,7 +34,7 @@ module PuppetReferences
 
     def checkout(commit)
       @repo.checkout(commit, { force: true }) unless @config['skip_download']
-      @repo.revparse(commit)
+      @repo.rev_parse(commit)
     end
 
     def describe
@@ -50,7 +50,7 @@ module PuppetReferences
     # 9.0.*). Raises rather than returning nil so a typo'd series or a repo with
     # no such tags fails the build instead of silently checking out nothing.
     def newest_release(series: nil)
-      versions = @repo.tags.map { |t| Gem::Version.new(t.name) rescue Gem::Version.new(0) } # rubocop:disable Style/RescueModifier
+      versions = @repo.tag_list.map { |t| Gem::Version.new(t.name) rescue Gem::Version.new(0) } # rubocop:disable Style/RescueModifier
       versions = versions.reject(&:prerelease?)
       versions = versions.select { |v| v.segments.first(series.size) == series } if series
       raise "#{@name}: no stable release tag matching #{series ? series.join('.') + '.x' : 'any series'}" if versions.empty?
