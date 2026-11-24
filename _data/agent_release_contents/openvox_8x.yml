@@ -1,4 +1,44 @@
 ---
+- release: 8.34.0
+  openfact: 5.7.4
+  ruby: 3.2.11
+  openssl: 3.0.22
+  curl: 8.23.0
+- release: 8.33.1
+  openfact: 5.7.4
+  ruby: 3.2.11
+  openssl: 3.0.22
+  curl: 8.23.0
+- release: 8.33.0
+  openfact: 5.7.2
+  ruby: 3.2.11
+  openssl: 3.0.22
+  curl: 8.23.0
+- release: 8.32.0
+  openfact: 5.7.2
+  ruby: 3.2.11
+  openssl: 3.0.22
+  curl: 8.23.0
+- release: 8.31.2
+  openfact: 5.7.2
+  ruby: 3.2.11
+  openssl: 3.0.22
+  curl: 8.23.0
+- release: 8.31.1
+  openfact: 5.7.2
+  ruby: 3.2.11
+  openssl: 3.0.22
+  curl: 8.23.0
+- release: 8.31.0
+  openfact: 5.7.2
+  ruby: 3.2.11
+  openssl: 3.0.22
+  curl: 8.22.0
+- release: 8.30.0
+  openfact: 5.7.2
+  ruby: 3.2.11
+  openssl: 3.0.22
+  curl: 8.22.0
 - release: 8.29.0
   openfact: 5.6.1
   ruby: 3.2.11

@@ -1,4 +1,36 @@
 ---
+- release: 9.5.0
+  openfact: 6.2.3
+  ruby: 4.0.10
+  openssl: 3.5.9
+- release: 9.4.1
+  openfact: 6.2.3
+  ruby: 4.0.9
+  openssl: 3.5.9
+- release: 9.4.0
+  openfact: 6.2.1
+  ruby: 4.0.9
+  openssl: 3.5.9
+- release: 9.3.0
+  openfact: 6.2.1
+  ruby: 4.0.9
+  openssl: 3.5.9
+- release: 9.2.1
+  openfact: 6.2.1
+  ruby: 4.0.9
+  openssl: 3.5.9
+- release: 9.2.0
+  openfact: 6.2.1
+  ruby: 4.0.8
+  openssl: 3.5.9
+- release: 9.1.1
+  openfact: 6.2.1
+  ruby: 4.0.7
+  openssl: 3.5.9
+- release: 9.1.0
+  openfact: 6.2.1
+  ruby: 4.0.7
+  openssl: 3.5.9
 - release: 9.0.0
   openfact: 6.2.1
   ruby: 4.0.7
