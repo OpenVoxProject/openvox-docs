@@ -89,8 +89,6 @@ module PuppetReferences
 
           #{categories[:core].reduce(+'') { |memo, item| memo << "- [puppet #{item}](#{item}.html)\n" }}
 
-          > Note: The `puppet cert` command is available only in Puppet versions prior to 6.0. For 6.0 and later, use the [`puppetserver cert`command](https://puppet.com/docs/puppet/6/puppet_server_ca_cli.html).
-
           Secondary subcommands
           -----
 
