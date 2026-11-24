@@ -34,7 +34,7 @@ Agents older than version 7 may still work, but they are not tested or supported
 
 ## OpenVox agent and operating system support life cycles
 
-OpenVox aims to build packages for an operating system for as long as its vendor supports it. When a platform is dropped from the build list, its existing packages stay on the package servers; the [Supported platforms](supported_platforms.html) page lists those platforms and the last version built for each.
+OpenVox aims to build packages for an operating system for as long as its vendor supports it. When a platform is dropped from the build list, its existing packages stay on the package servers; the [Supported platforms](supported_platforms.html) page lists those platforms and the last version built for each. If you need new builds for a platform that is no longer built, a commercial support partner may be able to help; see the [support page](https://voxpupuli.org/openvox/support/).
 
 ## Platforms with packages
 
