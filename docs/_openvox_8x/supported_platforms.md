@@ -9,7 +9,8 @@ title: "Supported platforms"
 This page lists the operating systems OpenVox builds packages for. It is generated
 from [`platforms.json`][platforms_json] in `OpenVoxProject/shared-actions`, the same
 list the build system uses to decide where packages are produced, so it always
-matches what actually ships.
+matches what actually ships. The list of platforms whose packages remain available
+but are no longer built comes from the package servers themselves.
 
 For the component versions inside a given release (Ruby, OpenSSL, JRuby, and so on),
 see [Component versions in recent releases][component_versions].
@@ -31,14 +32,29 @@ x86-64 only (OpenBolt has no FIPS build). See [Running OpenVox in FIPS mode](fip
 
 ## OpenVox 8.x
 
-{% assign rows = site.data.supported_platforms["8.x"] %}
+{% assign series = site.data.supported_platforms["8.x"] %}
 
 <!-- markdownlint-disable MD055 MD056 -->
 
 | Operating system | openvox-agent / OpenBolt | openvox-server / OpenVoxDB |
 | --- | --- | --- |
-{% for r in rows %}| {{ r.os }}{% if r.fips %} †{% endif %} | {% if r.agent_bolt %}{{ r.agent_bolt | join: ", " }}{% else %}—{% endif %} | {% if r.server_db %}✓{% else %}—{% endif %} |
+{% for r in series.platforms %}| {{ r.os }}{% if r.fips %} †{% endif %} | {% if r.agent_bolt %}{{ r.agent_bolt | join: ", " }}{% else %}—{% endif %} | {% if r.server_db %}✓{% else %}—{% endif %} |
 {% endfor %}
+
+{% if series.legacy.size > 0 %}
+
+### Packages available but no longer built
+
+OpenVox 8 packages for these operating systems stay on the package servers, but
+new releases are not built for them. The version shown is the last `openvox-agent`
+published there.
+
+| Operating system | Last openvox-agent |
+| --- | --- |
+{% for r in series.legacy %}| {{ r.os }} | {{ r.last_version | default: "—" }} |
+{% endfor %}
+
+{% endif %}
 
 ## Next major version (in development)
 
@@ -46,11 +62,11 @@ x86-64 only (OpenBolt has no FIPS build). See [Running OpenVox in FIPS mode](fip
 > release while it is being developed. The list can change before that release is
 > final.
 
-{% assign rows = site.data.supported_platforms["main"] %}
+{% assign series = site.data.supported_platforms["main"] %}
 
 | Operating system | openvox-agent / OpenBolt | openvox-server / OpenVoxDB |
 | --- | --- | --- |
-{% for r in rows %}| {{ r.os }}{% if r.fips %} †{% endif %} | {% if r.agent_bolt %}{{ r.agent_bolt | join: ", " }}{% else %}—{% endif %} | {% if r.server_db %}✓{% else %}—{% endif %} |
+{% for r in series.platforms %}| {{ r.os }}{% if r.fips %} †{% endif %} | {% if r.agent_bolt %}{{ r.agent_bolt | join: ", " }}{% else %}—{% endif %} | {% if r.server_db %}✓{% else %}—{% endif %} |
 {% endfor %}
 <!-- markdownlint-enable MD055 MD056 -->
 
