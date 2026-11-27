@@ -3,162 +3,120 @@ layout: default
 title: "Roles and profiles example"
 ---
 
-This example demonstrates a complete roles and profiles workflow. Use it to understand the roles and profiles method as a whole. Additional examples show how
-to design advanced configurations by refactoring this example code to a higher level of complexity.
+This example builds one profile and two roles from start to finish, so that you can see how the pieces of the roles and profiles method fit together.
 
-## Configure Jenkins master servers with roles and profiles
+## Keep time in sync with roles and profiles
 
-Jenkins is a continuous integration (CI) application that runs on the JVM. The Jenkins master server provides a web front-end, and also runs CI tasks at scheduled times or in reaction to events.
-
-In this example, we manage the configuration of Jenkins master servers.
+Every node in this example runs chrony to keep its clock accurate. Two internal time servers follow the public NTP pool and serve time to your network.
+Every other node is configured to follow those two servers.
 
 ### Set up your prerequisites
 
-If you're new to using roles and profiles, do some additional setup before writing any new code.
+1. Create two modules named `role` and `profile` in a `site-modules` directory in your control repository. Don't declare them in your Puppetfile, because
+   r10k manages the `modules` directory and removes anything there that it did not deploy. The
+   [OpenVox control repository template](https://github.com/OpenVoxProject/control-repo-template) ships this layout.
+2. Add `site-modules` to the `modulepath` in `environment.conf`, ahead of `modules`: `modulepath = site-modules:modules:$basemodulepath`.
+3. Make sure [Hiera](./hiera_intro.html) is set up and working.
 
-1. Create two modules: one named `role`, and one named `profile`.
+File paths in this example are relative to the control repository.
 
-   Keep them in your control repository rather than declaring them in your Puppetfile, because r10k manages the `modules` directory itself and removes anything there that it did not deploy. The usual layout, and the one the [OpenVox control repository template](https://github.com/OpenVoxProject/control-repo-template) ships, is:
+### Choose a component module
 
-   1. Make a new directory in the repository named `site-modules`.
-   2. Edit the `environment.conf` file to add `site-modules` to the `modulepath`, ahead of `modules`. (For example: `modulepath = site-modules:modules:$basemodulepath`).
-   3. Put the `role` and `profile` modules in the `site-modules` directory.
-
-2. Make sure [Hiera](./hiera_intro.html) or Puppet lookup is set up and working, with a hierarchy that works well for you.
-
-### Choose component modules
-
-For our example, we want to manage Jenkins itself. The standard module for that is `rtyler/jenkins`.
-
-Jenkins requires Java, and the `rtyler` module can manage it automatically. But we want finer control over Java, so we're going to disable that. So, we need a
-Java module, and `puppetlabs/java` is a good choice.
-
-That's enough to start with. We can refactor and expand when we have those working.
-
-To learn more about these modules, see [rtyler/jenkins](https://forge.puppet.com/rtyler/jenkins) and [puppetlabs/java](https://forge.puppet.com/puppetlabs/java).
+The [`puppet/chrony`](https://forge.puppet.com/modules/puppet/chrony) module, which Vox Pupuli maintains, installs and configures chrony. Add version 6.0.0
+or later and its dependency, `puppetlabs/stdlib`, to your Puppetfile. That version needs OpenVox 8.19.0 or later.
 
 ### Write a profile
 
-From a Puppet perspective, a profile is just a normal class stored in the `profile` module.
-
-Make a new class called `profile::jenkins::master`, located at `.../profile/manifests/jenkins/master.pp`, and fill it with Puppet code:
+A profile is a normal class in the `profile` module. This one wraps the `chrony` class:
 
 ```puppet
-# /etc/puppetlabs/code/environments/production/site-modules/profile/manifests/jenkins/master.pp
-class profile::jenkins::master (
-  Integer $jenkins_port = 9091,
-  String $java_dist    = 'jdk',
-  String $java_version = 'latest',
+# site-modules/profile/manifests/time.pp
+
+# @summary Keeps the clock in sync with chrony.
+#
+# @param servers
+#   The NTP servers this node follows.
+# @param clients
+#   The networks that may ask this node for the time.
+class profile::time (
+  Array[Stdlib::Host] $servers = ['time1.example.com', 'time2.example.com'],
+  Array[String[1]]    $clients = [],
 ) {
-
-  class { 'jenkins':
-    configure_firewall => true,
-    install_java       => false,
-    port               => $jenkins_port,
-    config_hash        => {
-      'HTTP_PORT'    => { 'value' => $jenkins_port },
-      'JENKINS_PORT' => { 'value' => $jenkins_port },
-    },
+  # A suspended virtual machine wakes up with the wrong time, so chrony
+  # may step its clock at any time, not only during the first updates.
+  if $facts['is_virtual'] {
+    $makestep_updates = -1
+  } else {
+    $makestep_updates = 3
   }
 
-  class { 'java':
-    distribution => $java_dist,
-    version      => $java_version,
-    before       => Class['jenkins'],
+  class { 'chrony':
+    servers          => $servers,
+    pools            => [],
+    queryhosts       => $clients,
+    makestep_updates => $makestep_updates,
   }
 }
 ```
 
-This is pretty simple, but is already benefiting us: our interface for configuring Jenkins has gone from 30 or so parameters on the Jenkins class (and many more
-on the Java class) down to three. Notice that we've hardcoded the `configure_firewall` and `install_java` parameters, and have reused the value of
-`$jenkins_port` in three places.
+The `chrony` class has more than 80 parameters. The profile sets four of them, and uses each of the
+[three ways a profile gets its information](the_roles_and_profiles_method.html#rules-for-profile-classes):
 
-### Set data for the profile
+- It looks up the two that vary between your nodes: the servers a node follows, and the networks that may ask it for the time. Their defaults describe an
+  ordinary node.
+- It computes `makestep_updates`, the number of clock updates during which chrony may step the clock, from the `is_virtual` fact.
+- It hardcodes an empty `pools` list, which stops the module from adding its own public pool on Debian and Ubuntu. The operating system can still supply
+  sources outside the module, as Ubuntu 26.04 does in `/etc/chrony/sources.d`.
 
-Let's assume the following:
+### Write roles
 
-- Each node's certificate carries one more [extension request](ssl_attributes_extensions.html#extension-requests-permanent-certificate-data) besides `pp_role`, set in `csr_attributes.yaml` before its first run (see [Assign the role to nodes](#assign-the-role-to-nodes)):
-  - `pp_application`: The application or team the node serves. Most of our Jenkins masters serve `ci`.
-
-  A fact could carry the same information, but a node reports its own facts and anyone with root access to it can change them. Certificate extensions are signed by the CA, and the node cannot change them.
-
-- Each node has a custom fact, `stage`, that gives its deployment stage: `dev`, `test`, or `prod`. The stage only selects data such as port numbers, so a fact is fine for it.
-
-- We have a four-layer hierarchy:
-  - `nodes/%{trusted.certname}` for per-node overrides.
-  - `applications/%{trusted.extensions.pp_application}/%{facts.stage}` for stage-specific data within an application.
-  - `applications/%{trusted.extensions.pp_application}` for application-specific data.
-  - `common` for global fallback data.
-
-- We have a few one-off Jenkins masters, but most of them serve the `ci` application.
-- Our quality engineering department wants the `ci` masters to use the Oracle JDK, but one-off machines can just use the platform's default Java.
-- QE also wants their prod masters to listen on port 80.
-
-Set appropriate values in the Hiera data:
-
-```yaml
-# /etc/puppetlabs/code/environments/production/data/nodes/ci-master01.example.com.yaml
-# --Nothing. We don't need any per-node values right now.
-
-# /etc/puppetlabs/code/environments/production/data/applications/ci/prod.yaml
-profile::jenkins::master::jenkins_port: 80
-
-# /etc/puppetlabs/code/environments/production/data/applications/ci.yaml
-profile::jenkins::master::java_dist: 'oracle-jdk8'
-profile::jenkins::master::java_version: '8u92'
-
-# /etc/puppetlabs/code/environments/production/data/common.yaml
-# --Nothing. Just use the default parameter values.
-```
-
-### Write a role
-
-To write roles, we consider the machines we'll be managing and decide what else they need in addition to that Jenkins profile.
-
-Our Jenkins masters don't serve any other purpose. But we have some profiles (code not shown) that we expect every machine in our fleet to have:
-
-- `profile::base` must be assigned to every machine, including workstations. It manages basic policies, and uses some conditional logic to include OS-specific profiles as needed.
-- `profile::server` must be assigned to every machine that provides a service over the network. It makes sure ops can log into the machine, and configures
-  things like timekeeping, firewalls, logging, and monitoring.
-
-So a role to manage one of our Jenkins masters should include those classes as well.
+A role is a class that includes profiles and does nothing else. Assume two more profiles (code not shown): `profile::base`, which every node gets, and
+`profile::nginx`, which sets up a web server.
 
 ```puppet
-class role::jenkins::master {
+# site-modules/role/manifests/timeserver.pp
+class role::timeserver {
   include profile::base
-  include profile::server
-  include profile::jenkins::master
+  include profile::time
 }
 ```
+
+```puppet
+# site-modules/role/manifests/webserver.pp
+class role::webserver {
+  include profile::base
+  include profile::time
+  include profile::nginx
+}
+```
+
+Both roles share `profile::time`. Its data differs between them, and you set that after you assign the roles.
 
 ### Assign the role to nodes
 
-Finally, we assign `role::jenkins::master` to every node that acts as a Jenkins master.
-
-OpenVox does not ship a node classifier. You assign roles with Hiera, with an external node classifier (ENC) that you provide, or in the main manifest. Hiera is the usual choice: the assignment lives in the same repository as the roles, and it goes through the same review and deployment process as the rest of your code.
+Each node gets exactly one role. OpenVox does not ship a node classifier, so you assign roles with Hiera, with an external node classifier (ENC), or in the
+main manifest. This example uses Hiera, which keeps the assignment in the same repository, review, and deployment process as the roles.
 
 #### Hiera
 
-Give each node a piece of trusted data that names its role, add a hierarchy level that selects on that data, and have the main manifest include whatever the `classes` key resolves to.
-
-1. Set the role on the node before its first run, as an [extension request](ssl_attributes_extensions.html#extension-requests-permanent-certificate-data) in [`csr_attributes.yaml`](config_file_csr_attributes.html). The registered `pp_role` OID exists for this purpose:
+1. Set the role on the node before its first run, as an [extension request](ssl_attributes_extensions.html#extension-requests-permanent-certificate-data) in [`csr_attributes.yaml`](config_file_csr_attributes.html):
 
    ```yaml
    # /etc/puppetlabs/puppet/csr_attributes.yaml on the node
    ---
    extension_requests:
-     pp_role: jenkins_master
-     pp_application: ci
+     pp_role: timeserver
    ```
 
-   The CA copies the extensions into the signed certificate, where manifests and Hiera can read them as `trusted.extensions.pp_role` and so on. The node cannot change them afterwards, which is what makes them safe to drive classification from. The `pp_application` value is the one [Set data for the profile](#set-data-for-the-profile) relies on.
+   The CA copies the extension into the signed certificate, where Hiera reads it as `trusted.extensions.pp_role`. The node cannot change it afterwards,
+   which makes it safe to classify on. The node chooses the value that it requests, so
+   [check it](ssl_attributes_extensions.html#manually-checking-for-extensions-in-csrs-and-certificates) before you sign the certificate. If you cannot write `csr_attributes.yaml` when you provision a node, a custom fact works the same way in the
+   hierarchy, without that protection.
 
-   If your provisioning process cannot write `csr_attributes.yaml`, a custom fact works the same way in the hierarchy, without the trust described above.
-
-2. Add a level to the hierarchy that is keyed on the role. Extending the hierarchy from [Set data for the profile](#set-data-for-the-profile):
+2. Add a hierarchy level that is keyed on the role:
 
    ```yaml
-   # /etc/puppetlabs/code/environments/production/hiera.yaml
+   # hiera.yaml
    ---
    version: 5
    defaults:
@@ -169,10 +127,6 @@ Give each node a piece of trusted data that names its role, add a hierarchy leve
        path: "nodes/%{trusted.certname}.yaml"
      - name: "Per-role data"
        path: "roles/%{trusted.extensions.pp_role}.yaml"
-     - name: "Per-application, per-stage data"
-       path: "applications/%{trusted.extensions.pp_application}/%{facts.stage}.yaml"
-     - name: "Per-application data"
-       path: "applications/%{trusted.extensions.pp_application}.yaml"
      - name: "Common data"
        path: "common.yaml"
    ```
@@ -180,39 +134,57 @@ Give each node a piece of trusted data that names its role, add a hierarchy leve
 3. Name the role class in that level's data file:
 
    ```yaml
-   # /etc/puppetlabs/code/environments/production/data/roles/jenkins_master.yaml
+   # data/roles/timeserver.yaml
    classes:
-     - role::jenkins::master
+     - role::timeserver
    ```
 
-4. In the main manifest, look up `classes` with a unique merge and include the result:
+   Every role needs a file like this one. For a web server, `pp_role: webserver` selects `data/roles/webserver.yaml`, which names `role::webserver`.
+
+4. In the main manifest, look up `classes` and include the result:
 
    ```puppet
-   # /etc/puppetlabs/code/environments/production/manifests/site.pp
+   # manifests/site.pp
    lookup('classes', Array[String], 'unique', []).include
    ```
 
-   The fourth argument is the default, used only when no level of the hierarchy defines `classes`. Leave it empty to give unclassified nodes an empty catalog, or set it to a baseline such as `['role::base']`.
+   The last argument is the default for a node with no role. Leave it empty for an empty catalog, or name a baseline such as `['role::base']`.
 
-Keep one role class in each role data file, and leave `classes` out of `common.yaml` and the application levels. The unique merge collects the key from every level, so listing classes at a shared level gives every node more than one role.
+Keep one role class in each role data file, and keep `classes` out of the other levels. The unique merge collects the key from every level, so a class listed
+at a shared level gives every node a second role. For variants of this pattern, see
+[Modern Puppet node classification](https://dev.to/betadots/modern-puppet-node-classification-3ngk).
 
-For variants of this pattern, including a hash form that lets a more specific level replace or disable a class, see [Modern Puppet node classification](https://dev.to/betadots/modern-puppet-node-classification-3ngk).
+#### Other ways to assign a role
 
-#### An external node classifier
+- An [ENC](nodes_external.html), such as Foreman or a script that queries your inventory, returns the classes for a node. Use one when the assignment has to
+  come from outside the control repository. Have it return only the role class, and keep profile parameters in Hiera.
+- [Node definitions](lang_node_definitions.html) in `site.pp` assign a role by certname or by regular expression. This is the quickest way to start, but
+  every new type of node adds another expression to one shared file.
 
-An [ENC](nodes_external.html) is a script or service that the server calls with the node's certname, and that returns the classes and environment for that node. Foreman is the best-known ENC with a user interface. A short script that looks the node up in an inventory system or a provisioning database is the other common form.
+  ```puppet
+  node /^time\d+\.example\.com$/ {
+    include role::timeserver
+  }
+  ```
 
-Use an ENC when the assignment has to come from outside the control repository. Have it return only the role class, and keep profile parameters in Hiera, so that the data stays in one place and the role class still decides what the node runs.
+### Set data for the profile
 
-#### The main manifest
+Web servers need no `profile::time` overrides, because the profile's defaults describe them. The time servers need both parameters. Add them to the role's data file, below
+the `classes` key:
 
-[Node definitions](lang_node_definitions.html) in `site.pp` can assign a role directly, by certname or by regular expression. A naming convention that encodes the role in the hostname keeps this to a short list:
-
-```puppet
-# /etc/puppetlabs/code/environments/production/manifests/site.pp
-node /^ci-master\d+\.example\.com$/ {
-  include role::jenkins::master
-}
+```yaml
+# data/roles/timeserver.yaml
+profile::time::servers:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  - 2.pool.ntp.org
+  - 3.pool.ntp.org
+profile::time::clients:
+  - 10.0.0.0/8
 ```
 
-This is the quickest way to get started, and many long-running deployments began this way. It does not scale well: every new node type is another regular expression in one shared file, and anything the hostname does not encode has nowhere to go. Plan to move the assignment into Hiera once the list grows.
+OpenVox looks up class parameters under the class's name, so the profile needs no change. For a value that only one node needs, use that node's file in
+the `nodes` directory.
+
+Hiera selects the role's data file by the node's `pp_role` extension, not by its role class. If you assign roles another way, set `pp_role` on the nodes
+too, or key that level on something else they carry, such as a fact.
