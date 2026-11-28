@@ -213,7 +213,8 @@ Compared with the single-host example:
 Requests for other endpoints, such as `/status/`, go to the compilers under this configuration. Monitor each server directly on its HTTP port instead.
 
 If the proxy runs on a host other than the CA server instead, point `location /puppet-ca/` at the CA server, which then listens on a private interface like the compilers.
-Copy a certificate and key that are valid for `puppet.example.com`, and the CA certificate, to the proxy, for example to `/etc/nginx`, and set `ssl_crl` to a local file such as `/etc/nginx/ca_crl.pem`. Copy the first CRL from the CA server by hand, because nginx does not start without the file, then refresh it from the CA as root on a timer.
+Copy a certificate and key that are valid for `puppet.example.com`, and the CA certificate, to the proxy, for example to `/etc/nginx`, and point `ssl_certificate`, `ssl_certificate_key`, and `ssl_client_certificate` at the copies.
+Set `ssl_crl` to a local file such as `/etc/nginx/ca_crl.pem`. Copy the first CRL from the CA server by hand, because nginx does not start without the file, then refresh it from the CA as root on a timer.
 Write to a temporary file and move it into place only after a successful fetch, so that a failed request cannot replace a working CRL, and reload nginx:
 
 ```console
