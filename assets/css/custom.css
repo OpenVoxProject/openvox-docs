@@ -115,3 +115,43 @@ table.resolution > tbody > tr:last-child > td:first-child {
   border-radius: 0.25em;
   padding-left: 1em;
 }
+
+/* Keep the navbar usable where the theme's fixed breakpoints do not fit this
+   site's content. The theme shows the menu from 768px and the social links
+   from 1280px, but the six nav items need about 1124px and the social row
+   about 1588px. Fall back to the hamburger/screen menu instead of clipping. */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .VPNavBarMenu {
+    display: none;
+  }
+
+  .VPNavBarHamburger {
+    display: flex;
+  }
+
+  .VPNavScreen {
+    display: block;
+  }
+
+  .VPNavScreen[hidden] {
+    display: none;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1579px) {
+  .VPNavBar .VPNavBarSocialLinks {
+    display: none;
+  }
+
+  .VPNavBarHamburger {
+    display: flex;
+  }
+
+  .VPNavScreen {
+    display: block;
+  }
+
+  .VPNavScreen[hidden] {
+    display: none;
+  }
+}
