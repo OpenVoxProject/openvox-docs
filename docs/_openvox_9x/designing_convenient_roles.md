@@ -3,187 +3,115 @@ layout: default
 title: "Designing convenient roles"
 ---
 
-There are several approaches to building roles, and you must decide which ones are most convenient for you and your team.
+There are several ways to build roles. Start with granular roles, where a reader sees a whole role in one file, and move away from them only in small,
+considered steps when the repetition becomes a burden.
 
-High-quality roles strike a balance between readability and maintainability. For most people, the benefit of seeing the entire role in a single file outweighs
-the maintenance cost of repetition. Later, if you find the repetition burdensome, you can change your approach to reduce it. This might involve combining
-several similar roles into a more complex role, creating sub-roles that other roles can include, or pushing more complexity into your profiles.
-
-So, begin with granular roles and deviate from them only in small, carefully considered steps.
-
-Here's the basic Jenkins role we're starting with:
+The examples start from this web server role:
 
 ```puppet
-class role::jenkins::master {
+class role::webserver {
   include profile::base
-  include profile::server
-  include profile::jenkins::master
+  include profile::time
+  include profile::nginx
 }
 ```
 
 ## First approach: Granular roles
 
-The simplest approach is to make one role per type of node, period. For example, the Puppet Release Engineering (RE) team manages some additional resources on their Jenkins masters.
-
-With granular roles, we'd have at least two Jenkins master roles. A basic one:
+Make one role per type of node. Suppose the web servers for your intranet also need single sign-on. With granular roles, they get a role of their own:
 
 ```puppet
-class role::jenkins::master {
+class role::webserver::intranet {
   include profile::base
-  include profile::server
-  include profile::jenkins::master
+  include profile::time
+  include profile::nginx
+  include profile::sso
 }
 ```
 
-...and an RE-specific one:
-
-```puppet
-class role::jenkins::master::release {
-  include profile::base
-  include profile::server
-  include profile::jenkins::master
-  include profile::jenkins::master::release
-}
-```
-
-The benefits of this setup are:
-
-- Readability — By looking at a single class, you can immediately see which profiles make up each type of node.
-- Simplicity — Each role is just a linear list of profiles.
-
-Some drawbacks are:
-
-- Role bloat — If you have a lot of only-slightly-different nodes, you'll quickly have a large number of roles.
-- Repetition — The two roles above are almost identical, with one difference. If they're two separate roles, it's harder to see how they're related to each other, and updating them can be more annoying.
+Each role is a plain list of profiles, so one class shows everything on that type of node. The cost is repetition: with many slightly different nodes you
+get many nearly identical roles, and it's harder to see how they relate.
 
 ## Second approach: Conditional logic
 
-Alternatively, you can use conditional logic to handle differences between closely-related kinds of nodes.
+Handle the differences between closely related nodes inside one role:
 
 ```puppet
-class role::jenkins::master::release {
+class role::webserver {
   include profile::base
-  include profile::server
-  include profile::jenkins::master
+  include profile::time
+  include profile::nginx
 
-  if $facts['group'] == 'release' {
-    include profile::jenkins::master::release
+  if $facts['group'] == 'intranet' {
+    include profile::sso
   }
 }
 ```
 
-The benefits of this approach are:
-
-- You have fewer roles, and they're easy to maintain.
-
-The drawbacks are:
-
-- Reduced readability...maybe. Conditional logic isn't usually hard to read, especially in a simple case like this, but you might feel tempted to add a bunch of
-  new custom facts to accommodate complex roles. This can make roles much harder to read, because a reader must also know what those facts mean.
-
-  In short, be careful of turning your node classification system inside-out. You might have a better time if you separate the roles and assign them in your
-  classification data.
+You have fewer roles to maintain. The risk is readability: it's tempting to add a custom fact for each variation, and a reader must then know what those
+facts mean. A role that decides what kind of node it is on is doing the job of node classification, and separate roles assigned in your classification
+data are usually clearer.
 
 ## Third approach: Nested roles
 
-Another way of reducing repetition is to let roles include other roles.
+Let roles include other roles:
 
 ```puppet
-class role::jenkins::master {
+class role::webserver {
   # Parent role:
   include role::server
   # Unique classes:
-  include profile::jenkins::master
+  include profile::nginx
 }
 
-class role::jenkins::master::release {
+class role::webserver::intranet {
   # Parent role:
-  include role::jenkins::master
+  include role::webserver
   # Unique classes:
-  include profile::jenkins::master::release
+  include profile::sso
 }
 ```
 
-In this example, we reduce boilerplate by having `role::jenkins::master` include `role::server`. When `role::jenkins::master::release` includes
-`role::jenkins::master`, it automatically gets `role::server` as well. With this approach, any given role only needs to:
-
-- Include the "parent" role that it most resembles.
-- Include the small handful of classes that differentiate it from its parent.
-
-The benefits of this approach are:
-
-- You have fewer roles, and they're easy to maintain.
-- Fewer role names to choose from when classifying nodes.
-
-The drawbacks are:
-
-- Reduced readability: you have to open more files to see the real content of a role. This isn't much of a problem if you only go one level deep, but it can get wild around three or four.
+Each role includes the parent it most resembles, plus the few classes that set it apart. Here `role::webserver::intranet` gets `role::server` through
+`role::webserver`. You have less code to maintain, but a reader must open more files to see what a role contains. One level is manageable. Three or four
+are hard to follow.
 
 ## Fourth approach: Multiple roles per node
 
-In general, we recommend that you assign only one role to a node. In an infrastructure where nodes usually provide one primary service, that's the best way to work.
+The method assigns [exactly one role to each node](the_roles_and_profiles_method.html#configuring-roles-and-profiles), which works best when a node provides
+one primary service. If your nodes often provide several, you can assign several roles instead.
 
-However, if your nodes tend to provide more than one primary service, it can make sense to assign multiple roles.
+For example, an application normally runs on separate application, database, and web servers, and developers want an all-in-one node for testing. Instead of
+writing a `role::our_application::monolithic` class, you assign `role::our_application::app`, `role::our_application::db`, and `role::our_application::web`
+to those nodes.
 
-For example, say you have a large application that is usually composed of an application server, a database server, and a web server. To enable lighter-weight
-testing during development, you've decided to provide an "all-in-one" node type to your developers. You could do this by creating a new
-`role::our_application::monolithic` class, which includes all of the profiles that compose the three normal roles, but you might find it simpler to assign all three roles (`role::our_application::app`, `role::our_application::db`, and `role::our_application::web`) to those all-in-one machines in your
-classification data.
-
-The benefit of this approach is:
-
-- You have fewer roles, and they're easy to maintain.
-
-The drawbacks are:
-
-- There's no actual "role" that describes your multi-purpose nodes; instead, the source of truth for what's on them is spread out between your roles and your
-  classification data, and you must cross-reference to understand their configurations. This reduces readability.
-- The normal and all-in-one versions of a complex application are likely to have other subtle differences you need to account for, which might mean making your
-  "normal" roles more complex. It's possible that making a separate role for this kind of node would *reduce* your overall complexity, even though it increases
-  the number of roles and adds repetition.
+You write fewer roles. But no single role describes the node, so you must cross-reference roles and classification data to understand it. The all-in-one
+version is also likely to differ from the normal one in small ways, which complicates the normal roles. A separate role can be simpler overall, despite the
+repetition.
 
 ## Fifth approach: Super profiles
 
-Since profiles can already include other profiles, you can decide to enforce an additional rule at your business: all profiles must include any other profiles
-needed to manage a complete node that provides that service.
+Profiles can include other profiles, so you can require every profile to include whatever else a complete node needs. For example, `profile::nginx` includes
+`profile::time` and `profile::base`, and you assign `profile::nginx` directly to web servers. The roles layer disappears.
 
-For example, our `profile::jenkins::master` class could include both `profile::server` and `profile::base`, and you could manage a Jenkins master server by
-assigning `profile::jenkins::master` directly to nodes. In other words, a "main" profile would do all the work that a role usually does, and the
-roles layer would no longer be necessary.
-
-The benefits of this approach are:
-
-- The chain of dependencies for a complex service can be more clear this way.
-- Depending on how you conceptualize code, this can be easier in a lot of ways!
-
-The drawbacks are:
-
-- Loss of flexibility. This reduces the number of ways in which your roles can be combined, and reduces your ability to use alternate implementations of dependencies for nodes with different requirements.
-- Reduced readability, on a much grander scale. Like with nested roles, you lose the advantage of a clean, straightforward list of what a node consists of.
-  Unlike nested roles, you also lose the clear division between "top-level" complete system configurations (roles) and "mid-level" groupings of technologies
-  (profiles). Not every profile makes sense as an entire system, so you'll need some way to keep track of which profiles are the top-level ones.
-
-  Some people really find continuous hierarchies easier to reason about than sharply divided layers. If everyone in your organization is on the same page about
-  this, a "profiles and profiles" approach might make sense. But we strongly caution you against it unless you're very sure; for most people, a true roles and
-  profiles approach works better. Try the well-traveled path first.
+The chain of dependencies for a complex service can be clearer this way. But you lose flexibility, because profiles can no longer be combined freely or
+swapped for alternate implementations. You also lose the plain list of what a node consists of, and the division between complete systems (roles) and
+groupings of technology (profiles). Not every profile makes sense as a whole system, so you need another way to track which ones do. Avoid this approach
+unless your whole team is sure that it prefers it.
 
 ## Sixth approach: Building roles in your classification data
 
-Instead of writing roles in the Puppet language and then assigning them to nodes, you can list the profiles directly in whatever assigns classes to nodes: a `classes` array at a role level of your Hiera hierarchy, or the class list that an external node classifier (ENC) returns. Some ENCs, Foreman among them, provide a user interface for this.
+List the profiles directly in whatever assigns classes to nodes: a `classes` array at a role level of your Hiera hierarchy, or the class list that an
+external node classifier (ENC) returns. For example, a `roles/webserver.yaml` data file lists `profile::base`, `profile::time`, and `profile::nginx`, and
+does the job of the `role::webserver` class.
 
-For example, a `roles/jenkins_master.yaml` data file could list `profile::base`, `profile::server`, and `profile::jenkins::master`, doing much the same job as our basic `role::jenkins::master` class.
+> **Important:** With an ENC, don't set profile parameters in the ENC. Keep them in Hiera. An ENC that sets parameters declares the class in the
+> resource-like way, which conflicts with profiles including other profiles.
 
-> **Important:** If you're doing this with an ENC, make sure you don't set parameters for profiles in the ENC. Continue to use Hiera or Puppet lookup to configure profiles.
->
-> This is because profiles are allowed to include other profiles, which interacts badly with the resource-like behavior that ENCs use to set class parameters.
+Nodes can be classified without writing Puppet code, which suits teams that work in an ENC's user interface, and a node's data file or ENC entry shows the
+full content of its role. The drawbacks:
 
-The benefits of this approach are:
-
-- Nodes can be classified without writing Puppet code, which suits teams that manage nodes through an ENC's user interface.
-- Increased readability: a node's data file or ENC entry displays the full content of its role, without having to cross-reference with manifests in your `role` module.
-
-The drawbacks are:
-
-- Loss of flexibility. The Puppet language's conditional logic is more flexible and convenient than a static list of classes.
-- A list in a data file cannot be tested with rspec-puppet the way a role class can, and when `classes` is merged across hierarchy levels it is harder to see the complete list for a node in one place.
-- With an ENC, your roles are no longer in the same code repository as your profiles, and it's more difficult to make them follow the same code promotion processes.
+- A static list has none of the Puppet language's conditional logic.
+- You can't test a list in a data file with rspec-puppet as you can a role class, and when `classes` is merged across hierarchy levels, the full list for a
+  node is harder to see.
+- With an ENC, roles leave the repository that holds your profiles, and no longer follow the same code promotion process.

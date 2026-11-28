@@ -275,8 +275,6 @@
     link: "the_roles_and_profiles_method.html"
   - text: Roles and profiles example
     link: "roles_and_profiles_example.html"
-  - text: Designing advanced profiles
-    link: "designing_advanced_profiles.html"
   - text: Designing convenient roles
     link: "designing_convenient_roles.html"
 - text: Hiera

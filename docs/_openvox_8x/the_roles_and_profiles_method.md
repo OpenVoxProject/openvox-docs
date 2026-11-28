@@ -3,101 +3,138 @@ layout: default
 title: "The roles and profiles method"
 ---
 
-The *roles and profiles* method is the most reliable way to build reusable, configurable, and refactorable system configurations.
-
-It's not a straightforward recipe: you must think hard about the nature of your infrastructure and your team. It's also not a final state: expect to refine your
-configurations over time. Instead, it's an approach to *designing your infrastructure's interface* — sealing away incidental complexity, surfacing the
-significant complexity, and making sure your data behaves predictably.
+The *roles and profiles* method is the most reliable way to build reusable, configurable, and refactorable system configurations. It is an approach to
+designing your infrastructure's interface, not a recipe, so expect to refine your roles and profiles over time.
 
 ## Building configurations without roles and profiles
 
-Without roles and profiles, people typically build system configurations in their main manifest, in Hiera data, or in an external node classifier (ENC), using Hiera to handle tricky inheritance
-problems. A standard approach is to assign a set of classes to every similar node, then add extra classes for the nodes that have
-additional needs. Another common pattern is to put everything in Hiera, using a very large hierarchy that reflects every variation in the infrastructure.
-
-If this works for you, then it works! You might not need roles and profiles. But most people find direct building gets difficult to understand and maintain over time.
+Without roles and profiles, people typically assign component classes straight to nodes in the main manifest, in Hiera data, or in an external node
+classifier (ENC), and rely on a large Hiera hierarchy to handle every variation. That can work, but most people find that it gets hard to understand and
+maintain over time.
 
 ## Configuring roles and profiles
 
-Roles and profiles are *two extra layers of indirection* between node classification and your component modules.
+Roles and profiles are two extra layers of indirection between node classification and your component modules. Your code separates into three levels:
 
-The roles and profiles method separates your code into three levels:
+- Component modules: normal modules that manage one particular technology, for example `puppet/chrony`.
+- Profiles: wrapper classes that use one or more component modules to configure a layered technology stack.
+- Roles: wrapper classes that use multiple profiles to build a complete system configuration.
 
-- Component modules — Normal modules that manage one particular technology, for example puppetlabs/apache.
-- Profiles — Wrapper classes that use multiple component modules to configure a layered technology stack.
-- Roles — Wrapper classes that use multiple profiles to build a complete system configuration.
+The extra layers give you a place to build a small, business-specific interface to the configuration you care about. That makes hierarchical data easier
+to use, system configurations easier to read, and refactoring easier.
 
-These extra layers of indirection might seem like they add complexity, but they give you a space to build practical, business-specific interfaces to the
-configuration you care most about. A better interface makes hierarchical data easier to use, makes system configurations easier to read, and makes refactoring
-easier.
+```mermaid
+flowchart TB
+  accTitle: Roles, profiles, and component modules
+  accDescr: Node classification assigns one role to a node. The role includes profiles. Profiles declare classes and defined types from component modules, and look up their parameters in Hiera data.
 
-![Diagram showing roles, profiles, and component modules as layers between node classification and managed resources](./images/roles_and_profiles_overview.png)
+  subgraph all[" "]
+    subgraph classification["Node classification"]
+      roledata["roles/timeserver.yaml<br>classes: role::timeserver"]
+    end
 
-In short, from top to bottom:
+    subgraph role["Module: role"]
+      r["role::timeserver"]
+    end
 
-- Node classification assigns exactly one role class to each node. You can do this with Hiera data, with an external node classifier (ENC), or in the main manifest; see [Assign the role to nodes](roles_and_profiles_example.html#assign-the-role-to-nodes). The role manages a whole system configuration, so no other classes are needed, and the classification layer does not configure the role in any way.
-- That role class declares some profile classes with `include`, and does nothing else. For example:
+    subgraph profile["Module: profile"]
+      pbase["profile::base"]
+      ptime["profile::time<br>$servers, $clients"]
+    end
 
-  ```puppet
-  class role::jenkins::master {
-    include profile::base
-    include profile::server
-    include profile::jenkins::master
-  }
-  ```
+    subgraph components["Component modules"]
+      chrony["puppet/chrony<br>class chrony"]
+    end
 
-- Each profile configures a layered technology stack, using multiple component modules and the built-in resource types.
-- Profiles can take configuration data from Hiera or Puppet lookup.
-- Classes from component modules are always declared via a profile, and never assigned directly to a node.
-  - If a component class has parameters, you specify them in the profile; never use Hiera or Puppet lookup to override component class params.
+    subgraph data["Hiera data"]
+      drole["roles/timeserver.yaml<br>profile::time::servers<br>profile::time::clients"]
+    end
+  end
+
+  roledata --> r
+  r --> pbase & ptime
+  ptime --> chrony
+  ptime -.-> drole
+
+  style all fill:#fff,stroke:#ddd
+```
+
+Solid arrows are declarations. Dashed arrows are data lookups.
+
+Node classification assigns exactly one role to each node and does not configure it. You can assign the role with Hiera data, with an ENC, or in the main
+manifest; see [Assign the role to nodes](roles_and_profiles_example.html#assign-the-role-to-nodes).
+
+## Where roles and profiles live
+
+Roles and profiles are ordinary classes in two modules named `role` and `profile`. Keep both in your control repository, in a `site-modules` directory
+that `environment.conf` puts on the modulepath. r10k deploys the component modules in your Puppetfile to `modules`.
+
+```text
+control-repo/
+├── Puppetfile          # component modules
+├── environment.conf    # modulepath = site-modules:modules:$basemodulepath
+├── data/               # Hiera data for the profiles
+└── site-modules/
+    ├── profile/
+    └── role/
+```
+
+The [OpenVox control repository template](https://github.com/OpenVoxProject/control-repo-template) ships this layout. To add it to an existing repository, see [Set up your prerequisites](roles_and_profiles_example.html#set-up-your-prerequisites).
 
 ## Rules for profile classes
 
-There are rules for writing profile classes.
+- Make sure you can safely `include` any profile multiple times. Don't use resource-like declarations on them.
 
-- Make sure you can safely `include` any profile multiple times — don't use resource-like declarations on them.
-- Profiles can `include` other profiles.
-- Profiles own all the class parameters for their component classes. If the profile omits one, that means you definitely want the default value; the component
-  class shouldn't use a value from Hiera data. If you need to set a class parameter that was omitted previously, refactor the profile.
-- There are three ways a profile can get the information it needs to configure component classes:
+  The one exception is a private profile: a class that you split out of a single profile only to keep it readable, and that nothing else declares. Its
+  parent can use a resource-like declaration to pass values in, which keeps the data lookups in the parent. Document that the class is private.
 
-  - If your business will always use the same value for a given parameter, hardcode it.
-  - If you can't hardcode it, try to compute it based on information you already have.
-  - Finally, if you can't compute it, look it up in your data. To reduce lookups, identify cases where multiple parameters can be derived from the answer to a single question.
+- Profiles can `include` other profiles. Shared code in its own profile is maintained in one place, but a reader must open more files to see what a
+  profile does, so split code out in units whose job is clear from the name.
+- Component classes are always declared by a profile, and never assigned directly to a node. The profile owns all of their parameters: if it omits one,
+  you want the default, and Hiera data must not set it on the component class. To set a parameter that the profile omits, change the profile.
+- A profile doesn't automatically [contain](lang_containment.html#containing-classes) the component classes it declares. A relationship with the profile,
+  such as `Class['profile::database'] -> Class['profile::app']`, reaches a component class's resources only if the profile calls `contain` on that class.
+  Don't contain the same class in two profiles that are ordered against each other, because that creates a dependency cycle.
+- A profile can get the information it needs in three ways. Use the most readable one that works. The
+  [example profile](roles_and_profiles_example.html#write-a-profile) uses all three:
 
-  This is a game of trade-offs. Hardcoded parameters are the easiest to read, and also the least flexible. Putting values in your Hiera data is very flexible,
-  but can be very difficult to read: you might have to look through a lot of files (or run a lot of lookup commands) to see what the profile is actually doing.
-  Using conditional logic to derive a value is a middle-ground. Aim for the most readable option you can get away with.
+  - Hardcode a value that your business always uses. This is the easiest to read and the least flexible.
+  - If you can't hardcode it, compute it from information you already have, such as facts.
+  - If you can't compute it, look it up in your data. This is the most flexible and the hardest to read, because a reader must search the data to see
+    what the profile does. To reduce lookups, look for parameters that you can derive from the answer to a single question.
 
 ## Rules for role classes
 
-There are rules for writing role classes.
+- A role only declares profile classes with `include`. It declares no component classes and no resources, though it can use conditional logic to choose
+  profiles.
 
-- The only thing roles should do is declare profile classes with `include`. Don't declare any component classes or normal resources in a role.
+  ```puppet
+  class role::timeserver {
+    include profile::base
+    include profile::time
+  }
+  ```
 
-  Optionally, roles can use conditional logic to decide which profiles to use.
-
-- Roles should not have any class parameters of their own.
-- Roles should not set class parameters for any profiles. (Those are all handled by data lookup.)
-- The name of a role should be based on your business's *conversational name* for the type of node it manages.
-
-  This means that if you regularly call a machine a "Jenkins master," it makes sense to write a role named `role::jenkins::master`. But if you call it a
-  "web server," you shouldn't use a name like `role::nginx` — go with something like `role::web` instead.
+- A role has no class parameters and sets none on its profiles. Data lookup handles those.
+- Name a role after your business's *conversational name* for the type of node. If you call a machine a "time server," `role::timeserver` fits. If you
+  call it a "web server," use `role::webserver`, not `role::nginx`.
 
 ## Methods for data lookup
 
-Profiles usually require some amount of configuration, and they must use data lookup to get it.
-
-In this profile, we use automatic class parameter lookup to request data. But we also could have omitted the parameters and used the `lookup` function:
+A profile can declare class parameters and let [automatic class parameter lookup](hiera_automatic.html) supply the values, or it can omit the parameters and call the `lookup` function:
 
 ```puppet
-class profile::jenkins {
-  $jenkins_port = lookup('profile::jenkins::jenkins_port', {value_type => Integer, default_value => 9091})
-  $java_dist    = lookup('profile::jenkins::java_dist',    {value_type => String, default_value => 'jdk'})
-  $java_version = lookup('profile::jenkins::java_version', {value_type => String, default_value => 'latest'})
+class profile::time {
+  $servers = lookup('profile::time::servers', {
+    value_type    => Array[Stdlib::Host],
+    default_value => ['time1.example.com', 'time2.example.com'],
+  })
+  $clients = lookup('profile::time::clients', {
+    value_type    => Array[String[1]],
+    default_value => [],
+  })
   # ...
 ```
 
-In general, class parameters are preferable to lookups. They integrate better with tools like Puppet Strings, and they're a reliable and well-known place to
-look for configuration. But using `lookup` is a fine approach if you aren't comfortable with automatic parameter lookup. Some people prefer the full lookup key
-to be written in the profile, so they can globally grep for it.
+Class parameters are usually preferable: they work with tools like Puppet Strings, and they're a well-known place to look for configuration. Calling
+`lookup` puts the full key in the profile, where a global search finds it.
