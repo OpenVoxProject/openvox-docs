@@ -145,14 +145,17 @@ With SELinux enforcing, nginx can listen on port 8140 without a policy change, b
 sudo setsebool -P httpd_can_network_connect 1
 ```
 
-On Enterprise Linux 9, nginx also fails to start, because the files under `/etc/puppetlabs` are labeled `puppet_etc_t`, which it cannot read. Label the directories that hold the certificates as `cert_t` (`semanage` is in the `policycoreutils-python-utils` package):
+On Enterprise Linux 9, nginx also fails to start, because the files under `/etc/puppetlabs` are labeled `puppet_etc_t`, which it cannot read. Label what nginx reads as `cert_t`: the SSL directory and, in the CA directory, only the CA certificate, the CRL, and the directory itself, so that the CA keys keep their label (`semanage` is in the `policycoreutils-python-utils` package):
 
 ```console
 sudo semanage fcontext -a -t cert_t '/etc/puppetlabs/puppet/ssl(/.*)?'
-sudo semanage fcontext -a -t cert_t '/etc/puppetlabs/puppetserver/ca(/.*)?'
+sudo semanage fcontext -a -t cert_t '/etc/puppetlabs/puppetserver/ca'
+sudo semanage fcontext -a -t cert_t '/etc/puppetlabs/puppetserver/ca/ca_crt\.pem'
+sudo semanage fcontext -a -t cert_t '/etc/puppetlabs/puppetserver/ca/ca_crl\.pem'
 sudo restorecon -R /etc/puppetlabs/puppet/ssl /etc/puppetlabs/puppetserver/ca
 ```
 
+The rule for the CA directory itself is required: the CA replaces `ca_crl.pem` on each revocation, and the new file takes the directory's label.
 On a host that is not the CA server, leave out the `puppetserver/ca` paths. Enterprise Linux 10 labels these files `etc_t`, which nginx can read, so it needs only the `setsebool` command.
 
 ### Verify the setup
@@ -209,11 +212,12 @@ Compared with the single-host example:
 
 Requests for other endpoints, such as `/status/`, go to the compilers under this configuration. Monitor each server directly on its HTTP port instead.
 
-If the proxy runs on a host other than the CA server, it has no local copy of the CRL. Point `ssl_crl` at a local file such as `/etc/nginx/ca_crl.pem`, and copy the first CRL from the CA server by hand, because nginx does not start without the file. Then refresh it from the CA as root on a timer.
+If the proxy runs on a host other than the CA server instead, point `location /puppet-ca/` at the CA server, which then listens on a private interface like the compilers.
+Copy a certificate and key that are valid for `puppet.example.com`, and the CA certificate, to the proxy, for example to `/etc/nginx`, and set `ssl_crl` to a local file such as `/etc/nginx/ca_crl.pem`. Copy the first CRL from the CA server by hand, because nginx does not start without the file, then refresh it from the CA as root on a timer.
 Write to a temporary file and move it into place only after a successful fetch, so that a failed request cannot replace a working CRL, and reload nginx:
 
 ```console
-curl --silent --fail --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
+curl --silent --fail --cacert /etc/nginx/ca_crt.pem \
   --header 'Accept: text/plain' \
   https://puppet.example.com:8140/puppet-ca/v1/certificate_revocation_list/ca \
   --output /etc/nginx/ca_crl.pem.new \
